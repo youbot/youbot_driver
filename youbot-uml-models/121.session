@@ -1,0 +1,11 @@
+window_sizes 1918 1047 431 1477 777 176
+diagrams
+  active  classdiagram_ref 141681 // JointParameter
+    1477 777 80 1 228 0
+end
+show_stereotypes
+selected class_ref 266353 // CalibrateJoint
+open
+  classview_ref 154353 // JointParameter
+end
+end

@@ -1,0 +1,17 @@
+class InitializationMode
+!!!463089.cpp!!!	InitializationMode()
+    this->name = "InitializationMode";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!463345.cpp!!!	getParameter(out parameter : uint) : void
+    parameter = this->value;
+!!!463473.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber) : void
+
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 249; //InitializationMode
+    message.stctOutput.value = value; //TODO do convertion
+
+!!!467697.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+      this->value = message.stctInput.value; //TODO do convertion
+    }

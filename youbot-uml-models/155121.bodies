@@ -1,0 +1,19 @@
+class ToFCameraConfiguration
+!!!204017.cpp!!!	ToFCameraConfiguration(in source : ToFCameraConfiguration)
+  *this = source;
+!!!204145.cpp!!!	operator=(in source : ToFCameraConfiguration) : ToFCameraConfiguration
+
+
+  this->devicePath = source.devicePath;
+  this->firmware = source.firmware;
+
+  this->model = source.model;
+
+  this->product = source.product;
+  this->protocol = source.protocol;
+
+  this->serialNumber = source.serialNumber;
+  this->vendor = source.vendor;
+
+  return *this;
+

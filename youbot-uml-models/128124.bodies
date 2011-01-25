@@ -1,0 +1,23 @@
+class LaserScannerConfiguration
+!!!136433.cpp!!!	LaserScannerConfiguration(in source : LaserScannerConfiguration)
+  *this = source;
+!!!136561.cpp!!!	operator=(in source : LaserScannerConfiguration) : LaserScannerConfiguration
+
+  this->baud = source.baud;
+  this->devicePath = source.devicePath;
+  this->firmware = source.firmware;
+
+  this->model = source.model;
+
+  this->product = source.product;
+  this->protocol = source.protocol;
+  this->scanAngleStart = source.scanAngleStart;
+  this->scanAngleStop = source.scanAngleStop;
+  this->scanResolution = source.scanResolution;
+  this->maxRangeDistance = source.maxRangeDistance;
+  this->minRangeDistance = source.minRangeDistance;
+  this->serialNumber = source.serialNumber;
+  this->vendor = source.vendor;
+
+  return *this;
+

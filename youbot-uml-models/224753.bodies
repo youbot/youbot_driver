@@ -1,0 +1,180 @@
+class YouBotGripper
+!!!389105.cpp!!!	YouBotGripper(in jointNo : uint)
+    this->jointNumber = jointNo;
+    this->mailboxMsgRetries = 30;
+    this->timeTillNextMailboxUpdate = EthercatMaster::getInstance().timeTillNextEthercatUpdate * 2;
+    this->maxTravelDistance = 0.023 * meter;
+    this->maxEncoderValue = 67000;
+    this->barSpacingOffset = 0 * meter;
+    this->lastGripperPosition = 0 * meter;
+!!!392177.cpp!!!	getConfigurationParameter(out parameter : GripperParameter) : void
+  throw std::runtime_error("Please use YouBotGripperParameter");
+!!!391793.cpp!!!	setConfigurationParameter(in parameter : GripperParameter) : void
+  throw std::runtime_error("Please use YouBotGripperParameter");
+!!!295665.cpp!!!	getConfigurationParameter(out parameter : YouBotGripperParameter) : void
+  LOG(info) << "Nothing to do";
+!!!399345.cpp!!!	setConfigurationParameter(in parameter : YouBotGripperParameter) : void
+   LOG(info) << "Nothing to do";
+!!!295537.cpp!!!	setConfigurationParameter(in parameter : CalibrateGripper) : void
+    
+      if (parameter.value) {
+        YouBotSlaveMailboxMsg message;
+
+        LOG(trace) << "Calibrate gripper";
+        message.stctOutput.moduleAddress = GRIPPER;
+        message.stctOutput.commandNumber = MVP;
+        message.stctOutput.typeNumber = 1; //move gripper
+        message.stctOutput.motorNumber = 0; //always zero
+        message.stctOutput.value = this->maxEncoderValue;
+
+        setValueToMotorContoller(message);
+        
+        SLEEP_MILLISEC(4000); //wait until the gripper ist closed
+
+        //set encoder reference to zero
+        YouBotSlaveMsg messageBuffer;
+        messageBuffer.stctOutput.controllerMode = MOTOR_STOP;
+        messageBuffer.stctOutput.positionOrSpeed = 0;
+        EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+        this->lastGripperPosition = 0 * meter;
+
+        //stop Gripper motor
+        SLEEP_MILLISEC(timeTillNextMailboxUpdate*2);
+        message.stctOutput.value = 0;
+        setValueToMotorContoller(message);
+      }
+    
+!!!399473.cpp!!!	setConfigurationParameter(in parameter : BarSpacingOffset) : void
+      this->barSpacingOffset = parameter.value;
+!!!400881.cpp!!!	setConfigurationParameter(in parameter : MaxTravelDistance) : void
+  this->maxTravelDistance = parameter.value;
+!!!401009.cpp!!!	setConfigurationParameter(in parameter : MaxEncoderValue) : void
+  this->maxEncoderValue = parameter.value;
+!!!392049.cpp!!!	getData(in data : GripperData) : void
+    LOG(info) << "Nothing to do";
+!!!391921.cpp!!!	setData(in data : GripperData) : void
+    LOG(info) << "Nothing to do";
+!!!295921.cpp!!!	getData(out data : OneDOFGripperData) : void
+    LOG(info) << "Nothing to do";
+!!!295793.cpp!!!	setData(in data : OneDOFGripperData) : void
+    LOG(info) << "Nothing to do";
+!!!391409.cpp!!!	setData(in barSpacing : GripperBarSpacingSetPoint) : void
+
+  if(barSpacing.barSpacing > (maxTravelDistance + barSpacingOffset) || barSpacing.barSpacing < barSpacingOffset){
+    std::stringstream errorMessageStream;
+    errorMessageStream << "The bar spacing is not allowd to be less than 0 m or higher than " << (maxTravelDistance + barSpacingOffset);
+    throw std::out_of_range(errorMessageStream.str());
+  }
+    YouBotSlaveMailboxMsg message;
+    message.stctOutput.moduleAddress = GRIPPER;
+    message.stctOutput.commandNumber = MVP;
+    message.stctOutput.typeNumber = 1; //move gripper
+    message.stctOutput.motorNumber = 0; //always zero
+    message.stctOutput.value = (int)(((this->lastGripperPosition - barSpacing.barSpacing)+barSpacingOffset)/maxTravelDistance * maxEncoderValue);
+
+    this->lastGripperPosition = barSpacing.barSpacing;
+    setValueToMotorContoller(message);
+
+!!!391537.cpp!!!	getData(out barSpacing : GripperBarSpacingSetPoint) : void
+   LOG(info) << "At the moment it is not possible to get the sensed position of the gripper";
+!!!482417.cpp!!!	parseMailboxStatusFlags(in mailboxMsg : YouBotSlaveMailboxMsg) : void
+    std::stringstream errorMessageStream;
+    errorMessageStream << "Joint " << this->jointNumber << ": ";
+    std::string errorMessage;
+    errorMessage = errorMessageStream.str();
+
+
+    switch(mailboxMsg.stctInput.status){
+      case NO_ERROR:
+        break;
+      case INVALID_COMMAND:
+        LOG(error) << errorMessage << "Parameter name: " << mailboxMsg.parameterName << "; Command no: " << mailboxMsg.stctInput.commandNumber << " is an invalid command!" ;
+      //    throw JointParameterException(errorMessage + "invalid command");
+        break;
+      case WRONG_TYPE:
+        LOG(error) << errorMessage << "Parameter name: " << mailboxMsg.parameterName << " has a wrong type!";
+      //    throw JointParameterException(errorMessage + "wrong type");
+        break;
+      case INVALID_VALUE:
+        LOG(error) << errorMessage << "Parameter name: " << mailboxMsg.parameterName << " Value: " << mailboxMsg.stctInput.value << " is a invalid value!";
+      //    throw JointParameterException(errorMessage + "invalid value");
+        break;
+      case CONFIGURATION_EEPROM_LOCKED:
+        LOG(error) << errorMessage << "Parameter name: " << mailboxMsg.parameterName << " Configuration EEPROM locked";
+      //    throw JointParameterException(errorMessage + "configuration EEPROM locked");
+        break;
+      case COMMAND_NOT_AVAILABLE:
+        LOG(error) << errorMessage << "Parameter name: " << mailboxMsg.parameterName << "; Command no: " << mailboxMsg.stctInput.commandNumber << "Command is not available!";
+      //    throw JointParameterException(errorMessage + "command not available");
+        break;
+    }
+   
+
+!!!388977.cpp!!!	setValueToMotorContoller(in mailboxMsg : YouBotSlaveMailboxMsg) : bool
+
+    YouBotSlaveMailboxMsg mailboxMsgBuffer;
+    mailboxMsgBuffer = mailboxMsg;
+    bool unvalid = true;
+    unsigned int retry = 0;
+
+    EthercatMaster::getInstance().setMailboxMsgBuffer(mailboxMsgBuffer, this->jointNumber);
+
+    SLEEP_MILLISEC(timeTillNextMailboxUpdate);
+
+    do {
+      EthercatMaster::getInstance().getMailboxMsgBuffer(mailboxMsgBuffer, this->jointNumber);
+      /*    LOG(trace) << "CommandNumber " << (int) mailboxMsgBuffer.stctInput.commandNumber
+                  << " moduleAddress " << (int) mailboxMsgBuffer.stctInput.moduleAddress
+                  << " replyAddress " << (int) mailboxMsgBuffer.stctInput.replyAddress
+                  << " status " << (int) mailboxMsgBuffer.stctInput.status
+                  << " value " << mailboxMsgBuffer.stctInput.value;
+       */
+      if (mailboxMsgBuffer.stctOutput.commandNumber == mailboxMsgBuffer.stctInput.commandNumber &&
+              mailboxMsgBuffer.stctInput.status == NO_ERROR) {
+        unvalid = false;
+      } else {
+        SLEEP_MILLISEC(timeTillNextMailboxUpdate);
+        retry++;
+      }
+    } while (retry < mailboxMsgRetries && unvalid);
+
+    if (unvalid) {
+      this->parseMailboxStatusFlags(mailboxMsgBuffer);
+      return false;
+    } else {
+      return true;
+    }
+
+!!!388849.cpp!!!	retrieveValueFromMotorContoller(out message : YouBotSlaveMailboxMsg) : bool
+
+    bool unvalid = true;
+    unsigned int retry = 0;
+
+    EthercatMaster::getInstance().setMailboxMsgBuffer(message, this->jointNumber);
+
+    SLEEP_MILLISEC(timeTillNextMailboxUpdate);
+
+    do {
+      EthercatMaster::getInstance().getMailboxMsgBuffer(message, this->jointNumber);
+      /*   LOG(trace) << "CommandNumber " << (int) message.stctInput.commandNumber
+                 << " moduleAddress " << (int) message.stctInput.moduleAddress
+                 << " replyAddress " << (int) message.stctInput.replyAddress
+                 << " status " << (int) message.stctInput.status
+                 << " value " << message.stctInput.value;
+       */
+      if (message.stctOutput.commandNumber == message.stctInput.commandNumber &&
+              message.stctInput.status == NO_ERROR) {
+        unvalid = false;
+      } else {
+        SLEEP_MILLISEC(timeTillNextMailboxUpdate);
+        retry++;
+      }
+    } while (retry < mailboxMsgRetries && unvalid);
+
+    if (unvalid) {
+      this->parseMailboxStatusFlags(message);
+      return false;
+    } else {
+      return true;
+    }
+

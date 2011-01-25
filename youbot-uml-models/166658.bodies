@@ -1,0 +1,33 @@
+class DeviceConfigurationEntry
+!!!218882.cpp!!!	DeviceConfigurationEntry(in configurationEntryName : string)
+  this->name = configurationEntryName;
+!!!219010.cpp!!!	~DeviceConfigurationEntry()
+  map<string, DeviceParameter*>::iterator iter = parameters.begin();
+	for( iter = parameters.begin(); iter != parameters.end(); iter++) {
+	  delete (iter->second);
+	}
+  parameters.clear();
+!!!218370.cpp!!!	setConfigurationEntryName(in configurationEntryName : string) : void
+  this->name = configurationEntryName;
+!!!218498.cpp!!!	getConfigurationEntryName(out ConfigurationEntryName : string) : void
+  ConfigurationEntryName = this->name;
+!!!218626.cpp!!!	addDeviceParameterByName(in deviceParameterName : string) : void
+  parameters.insert(make_pair<string, DeviceParameter*>(deviceParameterName, new DeviceParameter(deviceParameterName)));
+!!!218754.cpp!!!	getDeviceParameterByName(in deviceParameterName : string) : DeviceParameter*
+  // find will return an iterator to the matching element if it is found
+	// or to the end of the map if the key is not found
+	map<string, DeviceParameter*>::iterator iter = parameters.begin();
+	iter = parameters.find(deviceParameterName);
+	if( iter != parameters.end() ) {
+		return iter->second;
+	}
+	
+	throw std::exception((deviceParameterName + " is not in parameters list").c_str());
+  return parameters.begin()->second;
+!!!226690.cpp!!!	getListOfDeviceParametersNames(out listOfDeviceParametersNames : vector<string>) : void
+  map<string, DeviceParameter*>::iterator iter = parameters.begin();
+  listOfDeviceParametersNames.clear();
+  
+	for( iter = parameters.begin(); iter != parameters.end(); iter++ ) {
+		listOfDeviceParametersNames.push_back(iter->first);
+	}

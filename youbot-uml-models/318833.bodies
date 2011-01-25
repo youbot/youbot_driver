@@ -1,0 +1,84 @@
+class ErrorAndStatus
+!!!518001.cpp!!!	ErrorAndStatus()
+    this->name = "ErrorAndStatus";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!518257.cpp!!!	getParameter(out parameter : uint) : void
+    parameter = this->value;
+    this->parseYouBotErrorFlags();
+!!!518385.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 156; //ErrorAndStatus
+ //   message.stctOutput.value = value;
+
+!!!518513.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+      this->value = message.stctInput.value; //TODO do convertion
+    }
+!!!518897.cpp!!!	parseYouBotErrorFlags() : void
+   // std::stringstream errorMessageStream;
+   // errorMessageStream << "Joint " << this->jointNumber << " ";
+    std::string errorMessage;
+   // errorMessage = errorMessageStream.str();
+
+
+    if (value & OVER_CURRENT) {
+      LOG(error) << errorMessage << "got over current";
+      //    throw JointErrorException(errorMessage + "got over current");
+    }
+
+    if (value & UNDER_VOLTAGE) {
+      LOG(error) << errorMessage << "got under voltage";
+      //    throw JointErrorException(errorMessage + "got under voltage");
+    }
+
+    if (value & OVER_VOLTAGE) {
+      LOG(error) << errorMessage << "got over voltage";
+      //   throw JointErrorException(errorMessage + "got over voltage");
+    }
+
+    if (value & OVER_TEMPERATURE) {
+      LOG(error) << errorMessage << "got over temperature";
+      //   throw JointErrorException(errorMessage + "got over temperature");
+    }
+
+    if (value & HALTED) {
+      LOG(info) << errorMessage << "is halted";
+      //   throw JointErrorException(errorMessage + "is halted");
+    }
+
+    if (value & HALL_SENSOR) {
+      LOG(error) << errorMessage << "got hall sensor problem";
+      //   throw JointErrorException(errorMessage + "got hall sensor problem");
+    }
+
+    if (value & ENCODER) {
+      LOG(error) << errorMessage << "got encoder problem";
+      //   throw JointErrorException(errorMessage + "got encoder problem");
+    }
+
+    if (value & MOTOR_WINDING) {
+      LOG(error) << errorMessage << "got motor winding problem";
+      //   throw JointErrorException(errorMessage + "got motor winding problem");
+    }
+
+    if (value & CYCLE_TIME_VIOLATION) {
+      LOG(error) << errorMessage << "the cycle time is violated";
+      //   throw JointErrorException(errorMessage + "the cycle time is violated");
+    }
+
+    if (value & INIT_SIN_COMM) {
+      LOG(error) << errorMessage << "need to initialize the sinus commutation";
+      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+    }
+
+    if (value & POSITION_MODE) {
+      LOG(info) << errorMessage << "position mode active";
+      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+    }
+
+    if (value & POSITION_REACHED) {
+      LOG(info) << errorMessage << "position reached";
+      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+    }
+

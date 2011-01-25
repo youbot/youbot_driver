@@ -1,0 +1,16 @@
+class ActualPWMDutyCycle
+!!!517105.cpp!!!	ActualPWMDutyCycle()
+    this->name = "ActualPWMDutyCycle";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!517361.cpp!!!	getParameter(out parameter : uint) : void
+    parameter = this->value;
+!!!517489.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 153; //ActualPWMDutyCycle
+ //   message.stctOutput.value = value;
+
+!!!517617.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+      this->value = (((double)message.stctInput.value)/3599.0)*100.0 ;
+    }

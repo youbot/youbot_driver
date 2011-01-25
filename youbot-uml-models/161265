@@ -1,0 +1,893 @@
+format 75
+"youbot" // youbot
+  revision 30
+  modified_by 113 "jan"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  cpp_h_dir "youbot/"
+  cpp_src_dir "youbot/"
+  cpp_namespace "youbot"
+  deploymentview 161137 "Deployment"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 168817 "YouBotJoint"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${description}
+#include <vector>
+#include <sstream>
+#include <cmath>
+#include <boost/thread.hpp>
+#include \"generic/Logger.hpp\"
+#include \"generic/Units.hpp\"
+#include \"generic/Time.hpp\"
+#include \"rude/config.h\"
+#include \"generic/Exceptions.hpp\"
+#include \"generic-joint/Joint.hpp\"
+#include \"generic-joint/JointData.hpp\"
+#include \"youbot/YouBotJointStorage.hpp\"
+#include \"youbot/ProtocolDefinitions.hpp\"
+#include \"youbot/YouBotJointParameter.hpp\"
+#include \"youbot/YouBotSlaveMsg.hpp\"
+#include \"youbot/YouBotSlaveMailboxMsg.hpp\"
+
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${description}
+#include \"youbot/YouBotJoint.hpp\"
+#include \"youbot/EthercatMaster.hpp\"
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 170225 // YouBotJoint
+      end
+      comment "/****************************************************************
+ *
+ * Copyright (c) 2011
+ * All rights reserved.
+ *
+ * Hochschule Bonn-Rhein-Sieg
+ * University of Applied Sciences
+ * Computer Science Department
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Author:
+ * Jan Paulus, Nico Hochgeschwender, Michael Reckhaus, Azamat Shakhimardanov
+ * Supervised by:
+ * Gerhard K. Kraetzschmar
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * This sofware is published under a dual-license: GNU Lesser General Public 
+ * License LGPL 2.1 and BSD license. The dual-license implies that users of this
+ * code may choose which terms they prefer.
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Hochschule Bonn-Rhein-Sieg nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License LGPL as
+ * published by the Free Software Foundation, either version 2.1 of the
+ * License, or (at your option) any later version or the BSD license.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License LGPL and the BSD license for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License LGPL and BSD license along with this program.
+ *
+ ****************************************************************/"
+    end
+
+    artifact 175345 "EthercatMaster"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${description}
+#include <vector>
+#include <sstream>
+#include <string>
+#include <cstdio>
+#include <stdexcept>
+#include <iostream>
+#include <boost/thread.hpp>
+#include \"rude/config.h\"
+#include \"generic/Logger.hpp\"
+#include \"generic/Units.hpp\"
+#include \"generic/Time.hpp\"
+#include \"generic/Exceptions.hpp\"
+#include \"youbot/YouBotSlaveMsg.hpp\"
+#include \"youbot/YouBotSlaveMailboxMsg.hpp\"
+
+extern \"C\"{
+#include <ethercattype.h>
+#include <ethercatmain.h>
+}
+
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${description}
+extern \"C\" {
+#include \"ethercattype.h\"
+#include \"nicdrv.h\"
+#include \"ethercatbase.h\"
+#include \"ethercatmain.h\"
+#include \"ethercatconfig.h\"
+#include \"ethercatcoe.h\"
+#include \"ethercatdc.h\"
+#include \"ethercatprint.h\"
+}
+#include \"youbot/EthercatMaster.hpp\"
+
+${namespace_start}
+EthercatMaster* EthercatMaster::instance = 0;
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 190577 // EthercatMaster
+      end
+      comment "/****************************************************************
+ *
+ * Copyright (c) 2011
+ * All rights reserved.
+ *
+ * Hochschule Bonn-Rhein-Sieg
+ * University of Applied Sciences
+ * Computer Science Department
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Author:
+ * Jan Paulus, Nico Hochgeschwender, Michael Reckhaus, Azamat Shakhimardanov
+ * Supervised by:
+ * Gerhard K. Kraetzschmar
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * This sofware is published under a dual-license: GNU Lesser General Public 
+ * License LGPL 2.1 and BSD license. The dual-license implies that users of this
+ * code may choose which terms they prefer.
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Hochschule Bonn-Rhein-Sieg nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License LGPL as
+ * published by the Free Software Foundation, either version 2.1 of the
+ * License, or (at your option) any later version or the BSD license.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License LGPL and the BSD license for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License LGPL and BSD license along with this program.
+ *
+ ****************************************************************/"
+    end
+
+    artifact 189041 "YouBotGripper"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${description}
+#include <vector>
+#include <sstream>
+#include \"generic/Logger.hpp\"
+#include \"generic/Units.hpp\"
+#include \"generic/Time.hpp\"
+#include \"generic/Exceptions.hpp\"
+#include \"youbot/ProtocolDefinitions.hpp\"
+
+#include \"youbot/YouBotSlaveMsg.hpp\"
+#include \"youbot/YouBotSlaveMailboxMsg.hpp\"
+#include \"generic-gripper/Gripper.hpp\"
+#include \"generic-gripper/GripperData.hpp\"
+#include \"generic-gripper/GripperParameter.hpp\"
+#include \"one-dof-gripper/OneDOFGripper.hpp\"
+#include \"one-dof-gripper/OneDOFGripperData.hpp\"
+#include \"youbot/YouBotGripperParameter.hpp\"
+
+
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${description}
+#include \"youbot/YouBotGripper.hpp\"
+#include \"youbot/EthercatMaster.hpp\"
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 224753 // YouBotGripper
+      end
+      comment "/****************************************************************
+ *
+ * Copyright (c) 2011
+ * All rights reserved.
+ *
+ * Hochschule Bonn-Rhein-Sieg
+ * University of Applied Sciences
+ * Computer Science Department
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Author:
+ * Jan Paulus, Nico Hochgeschwender, Michael Reckhaus, Azamat Shakhimardanov
+ * Supervised by:
+ * Gerhard K. Kraetzschmar
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * This sofware is published under a dual-license: GNU Lesser General Public 
+ * License LGPL 2.1 and BSD license. The dual-license implies that users of this
+ * code may choose which terms they prefer.
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Hochschule Bonn-Rhein-Sieg nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License LGPL as
+ * published by the Free Software Foundation, either version 2.1 of the
+ * License, or (at your option) any later version or the BSD license.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License LGPL and the BSD license for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License LGPL and BSD license along with this program.
+ *
+ ****************************************************************/"
+    end
+
+    artifact 195569 "YouBotGripperParameter"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${description}
+#include <vector>
+#include <sstream>
+#include \"generic/Logger.hpp\"
+#include \"generic/Units.hpp\"
+#include \"generic/Time.hpp\"
+#include \"rude/config.h\"
+#include \"generic/Exceptions.hpp\"
+#include \"generic-joint/JointParameter.hpp\"
+#include \"generic-gripper/GripperParameter.hpp\"
+#include \"youbot/ProtocolDefinitions.hpp\"
+#include \"youbot/YouBotSlaveMsg.hpp\"
+#include \"youbot/YouBotSlaveMailboxMsg.hpp\"
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${description}
+#include \"youbot/YouBotGripperParameter.hpp\"
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 258929 // YouBotGripperParameter
+	class_ref 259057 // CalibrateGripper
+	class_ref 259441 // BarSpacingOffset
+	class_ref 266097 // MaxEncoderValue
+	class_ref 265969 // MaxTravelDistance
+      end
+      comment "/****************************************************************
+ *
+ * Copyright (c) 2011
+ * All rights reserved.
+ *
+ * Hochschule Bonn-Rhein-Sieg
+ * University of Applied Sciences
+ * Computer Science Department
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Author:
+ * Jan Paulus, Nico Hochgeschwender, Michael Reckhaus, Azamat Shakhimardanov
+ * Supervised by:
+ * Gerhard K. Kraetzschmar
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * This sofware is published under a dual-license: GNU Lesser General Public 
+ * License LGPL 2.1 and BSD license. The dual-license implies that users of this
+ * code may choose which terms they prefer.
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Hochschule Bonn-Rhein-Sieg nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License LGPL as
+ * published by the Free Software Foundation, either version 2.1 of the
+ * License, or (at your option) any later version or the BSD license.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License LGPL and the BSD license for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License LGPL and BSD license along with this program.
+ *
+ ****************************************************************/"
+    end
+
+    artifact 222065 "YouBotJointParameterReadOnly"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${description}
+#include <vector>
+#include <sstream>
+#include \"generic/Logger.hpp\"
+#include \"generic/Units.hpp\"
+#include \"generic/Time.hpp\"
+#include \"generic/Exceptions.hpp\"
+#include \"generic-joint/JointParameter.hpp\"
+#include \"youbot/ProtocolDefinitions.hpp\"
+#include \"youbot/YouBotSlaveMsg.hpp\"
+#include \"youbot/YouBotSlaveMailboxMsg.hpp\"
+#include \"youbot/YouBotJointStorage.hpp\"
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${description}
+#include \"youbot/YouBotJointParameterReadOnly.hpp\"
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 210929 // ParameterType
+	class_ref 296049 // YouBotJointParameterReadOnly
+	class_ref 296177 // ArePIDcontrollersActive
+	class_ref 318577 // ActualMotorVoltage
+	class_ref 318705 // ActualPWMDutyCycle
+	class_ref 318833 // ErrorAndStatus
+	class_ref 319089 // BlockPWMScheme
+	class_ref 320369 // PositionError
+	class_ref 320497 // PositionErrorSum
+	class_ref 320625 // VelocityError
+	class_ref 320753 // VelocityErrorSum
+	class_ref 296305 // CommutationMode
+	class_ref 296433 // PWMSchemeBlockCommutation
+	class_ref 296561 // MotorContollerGearRatio
+	class_ref 296689 // MotorCoilResistance
+	class_ref 296817 // InitializationMode
+	class_ref 296945 // EncoderResolution
+	class_ref 297073 // ReversingEncoderDirection
+	class_ref 297201 // MotorPoles
+	class_ref 297329 // HallSensorPolarityReversal
+      end
+      comment "/****************************************************************
+ *
+ * Copyright (c) 2011
+ * All rights reserved.
+ *
+ * Hochschule Bonn-Rhein-Sieg
+ * University of Applied Sciences
+ * Computer Science Department
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Author:
+ * Jan Paulus, Nico Hochgeschwender, Michael Reckhaus, Azamat Shakhimardanov
+ * Supervised by:
+ * Gerhard K. Kraetzschmar
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * This sofware is published under a dual-license: GNU Lesser General Public 
+ * License LGPL 2.1 and BSD license. The dual-license implies that users of this
+ * code may choose which terms they prefer.
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Hochschule Bonn-Rhein-Sieg nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License LGPL as
+ * published by the Free Software Foundation, either version 2.1 of the
+ * License, or (at your option) any later version or the BSD license.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License LGPL and the BSD license for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License LGPL and BSD license along with this program.
+ *
+ ****************************************************************/"
+    end
+
+    artifact 208881 "YouBotJointParameter"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${description}
+#include <vector>
+#include <sstream>
+#include <boost/limits.hpp>
+#include \"generic/Logger.hpp\"
+#include \"generic/Units.hpp\"
+#include \"generic/Time.hpp\"
+#include \"rude/config.h\"
+#include \"generic/Exceptions.hpp\"
+#include \"generic-joint/JointParameter.hpp\"
+#include \"youbot/YouBotJointParameterReadOnly.hpp\"
+#include \"youbot/ProtocolDefinitions.hpp\"
+#include \"youbot/YouBotSlaveMsg.hpp\"
+#include \"youbot/YouBotSlaveMailboxMsg.hpp\"
+#include \"youbot/YouBotJointStorage.hpp\"
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${description}
+#include \"youbot/YouBotJointParameter.hpp\"
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 266481 // CalibrationDirection
+	class_ref 238577 // YouBotJointParameter
+	class_ref 251889 // JointName
+	class_ref 251761 // GearRatio
+	class_ref 252017 // EncoderTicksPerRound
+	class_ref 252145 // InverseMovementDirection
+	class_ref 266353 // CalibrateJoint
+	class_ref 273009 // JointLimits
+	class_ref 279537 // StopJoint
+	class_ref 279665 // NoMoreAction
+	class_ref 245105 // MaximumPositioningVelocity
+	class_ref 310513 // PWMLimit
+	class_ref 293233 // MaximumMotorCurrent
+	class_ref 310385 // MaximumVelocityToSetPosition
+	class_ref 293105 // SpeedControlSwitchingThreshold
+	class_ref 310641 // ClearTargetDistance
+	class_ref 310769 // PositionTargetReachedDistance
+	class_ref 293361 // MotorAcceleration
+	class_ref 295921 // PositionControlSwitchingThreshold
+	class_ref 252273 // PParameterFirstParametersPositionControl
+	class_ref 292849 // IParameterFirstParametersPositionControl
+	class_ref 292977 // DParameterFirstParametersPositionControl
+	class_ref 293489 // PIDControlTime
+	class_ref 310897 // CurrentControlLoopDelay
+	class_ref 293617 // IClippingParameterFirstParametersPositionControl
+	class_ref 311025 // PWMHysteresis
+	class_ref 311153 // ClearISumIfPWMReachesMaximum
+	class_ref 311281 // ClearISumIfOvershootsTarget
+	class_ref 293745 // PParameterFirstParametersSpeedControl
+	class_ref 293873 // IParameterFirstParametersSpeedControl
+	class_ref 294001 // DParameterFirstParametersSpeedControl
+	class_ref 294129 // IClippingParameterFirstParametersSpeedControl
+	class_ref 294257 // RampGeneratorSpeedAndPositionControl
+	class_ref 294385 // ReinitializationSinusoidalCommutation
+	class_ref 317809 // SetEncoderCounterZeroAtNextNChannel
+	class_ref 317937 // SetEncoderCounterZeroAtNextSwitch
+	class_ref 318065 // SetEncoderCounterZeroOnlyOnce
+	class_ref 318193 // EncoderStopSwitch
+	class_ref 318321 // ActualCommutationOffset
+	class_ref 318449 // StopSwitchPolarity
+	class_ref 319217 // PParameterFirstParametersCurrentControl
+	class_ref 319345 // IParameterFirstParametersCurrentControl
+	class_ref 319473 // DParameterFirstParametersCurrentControl
+	class_ref 319601 // IClippingParameterFirstParametersCurrentControl
+	class_ref 319729 // PParameterSecondParametersCurrentControl
+	class_ref 319857 // IParameterSecondParametersCurrentControl
+	class_ref 319985 // DParameterSecondParametersCurrentControl
+	class_ref 320113 // IClippingParameterSecondParametersCurrentControl
+	class_ref 320241 // CurrentControlSwitchingThreshold
+	class_ref 294513 // PParameterSecondParametersPositionControl
+	class_ref 294641 // IParameterSecondParametersPositionControl
+	class_ref 294769 // DParameterSecondParametersPositionControl
+	class_ref 294897 // IClippingParameterSecondParametersPositionControl
+	class_ref 295025 // PParameterSecondParametersSpeedControl
+	class_ref 295153 // IParameterSecondParametersSpeedControl
+	class_ref 295281 // DParameterSecondParametersSpeedControl
+	class_ref 295409 // IClippingParameterSecondParametersSpeedControl
+	class_ref 320881 // MassInertiaConstant
+	class_ref 321009 // BEMFConstant
+	class_ref 295537 // BlockCommutationMaximumSpeed
+	class_ref 295665 // CommutationCompensationClockwise
+	class_ref 295793 // CommutationCompensationCounterClockwise
+	class_ref 321137 // InitSineDelay
+	class_ref 321265 // ActivateOvervoltageProtection
+	class_ref 321393 // MaximumPWMChangePerPIDInterval
+	class_ref 321521 // SineCompensationFactor
+	class_ref 321649 // EncoderNullPolarity
+      end
+      comment "/****************************************************************
+ *
+ * Copyright (c) 2011
+ * All rights reserved.
+ *
+ * Hochschule Bonn-Rhein-Sieg
+ * University of Applied Sciences
+ * Computer Science Department
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Author:
+ * Jan Paulus, Nico Hochgeschwender, Michael Reckhaus, Azamat Shakhimardanov
+ * Supervised by:
+ * Gerhard K. Kraetzschmar
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * This sofware is published under a dual-license: GNU Lesser General Public 
+ * License LGPL 2.1 and BSD license. The dual-license implies that users of this
+ * code may choose which terms they prefer.
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Hochschule Bonn-Rhein-Sieg nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License LGPL as
+ * published by the Free Software Foundation, either version 2.1 of the
+ * License, or (at your option) any later version or the BSD license.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License LGPL and the BSD license for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License LGPL and BSD license along with this program.
+ *
+ ****************************************************************/"
+    end
+
+    artifact 215409 "YouBotManipulator"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${description}
+#include <vector>
+#include <sstream>
+#include <string>
+#include \"rude/config.h\"
+#include \"generic/Logger.hpp\"
+#include \"generic/Units.hpp\"
+#include \"generic/Time.hpp\"
+#include \"generic/Exceptions.hpp\"
+#include \"youbot/EthercatMaster.hpp\"
+#include \"youbot/YouBotGripper.hpp\"
+#include \"youbot/YouBotJoint.hpp\"
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${description}
+#include \"youbot/YouBotManipulator.hpp\"
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 286321 // YouBotManipulator
+      end
+      comment "/****************************************************************
+ *
+ * Copyright (c) 2011
+ * All rights reserved.
+ *
+ * Hochschule Bonn-Rhein-Sieg
+ * University of Applied Sciences
+ * Computer Science Department
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Author:
+ * Jan Paulus, Nico Hochgeschwender, Michael Reckhaus, Azamat Shakhimardanov
+ * Supervised by:
+ * Gerhard K. Kraetzschmar
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * This sofware is published under a dual-license: GNU Lesser General Public 
+ * License LGPL 2.1 and BSD license. The dual-license implies that users of this
+ * code may choose which terms they prefer.
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Hochschule Bonn-Rhein-Sieg nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License LGPL as
+ * published by the Free Software Foundation, either version 2.1 of the
+ * License, or (at your option) any later version or the BSD license.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License LGPL and the BSD license for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License LGPL and BSD license along with this program.
+ *
+ ****************************************************************/"
+    end
+
+    artifact 215537 "YouBotBase"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${description}
+#include <vector>
+#include <sstream>
+#include <string>
+#include \"rude/config.h\"
+#include \"generic/Logger.hpp\"
+#include \"generic/Units.hpp\"
+#include \"generic/Time.hpp\"
+#include \"generic/Exceptions.hpp\"
+#include \"youbot/YouBotJoint.hpp\"
+#include \"youbot/EthercatMaster.hpp\"
+#include \"base-kinematic/FourSwedishWheelOmniBaseKinematic.hpp\"
+#include \"base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.hpp\"
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${description}
+#include \"youbot/YouBotBase.hpp\"
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 286193 // YouBotBase
+      end
+      comment "/****************************************************************
+ *
+ * Copyright (c) 2011
+ * All rights reserved.
+ *
+ * Hochschule Bonn-Rhein-Sieg
+ * University of Applied Sciences
+ * Computer Science Department
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Author:
+ * Jan Paulus, Nico Hochgeschwender, Michael Reckhaus, Azamat Shakhimardanov
+ * Supervised by:
+ * Gerhard K. Kraetzschmar
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * This sofware is published under a dual-license: GNU Lesser General Public 
+ * License LGPL 2.1 and BSD license. The dual-license implies that users of this
+ * code may choose which terms they prefer.
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Hochschule Bonn-Rhein-Sieg nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License LGPL as
+ * published by the Free Software Foundation, either version 2.1 of the
+ * License, or (at your option) any later version or the BSD license.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License LGPL and the BSD license for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License LGPL and BSD license along with this program.
+ *
+ ****************************************************************/"
+    end
+
+    artifact 228593 "YouBotJointStorage"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${description}
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${description}
+#include \"youbot/YouBotJointStorage.hpp\"
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 303857 // YouBotJointStorage
+      end
+      comment "/****************************************************************
+ *
+ * Copyright (c) 2011
+ * All rights reserved.
+ *
+ * Hochschule Bonn-Rhein-Sieg
+ * University of Applied Sciences
+ * Computer Science Department
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Author:
+ * Jan Paulus, Nico Hochgeschwender, Michael Reckhaus, Azamat Shakhimardanov
+ * Supervised by:
+ * Gerhard K. Kraetzschmar
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * This sofware is published under a dual-license: GNU Lesser General Public 
+ * License LGPL 2.1 and BSD license. The dual-license implies that users of this
+ * code may choose which terms they prefer.
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Hochschule Bonn-Rhein-Sieg nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License LGPL as
+ * published by the Free Software Foundation, either version 2.1 of the
+ * License, or (at your option) any later version or the BSD license.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License LGPL and the BSD license for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License LGPL and BSD license along with this program.
+ *
+ ****************************************************************/"
+    end
+  end
+end

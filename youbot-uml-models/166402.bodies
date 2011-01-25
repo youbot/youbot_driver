@@ -1,0 +1,251 @@
+class XMLParser
+!!!217474.cpp!!!	parseFile(in fileName : string) : void
+  
+  /* get instance of the device broker to access the device entry container */
+  DeviceBroker* db = DeviceBroker::getInstance();
+  
+  /* @todo think about a good error handling, and implement it */
+  if(db == NULL) {
+    return;
+  }
+  
+  
+  string robot = "robot";
+  
+  try
+  {
+    // first load the xml file
+    ticpp::Document doc(fileName);
+    doc.LoadFile();
+
+    /* @todo validate the xml file with the corresponding dtd file 
+     */
+
+    
+    ticpp::Iterator< ticpp::Attribute > Robotattribute;
+    Robotattribute = Robotattribute.begin(doc.FirstChildElement());
+
+    std::string robotname;
+    db->setRobotName(Robotattribute->Value());
+    db->getRobotName(robotname);
+   // std::cout << robotname << std::endl;
+    
+    // parse through all device elements
+    ticpp::Iterator<ticpp::Element> deviceElement;
+
+    for(deviceElement = deviceElement.begin(doc.FirstChildElement()); deviceElement != deviceElement.end(); deviceElement++)
+    {
+      // The value of this deviceElement identifies the name of this element
+      
+      /* tmp variables to store the value of the xml element */
+      std::string deviceIdent;
+      std::string deviceName;
+      std::string deviceType;
+      std::string uniqueId;
+      std::string configurationName;
+      std::string parameterName;
+      int valueIndex;
+      std::string dataType;
+      std::string unit;
+      Data<int>* parameterDataInt = NULL;
+      Data<float>* parameterDataFloat = NULL;
+      Data<std::string>* parameterDataString = NULL;
+      
+      
+      /* tmp variable to store the xml element name */
+      std::string strName;
+      
+      /* variables to compare while accessing the xml elements */
+      std::string xmlAttributeName     = "name";
+      std::string xmlAttributeType     = "type";
+      std::string xmlAttributeUniqueId = "uniqueIdentifier";
+      std::string xmlAttributeConfigurationName = "name";
+      std::string xmlAttributeParameterName = "name";
+      std::string xmlAttributeValueIndex = "index";
+      std::string xmlAttributeValueDataType = "dataType";
+      std::string xmlAttributeValueValue = "value";
+      std::string xmlAttributeValueUnit = "unit";
+
+      
+      /* check if the first element is a device */
+      deviceElement->GetValue(&deviceIdent);
+   //   if(deviceIdent.compare("Device") == 0)
+     //   std::cout << "First element is a device" << std::endl;
+      
+  //    std::cout << "sould be device: " << deviceIdent << std::endl;
+    //  std::cout << "-------------" << std::endl;
+
+      /* now parse through all the attributes of this device */
+      ticpp::Iterator< ticpp::Attribute > attribute;
+      for(attribute = attribute.begin(deviceElement.Get()); attribute != attribute.end(); attribute++)
+      {
+        attribute->GetName(&strName);
+        
+        if(strName.compare(xmlAttributeName) == 0)
+        {
+          attribute->GetValue(&deviceName);
+          db->getDeviceContainer()->addDeviceEntryByName(deviceName);
+       //   std::cout << strName << ": " << deviceName << std::endl;
+        }
+        else if(strName.compare(xmlAttributeType) == 0)
+        {
+          attribute->GetValue(&deviceType);
+          db->getDeviceContainer()->getDeviceEntryByName(deviceName)->setDeviceEntryType(deviceType);
+     //     std::cout << strName << ": " << deviceType << std::endl;
+        }
+        else if(strName.compare(xmlAttributeUniqueId) == 0)
+        {
+          attribute->GetValue(&uniqueId);
+          db->getDeviceContainer()->getDeviceEntryByName(deviceName)->setDeviceEntryUniqueIdentifier(uniqueId);
+     //     std::cout << strName << ": " << uniqueId << std::endl;
+        }             
+      }
+  //    std::cout << std::endl;
+     
+      // parse through all Configurations elements
+      ticpp::Iterator<ticpp::Element> configurationElement;
+      for(configurationElement = configurationElement.begin(deviceElement.Get()); configurationElement != configurationElement.end(); configurationElement++)
+      {
+        std::string configurationIdent;
+        configurationElement->GetValue(&configurationIdent);
+   //     std::cout << "configurationIdent: " << configurationIdent << std::endl;
+        
+        //finde the name attribute in Configuration
+        ticpp::Iterator< ticpp::Attribute > attribute;
+        for(attribute = attribute.begin(configurationElement.Get()); attribute != attribute.end(); attribute++)
+        {
+          attribute->GetName(&strName);
+          if(strName.compare(xmlAttributeConfigurationName) == 0)
+          {
+            attribute->GetValue(&configurationName);
+            db->getDeviceContainer()->getDeviceEntryByName(deviceName)->addDeviceConfigurationByName(configurationName);
+     //       std::cout << strName << ": " << configurationName << std::endl;
+          }
+        }
+        // parse through all Parameters elements
+        ticpp::Iterator<ticpp::Element> parameterElement;
+        for(parameterElement = parameterElement.begin(configurationElement.Get()); parameterElement != parameterElement.end(); parameterElement++)
+        {
+          std::string parameterIdent;
+          parameterElement->GetValue(&parameterIdent);
+      //    std::cout << "parameterIdent: " << parameterIdent << std::endl;
+          
+          //finde the methode name attribute in the parameter
+          ticpp::Iterator< ticpp::Attribute > attribute;
+          for(attribute = attribute.begin(parameterElement.Get()); attribute != attribute.end(); attribute++)
+          {
+            attribute->GetName(&strName);
+            if(strName.compare(xmlAttributeParameterName) == 0)
+            {
+              attribute->GetValue(&parameterName);
+          //    std::cout << strName << ": " << parameterName << "  " << strName << std::endl;
+              db->getDeviceContainer()->getDeviceEntryByName(deviceName)->getDeviceConfigurationByName(configurationName)->addDeviceParameterByName(parameterName);
+         //     std::cout << strName << ": " << parameterName << std::endl;
+            }
+          }
+          
+          // parse through all Parametere Values elements
+          ticpp::Iterator<ticpp::Element> valueElement;
+          for(valueElement = valueElement.begin(parameterElement.Get()); valueElement != valueElement.end(); valueElement++)
+          {
+            
+            std::string valueIdent;
+            valueElement->GetValue(&valueIdent);
+        //   std::cout << "valueIdent: " << valueIdent << std::endl;
+    //        parameterData = NULL;
+            valueIndex = -1;
+            dataType = "";
+            unit = "";
+            
+            //finde the methode name attribute in the parameter
+            ticpp::Iterator< ticpp::Attribute > attribute;
+            for(attribute = attribute.begin(valueElement.Get()); attribute != attribute.end(); attribute++)
+            {
+              attribute->GetName(&strName);
+              if(strName.compare(xmlAttributeValueIndex) == 0)
+              {
+                attribute->GetValue(&valueIndex);
+              }
+              else if(strName.compare(xmlAttributeValueDataType) == 0)
+              {
+                attribute->GetValue(&dataType);
+                if(dataType.compare("int") == 0)
+                {
+               //   Data<int>* parameterData = NULL;
+                  parameterDataInt = new Data<int>;
+                } 
+                else if(dataType.compare("float") == 0)
+                {
+                  parameterDataFloat = new Data<float>;
+                }
+                else if(dataType.compare("string") == 0)
+                {
+                  parameterDataString = new Data<std::string>;
+                }
+              }
+              else if(strName.compare(xmlAttributeValueValue) == 0)
+              {
+                if(dataType.compare("int") == 0 && parameterDataInt != NULL)
+                {
+                  int value;
+                  attribute->GetValue(&value); 
+                  parameterDataInt->setValue(value);
+                } 
+                else if(dataType.compare("float") == 0 && parameterDataFloat != NULL)
+                {
+                  float value;
+                  attribute->GetValue(&value); 
+                  parameterDataFloat->setValue(value);
+                }
+                else if(dataType.compare("string") == 0 && parameterDataFloat != NULL)
+                {
+                  std::string value;
+                  attribute->GetValue(&value); 
+                  parameterDataString->setValue(value);
+                }
+              }
+              else if(strName.compare(xmlAttributeValueUnit) == 0)
+              {
+                if(dataType.compare("int") == 0 && parameterDataInt != NULL)
+                {
+                  attribute->GetValue(&unit); 
+                  parameterDataInt->setUnitByString(unit);
+                } 
+                else if(dataType.compare("float") == 0 && parameterDataFloat != NULL)
+                {
+                  attribute->GetValue(&unit); 
+                  parameterDataFloat->setUnitByString(unit);
+                }
+                else if(dataType.compare("string") == 0 && parameterDataFloat != NULL)
+                {
+                  attribute->GetValue(&unit); 
+                  parameterDataString->setUnitByString(unit);
+                }
+              }
+       //       std::cout << strName << ": " << configurationName << std::endl;
+            }
+            if(dataType.compare("int") == 0 && parameterDataInt != NULL)
+            {
+              db->getDeviceContainer()->getDeviceEntryByName(deviceName)->getDeviceConfigurationByName(configurationName)->getDeviceParameterByName(parameterName)->addParameterValueInt(valueIndex, parameterDataInt);
+              delete parameterDataInt;
+            } 
+            else if(dataType.compare("float") == 0 && parameterDataFloat != NULL)
+            {
+              db->getDeviceContainer()->getDeviceEntryByName(deviceName)->getDeviceConfigurationByName(configurationName)->getDeviceParameterByName(parameterName)->addParameterValueFloat(valueIndex, parameterDataFloat);
+              delete parameterDataFloat;
+            }
+            else if(dataType.compare("string") == 0 && parameterDataFloat != NULL)
+            {
+              db->getDeviceContainer()->getDeviceEntryByName(deviceName)->getDeviceConfigurationByName(configurationName)->getDeviceParameterByName(parameterName)->addParameterValueString(valueIndex, parameterDataString);
+              delete parameterDataString;
+            }
+          } 
+        } 
+      }
+    }
+  }
+  catch(ticpp::Exception& ex)
+  {
+    std::cout << ex.what();
+  }    
+  

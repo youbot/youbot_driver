@@ -1,0 +1,17 @@
+class PWMSchemeBlockCommutation
+!!!460785.cpp!!!	PWMSchemeBlockCommutation()
+    this->name = "PWMSchemeBlockCommutation";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!461041.cpp!!!	getParameter(out parameter : uint) : void
+    parameter = this->value;
+!!!461169.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber) : void
+
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 167; //PWMSchemeBlockCommutation
+    message.stctOutput.value = value; //TODO do convertion
+
+!!!467313.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+      this->value = message.stctInput.value; //TODO do convertion
+    }

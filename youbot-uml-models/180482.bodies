@@ -1,0 +1,6 @@
+class TimeStamp
+!!!237954.cpp!!!	getTime() : long double
+  return milliTime;
+!!!238082.cpp!!!	printTime() : void
+//	std::cout << std::dec;
+//	std::cout << milliTime << "ms";

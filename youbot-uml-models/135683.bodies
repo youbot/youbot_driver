@@ -1,0 +1,24 @@
+class DeviceBroker
+!!!193794.cpp!!!	configureDevice(in deviceName : string, in configuration : string, in devicePointer : Device*) : void
+  if(devicePointer == NULL){
+    throw std::exception("could not configure device");
+    return;
+  }
+  this->deviceContainer.getDeviceEntryByName(deviceName)->setDevice(devicePointer);
+  
+  std::vector<string> parameterList;
+  this->deviceContainer.getDeviceEntryByName(deviceName)->getDeviceConfigurationByName(configuration)->getListOfDeviceParametersNames(parameterList);
+  for(unsigned int i = 0; i < parameterList.size(); i++){
+    devicePointer->setConfigurationParameter(*(this->deviceContainer.getDeviceEntryByName(deviceName)->getDeviceConfigurationByName(configuration)->getDeviceParameterByName(parameterList[i])) );
+  }
+  
+!!!217602.cpp!!!	getInstance() : DeviceBroker*
+  if( instance == 0 )
+    instance = new DeviceBroker();
+  return instance;
+!!!217730.cpp!!!	getDeviceContainer() : DeviceContainer*
+  return &(this->deviceContainer);
+!!!227202.cpp!!!	setRobotName(in robotName : string) : void
+  this->robotName = robotName;
+!!!227330.cpp!!!	getRobotName(out robotname : string) : void
+  robotname = this->robotName;

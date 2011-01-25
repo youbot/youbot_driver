@@ -1,0 +1,15 @@
+class ClearISumIfPWMReachesMaximum
+!!!501617.cpp!!!	ClearISumIfPWMReachesMaximum()
+    this->name = "ClearISumIfPWMReachesMaximum";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!501873.cpp!!!	getParameter(out parameter : bool) : void
+    parameter = this->value;
+!!!502001.cpp!!!	setParameter(in parameter : bool) : void
+    this->value = parameter;
+!!!502129.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 137; //ClearISumIfPWMReachesMaximum
+    message.stctOutput.value = value;
+!!!502257.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
+    this->value = message.stctInput.value;

@@ -1,0 +1,10 @@
+class ToFCameraData
+!!!202609.cpp!!!	ToFCameraData()
+
+  
+!!!202737.cpp!!!	~ToFCameraData()
+
+!!!202993.cpp!!!	getMeasurements(out ranges : std::vector< quantity<length> >, out rangeAngles : std::vector< quantity<plane_angle> >) : void
+
+!!!203121.cpp!!!	setMeasurements(in ranges : std::vector< quantity<length> >, in rangeAngles : std::vector< quantity<plane_angle> >) : void
+

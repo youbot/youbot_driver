@@ -1,0 +1,255 @@
+class HokuyoURG
+!!!187377.cpp!!!	HokuyoURG()
+  this->config = NULL;
+  this->isConnected = false;
+!!!187505.cpp!!!	~HokuyoURG()
+  Errors er;
+  this->close(er);
+  if (this->config != NULL) {
+    delete this->config;
+  }
+!!!188657.cpp!!!	open(out error : Errors) : bool
+  if (this->hokuyo.isConnected()) {
+    return true;
+  }
+
+  if (this->config->devicePath == "") {
+    error.addError("no_DevicePath", "the device path is not specified in the configuration");
+    this->isConnected = false;
+    return false;
+  }
+
+
+  int desired_baud = 115200;
+
+  switch (this->config->baud) {
+    case BAUD_9600:
+      desired_baud = 9600;
+      LOG( trace) << "using 9600 baut to comunicate to Hokuyo URG";
+      break;
+    case BAUD_19200:
+      desired_baud = 19200;
+      LOG( trace) << "using 19200 baut to comunicate to Hokuyo URG";
+      break;
+    case BAUD_38400:
+      desired_baud = 38400;
+      LOG( trace) << "using 38400 baut to comunicate to Hokuyo URG";
+      break;
+    case BAUD_115200:
+      desired_baud = 115200;
+      LOG( trace) << "using 115200 baut to comunicate to Hokuyo URG";
+      break;
+    case BAUD_500K:
+      desired_baud = 500000;
+      LOG( trace) << "using 500K baut to comunicate to Hokuyo URG";
+      break;
+    case BAUD_UNKNOWN:
+      desired_baud = 0;
+      break;
+  }
+
+
+  try {
+    if(!this->hokuyo.connect(this->config->devicePath.c_str(), desired_baud)){
+      throw "Could not initialize the hokuyo!";
+    }
+    this->isConnected = true;
+    LOG( trace) << "connection to Hokuyo URG initilized";
+  } catch (...) {
+    error.addError("Initialize_failed", "Initialize failed! Are you using the correct device path?");
+    this->isConnected = false;
+    return false;
+  }
+  return true;
+!!!187633.cpp!!!	close(out error : Errors) : bool
+
+    try {
+      this->hokuyo.disconnect();
+      LOG( trace) << "connection to Hokuyo URG closed";
+
+    } catch (...) {
+      error.addError("unable_to_uninitialize", "could not uninitialize the Hokuyo URG");
+      return false;
+    }
+
+  this->isConnected = false;
+  return true;
+!!!187761.cpp!!!	setConfiguration(in configuration : LaserScannerConfiguration, out error : Errors) : bool
+  if (this->config != NULL) {
+    delete this->config;
+  }
+  this->config = new HokuyoURGConfiguration;
+  *(this->config) = configuration;
+
+  if (!this->open(error)) {
+    return false;
+  }
+   try{
+
+     qrk::RangeSensorParameter parameters;
+     parameters.area_front = 0;   //!< Front direction index
+     parameters.area_max = config->scanAngleStop.value();        //!< Maximum possible measurement direction in terms of angle
+     parameters.area_min = config->scanAngleStart.value();        //!< Least possible measurement direction in terms of angle
+     parameters.area_total = config->scanResolution.value() *180.0/M_PI;      //!< Angular resolution(Number of partitions in 360 degree)
+     parameters.distance_max = config->maxRangeDistance.value();    //!< Maximum possible measurement range [mm]
+     parameters.distance_min = config->minRangeDistance.value();    //!< Least possible measurement range [mm]
+     parameters.model =   config->model;           //!< Sensor model information
+     parameters.scan_rpm = 600;  //!< Standard angular velocity [rpm]
+     LOG( trace) << "configuration set to Hokuyo URG";
+     this->hokuyo.setParameter(parameters);
+
+   } catch (...) {
+     error.addError("unable_to_set_configuration", "could not set the configuration to the Hokuyo URG");
+     return false;
+   }
+
+  return true;
+!!!187889.cpp!!!	setConfiguration(in configuration : HokuyoURGConfiguration, out error : Errors) : bool
+  if (this->config != NULL) {
+    delete this->config;
+  }
+  this->config = new HokuyoURGConfiguration;
+  *(this->config) = configuration;
+
+  if (!this->open(error)) {
+    return false;
+  }
+   try{
+
+     qrk::RangeSensorParameter parameters;
+     parameters.area_front = 0;   //!< Front direction index
+     parameters.area_max = config->scanAngleStop.value() *180.0/M_PI;        //!< Maximum possible measurement direction in terms of angle
+     parameters.area_min = config->scanAngleStart.value() *180.0/M_PI;        //!< Least possible measurement direction in terms of angle
+     parameters.area_total = config->scanResolution.value() *180.0/M_PI;      //!< Angular resolution(Number of partitions in 360 degree)
+     parameters.distance_max = config->maxRangeDistance.value() *1000;    //!< Maximum possible measurement range [mm]
+     parameters.distance_min = config->minRangeDistance.value() *1000;    //!< Least possible measurement range [mm]
+     parameters.model =   config->model;           //!< Sensor model information
+     parameters.scan_rpm = 600;  //!< Standard angular velocity [rpm]
+
+     this->hokuyo.setParameter(parameters);
+     LOG( trace) << "configuration set to Hokuyo URG";
+    
+   } catch (...) {
+     error.addError("unable_to_set_configuration", "could not set the configuration to the Hokuyo URG");
+     return false;
+   }
+
+  return true;
+!!!188017.cpp!!!	getConfiguration(out configuration : LaserScannerConfiguration, out error : Errors) : bool
+  if (!this->open(error)) {
+    return false;
+  }
+  try {
+  qrk::RangeSensorParameter parameters;
+  parameters = this->hokuyo.parameter();
+
+     config->scanAngleStop =  parameters.area_max * M_PI/180.0 *radian ;        //!< Maximum possible measurement direction in terms of angle
+     config->scanAngleStart = parameters.area_min * M_PI/180.0 * radian;        //!< Least possible measurement direction in terms of angle
+     config->scanResolution = parameters.area_total * M_PI/180.0 * radian;      //!< Angular resolution(Number of partitions in 360 degree)
+     config->maxRangeDistance = parameters.distance_max /1000.0 *meter;    //!< Maximum possible measurement range [mm]
+     config->minRangeDistance = parameters.distance_min /1000.0 * meter;    //!< Least possible measurement range [mm]
+     config->model = parameters.model;           //!< Sensor model information
+     LOG( trace) << "configuration read from Hokuyo URG";
+
+  } catch (...) {
+    error.addError("unable_to_read_configuration", "could not get the configuration from the Hokuyo URG");
+    return false;
+  }
+
+  return true;
+!!!188145.cpp!!!	getConfiguration(out configuration : HokuyoURGConfiguration, out error : Errors) : bool
+if (!this->open(error)) {
+    return false;
+  }
+  try {
+  qrk::RangeSensorParameter parameters;
+  parameters = this->hokuyo.parameter();
+
+     config->scanAngleStop =  parameters.area_max * M_PI/180.0 *radian ;        //!< Maximum possible measurement direction in terms of angle
+     config->scanAngleStart = parameters.area_min * M_PI/180.0 * radian;        //!< Least possible measurement direction in terms of angle
+     config->scanResolution = parameters.area_total * M_PI/180.0 * radian;      //!< Angular resolution(Number of partitions in 360 degree)
+     config->maxRangeDistance = parameters.distance_max /1000.0 *meter;    //!< Maximum possible measurement range [mm]
+     config->minRangeDistance = parameters.distance_min /1000.0 * meter;    //!< Least possible measurement range [mm]
+     config->model = parameters.model;           //!< Sensor model information
+     LOG( trace) << "configuration read from Hokuyo URG";
+
+  } catch (...) {
+    error.addError("unable_to_read_configuration", "could not get the configuration from the Hokuyo URG");
+    return false;
+  }
+
+  return true;
+!!!188273.cpp!!!	getData(out data : LaserScannerData, out error : Errors) : bool
+  if (!this->open(error)) {
+    return false;
+  }
+  try {
+    std::vector<long> intput_ranges; //meter
+ //   intput_ranges.assign(541, 0);
+    long timestamp;
+
+    this->hokuyo.capture(intput_ranges, &timestamp);
+
+    std::cout << "tset "<< intput_ranges.size() << std::endl;
+
+    std::vector< quantity<length> > output_ranges;
+    std::vector< quantity<plane_angle> > output_range_angles;
+    
+    for (unsigned int i = 0; i < intput_ranges.size(); i++) {
+      output_ranges.push_back(intput_ranges[i] * meter);
+      output_range_angles.push_back((this->config->scanResolution * (double)i) + this->config->scanAngleStart) ;
+    }
+
+    data.setMeasurements(output_ranges, output_range_angles);
+    LOG( trace) << "range scan received from Hokuyo URG";
+
+  } catch (...) {
+    error.addError("unable_to_get_data", "could not get data from the Hokuyo URG");
+    return false;
+  }
+
+  return true;
+!!!188401.cpp!!!	getData(out data : LaserScannerDataWithIntensities, out error : Errors) : bool
+  if (!this->open(error)) {
+    return false;
+  }
+  try {
+    std::vector<long> intput_ranges; //meter
+    std::vector<long> intput_intensity; //?
+    long timestamp;
+
+  //  this->hokuyo->getScan(intput_ranges, intput_range_angles, intput_intensity);
+    this->hokuyo.captureWithIntensity(intput_ranges, intput_intensity, &timestamp);
+
+    if (intput_ranges.size() != intput_intensity.size()) {
+      error.addError("unable_to_get_data", "ranges vector and intensity vector have to have the same size");
+      return false;
+    }
+    std::vector< quantity<length> > output_ranges;
+    std::vector< double > output_intensity;
+    std::vector< quantity<plane_angle> > output_range_angles;
+
+
+    for (unsigned int i = 0; i < intput_ranges.size(); i++) {
+      output_ranges.push_back(intput_ranges[i] * meter);
+      output_intensity.push_back(intput_intensity[i]);
+      output_range_angles.push_back((this->config->scanResolution * (double)i) + this->config->scanAngleStart) ;
+    }
+
+    data.setMeasurements(output_ranges, output_range_angles, output_intensity);
+    LOG( trace) << "range and intensity scan received from Hokuyo URG";
+
+  } catch (...) {
+    error.addError("unable_to_get_data", "could not get data from the Hokuyo URG");
+    return false;
+  }
+
+  return true;
+!!!188529.cpp!!!	resetDevice(out error : Errors) : bool
+
+  if(!this->hokuyo.reboot()){
+    error.addError("unable_to_reset_hokuyo_urg", "could not reset the Hokuyo URG");
+    return false;
+  }
+  LOG( trace) << "Hokuyo URG reseted";
+  return true;

@@ -1,0 +1,10 @@
+class BarSpacingOffset
+!!!392305.cpp!!!	BarSpacingOffset()
+    this->name = "BarSpacingOffset";
+!!!392561.cpp!!!	getParameter(out parameter : quantity<si::length>) : void
+    parameter = this->value;
+!!!392689.cpp!!!	setParameter(in parameter : quantity<si::length>) : void
+  if(parameter > 1 *meter || parameter < 0 *meter){
+    throw std::out_of_range("The Bar Spacing Offset is only allowed to be less than 1m and bigger than zero");
+  }
+    this->value = parameter;

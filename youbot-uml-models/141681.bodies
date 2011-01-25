@@ -1,0 +1,5 @@
+class SickLDConfiguration
+!!!159217.cpp!!!	SickLDConfiguration(in source : SickLDConfiguration)
+  (*this)=source;
+!!!159345.cpp!!!	operator=(in source : SickLDConfiguration) : SickLDConfiguration
+  (*this)=source;

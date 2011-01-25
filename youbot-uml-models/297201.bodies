@@ -1,0 +1,16 @@
+class MotorPoles
+!!!465393.cpp!!!	MotorPoles()
+    this->name = "MotorPoles";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!465649.cpp!!!	getParameter(out parameter : bool) : void
+    parameter = this->value;
+!!!465777.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 253; //MotorPoles
+   // message.stctOutput.value = value;
+
+!!!468081.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+      this->value = message.stctInput.value;
+    }

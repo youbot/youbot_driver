@@ -1,0 +1,29 @@
+class SickLMS2xx
+!!!160002.cpp!!!	SickLMS2xx()
+  
+!!!160130.cpp!!!	~SickLMS2xx()
+  
+!!!263298.cpp!!!	setConfigurationParameter(in parameter : DeviceParameter) : void
+  parameter.printParameterValues();
+  std::string parameterName;
+  parameter.getName(parameterName);
+  std::cout << parameterName << std::endl;
+  
+  if(parameterName.compare("DevicePath") == 0){
+
+  /* Instantiate the SickLMS class with the device path string. */
+   // this->sickLMS = new SickLMS(device_str);
+  
+  }
+  else if(parameterName.compare("BaudRate") == 0){
+   /* 
+    if ((desired_baud = SickLMS::StringToSickBaud(argv[2])) == SickLMS::SICK_BAUD_UNKNOWN) {
+      cerr << "Invalid baud value! Valid values are: 9600, 19200, 38400, and 500000" << endl;
+      return -1;
+    }
+  */
+  }
+  else if(parameterName.compare("ApexAngle") == 0){
+  
+  }
+

@@ -1,0 +1,59 @@
+class DeviceContainer
+!!!201346.cpp!!!	~DeviceContainer()
+  map<string, DeviceEntry*>::iterator iter = deviceList.begin();
+	for( iter = deviceList.begin(); iter != deviceList.end(); iter++) {
+	  delete (iter->second);
+	}
+  deviceList.clear();
+!!!200834.cpp!!!	addDeviceEntryByName(in deviceEntryName : string) : void
+  deviceList.insert(make_pair<string, DeviceEntry*>(deviceEntryName, new DeviceEntry(deviceEntryName)));
+!!!216194.cpp!!!	getDeviceEntryByName(in deviceEntryName : string) : DeviceEntry*
+  // find will return an iterator to the matching element if it is found
+	// or to the end of the map if the key is not found
+	map<string, DeviceEntry*>::iterator iter = deviceList.begin();
+	iter = deviceList.find(deviceEntryName);
+	if( iter != deviceList.end() ) {
+		return iter->second;
+	}
+	
+  throw std::exception((deviceEntryName + " is not in device list").c_str());
+  return deviceList.begin()->second;
+!!!226562.cpp!!!	printAllDevice() : void
+  map<string, DeviceEntry*>::iterator iter;
+  std::string deviceName;
+  std::string deviceType;
+  std::string uniqueIdentifier;
+  std::string ConfigurationEntryName;
+  std::string DeviceParameterName;
+  
+  for(iter = deviceList.begin(); iter != deviceList.end(); iter++){
+   
+    iter->second->getDeviceName(deviceName);
+    iter->second->getDeviceEntryType(deviceType);
+    iter->second->getDeviceEntryUniqueIdentifier(uniqueIdentifier);
+  
+    std::cout 
+    << "\n\nDevice Name: " << deviceName
+    << " Type: " << deviceType
+    << " unique Identifier: " << uniqueIdentifier
+    << std::endl;
+    
+    std::vector<string> ConfigurationNames;
+    iter->second->getListOfConfigurationNames(ConfigurationNames);
+    
+	  for( unsigned int i = 0; i < ConfigurationNames.size(); i++ ) {
+		  iter->second->getDeviceConfigurationByName(ConfigurationNames[i])->getConfigurationEntryName(ConfigurationEntryName);
+		  std::cout << "\nConfiguration Name: " << ConfigurationEntryName << std::endl;
+		  
+		  std::vector<string> DeviceParametersNames;
+		  iter->second->getDeviceConfigurationByName(ConfigurationNames[i])->getListOfDeviceParametersNames(DeviceParametersNames);
+		  for( unsigned int u = 0; u < DeviceParametersNames.size(); u++ ) {
+		    iter->second->getDeviceConfigurationByName(ConfigurationNames[i])->getDeviceParameterByName(DeviceParametersNames[u])->getName(DeviceParameterName);
+		    std::cout << "Device Parameter Name: " << DeviceParameterName << std::endl;
+		    
+		    iter->second->getDeviceConfigurationByName(ConfigurationNames[i])->getDeviceParameterByName(DeviceParametersNames[u])->printParameterValues();
+		    
+		  }
+	  }
+  }
+

@@ -1,0 +1,13 @@
+class PositionError
+!!!530289.cpp!!!	PositionError()
+    this->name = "PositionError";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!530545.cpp!!!	getParameter(out parameter : quantity<plane_angle>) : void
+    parameter = this->value;
+!!!530801.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 226; //PositionError
+//    message.stctOutput.value = value;
+!!!530929.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
+    value = ((double) message.stctInput.value / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;

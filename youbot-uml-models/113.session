@@ -1,0 +1,13 @@
+window_sizes 1680 975 597 1077 892 0
+show_stereotypes
+selected 
+  package_ref 129 // youbot-uml-models
+open
+  
+  package_ref 154737 // generic-joint
+  deploymentview_ref 161137 // Deployment
+  deploymentview_ref 167665 // Deployment
+  deploymentview_ref 174193 // Deployment
+  deploymentview_ref 180721 // Deployment
+end
+end

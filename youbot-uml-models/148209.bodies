@@ -1,0 +1,5 @@
+class HokuyoURGConfiguration
+!!!187121.cpp!!!	HokuyoURGConfiguration(in source : HokuyoURGConfiguration)
+  (*this)=source;
+!!!187249.cpp!!!	operator=(in source : HokuyoURGConfiguration) : HokuyoURGConfiguration
+  (*this)=source;

@@ -1,0 +1,26 @@
+class IClippingParameterFirstParametersSpeedControl
+!!!442865.cpp!!!	IClippingParameterFirstParametersSpeedControl()
+    this->name = "IClippingParameterFirstParametersSpeedControl";
+    this->lowerLimit = INT_MIN;
+    this->upperLimit = INT_MAX;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!443121.cpp!!!	getParameter(out parameter : int) : void
+    parameter = this->value;
+!!!443249.cpp!!!	setParameter(in parameter : int) : void
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+!!!443377.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
+
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 143; //IClippingParameterFirstParametersSpeedControl
+    message.stctOutput.value = value; //TODO do convertion
+
+!!!443505.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
+    this->value = message.stctInput.value; //TODO do convertion

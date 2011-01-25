@@ -1,0 +1,58 @@
+class YouBotJointConfiguration
+!!!309361.cpp!!!	YouBotJointConfiguration()
+    this->gearRatio = 1;
+    this->encoderTicksPerRound = 0;
+    this->encoderTicksPerRoundBeenSet = false;
+    this->gearRatioBeenSet = false;
+    this->jointNameBeenSet = false;
+    this->PositionReferenceToZeroBeenSet = true;
+!!!310385.cpp!!!	setGearRatio(in ratio : double) : void
+    if (ratio == 0) {
+      throw ExceptionOODL("A Gear Ratio of 0 is not allowed");
+    } else {
+      this->gearRatio = ratio;
+      this->gearRatioBeenSet = true;
+    }
+!!!310513.cpp!!!	getGearRatio() : double
+    return this->gearRatio;
+!!!310641.cpp!!!	getEncoderTicksPerRound() : uint
+    return this->encoderTicksPerRound;
+!!!310769.cpp!!!	setEncoderTicksPerRound(in ticksPerRound : uint) : void
+    this->encoderTicksPerRound = ticksPerRound;
+    this->encoderTicksPerRoundBeenSet = true;
+!!!339569.cpp!!!	setMaximumPositioningSpeed(in maximumPositioningSpeed : quantity<angular_velocity>) : void
+    YouBotSlaveMailboxMsg mailboxMsg;
+    mailboxMsg.stctOutput.commandNumber = SAP;
+    mailboxMsg.stctOutput.moduleAddress = DRIVE;
+    mailboxMsg.stctOutput.typeNumber = 4; //maximum positioning speed
+    mailboxMsg.stctOutput.value = (int) maximumPositioningSpeed.value(); //TODO do convertion in to radian_per_second
+    mailboxMsg.parameterName = "MaximumPositioningSpeed";
+    unsigned int i = 0;
+    //find existing mailbox message and replace or attach new one
+    if(findMailboxMsg(SAP, DRIVE, 4, i)){
+      mailboxMsgVector[i] = mailboxMsg;
+    }else{
+      mailboxMsgVector.push_back(mailboxMsg);
+    }
+!!!339697.cpp!!!	getMaximumPositioningSpeed(out maxPositioningSpeed : quantity<angular_velocity>) : void
+    maxPositioningSpeed = this->maximumPositioningSpeed;
+!!!346481.cpp!!!	getPParameterFirstParametersPositionControl(out PParameter : double) : void
+    PParameter = this->PParameterFirstParametersPositionControl;
+!!!353393.cpp!!!	setPositionReferenceToZero(in yesOrNo : bool) : void
+    this->PositionReferenceToZero = yesOrNo;
+    this->PositionReferenceToZeroBeenSet = true;
+!!!353521.cpp!!!	setJointName(in jointName : string) : void
+    this->jointName = jointName;
+    this->jointNameBeenSet = true;
+!!!353649.cpp!!!	getJointName(out jointName : string) : void
+    jointName = this->jointName;
+!!!353777.cpp!!!	findMailboxMsg(in commandNumber : uint8, in moduleAddress : uint8, in typeNumber : uint8, out vectorIndex : uint) : bool
+    for (unsigned int i = 0; i < mailboxMsgVector.size(); i++) {
+      if (mailboxMsgVector[i].stctOutput.typeNumber == typeNumber &&
+              mailboxMsgVector[i].stctOutput.moduleAddress == moduleAddress &&
+              mailboxMsgVector[i].stctOutput.commandNumber == commandNumber) {
+        vectorIndex = i;
+        return true;
+      }
+    }
+    return false;

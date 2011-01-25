@@ -1,0 +1,37 @@
+class Data
+!!!234626.cpp!!!	getValue(out value : T) : void
+	value = this->value;
+!!!235138.cpp!!!	updateTimestamp() : void
+	timeStamp.update();
+!!!235266.cpp!!!	getTimestamp(out timestamp : long double) : any
+	timestamp =  this->timeStamp.getTime();
+!!!235394.cpp!!!	setRange(in Maximum : T, in Minimum : T) : void
+	if(Maximum >= Minimum) {
+		maximum = Maximum;
+		minimum = Minimum;
+		return;
+	}
+	
+	return;
+!!!235522.cpp!!!	getRange(out minimum : T, in maximum : T) : void
+	minimum = this->minimum;
+	maximum = this->maximum;
+	return;
+!!!235778.cpp!!!	getName(out name : string) : void
+	name = this->name;
+!!!236034.cpp!!!	setUnitPrefix(in unitPrefix : EnumUnitPrefix) : void
+	this->unitPrefix = unitPrefix;
+!!!236162.cpp!!!	getUnitPrefix(out unitPrefix : EnumUnitPrefix) : void
+	unitPrefix = this->unitPrefix;
+!!!236290.cpp!!!	setUnit(in unit : EnumUnit) : void
+	this->unit = unit;
+!!!236418.cpp!!!	getUnit(in unit : EnumUnit) : void
+  unit = this->unit;
+!!!236802.cpp!!!	setValue(in value : T) : void
+	if(this->maximum >= value || this->minimum <= value) {
+		this->value = value;
+		this->timeStamp.update();
+		return;
+	}
+	
+	return;

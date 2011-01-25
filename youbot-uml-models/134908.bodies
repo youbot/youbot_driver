@@ -1,0 +1,52 @@
+class LaserScannerDataWithIntensities
+!!!150641.cpp!!!	LaserScannerDataWithIntensities()
+
+
+!!!150769.cpp!!!	~LaserScannerDataWithIntensities()
+
+!!!173297.cpp!!!	getMesasurementIterator(out rangesIterator : std::vector< quantity<length> >::iterator, out rangeAnglesIterator : std::vector< quantity<plane_angle> >::iterator, out intensitieIterator : std::vector< double >::iterator) : void
+  rangesIterator = this->ranges.begin();
+  rangeAnglesIterator = this->rangeAngles.begin();
+  intensitieIterator = this->intensities.begin();
+!!!172913.cpp!!!	getsMeasurements(out ranges : std::vector< quantity<length> >, out rangeAngles : std::vector< quantity<plane_angle> >, out intensities : std::vector< double >) : void
+  ranges = this->ranges;
+  rangeAngles = this->rangeAngles;
+  intensities = this->intensities;
+!!!172785.cpp!!!	setMeasurements(in ranges : std::vector< quantity<length> >, in rangeAngles : std::vector< quantity<plane_angle> >, in intensities : std::vector< double >) : void
+  this->ranges = ranges;
+  this->rangeAngles = rangeAngles;
+  this->intensities = intensities;
+!!!173425.cpp!!!	setMeasurements(in ranges : double*, in rangeAngles : double*, in intensities : unsigned int*, in numMeasurements : unsigned int, in rangeUnit : boost::units::si::length, in angleUnit : boost::units::si::plane_angle, in intensitieUnit : boost::units::si::length) : void
+  this->ranges.reserve(numMeasurements);
+  this->rangeAngles.reserve(numMeasurements);
+  this->intensities.reserve(numMeasurements);
+  
+  for(unsigned int i=0; i< numMeasurements; i++){
+      this->ranges[i] = ranges[i] * rangeUnit;
+      this->rangeAngles[i] =  rangeAngles[i] * angleUnit;
+      this->intensities[i] =  ((double)intensities[i]);// * intensitieUnit;
+  }
+!!!173681.cpp!!!	setMeasurements(in ranges : unsigned int*, in rangeAngles : double*, in intensities : unsigned int*, in numMeasurements : unsigned int, in rangeUnit : boost::units::si::length, in angleUnit : boost::units::si::plane_angle, in intensitieUnit : boost::units::si::length) : void
+  this->ranges.reserve(numMeasurements);
+  this->rangeAngles.reserve(numMeasurements);
+  this->intensities.reserve(numMeasurements);
+  
+  for(unsigned int i=0; i< numMeasurements; i++){
+      this->ranges[i] = ((double)ranges[i]) * rangeUnit;
+      this->rangeAngles[i] =  rangeAngles[i] * angleUnit;
+      this->intensities[i] =  ((double)intensities[i]);// * intensitieUnit;
+  }
+!!!180337.cpp!!!	setMeasurements(in ranges : std::vector<double>, in rangeAngles : std::vector<double>, in intensities : std::vector<double>, in rangeUnit : boost::units::si::length, in angleUnit : boost::units::si::plane_angle, in intensitieUnit : boost::units::si::length) : void
+  if(ranges.size() != rangeAngles.size() || ranges.size() != intensities.size()){
+    
+    return;
+  }
+  this->ranges.reserve(ranges.size());
+  this->rangeAngles.reserve(ranges.size());
+  this->intensities.reserve(ranges.size());
+  
+  for(unsigned int i=0; i< ranges.size(); i++){
+      this->ranges[i] = ((double)ranges[i]) * rangeUnit;
+      this->rangeAngles[i] =  rangeAngles[i] * angleUnit;
+      this->intensities[i] =  ((double)intensities[i]);// * intensitieUnit;
+  }

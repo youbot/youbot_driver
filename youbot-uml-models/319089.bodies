@@ -1,0 +1,16 @@
+class BlockPWMScheme
+!!!520177.cpp!!!	BlockPWMScheme()
+    this->name = "BlockPWMScheme";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!520433.cpp!!!	getParameter(out parameter : int) : void
+    parameter = this->value;
+!!!520561.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 167; //BlockPWMScheme
+ //   message.stctOutput.value = value;
+
+!!!520689.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+      this->value = message.stctInput.value;
+    }

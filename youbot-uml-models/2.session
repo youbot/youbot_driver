@@ -1,0 +1,20 @@
+window_sizes 1280 744 354 1320 629 38
+diagrams
+  classdiagram_ref 128386 // DeviceBroker
+    1252 879 100 2 0 0
+  active  classdiagram_ref 128002 // DeviceHierarchy
+    920 629 100 1 0 465
+  classdiagram_ref 128258 // StateMachine
+    1104 703 100 18 0 0
+  classdiagram_ref 128642 // DataTypeHierarchy
+    1320 493 100 0 0 0
+end
+show_stereotypes
+selected classdiagram_ref 128002 // DeviceHierarchy
+open
+  class_ref 128002 // Device
+  class_ref 128386 // LaserScanner2D
+  deploymentview_ref 128002 // HALDeployment
+end
+end
+verbose

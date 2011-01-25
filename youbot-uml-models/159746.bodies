@@ -1,0 +1,45 @@
+class DeviceEntry
+!!!201474.cpp!!!	DeviceEntry(in deviceName : string)
+  this->name = deviceName;
+!!!201602.cpp!!!	~DeviceEntry()
+  map<string, DeviceConfigurationEntry*>::iterator iter = configurations.begin();
+	for( iter = configurations.begin(); iter != configurations.end(); iter++) {
+	  delete (iter->second);
+	}
+  configurations.clear();
+!!!216450.cpp!!!	setDeviceName(in deviceName : string) : void
+  this->name = deviceName;
+!!!216578.cpp!!!	getDeviceName(out deviceName : string) : void
+  deviceName = this->name;
+!!!216322.cpp!!!	setDevice(in device : Device*) : void
+  this->device = device;
+!!!216066.cpp!!!	getDevice(out device : Device*) : void
+  device = this->device;
+!!!215810.cpp!!!	addDeviceConfigurationByName(in deviceConfigurationName : string) : void
+  configurations.insert(make_pair<string, DeviceConfigurationEntry*>(deviceConfigurationName, new DeviceConfigurationEntry(deviceConfigurationName)));
+!!!215938.cpp!!!	getDeviceConfigurationByName(in deviceConfigurationName : string) : DeviceConfigurationEntry*
+  // find will return an iterator to the matching element if it is found
+	// or to the end of the map if the key is not found
+	map<string, DeviceConfigurationEntry*>::iterator iter = configurations.begin();
+	iter = configurations.find(deviceConfigurationName);
+	if( iter != configurations.end() ) {
+		return iter->second;
+	}
+	
+	throw std::exception((deviceConfigurationName + " is not in configuration list").c_str());
+  return configurations.begin()->second;
+!!!217858.cpp!!!	setDeviceEntryType(in deviceEntryType : string) : void
+  this->type = deviceEntryType;
+!!!217986.cpp!!!	getDeviceEntryType(out deviceEntryType : string) : void
+  deviceEntryType = this->type;
+!!!218114.cpp!!!	getDeviceEntryUniqueIdentifier(out deviceEntryUniqueIdentifier : string) : void
+  deviceEntryUniqueIdentifier = this->uniqueIdentifier;
+!!!218242.cpp!!!	setDeviceEntryUniqueIdentifier(in deviceEntryUniqueIdentifier : string) : void
+  this->uniqueIdentifier = deviceEntryUniqueIdentifier;
+!!!226946.cpp!!!	getListOfConfigurationNames(out listOfConfigurationNames : vector<string>) : void
+  map<string, DeviceConfigurationEntry*>::iterator iter = configurations.begin();
+  listOfConfigurationNames.clear();
+  
+	for( iter = configurations.begin(); iter != configurations.end(); iter++ ) {
+		listOfConfigurationNames.push_back(iter->first);
+	}

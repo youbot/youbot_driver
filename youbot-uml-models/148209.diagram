@@ -1,0 +1,72 @@
+format 75
+
+classinstancecanvas 128241 classinstance_ref 128241 // 
+  xyz 169 11 2005 life_line_z 2000
+end
+classinstancecanvas 128369 classinstance_ref 128369 // 
+  xyz 19 14 2005 life_line_z 2000
+end
+classinstancecanvas 128497 classinstance_ref 128497 // 
+  xyz 300 8 2005 life_line_z 2000
+end
+classinstancecanvas 128625 classinstance_ref 128625 // 
+  xyz 426 9 2005 life_line_z 2000
+end
+classinstancecanvas 128753 classinstance_ref 128753 // 
+  xyz 518 7 2010 life_line_z 2000
+end
+durationcanvas 128881 classinstance_ref 128497 // :SoemMaster
+  xyzwh 339 138 2010 11 110
+end
+durationcanvas 129009 classinstance_ref 128241 // :YouBot
+  xyzwh 193 147 2010 11 91
+end
+durationcanvas 129265 classinstance_ref 128369 // :YouBotJoint
+  xyzwh 57 295 2010 11 36
+end
+durationcanvas 129393 classinstance_ref 128241 // :YouBot
+  xyzwh 193 296 2010 11 51
+end
+durationcanvas 129649 classinstance_ref 128753 // :EtherCatHardware
+  xyzwh 573 54 2010 11 28
+end
+durationcanvas 129777 classinstance_ref 128625 // :Soem
+  xyzwh 445 56 2010 11 26
+end
+durationcanvas 130033 classinstance_ref 128625 // :Soem
+  xyzwh 445 95 2010 11 29
+end
+durationcanvas 130161 classinstance_ref 128497 // :SoemMaster
+  xyzwh 339 91 2010 11 38
+end
+msg 129137 synchronous
+  from durationcanvas_ref 128881
+  to durationcanvas_ref 129009
+  yz 153 2015 explicitmsg "fill Input Output Buffer"
+  show_full_operations_definition default drawing_language default show_context_mode default
+  label_xy 209 138
+msg 129521 synchronous
+  from durationcanvas_ref 129265
+  to durationcanvas_ref 129393
+  yz 299 2015 explicitmsg "update / read values"
+  show_full_operations_definition default drawing_language default show_context_mode default
+  args "u"
+  label_xy 70 282
+msg 129905 asynchronous
+  from durationcanvas_ref 129649
+  to durationcanvas_ref 129777
+  yz 56 2015 explicitmsg "receive / send data"
+  show_full_operations_definition default drawing_language default show_context_mode default
+  label_xy 461 39
+msg 130289 asynchronous
+  from durationcanvas_ref 130033
+  to durationcanvas_ref 130161
+  yz 95 3005 explicitmsg "update"
+  show_full_operations_definition default drawing_language default show_context_mode default
+  label_xy 376 78
+msg 130417 return
+  from durationcanvas_ref 129009
+  to durationcanvas_ref 128881
+  yz 227 2015 unspecifiedmsg
+  show_full_operations_definition default drawing_language default show_context_mode default
+end

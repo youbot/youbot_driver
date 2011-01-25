@@ -1,0 +1,238 @@
+format 75
+"generic-gripper" // generic-gripper
+  revision 7
+  modified_by 113 "jan"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  cpp_h_dir "generic-gripper/"
+  cpp_src_dir "generic-gripper/"
+  cpp_namespace "youbot"
+  deploymentview 167665 "Deployment"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 181873 "Gripper"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${description}
+#include \"generic-gripper/GripperData.hpp\"
+#include \"generic-gripper/GripperParameter.hpp\"
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      associated_classes
+	class_ref 217457 // Gripper
+      end
+      comment "/****************************************************************
+ *
+ * Copyright (c) 2011
+ * All rights reserved.
+ *
+ * Hochschule Bonn-Rhein-Sieg
+ * University of Applied Sciences
+ * Computer Science Department
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Author:
+ * Jan Paulus, Nico Hochgeschwender, Michael Reckhaus, Azamat Shakhimardanov
+ * Supervised by:
+ * Gerhard K. Kraetzschmar
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * This sofware is published under a dual-license: GNU Lesser General Public 
+ * License LGPL 2.1 and BSD license. The dual-license implies that users of this
+ * code may choose which terms they prefer.
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Hochschule Bonn-Rhein-Sieg nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License LGPL as
+ * published by the Free Software Foundation, either version 2.1 of the
+ * License, or (at your option) any later version or the BSD license.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License LGPL and the BSD license for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License LGPL and BSD license along with this program.
+ *
+ ****************************************************************/"
+    end
+
+    artifact 188401 "GripperData"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${description}
+#include \"generic/Units.hpp\"
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      associated_classes
+	class_ref 217841 // GripperData
+      end
+      comment "/****************************************************************
+ *
+ * Copyright (c) 2011
+ * All rights reserved.
+ *
+ * Hochschule Bonn-Rhein-Sieg
+ * University of Applied Sciences
+ * Computer Science Department
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Author:
+ * Jan Paulus, Nico Hochgeschwender, Michael Reckhaus, Azamat Shakhimardanov
+ * Supervised by:
+ * Gerhard K. Kraetzschmar
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * This sofware is published under a dual-license: GNU Lesser General Public 
+ * License LGPL 2.1 and BSD license. The dual-license implies that users of this
+ * code may choose which terms they prefer.
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Hochschule Bonn-Rhein-Sieg nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License LGPL as
+ * published by the Free Software Foundation, either version 2.1 of the
+ * License, or (at your option) any later version or the BSD license.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License LGPL and the BSD license for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License LGPL and BSD license along with this program.
+ *
+ ****************************************************************/"
+    end
+
+    artifact 188529 "GripperParameter"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${description}
+#include \"generic-joint/JointParameter.hpp\"
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      associated_classes
+	class_ref 259185 // GripperParameter
+      end
+      comment "/****************************************************************
+ *
+ * Copyright (c) 2011
+ * All rights reserved.
+ *
+ * Hochschule Bonn-Rhein-Sieg
+ * University of Applied Sciences
+ * Computer Science Department
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Author:
+ * Jan Paulus, Nico Hochgeschwender, Michael Reckhaus, Azamat Shakhimardanov
+ * Supervised by:
+ * Gerhard K. Kraetzschmar
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * This sofware is published under a dual-license: GNU Lesser General Public 
+ * License LGPL 2.1 and BSD license. The dual-license implies that users of this
+ * code may choose which terms they prefer.
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Hochschule Bonn-Rhein-Sieg nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License LGPL as
+ * published by the Free Software Foundation, either version 2.1 of the
+ * License, or (at your option) any later version or the BSD license.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License LGPL and the BSD license for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License LGPL and BSD license along with this program.
+ *
+ ****************************************************************/"
+    end
+  end
+end

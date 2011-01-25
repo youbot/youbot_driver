@@ -1,0 +1,26 @@
+class IParameterSecondParametersCurrentControl
+!!!526193.cpp!!!	IParameterSecondParametersCurrentControl()
+    this->name = "IParameterSecondParametersCurrentControl";
+    this->lowerLimit = INT_MIN;
+    this->upperLimit = INT_MAX;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!526449.cpp!!!	getParameter(out parameter : int) : void
+    parameter = this->value;
+!!!526577.cpp!!!	setParameter(in parameter : int) : void
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+!!!526705.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
+
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 173; //IParameterSecondParametersCurrentControl
+    message.stctOutput.value = value; //TODO do convertion
+
+!!!526833.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
+    this->value = message.stctInput.value; //TODO do convertion

@@ -1,0 +1,7 @@
+class MaxEncoderValue
+!!!400241.cpp!!!	MaxEncoderValue()
+    this->name = "MaxEncoderValue";
+!!!400497.cpp!!!	getParameter(out parameter : uint) : void
+    parameter = this->value;
+!!!400625.cpp!!!	setParameter(in parameter : uint) : void
+    this->value = parameter;

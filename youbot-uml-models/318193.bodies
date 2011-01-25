@@ -1,0 +1,26 @@
+class EncoderStopSwitch
+!!!513137.cpp!!!	EncoderStopSwitch()
+    this->name = "EncoderStopSwitch";
+    this->lowerLimit = 0;
+    this->upperLimit = 3;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!513393.cpp!!!	getParameter(out parameter : uint) : void
+    parameter = this->value;
+!!!513521.cpp!!!	setParameter(in parameter : uint) : void
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+!!!513649.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
+
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 164; //EncoderStopSwitch
+    message.stctOutput.value = value;
+
+!!!513777.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
+    this->value = message.stctInput.value;

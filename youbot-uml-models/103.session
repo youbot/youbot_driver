@@ -1,0 +1,16 @@
+window_sizes 1680 975 393 1281 777 120
+diagrams
+  classdiagram_ref 128124 // LaserScannerInterface
+    1024 623 100 2 60 148
+  active  classdiagram_ref 128103 // LaserScannerDatatypes
+    1281 777 100 2 248 0
+end
+show_stereotypes
+selected artifact_ref 134631 // SickS300
+open
+  operation_ref 134759 // SickS300
+  class_ref 134759 // SickS300Configuration
+  deploymentview_ref 128124 // Deployment
+  deploymentview_ref 134631 // Deployment
+end
+end

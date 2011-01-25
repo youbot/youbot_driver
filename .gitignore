@@ -1,0 +1,10 @@
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+.dep.inc
+nbproject
+CMakeFiles
+bin
+lib
+Doxyfile
+

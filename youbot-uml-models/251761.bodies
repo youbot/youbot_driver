@@ -1,0 +1,11 @@
+class GearRatio
+!!!376305.cpp!!!	GearRatio()
+    this->name = "GearRatio";
+    this->parameterType = API_PARAMETER;
+!!!376561.cpp!!!	getParameter(out parameter : double) : void
+    parameter = this->value;
+!!!376689.cpp!!!	setParameter(in parameter : double) : void
+    if (parameter == 0) {
+      throw std::out_of_range("A Gear Ratio of 0 is not allowed");
+    }
+    this->value = parameter;

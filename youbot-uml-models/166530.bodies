@@ -1,0 +1,81 @@
+class DeviceParameter
+!!!219138.cpp!!!	DeviceParameter(in parameterName : string)
+  this->refCount = 0;
+  this->name = parameterName;
+!!!219266.cpp!!!	~DeviceParameter()
+ /* map<int, Data<T>*>::iterator iter = parameterValues.begin();
+	for( iter = parameterValues.begin(); iter != parameterValues.end(); iter++) {
+	  delete (iter->second);
+	}
+  parameterValues.clear();*/
+!!!217090.cpp!!!	setName(in parameterName : string) : void
+  this->name = parameterName;
+!!!216962.cpp!!!	getName(out parameterName : string) : void
+  parameterName = this->name;
+!!!217218.cpp!!!	addParameterValueInt(in index : int, in parameterValue : Data<int>*) : void
+  Data<int>* newData = new Data<int>;
+  *newData = *parameterValue;
+  parameterValuesInt.insert(make_pair<int, Data<int>*>(index, newData));
+!!!217346.cpp!!!	getParameterValueInt(in index : int) : Data<int>*
+  // find will return an iterator to the matching element if it is found
+	// or to the end of the map if the key is not found
+	map<int, Data<int>*>::const_iterator iter = parameterValuesInt.begin();
+	iter = parameterValuesInt.find(index);
+	if( iter != parameterValuesInt.end() ) {
+		return iter->second;
+	}
+	
+	throw std::exception("parameter value is not in list");
+  return parameterValuesInt.begin()->second;
+!!!256002.cpp!!!	addParameterValueFloat(in index : int, in parameterValue : Data<float>*) : void
+  Data<float>* newData = new Data<float>;
+  *newData = *parameterValue;
+  parameterValuesFloat.insert(make_pair<int, Data<float>*>(index, newData));
+!!!255874.cpp!!!	getParameterValueFloat(in index : int) : Data<float>*
+  // find will return an iterator to the matching element if it is found
+	// or to the end of the map if the key is not found
+	map<int, Data<float>*>::const_iterator iter = parameterValuesFloat.begin();
+	iter = parameterValuesFloat.find(index);
+	if( iter != parameterValuesFloat.end() ) {
+		return iter->second;
+	}
+	
+	throw std::exception("parameter value is not in list");
+  return parameterValuesFloat.begin()->second;
+!!!270338.cpp!!!	addParameterValueString(in index : int, in parameterValue : Data<std::string>*) : void
+  Data<std::string>* newData = new Data<std::string>;
+  *newData = *parameterValue;
+  parameterValuesString.insert(make_pair<int, Data<std::string>*>(index, newData));
+!!!270210.cpp!!!	getParameterValueString(in index : int) : Data<std::string>*
+  // find will return an iterator to the matching element if it is found
+	// or to the end of the map if the key is not found
+	map<int, Data<std::string>*>::const_iterator iter = parameterValuesString.begin();
+	iter = parameterValuesString.find(index);
+	if( iter != parameterValuesString.end() ) {
+		return iter->second;
+	}
+	
+	throw std::exception("parameter value is not in list");
+  return parameterValuesString.begin()->second;
+!!!227074.cpp!!!	getNumberOfParameterValuesInt(out numberOfParameterValues : int) : void
+  numberOfParameterValues = parameterValuesInt.size();
+!!!256130.cpp!!!	getNumberOfParameterValuesFloat(out numberOfParameterValues : int) : void
+  numberOfParameterValues = parameterValuesFloat.size();
+!!!270466.cpp!!!	getNumberOfParameterValuesString(out numberOfParameterValues : int) : void
+  numberOfParameterValues = parameterValuesString.size();
+!!!256258.cpp!!!	printParameterValues() : void
+  map<int, Data<float>*>::const_iterator iterFoat = parameterValuesFloat.begin();
+	for(iterFoat = parameterValuesFloat.begin(); iterFoat != parameterValuesFloat.end(); iterFoat++ ) {
+		float value;
+		iterFoat->second->getValue(value);
+		std::cout << "Value: " << value << std::endl;
+	}
+	
+	map<int, Data<int>*>::const_iterator iter = parameterValuesInt.begin();
+	for(iter = parameterValuesInt.begin(); iter != parameterValuesInt.end(); iter++ ) {
+		int value;
+		iter->second->getValue(value);
+		std::cout << "Value: " << value << std::endl;
+	}
+	
+	

@@ -1,0 +1,32 @@
+class Errors
+!!!135665.cpp!!!	Errors()
+  iter = this->occurredErrors.begin();
+!!!135793.cpp!!!	~Errors()
+  this->occurredErrors.clear();
+!!!142076.cpp!!!	getNextError(out name : std::string, out description : std::string) : void
+  if(iter == this->occurredErrors.end()){
+    iter = this->occurredErrors.begin();
+  }else{
+    iter++;
+  }
+  name = iter->first;
+  description = iter->second;
+!!!142204.cpp!!!	getAllErrors(out allErrors : map<std::string, std::string>) : void
+  allErrors = this->occurredErrors;
+!!!135537.cpp!!!	getAmountOfErrors() : uint
+  return this->occurredErrors.size();
+!!!135921.cpp!!!	addError(in name : string, in description : string) : void
+  this->occurredErrors[name] = description;
+  //  std::cout << "ERROR: " << name << " " << description << std::endl;
+
+
+  LOG(error) << name << ": " << description;
+
+!!!136049.cpp!!!	deleteAllErrors() : void
+  this->occurredErrors.clear();
+!!!195185.cpp!!!	printErrorsToConsole() : void
+  map<std::string,std::string>::iterator iterator;;
+  for(iterator = this->occurredErrors.begin();iterator != this->occurredErrors.end(); iterator++){
+    std::cout << iterator->first << ": " << iterator->second << std::endl;
+  }
+

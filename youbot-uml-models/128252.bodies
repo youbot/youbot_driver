@@ -1,0 +1,44 @@
+class LaserScannerData
+!!!128636.cpp!!!	LaserScannerData()
+
+  
+!!!128764.cpp!!!	~LaserScannerData()
+
+!!!173169.cpp!!!	getMesasurementIterator(out rangesIterator : std::vector< quantity<length> >::iterator, out rangeAnglesIterator : std::vector< quantity<plane_angle> >::iterator) : void
+
+!!!128892.cpp!!!	getMeasurements(out ranges : std::vector< quantity<length> >, out rangeAngles : std::vector< quantity<plane_angle> >) : void
+  ranges = this->ranges;
+  rangeAngles = this->rangeAngles;
+!!!165873.cpp!!!	setMeasurements(in ranges : std::vector< quantity<length> >, in rangeAngles : std::vector< quantity<plane_angle> >) : void
+  this->ranges = ranges;
+  this->rangeAngles = rangeAngles;
+!!!166001.cpp!!!	setMeasurements(in ranges : double*, in rangeAngles : double*, in numRanges : unsigned int, in rangeUnit : boost::units::si::length, in angleUnit : boost::units::si::plane_angle) : void
+  this->ranges.clear();
+  this->rangeAngles.clear();
+  
+  for(unsigned int i=0; i< numRanges; i++){
+      this->ranges.push_back(ranges[i] * rangeUnit);
+      this->rangeAngles.push_back(rangeAngles[i] * angleUnit);
+  }
+
+!!!173553.cpp!!!	setMeasurements(in ranges : unsigned int*, in rangeAngles : double*, in numRanges : unsigned int, in rangeUnit : boost::units::si::length, in angleUnit : boost::units::si::plane_angle) : void
+  this->ranges.clear();
+  this->rangeAngles.clear();
+  
+  for(unsigned int i=0; i< numRanges; i++){
+      this->ranges.push_back(((double)ranges[i]) * rangeUnit);
+      this->rangeAngles.push_back(rangeAngles[i] * angleUnit);
+  }
+
+!!!180209.cpp!!!	setMeasurements(in ranges : std::vector<double>, in rangeAngles : std::vector<double>, in rangeUnit : boost::units::si::length, in angleUnit : boost::units::si::plane_angle) : void
+  if(ranges.size() != rangeAngles.size()){
+    return;
+  }
+  this->ranges.clear();
+  this->rangeAngles.clear();
+  
+  for(unsigned int i=0; i< ranges.size(); i++){
+      this->ranges.push_back((ranges[i]) * rangeUnit);
+      this->rangeAngles.push_back(rangeAngles[i] * angleUnit);
+  }
+

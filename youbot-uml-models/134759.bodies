@@ -1,0 +1,5 @@
+class SickS300Configuration
+!!!136423.cpp!!!	SickS300Configuration(in source : SickS300Configuration)
+  (*this)=source;
+!!!136551.cpp!!!	operator=(in source : SickS300Configuration) : SickS300Configuration
+  (*this)=source;

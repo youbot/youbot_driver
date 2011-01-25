@@ -1,0 +1,17 @@
+class EncoderResolution
+!!!463857.cpp!!!	EncoderResolution()
+    this->name = "EncoderResolution";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!464113.cpp!!!	getParameter(out parameter : uint) : void
+    parameter = this->value;
+!!!464241.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
+
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 250; //EncoderResolution
+    message.stctOutput.value = value;
+
+!!!467825.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+      this->value = message.stctInput.value;
+    }

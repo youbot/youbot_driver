@@ -1,0 +1,14 @@
+window_sizes 1680 998 301 1373 751 170
+diagrams
+  active  classdiagram_ref 128124 // LaserScannerInterface
+    1373 883 100 2 0 0
+end
+show_stereotypes
+selected operation_ref 142204 // getDescription
+open
+  class_ref 128124 // LaserScannerConfiguration
+  class_ref 134908 // LaserScannerDataWithIntensities
+  class_ref 135036 // Error
+  deploymentview_ref 128124 // Deployment
+end
+end

@@ -1,0 +1,297 @@
+class MesaSwissRanger
+!!!205169.cpp!!!	MesaSwissRanger()
+  this->isConnected = false;
+!!!205297.cpp!!!	~MesaSwissRanger()
+  Errors error;
+  this->close(error);
+!!!212465.cpp!!!	open(out error : Errors) : bool
+
+  if (this->isConnected) {
+    return true;
+  }
+
+  if (SR_OpenUSB(&srCam, 0) <= 0) {
+    error.addError("unable_to_initialize", "unable to initialize the Mesa SwissRanger");
+    this->isConnected = false;
+    return false;
+  }
+  this->isConnected = true;
+  LOG( trace) << "connection to Mesa SwissRanger initialized";
+ // SR_Acquire(srCam);
+ // LOG( trace) << "acquisition from Mesa SwissRanger started";
+  return true;
+!!!205425.cpp!!!	close(out error : Errors) : bool
+  int returnValue = -3;
+  returnValue = SR_Close(srCam);
+
+  if (returnValue >= 0) {
+    LOG( trace) << "connection to Mesa SwissRanger cosed";
+    return true;
+  }
+
+  switch (returnValue) {
+    case -1:
+      error.addError("unable_to_uninitialize", "wrong device selected for Mesa SwissRanger");
+      break;
+    case -2:
+      error.addError("unable_to_uninitialize", "can't release interface for Mesa SwissRanger");
+      break;
+    case -3:
+      error.addError("unable_to_uninitialize", "can't close device for Mesa SwissRanger");
+      break;
+    default:
+      error.addError("unable_to_uninitialize", "unable to close the Mesa SwissRanger");
+      break;
+  }
+  return false;
+
+!!!205553.cpp!!!	setConfiguration(in configuration : ToFCameraConfiguration, out error : Errors) : bool
+  if (!this->open(error)) {
+    return false;
+  }
+
+  this->getConfiguration(config, error);
+
+  SR_SetMode(srCam, AM_COR_FIX_PTRN);
+
+  unsigned char intTime = 0;
+  
+
+  /*
+  Sets the Integration time of the camera The intTime is a value from 0 to 255.
+  The integration time in ms depends on the camera:
+  SR2A        intTime*0.256 ms
+  SR2B,SR3k 	(intTime+1)*0.200 ms
+  SR4k        0.300ms+(intTime)*0.100 ms
+   */
+  if (config.product == "SR2A") {
+    intTime = (configuration.integrationTime.value() * 1000.0) / 0.256;
+    SR_SetIntegrationTime(srCam, intTime);
+    LOG( trace) << "set integration time: " << configuration.integrationTime;
+  } else if (config.product == "SR2B" || config.product == "SR-3100") {
+    intTime = ((configuration.integrationTime.value() * 1000.0) / 0.200) - 1.0;
+    SR_SetIntegrationTime(srCam, intTime);
+    LOG( trace) << "set integration time: " << configuration.integrationTime;
+  } else if (config.product == "SR4k") {
+    intTime = (((configuration.integrationTime.value() * 1000.0) - 0.300) / 0.100);
+    SR_SetIntegrationTime(srCam, intTime);
+    LOG( trace) << "set integration time: " << configuration.integrationTime;
+  } else {
+    error.addError("unable_to_set_Integration_Time", "unable to set Integration Time for the Mesa SwissRanger");
+  }
+
+  /*
+  Enumerator:
+      MF_40MHz 	SR3k: maximal range 3.75m.
+      MF_30MHz 	SR3k, SR4k: maximal range 5m.
+      MF_21MHz 	SR3k: maximal range 7.14m.
+      MF_20MHz 	SR3k: maximal range 7.5m.
+      MF_19MHz 	SR3k: maximal range 7.89m.
+      MF_60MHz 	SR4k: maximal range 2.5m This frequency is for internal testing and should not be used.
+      MF_15MHz 	SR4k: maximal range 10m This frequency is for internal testing and should not be used.
+      MF_10MHz 	SR4k: maximal range 15m This frequency is for internal testing and should not be used.
+      MF_29MHz 	SR4k: maximal range 5.17m.
+      MF_31MHz 	SR4k: maximal range 4.84m.
+      MF_14_5MHz 	SR4k: maximal range 10.34m This frequency is for internal testing and should not be used.
+      MF_15_5MHz 	SR4k: maximal range 9.68m This frequency is for internal testing and should not be used.
+   */
+  int returnValue = -1;
+  switch ((int) configuration.modulationFrequency.value()) {
+    case 40000:
+      returnValue = SR_SetModulationFrequency(srCam, MF_40MHz);
+      break;
+    case 30000:
+      returnValue = SR_SetModulationFrequency(srCam, MF_30MHz);
+      break;
+    case 21000:
+      returnValue = SR_SetModulationFrequency(srCam, MF_21MHz);
+      break;
+    case 20000:
+      returnValue = SR_SetModulationFrequency(srCam, MF_20MHz);
+      break;
+    case 19000:
+      returnValue = SR_SetModulationFrequency(srCam, MF_19MHz);
+      break;
+    case 60000:
+      returnValue = SR_SetModulationFrequency(srCam, MF_60MHz);
+      break;
+    case 15000:
+      returnValue = SR_SetModulationFrequency(srCam, MF_15MHz);
+      break;
+    case 10000:
+      returnValue = SR_SetModulationFrequency(srCam, MF_10MHz);
+      break;
+    case 29000:
+      returnValue = SR_SetModulationFrequency(srCam, MF_29MHz);
+      break;
+    case 31000:
+      returnValue = SR_SetModulationFrequency(srCam, MF_31MHz);
+      break;
+    case 14500:
+      returnValue = SR_SetModulationFrequency(srCam, MF_14_5MHz);
+      break;
+    case 15500:
+      returnValue = SR_SetModulationFrequency(srCam, MF_15_5MHz);
+      break;
+    default:
+      returnValue -1;
+      break;
+  }
+  if(returnValue < 0){
+    error.addError("unable_to_set_Modulation_Frequency", "unable to set the Modulation Frequency for the Mesa SwissRanger");
+  }else{
+    LOG( trace) << "set modulation frequency: " << configuration.modulationFrequency;
+  }
+
+  // int 	SR_SetAmplitudeThreshold (SRCAM srCam, unsigned short val)
+  // int 	SR_SetDistanceOffset (SRCAM srCam, unsigned short distOfs)
+  // int 	SR_SetAutoExposure (SRCAM srCam, unsigned char minIntTime, unsigned char maxIntTime, unsigned char percentOverPos, unsigned char desiredPos)
+!!!205681.cpp!!!	getConfiguration(out configuration : ToFCameraConfiguration, out error : Errors) : bool
+  if (!this->open(error)) {
+    return false;
+  }
+  acquireMode = (AcquireMode) SR_GetMode(srCam);
+
+  configuration.serialNumber;
+  std::stringstream dummyStream;
+  dummyStream << SR_ReadSerial(srCam);
+  configuration.serialNumber = dummyStream.str();
+
+  int bufferLenght = 255;
+  char buffer[bufferLenght];
+  SR_GetDeviceString(srCam, buffer, bufferLenght);
+  int vendorID;
+  int productID;
+  char manufacturer[255] = {};
+  char product[255] = {};
+  sscanf(buffer, "VendorID:0x%04x, ProductID:0x%04x, Manufacturer:'%s', Product:'%s'", &vendorID, &productID, manufacturer, product);
+
+  configuration.vendor = manufacturer;
+  switch(productID){
+    case 116:
+      configuration.product = "SR-3100";
+    break;
+    default:
+      configuration.product = "";
+    break;
+  }
+  configuration.product = "SR-3100";
+
+ // LOG( trace) << "Vendor: " << configuration.vendor << " Product: " <<productID << " SN: " << configuration.serialNumber ;
+  double intTime = 0;
+
+  intTime = (double) SR_GetIntegrationTime(srCam);
+  /*
+  Sets the Integration time of the camera The intTime is a value from 0 to 255.
+  The integration time in ms depends on the camera:
+  SR2A        intTime*0.256 ms
+  SR2B,SR3k 	(intTime+1)*0.200 ms
+  SR4k        0.300ms+(intTime)*0.100 ms
+   */
+
+  if (configuration.product == "SR2A") {
+    quantity<si::time> integrationTime((intTime * 0.256) * milli * second);
+    configuration.integrationTime = integrationTime;
+    LOG( trace) << "got Integration Time: " << configuration.integrationTime;
+
+  } else if (configuration.product == "SR2B" || configuration.product == "SR-3100") {
+    quantity<si::time> integrationTime(((intTime + 1)*0.200) * milli * second);
+    configuration.integrationTime = integrationTime;
+    LOG( trace) << "got Integration Time: " << configuration.integrationTime;
+
+  } else if (configuration.product == "SR4k") {
+    quantity<si::time> integrationTime((0.300 * intTime * 0.100) * milli * second);
+    configuration.integrationTime = integrationTime;
+    LOG( trace) << "got Integration Time: " << configuration.integrationTime;
+
+  } else {
+    error.addError("unable_to_get_Integration_Time", "unable to get Integration Time for the Mesa SwissRanger");
+  }
+
+
+  /*
+  Enumerator:
+      MF_40MHz 	SR3k: maximal range 3.75m.
+      MF_30MHz 	SR3k, SR4k: maximal range 5m.
+      MF_21MHz 	SR3k: maximal range 7.14m.
+      MF_20MHz 	SR3k: maximal range 7.5m.
+      MF_19MHz 	SR3k: maximal range 7.89m.
+      MF_60MHz 	SR4k: maximal range 2.5m This frequency is for internal testing and should not be used.
+      MF_15MHz 	SR4k: maximal range 10m This frequency is for internal testing and should not be used.
+      MF_10MHz 	SR4k: maximal range 15m This frequency is for internal testing and should not be used.
+      MF_29MHz 	SR4k: maximal range 5.17m.
+      MF_31MHz 	SR4k: maximal range 4.84m.
+      MF_14_5MHz 	SR4k: maximal range 10.34m This frequency is for internal testing and should not be used.
+      MF_15_5MHz 	SR4k: maximal range 9.68m This frequency is for internal testing and should not be used.
+   */
+  switch (SR_GetModulationFrequency (srCam)) {
+    case MF_40MHz:
+      configuration.modulationFrequency = 40000 * hertz;
+      break;
+    case MF_30MHz:
+      configuration.modulationFrequency = 30000 * hertz;
+      break;
+    case MF_21MHz:
+      configuration.modulationFrequency = 21000 * hertz;
+      break;
+    case MF_20MHz:
+      configuration.modulationFrequency = 20000 * hertz;
+      break;
+    case MF_19MHz:
+      configuration.modulationFrequency = 19000 * hertz;
+      break;
+    case MF_60MHz:
+      configuration.modulationFrequency = 60000 * hertz;
+      break;
+    case MF_15MHz:
+      configuration.modulationFrequency = 15000 * hertz;
+      break;
+    case MF_10MHz:
+      configuration.modulationFrequency = 10000 * hertz;
+      break;
+    case MF_29MHz:
+      configuration.modulationFrequency = 29000 * hertz;
+      break;
+    case MF_31MHz:
+      configuration.modulationFrequency = 31000 * hertz;
+      break;
+    case MF_14_5MHz:
+      configuration.modulationFrequency = 14500 * hertz;
+      break;
+    case MF_15_5MHz:
+      configuration.modulationFrequency = 15500 * hertz;
+      break;
+    default:
+      error.addError("unable_to_get_Modulation_Frequency", "unable to get the Modulation Frequency for the Mesa SwissRanger");
+      break;
+  }
+
+  LOG( trace) << "got modulation frequency: " << configuration.modulationFrequency;
+
+
+  // unsigned short 	SR_GetAmplitudeThreshold (SRCAM srCam)
+  // unsigned short 	SR_GetDistanceOffset (SRCAM srCam)
+    
+!!!205809.cpp!!!	getData(out data : ToFCameraData, out error : Errors) : bool
+  if (!this->open(error)) {
+    return false;
+  }
+  std::vector<void*> imagePointer;
+  for (unsigned char i = 0; i < SR_GetImageList(srCam, NULL); i++) {
+    imagePointer.push_back(SR_GetImage(srCam, i));
+  }
+!!!205937.cpp!!!	resetDevice(out error : Errors) : bool
+  error.addError("unable_to_reset_device", "unable to reset the Mesa SwissRanger");
+!!!219121.cpp!!!	reserveMemory() : bool
+//_imgSz.cx=SR_GetCols(srCam);
+//_imgSz.cy=SR_GetRows(srCam);
+//_numImgages=SR_GetImageList(srCam,&_imgEntryArray);
+//
+//SAFE_FREE(_dibCam);
+//_dibCam=(RGBQUAD*)malloc(_imgSz.cx*_imgSz.cy*_numImg*sizeof(RGBQUAD));//RGBQUAD,  RGBTRIPLE, BYTE, WORD
+//_bmiCam->bmiHeader.biWidth =_imgSz.cx;
+//_bmiCam->bmiHeader.biHeight=-_numImg*_imgSz.cy;
+//
+//SAFE_FREE(_z);
+// _z=(float*)malloc(_imgSz.cx*_imgSz.cy*sizeof(float));
+

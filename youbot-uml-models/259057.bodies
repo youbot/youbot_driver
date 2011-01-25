@@ -1,0 +1,7 @@
+class CalibrateGripper
+!!!390129.cpp!!!	CalibrateGripper()
+    this->name = "CalibrateGripper";
+!!!390385.cpp!!!	getParameter(out parameter : bool) : void
+    parameter = this->value;
+!!!390513.cpp!!!	setParameter(in parameter : bool) : void
+    this->value = parameter;

@@ -1,0 +1,17 @@
+class ActivateOvervoltageProtection
+!!!537457.cpp!!!	ActivateOvervoltageProtection()
+    this->name = "ActivateOvervoltageProtection";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!537713.cpp!!!	getParameter(out parameter : bool) : void
+    parameter = this->value;
+!!!537841.cpp!!!	setParameter(in parameter : bool) : void
+    this->value = parameter;
+!!!537969.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
+
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 245; //ActivateOvervoltageProtection
+    message.stctOutput.value = value;
+
+!!!538097.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
+    this->value = message.stctInput.value; 

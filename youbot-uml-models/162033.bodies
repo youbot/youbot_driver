@@ -1,0 +1,11 @@
+class JointConfiguration
+!!!309105.cpp!!!	JointConfiguration()
+    gearRatio = 1.0;
+!!!310257.cpp!!!	getGearRatio() : double
+    return this->gearRatio;
+!!!310129.cpp!!!	setGearRatio(in ratio : double) : void
+    if (ratio == 0) {
+      throw ExceptionOODL("A Gear Ratio of 0 is not allowed");
+    } else {
+      this->gearRatio = ratio;
+    }

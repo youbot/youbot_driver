@@ -1,0 +1,163 @@
+class YouBotBase
+!!!425585.cpp!!!	YouBotBase(in name : string, in configFilePath : string = "../config/")
+
+  string filename;
+  filename = configFilePath;
+  filename.append(name);
+  filename.append(".cfg");
+
+  this->configFilePath = configFilePath;
+  this->ethercatConfigFileName = "youbot-ethercat.cfg";
+
+  if(!configfile.load(filename.c_str()))
+      throw FileNotFoundException(filename + " file no found");
+
+  this->initializeJoints();
+
+  this->initializeKinematic();
+
+!!!325489.cpp!!!	getBaseJoint(in baseJointNumber : uint) : YouBotJoint&
+    if (baseJointNumber <= 0 || baseJointNumber > 4 ) {
+      throw std::out_of_range("Invalid Joint Number");
+    }
+    return joints[baseJointNumber - 1];
+!!!333041.cpp!!!	getBasePosition(out longitudinalPosition : quantity<si::length>, out transversalPosition : quantity<si::length>, out orientation : quantity<plane_angle>) : void
+
+    std::vector<quantity<plane_angle> > wheelPositions;
+    quantity<plane_angle> dummy;
+    JointSensedAngle sensedPos;
+    wheelPositions.assign(4, dummy);
+
+    joints[0].getData(sensedPos);
+    wheelPositions[0] = sensedPos.angle;
+    joints[1].getData(sensedPos);
+    wheelPositions[1] = sensedPos.angle;
+    joints[2].getData(sensedPos);
+    wheelPositions[2] = sensedPos.angle;
+    joints[3].getData(sensedPos);
+    wheelPositions[3] = sensedPos.angle;
+
+    youBotBaseKinematic.wheelPositionsToCartesianPosition(wheelPositions, longitudinalPosition, transversalPosition, orientation);
+!!!332401.cpp!!!	getBaseVelocity(out longitudinalVelocity : quantity<si::velocity>, out transversalVelocity : quantity<si::velocity>, out angularVelocity : quantity<si::angular_velocity>) : void
+
+    std::vector<quantity<angular_velocity> > wheelVelocities;
+    quantity<angular_velocity> dummy;
+    JointSensedVelocity sensedVel;
+    wheelVelocities.assign(4, dummy);
+
+    joints[0].getData(sensedVel);
+    wheelVelocities[0] = sensedVel.angularVelocity;
+    joints[1].getData(sensedVel);
+    wheelVelocities[1] = sensedVel.angularVelocity;
+    joints[2].getData(sensedVel);
+    wheelVelocities[2] = sensedVel.angularVelocity;
+    joints[3].getData(sensedVel);
+    wheelVelocities[3] = sensedVel.angularVelocity;
+
+    youBotBaseKinematic.wheelVelocitiesToCartesianVelocity(wheelVelocities, longitudinalVelocity, transversalVelocity, angularVelocity);
+
+!!!318833.cpp!!!	setBaseVelocity(in longitudinalVelocity : quantity<si::velocity>, in transversalVelocity : quantity<si::velocity>, in angularVelocity : quantity<si::angular_velocity>) : void
+
+    std::vector<quantity<angular_velocity> > wheelVelocities;
+    JointVelocitySetpoint setVel;
+
+    youBotBaseKinematic.cartesianVelocityToWheelVelocities(longitudinalVelocity, transversalVelocity, angularVelocity, wheelVelocities);
+
+    if (wheelVelocities.size() < 4)
+      throw std::out_of_range("To less wheel velocities");
+
+    EthercatMaster::getInstance().AutomaticSendOn(false);
+    setVel.angularVelocity = wheelVelocities[0];
+    joints[0].setData(setVel, NON_BLOCKING);
+    setVel.angularVelocity = wheelVelocities[1];
+    joints[1].setData(setVel, NON_BLOCKING);
+    setVel.angularVelocity = wheelVelocities[2];
+    joints[2].setData(setVel, NON_BLOCKING);
+    setVel.angularVelocity = wheelVelocities[3];
+    joints[3].setData(setVel, NON_BLOCKING);
+    EthercatMaster::getInstance().AutomaticSendOn(true);
+!!!287985.cpp!!!	initializeJoints() : void
+
+    LOG(info) << "Initializing Joints";
+
+    //get number of slaves
+    unsigned int noSlaves = EthercatMaster::getInstance(this->ethercatConfigFileName, this->configFilePath).getNumberOfSlaves();
+
+    if(noSlaves < 4){
+      throw std::out_of_range("Not enough ethercat slaves were found to create a YouBotBase!");
+    }
+    
+    //read Joint Topology from config file
+    configfile.setSection("JointTopology");
+
+    //check if enough slave exist to create YouBotJoint for the slave numbers from config file
+    //if enough slave exist create YouBotJoint and store it in the joints vector
+    unsigned int slaveNumber = configfile.getIntValue("BaseLeftFront");
+    if(slaveNumber  <= noSlaves){
+      joints.push_back(YouBotJoint(slaveNumber));
+    }else{
+      throw std::out_of_range("The ethercat slave number is not available!");
+    }
+
+    slaveNumber = configfile.getIntValue("BaseRightFront");
+    if(slaveNumber  <= noSlaves){
+      joints.push_back(YouBotJoint(slaveNumber));
+    }else{
+      throw std::out_of_range("The ethercat slave number is not available!");
+    }
+
+    slaveNumber = configfile.getIntValue("BaseLeftBack");
+    if(slaveNumber  <= noSlaves){
+      joints.push_back(YouBotJoint(slaveNumber));
+    }else{
+      throw std::out_of_range("The ethercat slave number is not available!");
+    }
+
+    slaveNumber = configfile.getIntValue("BaseRightBack");
+    if(slaveNumber  <= noSlaves){
+      joints.push_back(YouBotJoint(slaveNumber));
+    }else{
+      throw std::out_of_range("The ethercat slave number is not available!");
+    }
+
+
+    //Configure Joint Parameters
+    std::string jointName;
+    JointName jName;
+    GearRatio gearRatio;
+    EncoderTicksPerRound ticksPerRound;
+    InverseMovementDirection inverseDir;
+
+
+    for (unsigned int i = 0; i < 4; i++) {
+      std::stringstream jointNameStream;
+      jointNameStream << "Joint_" << i + 1;
+      jointName = jointNameStream.str();
+      configfile.setSection(jointName.c_str());
+
+      jName.setParameter(configfile.getStringValue("JointName"));
+      double gearRatio_numerator = configfile.getIntValue("GearRatio_numerator");
+      double gearRatio_denominator = configfile.getIntValue("GearRatio_denominator");
+      gearRatio.setParameter(gearRatio_numerator / gearRatio_denominator);
+      ticksPerRound.setParameter(configfile.getIntValue("EncoderTicksPerRound"));
+      inverseDir.setParameter(configfile.getBoolValue("InverseMovementDirection"));
+
+      joints[i].setConfigurationParameter(jName);
+      joints[i].setConfigurationParameter(gearRatio);
+      joints[i].setConfigurationParameter(ticksPerRound);
+      joints[i].setConfigurationParameter(inverseDir);
+    }
+
+    return;
+!!!318961.cpp!!!	initializeKinematic() : void
+    FourSwedishWheelOmniBaseKinematicConfiguration kinematicConfig;
+
+    //read the kinematics parameter from a config file
+    configfile.setSection("YouBotKinematic");
+    kinematicConfig.rotationRatio = configfile.getIntValue("RotationRatio");
+    kinematicConfig.slideRatio = configfile.getIntValue("SlideRatio");
+    kinematicConfig.lengthBetweenFrontAndRearWheels = configfile.getDoubleValue("LengthBetweenFrontAndRearWheels_[meter]") * meter;
+    kinematicConfig.lengthBetweenFrontWheels = configfile.getDoubleValue("LengthBetweenFrontWheels_[meter]") * meter;
+    kinematicConfig.wheelRadius = configfile.getDoubleValue("WheelRadius_[meter]") * meter;
+
+    youBotBaseKinematic.setConfiguration(kinematicConfig);

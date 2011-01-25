@@ -1,0 +1,15 @@
+class VelocityErrorSum
+!!!533361.cpp!!!	VelocityErrorSum()
+    this->name = "VelocityErrorSum";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!533617.cpp!!!	getParameter(out parameter : quantity<si::angular_velocity>) : void
+    parameter = this->value;
+!!!533873.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
+
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 229; //VelocityErrorSum
+ //   message.stctOutput.value = value;
+
+!!!534001.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
+    this->value = ((((double)message.stctInput.value) / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;

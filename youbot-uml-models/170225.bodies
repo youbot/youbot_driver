@@ -1,0 +1,445 @@
+class YouBotJoint
+!!!266993.cpp!!!	YouBotJoint(in jointNo : uint)
+    this->jointNumber = jointNo;
+    timeTillNextMailboxUpdate = EthercatMaster::getInstance().timeTillNextEthercatUpdate * 2;
+    mailboxMsgRetries = 30;
+    this->storage.inverseMovementDirection = false;
+    this->storage.lowerLimit = 0;
+    this->storage.upperLimit = 0;
+!!!475761.cpp!!!	setConfigurationParameter(in parameter : JointParameter) : void
+  throw std::runtime_error("Please use YouBotJointParameters");
+!!!380529.cpp!!!	getConfigurationParameter(out parameter : JointParameter) : void
+  throw std::runtime_error("Please use YouBotJointParameters");
+!!!466929.cpp!!!	getConfigurationParameter(out parameter : YouBotJointParameterReadOnly) : void
+
+    if (parameter.getType() == MOTOR_CONTOLLER_PARAMETER) {
+
+      YouBotSlaveMailboxMsg message;
+      parameter.getYouBotMailboxMsg(message, GAP, storage);
+
+      if (retrieveValueFromMotorContoller(message)) {
+        parameter.setYouBotMailboxMsg(message, storage);
+      } else {
+        throw JointParameterException("Unable to get parameter: " + parameter.getName() + " to joint: " + this->jointName);
+      }
+    }
+!!!376049.cpp!!!	getConfigurationParameter(out parameter : YouBotJointParameter) : void
+    if (parameter.getType() == MOTOR_CONTOLLER_PARAMETER) {
+
+      YouBotSlaveMailboxMsg message;
+      parameter.getYouBotMailboxMsg(message, GAP, storage);
+
+      if (retrieveValueFromMotorContoller(message)) {
+        parameter.setYouBotMailboxMsg(message, storage);
+      } else {
+        throw JointParameterException("Unable to get parameter: " + parameter.getName() + " to joint: " + this->jointName);
+      }
+    }
+!!!375921.cpp!!!	setConfigurationParameter(in parameter : YouBotJointParameter) : void
+    if (parameter.getType() == MOTOR_CONTOLLER_PARAMETER) {
+
+      YouBotSlaveMailboxMsg message;
+      parameter.getYouBotMailboxMsg(message, SAP, storage);
+
+      if (!setValueToMotorContoller(message)) {
+        throw JointParameterException("Unable to set parameter: " + parameter.getName() + " to joint: " + this->jointName);
+      }
+    }
+!!!475377.cpp!!!	getConfigurationParameter(out parameter : JointName) : void
+    parameter.value = this->jointName;
+!!!380401.cpp!!!	setConfigurationParameter(in parameter : JointName) : void
+    this->jointName = parameter.value;
+!!!475505.cpp!!!	getConfigurationParameter(out parameter : GearRatio) : void
+    parameter.value = this->storage.gearRatio;
+!!!475121.cpp!!!	setConfigurationParameter(in parameter : GearRatio) : void
+    if (parameter.value == 0) {
+      throw std::out_of_range("A Gear Ratio of zero is not allowed");
+    }
+    this->storage.gearRatio = parameter.value;
+!!!475633.cpp!!!	getConfigurationParameter(out parameter : EncoderTicksPerRound) : void
+    parameter.value = this->storage.encoderTicksPerRound;
+!!!475249.cpp!!!	setConfigurationParameter(in parameter : EncoderTicksPerRound) : void
+    if (parameter.value == 0) {
+      throw std::out_of_range("Zero Encoder Ticks per Round are not allowed");
+    }
+    this->storage.encoderTicksPerRound = parameter.value;
+!!!402417.cpp!!!	setConfigurationParameter(in parameter : CalibrateJoint) : void
+    if (parameter.doCalibration) {
+      LOG(info) << "Calibrate Joint: " << this->jointName;
+
+      int calibrationVel = 0; //rpm
+      YouBotSlaveMsg messageBuffer;
+      messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
+      if (parameter.calibrationDirection == POSITIV) {
+        calibrationVel = 1;
+      } else if (parameter.calibrationDirection == NEGATIV) {
+        calibrationVel = -1;
+      } else {
+        throw std::runtime_error("No calibration direction for joint: " + this->jointName);
+      }
+
+      if (this->storage.inverseMovementDirection == true) {
+        calibrationVel *= -1;
+      }
+
+
+      //we need some movements in velocity control to do sinus commutation
+      //    LOG(info) << "Do sinus commutation for joint: " << this->jointName;
+
+      JointSensedAngle sensedAngle;
+      JointSensedCurrent sensedCurrent;
+      quantity<plane_angle> maxAngle;
+      quantity<plane_angle> difAngle;
+      JointSensedAngle startAngle;
+
+      maxAngle = 5.0 * M_PI / 180.0 * radian;
+      this->getData(startAngle);
+      //turn in calibration direction
+      messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
+      messageBuffer.stctOutput.positionOrSpeed = calibrationVel;
+      EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+
+      while ((abs(sensedCurrent.current) < abs(parameter.maxCurrent)) && (abs(sensedAngle.angle - startAngle.angle) < abs(maxAngle))) {
+        SLEEP_MILLISEC(timeTillNextMailboxUpdate);
+        this->getData(sensedAngle);
+        this->getData(sensedCurrent);
+      }
+
+      messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
+      messageBuffer.stctOutput.positionOrSpeed = 0;
+      EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+      SLEEP_MILLISEC(500);
+
+      //check if the joint has moved enough otherwise move in other direction
+      if (abs(sensedAngle.angle - startAngle.angle) < abs(maxAngle)) {
+        //   LOG(info) << "turn in other direction ";
+        this->getData(startAngle);
+        messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
+        messageBuffer.stctOutput.positionOrSpeed = -calibrationVel;
+        EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+
+        sensedCurrent.current = 0;
+        while ((abs(sensedCurrent.current) < abs(parameter.maxCurrent)) && (abs(sensedAngle.angle - startAngle.angle) < abs(maxAngle))) {
+          SLEEP_MILLISEC(timeTillNextMailboxUpdate);
+          this->getData(sensedAngle);
+          this->getData(sensedCurrent);
+        }
+
+        messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
+        messageBuffer.stctOutput.positionOrSpeed = 0;
+        EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+        SLEEP_MILLISEC(500);
+      }
+      if (abs(sensedAngle.angle - startAngle.angle) < abs(maxAngle)) {
+        throw std::runtime_error("Unable to do sinus commutation for joint: " + this->jointName);
+      }
+
+
+      //   LOG(info) << "Sinus commutation finished for joint: " << this->jointName;
+
+      messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
+      messageBuffer.stctOutput.positionOrSpeed = calibrationVel;
+      EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+
+      sensedCurrent.current = 0;
+      //turn till a max current is reached
+      while (abs(sensedCurrent.current) < abs(parameter.maxCurrent)) {
+        SLEEP_MILLISEC(timeTillNextMailboxUpdate);
+        this->getData(sensedCurrent);
+      }
+
+      //stop movement
+      messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
+      messageBuffer.stctOutput.positionOrSpeed = 0;
+      //   LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.positionOrSpeed << " rad_sec " << data.angularVelocity;
+      EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+
+      //set encoder reference position
+      SLEEP_MILLISEC(500);
+      messageBuffer.stctOutput.controllerMode = SET_POSITION_TO_REFERENCE;
+      messageBuffer.stctOutput.positionOrSpeed = 0;
+      EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+
+      //switch to position controll
+      SLEEP_MILLISEC(100);
+      messageBuffer.stctOutput.controllerMode = POSITION_CONTROL;
+      messageBuffer.stctOutput.positionOrSpeed = 0;
+      //   LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.positionOrSpeed << " rad_sec " << data.angularVelocity;
+      EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+
+      //     LOG(info) << "Calibration finished for joint: " << this->jointName;
+    }
+
+!!!402673.cpp!!!	setConfigurationParameter(in parameter : InverseMovementDirection) : void
+
+    this->storage.inverseMovementDirection = parameter.value;
+
+!!!410353.cpp!!!	setConfigurationParameter(in parameter : JointLimits) : void
+
+    this->storage.lowerLimit = parameter.lowerLimit;
+    this->storage.upperLimit = parameter.upperLimit;
+
+!!!418929.cpp!!!	setConfigurationParameter(in parameter : StopJoint) : void
+    if (parameter.value) {
+      YouBotSlaveMsg messageBuffer;
+      messageBuffer.stctOutput.controllerMode = MOTOR_STOP;
+      messageBuffer.stctOutput.positionOrSpeed = 0;
+
+      EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+    }
+!!!419057.cpp!!!	setConfigurationParameter(in parameter : NoMoreAction) : void
+    if (parameter.value) {
+      YouBotSlaveMsg messageBuffer;
+      messageBuffer.stctOutput.controllerMode = NO_MORE_ACTION;
+      messageBuffer.stctOutput.positionOrSpeed = 0;
+
+      EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+    }
+!!!267249.cpp!!!	setData(in data : JointDataSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
+    LOG(info) << "Nothing to do";
+!!!267377.cpp!!!	getData(out data : JointData) : void
+    LOG(info) << "Nothing to do";
+!!!246257.cpp!!!	setData(in data : JointAngleSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
+
+    if (storage.gearRatio == 0) {
+      throw std::out_of_range("A Gear Ratio of zero is not allowed");
+    }
+
+
+    quantity<plane_angle> lowLimit = ((double) this->storage.lowerLimit / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
+    quantity<plane_angle> upLimit = ((double) this->storage.upperLimit / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
+
+    if (!((data.angle < upLimit) && (data.angle > lowLimit))) {
+      std::stringstream errorMessageStream;
+      errorMessageStream << "The setpoint angle is out of range. The valid range is between " << lowLimit << " and " << upLimit;
+      //    LOG(trace) << "abs_value: " << abs(data.angle) << " abslow " << abs(lowLimit) << " absupper " << abs(upLimit);
+      throw std::out_of_range(errorMessageStream.str());
+    }
+
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer.stctOutput.controllerMode = POSITION_CONTROL;
+    messageBuffer.stctOutput.positionOrSpeed = (int32) round((data.angle.value() * ((double) storage.encoderTicksPerRound / (2.0 * M_PI))) / storage.gearRatio);
+
+
+    if (storage.inverseMovementDirection) {
+      messageBuffer.stctOutput.positionOrSpeed *= -1;
+    }
+    //   LOG(trace) << "value: " << data.angle << " gear " << gearRatio << " encoderperRound " << encoderTicksPerRound << " encPos " << messageBuffer.stctOutput.positionOrSpeed << " joint " << this->jointNumber;
+    EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+!!!253169.cpp!!!	getData(out data : JointSensedAngle) : void
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    this->parseYouBotErrorFlags(messageBuffer);
+
+    if (storage.gearRatio == 0) {
+      throw std::out_of_range("A Gear Ratio of zero is not allowed");
+    }
+    if (storage.encoderTicksPerRound == 0) {
+      throw std::out_of_range("Zero Encoder Ticks per Round are not allowed");
+    }
+    //  LOG(trace) << "enc: " << messageBuffer.stctInput.actualPosition;
+    data.angle = ((double) messageBuffer.stctInput.actualPosition / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
+
+    if (storage.inverseMovementDirection) {
+      data.angle = -data.angle;
+    }
+!!!246641.cpp!!!	setData(in data : JointVelocitySetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
+
+    if (storage.gearRatio == 0) {
+      throw std::out_of_range("A Gear Ratio of 0 is not allowed");
+    }
+
+    messageBuffer.stctOutput.positionOrSpeed = (int32) round((data.angularVelocity.value() / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
+    if (storage.inverseMovementDirection) {
+      messageBuffer.stctOutput.positionOrSpeed *= -1;
+    }
+
+    //  LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.positionOrSpeed << " rad_sec " << data.angularVelocity;
+    EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+!!!253297.cpp!!!	getData(out data : JointSensedVelocity) : void
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    this->parseYouBotErrorFlags(messageBuffer);
+
+    if (storage.gearRatio == 0) {
+      throw std::out_of_range("A Gear Ratio of 0 is not allowed");
+    }
+    double motorRPM = messageBuffer.stctInput.actualVelocity;
+    //convert RPM of the motor to radian per second of the wheel/joint
+    data.angularVelocity = ((motorRPM / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
+!!!246385.cpp!!!	getData(out data : JointSensedTemperature) : void
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    this->parseYouBotErrorFlags(messageBuffer);
+
+    //the formular is taken from the TMCM-174/841: EtherCAT Communication Protocol
+    data.temperature = (25.0 + (((messageBuffer.stctInput.driverTemperature - 1.43) / (3.3 * 4095)) / 0.0043)) * boost::units::celsius::degree;
+ //   data.temperature = ((25.0 + ((messageBuffer.stctInput.driverTemperature * (3.3 / 4096)) - 1.43)) / 0.0043) * boost::units::celsius::degree;
+
+!!!253425.cpp!!!	getData(out data : JointSensedCurrent) : void
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    this->parseYouBotErrorFlags(messageBuffer);
+    //convert mili ampere to ampere
+    data.current = messageBuffer.stctInput.actualCurrent / 1000.0 * ampere;
+!!!281329.cpp!!!	parseYouBotErrorFlags(in messageBuffer : YouBotSlaveMsg) : void
+    std::stringstream errorMessageStream;
+    errorMessageStream << "Joint " << this->jointNumber << " ";
+    std::string errorMessage;
+    errorMessage = errorMessageStream.str();
+
+
+    if (messageBuffer.stctInput.errorFlags & OVER_CURRENT) {
+      LOG(error) << errorMessage << "got over current";
+      //    throw JointErrorException(errorMessage + "got over current");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & UNDER_VOLTAGE) {
+      LOG(error) << errorMessage << "got under voltage";
+      //    throw JointErrorException(errorMessage + "got under voltage");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & OVER_VOLTAGE) {
+      LOG(error) << errorMessage << "got over voltage";
+      //   throw JointErrorException(errorMessage + "got over voltage");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & OVER_TEMPERATURE) {
+      LOG(error) << errorMessage << "got over temperature";
+      //   throw JointErrorException(errorMessage + "got over temperature");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & HALTED) {
+      //   LOG(error) << errorMessage << "is halted";
+      //   throw JointErrorException(errorMessage + "is halted");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & HALL_SENSOR) {
+      LOG(error) << errorMessage << "got hall sensor problem";
+      //   throw JointErrorException(errorMessage + "got hall sensor problem");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & ENCODER) {
+      LOG(error) << errorMessage << "got encoder problem";
+      //   throw JointErrorException(errorMessage + "got encoder problem");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & MOTOR_WINDING) {
+      LOG(error) << errorMessage << "got motor winding problem";
+      //   throw JointErrorException(errorMessage + "got motor winding problem");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & CYCLE_TIME_VIOLATION) {
+      LOG(error) << errorMessage << "the cycle time is violated";
+      //   throw JointErrorException(errorMessage + "the cycle time is violated");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & INIT_SIN_COMM) {
+      LOG(error) << errorMessage << "need to initialize the sinus commutation";
+      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+    }
+
+!!!482289.cpp!!!	parseMailboxStatusFlags(in mailboxMsg : YouBotSlaveMailboxMsg) : void
+    std::stringstream errorMessageStream;
+    errorMessageStream << "Joint " << this->jointNumber << ": ";
+    std::string errorMessage;
+    errorMessage = errorMessageStream.str();
+
+
+    switch(mailboxMsg.stctInput.status){
+      case NO_ERROR:
+        break;
+      case INVALID_COMMAND:
+        LOG(error) << errorMessage << "Parameter name: " << mailboxMsg.parameterName << "; Command no: " << mailboxMsg.stctInput.commandNumber << " is an invalid command!" ;
+      //    throw JointParameterException(errorMessage + "invalid command");
+        break;
+      case WRONG_TYPE:
+        LOG(error) << errorMessage << "Parameter name: " << mailboxMsg.parameterName << " has a wrong type!";
+      //    throw JointParameterException(errorMessage + "wrong type");
+        break;
+      case INVALID_VALUE:
+        LOG(error) << errorMessage << "Parameter name: " << mailboxMsg.parameterName << " Value: " << mailboxMsg.stctInput.value << " is a invalid value!";
+      //    throw JointParameterException(errorMessage + "invalid value");
+        break;
+      case CONFIGURATION_EEPROM_LOCKED:
+        LOG(error) << errorMessage << "Parameter name: " << mailboxMsg.parameterName << " Configuration EEPROM locked";
+      //    throw JointParameterException(errorMessage + "configuration EEPROM locked");
+        break;
+      case COMMAND_NOT_AVAILABLE:
+        LOG(error) << errorMessage << "Parameter name: " << mailboxMsg.parameterName << "; Command no: " << mailboxMsg.stctInput.commandNumber << "Command is not available!";
+      //    throw JointParameterException(errorMessage + "command not available");
+        break;
+    }
+   
+
+!!!376177.cpp!!!	retrieveValueFromMotorContoller(out message : YouBotSlaveMailboxMsg) : bool
+
+    bool unvalid = true;
+    unsigned int retry = 0;
+
+    EthercatMaster::getInstance().setMailboxMsgBuffer(message, this->jointNumber);
+
+    SLEEP_MILLISEC(timeTillNextMailboxUpdate);
+
+    do {
+      EthercatMaster::getInstance().getMailboxMsgBuffer(message, this->jointNumber);
+      /*   LOG(trace) << "CommandNumber " << (int) message.stctInput.commandNumber
+                 << " moduleAddress " << (int) message.stctInput.moduleAddress
+                 << " replyAddress " << (int) message.stctInput.replyAddress
+                 << " status " << (int) message.stctInput.status
+                 << " value " << message.stctInput.value;
+       */
+      if (message.stctOutput.commandNumber == message.stctInput.commandNumber &&
+              message.stctInput.status == NO_ERROR) {
+        unvalid = false;
+      } else {
+        SLEEP_MILLISEC(timeTillNextMailboxUpdate);
+        retry++;
+      }
+    } while (retry < mailboxMsgRetries && unvalid);
+
+    if (unvalid) {
+      this->parseMailboxStatusFlags(message);
+      return false;
+    } else {
+      return true;
+    }
+
+!!!346865.cpp!!!	setValueToMotorContoller(in mailboxMsg : YouBotSlaveMailboxMsg) : bool
+
+    YouBotSlaveMailboxMsg mailboxMsgBuffer;
+    mailboxMsgBuffer = mailboxMsg;
+    bool unvalid = true;
+    unsigned int retry = 0;
+
+    EthercatMaster::getInstance().setMailboxMsgBuffer(mailboxMsgBuffer, this->jointNumber);
+
+    SLEEP_MILLISEC(timeTillNextMailboxUpdate);
+
+    do {
+      EthercatMaster::getInstance().getMailboxMsgBuffer(mailboxMsgBuffer, this->jointNumber);
+      /*    LOG(trace) << "CommandNumber " << (int) mailboxMsgBuffer.stctInput.commandNumber
+                  << " moduleAddress " << (int) mailboxMsgBuffer.stctInput.moduleAddress
+                  << " replyAddress " << (int) mailboxMsgBuffer.stctInput.replyAddress
+                  << " status " << (int) mailboxMsgBuffer.stctInput.status
+                  << " value " << mailboxMsgBuffer.stctInput.value;
+       */
+      if (mailboxMsgBuffer.stctOutput.commandNumber == mailboxMsgBuffer.stctInput.commandNumber &&
+              mailboxMsgBuffer.stctOutput.value == mailboxMsgBuffer.stctInput.value &&
+              mailboxMsgBuffer.stctInput.status == NO_ERROR) {
+        unvalid = false;
+      } else {
+        SLEEP_MILLISEC(timeTillNextMailboxUpdate);
+        retry++;
+      }
+    } while (retry < mailboxMsgRetries && unvalid);
+
+    if (unvalid) {
+      this->parseMailboxStatusFlags(mailboxMsgBuffer);
+      return false;
+    } else {
+      return true;
+    }
+
