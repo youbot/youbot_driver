@@ -81,6 +81,7 @@ SET(YOUBOT_DRIVER_HEADERS
   YouBotSlaveMailboxMsg.hpp
   YouBotSlaveMsg.hpp
   ProtocolDefinitions.hpp
+  YouBotJointStorage.hpp
 ../base-kinematic/FourSwedishWheelOmniBaseKinematic.hpp
 ../base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.hpp
 ../base-kinematic/WheeledBaseKinematic.hpp
@@ -120,7 +121,7 @@ ADD_LIBRARY(YouBotDriver
 MACRO(INSTALL_HEADERS_WITH_DIRECTORY HEADER_LIST)
   FOREACH(HEADER ${${HEADER_LIST}})
     STRING(REGEX MATCH "(.*)[/\\]" DIR ${HEADER})
-    INSTALL(FILES ${HEADER} DESTINATION include/youbot/${DIR})
+    INSTALL(FILES ${HEADER} DESTINATION include/youbot/youbot/${DIR})
   ENDFOREACH(HEADER)
 ENDMACRO(INSTALL_HEADERS_WITH_DIRECTORY)
 
