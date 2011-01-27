@@ -1,57 +1,6 @@
 
 SET( YOUBOT_DRIVER_VERSION 0.01 )
 
-FIND_PACKAGE(CppUnit)
-IF(CppUnit_FOUND)
-	MESSAGE(STATUS "SUCCESSFUL: CPP_UNIT found")
-ELSE(CppUnit_FOUND)
-	MESSAGE(STATUS "WARNING: CPP_UNIT not found")
-ENDIF (CppUnit_FOUND)
-
-#SET(Boost_USE_STATIC_LIBS ON)
-SET(Boost_ADDITIONAL_VERSIONS "1.39" "1.39.0" "1.40" "1.40.0" "1.41" "1.41.0" "1.42" "1.42.0")
-FIND_PACKAGE(Boost REQUIRED COMPONENTS thread date_time filesystem system regex)
-IF (Boost_FOUND)
-  LINK_LIBRARIES(boost_thread boost_date_time boost_filesystem boost_system boost_regex)
-MESSAGE(STATUS "SUCCESSFUL: Boost found")
-ELSE (Boost_FOUND)
-MESSAGE(STATUS "ERROR: Boost not found")
-ENDIF (Boost_FOUND)
-
-FIND_PACKAGE(BoostLog)
-IF (BOOSTLOG_FOUND)
-  INCLUDE_DIRECTORIES(${BOOSTLOG_INCLUDE_DIR})
-  LINK_DIRECTORIES(${BOOSTLOG_LIBRARY_DIR})
-  LINK_LIBRARIES(${BOOSTLOGLIB})
-  ADD_DEFINITIONS(-DBOOST_LOG_FOUND)
-MESSAGE(STATUS "SUCCESSFUL: boost::log found at "${BOOSTLOG_LIBRARY_DIR})
-ELSE (BOOSTLOG_FOUND)
-MESSAGE(STATUS "ERROR: boost::log not found")
-ENDIF (BOOSTLOG_FOUND)
-
-
-FIND_PACKAGE(Soem REQUIRED)
-IF (SOEM_FOUND)
-  INCLUDE_DIRECTORIES(${SOEM_INCLUDE_DIR})
-  LINK_DIRECTORIES(${SOEM_LIBRARY_DIR})
-  LINK_LIBRARIES(${SOEMLIB})
-	MESSAGE(STATUS "SUCCESSFUL: Soem found at "${SOEM_LIBRARY_DIR})
-ELSE (SOEM_FOUND)
-	MESSAGE(STATUS "ERROR: Soem not found")
-ENDIF (SOEM_FOUND)
-
-
-FIND_PACKAGE(Rudeconfig REQUIRED)
-IF (RUDECONFIG_FOUND)
-  INCLUDE_DIRECTORIES(${RUDECONFIG_INCLUDE_DIR})
-  LINK_DIRECTORIES(${RUDECONFIG_LIBRARY_DIR})
-  LINK_LIBRARIES(${RUDECONFIGLIB})
-	MESSAGE(STATUS "SUCCESSFUL: rudeconfig found at "${RUDECONFIG_LIBRARY_DIR})
-ELSE (RUDECONFIG_FOUND)
-	MESSAGE(STATUS "ERROR: rudeconfig not found")
-ENDIF (RUDECONFIG_FOUND)
-
-
 
 SET(YOUBOT_DRIVER_SRC
   ${CMAKE_HOME_DIRECTORY}/generic/Errors.cpp
@@ -62,7 +11,7 @@ SET(YOUBOT_DRIVER_SRC
   ${CMAKE_HOME_DIRECTORY}/youbot/YouBotManipulator.cpp
   ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripper.cpp
   ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripperParameter.cpp
-  
+  ${CMAKE_HOME_DIRECTORY}/youbot/MotorProtection.cpp
   ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameter.cpp
   ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameterReadOnly.cpp
   ${CMAKE_HOME_DIRECTORY}/base-kinematic/FourSwedishWheelOmniBaseKinematic.cpp
@@ -82,6 +31,7 @@ SET(YOUBOT_DRIVER_HEADERS
   YouBotSlaveMsg.hpp
   ProtocolDefinitions.hpp
   YouBotJointStorage.hpp
+  MotorProtection.hpp
 ../base-kinematic/FourSwedishWheelOmniBaseKinematic.hpp
 ../base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.hpp
 ../base-kinematic/WheeledBaseKinematic.hpp

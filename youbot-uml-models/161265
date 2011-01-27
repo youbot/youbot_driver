@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 30
+  revision 32
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -142,6 +142,7 @@ ${description}
 #include \"generic/Exceptions.hpp\"
 #include \"youbot/YouBotSlaveMsg.hpp\"
 #include \"youbot/YouBotSlaveMailboxMsg.hpp\"
+#include \"youbot/MotorProtection.hpp\"
 
 extern \"C\"{
 #include <ethercattype.h>
@@ -888,6 +889,37 @@ ${namespace_end}"
  * License LGPL and BSD license along with this program.
  *
  ****************************************************************/"
+    end
+
+    artifact 235121 "MotorProtection"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${description}
+#include \"boost/date_time/posix_time/posix_time.hpp\"
+#include \"generic/Logger.hpp\"
+#include \"generic/Units.hpp\"
+#include \"generic/Time.hpp\"
+#include \"generic/Exceptions.hpp\"
+#include \"youbot/ProtocolDefinitions.hpp\"
+#include \"youbot/YouBotSlaveMsg.hpp\"
+
+using namespace boost::posix_time;
+${namespace_start}
+${definition}
+${namespace_end}
+#endif
+"
+      cpp_src "${description}
+#include \"youbot/MotorProtection.hpp\"
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 334705 // CurrentWithTimeSlice
+	class_ref 328177 // MotorProtection
+      end
     end
   end
 end

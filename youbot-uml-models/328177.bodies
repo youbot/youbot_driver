@@ -1,0 +1,57 @@
+class MotorProtection
+!!!554609.cpp!!!	MotorProtection(in maxContinuousCurrent : quantity<si::current>, in thermalTimeConstantWinding : quantity<si::time>)
+    summedTime = 0 * second;
+    lastTimestamp = microsec_clock::local_time();
+    allowedContinuousCurrent = maxContinuousCurrent;
+    maxWindowTime = thermalTimeConstantWinding;
+
+!!!547953.cpp!!!	isRMSCurrentOverLimit(in actualCurrent : quantity<si::current>, in timestamp : ptime) : bool
+
+
+    time_duration dt;
+    dt = timestamp - lastTimestamp;
+    lastTimestamp = timestamp;
+
+    quantity<si::time> timeSlice = ((double) dt.total_milliseconds() / 1000.0) * second;
+    CurrentWithTimeSlice element;
+    element.current = actualCurrent;
+    element.timeSlice = timeSlice;
+
+    monitoredMeasurements.push_back(element);
+    summedTime = summedTime + timeSlice;
+
+
+    if (summedTime > maxWindowTime) {
+      double i2t = 0;
+      for (unsigned int i = 0; i < monitoredMeasurements.size(); i++) {
+        i2t = i2t + monitoredMeasurements[i].current.value() * monitoredMeasurements[i].current.value() * monitoredMeasurements[i].timeSlice.value();
+
+      }
+      RMSCurrent = sqrt(i2t / summedTime.value()) * ampere;
+
+
+      while (summedTime > maxWindowTime) {
+        summedTime = summedTime - monitoredMeasurements.front().timeSlice;
+        monitoredMeasurements.pop_front();
+      }
+   //   std::cout << " RMS Current: " << RMSCurrent << "\r";
+
+    } else {
+      return false;
+    }
+
+    if (RMSCurrent > allowedContinuousCurrent) {
+      return true;
+    }
+
+    return false;
+
+!!!548081.cpp!!!	createSafeMotorCommands(out MotorCommand : YouBotSlaveMsg) : bool
+
+    if (RMSCurrent > allowedContinuousCurrent) {
+      MotorCommand.stctOutput.controllerMode = VELOCITY_CONTROL;
+      MotorCommand.stctOutput.positionOrSpeed = 0;
+      return true;
+    }
+    return false;
+

@@ -90,7 +90,7 @@ int main() {
     JointVelocitySetpoint setVel;
     JointAngleSetpoint setangle;
     setangle.angle = 2.0 * M_PI *radian;
-    setVel.angularVelocity = 0.1 * M_PI *radian_per_second;
+    
 /*
     quantity<si::velocity> longitudinalVelocity = 0 * meter_per_second;
     quantity<si::velocity> transversalVelocity = 0 * meter_per_second;
@@ -150,7 +150,7 @@ int main() {
     quantity<si::length> actTransversalPose = 0 * meter;
     quantity<si::plane_angle> actAngle = 0 * radian;
 
-
+/*
     MaximumMotorCurrent maxCurrent;
 
     myYouBotBase.getBaseJoint(1).getConfigurationParameter(maxCurrent);
@@ -163,14 +163,27 @@ int main() {
     maxCurrent.setParameter(1 * ampere);
 
     myYouBotBase.getBaseJoint(1).setConfigurationParameter(maxCurrent);
+ * */
   //  myYouBotBase.getBaseJoint(2).setConfigurationParameter(initSinus);
   //  myYouBotBase.getBaseJoint(3).setConfigurationParameter(initSinus);
   //  myYouBotBase.getBaseJoint(4).setConfigurationParameter(initSinus);
 
+    setVel.angularVelocity = 0.9 *radian_per_second;
+    myYouBotBase.getBaseJoint(4).setData(setVel);
     while (running) {
 
-      myYouBotBase.setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
-      myYouBotBase.getBasePosition(actLongitudinalPose, actTransversalPose, actAngle);
+        myYouBotBase.getBaseJoint(4).getData(temp);
+        myYouBotBase.getBaseJoint(4).getData(vel);
+        myYouBotBase.getBaseJoint(4).getData(current);
+     //   std::cout //<< " Temp: " << temp.temperature
+              //  << " Angle: " << angle.angle
+                //<< " Vel: " << vel.angularVelocity
+    //            << " Current: " << current.current
+    //            << std::endl;
+
+
+   //   myYouBotBase.setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
+  //    myYouBotBase.getBasePosition(actLongitudinalPose, actTransversalPose, actAngle);
    //   myYouBotBase.getBaseVelocity(actLongitudinalVelocity, actTransversalVelocity, actAngularVelocity);
   //    LOG(info) << "actual Pose Longitudinal: " << actLongitudinalPose << " Transversal: " << actTransversalPose << " Angle: " << actAngle;
 
@@ -198,6 +211,8 @@ int main() {
       SLEEP_MILLISEC(100);
     }
 
+    setVel.angularVelocity = 0 * M_PI *radian_per_second;
+    myYouBotBase.getBaseJoint(4).setData(setVel);
 
 //} catch (FileNotFoundException& e) {
 //    std::cout << e.what() << std::endl;

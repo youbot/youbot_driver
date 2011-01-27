@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 124
+  revision 126
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -16706,6 +16706,16 @@ ${inlines}
 	python_decl ""
 	idl_decl ""
       end
+
+      attribute 521329 "motorProtections"
+	private explicit_type "std::vector<MotorProtection>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
     end
 
     class 286321 "YouBotManipulator"
@@ -17041,6 +17051,175 @@ ${inlines}
 
       attribute 458993 "ethercatConfigFileName"
 	private explicit_type "string"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+    end
+
+    class 328177 "MotorProtection"
+      visibility package 
+      cpp_decl "${description}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      operation 554609 "MotorProtection"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 2
+	  param in name "maxContinuousCurrent" explicit_type "quantity<si::current>"
+	  param in name "thermalTimeConstantWinding" explicit_type "quantity<si::time>"
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 554737 "~MotorProtection"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 547953 "isRMSCurrentOverLimit"
+	preserve_cpp_body_indent public explicit_return_type "bool"
+	nparams 2
+	  param in name "actualCurrent" explicit_type "quantity<si::current>"
+	  param in name "timestamp" explicit_type "ptime"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 548081 "createSafeMotorCommands"
+	preserve_cpp_body_indent public explicit_return_type "bool"
+	nparams 1
+	  param out name "MotorCommand" explicit_type "YouBotSlaveMsg"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      attribute 520305 "monitoredMeasurements"
+	private explicit_type "std::deque<CurrentWithTimeSlice>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 520689 "maxWindowTime"
+	private explicit_type "quantity<si::time>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 520817 "summedTime"
+	private explicit_type "quantity<si::time>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 520945 "RMSCurrent"
+	private explicit_type "quantity<si::current>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 521073 "allowedContinuousCurrent"
+	private explicit_type "quantity<si::current>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 521201 "lastTimestamp"
+	private explicit_type "ptime"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+    end
+
+    class 334705 "CurrentWithTimeSlice"
+      visibility package stereotype "struct"
+      cpp_decl "${description}${template}struct ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl "${comment}struct ${name} {
+${members}};
+"
+      explicit_switch_type ""
+      
+      attribute 520433 "current"
+	public explicit_type "quantity<si::current>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 520561 "timeSlice"
+	public explicit_type "quantity<si::time>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""

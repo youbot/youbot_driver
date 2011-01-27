@@ -284,6 +284,13 @@ void EthercatMaster::initializeEthercat() {
     std::string actualSlaveName;
     nrOfSlaves = 0;
     YouBotSlaveMsg emptySlaveMsg;
+    quantity<si::current> maxContinuousCurrentJoint13 = 2.36 * ampere;
+    quantity<si::time> thermalTimeConstantWindingJoint13 = 16.6 * second;
+    quantity<si::current> maxContinuousCurrentJoint4 = 1.07 * ampere;
+    quantity<si::time> thermalTimeConstantWindingJoint4 = 13.2 * second;
+    quantity<si::current> maxContinuousCurrentJoint5 = 0.49 * ampere;
+    quantity<si::time> thermalTimeConstantWindingJoint5 = 8.1 * second;
+
 
     baseJointControllerName = configfile.getStringValue("BaseJointControllerName");
     manipulatorJointControllerName = configfile.getStringValue("ManipulatorJointControllerName");
@@ -314,6 +321,12 @@ void EthercatMaster::initializeEthercat() {
         newMailboxDataFlagTwo.push_back(false);
         newMailboxInputDataFlagOne.push_back(false);
         newMailboxInputDataFlagTwo.push_back(false);
+        if(actualSlaveName == baseJointControllerName){
+          motorProtections.push_back(MotorProtection(maxContinuousCurrentJoint13, thermalTimeConstantWindingJoint13));
+        }
+        if(actualSlaveName == manipulatorJointControllerName){
+          motorProtections.push_back(MotorProtection(maxContinuousCurrentJoint13, thermalTimeConstantWindingJoint13));
+        }
       }
 
     }
@@ -503,6 +516,10 @@ bool EthercatMaster::receiveMailboxMessage(YouBotSlaveMailboxMsg& mailboxMsg) {
 void EthercatMaster::updateSensorActorValues() {
   // Bouml preserved body begin 0003F771
 
+  boost::posix_time::ptime now;
+  quantity<si::current> actualCurrent = 0 * ampere;
+  YouBotSlaveMsg stopMotorCommand;
+
     while (!stopThread) {
 
       if (ec_iserror())
@@ -518,6 +535,11 @@ void EthercatMaster::updateSensorActorValues() {
             }
             //fill first input buffer (receive data)
             (firstBufferVector[i]).stctInput = *(ethercatInputBufferVector[i]);
+
+            //check if RMS current is over the limit
+            actualCurrent = ((double)(firstBufferVector[i]).stctInput.actualCurrent)/1000.0 * ampere;
+            now = boost::posix_time::microsec_clock::local_time();
+            motorProtections[i].isRMSCurrentOverLimit(actualCurrent, now);
 
             //send mailbox messages from first buffer
             if (newMailboxDataFlagOne[i]) {
@@ -545,6 +567,11 @@ void EthercatMaster::updateSensorActorValues() {
             //fill second input buffer (receive data)
             (secondBufferVector[i]).stctInput = *(ethercatInputBufferVector[i]);
 
+            //check if RMS current is over the limit
+            actualCurrent = ((double)(firstBufferVector[i]).stctInput.actualCurrent)/1000.0 * ampere;
+            now = boost::posix_time::microsec_clock::local_time();
+            motorProtections[i].isRMSCurrentOverLimit(actualCurrent, now);
+
             //send mailbox messages from second buffer
             if (newMailboxDataFlagTwo[i]) {
               sendMailboxMessage(secondMailboxBufferVector[i]);
@@ -565,6 +592,13 @@ void EthercatMaster::updateSensorActorValues() {
      //  printf("activeports:%i DCrtA:%i DCrtB:%d DCrtC:%d DCrtD:%d\n", (int)ec_slave[cnt].activeports, ec_slave[cnt].DCrtA, ec_slave[cnt].DCrtB, ec_slave[cnt].DCrtC, ec_slave[cnt].DCrtD);
      //  printf("next DC slave:%i previous DC slave:%i DC cyle time in ns:%d DC shift:%d DC sync activation:%d\n", ec_slave[cnt].DCnext, ec_slave[cnt].DCprevious, ec_slave[cnt].DCcycle, ec_slave[cnt].DCshift, ec_slave[cnt].DCactive);
 
+      for (unsigned int i = 0; i < motorProtections.size(); i++) {
+        if(motorProtections[i].createSafeMotorCommands(stopMotorCommand)){
+          *(ethercatOutputBufferVector[i]) = stopMotorCommand.stctOutput;
+          LOG(info) << "a motor reached the RMS current limit!";
+         //     throw std::runtime_error("a motor reached the RMS current limit!");
+        }
+      }
 
       //send and receive data from ethercat
       if (ec_send_processdata() == 0){

@@ -65,6 +65,7 @@
 #include "generic/Exceptions.hpp"
 #include "youbot/YouBotSlaveMsg.hpp"
 #include "youbot/YouBotSlaveMailboxMsg.hpp"
+#include "youbot/MotorProtection.hpp"
 
 extern "C"{
 #include <ethercattype.h>
@@ -209,6 +210,8 @@ friend class YouBotGripper;
     static std::string configFileName;
 
     bool automaticSendOn;
+
+    std::vector<MotorProtection> motorProtections;
 
 };
 
