@@ -20,7 +20,7 @@ class PParameterFirstParametersPositionControl
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
     message.stctOutput.typeNumber = 130; //PParameterFirstParametersPositionControl
-    message.stctOutput.value = value; //TODO do convertion
+    message.stctOutput.value = value;
 
 !!!380017.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
-    this->value = message.stctInput.value; //TODO do convertion
+    this->value = message.stctInput.value;

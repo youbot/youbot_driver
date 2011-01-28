@@ -23,4 +23,4 @@ class PWMLimit
     message.stctOutput.value = (((double)value)/100.0)*3599;
 
 !!!497137.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
-    this->value = ((double)message.stctInput.value/3599.0)*100; //TODO do convertion
+    this->value = ((double)message.stctInput.value/3599.0)*100;

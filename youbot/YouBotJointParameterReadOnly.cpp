@@ -93,7 +93,7 @@ void ArePIDcontrollersActive::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message
 void ArePIDcontrollersActive::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 00070371
     if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
-      this->value = message.stctInput.value; //TODO do convertion
+      this->value = message.stctInput.value;
     }
   // Bouml preserved body end 00070371
 }
@@ -202,7 +202,7 @@ void ErrorAndStatus::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCom
 void ErrorAndStatus::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 0007E971
     if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
-      this->value = message.stctInput.value; //TODO do convertion
+      this->value = message.stctInput.value;
     }
   // Bouml preserved body end 0007E971
 }
@@ -476,7 +476,7 @@ void CommutationMode::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCo
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
     message.stctOutput.typeNumber = 159; //CommutationMode
-    message.stctOutput.value = value; //TODO do convertion
+  //  message.stctOutput.value = value;
 
   // Bouml preserved body end 00070671
 }
@@ -513,7 +513,7 @@ void PWMSchemeBlockCommutation::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& messa
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
     message.stctOutput.typeNumber = 167; //PWMSchemeBlockCommutation
-    message.stctOutput.value = value; //TODO do convertion
+  //  message.stctOutput.value = value;
 
   // Bouml preserved body end 00070971
 }
@@ -550,7 +550,7 @@ void MotorContollerGearRatio::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
     message.stctOutput.typeNumber = 211; //MotorContollerGearRatio
-    message.stctOutput.value = value; //TODO do convertion
+  //  message.stctOutput.value = value;
 
   // Bouml preserved body end 00070C71
 }
@@ -624,7 +624,7 @@ void InitializationMode::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMC
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
     message.stctOutput.typeNumber = 249; //InitializationMode
-    message.stctOutput.value = value; //TODO do convertion
+  //  message.stctOutput.value = value;
 
   // Bouml preserved body end 00071271
 }

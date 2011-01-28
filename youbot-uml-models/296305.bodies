@@ -4,14 +4,14 @@ class CommutationMode
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
 !!!460273.cpp!!!	getParameter(out parameter : uint) : void
     parameter = this->value;
-!!!460401.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber) : void
+!!!460401.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
     message.stctOutput.typeNumber = 159; //CommutationMode
-    message.stctOutput.value = value; //TODO do convertion
+  //  message.stctOutput.value = value;
 
-!!!467185.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
+!!!467185.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
     if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
       this->value = message.stctInput.value; //TODO do convertion
     }

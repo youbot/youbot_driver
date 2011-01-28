@@ -64,7 +64,7 @@
  * - Boost C++ Libraries http://www.boost.org
  *
  * You can fetch, compile and install these library by hand or you can use robotpkg a software packaging tool to do this automatically.
- * On this site you can find an instruction how to use robopkg: https://github.com/youbot/youbot_driver/wiki
+ * On this site you can find an instruction how to use robopkg: https://github.com/janpaulus/BRICS_Packages/wiki
  *
  * \section intro_sec Introduction
  *

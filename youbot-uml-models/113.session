@@ -1,10 +1,8 @@
-window_sizes 1680 975 597 1077 894 0
+window_sizes 1672 972 383 1283 889 0
 show_stereotypes
 selected operation_ref 554609 // MotorProtection
 open
-  class_ref 190577 // EthercatMaster
   operation_ref 554737 // ~MotorProtection
-  class_ref 334705 // CurrentWithTimeSlice
   deploymentview_ref 154609 // Deployment
   deploymentview_ref 161137 // Deployment
 end

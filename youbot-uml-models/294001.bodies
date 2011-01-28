@@ -20,7 +20,7 @@ class DParameterFirstParametersSpeedControl
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
     message.stctOutput.typeNumber = 142; //DParameterFirstParametersSpeedControl
-    message.stctOutput.value = value; //TODO do convertion
+    message.stctOutput.value = value; 
 
 !!!442481.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
-    this->value = message.stctInput.value; //TODO do convertion
+    this->value = message.stctInput.value; 

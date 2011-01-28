@@ -284,12 +284,19 @@ void EthercatMaster::initializeEthercat() {
     std::string actualSlaveName;
     nrOfSlaves = 0;
     YouBotSlaveMsg emptySlaveMsg;
+    quantity<si::current> maxContinuousCurrentBase = 3 * ampere;
+    quantity<si::time> thermalTimeConstantWindingBase = 20 * second;
+    quantity<si::time> thermalTimeConstantMotorBase = 120 * second;
     quantity<si::current> maxContinuousCurrentJoint13 = 2.36 * ampere;
     quantity<si::time> thermalTimeConstantWindingJoint13 = 16.6 * second;
+    quantity<si::time> thermalTimeConstantMotorJoint13 = 212 * second;
     quantity<si::current> maxContinuousCurrentJoint4 = 1.07 * ampere;
     quantity<si::time> thermalTimeConstantWindingJoint4 = 13.2 * second;
+    quantity<si::time> thermalTimeConstantMotorJoint4 = 186 * second;
     quantity<si::current> maxContinuousCurrentJoint5 = 0.49 * ampere;
     quantity<si::time> thermalTimeConstantWindingJoint5 = 8.1 * second;
+    quantity<si::time> thermalTimeConstantMotorJoint5 = 108 * second;
+    int manipulatorNo = 0;
 
 
     baseJointControllerName = configfile.getStringValue("BaseJointControllerName");
@@ -322,13 +329,35 @@ void EthercatMaster::initializeEthercat() {
         newMailboxInputDataFlagOne.push_back(false);
         newMailboxInputDataFlagTwo.push_back(false);
         if(actualSlaveName == baseJointControllerName){
-          motorProtections.push_back(MotorProtection(maxContinuousCurrentJoint13, thermalTimeConstantWindingJoint13));
+          motorProtections.push_back(MotorProtection(maxContinuousCurrentBase,
+                                                      thermalTimeConstantWindingBase,
+                                                      thermalTimeConstantMotorBase));
         }
         if(actualSlaveName == manipulatorJointControllerName){
-          motorProtections.push_back(MotorProtection(maxContinuousCurrentJoint13, thermalTimeConstantWindingJoint13));
+          manipulatorNo++;
+          if(manipulatorNo >=1 && manipulatorNo <=3){
+            motorProtections.push_back(MotorProtection(maxContinuousCurrentJoint13, 
+                                                        thermalTimeConstantWindingJoint13,
+                                                        thermalTimeConstantMotorJoint13));
+          }
+          if(manipulatorNo == 4){
+            motorProtections.push_back(MotorProtection(maxContinuousCurrentJoint4, 
+                                                        thermalTimeConstantWindingJoint4,
+                                                        thermalTimeConstantMotorJoint4));
+          }
+          if(manipulatorNo == 5){
+            motorProtections.push_back(MotorProtection(maxContinuousCurrentJoint5, 
+                                                        thermalTimeConstantWindingJoint5,
+                                                        thermalTimeConstantMotorJoint5));
+            manipulatorNo = 0;
+          }
+
         }
       }
 
+    }
+    if(nrOfSlaves != motorProtections.size()){
+      throw std::runtime_error("Insufficient motor protections loaded");
     }
 
     if (nrOfSlaves > 0) {
@@ -595,8 +624,6 @@ void EthercatMaster::updateSensorActorValues() {
       for (unsigned int i = 0; i < motorProtections.size(); i++) {
         if(motorProtections[i].createSafeMotorCommands(stopMotorCommand)){
           *(ethercatOutputBufferVector[i]) = stopMotorCommand.stctOutput;
-          LOG(info) << "a motor reached the RMS current limit!";
-         //     throw std::runtime_error("a motor reached the RMS current limit!");
         }
       }
 

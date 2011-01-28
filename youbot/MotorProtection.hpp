@@ -21,7 +21,7 @@ struct CurrentWithTimeSlice {
 };
 class MotorProtection {
   public:
-    MotorProtection(const quantity<si::current>& maxContinuousCurrent, const quantity<si::time>& thermalTimeConstantWinding);
+    MotorProtection(const quantity<si::current>& maxContinuousCurrent, const quantity<si::time>& thermalTimeConstantWinding, const quantity<si::time>& thermalTimeConstantMotor);
 
     virtual ~MotorProtection();
 
@@ -42,6 +42,12 @@ class MotorProtection {
     quantity<si::current> allowedContinuousCurrent;
 
     ptime lastTimestamp;
+
+    ptime motorOverLimitStartTime;
+
+    bool motorOverLimit;
+
+    quantity<si::time> coolingTimeAfterOverLimit;
 
 };
 

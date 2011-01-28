@@ -20,7 +20,7 @@ class IClippingParameterFirstParametersSpeedControl
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
     message.stctOutput.typeNumber = 143; //IClippingParameterFirstParametersSpeedControl
-    message.stctOutput.value = value; //TODO do convertion
+    message.stctOutput.value = value; 
 
 !!!443505.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
-    this->value = message.stctInput.value; //TODO do convertion
+    this->value = message.stctInput.value; 
