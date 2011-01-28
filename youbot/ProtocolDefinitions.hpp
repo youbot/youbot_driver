@@ -59,7 +59,6 @@
  *
  * These libraries are required by the youBot Driver:
  * - Simple Open EtherCAT master http://soem.berlios.de
- * - RudeConfig Open Source C++ Config File Library http://rudeserver.com/config/api.html
  * - C++ logging library being proposed to the Boost library http://sourceforge.net/projects/boost-log
  * - Boost C++ Libraries http://www.boost.org
  *

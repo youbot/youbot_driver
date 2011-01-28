@@ -58,7 +58,6 @@
 #include "generic/Logger.hpp"
 #include "generic/Units.hpp"
 #include "generic/Time.hpp"
-#include "rude/config.h"
 #include "generic/Exceptions.hpp"
 #include "generic-joint/Joint.hpp"
 #include "generic-joint/JointData.hpp"

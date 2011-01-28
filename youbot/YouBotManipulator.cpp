@@ -62,9 +62,8 @@ YouBotManipulator::YouBotManipulator(const std::string name, const std::string c
   this->configFilePath = configFilePath;
   this->ethercatConfigFileName = "youbot-ethercat.cfg";
 
-  if(!configfile.load(filename.c_str()))
-      throw FileNotFoundException(filename + " file no found");
-
+  configfile == NULL;
+  configfile = new ConfigFile(filename.c_str());
 
   this->initializeJoints();
 
@@ -73,6 +72,8 @@ YouBotManipulator::YouBotManipulator(const std::string name, const std::string c
 
 YouBotManipulator::~YouBotManipulator() {
   // Bouml preserved body begin 00067FF1
+  if(configfile != NULL)
+    delete configfile;
   // Bouml preserved body end 00067FF1
 }
 
@@ -112,37 +113,38 @@ void YouBotManipulator::initializeJoints() {
       throw std::runtime_error("Not enough ethercat slaves were found to create a YouBotManipulator!");
     }
 
-    configfile.setSection("JointTopology");
+   // configfile.setSection("JointTopology");
 
-    unsigned int slaveNumber = configfile.getIntValue("ManipulatorJoint1");
+    unsigned int slaveNumber = 0;
+    configfile->readInto(slaveNumber, "ManipulatorJoint1");
     if(slaveNumber  <= noSlaves){
       joints.push_back(YouBotJoint(slaveNumber));
     }else{
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
-    slaveNumber = configfile.getIntValue("ManipulatorJoint2");
+    configfile->readInto(slaveNumber, "ManipulatorJoint2");
     if(slaveNumber  <= noSlaves){
       joints.push_back(YouBotJoint(slaveNumber));
     }else{
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
-    slaveNumber = configfile.getIntValue("ManipulatorJoint3");
+    configfile->readInto(slaveNumber, "ManipulatorJoint3");
     if(slaveNumber  <= noSlaves){
       joints.push_back(YouBotJoint(slaveNumber));
     }else{
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
-    slaveNumber = configfile.getIntValue("ManipulatorJoint4");
+    configfile->readInto(slaveNumber, "ManipulatorJoint4");
     if(slaveNumber  <= noSlaves){
       joints.push_back(YouBotJoint(slaveNumber));
     }else{
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
-    slaveNumber = configfile.getIntValue("ManipulatorJoint5");
+    configfile->readInto(slaveNumber, "ManipulatorJoint5");
     if(slaveNumber  <= noSlaves){
       joints.push_back(YouBotJoint(slaveNumber));
     }else{
@@ -159,20 +161,28 @@ void YouBotManipulator::initializeJoints() {
     GearRatio gearRatio;
     EncoderTicksPerRound ticksPerRound;
     InverseMovementDirection inverseDir;
+    double gearRatio_numerator = 0;
+    double gearRatio_denominator = 1;
 
 
     for (unsigned int i = 0; i < 5; i++) {
       std::stringstream jointNameStream;
-      jointNameStream << "Joint_" << i + 1;
+      jointNameStream << "J" << i + 1;
       jointName = jointNameStream.str();
-      configfile.setSection(jointName.c_str());
+    //  configfile.setSection(jointName.c_str());
 
-      jName.setParameter(configfile.getStringValue("JointName"));
-      double gearRatio_numerator = configfile.getIntValue("GearRatio_numerator");
-      double gearRatio_denominator = configfile.getIntValue("GearRatio_denominator");
+      std:string name;
+      configfile->readInto(name, jointName+"JointName");
+      jName.setParameter(name);
+      configfile->readInto(gearRatio_numerator, jointName+"GearRatio_numerator");
+      configfile->readInto(gearRatio_denominator, jointName+"GearRatio_denominator");
       gearRatio.setParameter(gearRatio_numerator / gearRatio_denominator);
-      ticksPerRound.setParameter(configfile.getIntValue("EncoderTicksPerRound"));
-      inverseDir.setParameter(configfile.getBoolValue("InverseMovementDirection"));
+      int ticks;
+      configfile->readInto(ticks, jointName+"EncoderTicksPerRound");
+      ticksPerRound.setParameter(ticks);
+      bool invdir = false;
+      configfile->readInto(invdir, jointName+"InverseMovementDirection");
+      inverseDir.setParameter(invdir);
 
       joints[i].setConfigurationParameter(jName);
       joints[i].setConfigurationParameter(gearRatio);
@@ -186,22 +196,29 @@ void YouBotManipulator::initializeJoints() {
     std::vector<CalibrateJoint> calibrateJointVec;
     quantity<si::current> current;
     JointLimits jLimits;
+    double dummy = 0;
     bool doCalibration = true;
 
     for (unsigned int i = 0; i < 5; i++) {
 
       std::stringstream jointNameStream;
-      jointNameStream << "Joint_" << i + 1;
+      jointNameStream << "J" << i + 1;
       jointName = jointNameStream.str();
-      configfile.setSection(jointName.c_str());
+ //     configfile.setSection(jointName.c_str());
 
-      doCalibration = configfile.getBoolValue("DoCalibration");
+      configfile->readInto(doCalibration, jointName+"DoCalibration");
 
-      jLimits.setParameter(configfile.getIntValue("LowerLimit_[encoderTicks]"), configfile.getIntValue("UpperLimit_[encoderTicks]"));
+      int upperlimit = 0, lowerlimit = 0;
+      configfile->readInto(lowerlimit, jointName+"LowerLimit_[encoderTicks]");
+      configfile->readInto(upperlimit, jointName+"UpperLimit_[encoderTicks]");
+
+      jLimits.setParameter(lowerlimit, upperlimit);
       joints[i].setConfigurationParameter(jLimits);
-
-      current = configfile.getDoubleValue("CalibrationMaxCurrent_[ampere]") * ampere;
-      std::string direction = configfile.getStringValue("CalibrationDirection");
+      
+      configfile->readInto(dummy, jointName+"CalibrationMaxCurrent_[ampere]");
+      current = dummy * ampere;
+      std::string direction;
+      configfile->readInto(direction, jointName+"CalibrationDirection");
 
       calibrateJointVec.push_back(CalibrateJoint());
 
@@ -218,19 +235,24 @@ void YouBotManipulator::initializeJoints() {
 
 
     //Initializing Gripper
-    configfile.setSection("JointTopology");
-    this->gripperVector.push_back(YouBotGripper(configfile.getIntValue("ManipulatorJoint5")));
+   // configfile.setSection("JointTopology");
+    configfile->readInto(slaveNumber, "ManipulatorJoint5");
+    this->gripperVector.push_back(YouBotGripper(slaveNumber));
     BarSpacingOffset barOffest;
     MaxTravelDistance maxDistance;
     MaxEncoderValue maxEncoder;
 
-    configfile.setSection("Gripper");
-    doCalibration = configfile.getBoolValue("DoCalibration");
-    barOffest.setParameter(configfile.getDoubleValue("BarSpacingOffset_[meter]") * meter);
+ //   configfile.setSection("Gripper");
+    configfile->readInto(doCalibration, "DoCalibration");
+    configfile->readInto(dummy, "BarSpacingOffset_[meter]");
+    barOffest.setParameter(dummy * meter);
     gripperVector[0].setConfigurationParameter(barOffest);
-    maxDistance.setParameter(configfile.getDoubleValue("MaxTravelDistance_[meter]") * meter);
+    configfile->readInto(dummy, "MaxTravelDistance_[meter]");
+    maxDistance.setParameter(dummy * meter);
     gripperVector[0].setConfigurationParameter(maxDistance);
-    maxEncoder.setParameter(configfile.getIntValue("MaxEncoderValue"));
+    int maxenc = 0;
+    configfile->readInto(maxenc, "MaxEncoderValue");
+    maxEncoder.setParameter(maxenc);
     gripperVector[0].setConfigurationParameter(maxEncoder);
 
     // Calibrating Gripper

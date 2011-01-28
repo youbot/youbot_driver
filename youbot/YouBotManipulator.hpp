@@ -54,10 +54,10 @@
 #include <vector>
 #include <sstream>
 #include <string>
-#include "rude/config.h"
 #include "generic/Logger.hpp"
 #include "generic/Units.hpp"
 #include "generic/Time.hpp"
+#include "generic/ConfigFile.hpp"
 #include "generic/Exceptions.hpp"
 #include "youbot/EthercatMaster.hpp"
 #include "youbot/YouBotGripper.hpp"
@@ -80,7 +80,7 @@ class YouBotManipulator {
   private:
     void initializeJoints();
 
-    rude::Config configfile;
+    ConfigFile* configfile;
 
     std::vector<YouBotJoint> joints;
 

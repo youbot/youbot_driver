@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 32
+  revision 33
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -46,7 +46,6 @@ ${description}
 #include \"generic/Logger.hpp\"
 #include \"generic/Units.hpp\"
 #include \"generic/Time.hpp\"
-#include \"rude/config.h\"
 #include \"generic/Exceptions.hpp\"
 #include \"generic-joint/Joint.hpp\"
 #include \"generic-joint/JointData.hpp\"
@@ -135,11 +134,11 @@ ${description}
 #include <stdexcept>
 #include <iostream>
 #include <boost/thread.hpp>
-#include \"rude/config.h\"
 #include \"generic/Logger.hpp\"
 #include \"generic/Units.hpp\"
 #include \"generic/Time.hpp\"
 #include \"generic/Exceptions.hpp\"
+#include \"generic/ConfigFile.hpp\"
 #include \"youbot/YouBotSlaveMsg.hpp\"
 #include \"youbot/YouBotSlaveMailboxMsg.hpp\"
 #include \"youbot/MotorProtection.hpp\"
@@ -327,7 +326,6 @@ ${description}
 #include \"generic/Logger.hpp\"
 #include \"generic/Units.hpp\"
 #include \"generic/Time.hpp\"
-#include \"rude/config.h\"
 #include \"generic/Exceptions.hpp\"
 #include \"generic-joint/JointParameter.hpp\"
 #include \"generic-gripper/GripperParameter.hpp\"
@@ -516,7 +514,6 @@ ${description}
 #include \"generic/Logger.hpp\"
 #include \"generic/Units.hpp\"
 #include \"generic/Time.hpp\"
-#include \"rude/config.h\"
 #include \"generic/Exceptions.hpp\"
 #include \"generic-joint/JointParameter.hpp\"
 #include \"youbot/YouBotJointParameterReadOnly.hpp\"
@@ -664,10 +661,10 @@ ${description}
 #include <vector>
 #include <sstream>
 #include <string>
-#include \"rude/config.h\"
 #include \"generic/Logger.hpp\"
 #include \"generic/Units.hpp\"
 #include \"generic/Time.hpp\"
+#include \"generic/ConfigFile.hpp\"
 #include \"generic/Exceptions.hpp\"
 #include \"youbot/EthercatMaster.hpp\"
 #include \"youbot/YouBotGripper.hpp\"
@@ -746,10 +743,10 @@ ${description}
 #include <vector>
 #include <sstream>
 #include <string>
-#include \"rude/config.h\"
 #include \"generic/Logger.hpp\"
 #include \"generic/Units.hpp\"
 #include \"generic/Time.hpp\"
+#include \"generic/ConfigFile.hpp\"
 #include \"generic/Exceptions.hpp\"
 #include \"youbot/YouBotJoint.hpp\"
 #include \"youbot/EthercatMaster.hpp\"

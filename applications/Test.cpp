@@ -78,7 +78,7 @@ int main() {
 
   try {
 
- //   YouBotManipulator myYouBotManipulator("youbot-manipulator");
+    YouBotManipulator myYouBotManipulator("youbot-manipulator");
     YouBotBase myYouBotBase("youbot-base");
 
     

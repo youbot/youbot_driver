@@ -58,12 +58,14 @@ YouBotBase::YouBotBase(const std::string name, const std::string configFilePath)
   filename = configFilePath;
   filename.append(name);
   filename.append(".cfg");
+  configfile == NULL;
 
   this->configFilePath = configFilePath;
   this->ethercatConfigFileName = "youbot-ethercat.cfg";
 
-  if(!configfile.load(filename.c_str()))
-      throw FileNotFoundException(filename + " file no found");
+  configfile = new ConfigFile(filename.c_str());
+
+
 
   this->initializeJoints();
 
@@ -74,6 +76,8 @@ YouBotBase::YouBotBase(const std::string name, const std::string configFilePath)
 
 YouBotBase::~YouBotBase() {
   // Bouml preserved body begin 00067EF1
+  if(configfile != NULL)
+    delete configfile;
   // Bouml preserved body end 00067EF1
 }
 
@@ -180,32 +184,33 @@ void YouBotBase::initializeJoints() {
     }
     
     //read Joint Topology from config file
-    configfile.setSection("JointTopology");
+  //  configfile.setSection("JointTopology");
 
     //check if enough slave exist to create YouBotJoint for the slave numbers from config file
     //if enough slave exist create YouBotJoint and store it in the joints vector
-    unsigned int slaveNumber = configfile.getIntValue("BaseLeftFront");
+    unsigned int slaveNumber = 0;
+    configfile->readInto(slaveNumber, "BaseLeftFront");
     if(slaveNumber  <= noSlaves){
       joints.push_back(YouBotJoint(slaveNumber));
     }else{
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
-    slaveNumber = configfile.getIntValue("BaseRightFront");
+    configfile->readInto(slaveNumber, "BaseRightFront");
     if(slaveNumber  <= noSlaves){
       joints.push_back(YouBotJoint(slaveNumber));
     }else{
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
-    slaveNumber = configfile.getIntValue("BaseLeftBack");
+    configfile->readInto(slaveNumber, "BaseLeftBack");
     if(slaveNumber  <= noSlaves){
       joints.push_back(YouBotJoint(slaveNumber));
     }else{
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
-    slaveNumber = configfile.getIntValue("BaseRightBack");
+    configfile->readInto(slaveNumber, "BaseRightBack");
     if(slaveNumber  <= noSlaves){
       joints.push_back(YouBotJoint(slaveNumber));
     }else{
@@ -220,19 +225,27 @@ void YouBotBase::initializeJoints() {
     EncoderTicksPerRound ticksPerRound;
     InverseMovementDirection inverseDir;
 
+    double gearRatio_numerator = 0;
+    double gearRatio_denominator = 1;
 
     for (unsigned int i = 0; i < 4; i++) {
       std::stringstream jointNameStream;
-      jointNameStream << "Joint_" << i + 1;
+      jointNameStream << "J" << i + 1;
       jointName = jointNameStream.str();
-      configfile.setSection(jointName.c_str());
+    //  configfile.setSection(jointName.c_str());
 
-      jName.setParameter(configfile.getStringValue("JointName"));
-      double gearRatio_numerator = configfile.getIntValue("GearRatio_numerator");
-      double gearRatio_denominator = configfile.getIntValue("GearRatio_denominator");
+      std:string name;
+      configfile->readInto(name, jointName+"JointName");
+      jName.setParameter(name);
+      configfile->readInto(gearRatio_numerator, jointName+"GearRatio_numerator");
+      configfile->readInto(gearRatio_denominator, jointName+"GearRatio_denominator");
       gearRatio.setParameter(gearRatio_numerator / gearRatio_denominator);
-      ticksPerRound.setParameter(configfile.getIntValue("EncoderTicksPerRound"));
-      inverseDir.setParameter(configfile.getBoolValue("InverseMovementDirection"));
+      int ticks;
+      configfile->readInto(ticks, jointName+"EncoderTicksPerRound");
+      ticksPerRound.setParameter(ticks);
+      bool invdir = false;
+      configfile->readInto(invdir, jointName+"InverseMovementDirection");
+      inverseDir.setParameter(invdir);
 
       joints[i].setConfigurationParameter(jName);
       joints[i].setConfigurationParameter(gearRatio);
@@ -249,12 +262,17 @@ void YouBotBase::initializeKinematic() {
     FourSwedishWheelOmniBaseKinematicConfiguration kinematicConfig;
 
     //read the kinematics parameter from a config file
-    configfile.setSection("YouBotKinematic");
-    kinematicConfig.rotationRatio = configfile.getIntValue("RotationRatio");
-    kinematicConfig.slideRatio = configfile.getIntValue("SlideRatio");
-    kinematicConfig.lengthBetweenFrontAndRearWheels = configfile.getDoubleValue("LengthBetweenFrontAndRearWheels_[meter]") * meter;
-    kinematicConfig.lengthBetweenFrontWheels = configfile.getDoubleValue("LengthBetweenFrontWheels_[meter]") * meter;
-    kinematicConfig.wheelRadius = configfile.getDoubleValue("WheelRadius_[meter]") * meter;
+  //  configfile.setSection("YouBotKinematic");
+    configfile->readInto(kinematicConfig.rotationRatio, "RotationRatio");
+    configfile->readInto(kinematicConfig.slideRatio, "SlideRatio");
+    double dummy = 0;
+    configfile->readInto(dummy, "LengthBetweenFrontAndRearWheels_[meter]");
+    kinematicConfig.lengthBetweenFrontAndRearWheels = dummy * meter;
+    configfile->readInto(dummy, "LengthBetweenFrontWheels_[meter]");
+    kinematicConfig.lengthBetweenFrontWheels = dummy * meter;
+    configfile->readInto(dummy, "WheelRadius_[meter]");
+    kinematicConfig.wheelRadius = dummy * meter;
+    
 
     youBotBaseKinematic.setConfiguration(kinematicConfig);
   // Bouml preserved body end 0004DDF1

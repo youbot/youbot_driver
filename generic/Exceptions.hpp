@@ -80,6 +80,26 @@ namespace youbot {
         };
     };
 
+
+    class KeyNotFoundException : public std::ios_base::failure {
+        string msg;
+
+    public:
+        // Takes a character string describing the error.
+        explicit KeyNotFoundException(const string& message) throw () :std::ios_base::failure(message) {
+            msg = message;
+            LOG(exceptions) << message;
+        };
+
+        virtual ~KeyNotFoundException() throw () {
+        };
+
+        // Returns a C-style character string describing the general cause of the current error
+        virtual const char* what() const throw () {
+            return msg.c_str();
+        };
+    };
+
     class JointParameterException : public std::runtime_error {
         string msg;
 

@@ -2,8 +2,8 @@
 #include "youbot/MotorProtection.hpp"
 namespace youbot {
 
-  MotorProtection::MotorProtection(const quantity<si::current>& maxContinuousCurrent, const quantity<si::time>& thermalTimeConstantWinding, const quantity<si::time>& thermalTimeConstantMotor) {
-    // Bouml preserved body begin 00087671
+MotorProtection::MotorProtection(const quantity<si::current>& maxContinuousCurrent, const quantity<si::time>& thermalTimeConstantWinding, const quantity<si::time>& thermalTimeConstantMotor) {
+  // Bouml preserved body begin 00087671
     summedTime = 0 * second;
     lastTimestamp = microsec_clock::local_time();
     allowedContinuousCurrent = maxContinuousCurrent;
@@ -11,16 +11,16 @@ namespace youbot {
     coolingTimeAfterOverLimit = thermalTimeConstantMotor;
     motorOverLimit = false;
 
-    // Bouml preserved body end 00087671
-  }
+  // Bouml preserved body end 00087671
+}
 
-  MotorProtection::~MotorProtection() {
-    // Bouml preserved body begin 000876F1
-    // Bouml preserved body end 000876F1
-  }
+MotorProtection::~MotorProtection() {
+  // Bouml preserved body begin 000876F1
+  // Bouml preserved body end 000876F1
+}
 
-  bool MotorProtection::isRMSCurrentOverLimit(const quantity<si::current>& actualCurrent, const ptime& timestamp) {
-    // Bouml preserved body begin 00085C71
+bool MotorProtection::isRMSCurrentOverLimit(const quantity<si::current>& actualCurrent, const ptime& timestamp) {
+  // Bouml preserved body begin 00085C71
 
     if (motorOverLimit)
       return true;
@@ -68,11 +68,11 @@ namespace youbot {
 
     return false;
 
-    // Bouml preserved body end 00085C71
-  }
+  // Bouml preserved body end 00085C71
+}
 
-  bool MotorProtection::createSafeMotorCommands(YouBotSlaveMsg& MotorCommand) {
-    // Bouml preserved body begin 00085CF1
+bool MotorProtection::createSafeMotorCommands(YouBotSlaveMsg& MotorCommand) {
+  // Bouml preserved body begin 00085CF1
 
     time_duration dt;
     ptime now = microsec_clock::local_time();
@@ -88,8 +88,8 @@ namespace youbot {
     }
     return false;
 
-    // Bouml preserved body end 00085CF1
-  }
+  // Bouml preserved body end 00085CF1
+}
 
 
 } // namespace youbot

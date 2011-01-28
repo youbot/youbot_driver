@@ -73,17 +73,14 @@ int main() {
 
   try {
 
-    rude::Config configfile;
-
-    if (!configfile.load("../config/applications.cfg"))
-      throw FileNotFoundException("../config/applications.cfg file no found");
+    ConfigFile configfile("../config/applications.cfg");
 
     int ch = 0;
     double linearVel = 0.05; //meter_per_second
     double angularVel = 0.2; //radian_per_second
-    configfile.setSection("KeyboardRemoteContol");
-    linearVel = configfile.getDoubleValue("TanslationalVelocity_[meter_per_second]");
-    angularVel = configfile.getDoubleValue("RotationalVelocity_[radian_per_second]");
+
+    configfile.readInto(linearVel, "TanslationalVelocity_[meter_per_second]");
+    configfile.readInto(angularVel, "RotationalVelocity_[radian_per_second]");
 
     YouBotBase myYouBotBase("youbot-base");
 

@@ -1,11 +1,8 @@
 
-SET( YOUBOT_DRIVER_VERSION 0.01 )
-
-
 SET(YOUBOT_DRIVER_SRC
   ${CMAKE_HOME_DIRECTORY}/generic/Errors.cpp
   ${CMAKE_HOME_DIRECTORY}/generic/Logger.cpp
- # ${CMAKE_HOME_DIRECTORY}/generic/ConfigFile.cpp
+  ${CMAKE_HOME_DIRECTORY}/generic/ConfigFile.cpp
   ${CMAKE_HOME_DIRECTORY}/youbot/EthercatMaster.cpp
   ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJoint.cpp
   ${CMAKE_HOME_DIRECTORY}/youbot/YouBotBase.cpp
@@ -42,7 +39,7 @@ SET(YOUBOT_DRIVER_HEADERS
 ../generic/Logger.hpp
 ../generic/Time.hpp
 ../generic/Units.hpp
-#../generic/ConfigFile.hpp
+../generic/ConfigFile.hpp
 
 ../generic-gripper/Gripper.hpp
 ../generic-gripper/GripperData.hpp

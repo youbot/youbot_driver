@@ -58,11 +58,11 @@
 #include <stdexcept>
 #include <iostream>
 #include <boost/thread.hpp>
-#include "rude/config.h"
 #include "generic/Logger.hpp"
 #include "generic/Units.hpp"
 #include "generic/Time.hpp"
 #include "generic/Exceptions.hpp"
+#include "generic/ConfigFile.hpp"
 #include "youbot/YouBotSlaveMsg.hpp"
 #include "youbot/YouBotSlaveMailboxMsg.hpp"
 #include "youbot/MotorProtection.hpp"
@@ -199,7 +199,7 @@ friend class YouBotGripper;
 
     std::vector<bool> newMailboxInputDataFlagTwo;
 
-    rude::Config configfile;
+    ConfigFile* configfile;
 
     std::vector<ec_slavet> ethercatSlaveInfo;
 

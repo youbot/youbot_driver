@@ -77,20 +77,20 @@ EthercatMaster::EthercatMaster() {
     newDataFlagOne = false;
     newDataFlagTwo = false;
     this->automaticSendOn = true;
+    configfile = NULL;
 
     //initialize to zero
     for(unsigned int i = 0; i<4096; i++){
       IOmap_[i] = 0;
     }
     //read ethercat parameters form config file
-    if (!configfile.load(this->configFileName.c_str())){
-      throw FileNotFoundException(this->configFileName + " file no found");
-    }
-    configfile.setSection("EtherCAT");
-    ethernetDevice = configfile.getStringValue("EthernetDevice");
-    timeTillNextEthercatUpdate = configfile.getIntValue("EtherCATUpdateRate_[msec]");
-    ethercatTimeout = configfile.getIntValue("EtherCATTimeout_[usec]");
-    mailboxTimeout = configfile.getIntValue("MailboxTimeout_[usec]");
+    configfile = new ConfigFile(this->configFileName.c_str());
+   
+   // configfile.setSection("EtherCAT");
+     configfile->readInto(ethernetDevice, "EthernetDevice");
+     configfile->readInto(timeTillNextEthercatUpdate, "EtherCATUpdateRate_[msec]");
+     configfile->readInto(ethercatTimeout, "EtherCATTimeout_[usec]");
+     configfile->readInto(mailboxTimeout, "MailboxTimeout_[usec]");
 
 
   // Bouml preserved body end 00041171
@@ -99,6 +99,8 @@ EthercatMaster::EthercatMaster() {
 EthercatMaster::~EthercatMaster() {
   // Bouml preserved body begin 000411F1
     this->closeEthercat();
+    if(configfile != NULL)
+      delete configfile;
   // Bouml preserved body end 000411F1
 }
 
@@ -299,8 +301,8 @@ void EthercatMaster::initializeEthercat() {
     int manipulatorNo = 0;
 
 
-    baseJointControllerName = configfile.getStringValue("BaseJointControllerName");
-    manipulatorJointControllerName = configfile.getStringValue("ManipulatorJointControllerName");
+    configfile->readInto(baseJointControllerName, "BaseJointControllerName");
+    configfile->readInto(manipulatorJointControllerName, "ManipulatorJointControllerName");
 
     //reserve memory for all slave with a input/output buffer
     for (unsigned int cnt = 1; cnt <= ec_slavecount; cnt++) {
