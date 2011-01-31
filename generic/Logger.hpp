@@ -53,66 +53,44 @@
 #define	YOUBOT_LOGGER_HPP
 
 #include <iostream>
+#include <fstream>
 
-//#define BOOST_LOG_FOUND
-#ifdef BOOST_LOG_FOUND
-#include <boost/log/utility/init/to_console.hpp>
-#include <boost/log/utility/init/to_file.hpp>
-#include <boost/log/utility/init/common_attributes.hpp>
-#include <boost/log/utility/init/from_stream.hpp>
-#include <boost/log/utility/init/common_attributes.hpp>
-#include <boost/log/core.hpp>
-#include <boost/log/trivial.hpp>
-#include <boost/log/filters.hpp>
-
-namespace logging = boost::log;
-namespace sinks = boost::log::sinks;
-namespace src = boost::log::sources;
-//namespace flt = boost::log::filters;
-namespace attrs = boost::log::attributes;
-namespace keywords = boost::log::keywords;
-
-#endif  /* BOOST_LOG_FOUND */
+#include "boost/date_time/posix_time/posix_time.hpp"
 
 
 namespace youbot {
 
-    enum severity_level {
-        trace,
-        debug,
-        info,
-        warning,
-        exceptions,
-        error,
-        fatal
-    };
+	enum severity_level {
+		trace,
+		debug,
+		info,
+		warning,
+		error,
+		fatal
+	};
+
+	class PrintOut {
+	private:
+		static const bool toConsole = true;
+		static const bool toFile = false;
+		static const severity_level logginLevel = trace;
+
+		std::stringstream out;
+		bool print;
+	public:
+
+		PrintOut(const std::string &funcName, const int &lineNo, const std::string &fileName, severity_level level);
+		~PrintOut();
+
+		template <class T>
+		PrintOut::PrintOut & operator<<(const T &v) {
+			out << v;
+			return *this;
+		}
+	};
 
 
-
-#ifdef BOOST_LOG_FOUND
-    static src::severity_logger< youbot::severity_level > severityLogger;
-    #define LOG(level) BOOST_LOG_STREAM_SEV(severityLogger, level)
-#else
-    #define LOG(level) std::cout
-#endif  /* BOOST_LOG_FOUND */
-
-    class Logger {
-    private:
-
-        Logger() {
-            isInitialized = false;
-        }
-
-        ~Logger() {
-        }
-        Logger(const Logger &); // intentionally undefined
-        Logger & operator=(const Logger &); // intentionally undefined
-
-        bool isInitialized;
-    public:
-        static Logger &getInstance();
-        void init();
-    };
+#define LOG(level) PrintOut(__PRETTY_FUNCTION__, __LINE__ , __FILE__, level)
 
 } // namespace youbot
 

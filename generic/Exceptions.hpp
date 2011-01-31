@@ -54,9 +54,9 @@
 
 
 #include <exception>
+#include <stdexcept>
 #include <iostream>
 #include <string>
-#include "generic/Logger.hpp"
 
 using namespace std;
 namespace youbot {
@@ -66,9 +66,9 @@ namespace youbot {
 
     public:
         // Takes a character string describing the error.
-        explicit FileNotFoundException(const string& message) throw () :std::ios_base::failure(message) {
+        explicit FileNotFoundException(const string& message) throw ()
+            :std::ios_base::failure(message) {
             msg = message;
-            LOG(exceptions) << message;
         };
 
         virtual ~FileNotFoundException() throw () {
@@ -86,9 +86,9 @@ namespace youbot {
 
     public:
         // Takes a character string describing the error.
-        explicit KeyNotFoundException(const string& message) throw () :std::ios_base::failure(message) {
+        explicit KeyNotFoundException(const string& message) throw ()
+            :std::ios_base::failure(message) {
             msg = message;
-            LOG(exceptions) << message;
         };
 
         virtual ~KeyNotFoundException() throw () {
@@ -105,9 +105,9 @@ namespace youbot {
 
     public:
         // Takes a character string describing the error.
-        explicit JointParameterException(const string& message) throw () :std::runtime_error(message) {
+        explicit JointParameterException(const string& message) throw()
+            : std::runtime_error(message) {
             msg = message;
-            LOG(exceptions) << message;
         };
 
         virtual ~JointParameterException() throw () {
@@ -124,9 +124,9 @@ namespace youbot {
 
     public:
         // Takes a character string describing the error.
-        explicit JointErrorException(const string& message) throw () :std::runtime_error(message) {
+        explicit JointErrorException(const string& message) throw ()
+            :std::runtime_error(message) {
             msg = message;
-            LOG(exceptions) << message;
         };
 
         virtual ~JointErrorException() throw () {

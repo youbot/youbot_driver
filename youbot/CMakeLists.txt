@@ -1,6 +1,5 @@
 
 SET(YOUBOT_DRIVER_SRC
-  ${CMAKE_HOME_DIRECTORY}/generic/Errors.cpp
   ${CMAKE_HOME_DIRECTORY}/generic/Logger.cpp
   ${CMAKE_HOME_DIRECTORY}/generic/ConfigFile.cpp
   ${CMAKE_HOME_DIRECTORY}/youbot/EthercatMaster.cpp
@@ -34,7 +33,6 @@ SET(YOUBOT_DRIVER_HEADERS
 ../base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.hpp
 ../base-kinematic/WheeledBaseKinematic.hpp
 
-../generic/Errors.hpp
 ../generic/Exceptions.hpp
 ../generic/Logger.hpp
 ../generic/Time.hpp

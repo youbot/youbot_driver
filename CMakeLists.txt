@@ -32,17 +32,6 @@ ELSE (Boost_FOUND)
 MESSAGE(STATUS "ERROR: Boost not found")
 ENDIF (Boost_FOUND)
 
-FIND_PACKAGE(BoostLog)
-IF (BOOSTLOG_FOUND)
-  INCLUDE_DIRECTORIES(${BOOSTLOG_INCLUDE_DIR})
-  LINK_DIRECTORIES(${BOOSTLOG_LIBRARY_DIR})
-  LINK_LIBRARIES(${BOOSTLOGLIB})
-  ADD_DEFINITIONS(-DBOOST_LOG_FOUND)
-MESSAGE(STATUS "SUCCESSFUL: boost::log found at "${BOOSTLOG_LIBRARY_DIR})
-ELSE (BOOSTLOG_FOUND)
-MESSAGE(STATUS "ERROR: boost::log not found")
-ENDIF (BOOSTLOG_FOUND)
-
 
 FIND_PACKAGE(Soem REQUIRED)
 IF (SOEM_FOUND)
@@ -60,8 +49,7 @@ include(UseDoxygen)
 
 
 add_subdirectory(youbot)
-
 add_subdirectory(applications)
-add_subdirectory(testing)
+#add_subdirectory(testing)
 
 

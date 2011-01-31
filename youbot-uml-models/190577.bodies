@@ -1,8 +1,6 @@
 class EthercatMaster
 !!!266609.cpp!!!	EthercatMaster()
 
-    //Initialize the Logger
-    (Logger::getInstance()).init();
 
     ethernetDevice = "eth0";
     timeTillNextEthercatUpdate = 4; //msec

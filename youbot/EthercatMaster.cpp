@@ -66,8 +66,6 @@ EthercatMaster* EthercatMaster::instance = 0;
 EthercatMaster::EthercatMaster() {
   // Bouml preserved body begin 00041171
 
-    //Initialize the Logger
-    (Logger::getInstance()).init();
 
     ethernetDevice = "eth0";
     timeTillNextEthercatUpdate = 4; //msec
