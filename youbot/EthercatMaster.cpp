@@ -284,9 +284,9 @@ void EthercatMaster::initializeEthercat() {
     std::string actualSlaveName;
     nrOfSlaves = 0;
     YouBotSlaveMsg emptySlaveMsg;
-    quantity<si::current> maxContinuousCurrentBase = 3 * ampere;
-    quantity<si::time> thermalTimeConstantWindingBase = 20 * second;
-    quantity<si::time> thermalTimeConstantMotorBase = 120 * second;
+    quantity<si::current> maxContinuousCurrentBase = 3.54 * ampere;
+    quantity<si::time> thermalTimeConstantWindingBase = 16.6 * second;
+    quantity<si::time> thermalTimeConstantMotorBase = 212 * second;
     quantity<si::current> maxContinuousCurrentJoint13 = 2.36 * ampere;
     quantity<si::time> thermalTimeConstantWindingJoint13 = 16.6 * second;
     quantity<si::time> thermalTimeConstantMotorJoint13 = 212 * second;
