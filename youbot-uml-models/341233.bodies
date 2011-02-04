@@ -1,0 +1,12 @@
+class DoJointCommutation
+!!!561393.cpp!!!	DoJointCommutation()
+    this->name = "CalibrateJoint";
+    this->parameterType = API_PARAMETER;
+!!!561649.cpp!!!	getParameter(out doCalibration : bool, out calibrationDirection : CalibrationDirection, out maxCurrent : quantity<si::current>) : void
+    doCalibration = this->doCalibration;
+    calibrationDirection = this->calibrationDirection;
+    maxCurrent = this->maxCurrent;
+!!!561777.cpp!!!	setParameter(in doCalibration : bool, in calibrationDirection : CalibrationDirection, in maxCurrent : quantity<si::current>) : void
+    this->doCalibration = doCalibration;
+    this->calibrationDirection = calibrationDirection;
+    this->maxCurrent = maxCurrent;

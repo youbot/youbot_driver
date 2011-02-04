@@ -526,43 +526,6 @@ void PWMSchemeBlockCommutation::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg&
   // Bouml preserved body end 00072171
 }
 
-MotorContollerGearRatio::MotorContollerGearRatio() {
-  // Bouml preserved body begin 00070AF1
-    this->name = "MotorContollerGearRatio";
-    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-  // Bouml preserved body end 00070AF1
-}
-
-MotorContollerGearRatio::~MotorContollerGearRatio() {
-  // Bouml preserved body begin 00070B71
-  // Bouml preserved body end 00070B71
-}
-
-void MotorContollerGearRatio::getParameter(unsigned int& parameter) const {
-  // Bouml preserved body begin 00070BF1
-    parameter = this->value;
-  // Bouml preserved body end 00070BF1
-}
-
-void MotorContollerGearRatio::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
-  // Bouml preserved body begin 00070C71
-
-    message.stctOutput.commandNumber = msgType;
-    message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 211; //MotorContollerGearRatio
-  //  message.stctOutput.value = value;
-
-  // Bouml preserved body end 00070C71
-}
-
-void MotorContollerGearRatio::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
-  // Bouml preserved body begin 000721F1
-    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
-      this->value = message.stctInput.value; //TODO do convertion
-    }
-  // Bouml preserved body end 000721F1
-}
-
 MotorCoilResistance::MotorCoilResistance() {
   // Bouml preserved body begin 00070DF1
     this->name = "MotorCoilResistance";

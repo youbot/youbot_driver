@@ -197,6 +197,7 @@ JointLimits::JointLimits() {
     this->parameterType = API_PARAMETER;
     this->lowerLimit = 0;
     this->upperLimit = 0;
+    this->areLimitsActive = true;
   // Bouml preserved body end 00063EF1
 }
 
@@ -205,20 +206,22 @@ JointLimits::~JointLimits() {
   // Bouml preserved body end 00063F71
 }
 
-void JointLimits::getParameter(int& lowerLimit, int& upperLimit) const {
+void JointLimits::getParameter(int& lowerLimit, int& upperLimit, bool& areLimitsActive) const {
   // Bouml preserved body begin 00063FF1
     lowerLimit = this->lowerLimit;
     upperLimit = this->upperLimit;
+    areLimitsActive = this->areLimitsActive;
   // Bouml preserved body end 00063FF1
 }
 
-void JointLimits::setParameter(const int lowerLimit, const int upperLimit) {
+void JointLimits::setParameter(const int lowerLimit, const int upperLimit, const bool activateLimits) {
   // Bouml preserved body begin 00064071
     if (lowerLimit > upperLimit) {
       throw std::out_of_range("The lower joint limit it not allowed to be bigger than the upper limit");
     }
     this->lowerLimit = lowerLimit;
     this->upperLimit = upperLimit;
+    this->areLimitsActive = activateLimits;
   // Bouml preserved body end 00064071
 }
 
@@ -3039,6 +3042,49 @@ void EncoderNullPolarity::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& messa
   // Bouml preserved body begin 000841F1
     this->value = message.stctInput.value;
   // Bouml preserved body end 000841F1
+}
+
+MotorContollerGearRatio::MotorContollerGearRatio() {
+  // Bouml preserved body begin 00070AF1
+    this->name = "MotorContollerGearRatio";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 00070AF1
+}
+
+MotorContollerGearRatio::~MotorContollerGearRatio() {
+  // Bouml preserved body begin 00070B71
+  // Bouml preserved body end 00070B71
+}
+
+void MotorContollerGearRatio::getParameter(unsigned int& parameter) const {
+  // Bouml preserved body begin 00070BF1
+    parameter = this->value;
+  // Bouml preserved body end 00070BF1
+}
+
+void MotorContollerGearRatio::setParameter(const unsigned int parameter) {
+  // Bouml preserved body begin 00089071
+    this->value = parameter;
+  // Bouml preserved body end 00089071
+}
+
+void MotorContollerGearRatio::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
+  // Bouml preserved body begin 00070C71
+
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 211; //MotorContollerGearRatio
+    message.stctOutput.value = value;
+
+  // Bouml preserved body end 00070C71
+}
+
+void MotorContollerGearRatio::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
+  // Bouml preserved body begin 000721F1
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+      this->value = message.stctInput.value;
+    }
+  // Bouml preserved body end 000721F1
 }
 
 

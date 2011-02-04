@@ -4,12 +4,15 @@ class JointLimits
     this->parameterType = API_PARAMETER;
     this->lowerLimit = 0;
     this->upperLimit = 0;
-!!!409585.cpp!!!	getParameter(out lowerLimit : int, out upperLimit : int) : void
+    this->areLimitsActive = true;
+!!!409585.cpp!!!	getParameter(out lowerLimit : int, out upperLimit : int, out areLimitsActive : bool) : void
     lowerLimit = this->lowerLimit;
     upperLimit = this->upperLimit;
-!!!409713.cpp!!!	setParameter(in lowerLimit : int, in upperLimit : int) : void
+    areLimitsActive = this->areLimitsActive;
+!!!409713.cpp!!!	setParameter(in lowerLimit : int, in upperLimit : int, in activateLimits : bool) : void
     if (lowerLimit > upperLimit) {
       throw std::out_of_range("The lower joint limit it not allowed to be bigger than the upper limit");
     }
     this->lowerLimit = lowerLimit;
     this->upperLimit = upperLimit;
+    this->areLimitsActive = activateLimits;

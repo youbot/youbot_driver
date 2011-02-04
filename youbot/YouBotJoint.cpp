@@ -60,6 +60,7 @@ YouBotJoint::YouBotJoint(unsigned int jointNo) {
     this->storage.inverseMovementDirection = false;
     this->storage.lowerLimit = 0;
     this->storage.upperLimit = 0;
+    this->storage.areLimitsActive = false;
   // Bouml preserved body end 000412F1
 }
 
@@ -178,9 +179,9 @@ void YouBotJoint::setConfigurationParameter(const CalibrateJoint& parameter) {
       YouBotSlaveMsg messageBuffer;
       messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
       if (parameter.calibrationDirection == POSITIV) {
-        calibrationVel = 1;
+        calibrationVel = 1.0 / storage.gearRatio;
       } else if (parameter.calibrationDirection == NEGATIV) {
-        calibrationVel = -1;
+        calibrationVel = -1.0 / storage.gearRatio;
       } else {
         throw std::runtime_error("No calibration direction for joint: " + this->jointName);
       }
@@ -293,6 +294,7 @@ void YouBotJoint::setConfigurationParameter(const JointLimits& parameter) {
 
     this->storage.lowerLimit = parameter.lowerLimit;
     this->storage.upperLimit = parameter.upperLimit;
+    this->storage.areLimitsActive = parameter.areLimitsActive;
 
   // Bouml preserved body end 000642F1
 }
@@ -342,16 +344,21 @@ void YouBotJoint::setData(const JointAngleSetpoint& data, SyncMode communication
     if (storage.gearRatio == 0) {
       throw std::out_of_range("A Gear Ratio of zero is not allowed");
     }
+    
+    if (storage.encoderTicksPerRound == 0) {
+      throw std::out_of_range("Zero Encoder Ticks per Round are not allowed");
+    }
 
+    if(storage.areLimitsActive){
+      quantity<plane_angle> lowLimit = ((double) this->storage.lowerLimit / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
+      quantity<plane_angle> upLimit = ((double) this->storage.upperLimit / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
 
-    quantity<plane_angle> lowLimit = ((double) this->storage.lowerLimit / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
-    quantity<plane_angle> upLimit = ((double) this->storage.upperLimit / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
-
-    if (!((data.angle < upLimit) && (data.angle > lowLimit))) {
-      std::stringstream errorMessageStream;
-      errorMessageStream << "The setpoint angle is out of range. The valid range is between " << lowLimit << " and " << upLimit;
-      //    LOG(trace) << "abs_value: " << abs(data.angle) << " abslow " << abs(lowLimit) << " absupper " << abs(upLimit);
-      throw std::out_of_range(errorMessageStream.str());
+      if (!((data.angle < upLimit) && (data.angle > lowLimit))) {
+        std::stringstream errorMessageStream;
+        errorMessageStream << "The setpoint angle is out of range. The valid range is between " << lowLimit << " and " << upLimit;
+        //    LOG(trace) << "abs_value: " << abs(data.angle) << " abslow " << abs(lowLimit) << " absupper " << abs(upLimit);
+        throw std::out_of_range(errorMessageStream.str());
+      }
     }
 
     YouBotSlaveMsg messageBuffer;

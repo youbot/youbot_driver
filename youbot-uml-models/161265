@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 33
+  revision 35
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -442,7 +442,6 @@ ${namespace_end}"
 	class_ref 320753 // VelocityErrorSum
 	class_ref 296305 // CommutationMode
 	class_ref 296433 // PWMSchemeBlockCommutation
-	class_ref 296561 // MotorContollerGearRatio
 	class_ref 296689 // MotorCoilResistance
 	class_ref 296817 // InitializationMode
 	class_ref 296945 // EncoderResolution
@@ -599,6 +598,7 @@ ${namespace_end}"
 	class_ref 321393 // MaximumPWMChangePerPIDInterval
 	class_ref 321521 // SineCompensationFactor
 	class_ref 321649 // EncoderNullPolarity
+	class_ref 296561 // MotorContollerGearRatio
       end
       comment "/****************************************************************
  *

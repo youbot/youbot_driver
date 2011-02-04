@@ -224,6 +224,8 @@ void YouBotBase::initializeJoints() {
     GearRatio gearRatio;
     EncoderTicksPerRound ticksPerRound;
     InverseMovementDirection inverseDir;
+    MotorContollerGearRatio contollerGearRatio;
+    contollerGearRatio.setParameter(1);
 
     double gearRatio_numerator = 0;
     double gearRatio_denominator = 1;
@@ -251,6 +253,10 @@ void YouBotBase::initializeJoints() {
       joints[i].setConfigurationParameter(gearRatio);
       joints[i].setConfigurationParameter(ticksPerRound);
       joints[i].setConfigurationParameter(inverseDir);
+
+      //set the motor contoller gear ratio to one.
+      //The gear ratio will be taken in to acount by the driver
+      joints[i].setConfigurationParameter(contollerGearRatio);
     }
 
     return;

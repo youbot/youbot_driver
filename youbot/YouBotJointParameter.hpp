@@ -246,9 +246,9 @@ friend class YouBotJoint;
 
     virtual ~JointLimits();
 
-    void getParameter(int& lowerLimit, int& upperLimit) const;
+    void getParameter(int& lowerLimit, int& upperLimit, bool& areLimitsActive) const;
 
-    void setParameter(const int lowerLimit, const int upperLimit);
+    void setParameter(const int lowerLimit, const int upperLimit, const bool activateLimits);
 
 
   private:
@@ -267,6 +267,8 @@ friend class YouBotJoint;
     std::string name;
 
     ParameterType parameterType;
+
+    bool areLimitsActive;
 
 };
 class StopJoint : public YouBotJointParameter {
@@ -2150,6 +2152,35 @@ friend class YouBotJoint;
     ParameterType getType() const {return this->parameterType;};
 
     bool value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+//Switches the ramp generator for speed and position control on and off
+class MotorContollerGearRatio : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    MotorContollerGearRatio();
+
+    virtual ~MotorContollerGearRatio();
+
+    void getParameter(unsigned int& parameter) const;
+
+    void setParameter(const unsigned int parameter);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    unsigned int value;
 
     std::string name;
 

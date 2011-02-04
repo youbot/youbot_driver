@@ -65,6 +65,8 @@ class YouBotJointStorage {
 
     int lowerLimit;
 
+    bool areLimitsActive;
+
 };
 
 } // namespace youbot

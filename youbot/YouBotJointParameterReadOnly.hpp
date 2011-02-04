@@ -393,33 +393,6 @@ friend class YouBotJoint;
 
 };
 //Switches the ramp generator for speed and position control on and off
-class MotorContollerGearRatio : public YouBotJointParameterReadOnly {
-friend class YouBotJoint;
-  public:
-    MotorContollerGearRatio();
-
-    virtual ~MotorContollerGearRatio();
-
-    void getParameter(unsigned int& parameter) const;
-
-
-  private:
-    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
-
-    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
-
-    std::string getName() const {return this->name;};
-
-    ParameterType getType() const {return this->parameterType;};
-
-    unsigned int value;
-
-    std::string name;
-
-    ParameterType parameterType;
-
-};
-//Switches the ramp generator for speed and position control on and off
 class MotorCoilResistance : public YouBotJointParameterReadOnly {
 friend class YouBotJoint;
   public:

@@ -163,6 +163,8 @@ void YouBotManipulator::initializeJoints() {
     InverseMovementDirection inverseDir;
     double gearRatio_numerator = 0;
     double gearRatio_denominator = 1;
+    MotorContollerGearRatio contollerGearRatio;
+    contollerGearRatio.setParameter(1);
 
 
     for (unsigned int i = 0; i < 5; i++) {
@@ -170,6 +172,10 @@ void YouBotManipulator::initializeJoints() {
       jointNameStream << "J" << i + 1;
       jointName = jointNameStream.str();
     //  configfile.setSection(jointName.c_str());
+
+      //set the motor contoller gear ratio to one.
+      //The gear ratio will be taken in to acount by the driver
+      joints[i].setConfigurationParameter(contollerGearRatio);
 
       std:string name;
       configfile->readInto(name, jointName+"JointName");
@@ -190,7 +196,7 @@ void YouBotManipulator::initializeJoints() {
       joints[i].setConfigurationParameter(inverseDir);
     }
 
-
+   
     //TODO When to calibrate the manipulator and when it is not necessary
     //Calibrate all manipulator joints
     std::vector<CalibrateJoint> calibrateJointVec;
@@ -212,7 +218,7 @@ void YouBotManipulator::initializeJoints() {
       configfile->readInto(lowerlimit, jointName+"LowerLimit_[encoderTicks]");
       configfile->readInto(upperlimit, jointName+"UpperLimit_[encoderTicks]");
 
-      jLimits.setParameter(lowerlimit, upperlimit);
+      jLimits.setParameter(lowerlimit, upperlimit, true);
       joints[i].setConfigurationParameter(jLimits);
       
       configfile->readInto(dummy, jointName+"CalibrationMaxCurrent_[ampere]");

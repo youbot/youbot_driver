@@ -81,16 +81,30 @@ int main() {
     YouBotManipulator myYouBotManipulator("youbot-manipulator");
     YouBotBase myYouBotBase("youbot-base");
 
-    
+
     //  std::cout << myYouBot.getNumberOfJoints() << std::endl;
     JointSensedTemperature temp;
     JointSensedAngle angle;
     JointSensedVelocity vel;
     JointSensedCurrent current;
     JointVelocitySetpoint setVel;
-    JointAngleSetpoint setangle;
-    setangle.angle = 2.0 * M_PI *radian;
+
+
+    MotorContollerGearRatio gear;
     
+    unsigned int gearratio;
+
+    for (unsigned int i = 1; i <= 4; i++) {
+      myYouBotBase.getBaseJoint(i).getConfigurationParameter(gear);
+      gear.getParameter(gearratio);
+      LOG(trace) << "gearratio MJ " << i <<": " <<gearratio;
+    }
+
+    for (unsigned int i = 1; i <= 5; i++) {
+      myYouBotManipulator.getArmJoint(i).getConfigurationParameter(gear);
+      gear.getParameter(gearratio);
+      LOG(trace) << "gearratio MJ " << i <<": " <<gearratio;
+    }
 /*
     quantity<si::velocity> longitudinalVelocity = 0 * meter_per_second;
     quantity<si::velocity> transversalVelocity = 0 * meter_per_second;
@@ -168,13 +182,63 @@ int main() {
   //  myYouBotBase.getBaseJoint(3).setConfigurationParameter(initSinus);
   //  myYouBotBase.getBaseJoint(4).setConfigurationParameter(initSinus);
 
-    setVel.angularVelocity = 0.9 *radian_per_second;
-    myYouBotBase.getBaseJoint(4).setData(setVel);
-    while (running) {
+    setVel.angularVelocity = 0.1 *radian_per_second;
+    myYouBotManipulator.getArmJoint(1).setData(setVel);
 
-        myYouBotBase.getBaseJoint(4).getData(temp);
-        myYouBotBase.getBaseJoint(4).getData(vel);
-        myYouBotBase.getBaseJoint(4).getData(current);
+    SLEEP_MILLISEC((((double)M_PI/2)/0.1) * 1000);
+
+    setVel.angularVelocity = 0 *radian_per_second;
+    myYouBotManipulator.getArmJoint(1).setData(setVel);
+    
+
+    /*
+    InitSineDelay initSineDalay;
+    JointAngleSetpoint setangle;
+    ErrorAndStatus status;
+    setangle.angle =  M_PI *radian;
+    unsigned int errorStatus;
+
+    myYouBotBase.getBaseJoint(4).getConfigurationParameter(initSineDalay);
+    quantity<si::time> sinedelay;
+    initSineDalay.getParameter(sinedelay);
+    LOG(trace) << "initSineDalay "<< sinedelay;
+
+    ReinitializationSinusoidalCommutation doSinusoidalCommutation;
+    doSinusoidalCommutation.setParameter(true);
+    myYouBotBase.getBaseJoint(4).getConfigurationParameter(status);
+    status.getParameter(errorStatus);
+
+    myYouBotBase.getBaseJoint(4).setConfigurationParameter(doSinusoidalCommutation);
+
+    myYouBotBase.getBaseJoint(4).getConfigurationParameter(status);
+    status.getParameter(errorStatus);
+
+
+    
+    setVel.angularVelocity = 0.5 *radian_per_second;
+    myYouBotBase.getBaseJoint(4).setData(setVel);
+    myYouBotBase.getBaseJoint(4).getConfigurationParameter(status);
+      status.getParameter(errorStatus);
+    SLEEP_MILLISEC(1000);
+    LOG(trace) << "start";
+    myYouBotBase.getBaseJoint(4).setData(setangle);
+
+
+
+  //  SLEEP_MILLISEC(10000);
+
+  //  setVel.angularVelocity = 0 *radian_per_second;
+ //   myYouBotBase.getBaseJoint(4).setData(setVel);
+
+    while (running) {
+      myYouBotBase.getBaseJoint(4).getConfigurationParameter(status);
+      status.getParameter(errorStatus);
+*/
+    //    myYouBotBase.getBaseJoint(4).getData(temp);
+    //    myYouBotBase.getBaseJoint(4).getData(vel);
+    //    myYouBotBase.getBaseJoint(4).getData(current);
+ 
+ 
      //   std::cout //<< " Temp: " << temp.temperature
               //  << " Angle: " << angle.angle
                 //<< " Vel: " << vel.angularVelocity
@@ -209,7 +273,7 @@ int main() {
    //    std::cout << " Angle: " << angle.angle << std::endl;
 
       SLEEP_MILLISEC(100);
-    }
+ //   }
 
     setVel.angularVelocity = 0 * M_PI *radian_per_second;
     myYouBotBase.getBaseJoint(4).setData(setVel);
