@@ -182,6 +182,7 @@ int main() {
   //  myYouBotBase.getBaseJoint(3).setConfigurationParameter(initSinus);
   //  myYouBotBase.getBaseJoint(4).setConfigurationParameter(initSinus);
 
+    SLEEP_MILLISEC(10000);
     setVel.angularVelocity = 0.1 *radian_per_second;
     myYouBotManipulator.getArmJoint(1).setData(setVel);
 

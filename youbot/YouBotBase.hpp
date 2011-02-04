@@ -102,6 +102,8 @@ class YouBotBase {
 
     void initializeKinematic();
 
+    void doJointCommutation();
+
     ConfigFile* configfile;
 
     std::vector<YouBotJoint> joints;

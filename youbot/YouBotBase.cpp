@@ -71,6 +71,8 @@ YouBotBase::YouBotBase(const std::string name, const std::string configFilePath)
 
   this->initializeKinematic();
 
+  this->doJointCommutation();
+
   // Bouml preserved body end 00067E71
 }
 
@@ -282,6 +284,21 @@ void YouBotBase::initializeKinematic() {
 
     youBotBaseKinematic.setConfiguration(kinematicConfig);
   // Bouml preserved body end 0004DDF1
+}
+
+void YouBotBase::doJointCommutation() {
+  // Bouml preserved body begin 0008A9F1
+  LOG(info) << "Base Joint Commutation";
+
+  quantity<si::velocity> longitudinalVelocity = 0.0 * meter_per_second;
+  quantity<si::velocity> transversalVelocity = 0.0 * meter_per_second;
+  quantity<si::angular_velocity> angularVelocity = 0.1 * radian_per_second;
+
+  this->setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
+  SLEEP_MILLISEC(500);
+  angularVelocity = 0 * radian_per_second;
+  this->setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
+  // Bouml preserved body end 0008A9F1
 }
 
 

@@ -18,6 +18,8 @@ class YouBotBase
 
   this->initializeKinematic();
 
+  this->doJointCommutation();
+
 !!!425713.cpp!!!	~YouBotBase()
   if(configfile != NULL)
     delete configfile;
@@ -186,3 +188,14 @@ class YouBotBase
     
 
     youBotBaseKinematic.setConfiguration(kinematicConfig);
+!!!567793.cpp!!!	doJointCommutation() : void
+  LOG(info) << "Base Joint Commutation";
+
+  quantity<si::velocity> longitudinalVelocity = 0.0 * meter_per_second;
+  quantity<si::velocity> transversalVelocity = 0.0 * meter_per_second;
+  quantity<si::angular_velocity> angularVelocity = 0.1 * radian_per_second;
+
+  this->setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
+  SLEEP_MILLISEC(500);
+  angularVelocity = 0 * radian_per_second;
+  this->setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
