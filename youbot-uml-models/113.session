@@ -1,8 +1,10 @@
 window_sizes 1680 975 669 1005 894 0
 show_stereotypes
-selected operation_ref 567793 // doJointCommutation
+selected class_ref 297329 // HallSensorPolarityReversal
 open
   classview_ref 134641 // Joint
-  operation_ref 567793 // doJointCommutation
+  class_ref 251889 // JointName
+  class_ref 295025 // PParameterSecondParametersSpeedControl
+  class_ref 296689 // MotorCoilResistance
 end
 end

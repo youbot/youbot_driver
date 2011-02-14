@@ -2162,6 +2162,56 @@ void CurrentControlSwitchingThreshold::setYouBotMailboxMsg(const YouBotSlaveMail
   // Bouml preserved body end 000815F1
 }
 
+CommutationMotorCurrent::CommutationMotorCurrent() {
+  // Bouml preserved body begin 0008C371
+    this->name = "CommutationMotorCurrent";
+    this->lowerLimit = 0 * ampere;
+    this->upperLimit = INT_MAX * ampere;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 0008C371
+}
+
+CommutationMotorCurrent::~CommutationMotorCurrent() {
+  // Bouml preserved body begin 0008C3F1
+  // Bouml preserved body end 0008C3F1
+}
+
+void CommutationMotorCurrent::getParameter(quantity<current>& parameter) const {
+  // Bouml preserved body begin 0008C471
+    parameter = this->value;
+  // Bouml preserved body end 0008C471
+}
+
+void CommutationMotorCurrent::setParameter(const quantity<current>& parameter) {
+  // Bouml preserved body begin 0008C4F1
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+  // Bouml preserved body end 0008C4F1
+}
+
+void CommutationMotorCurrent::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
+  // Bouml preserved body begin 0008C571
+
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 177; //CommutationMotorCurrent
+    message.stctOutput.value = value.value() * 1000.0; // ampere to milli ampere
+
+  // Bouml preserved body end 0008C571
+}
+
+void CommutationMotorCurrent::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
+  // Bouml preserved body begin 0008C5F1
+    this->value = ((double)message.stctInput.value)/1000.0 * ampere; //milli ampere to ampere
+  // Bouml preserved body end 0008C5F1
+}
+
 PParameterSecondParametersPositionControl::PParameterSecondParametersPositionControl() {
   // Bouml preserved body begin 0006CDF1
     this->name = "PParameterSecondParametersPositionControl";
@@ -2662,27 +2712,27 @@ void BEMFConstant::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, con
   // Bouml preserved body end 00082DF1
 }
 
-BlockCommutationMaximumSpeed::BlockCommutationMaximumSpeed() {
+SineInitializationVelocity::SineInitializationVelocity() {
   // Bouml preserved body begin 0006EDF1
-    this->name = "BlockCommutationMaximumSpeed";
+    this->name = "SineInitializationVelocity";
     this->lowerLimit = INT_MIN * radian_per_second;
     this->upperLimit = INT_MAX * radian_per_second;
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
   // Bouml preserved body end 0006EDF1
 }
 
-BlockCommutationMaximumSpeed::~BlockCommutationMaximumSpeed() {
+SineInitializationVelocity::~SineInitializationVelocity() {
   // Bouml preserved body begin 0006EE71
   // Bouml preserved body end 0006EE71
 }
 
-void BlockCommutationMaximumSpeed::getParameter(quantity<angular_velocity>& parameter) const {
+void SineInitializationVelocity::getParameter(quantity<angular_velocity>& parameter) const {
   // Bouml preserved body begin 0006EEF1
     parameter = this->value;
   // Bouml preserved body end 0006EEF1
 }
 
-void BlockCommutationMaximumSpeed::setParameter(const quantity<angular_velocity>& parameter) {
+void SineInitializationVelocity::setParameter(const quantity<angular_velocity>& parameter) {
   // Bouml preserved body begin 0006EF71
     if (this->lowerLimit > parameter) {
       throw std::out_of_range("The parameter exceeds the lower limit");
@@ -2695,7 +2745,7 @@ void BlockCommutationMaximumSpeed::setParameter(const quantity<angular_velocity>
   // Bouml preserved body end 0006EF71
 }
 
-void BlockCommutationMaximumSpeed::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
+void SineInitializationVelocity::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
   // Bouml preserved body begin 0006EFF1
 
     message.stctOutput.commandNumber = msgType;
@@ -2705,7 +2755,7 @@ void BlockCommutationMaximumSpeed::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& me
   // Bouml preserved body end 0006EFF1
 }
 
-void BlockCommutationMaximumSpeed::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
+void SineInitializationVelocity::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 0006F071
     double motorRPM = message.stctInput.value;
     this->value =  ((motorRPM / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;

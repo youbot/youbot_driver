@@ -1,6 +1,6 @@
-class BlockCommutationMaximumSpeed
-!!!454129.cpp!!!	BlockCommutationMaximumSpeed()
-    this->name = "BlockCommutationMaximumSpeed";
+class SineInitializationVelocity
+!!!454129.cpp!!!	SineInitializationVelocity()
+    this->name = "SineInitializationVelocity";
     this->lowerLimit = INT_MIN * radian_per_second;
     this->upperLimit = INT_MAX * radian_per_second;
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;

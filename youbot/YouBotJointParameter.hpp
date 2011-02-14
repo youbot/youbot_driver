@@ -327,7 +327,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
-//The maximum velocity used for move to position command when executing a ramp to a position. In sensorless commutation mode the velocity threshold for hallFXTM.
+//The maximum velocity used for move to position command when executing a ramp to a position. In sensorless commutation mode the velocity threshold for hallFX.
 
 class MaximumPositioningVelocity : public YouBotJointParameter {
 friend class YouBotJoint;
@@ -395,7 +395,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
-//Switching threshold for speed control between the first and second set of parameters
+//maximum allowed current
 class MaximumMotorCurrent : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -496,6 +496,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+//Velocity is set to 0 if actual position differs from motor position for more than this value, until the motor catches up. Prevents velocity overshoot if the motor can't follow the velocity ramp.
 class ClearTargetDistance : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -528,6 +529,8 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+//Maximum distance at which the position end flag is set.
+
 class PositionTargetReachedDistance : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -560,7 +563,8 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
-//Switching threshold for speed control between the first and second set of parameters
+//Acceleration parameter for velocity control and position control
+
 class MotorAcceleration : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -626,6 +630,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+//P-Parameter of PID position regulator (first position parameter set)
 class PParameterFirstParametersPositionControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -658,6 +663,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// I-Parameter of PID position regulator (first position parameter set)
 class IParameterFirstParametersPositionControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -690,6 +696,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// D-Parameter of PID position regulator (first position parameter set)
 class DParameterFirstParametersPositionControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -756,8 +763,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
-//PID calculation delay: Set operational frequency PID
-
+// Delay of current limitation algorithm / PID current regulator. 
 class CurrentControlLoopDelay : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -858,7 +864,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
-//Compensates dead time of PWM and motor friction.
+// Clears I Sum if PWM reaches maximum value of 100%. 
 
 class ClearISumIfPWMReachesMaximum : public YouBotJointParameter {
 friend class YouBotJoint;
@@ -888,7 +894,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
-//Compensates dead time of PWM and motor friction.
+// Clears I Sum if the position overshoots the target value. 
 
 class ClearISumIfOvershootsTarget : public YouBotJointParameter {
 friend class YouBotJoint;
@@ -918,6 +924,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// P-Parameter of PID velocity regulator. This PID parameter set is used at lower velocity. (first velocity parameter set) 
 class PParameterFirstParametersSpeedControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -950,6 +957,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// I-Parameter of PID velocity regulator. This PID parameter set is used at lower velocity. (first velocity parameter set) 
 class IParameterFirstParametersSpeedControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -982,6 +990,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// D-Parameter of PID velocity regulator. This PID parameter set is used at lower velocity. (first velocity parameter set) 
 class DParameterFirstParametersSpeedControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1014,6 +1023,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// This PID parameter set is used at lower velocity. (first velocity parameter set)
 class IClippingParameterFirstParametersSpeedControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1046,7 +1056,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
-//Switches the ramp generator for speed and position control on and off
+//Switches the ramp generator for speed and position control on and off 
 class RampGeneratorSpeedAndPositionControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1076,6 +1086,8 @@ friend class YouBotJoint;
 
 };
 //Enabled the re-initialization of the sinusoidal commutation
+//Attention: Depending on initialization mode, stop motor before issuing this command!
+
 class ReinitializationSinusoidalCommutation : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1104,7 +1116,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
-// 1: Set Encoder counter to zero at next N channel event.
+// Set Encoder counter to zero at next N channel event.
 
 class SetEncoderCounterZeroAtNextNChannel : public YouBotJointParameter {
 friend class YouBotJoint;
@@ -1134,7 +1146,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
-// 1: Set encoder counter to zero at next switch event.
+// Set encoder counter to zero at next switch event.
 
 class SetEncoderCounterZeroAtNextSwitch : public YouBotJointParameter {
 friend class YouBotJoint;
@@ -1226,6 +1238,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// This value represents the internal commutation offset. (0 ... max. Encoder steps per rotation)
 class ActualCommutationOffset : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1290,6 +1303,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// P-Parameter of PID current regulator. This PID parameter set is used at lower velocity. (first current parameter set)
 class PParameterFirstParametersCurrentControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1322,6 +1336,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// I-Parameter of PID current regulator. This PID parameter set is used at lower velocity. (first current parameter set)
 class IParameterFirstParametersCurrentControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1354,6 +1369,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// D-Parameter of PID current regulator. This PID parameter set is used at lower velocity. (first current parameter set)
 class DParameterFirstParametersCurrentControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1386,6 +1402,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// I-Clipping Parameter of PID current regulator. This PID parameter set is used at lower velocity. (first current parameter set)
 class IClippingParameterFirstParametersCurrentControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1418,6 +1435,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// P-Parameter of PID current regulator. This PID parameter set is used at higher velocity. (second current parameter set)
 class PParameterSecondParametersCurrentControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1450,6 +1468,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// I-Parameter of PID current regulator. This PID parameter set is used at higher velocity. (second current parameter set)
 class IParameterSecondParametersCurrentControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1482,6 +1501,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// D-Parameter of PID current regulator. This PID parameter set is used at higher velocity. (second current parameter set)
 class DParameterSecondParametersCurrentControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1514,6 +1534,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// I-Clipping Parameter of PID current regulator. This PID parameter set is used at higher velocity. (second current parameter set)
 class IClippingParameterSecondParametersCurrentControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1546,7 +1567,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
-//Switching threshold for position control between the first and second set of parameters
+// Switching threshold for position control between the first and second set of parameters
 class CurrentControlSwitchingThreshold : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1579,6 +1600,41 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// Motor current for controlled commutation. This parameter is used in commutation mode 1, 4, 5 and in initialization of sine.
+
+class CommutationMotorCurrent : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    CommutationMotorCurrent();
+
+    virtual ~CommutationMotorCurrent();
+
+    void getParameter(quantity<current>& parameter) const;
+
+    void setParameter(const quantity<current>& parameter);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    quantity<current> upperLimit;
+
+    quantity<current> lowerLimit;
+
+    quantity<current> value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+// P-Parameter of PID position regulator (second position parameter set)
 class PParameterSecondParametersPositionControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1611,6 +1667,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// I-Parameter of PID position regulator (second position parameter set)
 class IParameterSecondParametersPositionControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1643,6 +1700,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// I-Parameter of PID position regulator (second position parameter set)
 class DParameterSecondParametersPositionControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1675,6 +1733,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// Adjust in standstill to lowest possible value at which the motor keeps its position. A too high value causes overshooting at positioning mode. (second position parameter set)
 class IClippingParameterSecondParametersPositionControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1707,6 +1766,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// P-Parameter of PID velocity regulator (second position parameter set)
 class PParameterSecondParametersSpeedControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1739,6 +1799,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// I-Parameter of PID velocity regulator (second position parameter set)
 class IParameterSecondParametersSpeedControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1771,6 +1832,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// D-Parameter of PID velocity regulator (second position parameter set)
 class DParameterSecondParametersSpeedControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1803,6 +1865,8 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// I-Clipping Parameter of PID current regulator. This PID parameter set is used at lower velocity. (second position parameter set)
+
 class IClippingParameterSecondParametersSpeedControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1835,6 +1899,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// Mass inertia constant for position regulation. Compensates mass moment of inertia of rotor.
 class MassInertiaConstant : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1867,6 +1932,8 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+// BEMF constant of motor. Used for current regulation, position regulation and velocity regulation. Feed forward control for current regulation, position regulation and velocity regulation is disabled if BEMF constant is set to zero.
+
 class BEMFConstant : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -1899,13 +1966,14 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
-//Maximum speed for initialisation in block commutation
-class BlockCommutationMaximumSpeed : public YouBotJointParameter {
+//Velocity for sine initialization.
+
+class SineInitializationVelocity : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
-    BlockCommutationMaximumSpeed();
+    SineInitializationVelocity();
 
-    virtual ~BlockCommutationMaximumSpeed();
+    virtual ~SineInitializationVelocity();
 
     void getParameter(quantity<angular_velocity>& parameter) const;
 
@@ -1998,7 +2066,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
-//PID calculation delay: Set operational frequency PID
+// Duration for sine initialization sequence. This parameter should be set in a way, that the motor has stopped mechanical oscillations after the specified time. 
 
 class InitSineDelay : public YouBotJointParameter {
 friend class YouBotJoint;
@@ -2032,8 +2100,8 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
-// 1: Set encoder counter zero only once NULL
-// 0: always at an N channel event, respectively switch event.
+// Enable overvoltage protection. 
+
 class ActivateOvervoltageProtection : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -2062,7 +2130,8 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
-//Commutation (CCW) to compensate for the Hall sensor deviations. The aim is that the motor rotates in either direction with equal speed.
+// Maximum PWM change per PID interval. 
+
 class MaximumPWMChangePerPIDInterval : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -2095,7 +2164,8 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
-//Commutation (CCW) to compensate for the Hall sensor deviations. The aim is that the motor rotates in either direction with equal speed.
+// Compensates the propagation delay of the MPU
+
 class SineCompensationFactor : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -2128,8 +2198,8 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
-// 1: Set encoder counter zero only once NULL
-// 0: always at an N channel event, respectively switch event.
+// Encoder null polarity for zeroing of position counter.
+
 class EncoderNullPolarity : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
@@ -2158,7 +2228,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
-//Switches the ramp generator for speed and position control on and off
+//The gear ratio which is stored in the motor controller
 class MotorContollerGearRatio : public YouBotJointParameter {
 friend class YouBotJoint;
   public:

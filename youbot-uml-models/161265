@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 35
+  revision 36
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -580,6 +580,7 @@ ${namespace_end}"
 	class_ref 319985 // DParameterSecondParametersCurrentControl
 	class_ref 320113 // IClippingParameterSecondParametersCurrentControl
 	class_ref 320241 // CurrentControlSwitchingThreshold
+	class_ref 341233 // CommutationMotorCurrent
 	class_ref 294513 // PParameterSecondParametersPositionControl
 	class_ref 294641 // IParameterSecondParametersPositionControl
 	class_ref 294769 // DParameterSecondParametersPositionControl
