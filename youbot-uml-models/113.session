@@ -1,9 +1,11 @@
-window_sizes 1672 972 648 1018 889 0
+window_sizes 1680 975 648 1026 892 0
 show_stereotypes
-selected class_ref 279665 // NoMoreAction
+selected class_ref 170993 // JointCurrentSetpoint
 open
   classview_ref 134641 // Joint
-  class_ref 279665 // NoMoreAction
-  classview_ref 160881 // YouBot
+  class_ref 170481 // JointDataSetpoint
+  class_ref 170737 // JointVelocitySetpoint
+  class_ref 170865 // JointAngleSetpoint
+  class_ref 170993 // JointCurrentSetpoint
 end
 end
