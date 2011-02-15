@@ -56,8 +56,10 @@
 
 namespace youbot {
 
+/// abstract parameter
 class Parameter {
 };
+/// abstract joint parameter
 class JointParameter : public Parameter {
 };
 

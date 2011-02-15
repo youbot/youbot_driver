@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 36
+  revision 37
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -435,7 +435,6 @@ ${namespace_end}"
 	class_ref 318577 // ActualMotorVoltage
 	class_ref 318705 // ActualPWMDutyCycle
 	class_ref 318833 // ErrorAndStatus
-	class_ref 319089 // BlockPWMScheme
 	class_ref 320369 // PositionError
 	class_ref 320497 // PositionErrorSum
 	class_ref 320625 // VelocityError
@@ -591,7 +590,7 @@ ${namespace_end}"
 	class_ref 295409 // IClippingParameterSecondParametersSpeedControl
 	class_ref 320881 // MassInertiaConstant
 	class_ref 321009 // BEMFConstant
-	class_ref 295537 // BlockCommutationMaximumSpeed
+	class_ref 295537 // SineInitializationVelocity
 	class_ref 295665 // CommutationCompensationClockwise
 	class_ref 295793 // CommutationCompensationCounterClockwise
 	class_ref 321137 // InitSineDelay

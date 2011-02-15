@@ -55,6 +55,7 @@
 #include "generic-gripper/GripperParameter.hpp"
 namespace youbot {
 
+/// abstract gripper
 class Gripper {
   public:
     virtual void setConfigurationParameter(const GripperParameter& parameter) = 0;

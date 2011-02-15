@@ -278,42 +278,6 @@ void ErrorAndStatus::parseYouBotErrorFlags() const {
   // Bouml preserved body end 0007EAF1
 }
 
-BlockPWMScheme::BlockPWMScheme() {
-  // Bouml preserved body begin 0007EFF1
-    this->name = "BlockPWMScheme";
-    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-  // Bouml preserved body end 0007EFF1
-}
-
-BlockPWMScheme::~BlockPWMScheme() {
-  // Bouml preserved body begin 0007F071
-  // Bouml preserved body end 0007F071
-}
-
-void BlockPWMScheme::getParameter(int& parameter) const {
-  // Bouml preserved body begin 0007F0F1
-    parameter = this->value;
-  // Bouml preserved body end 0007F0F1
-}
-
-void BlockPWMScheme::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
-  // Bouml preserved body begin 0007F171
-    message.stctOutput.commandNumber = msgType;
-    message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 167; //BlockPWMScheme
- //   message.stctOutput.value = value;
-
-  // Bouml preserved body end 0007F171
-}
-
-void BlockPWMScheme::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
-  // Bouml preserved body begin 0007F1F1
-    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
-      this->value = message.stctInput.value;
-    }
-  // Bouml preserved body end 0007F1F1
-}
-
 PositionError::PositionError() {
   // Bouml preserved body begin 00081771
     this->name = "PositionError";

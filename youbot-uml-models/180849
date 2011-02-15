@@ -1,6 +1,6 @@
 format 75
 "base-kinematic" // base-kinematic
-  revision 6
+  revision 7
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -41,6 +41,7 @@ format 75
 ${description}
 #include <vector>
 #include <string>
+#include \"generic/Units.hpp\"
 ${namespace_start}
 ${definition}
 ${namespace_end}

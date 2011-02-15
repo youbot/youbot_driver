@@ -55,8 +55,10 @@
 #include "generic-gripper/GripperData.hpp"
 namespace youbot {
 
+/// abstract class of data for gripper with one degree of freedom
 class OneDOFGripperData : public GripperData {
 };
+/// Setpoint lenght of the bar spacing for a one DOF gripper
 class GripperBarSpacingSetPoint : public OneDOFGripperData {
   public:
     quantity<si::length> barSpacing;

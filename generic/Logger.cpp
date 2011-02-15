@@ -53,7 +53,7 @@
 
 namespace youbot {
 
-  PrintOut::PrintOut(const std::string &funcName, const int &lineNo, const std::string &fileName, severity_level level) {
+  Logger::Logger(const std::string &funcName, const int &lineNo, const std::string &fileName, severity_level level) {
 
     if (level >= logginLevel) {
       print = true;
@@ -91,7 +91,7 @@ namespace youbot {
   }
 
 
-  PrintOut::~PrintOut() {
+  Logger::~Logger() {
     //end of message
     if (toConsole && print) {
       std::cout << out.str() << std::endl;

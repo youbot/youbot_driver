@@ -57,6 +57,7 @@
  ****************************************************************/
 namespace youbot {
 
+/// abstract gripper with one degree of freedom
 class OneDOFGripper : public Gripper {
   public:
     virtual void setConfigurationParameter(const GripperParameter& parameter) = 0;

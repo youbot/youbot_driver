@@ -59,7 +59,6 @@
  *
  * These libraries are required by the youBot Driver:
  * - Simple Open EtherCAT master http://soem.berlios.de
- * - C++ logging library being proposed to the Boost library http://sourceforge.net/projects/boost-log
  * - Boost C++ Libraries http://www.boost.org
  *
  * You can fetch, compile and install these library by hand or you can use robotpkg a software packaging tool to do this automatically.

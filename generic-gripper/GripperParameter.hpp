@@ -54,6 +54,7 @@
 #include "generic-joint/JointParameter.hpp"
 namespace youbot {
 
+/// abstract gripper parameter
 class GripperParameter : public Parameter {
 };
 

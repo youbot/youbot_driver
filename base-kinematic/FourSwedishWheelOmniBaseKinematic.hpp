@@ -60,6 +60,7 @@
 #include "base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.hpp"
 namespace youbot {
 
+/// Implementation of a base kenematic with four swedish wheels. The youBot base kinematic.
 class FourSwedishWheelOmniBaseKinematic : public WheeledBaseKinematic {
   public:
     FourSwedishWheelOmniBaseKinematic();

@@ -58,66 +58,71 @@
 
 namespace youbot {
 
-struct OutputBuffer {
-    int32 positionOrSpeed;
-    uint8 controllerMode;
-} __attribute__((__packed__));
+	/// Output part from the EtherCat message of the youBot EtherCat slaves
 
-//    struct inputbuffer; master view
-
-struct InputBuffer {
-    int32 actualPosition;
-    int32 actualCurrent;
-    int32 actualVelocity;
-    uint16 errorFlags;
-    uint16 driverTemperature;
-} __attribute__((__packed__));
+	struct OutputBuffer {
+		int32 positionOrSpeed;
+		uint8 controllerMode;
+	} __attribute__((__packed__));
 
 
-class YouBotSlaveMsg {
-public:
-    //    struct outputbuffer; master view
+	/// Output part from the EtherCat message of the youBot EtherCat slaves
 
-    OutputBuffer stctOutput;
-    InputBuffer stctInput;
-    unsigned int jointNumber;
+	struct InputBuffer {
+		int32 actualPosition;
+		int32 actualCurrent;
+		int32 actualVelocity;
+		uint16 errorFlags;
+		uint16 driverTemperature;
+	} __attribute__((__packed__));
 
-    // Constructor
 
-    YouBotSlaveMsg() {
-        stctOutput.controllerMode = 0;
-        stctOutput.positionOrSpeed = 0;
-        stctInput.actualCurrent = 0;
-        stctInput.actualPosition = 0;
-        stctInput.actualVelocity = 0;
-        stctInput.driverTemperature = 0;
-        stctInput.errorFlags = 0;
-        jointNumber = 0;
-    }
+	/// EtherCat message of the youBot EtherCat slaves
 
-    // Copy-Constructor
+	class YouBotSlaveMsg {
+	public:
 
-    YouBotSlaveMsg(const YouBotSlaveMsg &copy) {
-        stctOutput = copy.stctOutput;
-        stctInput = copy.stctInput;
-        jointNumber = copy.jointNumber;
-    }
 
-    // Destructor
+		OutputBuffer stctOutput;
+		InputBuffer stctInput;
+		unsigned int jointNumber;
 
-    ~YouBotSlaveMsg() {
-    }
+		// Constructor
 
-    // assignment operator
+		YouBotSlaveMsg() {
+			stctOutput.controllerMode = 0;
+			stctOutput.positionOrSpeed = 0;
+			stctInput.actualCurrent = 0;
+			stctInput.actualPosition = 0;
+			stctInput.actualVelocity = 0;
+			stctInput.driverTemperature = 0;
+			stctInput.errorFlags = 0;
+			jointNumber = 0;
+		}
 
-    YouBotSlaveMsg & operator=(const YouBotSlaveMsg &copy) {
-        stctOutput = copy.stctOutput;
-        stctInput = copy.stctInput;
-        jointNumber = copy.jointNumber;
+		// Copy-Constructor
 
-        return *this;
-    }
-};
+		YouBotSlaveMsg(const YouBotSlaveMsg &copy) {
+			stctOutput = copy.stctOutput;
+			stctInput = copy.stctInput;
+			jointNumber = copy.jointNumber;
+		}
+
+		// Destructor
+
+		~YouBotSlaveMsg() {
+		}
+
+		// assignment operator
+
+		YouBotSlaveMsg & operator=(const YouBotSlaveMsg &copy) {
+			stctOutput = copy.stctOutput;
+			stctInput = copy.stctInput;
+			jointNumber = copy.jointNumber;
+
+			return *this;
+		}
+	};
 
 } // namespace youbot
 

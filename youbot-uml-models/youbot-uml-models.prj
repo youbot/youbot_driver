@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 133
+  revision 134
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -129,6 +129,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// abstract joint"
       operation 239089 "setData"
 	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 2
@@ -191,6 +192,9 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// youBot joint for the base and the manipulator.
+/// Every motor, encoder, transmition combination of the youBot base or manipulator is a YouBotJoint
+"
       classrelation 175985 // <realization>
 	relation 175985 -_-|>
 	  a public
@@ -741,6 +745,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// Stores YouBotJoint informations which are needed in the driver"
       attribute 321905 "encoderTicksPerRound"
 	public explicit_type "uint"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -836,6 +841,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// abstract data class for joints"
     end
 
     class 162289 "JointSensedData"
@@ -850,6 +856,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// abstract data class for sensed / measured joint data"
       classrelation 176113 // <realization>
 	relation 176113 -_-|>
 	  a public
@@ -871,6 +878,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// sensed Temperature of the joint"
       attribute 252913 "temperature"
 	public explicit_type "quantity<celsius::temperature>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -902,6 +910,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// Sensed torque of the joint"
       attribute 252017 "torque"
 	public explicit_type "quantity<si::torque>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -933,6 +942,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// Sensed velocity of the joint"
       attribute 252145 "angularVelocity"
 	public explicit_type "quantity<si::angular_velocity>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -964,6 +974,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// Sensed position / angle of the joint"
       attribute 252401 "angle"
 	public explicit_type "quantity<plane_angle>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -995,6 +1006,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// Sensed electric current of the joint"
       attribute 259825 "current"
 	public explicit_type "quantity<si::current>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -1026,6 +1038,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// abstract data class for commanded joint data"
       classrelation 176241 // <realization>
 	relation 176241 -_-|>
 	  a public
@@ -1047,6 +1060,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// Setpoint torque of the joint"
       attribute 260721 "torque"
 	public explicit_type "quantity<si::torque>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -1078,6 +1092,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// Setpoint velocity of the joint"
       attribute 260849 "angularVelocity"
 	public explicit_type "quantity<angular_velocity>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -1109,6 +1124,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// Setpoint angle / position of the joint"
       attribute 260977 "angle"
 	public explicit_type "quantity<plane_angle>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -1140,6 +1156,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// Setpoint current of the joint"
       attribute 261105 "current"
 	public explicit_type "quantity<si::current>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -1262,7 +1279,7 @@ ${items}};
     end
 
     class 238321 "Parameter"
-      visibility package 
+      abstract visibility package 
       cpp_decl "${description}${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
@@ -1273,10 +1290,11 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// abstract parameter"
     end
 
     class 238449 "JointParameter"
-      visibility package 
+      abstract visibility package 
       cpp_decl "${description}${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
@@ -1287,6 +1305,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// abstract joint parameter"
       classrelation 210673 // <generalisation>
 	relation 210673 ---|>
 	  a public
@@ -1309,6 +1328,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// abstract youBot joint parameter"
       classrelation 262001 // <generalisation>
 	relation 262001 ---|>
 	  a public
@@ -1428,6 +1448,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// the name of the joint"
       classrelation 223985 // <generalisation>
 	relation 223985 ---|>
 	  a public
@@ -1587,6 +1608,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// the gear ratio which is needed for the calculations in the youBot driver"
       classrelation 223857 // <generalisation>
 	relation 223857 ---|>
 	  a public
@@ -1746,6 +1768,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// the resolution of the encoders, it is needed for the calculations of the youBot Driver"
       classrelation 224113 // <generalisation>
 	relation 224113 ---|>
 	  a public
@@ -1905,6 +1928,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// inverse the joint movment direction"
       classrelation 224241 // <generalisation>
 	relation 224241 ---|>
 	  a public
@@ -2051,77 +2075,6 @@ ${inlines}
       end
     end
 
-    class 258929 "YouBotGripperParameter"
-      abstract visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotGripper;
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      operation 389361 "YouBotGripperParameter"
-	preserve_cpp_body_indent protected explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
-"
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 389489 "~YouBotGripperParameter"
-	cpp_virtual public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
-"
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
-"
-	
-	
-	
-	
-      end
-
-      operation 389873 "getName"
-	abstract preserve_cpp_body_indent const cpp_virtual protected explicit_return_type "string"
-	nparams 0
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      attribute 387057 "name"
-	protected explicit_type "string"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      classrelation 231921 // <generalisation>
-	relation 231921 ---|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 231921 // <generalisation>
-	  b parent class_ref 259185 // GripperParameter
-      end
-    end
-
     class 266353 "CalibrateJoint"
       visibility package 
       cpp_decl "${description}${template}class ${name}${inherit} {
@@ -2135,6 +2088,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// calibrates the joint"
       classrelation 238961 // <generalisation>
 	relation 238961 ---|>
 	  a public
@@ -2318,6 +2272,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// joint position limits"
       classrelation 245489 // <generalisation>
 	relation 245489 ---|>
 	  a public
@@ -2501,6 +2456,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// stops the joint"
       classrelation 252017 // <generalisation>
 	relation 252017 ---|>
 	  a public
@@ -2660,6 +2616,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// No more action"
       classrelation 252145 // <generalisation>
 	relation 252145 ---|>
 	  a public
@@ -2819,8 +2776,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "//The maximum velocity used for move to position command when executing a ramp to a position. In sensorless commutation mode the velocity threshold for hallFX.
-"
+      comment "/// The maximum velocity used for move to position command when executing a ramp to a position. In sensorless commutation mode the velocity threshold for hallFX."
       classrelation 217329 // <generalisation>
 	relation 217329 ---|>
 	  a public
@@ -3006,8 +2962,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "//Set PWM limit (0%... 100%).
-"
+      comment "/// Set PWM limit (0%... 100%)."
       classrelation 270065 // <generalisation>
 	relation 270065 ---|>
 	  a public
@@ -3193,7 +3148,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "//maximum allowed current"
+      comment "/// maximum allowed current"
       classrelation 259057 // <generalisation>
 	relation 259057 ---|>
 	  a public
@@ -3379,8 +3334,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "//Maximum velocity at which end position can be set. Prevents issuing of end position when the target is passed at high velocity
-"
+      comment "/// Maximum velocity at which end position can be set. Prevents issuing of end position when the target is passed at high velocity"
       classrelation 269937 // <generalisation>
 	relation 269937 ---|>
 	  a public
@@ -3566,8 +3520,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "//Adjusts the limit to switch between first velocity PID parameter set and second velocity PID parameter set.
-"
+      comment "/// Adjusts the limit to switch between first velocity PID parameter set and second velocity PID parameter set."
       classrelation 258929 // <generalisation>
 	relation 258929 ---|>
 	  a public
@@ -3753,7 +3706,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "//Velocity is set to 0 if actual position differs from motor position for more than this value, until the motor catches up. Prevents velocity overshoot if the motor can't follow the velocity ramp."
+      comment "/// Velocity is set to 0 if actual position differs from motor position for more than this value, until the motor catches up. Prevents velocity overshoot if the motor can't follow the velocity ramp."
       classrelation 270193 // <generalisation>
 	relation 270193 ---|>
 	  a public
@@ -3939,8 +3892,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "//Maximum distance at which the position end flag is set.
-"
+      comment "/// Maximum distance at which the position end flag is set."
       classrelation 270321 // <generalisation>
 	relation 270321 ---|>
 	  a public
@@ -4126,8 +4078,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "//Acceleration parameter for velocity control and position control
-"
+      comment "/// Acceleration parameter for velocity control and position control"
       classrelation 259185 // <generalisation>
 	relation 259185 ---|>
 	  a public
@@ -4313,7 +4264,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "//Switching threshold for position control between the first and second set of parameters"
+      comment "/// Switching threshold for position control between the first and second set of parameters"
       classrelation 261745 // <generalisation>
 	relation 261745 ---|>
 	  a public
@@ -4499,7 +4450,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "//P-Parameter of PID position regulator (first position parameter set)"
+      comment "/// P-Parameter of PID position regulator (first position parameter set)"
       classrelation 224369 // <generalisation>
 	relation 224369 ---|>
 	  a public
@@ -4685,7 +4636,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// I-Parameter of PID position regulator (first position parameter set)"
+      comment "/// I-Parameter of PID position regulator (first position parameter set)"
       classrelation 258673 // <generalisation>
 	relation 258673 ---|>
 	  a public
@@ -4871,7 +4822,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// D-Parameter of PID position regulator (first position parameter set)"
+      comment "/// D-Parameter of PID position regulator (first position parameter set)"
       classrelation 258801 // <generalisation>
 	relation 258801 ---|>
 	  a public
@@ -5057,7 +5008,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "//PID calculation delay: Set operational frequency PID
+      comment "/// PID calculation delay: Set operational frequency PID
 "
       classrelation 259313 // <generalisation>
 	relation 259313 ---|>
@@ -5244,7 +5195,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Delay of current limitation algorithm / PID current regulator. "
+      comment "/// Delay of current limitation algorithm / PID current regulator. "
       classrelation 270449 // <generalisation>
 	relation 270449 ---|>
 	  a public
@@ -5430,8 +5381,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "//Adjust in standstill to lowest possible value at which the motor keeps its position. A too high value causes overshooting at positioning mode. (first position parameter set)
-"
+      comment "/// Adjust in standstill to lowest possible value at which the motor keeps its position. A too high value causes overshooting at positioning mode. (first position parameter set)"
       classrelation 259441 // <generalisation>
 	relation 259441 ---|>
 	  a public
@@ -5617,8 +5567,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "//Compensates dead time of PWM and motor friction.
-"
+      comment "/// Compensates dead time of PWM and motor friction."
       classrelation 270577 // <generalisation>
 	relation 270577 ---|>
 	  a public
@@ -5804,8 +5753,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Clears I Sum if PWM reaches maximum value of 100%. 
-"
+      comment "/// Clears I Sum if PWM reaches maximum value of 100%. "
       classrelation 270705 // <generalisation>
 	relation 270705 ---|>
 	  a public
@@ -5971,8 +5919,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Clears I Sum if the position overshoots the target value. 
-"
+      comment "/// Clears I Sum if the position overshoots the target value. "
       classrelation 270833 // <generalisation>
 	relation 270833 ---|>
 	  a public
@@ -6138,7 +6085,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// P-Parameter of PID velocity regulator. This PID parameter set is used at lower velocity. (first velocity parameter set) "
+      comment "/// P-Parameter of PID velocity regulator. This PID parameter set is used at lower velocity. (first velocity parameter set) "
       classrelation 259569 // <generalisation>
 	relation 259569 ---|>
 	  a public
@@ -6324,7 +6271,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// I-Parameter of PID velocity regulator. This PID parameter set is used at lower velocity. (first velocity parameter set) "
+      comment "/// I-Parameter of PID velocity regulator. This PID parameter set is used at lower velocity. (first velocity parameter set) "
       classrelation 259697 // <generalisation>
 	relation 259697 ---|>
 	  a public
@@ -6510,7 +6457,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// D-Parameter of PID velocity regulator. This PID parameter set is used at lower velocity. (first velocity parameter set) "
+      comment "/// D-Parameter of PID velocity regulator. This PID parameter set is used at lower velocity. (first velocity parameter set) "
       classrelation 259825 // <generalisation>
 	relation 259825 ---|>
 	  a public
@@ -6696,7 +6643,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// This PID parameter set is used at lower velocity. (first velocity parameter set)"
+      comment "/// This PID parameter set is used at lower velocity. (first velocity parameter set)"
       classrelation 259953 // <generalisation>
 	relation 259953 ---|>
 	  a public
@@ -6882,7 +6829,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "//Switches the ramp generator for speed and position control on and off "
+      comment "/// Switches the ramp generator for speed and position control on and off "
       classrelation 260081 // <generalisation>
 	relation 260081 ---|>
 	  a public
@@ -7048,8 +6995,8 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "//Enabled the re-initialization of the sinusoidal commutation
-//Attention: Depending on initialization mode, stop motor before issuing this command!
+      comment "/// Enabled the re-initialization of the sinusoidal commutation
+/// Attention: Depending on initialization mode, stop motor before issuing this command!
 "
       classrelation 260209 // <generalisation>
 	relation 260209 ---|>
@@ -7216,7 +7163,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Set Encoder counter to zero at next N channel event.
+      comment "/// Set Encoder counter to zero at next N channel event.
 "
       classrelation 277361 // <generalisation>
 	relation 277361 ---|>
@@ -7383,7 +7330,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Set encoder counter to zero at next switch event.
+      comment "/// Set encoder counter to zero at next switch event.
 "
       classrelation 277489 // <generalisation>
 	relation 277489 ---|>
@@ -7550,8 +7497,8 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// 1: Set encoder counter zero only once NULL
-// 0: always at an N channel event, respectively switch event."
+      comment "/// 1: Set encoder counter zero only once NULL
+/// 0: always at an N channel event, respectively switch event."
       classrelation 277617 // <generalisation>
 	relation 277617 ---|>
 	  a public
@@ -7717,6 +7664,12 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// Encoder stop switch.
+/// Bit 0: Left stop switch enable \\n
+/// When this bit is set the motor will be stopped if it is moving in negative direction and the left stop switch input becomes active.\\n\\n
+/// Bit 1: Right stop switch enable \\n
+/// When this bit is set the motor will be stopped if it is moving in positive direction and the right stop switch input becomes active\\n\\n
+/// Please see StopSwitchPolarity for selecting the stop switch input polarity."
       classrelation 277745 // <generalisation>
 	relation 277745 ---|>
 	  a public
@@ -7902,7 +7855,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Actual PWM duty cycle (0%... 100%).
+      comment "/// Actual PWM duty cycle (0%... 100%).
 
 "
       operation 517105 "ActualPWMDutyCycle"
@@ -8055,7 +8008,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// This value represents the internal commutation offset. (0 ... max. Encoder steps per rotation)"
+      comment "/// This value represents the internal commutation offset. (0 ... max. Encoder steps per rotation)"
       classrelation 277873 // <generalisation>
 	relation 277873 ---|>
 	  a public
@@ -8241,6 +8194,14 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// Stop switch polarity.
+/// Bit 0: Left stop switch polarity\\n
+/// Bit set: Left stop switch input is high active \\n
+/// Bit clear: Left stop switch input is low active\\n\\n
+/// Bit 1: Right stop switch polarity\\n
+/// Bit set: Right stop switch input is high active\\n
+/// Bit clear: Right stop switch input is low active\\n
+"
       classrelation 278001 // <generalisation>
 	relation 278001 ---|>
 	  a public
@@ -8413,160 +8374,6 @@ ${inlines}
       end
     end
 
-    class 319089 "BlockPWMScheme"
-      visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      comment "// 0: PWM chopper on high side, HI on low side
-// 1: PWM chopper on low side, HI on high
-// 2: PWM chopper on low side and high side
-"
-      operation 520177 "BlockPWMScheme"
-	preserve_cpp_body_indent public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
-"
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
-"
-	
-	
-	
-	
-      end
-
-      operation 520305 "~BlockPWMScheme"
-	cpp_virtual public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
-"
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
-"
-	
-	
-	
-	
-      end
-
-      operation 520433 "getParameter"
-	preserve_cpp_body_indent const public explicit_return_type "void"
-	nparams 1
-	  param out name "parameter" explicit_type "int"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 520561 "getYouBotMailboxMsg"
-	preserve_cpp_body_indent const private explicit_return_type "void"
-	nparams 3
-	  param out name "message" explicit_type "YouBotSlaveMailboxMsg"
-	  param in name "msgType" explicit_type "TMCLCommandNumber"
-	  param in name "storage" type class_ref 303857 // YouBotJointStorage
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}, ${t1} ${p1}${v1}, const ${t2}& ${p2}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}, ${t1} ${p1}, const ${t2}& ${p2}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 520689 "setYouBotMailboxMsg"
-	preserve_cpp_body_indent private explicit_return_type "void"
-	nparams 2
-	  param in name "message" explicit_type "YouBotSlaveMailboxMsg"
-	  param in name "storage" type class_ref 303857 // YouBotJointStorage
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 520817 "getName"
-	preserve_cpp_body_indent const private explicit_return_type "string"
-	nparams 0
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->name;};
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 520945 "getType"
-	preserve_cpp_body_indent const private return_type class_ref 210929 // ParameterType
-	nparams 0
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->parameterType;};
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      attribute 501233 "value"
-	private explicit_type "int"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 501361 "name"
-	private explicit_type "string"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 501489 "parameterType"
-	private type class_ref 210929 // ParameterType
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      classrelation 278641 // <generalisation>
-	relation 278641 ---|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 278641 // <generalisation>
-	  b parent class_ref 296049 // YouBotJointParameterReadOnly
-      end
-    end
-
     class 319217 "PParameterFirstParametersCurrentControl"
       visibility package 
       cpp_decl "${description}${template}class ${name}${inherit} {
@@ -8580,7 +8387,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// P-Parameter of PID current regulator. This PID parameter set is used at lower velocity. (first current parameter set)"
+      comment "/// P-Parameter of PID current regulator. This PID parameter set is used at lower velocity. (first current parameter set)"
       classrelation 278769 // <generalisation>
 	relation 278769 ---|>
 	  a public
@@ -8766,7 +8573,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// I-Parameter of PID current regulator. This PID parameter set is used at lower velocity. (first current parameter set)"
+      comment "/// I-Parameter of PID current regulator. This PID parameter set is used at lower velocity. (first current parameter set)"
       classrelation 278897 // <generalisation>
 	relation 278897 ---|>
 	  a public
@@ -8952,7 +8759,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// D-Parameter of PID current regulator. This PID parameter set is used at lower velocity. (first current parameter set)"
+      comment "/// D-Parameter of PID current regulator. This PID parameter set is used at lower velocity. (first current parameter set)"
       classrelation 279025 // <generalisation>
 	relation 279025 ---|>
 	  a public
@@ -9138,7 +8945,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// I-Clipping Parameter of PID current regulator. This PID parameter set is used at lower velocity. (first current parameter set)"
+      comment "/// I-Clipping Parameter of PID current regulator. This PID parameter set is used at lower velocity. (first current parameter set)"
       classrelation 279153 // <generalisation>
 	relation 279153 ---|>
 	  a public
@@ -9324,7 +9131,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// P-Parameter of PID current regulator. This PID parameter set is used at higher velocity. (second current parameter set)"
+      comment "/// P-Parameter of PID current regulator. This PID parameter set is used at higher velocity. (second current parameter set)"
       classrelation 279281 // <generalisation>
 	relation 279281 ---|>
 	  a public
@@ -9510,7 +9317,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// I-Parameter of PID current regulator. This PID parameter set is used at higher velocity. (second current parameter set)"
+      comment "/// I-Parameter of PID current regulator. This PID parameter set is used at higher velocity. (second current parameter set)"
       classrelation 279409 // <generalisation>
 	relation 279409 ---|>
 	  a public
@@ -9696,7 +9503,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// D-Parameter of PID current regulator. This PID parameter set is used at higher velocity. (second current parameter set)"
+      comment "/// D-Parameter of PID current regulator. This PID parameter set is used at higher velocity. (second current parameter set)"
       classrelation 279537 // <generalisation>
 	relation 279537 ---|>
 	  a public
@@ -9882,7 +9689,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// I-Clipping Parameter of PID current regulator. This PID parameter set is used at higher velocity. (second current parameter set)"
+      comment "/// I-Clipping Parameter of PID current regulator. This PID parameter set is used at higher velocity. (second current parameter set)"
       classrelation 279665 // <generalisation>
 	relation 279665 ---|>
 	  a public
@@ -10068,7 +9875,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Switching threshold for position control between the first and second set of parameters"
+      comment "/// Switching threshold for position control between the first and second set of parameters"
       classrelation 279793 // <generalisation>
 	relation 279793 ---|>
 	  a public
@@ -10254,7 +10061,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Motor current for controlled commutation. This parameter is used in commutation mode 1, 4, 5 and in initialization of sine.
+      comment "/// Motor current for controlled commutation. This parameter is used in commutation mode 1, 4, 5 and in initialization of sine.
 "
       classrelation 294769 // <generalisation>
 	relation 294769 ---|>
@@ -10441,7 +10248,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// P-Parameter of PID position regulator (second position parameter set)"
+      comment "/// P-Parameter of PID position regulator (second position parameter set)"
       classrelation 260337 // <generalisation>
 	relation 260337 ---|>
 	  a public
@@ -10627,7 +10434,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// I-Parameter of PID position regulator (second position parameter set)"
+      comment "/// I-Parameter of PID position regulator (second position parameter set)"
       classrelation 260465 // <generalisation>
 	relation 260465 ---|>
 	  a public
@@ -10813,7 +10620,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// I-Parameter of PID position regulator (second position parameter set)"
+      comment "/// I-Parameter of PID position regulator (second position parameter set)"
       classrelation 260593 // <generalisation>
 	relation 260593 ---|>
 	  a public
@@ -10999,7 +10806,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Adjust in standstill to lowest possible value at which the motor keeps its position. A too high value causes overshooting at positioning mode. (second position parameter set)"
+      comment "/// Adjust in standstill to lowest possible value at which the motor keeps its position. A too high value causes overshooting at positioning mode. (second position parameter set)"
       classrelation 260721 // <generalisation>
 	relation 260721 ---|>
 	  a public
@@ -11185,7 +10992,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// P-Parameter of PID velocity regulator (second position parameter set)"
+      comment "/// P-Parameter of PID velocity regulator (second position parameter set)"
       classrelation 260849 // <generalisation>
 	relation 260849 ---|>
 	  a public
@@ -11371,7 +11178,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// I-Parameter of PID velocity regulator (second position parameter set)"
+      comment "/// I-Parameter of PID velocity regulator (second position parameter set)"
       classrelation 260977 // <generalisation>
 	relation 260977 ---|>
 	  a public
@@ -11557,7 +11364,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// D-Parameter of PID velocity regulator (second position parameter set)"
+      comment "/// D-Parameter of PID velocity regulator (second position parameter set)"
       classrelation 261105 // <generalisation>
 	relation 261105 ---|>
 	  a public
@@ -11743,8 +11550,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// I-Clipping Parameter of PID current regulator. This PID parameter set is used at lower velocity. (second position parameter set)
-"
+      comment "/// I-Clipping Parameter of PID current regulator. This PID parameter set is used at lower velocity. (second position parameter set)"
       classrelation 261233 // <generalisation>
 	relation 261233 ---|>
 	  a public
@@ -11930,7 +11736,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Mass inertia constant for position regulation. Compensates mass moment of inertia of rotor."
+      comment "/// Mass inertia constant for position regulation. Compensates mass moment of inertia of rotor."
       classrelation 280945 // <generalisation>
 	relation 280945 ---|>
 	  a public
@@ -12116,8 +11922,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// BEMF constant of motor. Used for current regulation, position regulation and velocity regulation. Feed forward control for current regulation, position regulation and velocity regulation is disabled if BEMF constant is set to zero.
-"
+      comment "/// BEMF constant of motor. Used for current regulation, position regulation and velocity regulation. Feed forward control for current regulation, position regulation and velocity regulation is disabled if BEMF constant is set to zero."
       classrelation 281073 // <generalisation>
 	relation 281073 ---|>
 	  a public
@@ -12303,8 +12108,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "//Velocity for sine initialization.
-"
+      comment "/// Velocity for sine initialization."
       classrelation 261361 // <generalisation>
 	relation 261361 ---|>
 	  a public
@@ -12490,7 +12294,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "//Commutation (CW) to compensate for the Hall sensor deviations. The aim is that the motor rotates in either direction with equal speed."
+      comment "/// Commutation (CW) to compensate for the Hall sensor deviations. The aim is that the motor rotates in either direction with equal speed."
       classrelation 261489 // <generalisation>
 	relation 261489 ---|>
 	  a public
@@ -12676,7 +12480,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "//Commutation (CCW) to compensate for the Hall sensor deviations. The aim is that the motor rotates in either direction with equal speed."
+      comment "/// Commutation (CCW) to compensate for the Hall sensor deviations. The aim is that the motor rotates in either direction with equal speed."
       classrelation 261617 // <generalisation>
 	relation 261617 ---|>
 	  a public
@@ -12862,8 +12666,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Duration for sine initialization sequence. This parameter should be set in a way, that the motor has stopped mechanical oscillations after the specified time. 
-"
+      comment "/// Duration for sine initialization sequence. This parameter should be set in a way, that the motor has stopped mechanical oscillations after the specified time. "
       classrelation 281201 // <generalisation>
 	relation 281201 ---|>
 	  a public
@@ -13049,7 +12852,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "//The gear ratio which is stored in the motor controller"
+      comment "/// The gear ratio which is stored in the motor controller"
       classrelation 288241 // <generalisation>
 	relation 288241 ---|>
 	  a public
@@ -13215,8 +13018,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Enable overvoltage protection. 
-"
+      comment "/// Enable overvoltage protection. "
       classrelation 281329 // <generalisation>
 	relation 281329 ---|>
 	  a public
@@ -13382,8 +13184,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Maximum PWM change per PID interval. 
-"
+      comment "/// Maximum PWM change per PID interval. "
       classrelation 281457 // <generalisation>
 	relation 281457 ---|>
 	  a public
@@ -13569,8 +13370,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Compensates the propagation delay of the MPU
-"
+      comment "/// Compensates the propagation delay of the MPU"
       classrelation 281585 // <generalisation>
 	relation 281585 ---|>
 	  a public
@@ -13756,8 +13556,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Encoder null polarity for zeroing of position counter.
-"
+      comment "/// Encoder null polarity for zeroing of position counter."
       classrelation 281713 // <generalisation>
 	relation 281713 ---|>
 	  a public
@@ -13927,6 +13726,126 @@ ${inlines}
     //activity diagram settings
     package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
     show_infonote default drawing_language default show_stereotype_properties default
+    class 296049 "YouBotJointParameterReadOnly"
+      abstract visibility package 
+      cpp_decl "${description}${template}class ${name}${inherit} {
+friend class YouBotJoint;
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/// abstract youBot joint parameter which can be read only"
+      classrelation 261873 // <generalisation>
+	relation 261873 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 261873 // <generalisation>
+	  b parent class_ref 238449 // JointParameter
+      end
+
+      operation 458225 "YouBotJointParameterReadOnly"
+	preserve_cpp_body_indent protected explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 458353 "~YouBotJointParameterReadOnly"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 458481 "getYouBotMailboxMsg"
+	abstract preserve_cpp_body_indent const cpp_virtual protected explicit_return_type "void"
+	nparams 3
+	  param out name "message" explicit_type "YouBotSlaveMailboxMsg"
+	  param in name "msgType" explicit_type "TMCLCommandNumber"
+	  param in name "storage" type class_ref 303857 // YouBotJointStorage
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${v0}, ${t1} ${p1}${v1}, const ${t2}& ${p2}${v2}${)}${const}${volatile}${throw}${abstract};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 468337 "setYouBotMailboxMsg"
+	abstract preserve_cpp_body_indent cpp_virtual protected explicit_return_type "void"
+	nparams 2
+	  param in name "message" explicit_type "YouBotSlaveMailboxMsg"
+	  param in name "storage" type class_ref 303857 // YouBotJointStorage
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 458737 "getName"
+	abstract preserve_cpp_body_indent const cpp_virtual protected explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 458865 "getType"
+	abstract preserve_cpp_body_indent const cpp_virtual protected return_type class_ref 210929 // ParameterType
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      attribute 441457 "name"
+	protected explicit_type "string"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 441585 "parameterType"
+	protected type class_ref 210929 // ParameterType
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+    end
+
     class 318577 "ActualMotorVoltage"
       visibility package 
       cpp_decl "${description}${template}class ${name}${inherit} {
@@ -13940,8 +13859,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "//Actual supply voltage.
-"
+      comment "/// Actual supply voltage."
       operation 516209 "ActualMotorVoltage"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
@@ -14079,125 +13997,6 @@ ${inlines}
       end
     end
 
-    class 296049 "YouBotJointParameterReadOnly"
-      abstract visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      classrelation 261873 // <generalisation>
-	relation 261873 ---|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 261873 // <generalisation>
-	  b parent class_ref 238449 // JointParameter
-      end
-
-      operation 458225 "YouBotJointParameterReadOnly"
-	preserve_cpp_body_indent protected explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
-"
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 458353 "~YouBotJointParameterReadOnly"
-	cpp_virtual public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
-"
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
-"
-	
-	
-	
-	
-      end
-
-      operation 458481 "getYouBotMailboxMsg"
-	abstract preserve_cpp_body_indent const cpp_virtual protected explicit_return_type "void"
-	nparams 3
-	  param out name "message" explicit_type "YouBotSlaveMailboxMsg"
-	  param in name "msgType" explicit_type "TMCLCommandNumber"
-	  param in name "storage" type class_ref 303857 // YouBotJointStorage
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${v0}, ${t1} ${p1}${v1}, const ${t2}& ${p2}${v2}${)}${const}${volatile}${throw}${abstract};
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 468337 "setYouBotMailboxMsg"
-	abstract preserve_cpp_body_indent cpp_virtual protected explicit_return_type "void"
-	nparams 2
-	  param in name "message" explicit_type "YouBotSlaveMailboxMsg"
-	  param in name "storage" type class_ref 303857 // YouBotJointStorage
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract};
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 458737 "getName"
-	abstract preserve_cpp_body_indent const cpp_virtual protected explicit_return_type "string"
-	nparams 0
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 458865 "getType"
-	abstract preserve_cpp_body_indent const cpp_virtual protected return_type class_ref 210929 // ParameterType
-	nparams 0
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      attribute 441457 "name"
-	protected explicit_type "string"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 441585 "parameterType"
-	protected type class_ref 210929 // ParameterType
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-    end
-
     class 318833 "ErrorAndStatus"
       visibility package 
       cpp_decl "${description}${template}class ${name}${inherit} {
@@ -14211,19 +14010,19 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Bit 0: Overcurrent flag. This flag is set if overcurrent limit is exceeded.
-// Bit 1: Undervoltage flag. This flag is set if supply voltage to low for motor operation.
-// Bit 2: Overvoltage flag. This flag is set if the motor becomes switched off due to overvoltage.
-// Bit 3: Overtemperature flag. This flag is set if overtemperature limit is exceeded.
-// Bit 4: Motor halted flag. This flag is set if motor has been switched off.
-// Bit 5: Hall error flag. This flag is set upon a hall error.
-// Bit 6: Encoder error flag. This flag is set upon an encoder error.
-// Bit 7: Winding error flag. [currently not used]
-// Bit 8: Cycle time violation. [currently not used]
-// Bit 9: Initialization error of sine commutation. This flag is set if initialization is failed.
-// Bit 10: Position mode flag. This flag is set when the module is in positioning mode.
-// Bit 11: Position end flag. This flag becomes set if the motor has been stopped at the end position.
-"
+      comment "/// Error and Status flags of the joint. 
+/// Bit 0: Overcurrent flag. This flag is set if overcurrent limit is exceeded. \\n
+/// Bit 1: Undervoltage flag. This flag is set if supply voltage to low for motor operation. \\n
+/// Bit 2: Overvoltage flag. This flag is set if the motor becomes switched off due to overvoltage. \\n
+/// Bit 3: Overtemperature flag. This flag is set if overtemperature limit is exceeded. \\n
+/// Bit 4: Motor halted flag. This flag is set if motor has been switched off. \\n
+/// Bit 5: Hall error flag. This flag is set upon a hall error. \\n
+/// Bit 6: Encoder error flag. This flag is set upon an encoder error. \\n
+/// Bit 7: Winding error flag. [currently not used] \\n
+/// Bit 8: Cycle time violation. [currently not used] \\n
+/// Bit 9: Initialization error of sine commutation. This flag is set if initialization is failed. \\n
+/// Bit 10: Position mode flag. This flag is set when the module is in positioning mode. \\n
+/// Bit 11: Position end flag. This flag becomes set if the motor has been stopped at the end position. \\n"
       operation 518001 "ErrorAndStatus"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
@@ -14388,7 +14187,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Actual error of PID position regulator
+      comment "/// Actual error of PID position regulator
 "
       operation 530289 "PositionError"
 	preserve_cpp_body_indent public explicit_return_type ""
@@ -14540,7 +14339,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Sums of errors of PID position regulator
+      comment "/// Sums of errors of PID position regulator
 "
       operation 531313 "PositionErrorSum"
 	preserve_cpp_body_indent public explicit_return_type ""
@@ -14692,7 +14491,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Actual error of PID velocity regulator
+      comment "/// Actual error of PID velocity regulator
 "
       operation 532337 "VelocityError"
 	preserve_cpp_body_indent public explicit_return_type ""
@@ -14844,7 +14643,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Sums of Errors of PID velocity regulator"
+      comment "/// Sums of Errors of PID velocity regulator"
       operation 533361 "VelocityErrorSum"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
@@ -14995,9 +14794,10 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// 0: Enable the standard PID calculation. 
-// 1: Disable the PID calculation. The Motor PWM is then directly derived from the target  velocity. 
-// 2: Enable an integrating PID algorithm. In this case the result of the PID calculation is integrated to the PWM value. This PID regulation is easier to use than the standard PID regulation. 
+      comment "/// Enables or Disables the PID controller.
+/// 0: Enable the standard PID calculation. \\n
+/// 1: Disable the PID calculation. The Motor PWM is then directly derived from the target velocity.  \\n
+/// 2: Enable an integrating PID algorithm. In this case the result of the PID calculation is integrated to the PWM value. This PID regulation is easier to use than the standard PID regulation.  \\n
 "
       classrelation 262257 // <generalisation>
 	relation 262257 ---|>
@@ -15149,12 +14949,13 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// 0: Block commutation with hall sensors mode
-// 1: Sensorless block commutation (hallFX)
-// 2: Sine commutation with hall sensors
-// 3: Sine commutation with encoder
-// 4: Controlled block commutation
-// 5: Controlled sine commutation
+      comment "/// The Commutation Mode.
+/// 0: Block commutation with hall sensors mode \\n
+/// 1: Sensorless block commutation (hallFX) \\n
+/// 2: Sine commutation with hall sensors \\n
+/// 3: Sine commutation with encoder \\n
+/// 4: Controlled block commutation \\n
+/// 5: Controlled sine commutation \\n
 "
       classrelation 262385 // <generalisation>
 	relation 262385 ---|>
@@ -15306,9 +15107,10 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// 0: PWM chopper on high side, HI on low side
-// 1: PWM chopper on low side, HI on high
-// 2: PWM chopper on low side and high side
+      comment "/// PWM Scheme for the Block Commutation. 
+/// 0: PWM chopper on high side, HI on low side \\n
+/// 1: PWM chopper on low side, HI on high \\n
+/// 2: PWM chopper on low side and high side \\n
 "
       classrelation 262513 // <generalisation>
 	relation 262513 ---|>
@@ -15460,7 +15262,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Resistance of motor coil. Used for current resistance regulation, position regulation and velocity regulation.
+      comment "/// Resistance of motor coil. Used for current resistance regulation, position regulation and velocity regulation.
 "
       classrelation 262769 // <generalisation>
 	relation 262769 ---|>
@@ -15612,8 +15414,9 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// 0: Initialization in controlled sine commutation
-// 1: Initialization in block commutation by using hall sensors
+      comment "/// Initialization Mode.
+/// 0: Initialization in controlled sine commutation \\n
+/// 1: Initialization in block commutation by using hall sensors \\n 
 "
       classrelation 262897 // <generalisation>
 	relation 262897 ---|>
@@ -15765,7 +15568,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Encoder Steps per Rotation.
+      comment "/// Encoder Steps per Rotation.
 "
       classrelation 263025 // <generalisation>
 	relation 263025 ---|>
@@ -15917,7 +15720,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Encoder direction Set this flag in a way, that turn right increases position counter.
+      comment "/// Encoder direction Set this flag in a way, that turn right increases position counter.
 "
       classrelation 263153 // <generalisation>
 	relation 263153 ---|>
@@ -16069,7 +15872,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "//1: Hall sensor invert. Sets one of the motors invert with inverted hall scheme, e.g. some Maxon motors
+      comment "/// Hall sensor invert. Sets one of the motors invert with inverted hall scheme, e.g. some Maxon motors
 "
       classrelation 263409 // <generalisation>
 	relation 263409 ---|>
@@ -16221,7 +16024,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "// Number of motor poles.
+      comment "/// Number of motor poles.
 "
       classrelation 263281 // <generalisation>
 	relation 263281 ---|>
@@ -16396,7 +16199,8 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "//have to be a singleton in the system"
+      comment "/// The Ethercat Master is managing the whole ethercat communication 
+/// It have to be a singleton in the system"
       attribute 297969 "instance"
 	private explicit_type "static EthercatMaster*"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -17030,6 +16834,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// It groups the manipulator joints together"
       operation 425841 "YouBotManipulator"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 2
@@ -17169,6 +16974,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// It groups the base joints together"
       operation 425585 "YouBotBase"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 2
@@ -17386,6 +17192,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// Implements the i2t motor protection"
       operation 554609 "MotorProtection"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 3
@@ -17553,6 +17360,7 @@ ${members}};
 "
       explicit_switch_type ""
       
+      comment "/// struct to represent current over time"
       attribute 520433 "current"
 	public explicit_type "quantity<si::current>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -17597,7 +17405,7 @@ ${members}};
     end
 
     class 231409 "BaseKinematic"
-      visibility package 
+      abstract visibility package 
       cpp_decl "${description}${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
@@ -17608,6 +17416,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// abstract class of a base / platform kinematic"
     end
 
     class 231537 "WheeledBaseKinematic"
@@ -17622,6 +17431,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// abstract class of a wheeled based / platform kinematic"
       classrelation 197489 // <generalisation>
 	relation 197489 ---|>
 	  a public
@@ -17677,7 +17487,7 @@ ${inlines}
     end
 
     class 231665 "FourSwedishWheelOmniBaseKinematic"
-      abstract visibility package 
+      visibility package 
       cpp_decl "${description}${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
@@ -17688,6 +17498,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// Implementation of a base kenematic with four swedish wheels. The youBot base kinematic."
       operation 332785 "FourSwedishWheelOmniBaseKinematic"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
@@ -17881,6 +17692,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// Configuration for the base kenematic with four swedish wheels."
       operation 311921 "FourSwedishWheelOmniBaseKinematicConfiguration"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
@@ -18026,6 +17838,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// abstract gripper"
       operation 391153 "setConfigurationParameter"
 	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 1
@@ -18087,6 +17900,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// abstract gripper with one degree of freedom"
       operation 288625 "setConfigurationParameter"
 	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 1
@@ -18145,7 +17959,7 @@ ${inlines}
     end
 
     class 217841 "GripperData"
-      visibility package 
+      abstract visibility package 
       cpp_decl "${description}${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
@@ -18156,10 +17970,11 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// abstract class of gripper data"
     end
 
     class 218097 "OneDOFGripperData"
-      visibility package 
+      abstract visibility package 
       cpp_decl "${description}${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
@@ -18170,6 +17985,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// abstract class of data for gripper with one degree of freedom"
       classrelation 184049 // <generalisation>
 	relation 184049 ---|>
 	  a public
@@ -18191,6 +18007,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// The youBot gripper with one degreee of freedom"
       operation 389105 "YouBotGripper"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 1
@@ -18566,6 +18383,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// Setpoint lenght of the bar spacing for a one DOF gripper"
       classrelation 232049 // <generalisation>
 	relation 232049 ---|>
 	  a public
@@ -18602,6 +18420,100 @@ ${inlines}
     //activity diagram settings
     package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
     show_infonote default drawing_language default show_stereotype_properties default
+    class 259185 "GripperParameter"
+      abstract visibility package 
+      cpp_decl "${description}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/// abstract gripper parameter"
+      classrelation 231793 // <generalisation>
+	relation 231793 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 231793 // <generalisation>
+	  b parent class_ref 238321 // Parameter
+      end
+    end
+
+    class 258929 "YouBotGripperParameter"
+      abstract visibility package 
+      cpp_decl "${description}${template}class ${name}${inherit} {
+friend class YouBotGripper;
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/// abstract youBot gripper parameter"
+      operation 389361 "YouBotGripperParameter"
+	preserve_cpp_body_indent protected explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 389489 "~YouBotGripperParameter"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 389873 "getName"
+	abstract preserve_cpp_body_indent const cpp_virtual protected explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      attribute 387057 "name"
+	protected explicit_type "string"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      classrelation 231921 // <generalisation>
+	relation 231921 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 231921 // <generalisation>
+	  b parent class_ref 259185 // GripperParameter
+      end
+    end
+
     class 265969 "MaxTravelDistance"
       visibility package 
       cpp_decl "${description}${template}class ${name}${inherit} {
@@ -18615,6 +18527,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// The maximum bar spacing distance of the gripper"
       operation 399601 "MaxTravelDistance"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
@@ -18726,6 +18639,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// The encoder value when the gripper has reached it's maximum bar spacing position"
       operation 400241 "MaxEncoderValue"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
@@ -18837,6 +18751,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// Calibrate the gripper"
       operation 390129 "CalibrateGripper"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
@@ -18948,6 +18863,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// Represents a bar spacing offset. It could be usefull if the gripper can not be totally closed."
       operation 392305 "BarSpacingOffset"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
@@ -19043,27 +18959,6 @@ ${inlines}
 	    cpp default "${type}"
 	    classrelation_ref 232177 // <generalisation>
 	  b parent class_ref 258929 // YouBotGripperParameter
-      end
-    end
-
-    class 259185 "GripperParameter"
-      visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      classrelation 231793 // <generalisation>
-	relation 231793 ---|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 231793 // <generalisation>
-	  b parent class_ref 238321 // Parameter
       end
     end
   end

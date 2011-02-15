@@ -69,6 +69,9 @@
 
 namespace youbot {
 
+/// youBot joint for the base and the manipulator.
+/// Every motor, encoder, transmition combination of the youBot base or manipulator is a YouBotJoint
+
 class YouBotJoint : public Joint {
   public:
     YouBotJoint(unsigned int jointNo);

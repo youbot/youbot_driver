@@ -54,6 +54,7 @@ using std::string;
 
 namespace youbot {
 
+/// Configuration file reader
 class ConfigFile {
 // Data
 protected:

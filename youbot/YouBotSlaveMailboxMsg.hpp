@@ -58,98 +58,101 @@
 
 namespace youbot {
 
-    class YouBotSlaveMailboxMsg {
-    public:
+	/// EtherCat mailbox message of the youBot EtherCat slaves
+	class YouBotSlaveMailboxMsg {
+	public:
 
-        struct mailboxOutputBuffer {
-            uint8 moduleAddress; //0 = Drive  1 = Gripper
-            uint8 commandNumber;
-            uint8 typeNumber;
-            uint8 motorNumber; //always zero
-            uint32 value; //MSB first!
-        } __attribute__((__packed__));
+		/// Output part from the EtherCat mailbox message of the youBot EtherCat slaves
+		struct mailboxOutputBuffer {
+			uint8 moduleAddress; //0 = Drive  1 = Gripper
+			uint8 commandNumber;
+			uint8 typeNumber;
+			uint8 motorNumber; //always zero
+			uint32 value; //MSB first!
+		} __attribute__((__packed__));
 
-        struct mailboxInputBuffer {
-            uint8 replyAddress;
-            uint8 moduleAddress;
-            uint8 status; //(e.g. 100 means “no error”)
-            uint8 commandNumber;
-            uint32 value; //MSB first!
-        } __attribute__((__packed__));
+		/// Input part from the EtherCat mailbox message of the youBot EtherCat slaves
+		struct mailboxInputBuffer {
+			uint8 replyAddress;
+			uint8 moduleAddress;
+			uint8 status; //(e.g. 100 means “no error”)
+			uint8 commandNumber;
+			uint32 value; //MSB first!
+		} __attribute__((__packed__));
 
-        mailboxOutputBuffer stctOutput;
-        mailboxInputBuffer stctInput;
+		mailboxOutputBuffer stctOutput;
+		mailboxInputBuffer stctInput;
 
-        // Constructor
+		// Constructor
 
-        YouBotSlaveMailboxMsg() {
-            stctOutput.moduleAddress = 0;
-            stctOutput.commandNumber = 0;
-            stctOutput.typeNumber = 0;
-            stctOutput.motorNumber = 0;
-            stctOutput.value = 0;
+		YouBotSlaveMailboxMsg() {
+			stctOutput.moduleAddress = 0;
+			stctOutput.commandNumber = 0;
+			stctOutput.typeNumber = 0;
+			stctOutput.motorNumber = 0;
+			stctOutput.value = 0;
 
-            stctInput.replyAddress = 0;
-            stctInput.moduleAddress = 0;
-            stctInput.status = 0;
-            stctInput.commandNumber = 0;
-            stctInput.value = 0;
-            slaveNumber = 1000;
-        }
+			stctInput.replyAddress = 0;
+			stctInput.moduleAddress = 0;
+			stctInput.status = 0;
+			stctInput.commandNumber = 0;
+			stctInput.value = 0;
+			slaveNumber = 1000;
+		}
 
-        // Constructor
+		// Constructor
 
-        YouBotSlaveMailboxMsg(unsigned int slaveNo) {
-            stctOutput.moduleAddress = 0;
-            stctOutput.commandNumber = 0;
-            stctOutput.typeNumber = 0;
-            stctOutput.motorNumber = 0;
-            stctOutput.value = 0;
+		YouBotSlaveMailboxMsg(unsigned int slaveNo) {
+			stctOutput.moduleAddress = 0;
+			stctOutput.commandNumber = 0;
+			stctOutput.typeNumber = 0;
+			stctOutput.motorNumber = 0;
+			stctOutput.value = 0;
 
-            stctInput.replyAddress = 0;
-            stctInput.moduleAddress = 0;
-            stctInput.status = 0;
-            stctInput.commandNumber = 0;
-            stctInput.value = 0;
-            slaveNumber = slaveNo;
+			stctInput.replyAddress = 0;
+			stctInput.moduleAddress = 0;
+			stctInput.status = 0;
+			stctInput.commandNumber = 0;
+			stctInput.value = 0;
+			slaveNumber = slaveNo;
 
-        }
+		}
 
 
 
-        // Copy-Constructor
+		// Copy-Constructor
 
-        YouBotSlaveMailboxMsg(const YouBotSlaveMailboxMsg& copy) {
-            stctOutput = copy.stctOutput;
-            stctInput = copy.stctInput;
-            slaveNumber = copy.slaveNumber;
-            parameterName = copy.parameterName;
-        }
+		YouBotSlaveMailboxMsg(const YouBotSlaveMailboxMsg& copy) {
+			stctOutput = copy.stctOutput;
+			stctInput = copy.stctInput;
+			slaveNumber = copy.slaveNumber;
+			parameterName = copy.parameterName;
+		}
 
-        // Destructor
+		// Destructor
 
-        ~YouBotSlaveMailboxMsg() {
-        }
+		~YouBotSlaveMailboxMsg() {
+		}
 
-        // assignment operator
+		// assignment operator
 
-        YouBotSlaveMailboxMsg & operator=(const YouBotSlaveMailboxMsg& copy) {
-            stctOutput = copy.stctOutput;
-            stctInput = copy.stctInput;
-            slaveNumber = copy.slaveNumber;
-            parameterName = copy.parameterName;
+		YouBotSlaveMailboxMsg & operator=(const YouBotSlaveMailboxMsg& copy) {
+			stctOutput = copy.stctOutput;
+			stctInput = copy.stctInput;
+			slaveNumber = copy.slaveNumber;
+			parameterName = copy.parameterName;
 
-            return *this;
-        }
+			return *this;
+		}
 
-        std::string parameterName;
+		std::string parameterName;
 
-        unsigned int getSlaveNo() const {
-            return slaveNumber;
-        }
-    private:
-        unsigned int slaveNumber;
-    };
+		unsigned int getSlaveNo() const {
+			return slaveNumber;
+		}
+	private:
+		unsigned int slaveNumber;
+	};
 
 } // namespace youbot
 

@@ -53,6 +53,7 @@
  ****************************************************************/
 namespace youbot {
 
+/// Stores YouBotJoint informations which are needed in the driver
 class YouBotJointStorage {
   public:
     unsigned int encoderTicksPerRound;

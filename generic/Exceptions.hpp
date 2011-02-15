@@ -61,6 +61,7 @@
 using namespace std;
 namespace youbot {
 
+		/// File not found exception
     class FileNotFoundException : public std::ios_base::failure {
         string msg;
 
@@ -80,7 +81,7 @@ namespace youbot {
         };
     };
 
-
+		/// Key in configuration file not found exception
     class KeyNotFoundException : public std::ios_base::failure {
         string msg;
 
@@ -99,7 +100,7 @@ namespace youbot {
             return msg.c_str();
         };
     };
-
+		/// Joint parameter exception
     class JointParameterException : public std::runtime_error {
         string msg;
 
@@ -118,7 +119,7 @@ namespace youbot {
             return msg.c_str();
         };
     };
-
+		/// Joint error exception
    class JointErrorException : public std::runtime_error {
         string msg;
 

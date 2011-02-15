@@ -55,52 +55,64 @@
 
 namespace youbot {
 
+/// abstract data class for joints
 class JointData {
 };
+/// abstract data class for sensed / measured joint data
 class JointSensedData : public JointData {
 };
+/// Sensed position / angle of the joint
 class JointSensedAngle : public JointSensedData {
   public:
     quantity<plane_angle> angle;
 
 };
+/// Sensed velocity of the joint
 class JointSensedVelocity : public JointSensedData {
   public:
     quantity<si::angular_velocity> angularVelocity;
 
 };
+/// Sensed electric current of the joint
 class JointSensedCurrent : public JointSensedData {
   public:
     quantity<si::current> current;
 
 };
+/// Sensed torque of the joint
 class JointSensedTorque : public JointSensedData {
   public:
     quantity<si::torque> torque;
 
 };
+/// sensed Temperature of the joint
 class JointSensedTemperature : public JointSensedData {
   public:
     quantity<celsius::temperature> temperature;
 
 };
+/// abstract data class for commanded joint data
 class JointDataSetpoint : public JointData {
 };
+/// Setpoint angle / position of the joint
 class JointAngleSetpoint : public JointDataSetpoint {
   public:
     quantity<plane_angle> angle;
 
 };
+/// Setpoint velocity of the joint
 class JointVelocitySetpoint : public JointDataSetpoint {
   public:
     quantity<angular_velocity> angularVelocity;
 
 };
+/// Setpoint current of the joint
 class JointCurrentSetpoint : public JointDataSetpoint {
   public:
     quantity<si::current> current;
 
 };
+/// Setpoint torque of the joint
 class JointTorqueSetpoint : public JointDataSetpoint {
   public:
     quantity<si::torque> torque;

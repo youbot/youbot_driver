@@ -1,10 +1,9 @@
-window_sizes 1680 975 669 1005 894 0
+window_sizes 1672 972 648 1018 889 0
 show_stereotypes
-selected class_ref 297329 // HallSensorPolarityReversal
+selected class_ref 279665 // NoMoreAction
 open
   classview_ref 134641 // Joint
-  class_ref 251889 // JointName
-  class_ref 295025 // PParameterSecondParametersSpeedControl
-  class_ref 296689 // MotorCoilResistance
+  class_ref 279665 // NoMoreAction
+  classview_ref 160881 // YouBot
 end
 end

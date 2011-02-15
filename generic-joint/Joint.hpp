@@ -62,6 +62,7 @@ enum SyncMode {
   NON_BLOCKING
 
 };
+/// abstract joint
 class Joint {
   public:
     virtual void setData(const JointDataSetpoint& data, SyncMode communicationMode) = 0;

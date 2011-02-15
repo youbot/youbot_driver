@@ -74,7 +74,8 @@ extern "C"{
 
 namespace youbot {
 
-//have to be a singleton in the system
+/// The Ethercat Master is managing the whole ethercat communication 
+/// It have to be a singleton in the system
 class EthercatMaster {
 friend class YouBotJoint;
 friend class YouBotGripper;

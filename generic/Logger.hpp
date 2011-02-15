@@ -69,7 +69,8 @@ namespace youbot {
 		fatal
 	};
 
-	class PrintOut {
+	/// Implementation logging to console and to a file
+	class Logger {
 	private:
 		static const bool toConsole = true;
 		static const bool toFile = false;
@@ -79,18 +80,18 @@ namespace youbot {
 		bool print;
 	public:
 
-		PrintOut(const std::string &funcName, const int &lineNo, const std::string &fileName, severity_level level);
-		~PrintOut();
+		Logger(const std::string &funcName, const int &lineNo, const std::string &fileName, severity_level level);
+		~Logger();
 
 		template <class T>
-		PrintOut::PrintOut & operator<<(const T &v) {
+		Logger::Logger & operator<<(const T &v) {
 			out << v;
 			return *this;
 		}
 	};
 
 
-#define LOG(level) PrintOut(__PRETTY_FUNCTION__, __LINE__ , __FILE__, level)
+#define LOG(level) Logger(__PRETTY_FUNCTION__, __LINE__ , __FILE__, level)
 
 } // namespace youbot
 

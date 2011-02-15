@@ -64,6 +64,7 @@
 #include "youbot/YouBotSlaveMailboxMsg.hpp"
 namespace youbot {
 
+/// abstract youBot gripper parameter
 class YouBotGripperParameter : public GripperParameter {
 friend class YouBotGripper;
   protected:
@@ -80,6 +81,7 @@ friend class YouBotGripper;
     std::string name;
 
 };
+/// Calibrate the gripper
 class CalibrateGripper : public YouBotGripperParameter {
 friend class YouBotGripper;
   public:
@@ -100,6 +102,7 @@ friend class YouBotGripper;
     std::string name;
 
 };
+/// Represents a bar spacing offset. It could be usefull if the gripper can not be totally closed.
 class BarSpacingOffset : public YouBotGripperParameter {
 friend class YouBotGripper;
   public:
@@ -120,6 +123,7 @@ friend class YouBotGripper;
     std::string name;
 
 };
+/// The encoder value when the gripper has reached it's maximum bar spacing position
 class MaxEncoderValue : public YouBotGripperParameter {
 friend class YouBotGripper;
   public:
@@ -140,6 +144,7 @@ friend class YouBotGripper;
     std::string name;
 
 };
+/// The maximum bar spacing distance of the gripper
 class MaxTravelDistance : public YouBotGripperParameter {
 friend class YouBotGripper;
   public:
