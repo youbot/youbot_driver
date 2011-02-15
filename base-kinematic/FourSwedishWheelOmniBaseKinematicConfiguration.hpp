@@ -58,7 +58,7 @@
 #include "generic/Exceptions.hpp"
 namespace youbot {
 
-/// Configuration for the base kenematic with four swedish wheels.
+/// Configuration for the base kinematic with four swedish wheels.
 class FourSwedishWheelOmniBaseKinematicConfiguration {
   public:
     FourSwedishWheelOmniBaseKinematicConfiguration();

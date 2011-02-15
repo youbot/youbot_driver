@@ -102,7 +102,7 @@ friend class YouBotGripper;
     std::string name;
 
 };
-/// Represents a bar spacing offset. It could be usefull if the gripper can not be totally closed.
+/// Represents a bar spacing offset. It could be useful if the gripper can not be totally closed.
 class BarSpacingOffset : public YouBotGripperParameter {
 friend class YouBotGripper;
   public:

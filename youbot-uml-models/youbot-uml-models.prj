@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 134
+  revision 135
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -1060,7 +1060,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Setpoint torque of the joint"
+      comment "/// Set-point torque of the joint"
       attribute 260721 "torque"
 	public explicit_type "quantity<si::torque>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -1092,7 +1092,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Setpoint velocity of the joint"
+      comment "/// Set-point velocity of the joint"
       attribute 260849 "angularVelocity"
 	public explicit_type "quantity<angular_velocity>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -1124,7 +1124,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Setpoint angle / position of the joint"
+      comment "/// Set-point angle / position of the joint"
       attribute 260977 "angle"
 	public explicit_type "quantity<plane_angle>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -1156,7 +1156,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Setpoint current of the joint"
+      comment "/// Set-point current of the joint"
       attribute 261105 "current"
 	public explicit_type "quantity<si::current>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -1928,7 +1928,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// inverse the joint movment direction"
+      comment "/// inverse the joint movement direction"
       classrelation 224241 // <generalisation>
 	relation 224241 ---|>
 	  a public
@@ -17498,7 +17498,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Implementation of a base kenematic with four swedish wheels. The youBot base kinematic."
+      comment "/// Implementation of a base kinematic with four swedish wheels. The youBot base kinematic."
       operation 332785 "FourSwedishWheelOmniBaseKinematic"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
@@ -17692,7 +17692,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Configuration for the base kenematic with four swedish wheels."
+      comment "/// Configuration for the base kinematic with four swedish wheels."
       operation 311921 "FourSwedishWheelOmniBaseKinematicConfiguration"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
@@ -18007,7 +18007,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// The youBot gripper with one degreee of freedom"
+      comment "/// The youBot gripper with one degree of freedom"
       operation 389105 "YouBotGripper"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 1
@@ -18383,7 +18383,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Setpoint lenght of the bar spacing for a one DOF gripper"
+      comment "/// Setpoint length of the bar spacing for a one DOF gripper"
       classrelation 232049 // <generalisation>
 	relation 232049 ---|>
 	  a public
@@ -18863,7 +18863,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Represents a bar spacing offset. It could be usefull if the gripper can not be totally closed."
+      comment "/// Represents a bar spacing offset. It could be useful if the gripper can not be totally closed."
       operation 392305 "BarSpacingOffset"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0

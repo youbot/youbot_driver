@@ -183,7 +183,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
-/// inverse the joint movment direction
+/// inverse the joint movement direction
 class InverseMovementDirection : public YouBotJointParameter {
 friend class YouBotJoint;
   public:

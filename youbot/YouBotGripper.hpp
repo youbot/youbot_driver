@@ -71,7 +71,7 @@
 
 namespace youbot {
 
-/// The youBot gripper with one degreee of freedom
+/// The youBot gripper with one degree of freedom
 class YouBotGripper : public OneDOFGripper {
   public:
     YouBotGripper(const unsigned int jointNo);

@@ -94,25 +94,25 @@ class JointSensedTemperature : public JointSensedData {
 /// abstract data class for commanded joint data
 class JointDataSetpoint : public JointData {
 };
-/// Setpoint angle / position of the joint
+/// Set-point angle / position of the joint
 class JointAngleSetpoint : public JointDataSetpoint {
   public:
     quantity<plane_angle> angle;
 
 };
-/// Setpoint velocity of the joint
+/// Set-point velocity of the joint
 class JointVelocitySetpoint : public JointDataSetpoint {
   public:
     quantity<angular_velocity> angularVelocity;
 
 };
-/// Setpoint current of the joint
+/// Set-point current of the joint
 class JointCurrentSetpoint : public JointDataSetpoint {
   public:
     quantity<si::current> current;
 
 };
-/// Setpoint torque of the joint
+/// Set-point torque of the joint
 class JointTorqueSetpoint : public JointDataSetpoint {
   public:
     quantity<si::torque> torque;
