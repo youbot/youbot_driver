@@ -56,10 +56,14 @@
 #include "generic/Units.hpp"
 namespace youbot {
 
+///////////////////////////////////////////////////////////////////////////////
 /// abstract class of a base / platform kinematic
+///////////////////////////////////////////////////////////////////////////////
 class BaseKinematic {
 };
+///////////////////////////////////////////////////////////////////////////////
 /// abstract class of a wheeled based / platform kinematic
+///////////////////////////////////////////////////////////////////////////////
 class WheeledBaseKinematic : public BaseKinematic {
   public:
     virtual void cartesianVelocityToWheelVelocities(const quantity<si::velocity>& longitudinalVelocity, const quantity<si::velocity>& transversalVelocity, const quantity<angular_velocity>& angularVelocity, std::vector<quantity<angular_velocity> >& wheelVelocities) = 0;

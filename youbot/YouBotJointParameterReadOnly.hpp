@@ -69,7 +69,9 @@ enum ParameterType {
   API_PARAMETER
 
 };
+///////////////////////////////////////////////////////////////////////////////
 /// abstract youBot joint parameter which can be read only
+///////////////////////////////////////////////////////////////////////////////
 class YouBotJointParameterReadOnly : public JointParameter {
 friend class YouBotJoint;
   protected:
@@ -94,11 +96,12 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+///////////////////////////////////////////////////////////////////////////////
 /// Enables or Disables the PID controller.
 /// 0: Enable the standard PID calculation. \n
 /// 1: Disable the PID calculation. The Motor PWM is then directly derived from the target velocity.  \n
-/// 2: Enable an integrating PID algorithm. In this case the result of the PID calculation is integrated to the PWM value. This PID regulation is easier to use than the standard PID regulation.  \n
-
+/// 2: Enable an integrating PID algorithm. In this case the result of the PID calculation is integrated to the PWM value. This PID regulation is easier to use than the standard PID regulation. 
+///////////////////////////////////////////////////////////////////////////////
 class ArePIDcontrollersActive : public YouBotJointParameterReadOnly {
 friend class YouBotJoint;
   public:
@@ -125,7 +128,9 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+///////////////////////////////////////////////////////////////////////////////
 /// Actual supply voltage.
+///////////////////////////////////////////////////////////////////////////////
 class ActualMotorVoltage : public YouBotJointParameterReadOnly {
 friend class YouBotJoint;
   public:
@@ -152,9 +157,9 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+///////////////////////////////////////////////////////////////////////////////
 /// Actual PWM duty cycle (0%... 100%).
-
-
+///////////////////////////////////////////////////////////////////////////////
 class ActualPWMDutyCycle : public YouBotJointParameterReadOnly {
 friend class YouBotJoint;
   public:
@@ -181,6 +186,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+///////////////////////////////////////////////////////////////////////////////
 /// Error and Status flags of the joint. 
 /// Bit 0: Overcurrent flag. This flag is set if overcurrent limit is exceeded. \n
 /// Bit 1: Undervoltage flag. This flag is set if supply voltage to low for motor operation. \n
@@ -194,6 +200,7 @@ friend class YouBotJoint;
 /// Bit 9: Initialization error of sine commutation. This flag is set if initialization is failed. \n
 /// Bit 10: Position mode flag. This flag is set when the module is in positioning mode. \n
 /// Bit 11: Position end flag. This flag becomes set if the motor has been stopped at the end position. \n
+///////////////////////////////////////////////////////////////////////////////
 class ErrorAndStatus : public YouBotJointParameterReadOnly {
 friend class YouBotJoint;
   public:
@@ -222,8 +229,9 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+///////////////////////////////////////////////////////////////////////////////
 /// Actual error of PID position regulator
-
+///////////////////////////////////////////////////////////////////////////////
 class PositionError : public YouBotJointParameterReadOnly {
 friend class YouBotJoint;
   public:
@@ -250,8 +258,9 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+///////////////////////////////////////////////////////////////////////////////
 /// Sums of errors of PID position regulator
-
+///////////////////////////////////////////////////////////////////////////////
 class PositionErrorSum : public YouBotJointParameterReadOnly {
 friend class YouBotJoint;
   public:
@@ -278,8 +287,9 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+///////////////////////////////////////////////////////////////////////////////
 /// Actual error of PID velocity regulator
-
+///////////////////////////////////////////////////////////////////////////////
 class VelocityError : public YouBotJointParameterReadOnly {
 friend class YouBotJoint;
   public:
@@ -306,7 +316,9 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+///////////////////////////////////////////////////////////////////////////////
 /// Sums of Errors of PID velocity regulator
+///////////////////////////////////////////////////////////////////////////////
 class VelocityErrorSum : public YouBotJointParameterReadOnly {
 friend class YouBotJoint;
   public:
@@ -333,6 +345,7 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+///////////////////////////////////////////////////////////////////////////////
 /// The Commutation Mode.
 /// 0: Block commutation with hall sensors mode \n
 /// 1: Sensorless block commutation (hallFX) \n
@@ -340,7 +353,7 @@ friend class YouBotJoint;
 /// 3: Sine commutation with encoder \n
 /// 4: Controlled block commutation \n
 /// 5: Controlled sine commutation \n
-
+///////////////////////////////////////////////////////////////////////////////
 class CommutationMode : public YouBotJointParameterReadOnly {
 friend class YouBotJoint;
   public:
@@ -367,11 +380,12 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+///////////////////////////////////////////////////////////////////////////////
 /// PWM Scheme for the Block Commutation. 
 /// 0: PWM chopper on high side, HI on low side \n
 /// 1: PWM chopper on low side, HI on high \n
 /// 2: PWM chopper on low side and high side \n
-
+///////////////////////////////////////////////////////////////////////////////
 class PWMSchemeBlockCommutation : public YouBotJointParameterReadOnly {
 friend class YouBotJoint;
   public:
@@ -398,8 +412,9 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+///////////////////////////////////////////////////////////////////////////////
 /// Resistance of motor coil. Used for current resistance regulation, position regulation and velocity regulation.
-
+///////////////////////////////////////////////////////////////////////////////
 class MotorCoilResistance : public YouBotJointParameterReadOnly {
 friend class YouBotJoint;
   public:
@@ -426,10 +441,11 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+///////////////////////////////////////////////////////////////////////////////
 /// Initialization Mode.
 /// 0: Initialization in controlled sine commutation \n
 /// 1: Initialization in block commutation by using hall sensors \n 
-
+///////////////////////////////////////////////////////////////////////////////
 class InitializationMode : public YouBotJointParameterReadOnly {
 friend class YouBotJoint;
   public:
@@ -456,8 +472,9 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+///////////////////////////////////////////////////////////////////////////////
 /// Encoder Steps per Rotation.
-
+///////////////////////////////////////////////////////////////////////////////
 class EncoderResolution : public YouBotJointParameterReadOnly {
 friend class YouBotJoint;
   public:
@@ -484,8 +501,9 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+///////////////////////////////////////////////////////////////////////////////
 /// Encoder direction Set this flag in a way, that turn right increases position counter.
-
+///////////////////////////////////////////////////////////////////////////////
 class ReversingEncoderDirection : public YouBotJointParameterReadOnly {
 friend class YouBotJoint;
   public:
@@ -512,8 +530,9 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+///////////////////////////////////////////////////////////////////////////////
 /// Number of motor poles.
-
+///////////////////////////////////////////////////////////////////////////////
 class MotorPoles : public YouBotJointParameterReadOnly {
 friend class YouBotJoint;
   public:
@@ -540,8 +559,9 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+///////////////////////////////////////////////////////////////////////////////
 /// Hall sensor invert. Sets one of the motors invert with inverted hall scheme, e.g. some Maxon motors
-
+///////////////////////////////////////////////////////////////////////////////
 class HallSensorPolarityReversal : public YouBotJointParameterReadOnly {
 friend class YouBotJoint;
   public:

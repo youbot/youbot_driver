@@ -192,30 +192,30 @@ void YouBotBase::initializeJoints() {
     //if enough slave exist create YouBotJoint and store it in the joints vector
     unsigned int slaveNumber = 0;
     configfile->readInto(slaveNumber, "BaseLeftFront");
-    if(slaveNumber  <= noSlaves){
+    if (slaveNumber  <= noSlaves) {
       joints.push_back(YouBotJoint(slaveNumber));
-    }else{
+    } else {
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
     configfile->readInto(slaveNumber, "BaseRightFront");
-    if(slaveNumber  <= noSlaves){
+    if (slaveNumber  <= noSlaves) {
       joints.push_back(YouBotJoint(slaveNumber));
-    }else{
+    } else {
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
     configfile->readInto(slaveNumber, "BaseLeftBack");
-    if(slaveNumber  <= noSlaves){
+    if (slaveNumber  <= noSlaves) {
       joints.push_back(YouBotJoint(slaveNumber));
-    }else{
+    } else {
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
     configfile->readInto(slaveNumber, "BaseRightBack");
-    if(slaveNumber  <= noSlaves){
+    if (slaveNumber  <= noSlaves) {
       joints.push_back(YouBotJoint(slaveNumber));
-    }else{
+    } else {
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 

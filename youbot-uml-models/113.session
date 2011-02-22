@@ -1,11 +1,82 @@
-window_sizes 1680 975 648 1026 892 0
+window_sizes 1672 972 648 1018 889 0
 show_stereotypes
-selected class_ref 170993 // JointCurrentSetpoint
+selected extra_member_ref 146161 // friend class YouBotJoint;
 open
   classview_ref 134641 // Joint
-  class_ref 170481 // JointDataSetpoint
-  class_ref 170737 // JointVelocitySetpoint
-  class_ref 170865 // JointAngleSetpoint
-  class_ref 170993 // JointCurrentSetpoint
+  classview_ref 154225 // JointData
+  class_ref 238577 // YouBotJointParameter
+  class_ref 251889 // JointName
+  class_ref 251761 // GearRatio
+  class_ref 252017 // EncoderTicksPerRound
+  class_ref 252145 // InverseMovementDirection
+  class_ref 266353 // CalibrateJoint
+  class_ref 273009 // JointLimits
+  class_ref 279537 // StopJoint
+  attribute_ref 412273 // parameterType
+  class_ref 245105 // MaximumPositioningVelocity
+  class_ref 310513 // PWMLimit
+  class_ref 293233 // MaximumMotorCurrent
+  class_ref 310385 // MaximumVelocityToSetPosition
+  class_ref 293105 // SpeedControlSwitchingThreshold
+  class_ref 310641 // ClearTargetDistance
+  class_ref 310769 // PositionTargetReachedDistance
+  class_ref 293361 // MotorAcceleration
+  class_ref 295921 // PositionControlSwitchingThreshold
+  class_ref 252273 // PParameterFirstParametersPositionControl
+  class_ref 292849 // IParameterFirstParametersPositionControl
+  class_ref 292977 // DParameterFirstParametersPositionControl
+  class_ref 293489 // PIDControlTime
+  attribute_ref 488433 // parameterType
+  class_ref 293617 // IClippingParameterFirstParametersPositionControl
+  attribute_ref 489073 // parameterType
+  class_ref 311153 // ClearISumIfPWMReachesMaximum
+  class_ref 311281 // ClearISumIfOvershootsTarget
+  class_ref 293745 // PParameterFirstParametersSpeedControl
+  class_ref 293873 // IParameterFirstParametersSpeedControl
+  class_ref 294001 // DParameterFirstParametersSpeedControl
+  class_ref 294129 // IClippingParameterFirstParametersSpeedControl
+  class_ref 294257 // RampGeneratorSpeedAndPositionControl
+  class_ref 294385 // ReinitializationSinusoidalCommutation
+  class_ref 317809 // SetEncoderCounterZeroAtNextNChannel
+  class_ref 317937 // SetEncoderCounterZeroAtNextSwitch
+  class_ref 318065 // SetEncoderCounterZeroOnlyOnce
+  class_ref 318193 // EncoderStopSwitch
+  class_ref 318321 // ActualCommutationOffset
+  class_ref 318449 // StopSwitchPolarity
+  class_ref 319217 // PParameterFirstParametersCurrentControl
+  class_ref 319345 // IParameterFirstParametersCurrentControl
+  class_ref 319473 // DParameterFirstParametersCurrentControl
+  class_ref 319601 // IClippingParameterFirstParametersCurrentControl
+  class_ref 319729 // PParameterSecondParametersCurrentControl
+  class_ref 319857 // IParameterSecondParametersCurrentControl
+  class_ref 319985 // DParameterSecondParametersCurrentControl
+  class_ref 320113 // IClippingParameterSecondParametersCurrentControl
+  class_ref 320241 // CurrentControlSwitchingThreshold
+  class_ref 341233 // CommutationMotorCurrent
+  class_ref 294513 // PParameterSecondParametersPositionControl
+  class_ref 294641 // IParameterSecondParametersPositionControl
+  class_ref 294769 // DParameterSecondParametersPositionControl
+  class_ref 294897 // IClippingParameterSecondParametersPositionControl
+  class_ref 295025 // PParameterSecondParametersSpeedControl
+  attribute_ref 437489 // parameterType
+  class_ref 295281 // DParameterSecondParametersSpeedControl
+  class_ref 295409 // IClippingParameterSecondParametersSpeedControl
+  class_ref 320881 // MassInertiaConstant
+  class_ref 321009 // BEMFConstant
+  attribute_ref 439409 // parameterType
+  class_ref 295665 // CommutationCompensationClockwise
+  attribute_ref 440689 // parameterType
+  class_ref 321137 // InitSineDelay
+  class_ref 296561 // MotorContollerGearRatio
+  class_ref 321265 // ActivateOvervoltageProtection
+  attribute_ref 512753 // parameterType
+  attribute_ref 513393 // parameterType
+  class_ref 321649 // EncoderNullPolarity
+  classrelation_ref 278129 // <generalisation>
+  class_ref 318705 // ActualPWMDutyCycle
+  class_ref 286321 // YouBotManipulator
+  classview_ref 147697 // BaseKinematic
+  class_ref 218097 // OneDOFGripperData
+  classview_ref 161009 // GripperParameter
 end
 end

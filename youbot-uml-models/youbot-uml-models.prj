@@ -1,22 +1,9 @@
 format 75
 "youbot-uml-models"
-  revision 135
+  revision 138
   modified_by 113 "jan"
   cpp_root_dir "../"
 
-  artifact_default_description "/**
- * \\file 
- *
- * \\author
- * \\date
- */"
-  class_default_description "/**
- * \\brief 
- *
- */"
-  operation_default_description "/**
- * 
- */"
 
   
   // class settings
@@ -119,7 +106,10 @@ ${items}};
 
     class 162161 "Joint"
       abstract visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+/// ${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -182,7 +172,10 @@ ${inlines}
 
     class 170225 "YouBotJoint"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -193,8 +186,7 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// youBot joint for the base and the manipulator.
-/// Every motor, encoder, transmition combination of the youBot base or manipulator is a YouBotJoint
-"
+/// Every motor, encoder, transmition combination of the youBot base or manipulator is a YouBotJoint"
       classrelation 175985 // <realization>
 	relation 175985 -_-|>
 	  a public
@@ -735,7 +727,10 @@ ${inlines}
 
     class 303857 "YouBotJointStorage"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -831,7 +826,10 @@ ${inlines}
 
     class 170353 "JointData"
       abstract visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -846,7 +844,10 @@ ${inlines}
 
     class 162289 "JointSensedData"
       abstract visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -868,7 +869,10 @@ ${inlines}
 
     class 162545 "JointSensedTemperature"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -900,7 +904,10 @@ ${inlines}
 
     class 162673 "JointSensedTorque"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -932,7 +939,10 @@ ${inlines}
 
     class 162801 "JointSensedVelocity"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -964,7 +974,10 @@ ${inlines}
 
     class 162929 "JointSensedAngle"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -996,7 +1009,10 @@ ${inlines}
 
     class 169841 "JointSensedCurrent"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -1028,7 +1044,10 @@ ${inlines}
 
     class 170481 "JointDataSetpoint"
       abstract visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -1050,7 +1069,10 @@ ${inlines}
 
     class 170609 "JointTorqueSetpoint"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -1082,7 +1104,10 @@ ${inlines}
 
     class 170737 "JointVelocitySetpoint"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -1114,7 +1139,10 @@ ${inlines}
 
     class 170865 "JointAngleSetpoint"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -1146,7 +1174,10 @@ ${inlines}
 
     class 170993 "JointCurrentSetpoint"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -1280,7 +1311,10 @@ ${items}};
 
     class 238321 "Parameter"
       abstract visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -1295,7 +1329,10 @@ ${inlines}
 
     class 238449 "JointParameter"
       abstract visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -1317,8 +1354,10 @@ ${inlines}
 
     class 238577 "YouBotJointParameter"
       abstract visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -1329,6 +1368,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// abstract youBot joint parameter"
+      extra_member 146161 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 262001 // <generalisation>
 	relation 262001 ---|>
 	  a public
@@ -1437,8 +1485,10 @@ ${inlines}
 
     class 251889 "JointName"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -1449,6 +1499,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// the name of the joint"
+      extra_member 146033 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 223985 // <generalisation>
 	relation 223985 ---|>
 	  a public
@@ -1597,8 +1656,10 @@ ${inlines}
 
     class 251761 "GearRatio"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -1609,6 +1670,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// the gear ratio which is needed for the calculations in the youBot driver"
+      extra_member 145905 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 223857 // <generalisation>
 	relation 223857 ---|>
 	  a public
@@ -1757,8 +1827,10 @@ ${inlines}
 
     class 252017 "EncoderTicksPerRound"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -1769,6 +1841,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// the resolution of the encoders, it is needed for the calculations of the youBot Driver"
+      extra_member 145777 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 224113 // <generalisation>
 	relation 224113 ---|>
 	  a public
@@ -1917,8 +1998,10 @@ ${inlines}
 
     class 252145 "InverseMovementDirection"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -1929,6 +2012,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// inverse the joint movement direction"
+      extra_member 145649 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 224241 // <generalisation>
 	relation 224241 ---|>
 	  a public
@@ -2077,8 +2169,10 @@ ${inlines}
 
     class 266353 "CalibrateJoint"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -2089,6 +2183,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// calibrates the joint"
+      extra_member 145521 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 238961 // <generalisation>
 	relation 238961 ---|>
 	  a public
@@ -2261,8 +2364,10 @@ ${inlines}
 
     class 273009 "JointLimits"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -2273,6 +2378,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// joint position limits"
+      extra_member 145393 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 245489 // <generalisation>
 	relation 245489 ---|>
 	  a public
@@ -2445,8 +2559,10 @@ ${inlines}
 
     class 279537 "StopJoint"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -2457,6 +2573,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// stops the joint"
+      extra_member 145265 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 252017 // <generalisation>
 	relation 252017 ---|>
 	  a public
@@ -2605,8 +2730,10 @@ ${inlines}
 
     class 279665 "NoMoreAction"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -2617,6 +2744,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// No more action"
+      extra_member 145137 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 252145 // <generalisation>
 	relation 252145 ---|>
 	  a public
@@ -2765,8 +2901,10 @@ ${inlines}
 
     class 245105 "MaximumPositioningVelocity"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -2777,6 +2915,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// The maximum velocity used for move to position command when executing a ramp to a position. In sensorless commutation mode the velocity threshold for hallFX."
+      extra_member 145009 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 217329 // <generalisation>
 	relation 217329 ---|>
 	  a public
@@ -2951,8 +3098,10 @@ ${inlines}
 
     class 310513 "PWMLimit"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -2963,6 +3112,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Set PWM limit (0%... 100%)."
+      extra_member 144881 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 270065 // <generalisation>
 	relation 270065 ---|>
 	  a public
@@ -3137,8 +3295,10 @@ ${inlines}
 
     class 293233 "MaximumMotorCurrent"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -3149,6 +3309,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// maximum allowed current"
+      extra_member 144753 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 259057 // <generalisation>
 	relation 259057 ---|>
 	  a public
@@ -3323,8 +3492,10 @@ ${inlines}
 
     class 310385 "MaximumVelocityToSetPosition"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -3335,6 +3506,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Maximum velocity at which end position can be set. Prevents issuing of end position when the target is passed at high velocity"
+      extra_member 144625 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 269937 // <generalisation>
 	relation 269937 ---|>
 	  a public
@@ -3509,8 +3689,10 @@ ${inlines}
 
     class 293105 "SpeedControlSwitchingThreshold"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -3521,6 +3703,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Adjusts the limit to switch between first velocity PID parameter set and second velocity PID parameter set."
+      extra_member 144497 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 258929 // <generalisation>
 	relation 258929 ---|>
 	  a public
@@ -3695,8 +3886,10 @@ ${inlines}
 
     class 310641 "ClearTargetDistance"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -3707,6 +3900,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Velocity is set to 0 if actual position differs from motor position for more than this value, until the motor catches up. Prevents velocity overshoot if the motor can't follow the velocity ramp."
+      extra_member 144369 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 270193 // <generalisation>
 	relation 270193 ---|>
 	  a public
@@ -3881,8 +4083,10 @@ ${inlines}
 
     class 310769 "PositionTargetReachedDistance"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -3893,6 +4097,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Maximum distance at which the position end flag is set."
+      extra_member 144241 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 270321 // <generalisation>
 	relation 270321 ---|>
 	  a public
@@ -4067,8 +4280,10 @@ ${inlines}
 
     class 293361 "MotorAcceleration"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -4079,6 +4294,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Acceleration parameter for velocity control and position control"
+      extra_member 144113 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 259185 // <generalisation>
 	relation 259185 ---|>
 	  a public
@@ -4137,6 +4361,22 @@ ${inlines}
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 581745 "operator<<"
+	preserve_cpp_body_indent friend public explicit_return_type "std::ostream"
+	nparams 2
+	  param inout name "out" explicit_type "std::ostream"
+	  param in name "parmeter" type class_ref 293361 // MotorAcceleration
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0}& ${p0}, const ${t1}& ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} & ${class}::${name}${(}${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
 "
 	preserve_java_body_indent 
@@ -4253,8 +4493,10 @@ ${inlines}
 
     class 295921 "PositionControlSwitchingThreshold"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -4265,6 +4507,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Switching threshold for position control between the first and second set of parameters"
+      extra_member 143985 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 261745 // <generalisation>
 	relation 261745 ---|>
 	  a public
@@ -4439,8 +4690,10 @@ ${inlines}
 
     class 252273 "PParameterFirstParametersPositionControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -4451,6 +4704,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// P-Parameter of PID position regulator (first position parameter set)"
+      extra_member 143857 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 224369 // <generalisation>
 	relation 224369 ---|>
 	  a public
@@ -4625,8 +4887,10 @@ ${inlines}
 
     class 292849 "IParameterFirstParametersPositionControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -4637,6 +4901,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// I-Parameter of PID position regulator (first position parameter set)"
+      extra_member 143729 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 258673 // <generalisation>
 	relation 258673 ---|>
 	  a public
@@ -4811,8 +5084,10 @@ ${inlines}
 
     class 292977 "DParameterFirstParametersPositionControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -4823,6 +5098,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// D-Parameter of PID position regulator (first position parameter set)"
+      extra_member 143601 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 258801 // <generalisation>
 	relation 258801 ---|>
 	  a public
@@ -4997,8 +5281,10 @@ ${inlines}
 
     class 293489 "PIDControlTime"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -5008,8 +5294,16 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// PID calculation delay: Set operational frequency PID
-"
+      comment "/// PID calculation delay: Set operational frequency PID"
+      extra_member 143473 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 259313 // <generalisation>
 	relation 259313 ---|>
 	  a public
@@ -5184,8 +5478,10 @@ ${inlines}
 
     class 310897 "CurrentControlLoopDelay"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -5196,6 +5492,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Delay of current limitation algorithm / PID current regulator. "
+      extra_member 143345 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 270449 // <generalisation>
 	relation 270449 ---|>
 	  a public
@@ -5370,8 +5675,10 @@ ${inlines}
 
     class 293617 "IClippingParameterFirstParametersPositionControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -5382,6 +5689,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Adjust in standstill to lowest possible value at which the motor keeps its position. A too high value causes overshooting at positioning mode. (first position parameter set)"
+      extra_member 143217 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 259441 // <generalisation>
 	relation 259441 ---|>
 	  a public
@@ -5556,8 +5872,10 @@ ${inlines}
 
     class 311025 "PWMHysteresis"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -5568,6 +5886,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Compensates dead time of PWM and motor friction."
+      extra_member 143089 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 270577 // <generalisation>
 	relation 270577 ---|>
 	  a public
@@ -5742,8 +6069,10 @@ ${inlines}
 
     class 311153 "ClearISumIfPWMReachesMaximum"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -5754,6 +6083,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Clears I Sum if PWM reaches maximum value of 100%. "
+      extra_member 142961 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 270705 // <generalisation>
 	relation 270705 ---|>
 	  a public
@@ -5908,8 +6246,10 @@ ${inlines}
 
     class 311281 "ClearISumIfOvershootsTarget"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -5920,6 +6260,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Clears I Sum if the position overshoots the target value. "
+      extra_member 142833 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 270833 // <generalisation>
 	relation 270833 ---|>
 	  a public
@@ -6074,8 +6423,10 @@ ${inlines}
 
     class 293745 "PParameterFirstParametersSpeedControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -6086,6 +6437,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// P-Parameter of PID velocity regulator. This PID parameter set is used at lower velocity. (first velocity parameter set) "
+      extra_member 142705 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 259569 // <generalisation>
 	relation 259569 ---|>
 	  a public
@@ -6260,8 +6620,10 @@ ${inlines}
 
     class 293873 "IParameterFirstParametersSpeedControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -6272,6 +6634,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// I-Parameter of PID velocity regulator. This PID parameter set is used at lower velocity. (first velocity parameter set) "
+      extra_member 142577 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 259697 // <generalisation>
 	relation 259697 ---|>
 	  a public
@@ -6446,8 +6817,10 @@ ${inlines}
 
     class 294001 "DParameterFirstParametersSpeedControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -6458,6 +6831,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// D-Parameter of PID velocity regulator. This PID parameter set is used at lower velocity. (first velocity parameter set) "
+      extra_member 142449 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 259825 // <generalisation>
 	relation 259825 ---|>
 	  a public
@@ -6632,8 +7014,10 @@ ${inlines}
 
     class 294129 "IClippingParameterFirstParametersSpeedControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -6644,6 +7028,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// This PID parameter set is used at lower velocity. (first velocity parameter set)"
+      extra_member 142321 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 259953 // <generalisation>
 	relation 259953 ---|>
 	  a public
@@ -6818,8 +7211,10 @@ ${inlines}
 
     class 294257 "RampGeneratorSpeedAndPositionControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -6830,6 +7225,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Switches the ramp generator for speed and position control on and off "
+      extra_member 142193 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 260081 // <generalisation>
 	relation 260081 ---|>
 	  a public
@@ -6984,8 +7388,10 @@ ${inlines}
 
     class 294385 "ReinitializationSinusoidalCommutation"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -6996,8 +7402,16 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Enabled the re-initialization of the sinusoidal commutation
-/// Attention: Depending on initialization mode, stop motor before issuing this command!
-"
+/// Attention: Depending on initialization mode, stop motor before issuing this command!"
+      extra_member 142065 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 260209 // <generalisation>
 	relation 260209 ---|>
 	  a public
@@ -7152,8 +7566,10 @@ ${inlines}
 
     class 317809 "SetEncoderCounterZeroAtNextNChannel"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -7163,8 +7579,16 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Set Encoder counter to zero at next N channel event.
-"
+      comment "/// Set Encoder counter to zero at next N channel event."
+      extra_member 141937 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 277361 // <generalisation>
 	relation 277361 ---|>
 	  a public
@@ -7319,8 +7743,10 @@ ${inlines}
 
     class 317937 "SetEncoderCounterZeroAtNextSwitch"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -7330,8 +7756,16 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Set encoder counter to zero at next switch event.
-"
+      comment "/// Set encoder counter to zero at next switch event."
+      extra_member 141809 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 277489 // <generalisation>
 	relation 277489 ---|>
 	  a public
@@ -7486,8 +7920,10 @@ ${inlines}
 
     class 318065 "SetEncoderCounterZeroOnlyOnce"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -7499,6 +7935,15 @@ ${inlines}
       
       comment "/// 1: Set encoder counter zero only once NULL
 /// 0: always at an N channel event, respectively switch event."
+      extra_member 141681 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 277617 // <generalisation>
 	relation 277617 ---|>
 	  a public
@@ -7653,8 +8098,10 @@ ${inlines}
 
     class 318193 "EncoderStopSwitch"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -7670,6 +8117,15 @@ ${inlines}
 /// Bit 1: Right stop switch enable \\n
 /// When this bit is set the motor will be stopped if it is moving in positive direction and the right stop switch input becomes active\\n\\n
 /// Please see StopSwitchPolarity for selecting the stop switch input polarity."
+      extra_member 141553 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 277745 // <generalisation>
 	relation 277745 ---|>
 	  a public
@@ -7842,163 +8298,12 @@ ${inlines}
       end
     end
 
-    class 318705 "ActualPWMDutyCycle"
-      visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      comment "/// Actual PWM duty cycle (0%... 100%).
-
-"
-      operation 517105 "ActualPWMDutyCycle"
-	preserve_cpp_body_indent public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
-"
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
-"
-	
-	
-	
-	
-      end
-
-      operation 517233 "~ActualPWMDutyCycle"
-	cpp_virtual public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
-"
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
-"
-	
-	
-	
-	
-      end
-
-      operation 517361 "getParameter"
-	preserve_cpp_body_indent const public explicit_return_type "void"
-	nparams 1
-	  param out name "parameter" explicit_type "uint"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 517489 "getYouBotMailboxMsg"
-	preserve_cpp_body_indent const private explicit_return_type "void"
-	nparams 3
-	  param out name "message" explicit_type "YouBotSlaveMailboxMsg"
-	  param in name "msgType" explicit_type "TMCLCommandNumber"
-	  param in name "storage" type class_ref 303857 // YouBotJointStorage
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}, ${t1} ${p1}${v1}, const ${t2}& ${p2}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}, ${t1} ${p1}, const ${t2}& ${p2}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 517617 "setYouBotMailboxMsg"
-	preserve_cpp_body_indent private explicit_return_type "void"
-	nparams 2
-	  param in name "message" explicit_type "YouBotSlaveMailboxMsg"
-	  param in name "storage" type class_ref 303857 // YouBotJointStorage
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 517745 "getName"
-	preserve_cpp_body_indent const private explicit_return_type "string"
-	nparams 0
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->name;};
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 517873 "getType"
-	preserve_cpp_body_indent const private return_type class_ref 210929 // ParameterType
-	nparams 0
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->parameterType;};
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      attribute 500081 "value"
-	private explicit_type "uint"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 500209 "name"
-	private explicit_type "string"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 500337 "parameterType"
-	private type class_ref 210929 // ParameterType
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      classrelation 278257 // <generalisation>
-	relation 278257 ---|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 278257 // <generalisation>
-	  b parent class_ref 296049 // YouBotJointParameterReadOnly
-      end
-    end
-
     class 318321 "ActualCommutationOffset"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -8009,6 +8314,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// This value represents the internal commutation offset. (0 ... max. Encoder steps per rotation)"
+      extra_member 141425 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 277873 // <generalisation>
 	relation 277873 ---|>
 	  a public
@@ -8183,8 +8497,10 @@ ${inlines}
 
     class 318449 "StopSwitchPolarity"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -8200,8 +8516,16 @@ ${inlines}
 /// Bit clear: Left stop switch input is low active\\n\\n
 /// Bit 1: Right stop switch polarity\\n
 /// Bit set: Right stop switch input is high active\\n
-/// Bit clear: Right stop switch input is low active\\n
-"
+/// Bit clear: Right stop switch input is low active"
+      extra_member 141297 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 278001 // <generalisation>
 	relation 278001 ---|>
 	  a public
@@ -8376,8 +8700,10 @@ ${inlines}
 
     class 319217 "PParameterFirstParametersCurrentControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -8388,6 +8714,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// P-Parameter of PID current regulator. This PID parameter set is used at lower velocity. (first current parameter set)"
+      extra_member 141169 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 278769 // <generalisation>
 	relation 278769 ---|>
 	  a public
@@ -8562,8 +8897,10 @@ ${inlines}
 
     class 319345 "IParameterFirstParametersCurrentControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -8574,6 +8911,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// I-Parameter of PID current regulator. This PID parameter set is used at lower velocity. (first current parameter set)"
+      extra_member 141041 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 278897 // <generalisation>
 	relation 278897 ---|>
 	  a public
@@ -8748,8 +9094,10 @@ ${inlines}
 
     class 319473 "DParameterFirstParametersCurrentControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -8760,6 +9108,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// D-Parameter of PID current regulator. This PID parameter set is used at lower velocity. (first current parameter set)"
+      extra_member 140913 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 279025 // <generalisation>
 	relation 279025 ---|>
 	  a public
@@ -8934,8 +9291,10 @@ ${inlines}
 
     class 319601 "IClippingParameterFirstParametersCurrentControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -8946,6 +9305,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// I-Clipping Parameter of PID current regulator. This PID parameter set is used at lower velocity. (first current parameter set)"
+      extra_member 140785 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 279153 // <generalisation>
 	relation 279153 ---|>
 	  a public
@@ -9120,8 +9488,10 @@ ${inlines}
 
     class 319729 "PParameterSecondParametersCurrentControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -9132,6 +9502,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// P-Parameter of PID current regulator. This PID parameter set is used at higher velocity. (second current parameter set)"
+      extra_member 140657 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 279281 // <generalisation>
 	relation 279281 ---|>
 	  a public
@@ -9306,8 +9685,10 @@ ${inlines}
 
     class 319857 "IParameterSecondParametersCurrentControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -9318,6 +9699,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// I-Parameter of PID current regulator. This PID parameter set is used at higher velocity. (second current parameter set)"
+      extra_member 140529 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 279409 // <generalisation>
 	relation 279409 ---|>
 	  a public
@@ -9492,8 +9882,10 @@ ${inlines}
 
     class 319985 "DParameterSecondParametersCurrentControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -9504,6 +9896,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// D-Parameter of PID current regulator. This PID parameter set is used at higher velocity. (second current parameter set)"
+      extra_member 140401 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 279537 // <generalisation>
 	relation 279537 ---|>
 	  a public
@@ -9678,8 +10079,10 @@ ${inlines}
 
     class 320113 "IClippingParameterSecondParametersCurrentControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -9690,6 +10093,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// I-Clipping Parameter of PID current regulator. This PID parameter set is used at higher velocity. (second current parameter set)"
+      extra_member 140273 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 279665 // <generalisation>
 	relation 279665 ---|>
 	  a public
@@ -9864,8 +10276,10 @@ ${inlines}
 
     class 320241 "CurrentControlSwitchingThreshold"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -9876,6 +10290,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Switching threshold for position control between the first and second set of parameters"
+      extra_member 140145 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 279793 // <generalisation>
 	relation 279793 ---|>
 	  a public
@@ -10050,8 +10473,10 @@ ${inlines}
 
     class 341233 "CommutationMotorCurrent"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -10061,8 +10486,16 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Motor current for controlled commutation. This parameter is used in commutation mode 1, 4, 5 and in initialization of sine.
-"
+      comment "/// Motor current for controlled commutation. This parameter is used in commutation mode 1, 4, 5 and in initialization of sine."
+      extra_member 140017 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 294769 // <generalisation>
 	relation 294769 ---|>
 	  a public
@@ -10237,8 +10670,10 @@ ${inlines}
 
     class 294513 "PParameterSecondParametersPositionControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -10249,6 +10684,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// P-Parameter of PID position regulator (second position parameter set)"
+      extra_member 139889 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 260337 // <generalisation>
 	relation 260337 ---|>
 	  a public
@@ -10423,8 +10867,10 @@ ${inlines}
 
     class 294641 "IParameterSecondParametersPositionControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -10435,6 +10881,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// I-Parameter of PID position regulator (second position parameter set)"
+      extra_member 139761 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 260465 // <generalisation>
 	relation 260465 ---|>
 	  a public
@@ -10609,8 +11064,10 @@ ${inlines}
 
     class 294769 "DParameterSecondParametersPositionControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -10621,6 +11078,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// I-Parameter of PID position regulator (second position parameter set)"
+      extra_member 139633 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 260593 // <generalisation>
 	relation 260593 ---|>
 	  a public
@@ -10795,8 +11261,10 @@ ${inlines}
 
     class 294897 "IClippingParameterSecondParametersPositionControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -10807,6 +11275,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Adjust in standstill to lowest possible value at which the motor keeps its position. A too high value causes overshooting at positioning mode. (second position parameter set)"
+      extra_member 139505 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 260721 // <generalisation>
 	relation 260721 ---|>
 	  a public
@@ -10981,8 +11458,10 @@ ${inlines}
 
     class 295025 "PParameterSecondParametersSpeedControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -10993,6 +11472,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// P-Parameter of PID velocity regulator (second position parameter set)"
+      extra_member 139377 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 260849 // <generalisation>
 	relation 260849 ---|>
 	  a public
@@ -11167,8 +11655,10 @@ ${inlines}
 
     class 295153 "IParameterSecondParametersSpeedControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -11179,6 +11669,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// I-Parameter of PID velocity regulator (second position parameter set)"
+      extra_member 139249 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 260977 // <generalisation>
 	relation 260977 ---|>
 	  a public
@@ -11353,8 +11852,10 @@ ${inlines}
 
     class 295281 "DParameterSecondParametersSpeedControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -11365,6 +11866,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// D-Parameter of PID velocity regulator (second position parameter set)"
+      extra_member 139121 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 261105 // <generalisation>
 	relation 261105 ---|>
 	  a public
@@ -11539,8 +12049,10 @@ ${inlines}
 
     class 295409 "IClippingParameterSecondParametersSpeedControl"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -11551,6 +12063,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// I-Clipping Parameter of PID current regulator. This PID parameter set is used at lower velocity. (second position parameter set)"
+      extra_member 132593 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 261233 // <generalisation>
 	relation 261233 ---|>
 	  a public
@@ -11725,8 +12246,10 @@ ${inlines}
 
     class 320881 "MassInertiaConstant"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -11737,6 +12260,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Mass inertia constant for position regulation. Compensates mass moment of inertia of rotor."
+      extra_member 132465 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 280945 // <generalisation>
 	relation 280945 ---|>
 	  a public
@@ -11911,8 +12443,10 @@ ${inlines}
 
     class 321009 "BEMFConstant"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -11923,6 +12457,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// BEMF constant of motor. Used for current regulation, position regulation and velocity regulation. Feed forward control for current regulation, position regulation and velocity regulation is disabled if BEMF constant is set to zero."
+      extra_member 132337 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 281073 // <generalisation>
 	relation 281073 ---|>
 	  a public
@@ -12097,8 +12640,10 @@ ${inlines}
 
     class 295537 "SineInitializationVelocity"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -12109,6 +12654,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Velocity for sine initialization."
+      extra_member 132209 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 261361 // <generalisation>
 	relation 261361 ---|>
 	  a public
@@ -12283,8 +12837,10 @@ ${inlines}
 
     class 295665 "CommutationCompensationClockwise"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -12295,6 +12851,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Commutation (CW) to compensate for the Hall sensor deviations. The aim is that the motor rotates in either direction with equal speed."
+      extra_member 132081 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 261489 // <generalisation>
 	relation 261489 ---|>
 	  a public
@@ -12469,8 +13034,10 @@ ${inlines}
 
     class 295793 "CommutationCompensationCounterClockwise"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -12481,6 +13048,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Commutation (CCW) to compensate for the Hall sensor deviations. The aim is that the motor rotates in either direction with equal speed."
+      extra_member 131953 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 261617 // <generalisation>
 	relation 261617 ---|>
 	  a public
@@ -12655,8 +13231,10 @@ ${inlines}
 
     class 321137 "InitSineDelay"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -12667,6 +13245,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Duration for sine initialization sequence. This parameter should be set in a way, that the motor has stopped mechanical oscillations after the specified time. "
+      extra_member 131825 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 281201 // <generalisation>
 	relation 281201 ---|>
 	  a public
@@ -12841,8 +13428,10 @@ ${inlines}
 
     class 296561 "MotorContollerGearRatio"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -12853,6 +13442,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// The gear ratio which is stored in the motor controller"
+      extra_member 131697 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 288241 // <generalisation>
 	relation 288241 ---|>
 	  a public
@@ -13007,8 +13605,10 @@ ${inlines}
 
     class 321265 "ActivateOvervoltageProtection"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -13019,6 +13619,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Enable overvoltage protection. "
+      extra_member 131569 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 281329 // <generalisation>
 	relation 281329 ---|>
 	  a public
@@ -13173,8 +13782,10 @@ ${inlines}
 
     class 321393 "MaximumPWMChangePerPIDInterval"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -13185,6 +13796,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Maximum PWM change per PID interval. "
+      extra_member 131441 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 281457 // <generalisation>
 	relation 281457 ---|>
 	  a public
@@ -13359,8 +13979,10 @@ ${inlines}
 
     class 321521 "SineCompensationFactor"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -13371,6 +13993,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Compensates the propagation delay of the MPU"
+      extra_member 131313 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 281585 // <generalisation>
 	relation 281585 ---|>
 	  a public
@@ -13545,8 +14176,10 @@ ${inlines}
 
     class 321649 "EncoderNullPolarity"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -13557,6 +14190,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Encoder null polarity for zeroing of position counter."
+      extra_member 131185 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 281713 // <generalisation>
 	relation 281713 ---|>
 	  a public
@@ -13728,8 +14370,10 @@ ${inlines}
     show_infonote default drawing_language default show_stereotype_properties default
     class 296049 "YouBotJointParameterReadOnly"
       abstract visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -13740,6 +14384,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// abstract youBot joint parameter which can be read only"
+      extra_member 129009 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 261873 // <generalisation>
 	relation 261873 ---|>
 	  a public
@@ -13848,8 +14501,10 @@ ${inlines}
 
     class 318577 "ActualMotorVoltage"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -13860,6 +14515,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Actual supply voltage."
+      extra_member 129137 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       operation 516209 "ActualMotorVoltage"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
@@ -13997,10 +14661,174 @@ ${inlines}
       end
     end
 
+    class 318705 "ActualPWMDutyCycle"
+      visibility package 
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/// Actual PWM duty cycle (0%... 100%)."
+      extra_member 131057 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      operation 517105 "ActualPWMDutyCycle"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 517233 "~ActualPWMDutyCycle"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 517361 "getParameter"
+	preserve_cpp_body_indent const public explicit_return_type "void"
+	nparams 1
+	  param out name "parameter" explicit_type "uint"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 517489 "getYouBotMailboxMsg"
+	preserve_cpp_body_indent const private explicit_return_type "void"
+	nparams 3
+	  param out name "message" explicit_type "YouBotSlaveMailboxMsg"
+	  param in name "msgType" explicit_type "TMCLCommandNumber"
+	  param in name "storage" type class_ref 303857 // YouBotJointStorage
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}, ${t1} ${p1}${v1}, const ${t2}& ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}, ${t1} ${p1}, const ${t2}& ${p2}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 517617 "setYouBotMailboxMsg"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 2
+	  param in name "message" explicit_type "YouBotSlaveMailboxMsg"
+	  param in name "storage" type class_ref 303857 // YouBotJointStorage
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 517745 "getName"
+	preserve_cpp_body_indent const private explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->name;};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 517873 "getType"
+	preserve_cpp_body_indent const private return_type class_ref 210929 // ParameterType
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->parameterType;};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      attribute 500081 "value"
+	private explicit_type "uint"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 500209 "name"
+	private explicit_type "string"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 500337 "parameterType"
+	private type class_ref 210929 // ParameterType
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      classrelation 278257 // <generalisation>
+	relation 278257 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 278257 // <generalisation>
+	  b parent class_ref 296049 // YouBotJointParameterReadOnly
+      end
+    end
+
     class 318833 "ErrorAndStatus"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -14023,6 +14851,15 @@ ${inlines}
 /// Bit 9: Initialization error of sine commutation. This flag is set if initialization is failed. \\n
 /// Bit 10: Position mode flag. This flag is set when the module is in positioning mode. \\n
 /// Bit 11: Position end flag. This flag becomes set if the motor has been stopped at the end position. \\n"
+      extra_member 129265 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       operation 518001 "ErrorAndStatus"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
@@ -14176,8 +15013,10 @@ ${inlines}
 
     class 320369 "PositionError"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -14187,8 +15026,16 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Actual error of PID position regulator
-"
+      comment "/// Actual error of PID position regulator"
+      extra_member 129393 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       operation 530289 "PositionError"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
@@ -14328,8 +15175,10 @@ ${inlines}
 
     class 320497 "PositionErrorSum"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -14339,8 +15188,16 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Sums of errors of PID position regulator
-"
+      comment "/// Sums of errors of PID position regulator"
+      extra_member 129521 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       operation 531313 "PositionErrorSum"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
@@ -14480,8 +15337,10 @@ ${inlines}
 
     class 320625 "VelocityError"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -14491,8 +15350,16 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Actual error of PID velocity regulator
-"
+      comment "/// Actual error of PID velocity regulator"
+      extra_member 129649 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       operation 532337 "VelocityError"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
@@ -14632,8 +15499,10 @@ ${inlines}
 
     class 320753 "VelocityErrorSum"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -14644,6 +15513,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Sums of Errors of PID velocity regulator"
+      extra_member 129777 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       operation 533361 "VelocityErrorSum"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
@@ -14783,8 +15661,10 @@ ${inlines}
 
     class 296177 "ArePIDcontrollersActive"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -14797,8 +15677,16 @@ ${inlines}
       comment "/// Enables or Disables the PID controller.
 /// 0: Enable the standard PID calculation. \\n
 /// 1: Disable the PID calculation. The Motor PWM is then directly derived from the target velocity.  \\n
-/// 2: Enable an integrating PID algorithm. In this case the result of the PID calculation is integrated to the PWM value. This PID regulation is easier to use than the standard PID regulation.  \\n
-"
+/// 2: Enable an integrating PID algorithm. In this case the result of the PID calculation is integrated to the PWM value. This PID regulation is easier to use than the standard PID regulation. "
+      extra_member 129905 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 262257 // <generalisation>
 	relation 262257 ---|>
 	  a public
@@ -14938,8 +15826,10 @@ ${inlines}
 
     class 296305 "CommutationMode"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -14955,8 +15845,16 @@ ${inlines}
 /// 2: Sine commutation with hall sensors \\n
 /// 3: Sine commutation with encoder \\n
 /// 4: Controlled block commutation \\n
-/// 5: Controlled sine commutation \\n
-"
+/// 5: Controlled sine commutation \\n"
+      extra_member 130033 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 262385 // <generalisation>
 	relation 262385 ---|>
 	  a public
@@ -15096,8 +15994,10 @@ ${inlines}
 
     class 296433 "PWMSchemeBlockCommutation"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -15110,8 +16010,16 @@ ${inlines}
       comment "/// PWM Scheme for the Block Commutation. 
 /// 0: PWM chopper on high side, HI on low side \\n
 /// 1: PWM chopper on low side, HI on high \\n
-/// 2: PWM chopper on low side and high side \\n
-"
+/// 2: PWM chopper on low side and high side \\n"
+      extra_member 130161 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 262513 // <generalisation>
 	relation 262513 ---|>
 	  a public
@@ -15251,8 +16159,10 @@ ${inlines}
 
     class 296689 "MotorCoilResistance"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -15262,8 +16172,16 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Resistance of motor coil. Used for current resistance regulation, position regulation and velocity regulation.
-"
+      comment "/// Resistance of motor coil. Used for current resistance regulation, position regulation and velocity regulation."
+      extra_member 130289 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 262769 // <generalisation>
 	relation 262769 ---|>
 	  a public
@@ -15403,8 +16321,10 @@ ${inlines}
 
     class 296817 "InitializationMode"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -15416,8 +16336,16 @@ ${inlines}
       
       comment "/// Initialization Mode.
 /// 0: Initialization in controlled sine commutation \\n
-/// 1: Initialization in block commutation by using hall sensors \\n 
-"
+/// 1: Initialization in block commutation by using hall sensors \\n "
+      extra_member 130417 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 262897 // <generalisation>
 	relation 262897 ---|>
 	  a public
@@ -15557,8 +16485,10 @@ ${inlines}
 
     class 296945 "EncoderResolution"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -15568,8 +16498,16 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Encoder Steps per Rotation.
-"
+      comment "/// Encoder Steps per Rotation."
+      extra_member 130545 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 263025 // <generalisation>
 	relation 263025 ---|>
 	  a public
@@ -15709,8 +16647,10 @@ ${inlines}
 
     class 297073 "ReversingEncoderDirection"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -15720,8 +16660,16 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Encoder direction Set this flag in a way, that turn right increases position counter.
-"
+      comment "/// Encoder direction Set this flag in a way, that turn right increases position counter."
+      extra_member 130673 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 263153 // <generalisation>
 	relation 263153 ---|>
 	  a public
@@ -15861,8 +16809,10 @@ ${inlines}
 
     class 297329 "HallSensorPolarityReversal"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -15872,8 +16822,16 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Hall sensor invert. Sets one of the motors invert with inverted hall scheme, e.g. some Maxon motors
-"
+      comment "/// Hall sensor invert. Sets one of the motors invert with inverted hall scheme, e.g. some Maxon motors"
+      extra_member 130801 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 263409 // <generalisation>
 	relation 263409 ---|>
 	  a public
@@ -16013,8 +16971,10 @@ ${inlines}
 
     class 297201 "MotorPoles"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -16024,8 +16984,16 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Number of motor poles.
-"
+      comment "/// Number of motor poles."
+      extra_member 130929 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       classrelation 263281 // <generalisation>
 	relation 263281 ---|>
 	  a public
@@ -16187,9 +17155,10 @@ ${inlines}
 
     class 190577 "EthercatMaster"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotJoint;
-friend class YouBotGripper;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -16201,6 +17170,16 @@ ${inlines}
       
       comment "/// The Ethercat Master is managing the whole ethercat communication 
 /// It have to be a singleton in the system"
+      extra_member 128881 "friend"
+	
+	cpp "friend class YouBotJoint;
+friend class YouBotGripper;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       attribute 297969 "instance"
 	private explicit_type "static EthercatMaster*"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -16824,7 +17803,10 @@ ${inlines}
 
     class 286321 "YouBotManipulator"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -16834,7 +17816,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// It groups the manipulator joints together"
+      comment "/// It groups the manipulator joints and the gripper together"
       operation 425841 "YouBotManipulator"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 2
@@ -16964,7 +17946,10 @@ ${inlines}
 
     class 286193 "YouBotBase"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -17182,7 +18167,10 @@ ${inlines}
 
     class 328177 "MotorProtection"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -17406,7 +18394,10 @@ ${members}};
 
     class 231409 "BaseKinematic"
       abstract visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -17421,7 +18412,10 @@ ${inlines}
 
     class 231537 "WheeledBaseKinematic"
       abstract visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -17488,7 +18482,10 @@ ${inlines}
 
     class 231665 "FourSwedishWheelOmniBaseKinematic"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -17682,7 +18679,10 @@ ${inlines}
 
     class 231793 "FourSwedishWheelOmniBaseKinematicConfiguration"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -17828,7 +18828,10 @@ ${inlines}
 
     class 217457 "Gripper"
       abstract visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -17890,7 +18893,10 @@ ${inlines}
 
     class 217585 "OneDOFGripper"
       abstract visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -17960,7 +18966,10 @@ ${inlines}
 
     class 217841 "GripperData"
       abstract visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -17975,7 +18984,10 @@ ${inlines}
 
     class 218097 "OneDOFGripperData"
       abstract visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -17997,7 +19009,10 @@ ${inlines}
 
     class 224753 "YouBotGripper"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -18373,7 +19388,10 @@ ${inlines}
 
     class 259313 "GripperBarSpacingSetPoint"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -18422,7 +19440,10 @@ ${inlines}
     show_infonote default drawing_language default show_stereotype_properties default
     class 259185 "GripperParameter"
       abstract visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -18444,8 +19465,10 @@ ${inlines}
 
     class 258929 "YouBotGripperParameter"
       abstract visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotGripper;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -18456,6 +19479,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// abstract youBot gripper parameter"
+      extra_member 128241 "friend class YouBotGripper;"
+	
+	cpp "friend class YouBotGripper;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       operation 389361 "YouBotGripperParameter"
 	preserve_cpp_body_indent protected explicit_return_type ""
 	nparams 0
@@ -18516,8 +19548,10 @@ ${inlines}
 
     class 265969 "MaxTravelDistance"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotGripper;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -18528,6 +19562,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// The maximum bar spacing distance of the gripper"
+      extra_member 128113 "friend class YouBotGripper;"
+	
+	cpp "friend class YouBotGripper;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       operation 399601 "MaxTravelDistance"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
@@ -18628,8 +19671,10 @@ ${inlines}
 
     class 266097 "MaxEncoderValue"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotGripper;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -18640,6 +19685,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// The encoder value when the gripper has reached it's maximum bar spacing position"
+      extra_member 128369 "friend class YouBotGripper;"
+	
+	cpp "friend class YouBotGripper;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       operation 400241 "MaxEncoderValue"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
@@ -18740,8 +19794,10 @@ ${inlines}
 
     class 259057 "CalibrateGripper"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotGripper;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -18752,6 +19808,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Calibrate the gripper"
+      extra_member 128497 "friend class YouBotGripper;"
+	
+	cpp "friend class YouBotGripper;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       operation 390129 "CalibrateGripper"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
@@ -18852,8 +19917,10 @@ ${inlines}
 
     class 259441 "BarSpacingOffset"
       visibility package 
-      cpp_decl "${description}${template}class ${name}${inherit} {
-friend class YouBotGripper;
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "
@@ -18864,6 +19931,15 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Represents a bar spacing offset. It could be useful if the gripper can not be totally closed."
+      extra_member 128625 "friend class YouBotGripper;"
+	
+	cpp "friend class YouBotGripper;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
       operation 392305 "BarSpacingOffset"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0

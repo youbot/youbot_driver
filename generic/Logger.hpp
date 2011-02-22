@@ -60,35 +60,37 @@
 
 namespace youbot {
 
-	enum severity_level {
-		trace,
-		debug,
-		info,
-		warning,
-		error,
-		fatal
-	};
+    enum severity_level {
+        trace,
+        debug,
+        info,
+        warning,
+        error,
+        fatal
+    };
+    
+    ///////////////////////////////////////////////////////////////////////////////
+    /// Implementation logging to console and to a file
+    ///////////////////////////////////////////////////////////////////////////////
+    class Logger {
+    private:
+        static const bool toConsole = true;
+        static const bool toFile = false;
+        static const severity_level logginLevel = trace;
 
-	/// Implementation logging to console and to a file
-	class Logger {
-	private:
-		static const bool toConsole = true;
-		static const bool toFile = false;
-		static const severity_level logginLevel = trace;
+        std::stringstream out;
+        bool print;
+    public:
 
-		std::stringstream out;
-		bool print;
-	public:
+        Logger(const std::string &funcName, const int &lineNo, const std::string &fileName, severity_level level);
+        ~Logger();
 
-		Logger(const std::string &funcName, const int &lineNo, const std::string &fileName, severity_level level);
-		~Logger();
-
-		template <class T>
-		Logger::Logger & operator<<(const T &v) {
-			out << v;
-			return *this;
-		}
-	};
+        template <class T>
+        Logger::Logger & operator<<(const T &v) {
+            out << v;
+            return *this;
+        }
+    };
 
 
 #define LOG(level) Logger(__PRETTY_FUNCTION__, __LINE__ , __FILE__, level)

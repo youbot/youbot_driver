@@ -64,7 +64,9 @@
 #include "youbot/YouBotJoint.hpp"
 namespace youbot {
 
-/// It groups the manipulator joints together
+///////////////////////////////////////////////////////////////////////////////
+/// It groups the manipulator joints and the gripper together
+///////////////////////////////////////////////////////////////////////////////
 class YouBotManipulator {
   public:
     YouBotManipulator(const std::string name, const std::string configFilePath = "../config/");

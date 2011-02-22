@@ -65,7 +65,9 @@
 #include "base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.hpp"
 namespace youbot {
 
+///////////////////////////////////////////////////////////////////////////////
 /// It groups the base joints together
+///////////////////////////////////////////////////////////////////////////////
 class YouBotBase {
   public:
     YouBotBase(const std::string name, const std::string configFilePath = "../config/");

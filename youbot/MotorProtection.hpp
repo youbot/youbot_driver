@@ -20,7 +20,9 @@ struct CurrentWithTimeSlice {
     quantity<si::time> timeSlice;
 
 };
+///////////////////////////////////////////////////////////////////////////////
 /// Implements the i2t motor protection
+///////////////////////////////////////////////////////////////////////////////
 class MotorProtection {
   public:
     MotorProtection(const quantity<si::current>& maxContinuousCurrent, const quantity<si::time>& thermalTimeConstantWinding, const quantity<si::time>& thermalTimeConstantMotor);

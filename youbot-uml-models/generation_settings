@@ -61,7 +61,10 @@ ${namespace_end}
 ${namespace_start}
 ${members}
 ${namespace_end}"
-  cpp_default_class_decl "${description}${template}class ${name}${inherit} {
+  cpp_default_class_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
 ${members}};
 ${inlines}
 "

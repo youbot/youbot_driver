@@ -659,6 +659,13 @@ void MotorAcceleration::setParameter(const quantity<angular_acceleration>& param
   // Bouml preserved body end 0006AB71
 }
 
+std::ostream & operator<<(std::ostream& out, const MotorAcceleration& parmeter) {
+  // Bouml preserved body begin 0008E071
+  out << parmeter.value;
+  return out;
+  // Bouml preserved body end 0008E071
+}
+
 void MotorAcceleration::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
   // Bouml preserved body begin 0006ABF1
 
