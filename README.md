@@ -31,12 +31,12 @@ If you want to use robotpkg please visit https://github.com/youbot/youbot_packag
 First, make sure that you have the gnu-make software available on your system (version 3.81 or later required), as well as a working C compiler chain.
 The console commands below are exemplary for a Ubuntu Linux.
 You will need a git version control software:
-$  sudo apt-get install git git-core
+    sudo apt-get install git git-core
 Cmake a cross platform make is also necessary:
-$  sudo apt-get install cmake
+    sudo apt-get install cmake
 
 To download the youBot API sources type:
-$  git clone git://github.com/youbot/youbot_driver.git
+    git clone git://github.com/youbot/youbot_driver.git
 
 Download the Simple Open EtherCAT master (some) software from the website: http://soem.berlios.de
 
@@ -45,14 +45,14 @@ https://github.com/youbot/youbot_driver/wiki/SOEMpatches.tar.gz
 
 After you have compiled and installed the some you also have to install boost.
 
-$ sudo apt-get install libboost-all-dev
+    sudo apt-get install libboost-all-dev
 
 Now you should be able to compile the youBot API.
-$ cd <your_folder>/youbot_driver
-$ mkdir build
-$ cd build
-$ cmake ..
-$ make
+    cd <your_folder>/youbot_driver
+    mkdir build
+    cd build
+    cmake ..
+    make
 
 The binaries will be generated in the folder ~/youbot_driver/bin. The libraries will be generated in the folder ~/youbot_driver/lib.
 
@@ -78,8 +78,7 @@ Documentation
 For more detailed information on class and methods please refer to the API documentation: http://youbot.github.com/youbot_driver
 
 To generate this documentation from the source code type: 
-
-make doc 
+    make doc 
 
 
 License
