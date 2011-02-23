@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 138
+  revision 139
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -18540,6 +18540,11 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
+	comment "///Calculates from the cartesian velocity the individual wheel velocities 
+///@param longitudinalVelocity is the forward or backward velocity
+///@param transversalVelocity is the sideway velocity
+///@param angularVelocity is the rotational velocity around the center of the YouBot
+///@param wheelVelocities are the individual wheel velocities"
       end
 
       operation 311537 "wheelVelocitiesToCartesianVelocity"
@@ -18558,6 +18563,11 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
+	comment "///Calculates from the wheel velocities the cartesian velocity
+///@param wheelVelocities are the velocities of the individual wheels
+///@param longitudinalVelocity is the forward or backward velocity
+///@param transversalVelocity is the sideway velocity
+///@param angularVelocity is the rotational velocity around the center of the YouBot"
       end
 
       operation 332657 "wheelPositionsToCartesianPosition"
@@ -18576,6 +18586,11 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
+	comment "///Calculates from the wheel positions the cartesian position
+///@param wheelPositions are the individual positions of the wheels
+///@param longitudinalPosition is the forward or backward position
+///@param transversalPosition is the sideway position
+///@param orientation is the rotation around the center"
       end
 
       classrelation 197617 // <generalisation>

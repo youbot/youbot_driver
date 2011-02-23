@@ -62,6 +62,11 @@ FourSwedishWheelOmniBaseKinematic::~FourSwedishWheelOmniBaseKinematic() {
   // Bouml preserved body end 00051471
 }
 
+///Calculates from the cartesian velocity the individual wheel velocities 
+///@param longitudinalVelocity is the forward or backward velocity
+///@param transversalVelocity is the sideway velocity
+///@param angularVelocity is the rotational velocity around the center of the YouBot
+///@param wheelVelocities are the individual wheel velocities
 void FourSwedishWheelOmniBaseKinematic::cartesianVelocityToWheelVelocities(const quantity<si::velocity>& longitudinalVelocity, const quantity<si::velocity>& transversalVelocity, const quantity<si::angular_velocity>& angularVelocity, std::vector<quantity<angular_velocity> >& wheelVelocities) {
   // Bouml preserved body begin 0004C071
     quantity<angular_velocity> RadPerSec_FromX;
@@ -95,6 +100,11 @@ void FourSwedishWheelOmniBaseKinematic::cartesianVelocityToWheelVelocities(const
   // Bouml preserved body end 0004C071
 }
 
+///Calculates from the wheel velocities the cartesian velocity
+///@param wheelVelocities are the velocities of the individual wheels
+///@param longitudinalVelocity is the forward or backward velocity
+///@param transversalVelocity is the sideway velocity
+///@param angularVelocity is the rotational velocity around the center of the YouBot
 void FourSwedishWheelOmniBaseKinematic::wheelVelocitiesToCartesianVelocity(const std::vector<quantity<angular_velocity> >& wheelVelocities, quantity<si::velocity>& longitudinalVelocity, quantity<si::velocity>& transversalVelocity, quantity<angular_velocity>& angularVelocity) {
   // Bouml preserved body begin 0004C0F1
 
@@ -116,6 +126,11 @@ void FourSwedishWheelOmniBaseKinematic::wheelVelocitiesToCartesianVelocity(const
   // Bouml preserved body end 0004C0F1
 }
 
+///Calculates from the wheel positions the cartesian position
+///@param wheelPositions are the individual positions of the wheels
+///@param longitudinalPosition is the forward or backward position
+///@param transversalPosition is the sideway position
+///@param orientation is the rotation around the center
 void FourSwedishWheelOmniBaseKinematic::wheelPositionsToCartesianPosition(const std::vector<quantity<plane_angle> >& wheelPositions, quantity<si::length>& longitudinalPosition, quantity<si::length>& transversalPosition, quantity<plane_angle>& orientation) {
   // Bouml preserved body begin 00051371
 
