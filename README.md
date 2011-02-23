@@ -78,7 +78,8 @@ Documentation
 ------------
 For more detailed information on class and methods please refer to the API documentation: http://youbot.github.com/youbot_driver
 
-To generate this documentation from the source code type: 
+To generate the documentation from the source code type: 
+    sudo apt-get install doxygen
     make doc 
 
 
