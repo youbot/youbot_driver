@@ -66,9 +66,12 @@ Usage
 
 The youBot API give you complete joint level access to the youBot joints. Every youBot joint is represented as a youbot::YouBotJoint class in the API.
 At this stage we make no difference if it is a base joint which powers a wheel or a manipulator joint.
+
 By the classes youbot::YouBotBase and youbot::YouBotManipulator it is possible to get access to a youbot::YouBotJoint instance for a particular joint.
+
 To set and setpoint or read some sensor values form the joints you have to use the youbot::JointData classes.
 Which could be for instance youbot::JointVelocitySetpoint or youbot::JointSensedCurrent.
+
 To configure parameters of a joint, you have to use the JointParameter classes.
 Which could be for instance youbot::MaximumPositioningSpeed.
 
@@ -88,11 +91,11 @@ Run without sudo
 
 The youBot Driver needs access to the raw ethernet device. Under Linux a normal user does not have access to the raw ethernet device. You can grand this capability to a program by the tool setcap. To install setcap use:
 
-   sudo apt-get install libcap2-bin
+    sudo apt-get install libcap2-bin
 
 To provide a program with raw access to a ethernet device use: (replace the ./YouBot_KeyboardRemoteControl with your program.)
 
-   sudo setcap cap_net_raw+ep ./YouBot_KeyboardRemoteControl
+    sudo setcap cap_net_raw+ep ./YouBot_KeyboardRemoteControl
 
 This have to be done whenever the executable is created or replaces e.g. after building.
 
