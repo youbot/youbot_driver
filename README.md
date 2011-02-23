@@ -4,22 +4,22 @@ youBot API
 The basic idea of the youBot API is to represent a robot system as a combination of decoupled functional sub-systems. That is, this API represents manipulator arm and base platform as the combination of several joints. At the same time each joint is defined as a combination of a motor and a gearbox.
 
 There are three main classes in the youBot API that a user should be aware of.
-- YouBotManipulator class that represents youBot arm as the aggregation of several joints and a gripper
-- YouBotBase class that represents youBot base platform
-- YouBotJoint class that represents joints which make up both the manipulator and the base
+* YouBotManipulator class that represents youBot arm as the aggregation of several joints and a gripper
+* YouBotBase class that represents youBot base platform
+* YouBotJoint class that represents joints which make up both the manipulator and the base
 
 
 Installation
 ------------
 
 ### System requirements: 
-- Linux 
-- Ethernet adapter 
-- Root access to the Ethernet adapter 
+* Linux 
+* Ethernet adapter 
+* Root access to the Ethernet adapter 
 
 These libraries are required by the youBot API: 
-- Simple Open EtherCAT master http://soem.berlios.de
-- Boost C++ Libraries http://www.boost.org
+* Simple Open EtherCAT master http://soem.berlios.de
+* Boost C++ Libraries http://www.boost.org
 
 You can fetch, compile and install these library by hand or you can use robotpkg a software packaging tool to do this automatically. 
 
