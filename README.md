@@ -20,13 +20,13 @@ Installation
 
 These libraries are required by the youBot API: 
 
-* Simple Open EtherCAT master http://soem.berlios.de
-* Boost C++ Libraries http://www.boost.org
+* [Simple Open EtherCAT master](http://soem.berlios.de)
+* [Boost C++ Libraries](http://www.boost.org)
 
 You can fetch, compile and install these library by hand or you can use robotpkg a software packaging tool to do this automatically. 
 
 ### Installation with robotpkg:
-If you want to use robotpkg please visit https://github.com/youbot/youbot_packages/wiki for more details.
+If you want to use robotpkg please visit this [site](https://github.com/youbot/youbot_packages/wiki) for more details.
 
 
 ### Manual installation:
@@ -40,10 +40,9 @@ Cmake a cross platform make is also necessary:
 To download the youBot API sources type:
     git clone git://github.com/youbot/youbot_driver.git
 
-Download the Simple Open EtherCAT master (some) software from the website: http://soem.berlios.de
+Download the Simple Open EtherCAT master (some) software from the [website](http://soem.berlios.de)
 
-Before you compiling the some you have to apply two patches, which can be downloaded here:
-https://github.com/youbot/youbot_driver/wiki/SOEMpatches.tar.gz
+Before you compiling the software you have to apply two patches, which can be downloaded [here](https://github.com/youbot/youbot_driver/wiki/SOEMpatches.tar.gz).
 
 After you have compiled and installed the some you also have to install boost.
 
