@@ -40,11 +40,11 @@ Cmake a cross platform make is also necessary:
 To download the youBot API sources type:
     git clone git://github.com/youbot/youbot_driver.git
 
-Download the Simple Open EtherCAT master (some) software from the [website](http://soem.berlios.de)
+Download the Simple Open EtherCAT master (SOEM) software from the [website](http://soem.berlios.de)
 
-Before you compiling the software you have to apply two patches, which can be downloaded [here](https://github.com/youbot/youbot_driver/wiki/SOEMpatches.tar.gz).
+Before you compile the SOEM software you have to apply two patches, which can be downloaded [here](https://github.com/youbot/youbot_driver/wiki/SOEMpatches.tar.gz).
 
-After you have compiled and installed the some you also have to install boost.
+After you have compiled and installed the SOEM you also have to install boost.
 
     sudo apt-get install libboost-all-dev
 
@@ -58,7 +58,7 @@ Now you should be able to compile the youBot API.
 The binaries will be generated in the folder ~/youbot_driver/bin. The libraries will be generated in the folder ~/youbot_driver/lib.
 
 
-If you do not want to do these steps manually please use robotpkg.
+If you do not want to do these steps manually, please use robotpkg.
 
 
 Usage
@@ -67,9 +67,9 @@ Usage
 The youBot API give you complete joint level access to the youBot joints. Every youBot joint is represented as a youbot::YouBotJoint class in the API.
 At this stage we make no difference if it is a base joint which powers a wheel or a manipulator joint.
 By the classes youbot::YouBotBase and youbot::YouBotManipulator it is possible to get access to a youbot::YouBotJoint instance for a particular joint.
-To set and setpoint or read some sensors form the joints you have to use the youbot::JointData classes.
+To set and setpoint or read some sensor values form the joints you have to use the youbot::JointData classes.
 Which could be for instance youbot::JointVelocitySetpoint or youbot::JointSensedCurrent.
-To configure parameters of a joint you have to use the JointParameter classes.
+To configure parameters of a joint, you have to use the JointParameter classes.
 Which could be for instance youbot::MaximumPositioningSpeed.
 
 
@@ -80,6 +80,20 @@ For more detailed information on class and methods please refer to the API docum
 
 To generate this documentation from the source code type: 
     make doc 
+
+
+Run without sudo
+------------
+
+The youBot Driver needs access to the raw ethernet device. Under Linux a normal user does not have access to the raw ethernet device. You can grand this capability to a program by the tool setcap. To install setcap use:
+
+   sudo apt-get install libcap2-bin
+
+To provide a program with raw access to a ethernet device use: (replace the ./YouBot_KeyboardRemoteControl with your program.)
+
+   sudo setcap cap_net_raw+ep ./YouBot_KeyboardRemoteControl
+
+This have to be done whenever the executable is created or replaces e.g. after building.
 
 
 License
