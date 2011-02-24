@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 139
+  revision 140
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -17771,6 +17771,16 @@ friend class YouBotGripper;" ""
       end
 
       attribute 458737 "configFileName"
+	class_attribute private explicit_type "string"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 548337 "configFilepath"
 	class_attribute private explicit_type "string"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "

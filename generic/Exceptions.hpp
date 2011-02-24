@@ -69,7 +69,7 @@ namespace youbot {
         // Takes a character string describing the error.
         explicit FileNotFoundException(const string& message) throw ()
             :std::ios_base::failure(message) {
-            msg = message + "file no found" ;
+            msg = message + " file not found" ;
         };
 
         virtual ~FileNotFoundException() throw () {
@@ -89,7 +89,7 @@ namespace youbot {
         // Takes a character string describing the error.
         explicit KeyNotFoundException(const string& message) throw ()
             :std::ios_base::failure(message) {
-            msg = message;
+            msg = message + " key in config file not found" ;
         };
 
         virtual ~KeyNotFoundException() throw () {

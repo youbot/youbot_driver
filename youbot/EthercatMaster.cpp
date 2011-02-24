@@ -82,13 +82,13 @@ EthercatMaster::EthercatMaster() {
       IOmap_[i] = 0;
     }
     //read ethercat parameters form config file
-    configfile = new ConfigFile(this->configFileName.c_str());
+    configfile = new ConfigFile(this->configFileName, this->configFilepath);
    
    // configfile.setSection("EtherCAT");
-     configfile->readInto(ethernetDevice, "EthernetDevice");
-     configfile->readInto(timeTillNextEthercatUpdate, "EtherCATUpdateRate_[msec]");
-     configfile->readInto(ethercatTimeout, "EtherCATTimeout_[usec]");
-     configfile->readInto(mailboxTimeout, "MailboxTimeout_[usec]");
+     configfile->readInto(ethernetDevice,"EtherCAT", "EthernetDevice");
+     configfile->readInto(timeTillNextEthercatUpdate, "EtherCAT", "EtherCATUpdateRate_[msec]");
+     configfile->readInto(ethercatTimeout, "EtherCAT", "EtherCATTimeout_[usec]");
+     configfile->readInto(mailboxTimeout, "EtherCAT","MailboxTimeout_[usec]");
 
 
   // Bouml preserved body end 00041171
@@ -109,7 +109,8 @@ EthercatMaster& EthercatMaster::getInstance(const std::string configFile, const 
 {
   // Bouml preserved body begin 00042F71
     if (!instance) {
-      configFileName = configFilePath + configFile;
+      configFileName = configFile;
+      configFilepath = configFilePath;
       instance = new EthercatMaster();
       instance->initializeEthercat();
 
@@ -303,7 +304,7 @@ void EthercatMaster::initializeEthercat() {
     configfile->readInto(manipulatorJointControllerName, "ManipulatorJointControllerName");
 
     //reserve memory for all slave with a input/output buffer
-    for (unsigned int cnt = 1; cnt <= ec_slavecount; cnt++) {
+    for (int cnt = 1; cnt <= ec_slavecount; cnt++) {
     //     printf("Slave:%d Name:%s Output size:%3dbits Input size:%3dbits State:%2d delay:%d.%d\n",
     //             cnt, ec_slave[cnt].name, ec_slave[cnt].Obits, ec_slave[cnt].Ibits,
     //             ec_slave[cnt].state, (int) ec_slave[cnt].pdelay, ec_slave[cnt].hasdc);
@@ -385,7 +386,8 @@ bool EthercatMaster::closeEthercat() {
 
     //stop SOEM, close socket
     ec_close();
-
+    
+    return true;
   // Bouml preserved body end 00041271
 }
 
@@ -643,6 +645,8 @@ void EthercatMaster::updateSensorActorValues() {
 }
 
 std::string EthercatMaster::configFileName;
+
+std::string EthercatMaster::configFilepath;
 
 
 } // namespace youbot

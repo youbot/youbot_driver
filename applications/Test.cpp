@@ -279,15 +279,8 @@ int main() {
     setVel.angularVelocity = 0 * M_PI *radian_per_second;
     myYouBotBase.getBaseJoint(4).setData(setVel);
 
-//} catch (FileNotFoundException& e) {
-//    std::cout << e.what() << std::endl;
-//   std::cout << "FileNotFoundException" << std::endl;
-} catch (std::ios_base::failure& e) {
-    std::cout << e.what() << std::endl;
-    std::cout << "std::ios_base::failure" << std::endl;
   } catch (std::exception& e) {
     std::cout << e.what() << std::endl;
-    std::cout << "std::exception" << std::endl;
   } catch (...) {
     std::cout << "unhandled exception" << std::endl;
   }

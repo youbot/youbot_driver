@@ -212,6 +212,8 @@ friend class YouBotGripper;
 
     static std::string configFileName;
 
+    static std::string configFilepath;
+
     bool automaticSendOn;
 
     std::vector<MotorProtection> motorProtections;
