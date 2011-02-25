@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 141
+  revision 142
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -462,6 +462,39 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
+      end
+
+      operation 596465 "storeConfigurationParameterPermanent"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param in name "parameter" type class_ref 238577 // YouBotJointParameter
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///stores the joint parameter permanent in the EEPROM of the motor contoller
+///Attentions: The EEPROM has only a finite number of program-erase cycles"
+      end
+
+      operation 596593 "restoreConfigurationParameter"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param out name "parameter" type class_ref 238577 // YouBotJointParameter
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "/// Restores the joint parameter from the EEPROM."
       end
 
       operation 267249 "setData"

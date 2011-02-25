@@ -1,5 +1,6 @@
 window_sizes 1680 975 556 1118 894 0
 show_stereotypes
+selected class_ref 170225 // YouBotJoint
 open
   classview_ref 134641 // Joint
   classview_ref 154225 // JointData

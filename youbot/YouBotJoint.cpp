@@ -323,6 +323,41 @@ void YouBotJoint::setConfigurationParameter(const NoMoreAction& parameter) {
   // Bouml preserved body end 000664F1
 }
 
+///stores the joint parameter permanent in the EEPROM of the motor contoller
+///Attentions: The EEPROM has only a finite number of program-erase cycles
+void YouBotJoint::storeConfigurationParameterPermanent(const YouBotJointParameter& parameter) {
+  // Bouml preserved body begin 000919F1
+    if (parameter.getType() == MOTOR_CONTOLLER_PARAMETER) {
+
+      this->setConfigurationParameter(parameter);
+
+      YouBotSlaveMailboxMsg message;
+      parameter.getYouBotMailboxMsg(message, STAP, storage);
+
+      if (!setValueToMotorContoller(message)) {
+        throw JointParameterException("Unable to store parameter: " + parameter.getName() + " to joint: " + this->jointName);
+      }
+    }
+  // Bouml preserved body end 000919F1
+}
+
+/// Restores the joint parameter from the EEPROM.
+void YouBotJoint::restoreConfigurationParameter(YouBotJointParameter& parameter) {
+  // Bouml preserved body begin 00091A71
+    if (parameter.getType() == MOTOR_CONTOLLER_PARAMETER) {
+
+      YouBotSlaveMailboxMsg message;
+      parameter.getYouBotMailboxMsg(message, RSAP, storage);
+
+      if (!setValueToMotorContoller(message)) {
+        throw JointParameterException("Unable to restore parameter: " + parameter.getName() + " to joint: " + this->jointName);
+      }
+
+      this->getConfigurationParameter(parameter);
+    }
+  // Bouml preserved body end 00091A71
+}
+
 void YouBotJoint::setData(const JointDataSetpoint& data, SyncMode communicationMode) {
   // Bouml preserved body begin 000413F1
     LOG(info) << "Nothing to do";
