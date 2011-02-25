@@ -69,7 +69,7 @@ At this stage we make no difference if it is a base joint which powers a wheel o
 
 By the classes youbot::YouBotBase and youbot::YouBotManipulator it is possible to get access to a youbot::YouBotJoint instance for a particular joint.
 
-To set and setpoint or read some sensor values form the joints you have to use the youbot::JointData classes.
+To set a setpoint or read some sensor values form the joints you have to use the youbot::JointData classes.
 Which could be for instance youbot::JointVelocitySetpoint or youbot::JointSensedCurrent.
 
 To configure parameters of a joint, you have to use the JointParameter classes.
@@ -79,7 +79,7 @@ Which could be for instance youbot::MaximumPositioningSpeed.
 
 Documentation
 ------------
-For more detailed information on class and methods please refer to the API documentation: http://youbot.github.com/youbot_driver
+For more detailed information on class and methods please refer to the [API documentation](http://youbot.github.com/youbot_driver).
 
 To generate the documentation from the source code type: 
     sudo apt-get install doxygen

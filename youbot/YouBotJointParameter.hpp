@@ -613,8 +613,6 @@ friend class YouBotJoint;
 
     void setParameter(const quantity<angular_acceleration>& parameter);
 
-    friend std::ostream & operator<<(std::ostream& out, const MotorAcceleration& parmeter);
-
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;

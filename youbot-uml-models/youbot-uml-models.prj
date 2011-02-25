@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 140
+  revision 141
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -529,7 +529,7 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
-	comment "///gets the position or angle of one joint with have been calculated for the actual encoder value 
+	comment "///gets the position or angle of one joint which have been calculated from the actual encoder value 
 ///@param data returns the angle by reference"
       end
 
@@ -566,7 +566,7 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
-	comment "///gets the velocity of one joint with have been calculated for the actual encoder values
+	comment "///gets the velocity of one joint which have been calculated from the actual encoder values
 ///@param data returns the velocity by reference"
       end
 
@@ -600,7 +600,7 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
-	comment "///gets the motor current of one joint with have been measured by a hal sensor
+	comment "///gets the motor current of one joint which have been measured by a hal sensor
 ///@param data returns the actual motor current by reference"
       end
 
@@ -4361,22 +4361,6 @@ ${inlines}
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 581745 "operator<<"
-	preserve_cpp_body_indent friend public explicit_return_type "std::ostream"
-	nparams 2
-	  param inout name "out" explicit_type "std::ostream"
-	  param in name "parmeter" type class_ref 293361 // MotorAcceleration
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} & ${name}${(}${t0}& ${p0}, const ${t1}& ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} & ${class}::${name}${(}${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
 "
 	preserve_java_body_indent 
@@ -17296,6 +17280,21 @@ friend class YouBotGripper;" ""
 	
       end
 
+      operation 588657 "AutomaticReceiveOn"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param in name "enableAutomaticReceive" explicit_type "bool"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
       operation 401137 "getEthercatDiagnosticInformation"
 	preserve_cpp_body_indent public explicit_return_type "void"
 	nparams 1
@@ -17569,6 +17568,16 @@ friend class YouBotGripper;" ""
 	idl_decl ""
       end
 
+      attribute 554993 "automaticReceiveOffBufferVector"
+	private explicit_type "std::vector<YouBotSlaveMsg>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
       attribute 290801 "nrOfSlaves"
 	private explicit_type "unsigned int"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -17800,6 +17809,16 @@ friend class YouBotGripper;" ""
 	idl_decl ""
       end
 
+      attribute 554865 "automaticReceiveOn"
+	private explicit_type "bool"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
       attribute 521329 "motorProtections"
 	private explicit_type "std::vector<MotorProtection>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -17887,6 +17906,114 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
+      end
+
+      operation 589297 "setJointData"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param in name "JointData" explicit_type "std::vector<JointAngleSetpoint>"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///commands positions or angles to all manipulator joints
+///all positions will be set at the same time
+///@param data the to command positions"
+      end
+
+      operation 589425 "getJointData"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "data" explicit_type "std::vector<JointSensedAngle>"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///gets the position or angle of all manipulator joints which have been calculated from the actual encoder value
+///These values are all read at the same time from the different joints 
+///@param data returns the angles by reference"
+      end
+
+      operation 589553 "setJointData"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param in name "JointData" explicit_type "std::vector<JointVelocitySetpoint>"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///commands velocities to all manipulator joints
+///all velocities will be set at the same time
+///@param data the to command velocities"
+      end
+
+      operation 589681 "getJointData"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "data" explicit_type "std::vector<JointSensedVelocity>"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///gets the velocities of all manipulator joints which have been calculated from the actual encoder values
+///These values are all read at the same time from the different joints 
+///@param data returns the velocities by reference"
+      end
+
+      operation 589809 "getJointData"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "data" explicit_type "std::vector<JointSensedTemperature>"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///gets temperatures of all manipulator motors which have been measured by a thermometer
+///These values are all read at the same time from the different joints 
+///@param data returns the actual temperatures by reference"
+      end
+
+      operation 589937 "getJointData"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "data" explicit_type "std::vector<JointSensedCurrent>"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///gets the motor currents of all manipulator joints which have been measured by a hal sensor
+///These values are all read at the same time from the different joints 
+///@param data returns the actual motor currents by reference"
       end
 
       operation 426097 "initializeJoints"
@@ -18090,6 +18217,114 @@ ${inlines}
 	python_decl ""
 	idl_decl ""
 	comment "///This class represents the kinematic of the YouBot "
+      end
+
+      operation 588273 "setJointData"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param in name "JointData" explicit_type "std::vector<JointAngleSetpoint>"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///commands positions or angles to all base joints
+///all positions will be set at the same time
+///@param data the to command positions"
+      end
+
+      operation 588785 "getJointData"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "data" explicit_type "std::vector<JointSensedAngle>"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///gets the position or angle of all base joints which have been calculated from the actual encoder value
+///These values are all read at the same time from the different joints 
+///@param data returns the angles by reference"
+      end
+
+      operation 588401 "setJointData"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param in name "JointData" explicit_type "std::vector<JointVelocitySetpoint>"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///commands velocities to all base joints
+///all velocities will be set at the same time
+///@param data the to command velocities"
+      end
+
+      operation 588913 "getJointData"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "data" explicit_type "std::vector<JointSensedVelocity>"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///gets the velocities of all base joints which have been calculated from the actual encoder values
+///These values are all read at the same time from the different joints 
+///@param data returns the velocities by reference"
+      end
+
+      operation 589041 "getJointData"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "data" explicit_type "std::vector<JointSensedTemperature>"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///gets temperatures of all base motors which have been measured by a thermometer
+///These values are all read at the same time from the different joints 
+///@param data returns the actual temperatures by reference"
+      end
+
+      operation 589169 "getJointData"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "data" explicit_type "std::vector<JointSensedCurrent>"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///gets the motor currents of all base joints which have been measured by a hal sensor
+///These values are all read at the same time from the different joints 
+///@param data returns the actual motor currents by reference"
       end
 
       operation 287985 "initializeJoints"

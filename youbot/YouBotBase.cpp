@@ -54,29 +54,29 @@ namespace youbot {
 YouBotBase::YouBotBase(const std::string name, const std::string configFilePath) {
   // Bouml preserved body begin 00067E71
 
-  string filename;
-  filename = name;
-  filename.append(".cfg");
-  configfile == NULL;
+    string filename;
+    filename = name;
+    filename.append(".cfg");
+    configfile == NULL;
 
-  this->configFilePath = configFilePath;
-  this->ethercatConfigFileName = "youbot-ethercat.cfg";
+    this->configFilePath = configFilePath;
+    this->ethercatConfigFileName = "youbot-ethercat.cfg";
 
-  configfile = new ConfigFile(filename,configFilePath);
+    configfile = new ConfigFile(filename, configFilePath);
 
-  this->initializeJoints();
+    this->initializeJoints();
 
-  this->initializeKinematic();
+    this->initializeKinematic();
 
-  this->doJointCommutation();
+    this->doJointCommutation();
 
   // Bouml preserved body end 00067E71
 }
 
 YouBotBase::~YouBotBase() {
   // Bouml preserved body begin 00067EF1
-  if(configfile != NULL)
-    delete configfile;
+    if (configfile != NULL)
+      delete configfile;
   // Bouml preserved body end 00067EF1
 }
 
@@ -84,7 +84,7 @@ YouBotBase::~YouBotBase() {
 ///@param baseJointNumber 1-4 for the base joints
 YouBotJoint& YouBotBase::getBaseJoint(const unsigned int baseJointNumber) {
   // Bouml preserved body begin 0004F771
-    if (baseJointNumber <= 0 || baseJointNumber > 4 ) {
+    if (baseJointNumber <= 0 || baseJointNumber > BASEJOINTS) {
       throw std::out_of_range("Invalid Joint Number");
     }
     return joints[baseJointNumber - 1];
@@ -101,7 +101,7 @@ void YouBotBase::getBasePosition(quantity<si::length>& longitudinalPosition, qua
     std::vector<quantity<plane_angle> > wheelPositions;
     quantity<plane_angle> dummy;
     JointSensedAngle sensedPos;
-    wheelPositions.assign(4, dummy);
+    wheelPositions.assign(BASEJOINTS, dummy);
 
     joints[0].getData(sensedPos);
     wheelPositions[0] = sensedPos.angle;
@@ -126,7 +126,7 @@ void YouBotBase::getBaseVelocity(quantity<si::velocity>& longitudinalVelocity, q
     std::vector<quantity<angular_velocity> > wheelVelocities;
     quantity<angular_velocity> dummy;
     JointSensedVelocity sensedVel;
-    wheelVelocities.assign(4, dummy);
+    wheelVelocities.assign(BASEJOINTS, dummy);
 
     joints[0].getData(sensedVel);
     wheelVelocities[0] = sensedVel.angularVelocity;
@@ -154,7 +154,7 @@ void YouBotBase::setBaseVelocity(const quantity<si::velocity>& longitudinalVeloc
 
     youBotBaseKinematic.cartesianVelocityToWheelVelocities(longitudinalVelocity, transversalVelocity, angularVelocity, wheelVelocities);
 
-    if (wheelVelocities.size() < 4)
+    if (wheelVelocities.size() < BASEJOINTS)
       throw std::out_of_range("To less wheel velocities");
 
     EthercatMaster::getInstance().AutomaticSendOn(false);
@@ -170,6 +170,101 @@ void YouBotBase::setBaseVelocity(const quantity<si::velocity>& longitudinalVeloc
   // Bouml preserved body end 0004DD71
 }
 
+///commands positions or angles to all base joints
+///all positions will be set at the same time
+///@param data the to command positions
+void YouBotBase::setJointData(const std::vector<JointAngleSetpoint>& JointData) {
+  // Bouml preserved body begin 0008F9F1
+    if (JointData.size() != BASEJOINTS)
+      throw std::out_of_range("Wrong number of JointAngleSetpoints");
+
+    EthercatMaster::getInstance().AutomaticSendOn(false);
+    joints[0].setData(JointData[0], NON_BLOCKING);
+    joints[1].setData(JointData[1], NON_BLOCKING);
+    joints[2].setData(JointData[2], NON_BLOCKING);
+    joints[3].setData(JointData[3], NON_BLOCKING);
+    EthercatMaster::getInstance().AutomaticSendOn(true);
+
+  // Bouml preserved body end 0008F9F1
+}
+
+///gets the position or angle of all base joints which have been calculated from the actual encoder value
+///These values are all read at the same time from the different joints 
+///@param data returns the angles by reference
+void YouBotBase::getJointData(std::vector<JointSensedAngle>& data) {
+  // Bouml preserved body begin 0008FBF1
+    data.resize(BASEJOINTS);
+    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    joints[0].getData(data[0]);
+    joints[1].getData(data[1]);
+    joints[2].getData(data[2]);
+    joints[3].getData(data[3]);
+    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+  // Bouml preserved body end 0008FBF1
+}
+
+///commands velocities to all base joints
+///all velocities will be set at the same time
+///@param data the to command velocities
+void YouBotBase::setJointData(const std::vector<JointVelocitySetpoint>& JointData) {
+  // Bouml preserved body begin 0008FA71
+    if (JointData.size() != BASEJOINTS)
+      throw std::out_of_range("Wrong number of JointVelocitySetpoints");
+
+    EthercatMaster::getInstance().AutomaticSendOn(false);
+    joints[0].setData(JointData[0], NON_BLOCKING);
+    joints[1].setData(JointData[1], NON_BLOCKING);
+    joints[2].setData(JointData[2], NON_BLOCKING);
+    joints[3].setData(JointData[3], NON_BLOCKING);
+    EthercatMaster::getInstance().AutomaticSendOn(true);
+  // Bouml preserved body end 0008FA71
+}
+
+///gets the velocities of all base joints which have been calculated from the actual encoder values
+///These values are all read at the same time from the different joints 
+///@param data returns the velocities by reference
+void YouBotBase::getJointData(std::vector<JointSensedVelocity>& data) {
+  // Bouml preserved body begin 0008FC71
+    data.resize(BASEJOINTS);
+    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    joints[0].getData(data[0]);
+    joints[1].getData(data[1]);
+    joints[2].getData(data[2]);
+    joints[3].getData(data[3]);
+    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+  // Bouml preserved body end 0008FC71
+}
+
+///gets temperatures of all base motors which have been measured by a thermometer
+///These values are all read at the same time from the different joints 
+///@param data returns the actual temperatures by reference
+void YouBotBase::getJointData(std::vector<JointSensedTemperature>& data) {
+  // Bouml preserved body begin 0008FCF1
+    data.resize(BASEJOINTS);
+    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    joints[0].getData(data[0]);
+    joints[1].getData(data[1]);
+    joints[2].getData(data[2]);
+    joints[3].getData(data[3]);
+    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+  // Bouml preserved body end 0008FCF1
+}
+
+///gets the motor currents of all base joints which have been measured by a hal sensor
+///These values are all read at the same time from the different joints 
+///@param data returns the actual motor currents by reference
+void YouBotBase::getJointData(std::vector<JointSensedCurrent>& data) {
+  // Bouml preserved body begin 0008FD71
+    data.resize(BASEJOINTS);
+    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    joints[0].getData(data[0]);
+    joints[1].getData(data[1]);
+    joints[2].getData(data[2]);
+    joints[3].getData(data[3]);
+    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+  // Bouml preserved body end 0008FD71
+}
+
 void YouBotBase::initializeJoints() {
   // Bouml preserved body begin 000464F1
 
@@ -178,41 +273,41 @@ void YouBotBase::initializeJoints() {
     //get number of slaves
     unsigned int noSlaves = EthercatMaster::getInstance(this->ethercatConfigFileName, this->configFilePath).getNumberOfSlaves();
 
-    if(noSlaves < 4){
+    if (noSlaves < BASEJOINTS) {
       throw std::out_of_range("Not enough ethercat slaves were found to create a YouBotBase!");
     }
-    
+
     //read Joint Topology from config file
-  //  configfile.setSection("JointTopology");
+    //  configfile.setSection("JointTopology");
 
     //check if enough slave exist to create YouBotJoint for the slave numbers from config file
     //if enough slave exist create YouBotJoint and store it in the joints vector
     unsigned int slaveNumber = 0;
-    configfile->readInto(slaveNumber,"JointTopology", "BaseLeftFront");
-    if(slaveNumber  <= noSlaves){
+    configfile->readInto(slaveNumber, "JointTopology", "BaseLeftFront");
+    if (slaveNumber <= noSlaves) {
       joints.push_back(YouBotJoint(slaveNumber));
-    }else{
+    } else {
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
-    configfile->readInto(slaveNumber,"JointTopology", "BaseRightFront");
-    if(slaveNumber  <= noSlaves){
+    configfile->readInto(slaveNumber, "JointTopology", "BaseRightFront");
+    if (slaveNumber <= noSlaves) {
       joints.push_back(YouBotJoint(slaveNumber));
-    }else{
+    } else {
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
-    configfile->readInto(slaveNumber,"JointTopology", "BaseLeftBack");
-    if(slaveNumber  <= noSlaves){
+    configfile->readInto(slaveNumber, "JointTopology", "BaseLeftBack");
+    if (slaveNumber <= noSlaves) {
       joints.push_back(YouBotJoint(slaveNumber));
-    }else{
+    } else {
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
-    configfile->readInto(slaveNumber,"JointTopology", "BaseRightBack");
-    if(slaveNumber  <= noSlaves){
+    configfile->readInto(slaveNumber, "JointTopology", "BaseRightBack");
+    if (slaveNumber <= noSlaves) {
       joints.push_back(YouBotJoint(slaveNumber));
-    }else{
+    } else {
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
@@ -229,11 +324,11 @@ void YouBotBase::initializeJoints() {
     double gearRatio_numerator = 0;
     double gearRatio_denominator = 1;
 
-    for (unsigned int i = 0; i < 4; i++) {
+    for (unsigned int i = 0; i < BASEJOINTS; i++) {
       std::stringstream jointNameStream;
       jointNameStream << "Joint_" << i + 1;
       jointName = jointNameStream.str();
-    //  configfile.setSection(jointName.c_str());
+      //  configfile.setSection(jointName.c_str());
 
       string name;
       configfile->readInto(name, jointName, "JointName");
@@ -267,16 +362,16 @@ void YouBotBase::initializeKinematic() {
     FourSwedishWheelOmniBaseKinematicConfiguration kinematicConfig;
 
     //read the kinematics parameter from a config file
-    configfile->readInto(kinematicConfig.rotationRatio,"YouBotKinematic", "RotationRatio");
-    configfile->readInto(kinematicConfig.slideRatio, "YouBotKinematic","SlideRatio");
+    configfile->readInto(kinematicConfig.rotationRatio, "YouBotKinematic", "RotationRatio");
+    configfile->readInto(kinematicConfig.slideRatio, "YouBotKinematic", "SlideRatio");
     double dummy = 0;
-    configfile->readInto(dummy, "YouBotKinematic","LengthBetweenFrontAndRearWheels_[meter]");
+    configfile->readInto(dummy, "YouBotKinematic", "LengthBetweenFrontAndRearWheels_[meter]");
     kinematicConfig.lengthBetweenFrontAndRearWheels = dummy * meter;
-    configfile->readInto(dummy,"YouBotKinematic", "LengthBetweenFrontWheels_[meter]");
+    configfile->readInto(dummy, "YouBotKinematic", "LengthBetweenFrontWheels_[meter]");
     kinematicConfig.lengthBetweenFrontWheels = dummy * meter;
-    configfile->readInto(dummy, "YouBotKinematic","WheelRadius_[meter]");
+    configfile->readInto(dummy, "YouBotKinematic", "WheelRadius_[meter]");
     kinematicConfig.wheelRadius = dummy * meter;
-    
+
 
     youBotBaseKinematic.setConfiguration(kinematicConfig);
   // Bouml preserved body end 0004DDF1
@@ -284,16 +379,16 @@ void YouBotBase::initializeKinematic() {
 
 void YouBotBase::doJointCommutation() {
   // Bouml preserved body begin 0008A9F1
-  LOG(info) << "Base Joint Commutation";
+    LOG(info) << "Base Joint Commutation";
 
-  quantity<si::velocity> longitudinalVelocity = 0.0 * meter_per_second;
-  quantity<si::velocity> transversalVelocity = 0.0 * meter_per_second;
-  quantity<si::angular_velocity> angularVelocity = 0.1 * radian_per_second;
+    quantity<si::velocity> longitudinalVelocity = 0.0 * meter_per_second;
+    quantity<si::velocity> transversalVelocity = 0.0 * meter_per_second;
+    quantity<si::angular_velocity> angularVelocity = 0.1 * radian_per_second;
 
-  this->setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
-  SLEEP_MILLISEC(500);
-  angularVelocity = 0 * radian_per_second;
-  this->setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
+    this->setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
+    SLEEP_MILLISEC(500);
+    angularVelocity = 0 * radian_per_second;
+    this->setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
   // Bouml preserved body end 0008A9F1
 }
 

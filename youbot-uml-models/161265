@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 37
+  revision 38
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -670,6 +670,8 @@ ${description}
 #include \"youbot/YouBotGripper.hpp\"
 #include \"youbot/YouBotJoint.hpp\"
 ${namespace_start}
+/// The number of manipulator joints
+#define ARMJOINTS 5
 ${definition}
 ${namespace_end}
 #endif
@@ -753,6 +755,8 @@ ${description}
 #include \"base-kinematic/FourSwedishWheelOmniBaseKinematic.hpp\"
 #include \"base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.hpp\"
 ${namespace_start}
+/// The number of base joints
+#define BASEJOINTS 4
 ${definition}
 ${namespace_end}
 #endif

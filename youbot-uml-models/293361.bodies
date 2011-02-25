@@ -15,9 +15,6 @@ class MotorAcceleration
     }
 
     this->value = parameter;
-!!!581745.cpp!!!	operator<<(inout out : std::ostream, in parmeter : MotorAcceleration) : std::ostream
-  out << parmeter.value;
-  return out;
 !!!437233.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
 
     message.stctOutput.commandNumber = msgType;

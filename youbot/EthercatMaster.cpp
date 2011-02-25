@@ -75,20 +75,21 @@ EthercatMaster::EthercatMaster() {
     newDataFlagOne = false;
     newDataFlagTwo = false;
     this->automaticSendOn = true;
+    this->automaticReceiveOn = true;
     configfile = NULL;
 
     //initialize to zero
-    for(unsigned int i = 0; i<4096; i++){
+    for (unsigned int i = 0; i < 4096; i++) {
       IOmap_[i] = 0;
     }
     //read ethercat parameters form config file
     configfile = new ConfigFile(this->configFileName, this->configFilepath);
-   
-   // configfile.setSection("EtherCAT");
-     configfile->readInto(ethernetDevice,"EtherCAT", "EthernetDevice");
-     configfile->readInto(timeTillNextEthercatUpdate, "EtherCAT", "EtherCATUpdateRate_[msec]");
-     configfile->readInto(ethercatTimeout, "EtherCAT", "EtherCATTimeout_[usec]");
-     configfile->readInto(mailboxTimeout, "EtherCAT","MailboxTimeout_[usec]");
+
+    // configfile.setSection("EtherCAT");
+    configfile->readInto(ethernetDevice, "EtherCAT", "EthernetDevice");
+    configfile->readInto(timeTillNextEthercatUpdate, "EtherCAT", "EtherCATUpdateRate_[msec]");
+    configfile->readInto(ethercatTimeout, "EtherCAT", "EtherCATTimeout_[usec]");
+    configfile->readInto(mailboxTimeout, "EtherCAT", "MailboxTimeout_[usec]");
 
 
   // Bouml preserved body end 00041171
@@ -97,7 +98,7 @@ EthercatMaster::EthercatMaster() {
 EthercatMaster::~EthercatMaster() {
   // Bouml preserved body begin 000411F1
     this->closeEthercat();
-    if(configfile != NULL)
+    if (configfile != NULL)
       delete configfile;
   // Bouml preserved body end 000411F1
 }
@@ -141,42 +142,65 @@ unsigned int EthercatMaster::getNumberOfSlaves() const {
 
 void EthercatMaster::AutomaticSendOn(const bool enableAutomaticSend) {
   // Bouml preserved body begin 000775F1
-  this->automaticSendOn = enableAutomaticSend;
+    this->automaticSendOn = enableAutomaticSend;
 
- 
-  if(this->automaticSendOn == true){
-    unsigned int slaveNo = 0;
 
-       if (newDataFlagOne == true) {
-      {
-        boost::mutex::scoped_lock dataMutex1(mutexDataOne);
-        for(unsigned int i = 0; i < automaticSendOffBufferVector.size(); i++) {
-          slaveNo = automaticSendOffBufferVector[i].jointNumber - 1;
-          firstBufferVector[slaveNo].stctOutput = automaticSendOffBufferVector[i].stctOutput;
-          newOutputDataFlagOne[slaveNo] = true;
-          newOutputDataFlagTwo[slaveNo] = false;
+    if (this->automaticSendOn == true) {
+      unsigned int slaveNo = 0;
+
+      if (newDataFlagOne == true) {
+        {
+          boost::mutex::scoped_lock dataMutex1(mutexDataOne);
+          for (unsigned int i = 0; i < automaticSendOffBufferVector.size(); i++) {
+            slaveNo = automaticSendOffBufferVector[i].jointNumber - 1;
+            firstBufferVector[slaveNo].stctOutput = automaticSendOffBufferVector[i].stctOutput;
+            newOutputDataFlagOne[slaveNo] = true;
+            newOutputDataFlagTwo[slaveNo] = false;
+          }
         }
-      }
-      automaticSendOffBufferVector.clear();
-    } else if (newDataFlagTwo == true) {
-      {
-        boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
-        for(unsigned int i = 0; i < automaticSendOffBufferVector.size(); i++) {
-          slaveNo = automaticSendOffBufferVector[i].jointNumber - 1;
-          secondBufferVector[slaveNo].stctOutput = automaticSendOffBufferVector[i].stctOutput;
-          newOutputDataFlagOne[slaveNo] = false;
-          newOutputDataFlagTwo[slaveNo] = true;
+        automaticSendOffBufferVector.clear();
+      } else if (newDataFlagTwo == true) {
+        {
+          boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
+          for (unsigned int i = 0; i < automaticSendOffBufferVector.size(); i++) {
+            slaveNo = automaticSendOffBufferVector[i].jointNumber - 1;
+            secondBufferVector[slaveNo].stctOutput = automaticSendOffBufferVector[i].stctOutput;
+            newOutputDataFlagOne[slaveNo] = false;
+            newOutputDataFlagTwo[slaveNo] = true;
+          }
         }
+        automaticSendOffBufferVector.clear();
+      } else {
+        return;
       }
-      automaticSendOffBufferVector.clear();
-    } else {
-      return;
+
     }
-    
-  }
-  
-  return;
+
+    return;
   // Bouml preserved body end 000775F1
+}
+
+void EthercatMaster::AutomaticReceiveOn(const bool enableAutomaticReceive) {
+  // Bouml preserved body begin 0008FB71
+    this->automaticReceiveOn = enableAutomaticReceive;
+
+
+    if (this->automaticReceiveOn == false) {
+      if (newDataFlagOne == true) {
+        {
+          boost::mutex::scoped_lock dataMutex1(mutexDataOne);
+          this->automaticReceiveOffBufferVector = firstBufferVector;
+        }
+      } else if (newDataFlagTwo == true) {
+        {
+          boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
+          this->automaticReceiveOffBufferVector = firstBufferVector;
+        }
+      }
+    }
+
+    return;
+  // Bouml preserved body end 0008FB71
 }
 
 ///provides all ethercat slave informations from the SOEM driver
@@ -184,7 +208,7 @@ void EthercatMaster::AutomaticSendOn(const bool enableAutomaticSend) {
 void EthercatMaster::getEthercatDiagnosticInformation(std::vector<ec_slavet>& ethercatSlaveInfos) {
   // Bouml preserved body begin 00061EF1
     ethercatSlaveInfos = this->ethercatSlaveInfo;
-    for(unsigned int i = 0; i < ethercatSlaveInfos.size(); i++) {
+    for (unsigned int i = 0; i < ethercatSlaveInfos.size(); i++) {
       ethercatSlaveInfos[i].inputs = NULL;
       ethercatSlaveInfos[i].outputs = NULL;
     }
@@ -216,7 +240,7 @@ void EthercatMaster::initializeEthercat() {
             }
           }
         }
-        */
+         */
 
         /* distributed clock is not working
         //Configure distributed clock
@@ -231,7 +255,7 @@ void EthercatMaster::initializeEthercat() {
           }
 
         }
-        */
+         */
 
         /* wait for all slaves to reach SAFE_OP state */
         ec_statecheck(0, EC_STATE_SAFE_OP, EC_TIMEOUTSTATE);
@@ -247,7 +271,7 @@ void EthercatMaster::initializeEthercat() {
           }
         }
 
-        
+
         //Read the state of all slaves
         //ec_readstate();
 
@@ -269,7 +293,7 @@ void EthercatMaster::initializeEthercat() {
           throw std::runtime_error("Not all slaves reached operational state.");
 
         }
-        
+
       } else {
         throw std::runtime_error("No slaves found!");
       }
@@ -305,16 +329,16 @@ void EthercatMaster::initializeEthercat() {
 
     //reserve memory for all slave with a input/output buffer
     for (int cnt = 1; cnt <= ec_slavecount; cnt++) {
-    //     printf("Slave:%d Name:%s Output size:%3dbits Input size:%3dbits State:%2d delay:%d.%d\n",
-    //             cnt, ec_slave[cnt].name, ec_slave[cnt].Obits, ec_slave[cnt].Ibits,
-    //             ec_slave[cnt].state, (int) ec_slave[cnt].pdelay, ec_slave[cnt].hasdc);
+      //     printf("Slave:%d Name:%s Output size:%3dbits Input size:%3dbits State:%2d delay:%d.%d\n",
+      //             cnt, ec_slave[cnt].name, ec_slave[cnt].Obits, ec_slave[cnt].Ibits,
+      //             ec_slave[cnt].state, (int) ec_slave[cnt].pdelay, ec_slave[cnt].hasdc);
 
       ethercatSlaveInfo.push_back(ec_slave[cnt]);
 
       actualSlaveName = ec_slave[cnt].name;
       if ((actualSlaveName == baseJointControllerName || actualSlaveName == manipulatorJointControllerName) && ec_slave[cnt].Obits > 0 && ec_slave[cnt].Ibits > 0) {
         nrOfSlaves++;
-     //   joints.push_back(YouBotJoint(nrOfSlaves));
+        //   joints.push_back(YouBotJoint(nrOfSlaves));
 
         firstBufferVector.push_back(emptySlaveMsg);
         secondBufferVector.push_back(emptySlaveMsg);
@@ -329,27 +353,27 @@ void EthercatMaster::initializeEthercat() {
         newMailboxDataFlagTwo.push_back(false);
         newMailboxInputDataFlagOne.push_back(false);
         newMailboxInputDataFlagTwo.push_back(false);
-        if(actualSlaveName == baseJointControllerName){
+        if (actualSlaveName == baseJointControllerName) {
           motorProtections.push_back(MotorProtection(maxContinuousCurrentBase,
-                                                      thermalTimeConstantWindingBase,
-                                                      thermalTimeConstantMotorBase));
+                  thermalTimeConstantWindingBase,
+                  thermalTimeConstantMotorBase));
         }
-        if(actualSlaveName == manipulatorJointControllerName){
+        if (actualSlaveName == manipulatorJointControllerName) {
           manipulatorNo++;
-          if(manipulatorNo >=1 && manipulatorNo <=3){
-            motorProtections.push_back(MotorProtection(maxContinuousCurrentJoint13, 
-                                                        thermalTimeConstantWindingJoint13,
-                                                        thermalTimeConstantMotorJoint13));
+          if (manipulatorNo >= 1 && manipulatorNo <= 3) {
+            motorProtections.push_back(MotorProtection(maxContinuousCurrentJoint13,
+                    thermalTimeConstantWindingJoint13,
+                    thermalTimeConstantMotorJoint13));
           }
-          if(manipulatorNo == 4){
-            motorProtections.push_back(MotorProtection(maxContinuousCurrentJoint4, 
-                                                        thermalTimeConstantWindingJoint4,
-                                                        thermalTimeConstantMotorJoint4));
+          if (manipulatorNo == 4) {
+            motorProtections.push_back(MotorProtection(maxContinuousCurrentJoint4,
+                    thermalTimeConstantWindingJoint4,
+                    thermalTimeConstantMotorJoint4));
           }
-          if(manipulatorNo == 5){
-            motorProtections.push_back(MotorProtection(maxContinuousCurrentJoint5, 
-                                                        thermalTimeConstantWindingJoint5,
-                                                        thermalTimeConstantMotorJoint5));
+          if (manipulatorNo == 5) {
+            motorProtections.push_back(MotorProtection(maxContinuousCurrentJoint5,
+                    thermalTimeConstantWindingJoint5,
+                    thermalTimeConstantMotorJoint5));
             manipulatorNo = 0;
           }
 
@@ -357,7 +381,7 @@ void EthercatMaster::initializeEthercat() {
       }
 
     }
-    if(nrOfSlaves != motorProtections.size()){
+    if (nrOfSlaves != motorProtections.size()) {
       throw std::runtime_error("Insufficient motor protections loaded");
     }
 
@@ -386,7 +410,7 @@ bool EthercatMaster::closeEthercat() {
 
     //stop SOEM, close socket
     ec_close();
-    
+
     return true;
   // Bouml preserved body end 00041271
 }
@@ -397,31 +421,31 @@ bool EthercatMaster::closeEthercat() {
 void EthercatMaster::setMsgBuffer(const YouBotSlaveMsg& msgBuffer, const unsigned int jointNumber) {
   // Bouml preserved body begin 000414F1
 
-  if(this->automaticSendOn == true){
-    if (newDataFlagOne == true) {
-      {
-        boost::mutex::scoped_lock dataMutex1(mutexDataOne);
-        firstBufferVector[jointNumber - 1].stctOutput = msgBuffer.stctOutput;
-        newOutputDataFlagOne[jointNumber - 1] = true;
-        newOutputDataFlagTwo[jointNumber - 1] = false;
-      }
-    } else if (newDataFlagTwo == true) {
-      {
-        boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
-        secondBufferVector[jointNumber - 1].stctOutput = msgBuffer.stctOutput;
-        newOutputDataFlagOne[jointNumber - 1] = false;
-        newOutputDataFlagTwo[jointNumber - 1] = true;
-      }
+    if (this->automaticSendOn == true) {
+      if (newDataFlagOne == true) {
+        {
+          boost::mutex::scoped_lock dataMutex1(mutexDataOne);
+          firstBufferVector[jointNumber - 1].stctOutput = msgBuffer.stctOutput;
+          newOutputDataFlagOne[jointNumber - 1] = true;
+          newOutputDataFlagTwo[jointNumber - 1] = false;
+        }
+      } else if (newDataFlagTwo == true) {
+        {
+          boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
+          secondBufferVector[jointNumber - 1].stctOutput = msgBuffer.stctOutput;
+          newOutputDataFlagOne[jointNumber - 1] = false;
+          newOutputDataFlagTwo[jointNumber - 1] = true;
+        }
 
+      } else {
+        return;
+      }
     } else {
-      return;
+      YouBotSlaveMsg localMsg;
+      localMsg.stctOutput = msgBuffer.stctOutput;
+      localMsg.jointNumber = jointNumber;
+      automaticSendOffBufferVector.push_back(localMsg);
     }
-  }else{
-    YouBotSlaveMsg localMsg;
-    localMsg.stctOutput = msgBuffer.stctOutput;
-    localMsg.jointNumber = jointNumber;
-    automaticSendOffBufferVector.push_back(localMsg);
-  }
 
   // Bouml preserved body end 000414F1
 }
@@ -434,19 +458,23 @@ YouBotSlaveMsg EthercatMaster::getMsgBuffer(const unsigned int jointNumber) {
 
     YouBotSlaveMsg returnMsg;
 
-    if (newDataFlagOne == true) {
-      {
-        boost::mutex::scoped_lock dataMutex1(mutexDataOne);
-        returnMsg = firstBufferVector[jointNumber - 1];
-      }
-    } else if (newDataFlagTwo == true) {
-      {
-        boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
-        returnMsg = secondBufferVector[jointNumber - 1];
-      }
+    if (this->automaticReceiveOn == true) {
+      if (newDataFlagOne == true) {
+        {
+          boost::mutex::scoped_lock dataMutex1(mutexDataOne);
+          returnMsg = firstBufferVector[jointNumber - 1];
+        }
+      } else if (newDataFlagTwo == true) {
+        {
+          boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
+          returnMsg = secondBufferVector[jointNumber - 1];
+        }
 
+      } else {
+        return returnMsg;
+      }
     } else {
-      return returnMsg;
+      returnMsg = this->automaticReceiveOffBufferVector[jointNumber - 1];
     }
 
     return returnMsg;
@@ -547,9 +575,9 @@ bool EthercatMaster::receiveMailboxMessage(YouBotSlaveMailboxMsg& mailboxMsg) {
 void EthercatMaster::updateSensorActorValues() {
   // Bouml preserved body begin 0003F771
 
-  boost::posix_time::ptime now;
-  quantity<si::current> actualCurrent = 0 * ampere;
-  YouBotSlaveMsg stopMotorCommand;
+    boost::posix_time::ptime now;
+    quantity<si::current> actualCurrent = 0 * ampere;
+    YouBotSlaveMsg stopMotorCommand;
 
     while (!stopThread) {
 
@@ -568,7 +596,7 @@ void EthercatMaster::updateSensorActorValues() {
             (firstBufferVector[i]).stctInput = *(ethercatInputBufferVector[i]);
 
             //check if RMS current is over the limit
-            actualCurrent = ((double)(firstBufferVector[i]).stctInput.actualCurrent)/1000.0 * ampere;
+            actualCurrent = ((double) (firstBufferVector[i]).stctInput.actualCurrent) / 1000.0 * ampere;
             now = boost::posix_time::microsec_clock::local_time();
             motorProtections[i].isRMSCurrentOverLimit(actualCurrent, now);
 
@@ -599,7 +627,7 @@ void EthercatMaster::updateSensorActorValues() {
             (secondBufferVector[i]).stctInput = *(ethercatInputBufferVector[i]);
 
             //check if RMS current is over the limit
-            actualCurrent = ((double)(firstBufferVector[i]).stctInput.actualCurrent)/1000.0 * ampere;
+            actualCurrent = ((double) (firstBufferVector[i]).stctInput.actualCurrent) / 1000.0 * ampere;
             now = boost::posix_time::microsec_clock::local_time();
             motorProtections[i].isRMSCurrentOverLimit(actualCurrent, now);
 
@@ -618,25 +646,25 @@ void EthercatMaster::updateSensorActorValues() {
         newDataFlagOne = false;
       }
 
-      
-     // int cnt = 7;
-     //  printf("activeports:%i DCrtA:%i DCrtB:%d DCrtC:%d DCrtD:%d\n", (int)ec_slave[cnt].activeports, ec_slave[cnt].DCrtA, ec_slave[cnt].DCrtB, ec_slave[cnt].DCrtC, ec_slave[cnt].DCrtD);
-     //  printf("next DC slave:%i previous DC slave:%i DC cyle time in ns:%d DC shift:%d DC sync activation:%d\n", ec_slave[cnt].DCnext, ec_slave[cnt].DCprevious, ec_slave[cnt].DCcycle, ec_slave[cnt].DCshift, ec_slave[cnt].DCactive);
+
+      // int cnt = 7;
+      //  printf("activeports:%i DCrtA:%i DCrtB:%d DCrtC:%d DCrtD:%d\n", (int)ec_slave[cnt].activeports, ec_slave[cnt].DCrtA, ec_slave[cnt].DCrtB, ec_slave[cnt].DCrtC, ec_slave[cnt].DCrtD);
+      //  printf("next DC slave:%i previous DC slave:%i DC cyle time in ns:%d DC shift:%d DC sync activation:%d\n", ec_slave[cnt].DCnext, ec_slave[cnt].DCprevious, ec_slave[cnt].DCcycle, ec_slave[cnt].DCshift, ec_slave[cnt].DCactive);
 
       for (unsigned int i = 0; i < motorProtections.size(); i++) {
-        if(motorProtections[i].createSafeMotorCommands(stopMotorCommand)){
+        if (motorProtections[i].createSafeMotorCommands(stopMotorCommand)) {
           *(ethercatOutputBufferVector[i]) = stopMotorCommand.stctOutput;
         }
       }
 
       //send and receive data from ethercat
-      if (ec_send_processdata() == 0){
+      if (ec_send_processdata() == 0) {
         LOG(error) << "Sending process data failed";
-      //  throw std::runtime_error("Sending process data failed");
+        //  throw std::runtime_error("Sending process data failed");
       }
-      if (ec_receive_processdata(this->ethercatTimeout) == 0){
+      if (ec_receive_processdata(this->ethercatTimeout) == 0) {
         LOG(error) << "Receiving data failed";
-     //   throw std::runtime_error("Receiving data failed");
+        //   throw std::runtime_error("Receiving data failed");
       }
 
       boost::this_thread::sleep(boost::posix_time::milliseconds(timeTillNextEthercatUpdate));

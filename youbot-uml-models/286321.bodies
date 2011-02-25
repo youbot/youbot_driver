@@ -18,7 +18,7 @@ class YouBotManipulator
     delete configfile;
 !!!325617.cpp!!!	getArmJoint(in armJointNumber : uint) : YouBotJoint&
 
-    if (armJointNumber <= 0 || armJointNumber > 5) {
+    if (armJointNumber <= 0 || armJointNumber > ARMJOINTS) {
       throw std::out_of_range("Invalid Joint Number");
     }
     return joints[armJointNumber - 1];
@@ -28,6 +28,65 @@ class YouBotManipulator
     } else {
       throw std::out_of_range("There is no Gripper");
     }
+!!!589297.cpp!!!	setJointData(in JointData : std::vector<JointAngleSetpoint>) : void
+    if (JointData.size() != ARMJOINTS)
+      throw std::out_of_range("Wrong number of JointAngleSetpoints");
+
+    EthercatMaster::getInstance().AutomaticSendOn(false);
+    joints[0].setData(JointData[0], NON_BLOCKING);
+    joints[1].setData(JointData[1], NON_BLOCKING);
+    joints[2].setData(JointData[2], NON_BLOCKING);
+    joints[3].setData(JointData[3], NON_BLOCKING);
+    joints[4].setData(JointData[4], NON_BLOCKING);
+    EthercatMaster::getInstance().AutomaticSendOn(true);
+
+!!!589425.cpp!!!	getJointData(out data : std::vector<JointSensedAngle>) : void
+    data.resize(ARMJOINTS);
+    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    joints[0].getData(data[0]);
+    joints[1].getData(data[1]);
+    joints[2].getData(data[2]);
+    joints[3].getData(data[3]);
+    joints[4].getData(data[4]);
+    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+!!!589553.cpp!!!	setJointData(in JointData : std::vector<JointVelocitySetpoint>) : void
+    if (JointData.size() != ARMJOINTS)
+      throw std::out_of_range("Wrong number of JointVelocitySetpoints");
+
+    EthercatMaster::getInstance().AutomaticSendOn(false);
+    joints[0].setData(JointData[0], NON_BLOCKING);
+    joints[1].setData(JointData[1], NON_BLOCKING);
+    joints[2].setData(JointData[2], NON_BLOCKING);
+    joints[3].setData(JointData[3], NON_BLOCKING);
+    joints[4].setData(JointData[4], NON_BLOCKING);
+    EthercatMaster::getInstance().AutomaticSendOn(true);
+!!!589681.cpp!!!	getJointData(out data : std::vector<JointSensedVelocity>) : void
+    data.resize(ARMJOINTS);
+    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    joints[0].getData(data[0]);
+    joints[1].getData(data[1]);
+    joints[2].getData(data[2]);
+    joints[3].getData(data[3]);
+    joints[4].getData(data[4]);
+    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+!!!589809.cpp!!!	getJointData(out data : std::vector<JointSensedTemperature>) : void
+    data.resize(ARMJOINTS);
+    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    joints[0].getData(data[0]);
+    joints[1].getData(data[1]);
+    joints[2].getData(data[2]);
+    joints[3].getData(data[3]);
+    joints[4].getData(data[4]);
+    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+!!!589937.cpp!!!	getJointData(out data : std::vector<JointSensedCurrent>) : void
+    data.resize(ARMJOINTS);
+    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    joints[0].getData(data[0]);
+    joints[1].getData(data[1]);
+    joints[2].getData(data[2]);
+    joints[3].getData(data[3]);
+    joints[4].getData(data[4]);
+    EthercatMaster::getInstance().AutomaticReceiveOn(true);
 !!!426097.cpp!!!	initializeJoints() : void
 
     LOG(info) << "Initializing Joints";
@@ -37,7 +96,7 @@ class YouBotManipulator
     unsigned int noSlaves = EthercatMaster::getInstance(this->ethercatConfigFileName, this->configFilePath).getNumberOfSlaves();
 
 
-    if(noSlaves < 5){
+    if(noSlaves < ARMJOINTS){
       throw std::runtime_error("Not enough ethercat slaves were found to create a YouBotManipulator!");
     }
 
@@ -95,7 +154,7 @@ class YouBotManipulator
     contollerGearRatio.setParameter(1);
 
 
-    for (unsigned int i = 0; i < 5; i++) {
+    for (unsigned int i = 0; i < ARMJOINTS; i++) {
       std::stringstream jointNameStream;
       jointNameStream << "Joint_" << i + 1;
       jointName = jointNameStream.str();
@@ -132,7 +191,7 @@ class YouBotManipulator
     double dummy = 0;
     bool doCalibration = true;
 
-    for (unsigned int i = 0; i < 5; i++) {
+    for (unsigned int i = 0; i < ARMJOINTS; i++) {
 
       std::stringstream jointNameStream;
       jointNameStream << "Joint_" << i + 1;

@@ -65,6 +65,8 @@
 #include "base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.hpp"
 namespace youbot {
 
+/// The number of base joints
+#define BASEJOINTS 4
 ///////////////////////////////////////////////////////////////////////////////
 /// It groups the base joints together
 ///////////////////////////////////////////////////////////////////////////////
@@ -98,6 +100,36 @@ class YouBotBase {
 
     ///This class represents the kinematic of the YouBot 
     FourSwedishWheelOmniBaseKinematic youBotBaseKinematic;
+
+    ///commands positions or angles to all base joints
+    ///all positions will be set at the same time
+    ///@param data the to command positions
+    void setJointData(const std::vector<JointAngleSetpoint>& JointData);
+
+    ///gets the position or angle of all base joints which have been calculated from the actual encoder value
+    ///These values are all read at the same time from the different joints 
+    ///@param data returns the angles by reference
+    virtual void getJointData(std::vector<JointSensedAngle>& data);
+
+    ///commands velocities to all base joints
+    ///all velocities will be set at the same time
+    ///@param data the to command velocities
+    void setJointData(const std::vector<JointVelocitySetpoint>& JointData);
+
+    ///gets the velocities of all base joints which have been calculated from the actual encoder values
+    ///These values are all read at the same time from the different joints 
+    ///@param data returns the velocities by reference
+    virtual void getJointData(std::vector<JointSensedVelocity>& data);
+
+    ///gets temperatures of all base motors which have been measured by a thermometer
+    ///These values are all read at the same time from the different joints 
+    ///@param data returns the actual temperatures by reference
+    virtual void getJointData(std::vector<JointSensedTemperature>& data);
+
+    ///gets the motor currents of all base joints which have been measured by a hal sensor
+    ///These values are all read at the same time from the different joints 
+    ///@param data returns the actual motor currents by reference
+    virtual void getJointData(std::vector<JointSensedCurrent>& data);
 
 
   private:

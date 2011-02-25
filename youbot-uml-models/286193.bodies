@@ -1,27 +1,27 @@
 class YouBotBase
 !!!425585.cpp!!!	YouBotBase(in name : string, in configFilePath : string = "../config/")
 
-  string filename;
-  filename = name;
-  filename.append(".cfg");
-  configfile == NULL;
+    string filename;
+    filename = name;
+    filename.append(".cfg");
+    configfile == NULL;
 
-  this->configFilePath = configFilePath;
-  this->ethercatConfigFileName = "youbot-ethercat.cfg";
+    this->configFilePath = configFilePath;
+    this->ethercatConfigFileName = "youbot-ethercat.cfg";
 
-  configfile = new ConfigFile(filename,configFilePath);
+    configfile = new ConfigFile(filename, configFilePath);
 
-  this->initializeJoints();
+    this->initializeJoints();
 
-  this->initializeKinematic();
+    this->initializeKinematic();
 
-  this->doJointCommutation();
+    this->doJointCommutation();
 
 !!!425713.cpp!!!	~YouBotBase()
-  if(configfile != NULL)
-    delete configfile;
+    if (configfile != NULL)
+      delete configfile;
 !!!325489.cpp!!!	getBaseJoint(in baseJointNumber : uint) : YouBotJoint&
-    if (baseJointNumber <= 0 || baseJointNumber > 4 ) {
+    if (baseJointNumber <= 0 || baseJointNumber > BASEJOINTS) {
       throw std::out_of_range("Invalid Joint Number");
     }
     return joints[baseJointNumber - 1];
@@ -30,7 +30,7 @@ class YouBotBase
     std::vector<quantity<plane_angle> > wheelPositions;
     quantity<plane_angle> dummy;
     JointSensedAngle sensedPos;
-    wheelPositions.assign(4, dummy);
+    wheelPositions.assign(BASEJOINTS, dummy);
 
     joints[0].getData(sensedPos);
     wheelPositions[0] = sensedPos.angle;
@@ -47,7 +47,7 @@ class YouBotBase
     std::vector<quantity<angular_velocity> > wheelVelocities;
     quantity<angular_velocity> dummy;
     JointSensedVelocity sensedVel;
-    wheelVelocities.assign(4, dummy);
+    wheelVelocities.assign(BASEJOINTS, dummy);
 
     joints[0].getData(sensedVel);
     wheelVelocities[0] = sensedVel.angularVelocity;
@@ -67,7 +67,7 @@ class YouBotBase
 
     youBotBaseKinematic.cartesianVelocityToWheelVelocities(longitudinalVelocity, transversalVelocity, angularVelocity, wheelVelocities);
 
-    if (wheelVelocities.size() < 4)
+    if (wheelVelocities.size() < BASEJOINTS)
       throw std::out_of_range("To less wheel velocities");
 
     EthercatMaster::getInstance().AutomaticSendOn(false);
@@ -80,6 +80,59 @@ class YouBotBase
     setVel.angularVelocity = wheelVelocities[3];
     joints[3].setData(setVel, NON_BLOCKING);
     EthercatMaster::getInstance().AutomaticSendOn(true);
+!!!588273.cpp!!!	setJointData(in JointData : std::vector<JointAngleSetpoint>) : void
+    if (JointData.size() != BASEJOINTS)
+      throw std::out_of_range("Wrong number of JointAngleSetpoints");
+
+    EthercatMaster::getInstance().AutomaticSendOn(false);
+    joints[0].setData(JointData[0], NON_BLOCKING);
+    joints[1].setData(JointData[1], NON_BLOCKING);
+    joints[2].setData(JointData[2], NON_BLOCKING);
+    joints[3].setData(JointData[3], NON_BLOCKING);
+    EthercatMaster::getInstance().AutomaticSendOn(true);
+
+!!!588785.cpp!!!	getJointData(out data : std::vector<JointSensedAngle>) : void
+    data.resize(BASEJOINTS);
+    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    joints[0].getData(data[0]);
+    joints[1].getData(data[1]);
+    joints[2].getData(data[2]);
+    joints[3].getData(data[3]);
+    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+!!!588401.cpp!!!	setJointData(in JointData : std::vector<JointVelocitySetpoint>) : void
+    if (JointData.size() != BASEJOINTS)
+      throw std::out_of_range("Wrong number of JointVelocitySetpoints");
+
+    EthercatMaster::getInstance().AutomaticSendOn(false);
+    joints[0].setData(JointData[0], NON_BLOCKING);
+    joints[1].setData(JointData[1], NON_BLOCKING);
+    joints[2].setData(JointData[2], NON_BLOCKING);
+    joints[3].setData(JointData[3], NON_BLOCKING);
+    EthercatMaster::getInstance().AutomaticSendOn(true);
+!!!588913.cpp!!!	getJointData(out data : std::vector<JointSensedVelocity>) : void
+    data.resize(BASEJOINTS);
+    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    joints[0].getData(data[0]);
+    joints[1].getData(data[1]);
+    joints[2].getData(data[2]);
+    joints[3].getData(data[3]);
+    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+!!!589041.cpp!!!	getJointData(out data : std::vector<JointSensedTemperature>) : void
+    data.resize(BASEJOINTS);
+    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    joints[0].getData(data[0]);
+    joints[1].getData(data[1]);
+    joints[2].getData(data[2]);
+    joints[3].getData(data[3]);
+    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+!!!589169.cpp!!!	getJointData(out data : std::vector<JointSensedCurrent>) : void
+    data.resize(BASEJOINTS);
+    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    joints[0].getData(data[0]);
+    joints[1].getData(data[1]);
+    joints[2].getData(data[2]);
+    joints[3].getData(data[3]);
+    EthercatMaster::getInstance().AutomaticReceiveOn(true);
 !!!287985.cpp!!!	initializeJoints() : void
 
     LOG(info) << "Initializing Joints";
@@ -87,41 +140,41 @@ class YouBotBase
     //get number of slaves
     unsigned int noSlaves = EthercatMaster::getInstance(this->ethercatConfigFileName, this->configFilePath).getNumberOfSlaves();
 
-    if(noSlaves < 4){
+    if (noSlaves < BASEJOINTS) {
       throw std::out_of_range("Not enough ethercat slaves were found to create a YouBotBase!");
     }
-    
+
     //read Joint Topology from config file
-  //  configfile.setSection("JointTopology");
+    //  configfile.setSection("JointTopology");
 
     //check if enough slave exist to create YouBotJoint for the slave numbers from config file
     //if enough slave exist create YouBotJoint and store it in the joints vector
     unsigned int slaveNumber = 0;
-    configfile->readInto(slaveNumber,"JointTopology", "BaseLeftFront");
-    if(slaveNumber  <= noSlaves){
+    configfile->readInto(slaveNumber, "JointTopology", "BaseLeftFront");
+    if (slaveNumber <= noSlaves) {
       joints.push_back(YouBotJoint(slaveNumber));
-    }else{
+    } else {
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
-    configfile->readInto(slaveNumber,"JointTopology", "BaseRightFront");
-    if(slaveNumber  <= noSlaves){
+    configfile->readInto(slaveNumber, "JointTopology", "BaseRightFront");
+    if (slaveNumber <= noSlaves) {
       joints.push_back(YouBotJoint(slaveNumber));
-    }else{
+    } else {
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
-    configfile->readInto(slaveNumber,"JointTopology", "BaseLeftBack");
-    if(slaveNumber  <= noSlaves){
+    configfile->readInto(slaveNumber, "JointTopology", "BaseLeftBack");
+    if (slaveNumber <= noSlaves) {
       joints.push_back(YouBotJoint(slaveNumber));
-    }else{
+    } else {
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
-    configfile->readInto(slaveNumber,"JointTopology", "BaseRightBack");
-    if(slaveNumber  <= noSlaves){
+    configfile->readInto(slaveNumber, "JointTopology", "BaseRightBack");
+    if (slaveNumber <= noSlaves) {
       joints.push_back(YouBotJoint(slaveNumber));
-    }else{
+    } else {
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
@@ -138,11 +191,11 @@ class YouBotBase
     double gearRatio_numerator = 0;
     double gearRatio_denominator = 1;
 
-    for (unsigned int i = 0; i < 4; i++) {
+    for (unsigned int i = 0; i < BASEJOINTS; i++) {
       std::stringstream jointNameStream;
       jointNameStream << "Joint_" << i + 1;
       jointName = jointNameStream.str();
-    //  configfile.setSection(jointName.c_str());
+      //  configfile.setSection(jointName.c_str());
 
       string name;
       configfile->readInto(name, jointName, "JointName");
@@ -172,26 +225,26 @@ class YouBotBase
     FourSwedishWheelOmniBaseKinematicConfiguration kinematicConfig;
 
     //read the kinematics parameter from a config file
-    configfile->readInto(kinematicConfig.rotationRatio,"YouBotKinematic", "RotationRatio");
-    configfile->readInto(kinematicConfig.slideRatio, "YouBotKinematic","SlideRatio");
+    configfile->readInto(kinematicConfig.rotationRatio, "YouBotKinematic", "RotationRatio");
+    configfile->readInto(kinematicConfig.slideRatio, "YouBotKinematic", "SlideRatio");
     double dummy = 0;
-    configfile->readInto(dummy, "YouBotKinematic","LengthBetweenFrontAndRearWheels_[meter]");
+    configfile->readInto(dummy, "YouBotKinematic", "LengthBetweenFrontAndRearWheels_[meter]");
     kinematicConfig.lengthBetweenFrontAndRearWheels = dummy * meter;
-    configfile->readInto(dummy,"YouBotKinematic", "LengthBetweenFrontWheels_[meter]");
+    configfile->readInto(dummy, "YouBotKinematic", "LengthBetweenFrontWheels_[meter]");
     kinematicConfig.lengthBetweenFrontWheels = dummy * meter;
-    configfile->readInto(dummy, "YouBotKinematic","WheelRadius_[meter]");
+    configfile->readInto(dummy, "YouBotKinematic", "WheelRadius_[meter]");
     kinematicConfig.wheelRadius = dummy * meter;
-    
+
 
     youBotBaseKinematic.setConfiguration(kinematicConfig);
 !!!567793.cpp!!!	doJointCommutation() : void
-  LOG(info) << "Base Joint Commutation";
+    LOG(info) << "Base Joint Commutation";
 
-  quantity<si::velocity> longitudinalVelocity = 0.0 * meter_per_second;
-  quantity<si::velocity> transversalVelocity = 0.0 * meter_per_second;
-  quantity<si::angular_velocity> angularVelocity = 0.1 * radian_per_second;
+    quantity<si::velocity> longitudinalVelocity = 0.0 * meter_per_second;
+    quantity<si::velocity> transversalVelocity = 0.0 * meter_per_second;
+    quantity<si::angular_velocity> angularVelocity = 0.1 * radian_per_second;
 
-  this->setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
-  SLEEP_MILLISEC(500);
-  angularVelocity = 0 * radian_per_second;
-  this->setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
+    this->setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
+    SLEEP_MILLISEC(500);
+    angularVelocity = 0 * radian_per_second;
+    this->setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);

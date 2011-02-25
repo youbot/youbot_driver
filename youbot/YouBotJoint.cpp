@@ -374,7 +374,7 @@ void YouBotJoint::setData(const JointAngleSetpoint& data, SyncMode communication
   // Bouml preserved body end 0003C1F1
 }
 
-///gets the position or angle of one joint with have been calculated for the actual encoder value 
+///gets the position or angle of one joint which have been calculated from the actual encoder value 
 ///@param data returns the angle by reference
 void YouBotJoint::getData(JointSensedAngle& data) {
   // Bouml preserved body begin 0003DCF1
@@ -419,7 +419,7 @@ void YouBotJoint::setData(const JointVelocitySetpoint& data, SyncMode communicat
   // Bouml preserved body end 0003C371
 }
 
-///gets the velocity of one joint with have been calculated for the actual encoder values
+///gets the velocity of one joint which have been calculated from the actual encoder values
 ///@param data returns the velocity by reference
 void YouBotJoint::getData(JointSensedVelocity& data) {
   // Bouml preserved body begin 0003DD71
@@ -451,7 +451,7 @@ void YouBotJoint::getData(JointSensedTemperature& data) {
   // Bouml preserved body end 0003C271
 }
 
-///gets the motor current of one joint with have been measured by a hal sensor
+///gets the motor current of one joint which have been measured by a hal sensor
 ///@param data returns the actual motor current by reference
 void YouBotJoint::getData(JointSensedCurrent& data) {
   // Bouml preserved body begin 0003DDF1

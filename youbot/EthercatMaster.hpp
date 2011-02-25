@@ -105,6 +105,8 @@ friend class YouBotGripper;
 
     void AutomaticSendOn(const bool enableAutomaticSend);
 
+    void AutomaticReceiveOn(const bool enableAutomaticReceive);
+
     ///provides all ethercat slave informations from the SOEM driver
     ///@param ethercatSlaveInfos ethercat slave informations
     void getEthercatDiagnosticInformation(std::vector<ec_slavet>& ethercatSlaveInfos);
@@ -170,6 +172,8 @@ friend class YouBotGripper;
 
     std::vector<YouBotSlaveMsg> automaticSendOffBufferVector;
 
+    std::vector<YouBotSlaveMsg> automaticReceiveOffBufferVector;
+
     unsigned int nrOfSlaves;
 
     volatile bool newDataFlagOne;
@@ -215,6 +219,8 @@ friend class YouBotGripper;
     static std::string configFilepath;
 
     bool automaticSendOn;
+
+    bool automaticReceiveOn;
 
     std::vector<MotorProtection> motorProtections;
 

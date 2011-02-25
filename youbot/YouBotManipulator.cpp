@@ -81,7 +81,7 @@ YouBotManipulator::~YouBotManipulator() {
 YouBotJoint& YouBotManipulator::getArmJoint(const unsigned int armJointNumber) {
   // Bouml preserved body begin 0004F7F1
 
-    if (armJointNumber <= 0 || armJointNumber > 5) {
+    if (armJointNumber <= 0 || armJointNumber > ARMJOINTS) {
       throw std::out_of_range("Invalid Joint Number");
     }
     return joints[armJointNumber - 1];
@@ -98,6 +98,107 @@ YouBotGripper& YouBotManipulator::getArmGripper() {
   // Bouml preserved body end 0005F9F1
 }
 
+///commands positions or angles to all manipulator joints
+///all positions will be set at the same time
+///@param data the to command positions
+void YouBotManipulator::setJointData(const std::vector<JointAngleSetpoint>& JointData) {
+  // Bouml preserved body begin 0008FDF1
+    if (JointData.size() != ARMJOINTS)
+      throw std::out_of_range("Wrong number of JointAngleSetpoints");
+
+    EthercatMaster::getInstance().AutomaticSendOn(false);
+    joints[0].setData(JointData[0], NON_BLOCKING);
+    joints[1].setData(JointData[1], NON_BLOCKING);
+    joints[2].setData(JointData[2], NON_BLOCKING);
+    joints[3].setData(JointData[3], NON_BLOCKING);
+    joints[4].setData(JointData[4], NON_BLOCKING);
+    EthercatMaster::getInstance().AutomaticSendOn(true);
+
+  // Bouml preserved body end 0008FDF1
+}
+
+///gets the position or angle of all manipulator joints which have been calculated from the actual encoder value
+///These values are all read at the same time from the different joints 
+///@param data returns the angles by reference
+void YouBotManipulator::getJointData(std::vector<JointSensedAngle>& data) {
+  // Bouml preserved body begin 0008FE71
+    data.resize(ARMJOINTS);
+    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    joints[0].getData(data[0]);
+    joints[1].getData(data[1]);
+    joints[2].getData(data[2]);
+    joints[3].getData(data[3]);
+    joints[4].getData(data[4]);
+    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+  // Bouml preserved body end 0008FE71
+}
+
+///commands velocities to all manipulator joints
+///all velocities will be set at the same time
+///@param data the to command velocities
+void YouBotManipulator::setJointData(const std::vector<JointVelocitySetpoint>& JointData) {
+  // Bouml preserved body begin 0008FEF1
+    if (JointData.size() != ARMJOINTS)
+      throw std::out_of_range("Wrong number of JointVelocitySetpoints");
+
+    EthercatMaster::getInstance().AutomaticSendOn(false);
+    joints[0].setData(JointData[0], NON_BLOCKING);
+    joints[1].setData(JointData[1], NON_BLOCKING);
+    joints[2].setData(JointData[2], NON_BLOCKING);
+    joints[3].setData(JointData[3], NON_BLOCKING);
+    joints[4].setData(JointData[4], NON_BLOCKING);
+    EthercatMaster::getInstance().AutomaticSendOn(true);
+  // Bouml preserved body end 0008FEF1
+}
+
+///gets the velocities of all manipulator joints which have been calculated from the actual encoder values
+///These values are all read at the same time from the different joints 
+///@param data returns the velocities by reference
+void YouBotManipulator::getJointData(std::vector<JointSensedVelocity>& data) {
+  // Bouml preserved body begin 0008FF71
+    data.resize(ARMJOINTS);
+    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    joints[0].getData(data[0]);
+    joints[1].getData(data[1]);
+    joints[2].getData(data[2]);
+    joints[3].getData(data[3]);
+    joints[4].getData(data[4]);
+    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+  // Bouml preserved body end 0008FF71
+}
+
+///gets temperatures of all manipulator motors which have been measured by a thermometer
+///These values are all read at the same time from the different joints 
+///@param data returns the actual temperatures by reference
+void YouBotManipulator::getJointData(std::vector<JointSensedTemperature>& data) {
+  // Bouml preserved body begin 0008FFF1
+    data.resize(ARMJOINTS);
+    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    joints[0].getData(data[0]);
+    joints[1].getData(data[1]);
+    joints[2].getData(data[2]);
+    joints[3].getData(data[3]);
+    joints[4].getData(data[4]);
+    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+  // Bouml preserved body end 0008FFF1
+}
+
+///gets the motor currents of all manipulator joints which have been measured by a hal sensor
+///These values are all read at the same time from the different joints 
+///@param data returns the actual motor currents by reference
+void YouBotManipulator::getJointData(std::vector<JointSensedCurrent>& data) {
+  // Bouml preserved body begin 00090071
+    data.resize(ARMJOINTS);
+    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    joints[0].getData(data[0]);
+    joints[1].getData(data[1]);
+    joints[2].getData(data[2]);
+    joints[3].getData(data[3]);
+    joints[4].getData(data[4]);
+    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+  // Bouml preserved body end 00090071
+}
+
 void YouBotManipulator::initializeJoints() {
   // Bouml preserved body begin 00068071
 
@@ -108,7 +209,7 @@ void YouBotManipulator::initializeJoints() {
     unsigned int noSlaves = EthercatMaster::getInstance(this->ethercatConfigFileName, this->configFilePath).getNumberOfSlaves();
 
 
-    if(noSlaves < 5){
+    if(noSlaves < ARMJOINTS){
       throw std::runtime_error("Not enough ethercat slaves were found to create a YouBotManipulator!");
     }
 
@@ -166,7 +267,7 @@ void YouBotManipulator::initializeJoints() {
     contollerGearRatio.setParameter(1);
 
 
-    for (unsigned int i = 0; i < 5; i++) {
+    for (unsigned int i = 0; i < ARMJOINTS; i++) {
       std::stringstream jointNameStream;
       jointNameStream << "Joint_" << i + 1;
       jointName = jointNameStream.str();
@@ -203,7 +304,7 @@ void YouBotManipulator::initializeJoints() {
     double dummy = 0;
     bool doCalibration = true;
 
-    for (unsigned int i = 0; i < 5; i++) {
+    for (unsigned int i = 0; i < ARMJOINTS; i++) {
 
       std::stringstream jointNameStream;
       jointNameStream << "Joint_" << i + 1;
