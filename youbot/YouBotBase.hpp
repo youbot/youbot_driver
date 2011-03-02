@@ -103,7 +103,7 @@ class YouBotBase {
 
     ///commands positions or angles to all base joints
     ///all positions will be set at the same time
-    ///@param data the to command positions
+    ///@param JointData the to command positions
     void setJointData(const std::vector<JointAngleSetpoint>& JointData);
 
     ///gets the position or angle of all base joints which have been calculated from the actual encoder value
@@ -113,7 +113,7 @@ class YouBotBase {
 
     ///commands velocities to all base joints
     ///all velocities will be set at the same time
-    ///@param data the to command velocities
+    ///@param JointData the to command velocities
     void setJointData(const std::vector<JointVelocitySetpoint>& JointData);
 
     ///gets the velocities of all base joints which have been calculated from the actual encoder values

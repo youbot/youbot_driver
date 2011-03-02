@@ -100,7 +100,7 @@ YouBotGripper& YouBotManipulator::getArmGripper() {
 
 ///commands positions or angles to all manipulator joints
 ///all positions will be set at the same time
-///@param data the to command positions
+///@param JointData the to command positions
 void YouBotManipulator::setJointData(const std::vector<JointAngleSetpoint>& JointData) {
   // Bouml preserved body begin 0008FDF1
     if (JointData.size() != ARMJOINTS)
@@ -135,7 +135,7 @@ void YouBotManipulator::getJointData(std::vector<JointSensedAngle>& data) {
 
 ///commands velocities to all manipulator joints
 ///all velocities will be set at the same time
-///@param data the to command velocities
+///@param JointData the to command velocities
 void YouBotManipulator::setJointData(const std::vector<JointVelocitySetpoint>& JointData) {
   // Bouml preserved body begin 0008FEF1
     if (JointData.size() != ARMJOINTS)

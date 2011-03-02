@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 144
+  revision 145
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -18236,7 +18236,7 @@ ${inlines}
 	
 	comment "///commands positions or angles to all manipulator joints
 ///all positions will be set at the same time
-///@param data the to command positions"
+///@param JointData the to command positions"
       end
 
       operation 589425 "getJointData"
@@ -18272,7 +18272,7 @@ ${inlines}
 	
 	comment "///commands velocities to all manipulator joints
 ///all velocities will be set at the same time
-///@param data the to command velocities"
+///@param JointData the to command velocities"
       end
 
       operation 589681 "getJointData"
@@ -18547,7 +18547,7 @@ ${inlines}
 	
 	comment "///commands positions or angles to all base joints
 ///all positions will be set at the same time
-///@param data the to command positions"
+///@param JointData the to command positions"
       end
 
       operation 588785 "getJointData"
@@ -18583,7 +18583,7 @@ ${inlines}
 	
 	comment "///commands velocities to all base joints
 ///all velocities will be set at the same time
-///@param data the to command velocities"
+///@param JointData the to command velocities"
       end
 
       operation 588913 "getJointData"

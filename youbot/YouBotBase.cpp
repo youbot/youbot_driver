@@ -172,7 +172,7 @@ void YouBotBase::setBaseVelocity(const quantity<si::velocity>& longitudinalVeloc
 
 ///commands positions or angles to all base joints
 ///all positions will be set at the same time
-///@param data the to command positions
+///@param JointData the to command positions
 void YouBotBase::setJointData(const std::vector<JointAngleSetpoint>& JointData) {
   // Bouml preserved body begin 0008F9F1
     if (JointData.size() != BASEJOINTS)
@@ -205,7 +205,7 @@ void YouBotBase::getJointData(std::vector<JointSensedAngle>& data) {
 
 ///commands velocities to all base joints
 ///all velocities will be set at the same time
-///@param data the to command velocities
+///@param JointData the to command velocities
 void YouBotBase::setJointData(const std::vector<JointVelocitySetpoint>& JointData) {
   // Bouml preserved body begin 0008FA71
     if (JointData.size() != BASEJOINTS)
