@@ -1,15 +1,24 @@
 class MotorPoles
 !!!465393.cpp!!!	MotorPoles()
     this->name = "MotorPoles";
+    this->lowerLimit = 2;
+    this->upperLimit = 254;
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-!!!465649.cpp!!!	getParameter(out parameter : bool) : void
+!!!465649.cpp!!!	getParameter(out parameter : uint) : void
     parameter = this->value;
+!!!604145.cpp!!!	setParameter(in parameter : uint) : void
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+    this->value = parameter;
 !!!465777.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
     message.stctOutput.typeNumber = 253; //MotorPoles
-   // message.stctOutput.value = value;
-
+    message.stctOutput.value = value;
 !!!468081.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
     if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
       this->value = message.stctInput.value;

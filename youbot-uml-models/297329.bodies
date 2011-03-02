@@ -2,15 +2,15 @@ class HallSensorPolarityReversal
 !!!466161.cpp!!!	HallSensorPolarityReversal()
     this->name = "HallSensorPolarityReversal";
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-!!!466417.cpp!!!	getParameter(out parameter : uint) : void
+!!!466417.cpp!!!	getParameter(out parameter : bool) : void
     parameter = this->value;
+!!!604017.cpp!!!	setParameter(in parameter : bool) : void
+    this->value = parameter;
 !!!466545.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
-
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
     message.stctOutput.typeNumber = 254; //HallSensorPolarityReversal
     message.stctOutput.value = value;
-
 !!!468209.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
     if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
       this->value = message.stctInput.value;

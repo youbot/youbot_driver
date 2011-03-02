@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 38
+  revision 39
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -431,7 +431,6 @@ ${namespace_end}"
       associated_classes
 	class_ref 210929 // ParameterType
 	class_ref 296049 // YouBotJointParameterReadOnly
-	class_ref 296177 // ArePIDcontrollersActive
 	class_ref 318577 // ActualMotorVoltage
 	class_ref 318705 // ActualPWMDutyCycle
 	class_ref 318833 // ErrorAndStatus
@@ -439,14 +438,6 @@ ${namespace_end}"
 	class_ref 320497 // PositionErrorSum
 	class_ref 320625 // VelocityError
 	class_ref 320753 // VelocityErrorSum
-	class_ref 296305 // CommutationMode
-	class_ref 296433 // PWMSchemeBlockCommutation
-	class_ref 296689 // MotorCoilResistance
-	class_ref 296817 // InitializationMode
-	class_ref 296945 // EncoderResolution
-	class_ref 297073 // ReversingEncoderDirection
-	class_ref 297201 // MotorPoles
-	class_ref 297329 // HallSensorPolarityReversal
       end
       comment "/****************************************************************
  *
@@ -599,6 +590,15 @@ ${namespace_end}"
 	class_ref 321521 // SineCompensationFactor
 	class_ref 321649 // EncoderNullPolarity
 	class_ref 296561 // MotorContollerGearRatio
+	class_ref 296305 // CommutationMode
+	class_ref 296945 // EncoderResolution
+	class_ref 297329 // HallSensorPolarityReversal
+	class_ref 296817 // InitializationMode
+	class_ref 296689 // MotorCoilResistance
+	class_ref 297201 // MotorPoles
+	class_ref 296177 // PIDControllerState
+	class_ref 296433 // PWMSchemeBlockCommutation
+	class_ref 297073 // ReversingEncoderDirection
       end
       comment "/****************************************************************
  *

@@ -18,6 +18,24 @@ classcanvas 129009 class_ref 218097 // OneDOFGripperData
 end
 classcanvas 129777 class_ref 224753 // YouBotGripper
   draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  hidden_attributes
+    attribute_ref 386673 // timeTillNextMailboxUpdate
+    attribute_ref 386801 // mailboxMsgRetries
+    attribute_ref 386929 // jointNumber
+    attribute_ref 387953 // maxEncoderValue
+    attribute_ref 388081 // maxTravelDistance
+    attribute_ref 388209 // barSpacingOffset
+    attribute_ref 394993 // lastGripperPosition
+  hidden_operations
+    operation_ref 392177 // getConfigurationParameter
+    operation_ref 391793 // setConfigurationParameter
+    operation_ref 392049 // getData
+    operation_ref 391921 // setData
+    operation_ref 295921 // getData
+    operation_ref 295793 // setData
+    operation_ref 482417 // parseMailboxStatusFlags
+    operation_ref 388977 // setValueToMotorContoller
+    operation_ref 388849 // retrieveValueFromMotorContoller
   xyz 23 436 2006
 end
 classcanvas 130161 class_ref 259313 // GripperBarSpacingSetPoint

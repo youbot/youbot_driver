@@ -1,16 +1,24 @@
 class MotorCoilResistance
 !!!462321.cpp!!!	MotorCoilResistance()
     this->name = "MotorCoilResistance";
+    this->lowerLimit = INT_MIN * ohm;
+    this->upperLimit = INT_MAX * ohm;
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
 !!!462577.cpp!!!	getParameter(out parameter : quantity<resistance>) : void
     parameter = this->value;
+!!!603505.cpp!!!	setParameter(in parameter : quantity<resistance>) : void
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+    this->value = parameter;
 !!!462705.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
-
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
     message.stctOutput.typeNumber = 240; //MotorCoilResistance
-//    message.stctOutput.value = value;
-
+    message.stctOutput.value = value.value() * 1000; //from ohm to milli ohm
 !!!467569.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
     if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
       this->value = ((double)message.stctInput.value)/1000 * ohm;

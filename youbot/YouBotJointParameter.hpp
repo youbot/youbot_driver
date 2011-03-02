@@ -2392,6 +2392,327 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+///////////////////////////////////////////////////////////////////////////////
+/// The Commutation Mode.
+/// 0: Block commutation with hall sensors mode \n
+/// 1: Sensorless block commutation (hallFX) \n
+/// 2: Sine commutation with hall sensors \n
+/// 3: Sine commutation with encoder \n
+/// 4: Controlled block commutation \n
+/// 5: Controlled sine commutation \n
+///////////////////////////////////////////////////////////////////////////////
+class CommutationMode : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    CommutationMode();
+
+    virtual ~CommutationMode();
+
+    void getParameter(unsigned int& parameter) const;
+
+    void setParameter(const unsigned int parameter);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    unsigned int upperLimit;
+
+    unsigned int lowerLimit;
+
+    unsigned int value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// Encoder Steps per Rotation.
+///////////////////////////////////////////////////////////////////////////////
+class EncoderResolution : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    EncoderResolution();
+
+    virtual ~EncoderResolution();
+
+    void getParameter(unsigned int& parameter) const;
+
+    void setParameter(const unsigned int parameter);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    unsigned int upperLimit;
+
+    unsigned int lowerLimit;
+
+    unsigned int value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// Hall sensor invert. Sets one of the motors invert with inverted hall scheme, e.g. some Maxon motors
+///////////////////////////////////////////////////////////////////////////////
+class HallSensorPolarityReversal : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    HallSensorPolarityReversal();
+
+    virtual ~HallSensorPolarityReversal();
+
+    void getParameter(bool& parameter) const;
+
+    void setParameter(const bool parameter);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    bool value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// Initialization Mode.
+/// 0: Initialization in controlled sine commutation \n
+/// 1: Initialization in block commutation by using hall sensors \n 
+///////////////////////////////////////////////////////////////////////////////
+class InitializationMode : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    InitializationMode();
+
+    virtual ~InitializationMode();
+
+    void getParameter(int& parameter) const;
+
+    void setParameter(const int parameter);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    int upperLimit;
+
+    int lowerLimit;
+
+    int value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// Resistance of motor coil. Used for current resistance regulation, position regulation and velocity regulation.
+///////////////////////////////////////////////////////////////////////////////
+class MotorCoilResistance : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    MotorCoilResistance();
+
+    virtual ~MotorCoilResistance();
+
+    void getParameter(quantity<resistance>& parameter) const;
+
+    void setParameter(const quantity<resistance>& parameter);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    quantity<resistance> upperLimit;
+
+    quantity<resistance> lowerLimit;
+
+    quantity<resistance> value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// Number of motor poles.
+///////////////////////////////////////////////////////////////////////////////
+class MotorPoles : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    MotorPoles();
+
+    virtual ~MotorPoles();
+
+    void getParameter(unsigned int& parameter) const;
+
+    void setParameter(const unsigned int parameter);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    unsigned int upperLimit;
+
+    unsigned int lowerLimit;
+
+    unsigned int value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// Enables or Disables the PID controller.
+/// 0: Enable the standard PID calculation. \n
+/// 1: Disable the PID calculation. The Motor PWM is then directly derived from the target velocity.  \n
+/// 2: Enable an integrating PID algorithm. In this case the result of the PID calculation is integrated to the PWM value. This PID regulation is easier to use than the standard PID regulation. 
+///////////////////////////////////////////////////////////////////////////////
+class PIDControllerState : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    PIDControllerState();
+
+    virtual ~PIDControllerState();
+
+    void getParameter(bool& parameter) const;
+
+    void setParameter(const bool parameter);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    bool upperLimit;
+
+    bool lowerLimit;
+
+    bool value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// PWM Scheme for the Block Commutation. 
+/// 0: PWM chopper on high side, HI on low side \n
+/// 1: PWM chopper on low side, HI on high \n
+/// 2: PWM chopper on low side and high side \n
+///////////////////////////////////////////////////////////////////////////////
+class PWMSchemeBlockCommutation : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    PWMSchemeBlockCommutation();
+
+    virtual ~PWMSchemeBlockCommutation();
+
+    void getParameter(unsigned int& parameter) const;
+
+    void setParameter(const unsigned int parameter);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    unsigned int upperLimit;
+
+    unsigned int lowerLimit;
+
+    unsigned int value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// Encoder direction Set this flag in a way, that turn right increases position counter.
+///////////////////////////////////////////////////////////////////////////////
+class ReversingEncoderDirection : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    ReversingEncoderDirection();
+
+    virtual ~ReversingEncoderDirection();
+
+    bool getParameter(bool& parameter) const;
+
+    void setParameter(const bool parameter);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    bool value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
 
 } // namespace youbot
 #endif
