@@ -72,8 +72,8 @@ By the classes youbot::YouBotBase and youbot::YouBotManipulator it is possible t
 To set a setpoint or read some sensor values form the joints you have to use the youbot::JointData classes.
 Which could be for instance youbot::JointVelocitySetpoint or youbot::JointSensedCurrent.
 
-To configure parameters of a joint, you have to use the JointParameter classes.
-Which could be for instance youbot::MaximumPositioningSpeed.
+To configure parameters of a joint, you have to use the youbot::JointParameter classes.
+Which could be for instance youbot::MaximumPositioningVelocity.
 
 
 
