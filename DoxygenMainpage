@@ -84,8 +84,8 @@ By the classes youbot::YouBotBase and youbot::YouBotManipulator it is possible t
 To set a setpoint or read some sensor values form the joints you have to use the youbot::JointData classes.
 Which could be for instance youbot::JointVelocitySetpoint or youbot::JointSensedCurrent.
 
-To configure parameters of a joint, you have to use the JointParameter classes.
-Which could be for instance youbot::MaximumPositioningSpeed.
+To configure parameters of a joint, you have to use the youbot::JointParameter classes.
+Which could be for instance youbot::MaximumPositioningVelocity.
 
 
 
@@ -114,10 +114,16 @@ int main() {
     myYouBotManipulator.getArmJoint(1).getData(current);
     std::cout << "Current manipulator joint 1: " << current.current << std::endl;
 
-    //configure 2 radian_per_second as the maximum positioning speed of the manipulator joint 1
-    MaximumPositioningSpeed maxPositioningSpeed;
-    maxPositioningSpeed.setParameter(2 * radian_per_second);
-    myYouBotManipulator.getArmJoint(1).setConfigurationParameter(maxPositioningSpeed);
+    //read the maximum positioning velocity parameter from the manipulator joint 1
+    MaximumPositioningVelocity maxPositioningVelocity;
+    myYouBotManipulator.getArmJoint(1).getConfigurationParameter(maxPositioningVelocity);
+    quantity<angular_velocity> velocity;
+    maxPositioningVelocity.getParameter(velocity);
+    std::cout << "Maximum positioning speed of joint 1: " << velocity << std::endl;
+
+    //configure 2 radian_per_second as the maximum positioning velocity of the manipulator joint 1
+    maxPositioningVelocity.setParameter(2 * radian_per_second);
+    myYouBotManipulator.getArmJoint(1).setConfigurationParameter(maxPositioningVelocity);
 
   } catch (std::exception& e) {
     std::cout << e.what() << std::endl;
