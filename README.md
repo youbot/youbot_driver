@@ -76,6 +76,10 @@ To configure parameters of a joint, you have to use the youbot::JointParameter c
 Which could be for instance youbot::MaximumPositioningVelocity.
 
 
+Example Programs
+------------
+You can find example programs in the [youbot_applications](https://github.com/youbot/youbot_applications) repository.
+
 
 Documentation
 ------------

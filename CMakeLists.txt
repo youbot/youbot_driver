@@ -49,7 +49,7 @@ include(UseDoxygen)
 
 
 add_subdirectory(youbot)
-add_subdirectory(applications)
+#add_subdirectory(applications)
 #add_subdirectory(testing)
 
 
