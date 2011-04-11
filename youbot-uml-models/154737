@@ -1,6 +1,6 @@
 format 75
 "generic-joint" // generic-joint
-  revision 13
+  revision 14
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -131,6 +131,7 @@ ${namespace_end}
 	class_ref 170737 // JointVelocitySetpoint
 	class_ref 170993 // JointCurrentSetpoint
 	class_ref 170609 // JointTorqueSetpoint
+	class_ref 347889 // JointPWMSetpoint
       end
       comment "/****************************************************************
  *

@@ -273,6 +273,45 @@ void NoMoreAction::setParameter(const bool parameter) {
   // Bouml preserved body end 000661F1
 }
 
+InitializeJoint::InitializeJoint() {
+  // Bouml preserved body begin 00095171
+    this->name = "InitializeJoint";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 00095171
+}
+
+InitializeJoint::~InitializeJoint() {
+  // Bouml preserved body begin 000951F1
+  // Bouml preserved body end 000951F1
+}
+
+void InitializeJoint::getParameter(bool& parameter) const {
+  // Bouml preserved body begin 00095271
+    parameter = this->value;
+  // Bouml preserved body end 00095271
+}
+
+void InitializeJoint::setParameter(const bool parameter) {
+  // Bouml preserved body begin 000952F1
+    this->value = parameter;
+  // Bouml preserved body end 000952F1
+}
+
+void InitializeJoint::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
+  // Bouml preserved body begin 00095371
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 15; //Initialize BLDC
+    message.stctOutput.value = (int)this->value;
+  // Bouml preserved body end 00095371
+}
+
+void InitializeJoint::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
+  // Bouml preserved body begin 000953F1
+    this->value = message.stctInput.value;
+  // Bouml preserved body end 000953F1
+}
+
 MaximumPositioningVelocity::MaximumPositioningVelocity() {
   // Bouml preserved body begin 0005A171
     this->name = "MaximumPositioningVelocity";
@@ -3051,6 +3090,55 @@ void SineCompensationFactor::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& me
   // Bouml preserved body begin 00083DF1
     this->value = message.stctInput.value;
   // Bouml preserved body end 00083DF1
+}
+
+ApproveProtectedParameters::ApproveProtectedParameters() {
+  // Bouml preserved body begin 000956F1
+    this->name = "ApproveProtectedParameters";
+    this->lowerLimit = INT_MIN;
+    this->upperLimit = INT_MAX;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 000956F1
+}
+
+ApproveProtectedParameters::~ApproveProtectedParameters() {
+  // Bouml preserved body begin 00095771
+  // Bouml preserved body end 00095771
+}
+
+void ApproveProtectedParameters::getParameter(int& parameter) const {
+  // Bouml preserved body begin 000957F1
+    parameter = this->value;
+  // Bouml preserved body end 000957F1
+}
+
+void ApproveProtectedParameters::setParameter(const int parameter) {
+  // Bouml preserved body begin 00095871
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+    this->value = parameter;
+  // Bouml preserved body end 00095871
+}
+
+void ApproveProtectedParameters::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
+  // Bouml preserved body begin 000958F1
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 248; //ApproveProtectedParameters
+    message.stctOutput.value = value;
+  // Bouml preserved body end 000958F1
+}
+
+void ApproveProtectedParameters::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
+  // Bouml preserved body begin 00095971
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+      this->value = message.stctInput.value;
+    }
+  // Bouml preserved body end 00095971
 }
 
 EncoderNullPolarity::EncoderNullPolarity() {

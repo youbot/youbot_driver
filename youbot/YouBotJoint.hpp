@@ -156,6 +156,16 @@ class YouBotJoint : public Joint {
     ///@param data returns the actual motor current by reference
     virtual void getData(JointSensedCurrent& data);
 
+    ///commands a current to one joint
+    ///@param data the to command current
+    ///@param communicationMode at the moment only non blocking communication is implemented
+    virtual void setData(const JointCurrentSetpoint& data, SyncMode communicationMode = NON_BLOCKING);
+
+    ///commands a pulse-width modulation to one joint
+    ///@param data the to command pulse-width modulation
+    ///@param communicationMode at the moment only non blocking communication is implemented
+    virtual void setData(const JointPWMSetpoint& data, SyncMode communicationMode = NON_BLOCKING);
+
 
   private:
     void parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer);

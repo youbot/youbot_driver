@@ -498,6 +498,30 @@ void YouBotJoint::getData(JointSensedCurrent& data) {
   // Bouml preserved body end 0003DDF1
 }
 
+///commands a current to one joint
+///@param data the to command current
+///@param communicationMode at the moment only non blocking communication is implemented
+void YouBotJoint::setData(const JointCurrentSetpoint& data, SyncMode communicationMode) {
+  // Bouml preserved body begin 000955F1
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer.stctOutput.controllerMode = CURRENT_MODE;
+    messageBuffer.stctOutput.positionOrSpeed = (int32) data.current.value() * 1000.0;  //convert from Ampere to milli Ampere
+    EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+  // Bouml preserved body end 000955F1
+}
+
+///commands a pulse-width modulation to one joint
+///@param data the to command pulse-width modulation
+///@param communicationMode at the moment only non blocking communication is implemented
+void YouBotJoint::setData(const JointPWMSetpoint& data, SyncMode communicationMode) {
+  // Bouml preserved body begin 00095671
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer.stctOutput.controllerMode = PWM_MODE;
+    messageBuffer.stctOutput.positionOrSpeed = data.pwm;
+    EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+  // Bouml preserved body end 00095671
+}
+
 void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
   // Bouml preserved body begin 00044AF1
     std::stringstream errorMessageStream;
@@ -587,7 +611,11 @@ void YouBotJoint::parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailboxMs
       //    throw JointParameterException(errorMessage + "configuration EEPROM locked");
         break;
       case COMMAND_NOT_AVAILABLE:
-        LOG(error) << errorMessage << "Parameter name: " << mailboxMsg.parameterName << "; Command no: " << mailboxMsg.stctInput.commandNumber << "Command is not available!";
+        LOG(error) << errorMessage << "Parameter name: " << mailboxMsg.parameterName << "; Command no: " << mailboxMsg.stctInput.commandNumber << " Command is not available!";
+      //    throw JointParameterException(errorMessage + "command not available");
+        break;
+      case REPLY_WRITE_PROTECTED:
+        LOG(error) << errorMessage << "Parameter name: " << mailboxMsg.parameterName << "; Command no: " << mailboxMsg.stctInput.commandNumber << " Permissions denied!";
       //    throw JointParameterException(errorMessage + "command not available");
         break;
     }

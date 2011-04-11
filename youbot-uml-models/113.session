@@ -1,18 +1,9 @@
 window_sizes 1680 975 518 1156 894 0
-diagrams
-  active  classdiagram_ref 141681 // JointParameter
-    918 711 100 1 216 0
-end
 show_stereotypes
-selected class_ref 286193 // YouBotBase
+selected class_ref 348017 // ApproveProtectedParameters
 open
   classview_ref 134641 // Joint
-  classview_ref 154225 // JointData
   classview_ref 154353 // JointParameter
-  classview_ref 167537 // YouBotJointParameterReadOnly
-  classview_ref 160881 // YouBot
-  classview_ref 147697 // BaseKinematic
-  class_ref 218097 // OneDOFGripperData
-  classview_ref 161009 // GripperParameter
+  deploymentview_ref 161137 // Deployment
 end
 end

@@ -1,0 +1,15 @@
+class InitializeJoint
+!!!610673.cpp!!!	InitializeJoint()
+    this->name = "InitializeJoint";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!610929.cpp!!!	getParameter(out parameter : bool) : void
+    parameter = this->value;
+!!!611057.cpp!!!	setParameter(in parameter : bool) : void
+    this->value = parameter;
+!!!611185.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, inout msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 15; //Initialize BLDC
+    message.stctOutput.value = (int)this->value;
+!!!611313.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
+    this->value = message.stctInput.value;

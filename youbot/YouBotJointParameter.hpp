@@ -355,6 +355,37 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
+/// Initialize Joint
+///////////////////////////////////////////////////////////////////////////////
+class InitializeJoint : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    InitializeJoint();
+
+    virtual ~InitializeJoint();
+
+    void getParameter(bool& parameter) const;
+
+    void setParameter(const bool parameter);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    bool value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
 /// The maximum velocity used for move to position command when executing a ramp to a position. In sensorless commutation mode the velocity threshold for hallFX.
 ///////////////////////////////////////////////////////////////////////////////
 class MaximumPositioningVelocity : public YouBotJointParameter {
@@ -2304,6 +2335,41 @@ friend class YouBotJoint;
     SineCompensationFactor();
 
     virtual ~SineCompensationFactor();
+
+    void getParameter(int& parameter) const;
+
+    void setParameter(const int parameter);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    int upperLimit;
+
+    int lowerLimit;
+
+    int value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// Enter a password to approve the change of protected parameters.
+///////////////////////////////////////////////////////////////////////////////
+class ApproveProtectedParameters : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    ApproveProtectedParameters();
+
+    virtual ~ApproveProtectedParameters();
 
     void getParameter(int& parameter) const;
 

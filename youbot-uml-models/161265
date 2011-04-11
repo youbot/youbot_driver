@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 39
+  revision 40
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -531,6 +531,7 @@ ${namespace_end}"
 	class_ref 273009 // JointLimits
 	class_ref 279537 // StopJoint
 	class_ref 279665 // NoMoreAction
+	class_ref 347761 // InitializeJoint
 	class_ref 245105 // MaximumPositioningVelocity
 	class_ref 310513 // PWMLimit
 	class_ref 293233 // MaximumMotorCurrent
@@ -588,6 +589,7 @@ ${namespace_end}"
 	class_ref 321265 // ActivateOvervoltageProtection
 	class_ref 321393 // MaximumPWMChangePerPIDInterval
 	class_ref 321521 // SineCompensationFactor
+	class_ref 348017 // ApproveProtectedParameters
 	class_ref 321649 // EncoderNullPolarity
 	class_ref 296561 // MotorContollerGearRatio
 	class_ref 296305 // CommutationMode
@@ -752,6 +754,7 @@ ${description}
 #include \"generic/Exceptions.hpp\"
 #include \"youbot/YouBotJoint.hpp\"
 #include \"youbot/EthercatMaster.hpp\"
+#include \"youbot/YouBotJointParameter.hpp\"
 #include \"base-kinematic/FourSwedishWheelOmniBaseKinematic.hpp\"
 #include \"base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.hpp\"
 ${namespace_start}

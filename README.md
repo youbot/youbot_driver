@@ -55,7 +55,7 @@ Now you should be able to compile the youBot API.
     cmake ..
     make
 
-The binaries will be generated in the folder ~/youbot_driver/bin. The libraries will be generated in the folder ~/youbot_driver/lib.
+The library will be generated in the folder ~/youbot_driver/lib.
 
 
 If you do not want to do these steps manually, please use robotpkg.

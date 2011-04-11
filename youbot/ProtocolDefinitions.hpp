@@ -101,7 +101,10 @@ enum YouBotJointControllerMode {
     POSITION_CONTROL = 1,
     VELOCITY_CONTROL = 2,
     NO_MORE_ACTION = 3,
-    SET_POSITION_TO_REFERENCE = 4
+    SET_POSITION_TO_REFERENCE = 4,
+    PWM_MODE = 5,
+    CURRENT_MODE = 6,
+    INITIALIZE = 7
 };
 
 enum TMCLModuleAddress {
@@ -109,7 +112,7 @@ enum TMCLModuleAddress {
     GRIPPER = 1
 };
 
-enum YouBotErrorFlags {
+enum ProcessDataErrorFlags {
     OVER_CURRENT = 1,
     UNDER_VOLTAGE = 2,
     OVER_VOLTAGE = 4,
@@ -120,8 +123,26 @@ enum YouBotErrorFlags {
     MOTOR_WINDING = 128,
     CYCLE_TIME_VIOLATION = 256,
     INIT_SIN_COMM = 512,
-    POSITION_MODE = 1024,
-    POSITION_REACHED = 2048
+};
+
+
+enum MailboxErrorFlags {
+    MX_OVER_CURRENT = 1,
+    MX_UNDER_VOLTAGE = 2,
+    MX_OVER_VOLTAGE = 4,
+    MX_OVER_TEMPERATURE = 8,
+    MX_MOTOR_HALTED = 16,
+    MX_HALL_SENSOR_ERROR = 32,
+    MX_ENCODER_ERROR = 64,
+    MX_INITIALIZATION_ERROR = 128,
+    MX_PWM_MODE = 256,
+    MX_VELOCITY_MODE = 1024,
+    MX_POSITION_MODE = 2048,
+    MX_TORQUE_MODE = 4096,
+    MX_EMERGENCY_STOP = 8192,
+    MX_FREERUNNING = 16384,
+    MX_POSITION_REACHED = 32768,
+    MX_INITIALIZED = 65536
 };
 
 
@@ -131,7 +152,8 @@ enum YouBotMailboxStatusFlags {
     WRONG_TYPE = 3,
     INVALID_VALUE = 4,
     CONFIGURATION_EEPROM_LOCKED = 5,
-    COMMAND_NOT_AVAILABLE = 6
+    COMMAND_NOT_AVAILABLE = 6,
+    REPLY_WRITE_PROTECTED = 8
 };
 
 

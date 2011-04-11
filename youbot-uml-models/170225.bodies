@@ -315,6 +315,16 @@ class YouBotJoint
     this->parseYouBotErrorFlags(messageBuffer);
     //convert mili ampere to ampere
     data.current = messageBuffer.stctInput.actualCurrent / 1000.0 * ampere;
+!!!611825.cpp!!!	setData(in data : JointCurrentSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer.stctOutput.controllerMode = CURRENT_MODE;
+    messageBuffer.stctOutput.positionOrSpeed = (int32) data.current.value() * 1000.0;  //convert from Ampere to milli Ampere
+    EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+!!!611953.cpp!!!	setData(in data : JointPWMSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer.stctOutput.controllerMode = PWM_MODE;
+    messageBuffer.stctOutput.positionOrSpeed = data.pwm;
+    EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
 !!!281329.cpp!!!	parseYouBotErrorFlags(in messageBuffer : YouBotSlaveMsg) : void
     std::stringstream errorMessageStream;
     errorMessageStream << "Joint " << this->jointNumber << " ";
@@ -399,7 +409,11 @@ class YouBotJoint
       //    throw JointParameterException(errorMessage + "configuration EEPROM locked");
         break;
       case COMMAND_NOT_AVAILABLE:
-        LOG(error) << errorMessage << "Parameter name: " << mailboxMsg.parameterName << "; Command no: " << mailboxMsg.stctInput.commandNumber << "Command is not available!";
+        LOG(error) << errorMessage << "Parameter name: " << mailboxMsg.parameterName << "; Command no: " << mailboxMsg.stctInput.commandNumber << " Command is not available!";
+      //    throw JointParameterException(errorMessage + "command not available");
+        break;
+      case REPLY_WRITE_PROTECTED:
+        LOG(error) << errorMessage << "Parameter name: " << mailboxMsg.parameterName << "; Command no: " << mailboxMsg.stctInput.commandNumber << " Permissions denied!";
       //    throw JointParameterException(errorMessage + "command not available");
         break;
     }

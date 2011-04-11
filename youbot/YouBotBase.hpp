@@ -61,6 +61,7 @@
 #include "generic/Exceptions.hpp"
 #include "youbot/YouBotJoint.hpp"
 #include "youbot/EthercatMaster.hpp"
+#include "youbot/YouBotJointParameter.hpp"
 #include "base-kinematic/FourSwedishWheelOmniBaseKinematic.hpp"
 #include "base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.hpp"
 namespace youbot {

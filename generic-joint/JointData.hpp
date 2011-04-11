@@ -142,6 +142,14 @@ class JointTorqueSetpoint : public JointDataSetpoint {
     quantity<si::torque> torque;
 
 };
+///////////////////////////////////////////////////////////////////////////////
+/// Pulse-width modulation set-point of the joint
+///////////////////////////////////////////////////////////////////////////////
+class JointPWMSetpoint : public JointDataSetpoint {
+  public:
+    int pwm;
+
+};
 
 } // namespace youbot
 #endif

@@ -178,63 +178,83 @@ void ErrorAndStatus::parseYouBotErrorFlags() const {
    // errorMessage = errorMessageStream.str();
 
 
-    if (value & OVER_CURRENT) {
-      LOG(error) << errorMessage << "got over current";
+    if (value & MX_OVER_CURRENT) {
+      LOG(error) << errorMessage << "over current";
       //    throw JointErrorException(errorMessage + "got over current");
     }
 
-    if (value & UNDER_VOLTAGE) {
-      LOG(error) << errorMessage << "got under voltage";
+    if (value & MX_UNDER_VOLTAGE) {
+      LOG(error) << errorMessage << "under voltage";
       //    throw JointErrorException(errorMessage + "got under voltage");
     }
 
-    if (value & OVER_VOLTAGE) {
-      LOG(error) << errorMessage << "got over voltage";
+    if (value & MX_OVER_VOLTAGE) {
+      LOG(error) << errorMessage << "over voltage";
       //   throw JointErrorException(errorMessage + "got over voltage");
     }
 
-    if (value & OVER_TEMPERATURE) {
-      LOG(error) << errorMessage << "got over temperature";
+    if (value & MX_OVER_TEMPERATURE) {
+      LOG(error) << errorMessage << "over temperature";
       //   throw JointErrorException(errorMessage + "got over temperature");
     }
 
-    if (value & HALTED) {
+    if (value & MX_MOTOR_HALTED) {
       LOG(info) << errorMessage << "is halted";
       //   throw JointErrorException(errorMessage + "is halted");
     }
 
-    if (value & HALL_SENSOR) {
-      LOG(error) << errorMessage << "got hall sensor problem";
+    if (value & MX_HALL_SENSOR_ERROR) {
+      LOG(error) << errorMessage << "hall sensor problem";
       //   throw JointErrorException(errorMessage + "got hall sensor problem");
     }
 
-    if (value & ENCODER) {
-      LOG(error) << errorMessage << "got encoder problem";
+    if (value & MX_ENCODER_ERROR) {
+      LOG(error) << errorMessage << "encoder problem";
       //   throw JointErrorException(errorMessage + "got encoder problem");
     }
 
-    if (value & MOTOR_WINDING) {
-      LOG(error) << errorMessage << "got motor winding problem";
+    if (value & MX_INITIALIZATION_ERROR) {
+      LOG(error) << errorMessage << "inizialization problem";
       //   throw JointErrorException(errorMessage + "got motor winding problem");
     }
 
-    if (value & CYCLE_TIME_VIOLATION) {
-      LOG(error) << errorMessage << "the cycle time is violated";
+    if (value & MX_PWM_MODE) {
+      LOG(error) << errorMessage << "PWM mode active";
       //   throw JointErrorException(errorMessage + "the cycle time is violated");
     }
 
-    if (value & INIT_SIN_COMM) {
-      LOG(error) << errorMessage << "need to initialize the sinus commutation";
+    if (value & MX_VELOCITY_MODE) {
+      LOG(error) << errorMessage << "velocity mode active";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
-    if (value & POSITION_MODE) {
+    if (value & MX_POSITION_MODE) {
       LOG(info) << errorMessage << "position mode active";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
-    if (value & POSITION_REACHED) {
+    if (value & MX_TORQUE_MODE) {
+      LOG(info) << errorMessage << "torque mode active";
+      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+    }
+
+    if (value & MX_EMERGENCY_STOP) {
+      LOG(info) << errorMessage << "emergency stop active";
+      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+    }
+
+    if (value & MX_FREERUNNING) {
+      LOG(info) << errorMessage << "freerunning active";
+      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+    }
+
+    if (value & MX_POSITION_REACHED) {
       LOG(info) << errorMessage << "position reached";
+      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+    }
+
+    if (value & MX_INITIALIZED) {
+      LOG(info) << errorMessage << "is initialized";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
