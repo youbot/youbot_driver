@@ -224,6 +224,8 @@ friend class YouBotGripper;
 
     std::vector<MotorProtection> motorProtections;
 
+    std::vector<bool> pendingMailboxMsgsReply;
+
 };
 
 } // namespace youbot

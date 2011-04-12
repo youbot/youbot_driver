@@ -353,6 +353,7 @@ void EthercatMaster::initializeEthercat() {
         newMailboxDataFlagTwo.push_back(false);
         newMailboxInputDataFlagOne.push_back(false);
         newMailboxInputDataFlagTwo.push_back(false);
+        pendingMailboxMsgsReply.push_back(false);
         if (actualSlaveName == baseJointControllerName) {
           motorProtections.push_back(MotorProtection(maxContinuousCurrentBase,
                   thermalTimeConstantWindingBase,
@@ -407,6 +408,12 @@ bool EthercatMaster::closeEthercat() {
     stopThread = true;
 
     threads.join_all();
+
+   // Request safe operational state for all slaves
+    ec_slave[0].state = EC_STATE_SAFE_OP;
+
+    /* request SAFE_OP state for all slaves */
+    ec_writestate(0);
 
     //stop SOEM, close socket
     ec_close();
@@ -579,7 +586,16 @@ void EthercatMaster::updateSensorActorValues() {
     quantity<si::current> actualCurrent = 0 * ampere;
     YouBotSlaveMsg stopMotorCommand;
 
+  //  ptime startTime;
+  //  time_duration totalTime;
+  //  int counter = 0;
+  //  time_duration timeSum;
+  //  timeSum = startTime - startTime;
+
+
     while (!stopThread) {
+   //   totalTime = microsec_clock::local_time() - startTime;
+   //   startTime = microsec_clock::local_time();
 
       if (ec_iserror())
         LOG(info) << "there is an error in the soem driver";
@@ -588,10 +604,12 @@ void EthercatMaster::updateSensorActorValues() {
         {
           boost::mutex::scoped_lock dataMutex1(mutexDataOne);
           for (unsigned int i = 0; i < firstBufferVector.size(); i++) {
+            
             //fill first output buffer (send data)
             if (newOutputDataFlagOne[i]) {
               *(ethercatOutputBufferVector[i]) = (firstBufferVector[i]).stctOutput;
             }
+           
             //fill first input buffer (receive data)
             (firstBufferVector[i]).stctInput = *(ethercatInputBufferVector[i]);
 
@@ -604,11 +622,17 @@ void EthercatMaster::updateSensorActorValues() {
             if (newMailboxDataFlagOne[i]) {
               sendMailboxMessage(firstMailboxBufferVector[i]);
               newMailboxDataFlagOne[i] = false;
+              pendingMailboxMsgsReply[i] = true;
             }
+            
             //receive mailbox messages to first buffer
-            if (receiveMailboxMessage(firstMailboxBufferVector[i])) {
-              newMailboxInputDataFlagOne[i] = true;
+            if(pendingMailboxMsgsReply[i]){
+              if (receiveMailboxMessage(firstMailboxBufferVector[i])) {
+                newMailboxInputDataFlagOne[i] = true;
+                pendingMailboxMsgsReply[i] = false;
+              }
             }
+            
           }
 
         }
@@ -619,6 +643,7 @@ void EthercatMaster::updateSensorActorValues() {
         {
           boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
           for (unsigned int i = 0; i < secondBufferVector.size(); i++) {
+            
             //fill second output buffer (send data)
             if (newOutputDataFlagTwo[i]) {
               *(ethercatOutputBufferVector[i]) = (secondBufferVector[i]).stctOutput;
@@ -635,17 +660,21 @@ void EthercatMaster::updateSensorActorValues() {
             if (newMailboxDataFlagTwo[i]) {
               sendMailboxMessage(secondMailboxBufferVector[i]);
               newMailboxDataFlagTwo[i] = false;
+              pendingMailboxMsgsReply[i] = true;
             }
+             
             //receive mailbox messages to second buffer
-            if (receiveMailboxMessage(secondMailboxBufferVector[i])) {
-              newMailboxInputDataFlagTwo[i] = true;
+            if(pendingMailboxMsgsReply[i]){
+              if (receiveMailboxMessage(secondMailboxBufferVector[i])) {
+                newMailboxInputDataFlagTwo[i] = true;
+                pendingMailboxMsgsReply[i] = false;
+              }
             }
           }
         }
         newDataFlagTwo = true;
         newDataFlagOne = false;
       }
-
 
       // int cnt = 7;
       //  printf("activeports:%i DCrtA:%i DCrtB:%d DCrtC:%d DCrtD:%d\n", (int)ec_slave[cnt].activeports, ec_slave[cnt].DCrtA, ec_slave[cnt].DCrtB, ec_slave[cnt].DCrtC, ec_slave[cnt].DCrtD);
@@ -662,12 +691,25 @@ void EthercatMaster::updateSensorActorValues() {
         LOG(error) << "Sending process data failed";
         //  throw std::runtime_error("Sending process data failed");
       }
+
       if (ec_receive_processdata(this->ethercatTimeout) == 0) {
         LOG(error) << "Receiving data failed";
         //   throw std::runtime_error("Receiving data failed");
       }
 
-      boost::this_thread::sleep(boost::posix_time::milliseconds(timeTillNextEthercatUpdate));
+
+/*
+      counter++;
+      timeSum  = timeSum + totalTime;
+      if(counter == 100){
+
+        double dtotaltime = (double)timeSum.total_microseconds()/counter;
+        printf("TotalTime %7lf us\r", dtotaltime);
+        counter = 0;
+        timeSum = startTime - startTime;
+      }
+*/
+  //    boost::this_thread::sleep(boost::posix_time::milliseconds(timeTillNextEthercatUpdate));
     }
   // Bouml preserved body end 0003F771
 }

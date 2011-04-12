@@ -24,7 +24,7 @@ namespace youbot {
     // Construct a ConfigFile, getting keys and values from given file
     std::ifstream in(filepath.c_str());
 
-    if (!in) throw FileNotFoundException(filename);
+    if (!in) throw FileNotFoundException(filepath);
 
     in >> (*this);
   }
