@@ -55,8 +55,8 @@ namespace youbot {
 YouBotGripper::YouBotGripper(const unsigned int jointNo) {
   // Bouml preserved body begin 0005EFF1
     this->jointNumber = jointNo;
-    this->mailboxMsgRetries = 30;
-    this->timeTillNextMailboxUpdate = EthercatMaster::getInstance().timeTillNextEthercatUpdate * 2;
+    this->mailboxMsgRetries = 100;
+    this->timeTillNextMailboxUpdate = 1; //ms
     this->maxTravelDistance = 0.023 * meter;
     this->maxEncoderValue = 67000;
     this->barSpacingOffset = 0 * meter;

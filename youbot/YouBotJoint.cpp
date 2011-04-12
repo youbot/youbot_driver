@@ -55,8 +55,8 @@ namespace youbot {
 YouBotJoint::YouBotJoint(unsigned int jointNo) {
   // Bouml preserved body begin 000412F1
     this->jointNumber = jointNo;
-    timeTillNextMailboxUpdate = EthercatMaster::getInstance().timeTillNextEthercatUpdate * 2;
-    mailboxMsgRetries = 30;
+    timeTillNextMailboxUpdate = 1; //ms
+    mailboxMsgRetries = 100;
     this->storage.inverseMovementDirection = false;
     this->storage.lowerLimit = 0;
     this->storage.upperLimit = 0;
