@@ -380,7 +380,8 @@ void YouBotBase::initializeKinematic() {
 void YouBotBase::doJointCommutation() {
   // Bouml preserved body begin 0008A9F1
     LOG(info) << "Base Joint Commutation";
-
+/*
+ *  //for future initialization
     InitializeJoint doInitialization;
     bool isInitialized = false;
 
@@ -394,32 +395,32 @@ void YouBotBase::doJointCommutation() {
     doInitialization.setParameter(false);
     this->getBaseJoint(1).getConfigurationParameter(doInitialization);
     doInitialization.getParameter(isInitialized);
-    if(isInitialized){
+    if(!isInitialized){
       throw std::runtime_error("Unable to do sinus commutation for base joint 1");
     }
 
     doInitialization.setParameter(false);
     this->getBaseJoint(2).getConfigurationParameter(doInitialization);
     doInitialization.getParameter(isInitialized);
-    if(isInitialized){
+    if(!isInitialized){
       throw std::runtime_error("Unable to do sinus commutation for base joint 2");
     }
 
     doInitialization.setParameter(false);
     this->getBaseJoint(3).getConfigurationParameter(doInitialization);
     doInitialization.getParameter(isInitialized);
-    if(isInitialized){
+    if(!isInitialized){
       throw std::runtime_error("Unable to do sinus commutation for base joint 3");
     }
 
     doInitialization.setParameter(false);
     this->getBaseJoint(4).getConfigurationParameter(doInitialization);
     doInitialization.getParameter(isInitialized);
-    if(isInitialized){
+    if(!isInitialized){
       throw std::runtime_error("Unable to do sinus commutation for base joint 4");
     }
-
-    /*
+*/
+    
     quantity<si::velocity> longitudinalVelocity = 0.0 * meter_per_second;
     quantity<si::velocity> transversalVelocity = 0.0 * meter_per_second;
     quantity<si::angular_velocity> angularVelocity = 0.1 * radian_per_second;
@@ -428,7 +429,7 @@ void YouBotBase::doJointCommutation() {
     SLEEP_MILLISEC(500);
     angularVelocity = 0 * radian_per_second;
     this->setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
-    */
+    
   // Bouml preserved body end 0008A9F1
 }
 

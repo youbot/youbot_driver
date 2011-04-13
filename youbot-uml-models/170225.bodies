@@ -1,8 +1,8 @@
 class YouBotJoint
 !!!266993.cpp!!!	YouBotJoint(in jointNo : uint)
     this->jointNumber = jointNo;
-    timeTillNextMailboxUpdate = EthercatMaster::getInstance().timeTillNextEthercatUpdate * 2;
-    mailboxMsgRetries = 30;
+    timeTillNextMailboxUpdate = 1; //ms
+    mailboxMsgRetries = 100;
     this->storage.inverseMovementDirection = false;
     this->storage.lowerLimit = 0;
     this->storage.upperLimit = 0;

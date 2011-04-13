@@ -1,9 +1,8 @@
-window_sizes 1680 975 518 1156 894 0
+window_sizes 1272 722 518 748 639 0
 show_stereotypes
-selected class_ref 348017 // ApproveProtectedParameters
+selected attribute_ref 577265 // pendingMailboxMsgsReply
 open
   classview_ref 134641 // Joint
-  classview_ref 154353 // JointParameter
-  deploymentview_ref 161137 // Deployment
+  class_ref 190577 // EthercatMaster
 end
 end

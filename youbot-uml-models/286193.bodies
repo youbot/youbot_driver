@@ -239,7 +239,8 @@ class YouBotBase
     youBotBaseKinematic.setConfiguration(kinematicConfig);
 !!!567793.cpp!!!	doJointCommutation() : void
     LOG(info) << "Base Joint Commutation";
-
+/*
+ *  //for future initialization
     InitializeJoint doInitialization;
     bool isInitialized = false;
 
@@ -253,32 +254,32 @@ class YouBotBase
     doInitialization.setParameter(false);
     this->getBaseJoint(1).getConfigurationParameter(doInitialization);
     doInitialization.getParameter(isInitialized);
-    if(isInitialized){
+    if(!isInitialized){
       throw std::runtime_error("Unable to do sinus commutation for base joint 1");
     }
 
     doInitialization.setParameter(false);
     this->getBaseJoint(2).getConfigurationParameter(doInitialization);
     doInitialization.getParameter(isInitialized);
-    if(isInitialized){
+    if(!isInitialized){
       throw std::runtime_error("Unable to do sinus commutation for base joint 2");
     }
 
     doInitialization.setParameter(false);
     this->getBaseJoint(3).getConfigurationParameter(doInitialization);
     doInitialization.getParameter(isInitialized);
-    if(isInitialized){
+    if(!isInitialized){
       throw std::runtime_error("Unable to do sinus commutation for base joint 3");
     }
 
     doInitialization.setParameter(false);
     this->getBaseJoint(4).getConfigurationParameter(doInitialization);
     doInitialization.getParameter(isInitialized);
-    if(isInitialized){
+    if(!isInitialized){
       throw std::runtime_error("Unable to do sinus commutation for base joint 4");
     }
-
-    /*
+*/
+    
     quantity<si::velocity> longitudinalVelocity = 0.0 * meter_per_second;
     quantity<si::velocity> transversalVelocity = 0.0 * meter_per_second;
     quantity<si::angular_velocity> angularVelocity = 0.1 * radian_per_second;
@@ -287,4 +288,4 @@ class YouBotBase
     SLEEP_MILLISEC(500);
     angularVelocity = 0 * radian_per_second;
     this->setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
-    */
+    

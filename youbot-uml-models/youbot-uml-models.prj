@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 146
+  revision 148
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -18583,6 +18583,16 @@ friend class YouBotGripper;" ""
 
       attribute 521329 "motorProtections"
 	private explicit_type "std::vector<MotorProtection>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 577265 "pendingMailboxMsgsReply"
+	private explicit_type "std::vector<bool>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
