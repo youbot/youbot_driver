@@ -53,9 +53,9 @@ add_subdirectory(youbot)
 #add_subdirectory(testing)
 
 
-ADD_EXECUTABLE(YouBot_test
-  ${CMAKE_HOME_DIRECTORY}/Test.cpp
-)
+#ADD_EXECUTABLE(YouBot_test
+#  ${CMAKE_HOME_DIRECTORY}/Test.cpp
+#)
 
-target_link_libraries(YouBot_test YouBotDriver)
+#target_link_libraries(YouBot_test YouBotDriver)
 
