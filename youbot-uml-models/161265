@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 40
+  revision 42
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -521,9 +521,10 @@ ${namespace_start}
 ${members}
 ${namespace_end}"
       associated_classes
-	class_ref 266481 // CalibrationDirection
 	class_ref 238577 // YouBotJointParameter
 	class_ref 251889 // JointName
+	class_ref 354545 // FirmwareVersion
+	class_ref 266481 // CalibrationDirection
 	class_ref 251761 // GearRatio
 	class_ref 252017 // EncoderTicksPerRound
 	class_ref 252145 // InverseMovementDirection

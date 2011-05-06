@@ -72,7 +72,8 @@ typedef enum TMCLCommandNumber {
   GIO = 15,
   SCO = 30,
   GCO = 31,
-  CCO = 32
+  CCO = 32,
+  FIRMWARE_VERSION = 136
 } CommandNumber;
 
 

@@ -85,6 +85,45 @@ void JointName::setParameter(const std::string parameter) {
   // Bouml preserved body end 0005C271
 }
 
+FirmwareVersion::FirmwareVersion() {
+  // Bouml preserved body begin 00098D71
+    this->name = "FirmwareVersion";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 00098D71
+}
+
+FirmwareVersion::~FirmwareVersion() {
+  // Bouml preserved body begin 00098DF1
+  // Bouml preserved body end 00098DF1
+}
+
+void FirmwareVersion::getParameter(std::string& parameter) const {
+  // Bouml preserved body begin 00098E71
+    parameter = this->value;
+  // Bouml preserved body end 00098E71
+}
+
+void FirmwareVersion::setParameter(const std::string parameter) {
+  // Bouml preserved body begin 00098EF1
+    this->value = parameter;
+  // Bouml preserved body end 00098EF1
+}
+
+void FirmwareVersion::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
+  // Bouml preserved body begin 00098F71
+    message.stctOutput.commandNumber = FIRMWARE_VERSION;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 0;
+    message.stctOutput.value = 0;
+  // Bouml preserved body end 00098F71
+}
+
+void FirmwareVersion::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
+  // Bouml preserved body begin 00098FF1
+    this->value = message.stctInput.value;
+  // Bouml preserved body end 00098FF1
+}
+
 GearRatio::GearRatio() {
   // Bouml preserved body begin 0005BDF1
     this->name = "GearRatio";
@@ -1309,13 +1348,13 @@ DParameterFirstParametersSpeedControl::~DParameterFirstParametersSpeedControl() 
   // Bouml preserved body end 0006BE71
 }
 
-void DParameterFirstParametersSpeedControl::getParameter(unsigned int& parameter) const {
+void DParameterFirstParametersSpeedControl::getParameter(int& parameter) const {
   // Bouml preserved body begin 0006BEF1
     parameter = this->value;
   // Bouml preserved body end 0006BEF1
 }
 
-void DParameterFirstParametersSpeedControl::setParameter(const unsigned int parameter) {
+void DParameterFirstParametersSpeedControl::setParameter(const int parameter) {
   // Bouml preserved body begin 0006BF71
     if (this->lowerLimit > parameter) {
       throw std::out_of_range("The parameter exceeds the lower limit");

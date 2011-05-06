@@ -1,0 +1,15 @@
+class FirmwareVersion
+!!!626033.cpp!!!	FirmwareVersion()
+    this->name = "FirmwareVersion";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!626289.cpp!!!	getParameter(out parameter : string) : void
+    parameter = this->value;
+!!!626417.cpp!!!	setParameter(in parameter : string) : void
+    this->value = parameter;
+!!!626545.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
+    message.stctOutput.commandNumber = FIRMWARE_VERSION;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 0;
+    message.stctOutput.value = 0;
+!!!626673.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
+    this->value = message.stctInput.value;

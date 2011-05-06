@@ -89,10 +89,11 @@ void YouBotJoint::getConfigurationParameter(YouBotJointParameterReadOnly& parame
       YouBotSlaveMailboxMsg message;
       parameter.getYouBotMailboxMsg(message, GAP, storage);
 
+      message.parameterName = parameter.getName();
       if (retrieveValueFromMotorContoller(message)) {
         parameter.setYouBotMailboxMsg(message, storage);
       } else {
-        throw JointParameterException("Unable to get parameter: " + parameter.getName() + " to joint: " + this->jointName);
+        throw JointParameterException("Unable to get parameter: " + parameter.getName() + " from joint: " + this->jointName);
       }
     }
   // Bouml preserved body end 00071FF1
@@ -105,10 +106,11 @@ void YouBotJoint::getConfigurationParameter(YouBotJointParameter& parameter) {
       YouBotSlaveMailboxMsg message;
       parameter.getYouBotMailboxMsg(message, GAP, storage);
 
+      message.parameterName = parameter.getName();
       if (retrieveValueFromMotorContoller(message)) {
         parameter.setYouBotMailboxMsg(message, storage);
       } else {
-        throw JointParameterException("Unable to get parameter: " + parameter.getName() + " to joint: " + this->jointName);
+        throw JointParameterException("Unable to get parameter: " + parameter.getName() + " from joint: " + this->jointName);
       }
     }
   // Bouml preserved body end 0005BCF1
@@ -121,6 +123,7 @@ void YouBotJoint::setConfigurationParameter(const YouBotJointParameter& paramete
       YouBotSlaveMailboxMsg message;
       parameter.getYouBotMailboxMsg(message, SAP, storage);
 
+      message.parameterName = parameter.getName();
       if (!setValueToMotorContoller(message)) {
         throw JointParameterException("Unable to set parameter: " + parameter.getName() + " to joint: " + this->jointName);
       }
@@ -323,6 +326,46 @@ void YouBotJoint::setConfigurationParameter(const NoMoreAction& parameter) {
   // Bouml preserved body end 000664F1
 }
 
+void YouBotJoint::setConfigurationParameter(const InitializeJoint& parameter) {
+  // Bouml preserved body begin 000973F1
+    if (parameter.value) {
+      YouBotSlaveMsg messageBuffer;
+      messageBuffer.stctOutput.controllerMode = INITIALIZE;
+      messageBuffer.stctOutput.positionOrSpeed = 0;
+
+      EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+    }
+  // Bouml preserved body end 000973F1
+}
+
+void YouBotJoint::getConfigurationParameter(FirmwareVersion& parameter) {
+  // Bouml preserved body begin 0009AA71
+
+    YouBotSlaveMailboxMsg message;
+    std::string firmwareVersion;
+    parameter.getYouBotMailboxMsg(message, GAP, storage);
+
+    EthercatMaster::getInstance().setMailboxMsgBuffer(message, this->jointNumber);
+
+    SLEEP_MILLISEC(timeTillNextMailboxUpdate + 5);
+
+    EthercatMaster::getInstance().getMailboxMsgBuffer(message, this->jointNumber);
+    char versionString[8] = {0};
+    versionString[0] = message.stctInput.replyAddress;
+    versionString[1] = message.stctInput.moduleAddress;
+    versionString[2] = message.stctInput.status;
+    versionString[3] = message.stctInput.commandNumber;
+    versionString[4] = message.stctInput.value >> 24;
+    versionString[5] = message.stctInput.value >> 16;
+    versionString[6] = message.stctInput.value >> 8;
+    versionString[7] = message.stctInput.value & 0xff;
+    firmwareVersion = versionString;
+    parameter.setParameter(firmwareVersion);
+
+    return;
+  // Bouml preserved body end 0009AA71
+}
+
 ///stores the joint parameter permanent in the EEPROM of the motor contoller
 ///Attentions: The EEPROM has only a finite number of program-erase cycles
 void YouBotJoint::storeConfigurationParameterPermanent(const YouBotJointParameter& parameter) {
@@ -350,7 +393,7 @@ void YouBotJoint::restoreConfigurationParameter(YouBotJointParameter& parameter)
       parameter.getYouBotMailboxMsg(message, RSAP, storage);
 
       if (!setValueToMotorContoller(message)) {
-        throw JointParameterException("Unable to restore parameter: " + parameter.getName() + " to joint: " + this->jointName);
+        throw JointParameterException("Unable to restore parameter: " + parameter.getName() + " at joint: " + this->jointName);
       }
 
       this->getConfigurationParameter(parameter);
@@ -636,12 +679,12 @@ bool YouBotJoint::retrieveValueFromMotorContoller(YouBotSlaveMailboxMsg& message
 
     do {
       EthercatMaster::getInstance().getMailboxMsgBuffer(message, this->jointNumber);
-      /*   LOG(trace) << "CommandNumber " << (int) message.stctInput.commandNumber
+    /*     LOG(trace) << "CommandNumber " << (int) message.stctInput.commandNumber
                  << " moduleAddress " << (int) message.stctInput.moduleAddress
                  << " replyAddress " << (int) message.stctInput.replyAddress
                  << " status " << (int) message.stctInput.status
-                 << " value " << message.stctInput.value;
-       */
+                 << " value " << message.stctInput.value; */
+       
       if (message.stctOutput.commandNumber == message.stctInput.commandNumber &&
               message.stctInput.status == NO_ERROR) {
         unvalid = false;

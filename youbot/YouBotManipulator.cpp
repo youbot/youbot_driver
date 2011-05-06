@@ -264,7 +264,7 @@ void YouBotManipulator::initializeJoints() {
     double gearRatio_numerator = 0;
     double gearRatio_denominator = 1;
     MotorContollerGearRatio contollerGearRatio;
-    contollerGearRatio.setParameter(1);
+    contollerGearRatio.setParameter(0);
 
 
     for (unsigned int i = 0; i < ARMJOINTS; i++) {
@@ -272,9 +272,15 @@ void YouBotManipulator::initializeJoints() {
       jointNameStream << "Joint_" << i + 1;
       jointName = jointNameStream.str();
 
-      //set the motor contoller gear ratio to one.
+      //check if the motor contoller gear ratio is one.
       //The gear ratio will be taken in to acount by the driver
-      joints[i].setConfigurationParameter(contollerGearRatio);
+      joints[i].getConfigurationParameter(contollerGearRatio);
+      unsigned int cGearRatio;
+      contollerGearRatio.getParameter(cGearRatio);
+      if(cGearRatio != 1){
+        throw std::runtime_error("The Motor Contoller Gear Ratio of " + jointName + " is not set to 1.");
+      }
+
 
       string name;
       configfile->readInto(name, jointName, "JointName");

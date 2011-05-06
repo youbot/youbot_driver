@@ -3,7 +3,7 @@ class EthercatMaster
 
 
     ethernetDevice = "eth0";
-    timeTillNextEthercatUpdate = 4; //msec
+    timeTillNextEthercatUpdate = 1000; //usec
     mailboxTimeout = 4000; //micro sec
     ethercatTimeout = 500; //micro sec
     stopThread = false;
@@ -22,7 +22,7 @@ class EthercatMaster
 
     // configfile.setSection("EtherCAT");
     configfile->readInto(ethernetDevice, "EtherCAT", "EthernetDevice");
-    configfile->readInto(timeTillNextEthercatUpdate, "EtherCAT", "EtherCATUpdateRate_[msec]");
+    configfile->readInto(timeTillNextEthercatUpdate, "EtherCAT", "EtherCATUpdateRate_[usec]");
     configfile->readInto(ethercatTimeout, "EtherCAT", "EtherCATTimeout_[usec]");
     configfile->readInto(mailboxTimeout, "EtherCAT", "MailboxTimeout_[usec]");
 
@@ -427,20 +427,56 @@ class EthercatMaster
     boost::posix_time::ptime now;
     quantity<si::current> actualCurrent = 0 * ampere;
     YouBotSlaveMsg stopMotorCommand;
+    long timeToWait = 0;
 
-  //  ptime startTime;
-  //  time_duration totalTime;
-  //  int counter = 0;
-  //  time_duration timeSum;
-  //  timeSum = startTime - startTime;
+    ptime startTime;
+    time_duration pastTime;
+    int counter = 0;
+    time_duration realperiode;
+    time_duration timeSum = startTime - startTime;
 
 
     while (!stopThread) {
-   //   totalTime = microsec_clock::local_time() - startTime;
-   //   startTime = microsec_clock::local_time();
 
       if (ec_iserror())
         LOG(info) << "there is an error in the soem driver";
+
+      pastTime = microsec_clock::local_time() - startTime;
+      
+      timeToWait = timeTillNextEthercatUpdate - pastTime.total_microseconds() - 100;
+
+
+      if(timeToWait < 0 || timeToWait > timeTillNextEthercatUpdate){
+     //   LOG(info) << "Missed communication period of " << timeTillNextEthercatUpdate << " microseconds it have been " << pastTime.total_microseconds() << " microseconds ";
+      }else{
+        boost::this_thread::sleep(boost::posix_time::microseconds(timeToWait));
+      }
+
+      realperiode = microsec_clock::local_time() - startTime;
+      startTime = microsec_clock::local_time();
+
+/*
+      counter++;
+      timeSum  = timeSum + realperiode;
+      if(counter == 100){
+
+        double dtotaltime = (double)timeSum.total_microseconds()/counter;
+        printf("TotalTime %7lf us\n", dtotaltime);
+        counter = 0;
+        timeSum = startTime - startTime;
+      }
+*/
+
+      //send and receive data from ethercat
+      if (ec_send_processdata() == 0) {
+        LOG(error) << "Sending process data failed";
+        //  throw std::runtime_error("Sending process data failed");
+      }
+
+      if (ec_receive_processdata(this->ethercatTimeout) == 0) {
+        LOG(error) << "Receiving data failed";
+        //   throw std::runtime_error("Receiving data failed");
+      }
 
       if (newDataFlagOne == false) {
         {
@@ -527,29 +563,4 @@ class EthercatMaster
           *(ethercatOutputBufferVector[i]) = stopMotorCommand.stctOutput;
         }
       }
-
-      //send and receive data from ethercat
-      if (ec_send_processdata() == 0) {
-        LOG(error) << "Sending process data failed";
-        //  throw std::runtime_error("Sending process data failed");
-      }
-
-      if (ec_receive_processdata(this->ethercatTimeout) == 0) {
-        LOG(error) << "Receiving data failed";
-        //   throw std::runtime_error("Receiving data failed");
-      }
-
-
-/*
-      counter++;
-      timeSum  = timeSum + totalTime;
-      if(counter == 100){
-
-        double dtotaltime = (double)timeSum.total_microseconds()/counter;
-        printf("TotalTime %7lf us\r", dtotaltime);
-        counter = 0;
-        timeSum = startTime - startTime;
-      }
-*/
-  //    boost::this_thread::sleep(boost::posix_time::milliseconds(timeTillNextEthercatUpdate));
     }

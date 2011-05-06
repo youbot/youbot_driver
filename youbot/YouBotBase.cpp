@@ -320,6 +320,7 @@ void YouBotBase::initializeJoints() {
     InverseMovementDirection inverseDir;
     MotorContollerGearRatio contollerGearRatio;
     contollerGearRatio.setParameter(1);
+    FirmwareVersion firmwareVersion;
 
     double gearRatio_numerator = 0;
     double gearRatio_denominator = 1;
@@ -330,9 +331,15 @@ void YouBotBase::initializeJoints() {
       jointName = jointNameStream.str();
       //  configfile.setSection(jointName.c_str());
 
+      joints[i].getConfigurationParameter(firmwareVersion);
+      std::string version;
+      firmwareVersion.getParameter(version);
+
       string name;
       configfile->readInto(name, jointName, "JointName");
       jName.setParameter(name);
+
+      LOG(info) << jointName << " " << name << ": Firmware version: " << version;
       configfile->readInto(gearRatio_numerator, jointName, "GearRatio_numerator");
       configfile->readInto(gearRatio_denominator, jointName, "GearRatio_denominator");
       gearRatio.setParameter(gearRatio_numerator / gearRatio_denominator);
@@ -348,9 +355,14 @@ void YouBotBase::initializeJoints() {
       joints[i].setConfigurationParameter(ticksPerRound);
       joints[i].setConfigurationParameter(inverseDir);
 
-      //set the motor contoller gear ratio to one.
+      //check if the motor contoller gear ratio is one.
       //The gear ratio will be taken in to acount by the driver
-      joints[i].setConfigurationParameter(contollerGearRatio);
+      joints[i].getConfigurationParameter(contollerGearRatio);
+      unsigned int cGearRatio;
+      contollerGearRatio.getParameter(cGearRatio);
+      if(cGearRatio != 1){
+        throw std::runtime_error("The Motor Contoller Gear Ratio of " + jointName + " is not set to 1.");
+      }
     }
 
     return;
@@ -380,18 +392,22 @@ void YouBotBase::initializeKinematic() {
 void YouBotBase::doJointCommutation() {
   // Bouml preserved body begin 0008A9F1
     LOG(info) << "Base Joint Commutation";
-/*
- *  //for future initialization
+
+   //for future initialization
     InitializeJoint doInitialization;
     bool isInitialized = false;
 
     doInitialization.setParameter(true);
 
+    EthercatMaster::getInstance().AutomaticReceiveOn(false);
     this->getBaseJoint(1).setConfigurationParameter(doInitialization);
     this->getBaseJoint(2).setConfigurationParameter(doInitialization);
     this->getBaseJoint(3).setConfigurationParameter(doInitialization);
     this->getBaseJoint(4).setConfigurationParameter(doInitialization);
+    EthercatMaster::getInstance().AutomaticReceiveOn(true);
 
+    SLEEP_MILLISEC(2500);
+    /*
     doInitialization.setParameter(false);
     this->getBaseJoint(1).getConfigurationParameter(doInitialization);
     doInitialization.getParameter(isInitialized);
@@ -419,8 +435,8 @@ void YouBotBase::doJointCommutation() {
     if(!isInitialized){
       throw std::runtime_error("Unable to do sinus commutation for base joint 4");
     }
-*/
-    
+
+    SLEEP_MILLISEC(2500);
     quantity<si::velocity> longitudinalVelocity = 0.0 * meter_per_second;
     quantity<si::velocity> transversalVelocity = 0.0 * meter_per_second;
     quantity<si::angular_velocity> angularVelocity = 0.1 * radian_per_second;
@@ -429,7 +445,7 @@ void YouBotBase::doJointCommutation() {
     SLEEP_MILLISEC(500);
     angularVelocity = 0 * radian_per_second;
     this->setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
-    
+    */
   // Bouml preserved body end 0008A9F1
 }
 

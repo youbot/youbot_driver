@@ -155,7 +155,7 @@ friend class YouBotGripper;
 
     ec_mbxbuft mailboxBuffer;
 
-    //in milliseconds
+    //in microseconds
     unsigned int timeTillNextEthercatUpdate;
 
     boost::mutex mutexDataOne;

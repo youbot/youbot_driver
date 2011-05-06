@@ -66,11 +66,6 @@
 #include "youbot/YouBotJointStorage.hpp"
 namespace youbot {
 
-enum CalibrationDirection {
-  POSITIV,
-  NEGATIV
-
-};
 ///////////////////////////////////////////////////////////////////////////////
 /// abstract youBot joint parameter
 ///////////////////////////////////////////////////////////////////////////////
@@ -127,6 +122,42 @@ friend class YouBotJoint;
     std::string name;
 
     ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// the name of the joint
+///////////////////////////////////////////////////////////////////////////////
+class FirmwareVersion : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    FirmwareVersion();
+
+    virtual ~FirmwareVersion();
+
+    void getParameter(std::string& parameter) const;
+
+    void setParameter(const std::string parameter);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    std::string value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+enum CalibrationDirection {
+  POSITIV,
+  NEGATIV
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1087,9 +1118,9 @@ friend class YouBotJoint;
 
     virtual ~DParameterFirstParametersSpeedControl();
 
-    void getParameter(unsigned int& parameter) const;
+    void getParameter(int& parameter) const;
 
-    void setParameter(const unsigned int parameter);
+    void setParameter(const int parameter);
 
 
   private:
@@ -1101,11 +1132,11 @@ friend class YouBotJoint;
 
     ParameterType getType() const {return this->parameterType;};
 
-    unsigned int upperLimit;
+    int upperLimit;
 
-    unsigned int lowerLimit;
+    int lowerLimit;
 
-    unsigned int value;
+    int value;
 
     std::string name;
 
