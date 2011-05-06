@@ -81,6 +81,8 @@ friend class YouBotJoint;
   public:
     virtual ~YouBotJointParameterReadOnly();
 
+    void toString(std::string& value);
+
 
   protected:
     virtual void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const = 0;
@@ -107,6 +109,8 @@ friend class YouBotJoint;
     virtual ~ActualMotorVoltage();
 
     void getParameter(unsigned int& parameter) const;
+
+    void toString(std::string& value);
 
 
   private:
@@ -136,6 +140,8 @@ friend class YouBotJoint;
     virtual ~ActualPWMDutyCycle();
 
     void getParameter(unsigned int& parameter) const;
+
+    void toString(std::string& value);
 
 
   private:
@@ -178,6 +184,8 @@ friend class YouBotJoint;
 
     void getParameter(unsigned int& parameter) const;
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -209,6 +217,8 @@ friend class YouBotJoint;
 
     void getParameter(quantity<plane_angle>& parameter) const;
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -237,6 +247,8 @@ friend class YouBotJoint;
     virtual ~PositionErrorSum();
 
     void getParameter(quantity<plane_angle>& parameter) const;
+
+    void toString(std::string& value);
 
 
   private:
@@ -267,6 +279,8 @@ friend class YouBotJoint;
 
     void getParameter(quantity<si::angular_velocity>& parameter) const;
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -296,6 +310,8 @@ friend class YouBotJoint;
 
     void getParameter(quantity<si::angular_velocity>& parameter) const;
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -307,6 +323,74 @@ friend class YouBotJoint;
     ParameterType getType() const {return this->parameterType;};
 
     quantity<si::angular_velocity> value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// The actual speed of the velocity ramp used for positioning and velocity mode. 
+///////////////////////////////////////////////////////////////////////////////
+class RampGeneratorSpeed : public YouBotJointParameterReadOnly {
+friend class YouBotJoint;
+  public:
+    RampGeneratorSpeed();
+
+    virtual ~RampGeneratorSpeed();
+
+    void getParameter(quantity<si::angular_velocity>& parameter) const;
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    quantity<si::angular_velocity> value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// Actual sum of the I2t monitor.
+///////////////////////////////////////////////////////////////////////////////
+class I2tSum : public YouBotJointParameterReadOnly {
+friend class YouBotJoint;
+  public:
+    I2tSum();
+
+    virtual ~I2tSum();
+
+    void getParameter(unsigned int& parameter) const;
+
+    void setParameter(const unsigned int parameter);
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    unsigned int upperLimit;
+
+    unsigned int lowerLimit;
+
+    unsigned int value;
 
     std::string name;
 

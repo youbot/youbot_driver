@@ -6,6 +6,10 @@ class MotorContollerGearRatio
     parameter = this->value;
 !!!561265.cpp!!!	setParameter(in parameter : uint) : void
     this->value = parameter;
+!!!648305.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
 !!!461937.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;

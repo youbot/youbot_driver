@@ -6,3 +6,7 @@ class JointName
     parameter = this->value;
 !!!377457.cpp!!!	setParameter(in parameter : string) : void
     this->value = parameter;
+!!!640113.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();

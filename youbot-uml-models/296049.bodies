@@ -1,0 +1,5 @@
+class YouBotJointParameterReadOnly
+!!!650225.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();

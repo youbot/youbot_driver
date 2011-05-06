@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 42
+  revision 43
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -438,6 +438,8 @@ ${namespace_end}"
 	class_ref 320497 // PositionErrorSum
 	class_ref 320625 // VelocityError
 	class_ref 320753 // VelocityErrorSum
+	class_ref 361073 // RampGeneratorSpeed
+	class_ref 361841 // I2tSum
       end
       comment "/****************************************************************
  *
@@ -602,6 +604,13 @@ ${namespace_end}"
 	class_ref 296177 // PIDControllerState
 	class_ref 296433 // PWMSchemeBlockCommutation
 	class_ref 297073 // ReversingEncoderDirection
+	class_ref 361201 // MotorControllerTimeout
+	class_ref 361329 // ClearMotorControllerTimeoutFlag
+	class_ref 362097 // ClearI2tExceededFlag
+	class_ref 361969 // I2tExceedCounter
+	class_ref 361713 // I2tLimit
+	class_ref 361457 // ThermalWindingTimeConstant
+	class_ref 361585 // OperationalTime
       end
       comment "/****************************************************************
  *

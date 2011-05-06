@@ -250,51 +250,60 @@ class YouBotBase
 
     youBotBaseKinematic.setConfiguration(kinematicConfig);
 !!!567793.cpp!!!	doJointCommutation() : void
-    LOG(info) << "Base Joint Commutation";
-
-   //for future initialization
+    
     InitializeJoint doInitialization;
     bool isInitialized = false;
+    int noInitialization = 0;
 
-    doInitialization.setParameter(true);
+    ClearMotorControllerTimeoutFlag clearTimeoutFlag;
+    this->getBaseJoint(1).setConfigurationParameter(clearTimeoutFlag);
+    this->getBaseJoint(2).setConfigurationParameter(clearTimeoutFlag);
+    this->getBaseJoint(3).setConfigurationParameter(clearTimeoutFlag);
+    this->getBaseJoint(4).setConfigurationParameter(clearTimeoutFlag);
 
-    EthercatMaster::getInstance().AutomaticReceiveOn(false);
-    this->getBaseJoint(1).setConfigurationParameter(doInitialization);
-    this->getBaseJoint(2).setConfigurationParameter(doInitialization);
-    this->getBaseJoint(3).setConfigurationParameter(doInitialization);
-    this->getBaseJoint(4).setConfigurationParameter(doInitialization);
-    EthercatMaster::getInstance().AutomaticReceiveOn(true);
-
-    SLEEP_MILLISEC(2500);
-    /*
+    
     doInitialization.setParameter(false);
     this->getBaseJoint(1).getConfigurationParameter(doInitialization);
     doInitialization.getParameter(isInitialized);
     if(!isInitialized){
-      throw std::runtime_error("Unable to do sinus commutation for base joint 1");
+      noInitialization++;
     }
 
     doInitialization.setParameter(false);
     this->getBaseJoint(2).getConfigurationParameter(doInitialization);
     doInitialization.getParameter(isInitialized);
     if(!isInitialized){
-      throw std::runtime_error("Unable to do sinus commutation for base joint 2");
+      noInitialization++;
     }
 
     doInitialization.setParameter(false);
     this->getBaseJoint(3).getConfigurationParameter(doInitialization);
     doInitialization.getParameter(isInitialized);
     if(!isInitialized){
-      throw std::runtime_error("Unable to do sinus commutation for base joint 3");
+      noInitialization++;
     }
 
     doInitialization.setParameter(false);
     this->getBaseJoint(4).getConfigurationParameter(doInitialization);
     doInitialization.getParameter(isInitialized);
     if(!isInitialized){
-      throw std::runtime_error("Unable to do sinus commutation for base joint 4");
+      noInitialization++;
     }
 
+    if(noInitialization != 0){
+      doInitialization.setParameter(true);
+      LOG(info) << "Base Joint Commutation";
+
+      EthercatMaster::getInstance().AutomaticReceiveOn(false);
+      this->getBaseJoint(1).setConfigurationParameter(doInitialization);
+      this->getBaseJoint(2).setConfigurationParameter(doInitialization);
+      this->getBaseJoint(3).setConfigurationParameter(doInitialization);
+      this->getBaseJoint(4).setConfigurationParameter(doInitialization);
+      EthercatMaster::getInstance().AutomaticReceiveOn(true);
+
+      SLEEP_MILLISEC(2000);
+    }
+/*
     SLEEP_MILLISEC(2500);
     quantity<si::velocity> longitudinalVelocity = 0.0 * meter_per_second;
     quantity<si::velocity> transversalVelocity = 0.0 * meter_per_second;

@@ -76,6 +76,8 @@ friend class YouBotGripper;
   public:
     virtual ~YouBotGripperParameter();
 
+    void toString(std::string& value);
+
 
   protected:
     virtual std::string getName() const = 0;
@@ -96,6 +98,8 @@ friend class YouBotGripper;
     void getParameter(bool& parameter) const;
 
     void setParameter(const bool parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -120,6 +124,8 @@ friend class YouBotGripper;
 
     void setParameter(const quantity<si::length>& parameter);
 
+    void toString(std::string& value);
+
 
   private:
     std::string getName() const {return this->name;};
@@ -143,6 +149,8 @@ friend class YouBotGripper;
 
     void setParameter(const unsigned int parameter);
 
+    void toString(std::string& value);
+
 
   private:
     std::string getName() const {return this->name;};
@@ -165,6 +173,8 @@ friend class YouBotGripper;
     void getParameter(quantity<si::length>& parameter) const;
 
     void setParameter(const quantity<si::length>& parameter);
+
+    void toString(std::string& value);
 
 
   private:

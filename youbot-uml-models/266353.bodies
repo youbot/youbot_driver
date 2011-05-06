@@ -10,3 +10,7 @@ class CalibrateJoint
     this->doCalibration = doCalibration;
     this->calibrationDirection = calibrationDirection;
     this->maxCurrent = maxCurrent;
+!!!640881.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << "doCalibration " <<this->doCalibration << " calibrationDirection "<< this->calibrationDirection << " maxCurrent " << this->maxCurrent;
+  value  = ss.str();

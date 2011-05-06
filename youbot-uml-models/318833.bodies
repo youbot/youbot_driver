@@ -5,6 +5,10 @@ class ErrorAndStatus
 !!!518257.cpp!!!	getParameter(out parameter : uint) : void
     parameter = this->value;
     this->parseYouBotErrorFlags();
+!!!650609.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
 !!!518385.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
@@ -22,83 +26,93 @@ class ErrorAndStatus
    // errorMessage = errorMessageStream.str();
 
 
-    if (value & MX_OVER_CURRENT) {
+    if (value & OVER_CURRENT) {
       LOG(error) << errorMessage << "over current";
       //    throw JointErrorException(errorMessage + "got over current");
     }
 
-    if (value & MX_UNDER_VOLTAGE) {
+    if (value & UNDER_VOLTAGE) {
       LOG(error) << errorMessage << "under voltage";
       //    throw JointErrorException(errorMessage + "got under voltage");
     }
 
-    if (value & MX_OVER_VOLTAGE) {
+    if (value & OVER_VOLTAGE) {
       LOG(error) << errorMessage << "over voltage";
       //   throw JointErrorException(errorMessage + "got over voltage");
     }
 
-    if (value & MX_OVER_TEMPERATURE) {
+    if (value & OVER_TEMPERATURE) {
       LOG(error) << errorMessage << "over temperature";
       //   throw JointErrorException(errorMessage + "got over temperature");
     }
 
-    if (value & MX_MOTOR_HALTED) {
+    if (value & MOTOR_HALTED) {
       LOG(info) << errorMessage << "is halted";
       //   throw JointErrorException(errorMessage + "is halted");
     }
 
-    if (value & MX_HALL_SENSOR_ERROR) {
+    if (value & HALL_SENSOR_ERROR) {
       LOG(error) << errorMessage << "hall sensor problem";
       //   throw JointErrorException(errorMessage + "got hall sensor problem");
     }
 
-    if (value & MX_ENCODER_ERROR) {
+    if (value & ENCODER_ERROR) {
       LOG(error) << errorMessage << "encoder problem";
       //   throw JointErrorException(errorMessage + "got encoder problem");
     }
 
-    if (value & MX_INITIALIZATION_ERROR) {
+    if (value & INITIALIZATION_ERROR) {
       LOG(error) << errorMessage << "inizialization problem";
       //   throw JointErrorException(errorMessage + "got motor winding problem");
     }
 
-    if (value & MX_PWM_MODE) {
-      LOG(error) << errorMessage << "PWM mode active";
+    if (value & PWM_MODE_ACTIVE) {
+      LOG(info) << errorMessage << "PWM mode active";
       //   throw JointErrorException(errorMessage + "the cycle time is violated");
     }
 
-    if (value & MX_VELOCITY_MODE) {
-      LOG(error) << errorMessage << "velocity mode active";
+    if (value & VELOCITY_MODE) {
+      LOG(info) << errorMessage << "velocity mode active";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
-    if (value & MX_POSITION_MODE) {
+    if (value & POSITION_MODE) {
       LOG(info) << errorMessage << "position mode active";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
-    if (value & MX_TORQUE_MODE) {
+    if (value & TORQUE_MODE) {
       LOG(info) << errorMessage << "torque mode active";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
-    if (value & MX_EMERGENCY_STOP) {
+    if (value & EMERGENCY_STOP) {
       LOG(info) << errorMessage << "emergency stop active";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
-    if (value & MX_FREERUNNING) {
+    if (value & FREERUNNING) {
       LOG(info) << errorMessage << "freerunning active";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
-    if (value & MX_POSITION_REACHED) {
+    if (value & POSITION_REACHED) {
       LOG(info) << errorMessage << "position reached";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
-    if (value & MX_INITIALIZED) {
+    if (value & INITIALIZED) {
       LOG(info) << errorMessage << "is initialized";
+      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+    }
+
+    if (value & TIMEOUT) {
+      LOG(error) << errorMessage << "timeout";
+      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+    }
+
+    if (value & I2T_EXCEEDED) {
+      LOG(error) << errorMessage << "I2t exceeded";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 

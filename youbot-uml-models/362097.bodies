@@ -1,0 +1,18 @@
+class ClearI2tExceededFlag
+!!!660977.cpp!!!	ClearI2tExceededFlag()
+    this->name = "ClearI2tExceededFlag";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+    this->value = true;
+!!!661489.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+!!!661617.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 29; //ClearI2tExceededFlag
+    message.stctOutput.value = value;
+!!!661745.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+      this->value = message.stctInput.value;
+    }

@@ -15,6 +15,10 @@ class PParameterFirstParametersSpeedControl
     }
 
     this->value = parameter;
+!!!643697.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
 !!!440305.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
 
     message.stctOutput.commandNumber = msgType;

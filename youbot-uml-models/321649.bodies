@@ -6,6 +6,10 @@ class EncoderNullPolarity
     parameter = this->value;
 !!!540913.cpp!!!	setParameter(in parameter : bool) : void
     this->value = parameter;
+!!!648945.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
 !!!541041.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
 
     message.stctOutput.commandNumber = msgType;

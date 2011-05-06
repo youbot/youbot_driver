@@ -5,3 +5,7 @@ class MaxEncoderValue
     parameter = this->value;
 !!!400625.cpp!!!	setParameter(in parameter : uint) : void
     this->value = parameter;
+!!!651505.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();

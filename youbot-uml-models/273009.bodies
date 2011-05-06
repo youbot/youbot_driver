@@ -16,3 +16,7 @@ class JointLimits
     this->lowerLimit = lowerLimit;
     this->upperLimit = upperLimit;
     this->areLimitsActive = activateLimits;
+!!!641009.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": lower Limit" << this->lowerLimit  << " upper Limit" << this->upperLimit;
+  value  = ss.str();

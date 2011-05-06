@@ -8,3 +8,7 @@ class BarSpacingOffset
     throw std::out_of_range("The Bar Spacing Offset is only allowed to be less than 1m and bigger than zero");
   }
     this->value = parameter;
+!!!651761.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();

@@ -61,6 +61,11 @@ YouBotJointParameterReadOnly::~YouBotJointParameterReadOnly() {
   // Bouml preserved body end 0006FE71
 }
 
+void YouBotJointParameterReadOnly::toString(std::string& value) {
+  // Bouml preserved body begin 0009EBF1
+  // Bouml preserved body end 0009EBF1
+}
+
 ActualMotorVoltage::ActualMotorVoltage() {
   // Bouml preserved body begin 0007E071
     this->name = "ActualMotorVoltage";
@@ -77,6 +82,14 @@ void ActualMotorVoltage::getParameter(unsigned int& parameter) const {
   // Bouml preserved body begin 0007E171
     parameter = this->value;
   // Bouml preserved body end 0007E171
+}
+
+void ActualMotorVoltage::toString(std::string& value) {
+  // Bouml preserved body begin 0009EC71
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 0009EC71
 }
 
 void ActualMotorVoltage::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
@@ -113,6 +126,14 @@ void ActualPWMDutyCycle::getParameter(unsigned int& parameter) const {
   // Bouml preserved body begin 0007E4F1
     parameter = this->value;
   // Bouml preserved body end 0007E4F1
+}
+
+void ActualPWMDutyCycle::toString(std::string& value) {
+  // Bouml preserved body begin 0009ECF1
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 0009ECF1
 }
 
 void ActualPWMDutyCycle::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
@@ -152,6 +173,14 @@ void ErrorAndStatus::getParameter(unsigned int& parameter) const {
   // Bouml preserved body end 0007E871
 }
 
+void ErrorAndStatus::toString(std::string& value) {
+  // Bouml preserved body begin 0009ED71
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 0009ED71
+}
+
 void ErrorAndStatus::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
   // Bouml preserved body begin 0007E8F1
     message.stctOutput.commandNumber = msgType;
@@ -178,83 +207,93 @@ void ErrorAndStatus::parseYouBotErrorFlags() const {
    // errorMessage = errorMessageStream.str();
 
 
-    if (value & MX_OVER_CURRENT) {
+    if (value & OVER_CURRENT) {
       LOG(error) << errorMessage << "over current";
       //    throw JointErrorException(errorMessage + "got over current");
     }
 
-    if (value & MX_UNDER_VOLTAGE) {
+    if (value & UNDER_VOLTAGE) {
       LOG(error) << errorMessage << "under voltage";
       //    throw JointErrorException(errorMessage + "got under voltage");
     }
 
-    if (value & MX_OVER_VOLTAGE) {
+    if (value & OVER_VOLTAGE) {
       LOG(error) << errorMessage << "over voltage";
       //   throw JointErrorException(errorMessage + "got over voltage");
     }
 
-    if (value & MX_OVER_TEMPERATURE) {
+    if (value & OVER_TEMPERATURE) {
       LOG(error) << errorMessage << "over temperature";
       //   throw JointErrorException(errorMessage + "got over temperature");
     }
 
-    if (value & MX_MOTOR_HALTED) {
+    if (value & MOTOR_HALTED) {
       LOG(info) << errorMessage << "is halted";
       //   throw JointErrorException(errorMessage + "is halted");
     }
 
-    if (value & MX_HALL_SENSOR_ERROR) {
+    if (value & HALL_SENSOR_ERROR) {
       LOG(error) << errorMessage << "hall sensor problem";
       //   throw JointErrorException(errorMessage + "got hall sensor problem");
     }
 
-    if (value & MX_ENCODER_ERROR) {
+    if (value & ENCODER_ERROR) {
       LOG(error) << errorMessage << "encoder problem";
       //   throw JointErrorException(errorMessage + "got encoder problem");
     }
 
-    if (value & MX_INITIALIZATION_ERROR) {
+    if (value & INITIALIZATION_ERROR) {
       LOG(error) << errorMessage << "inizialization problem";
       //   throw JointErrorException(errorMessage + "got motor winding problem");
     }
 
-    if (value & MX_PWM_MODE) {
-      LOG(error) << errorMessage << "PWM mode active";
+    if (value & PWM_MODE_ACTIVE) {
+      LOG(info) << errorMessage << "PWM mode active";
       //   throw JointErrorException(errorMessage + "the cycle time is violated");
     }
 
-    if (value & MX_VELOCITY_MODE) {
-      LOG(error) << errorMessage << "velocity mode active";
+    if (value & VELOCITY_MODE) {
+      LOG(info) << errorMessage << "velocity mode active";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
-    if (value & MX_POSITION_MODE) {
+    if (value & POSITION_MODE) {
       LOG(info) << errorMessage << "position mode active";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
-    if (value & MX_TORQUE_MODE) {
+    if (value & TORQUE_MODE) {
       LOG(info) << errorMessage << "torque mode active";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
-    if (value & MX_EMERGENCY_STOP) {
+    if (value & EMERGENCY_STOP) {
       LOG(info) << errorMessage << "emergency stop active";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
-    if (value & MX_FREERUNNING) {
+    if (value & FREERUNNING) {
       LOG(info) << errorMessage << "freerunning active";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
-    if (value & MX_POSITION_REACHED) {
+    if (value & POSITION_REACHED) {
       LOG(info) << errorMessage << "position reached";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
-    if (value & MX_INITIALIZED) {
+    if (value & INITIALIZED) {
       LOG(info) << errorMessage << "is initialized";
+      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+    }
+
+    if (value & TIMEOUT) {
+      LOG(error) << errorMessage << "timeout";
+      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+    }
+
+    if (value & I2T_EXCEEDED) {
+      LOG(error) << errorMessage << "I2t exceeded";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
@@ -277,6 +316,14 @@ void PositionError::getParameter(quantity<plane_angle>& parameter) const {
   // Bouml preserved body begin 00081871
     parameter = this->value;
   // Bouml preserved body end 00081871
+}
+
+void PositionError::toString(std::string& value) {
+  // Bouml preserved body begin 0009EDF1
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 0009EDF1
 }
 
 void PositionError::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
@@ -310,6 +357,14 @@ void PositionErrorSum::getParameter(quantity<plane_angle>& parameter) const {
   // Bouml preserved body begin 00081C71
     parameter = this->value;
   // Bouml preserved body end 00081C71
+}
+
+void PositionErrorSum::toString(std::string& value) {
+  // Bouml preserved body begin 0009EE71
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 0009EE71
 }
 
 void PositionErrorSum::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
@@ -347,6 +402,14 @@ void VelocityError::getParameter(quantity<si::angular_velocity>& parameter) cons
   // Bouml preserved body end 00082071
 }
 
+void VelocityError::toString(std::string& value) {
+  // Bouml preserved body begin 0009EEF1
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 0009EEF1
+}
+
 void VelocityError::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
   // Bouml preserved body begin 00082171
 
@@ -382,6 +445,14 @@ void VelocityErrorSum::getParameter(quantity<si::angular_velocity>& parameter) c
   // Bouml preserved body end 00082471
 }
 
+void VelocityErrorSum::toString(std::string& value) {
+  // Bouml preserved body begin 0009EF71
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 0009EF71
+}
+
 void VelocityErrorSum::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
   // Bouml preserved body begin 00082571
 
@@ -397,6 +468,106 @@ void VelocityErrorSum::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message,
   // Bouml preserved body begin 000825F1
     this->value = ((((double)message.stctInput.value) / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
   // Bouml preserved body end 000825F1
+}
+
+RampGeneratorSpeed::RampGeneratorSpeed() {
+  // Bouml preserved body begin 0009F271
+    this->name = "RampGeneratorSpeed";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 0009F271
+}
+
+RampGeneratorSpeed::~RampGeneratorSpeed() {
+  // Bouml preserved body begin 0009F2F1
+  // Bouml preserved body end 0009F2F1
+}
+
+void RampGeneratorSpeed::getParameter(quantity<si::angular_velocity>& parameter) const {
+  // Bouml preserved body begin 0009F371
+    parameter = this->value;
+  // Bouml preserved body end 0009F371
+}
+
+void RampGeneratorSpeed::toString(std::string& value) {
+  // Bouml preserved body begin 0009F3F1
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 0009F3F1
+}
+
+void RampGeneratorSpeed::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
+  // Bouml preserved body begin 0009F471
+
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 13; //RampGeneratorSpeed
+ //   message.stctOutput.value = value;
+
+  // Bouml preserved body end 0009F471
+}
+
+void RampGeneratorSpeed::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
+  // Bouml preserved body begin 0009F4F1
+    this->value = ((((double)message.stctInput.value) / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
+  // Bouml preserved body end 0009F4F1
+}
+
+I2tSum::I2tSum() {
+  // Bouml preserved body begin 000A0CF1
+    this->name = "I2tSum";
+    this->lowerLimit = 0;
+    this->upperLimit = INT_MAX;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 000A0CF1
+}
+
+I2tSum::~I2tSum() {
+  // Bouml preserved body begin 000A0D71
+  // Bouml preserved body end 000A0D71
+}
+
+void I2tSum::getParameter(unsigned int& parameter) const {
+  // Bouml preserved body begin 000A0DF1
+    parameter = this->value;
+  // Bouml preserved body end 000A0DF1
+}
+
+void I2tSum::setParameter(const unsigned int parameter) {
+  // Bouml preserved body begin 000A0E71
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+    this->value = parameter;
+  // Bouml preserved body end 000A0E71
+}
+
+void I2tSum::toString(std::string& value) {
+  // Bouml preserved body begin 000A0EF1
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 000A0EF1
+}
+
+void I2tSum::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
+  // Bouml preserved body begin 000A0F71
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 27; //I2tSum
+    message.stctOutput.value = value;
+  // Bouml preserved body end 000A0F71
+}
+
+void I2tSum::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
+  // Bouml preserved body begin 000A0FF1
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+      this->value = message.stctInput.value;
+    }
+  // Bouml preserved body end 000A0FF1
 }
 
 

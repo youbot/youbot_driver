@@ -61,6 +61,11 @@ YouBotGripperParameter::~YouBotGripperParameter() {
   // Bouml preserved body end 0005F171
 }
 
+void YouBotGripperParameter::toString(std::string& value) {
+  // Bouml preserved body begin 0009EFF1
+  // Bouml preserved body end 0009EFF1
+}
+
 CalibrateGripper::CalibrateGripper() {
   // Bouml preserved body begin 0005F3F1
     this->name = "CalibrateGripper";
@@ -82,6 +87,14 @@ void CalibrateGripper::setParameter(const bool parameter) {
   // Bouml preserved body begin 0005F571
     this->value = parameter;
   // Bouml preserved body end 0005F571
+}
+
+void CalibrateGripper::toString(std::string& value) {
+  // Bouml preserved body begin 0009F171
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 0009F171
 }
 
 BarSpacingOffset::BarSpacingOffset() {
@@ -110,6 +123,14 @@ void BarSpacingOffset::setParameter(const quantity<si::length>& parameter) {
   // Bouml preserved body end 0005FDF1
 }
 
+void BarSpacingOffset::toString(std::string& value) {
+  // Bouml preserved body begin 0009F1F1
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 0009F1F1
+}
+
 MaxEncoderValue::MaxEncoderValue() {
   // Bouml preserved body begin 00061B71
     this->name = "MaxEncoderValue";
@@ -131,6 +152,14 @@ void MaxEncoderValue::setParameter(const unsigned int parameter) {
   // Bouml preserved body begin 00061CF1
     this->value = parameter;
   // Bouml preserved body end 00061CF1
+}
+
+void MaxEncoderValue::toString(std::string& value) {
+  // Bouml preserved body begin 0009F0F1
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 0009F0F1
 }
 
 MaxTravelDistance::MaxTravelDistance() {
@@ -157,6 +186,14 @@ void MaxTravelDistance::setParameter(const quantity<si::length>& parameter) {
   }
     this->value = parameter;
   // Bouml preserved body end 00061A71
+}
+
+void MaxTravelDistance::toString(std::string& value) {
+  // Bouml preserved body begin 0009F071
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 0009F071
 }
 
 

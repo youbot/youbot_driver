@@ -14,6 +14,10 @@ class MotorPoles
       throw std::out_of_range("The parameter exceeds the upper limit");
     }
     this->value = parameter;
+!!!650097.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
 !!!465777.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;

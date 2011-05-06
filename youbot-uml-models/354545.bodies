@@ -6,6 +6,10 @@ class FirmwareVersion
     parameter = this->value;
 !!!626417.cpp!!!	setParameter(in parameter : string) : void
     this->value = parameter;
+!!!640369.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
 !!!626545.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
     message.stctOutput.commandNumber = FIRMWARE_VERSION;
     message.stctOutput.moduleAddress = DRIVE;

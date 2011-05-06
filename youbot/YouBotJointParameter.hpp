@@ -78,6 +78,8 @@ friend class YouBotJoint;
   public:
     virtual ~YouBotJointParameter();
 
+    virtual void toString(std::string& value);
+
 
   protected:
     virtual void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const = 0;
@@ -106,6 +108,8 @@ friend class YouBotJoint;
     void getParameter(std::string& parameter) const;
 
     void setParameter(const std::string parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -137,6 +141,8 @@ friend class YouBotJoint;
     void getParameter(std::string& parameter) const;
 
     void setParameter(const std::string parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -174,6 +180,8 @@ friend class YouBotJoint;
 
     void setParameter(const double parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {};
@@ -204,6 +212,8 @@ friend class YouBotJoint;
     void getParameter(unsigned int& parameter) const;
 
     void setParameter(const unsigned int parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -236,6 +246,8 @@ friend class YouBotJoint;
 
     void setParameter(const bool parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {};
@@ -266,6 +278,8 @@ friend class YouBotJoint;
     void getParameter(bool& doCalibration, CalibrationDirection& calibrationDirection, quantity<si::current>& maxCurrent) const;
 
     void setParameter(const bool doCalibration, CalibrationDirection calibrationDirection, const quantity<si::current>& maxCurrent);
+
+    void toString(std::string& value);
 
 
   private:
@@ -302,6 +316,8 @@ friend class YouBotJoint;
 
     void setParameter(const int lowerLimit, const int upperLimit, const bool activateLimits);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {};
@@ -337,6 +353,8 @@ friend class YouBotJoint;
 
     void setParameter(const bool parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {};
@@ -367,6 +385,8 @@ friend class YouBotJoint;
     void getParameter(bool& parameter) const;
 
     void setParameter(const bool parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -399,6 +419,8 @@ friend class YouBotJoint;
 
     void setParameter(const bool parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -417,7 +439,7 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// The maximum velocity used for move to position command when executing a ramp to a position. In sensorless commutation mode the velocity threshold for hallFX.
+/// The maximum velocity used for move to position command when executing a ramp to a position. In sensorless commutation mode the velocity threshold for hallFX. In sensorless commutation mode used as velocity threshold for hallFXTM. Set this value to a realistic velocity which the motor can reach!
 ///////////////////////////////////////////////////////////////////////////////
 class MaximumPositioningVelocity : public YouBotJointParameter {
 friend class YouBotJoint;
@@ -429,6 +451,8 @@ friend class YouBotJoint;
     void getParameter(quantity<angular_velocity>& parameter) const;
 
     void setParameter(const quantity<angular_velocity>& parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -465,6 +489,8 @@ friend class YouBotJoint;
 
     void setParameter(const unsigned int parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -499,6 +525,8 @@ friend class YouBotJoint;
     void getParameter(quantity<current>& parameter) const;
 
     void setParameter(const quantity<current>& parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -535,6 +563,8 @@ friend class YouBotJoint;
 
     void setParameter(const quantity<angular_velocity>& parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -557,7 +587,8 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// Adjusts the limit to switch between first velocity PID parameter set and second velocity PID parameter set.
+/// Adjusts the limit to switch between first velocity PID parameter set and second velocity PID parameter set. If the velocity threshold is set to zero, the parameter set 2 is used all the time.
+
 ///////////////////////////////////////////////////////////////////////////////
 class SpeedControlSwitchingThreshold : public YouBotJointParameter {
 friend class YouBotJoint;
@@ -569,6 +600,8 @@ friend class YouBotJoint;
     void getParameter(quantity<angular_velocity>& parameter) const;
 
     void setParameter(const quantity<angular_velocity>& parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -605,6 +638,8 @@ friend class YouBotJoint;
 
     void setParameter(const int parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -639,6 +674,8 @@ friend class YouBotJoint;
     void getParameter(int& parameter) const;
 
     void setParameter(const int parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -675,6 +712,8 @@ friend class YouBotJoint;
 
     void setParameter(const quantity<angular_acceleration>& parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -697,7 +736,7 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// Switching threshold for position control between the first and second set of parameters
+/// Switching threshold for position control between the first and second set of parameters. If the velocity threshold is set to zero, the parameter set 2 is used all the time.
 ///////////////////////////////////////////////////////////////////////////////
 class PositionControlSwitchingThreshold : public YouBotJointParameter {
 friend class YouBotJoint;
@@ -709,6 +748,8 @@ friend class YouBotJoint;
     void getParameter(quantity<angular_velocity>& parameter) const;
 
     void setParameter(const quantity<angular_velocity>& parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -745,6 +786,8 @@ friend class YouBotJoint;
 
     void setParameter(const int parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -779,6 +822,8 @@ friend class YouBotJoint;
     void getParameter(int& parameter) const;
 
     void setParameter(const int parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -815,6 +860,8 @@ friend class YouBotJoint;
 
     void setParameter(const int parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -849,6 +896,8 @@ friend class YouBotJoint;
     void getParameter(quantity<si::time>& parameter) const;
 
     void setParameter(const quantity<si::time>& parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -885,6 +934,8 @@ friend class YouBotJoint;
 
     void setParameter(const quantity<si::time>& parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -919,6 +970,8 @@ friend class YouBotJoint;
     void getParameter(int& parameter) const;
 
     void setParameter(const int parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -955,6 +1008,8 @@ friend class YouBotJoint;
 
     void setParameter(const int parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -990,6 +1045,8 @@ friend class YouBotJoint;
 
     void setParameter(const bool parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -1021,6 +1078,8 @@ friend class YouBotJoint;
 
     void setParameter(const bool parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -1051,6 +1110,8 @@ friend class YouBotJoint;
     void getParameter(int& parameter) const;
 
     void setParameter(const int parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -1087,6 +1148,8 @@ friend class YouBotJoint;
 
     void setParameter(const int parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -1121,6 +1184,8 @@ friend class YouBotJoint;
     void getParameter(int& parameter) const;
 
     void setParameter(const int parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -1157,6 +1222,8 @@ friend class YouBotJoint;
 
     void setParameter(const int parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -1192,6 +1259,8 @@ friend class YouBotJoint;
 
     void setParameter(const bool parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -1224,6 +1293,8 @@ friend class YouBotJoint;
 
     void setParameter(const bool parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -1254,6 +1325,8 @@ friend class YouBotJoint;
     void getParameter(bool& parameter) const;
 
     void setParameter(const bool parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -1286,6 +1359,8 @@ friend class YouBotJoint;
 
     void setParameter(const bool parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -1317,6 +1392,8 @@ friend class YouBotJoint;
     void getParameter(bool& parameter) const;
 
     void setParameter(const bool parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -1354,6 +1431,8 @@ friend class YouBotJoint;
 
     void setParameter(const unsigned int parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -1388,6 +1467,8 @@ friend class YouBotJoint;
     void getParameter(int& parameter) const;
 
     void setParameter(const int parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -1430,6 +1511,8 @@ friend class YouBotJoint;
 
     void setParameter(const unsigned int parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -1464,6 +1547,8 @@ friend class YouBotJoint;
     void getParameter(int& parameter) const;
 
     void setParameter(const int parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -1500,6 +1585,8 @@ friend class YouBotJoint;
 
     void setParameter(const int parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -1534,6 +1621,8 @@ friend class YouBotJoint;
     void getParameter(int& parameter) const;
 
     void setParameter(const int parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -1570,6 +1659,8 @@ friend class YouBotJoint;
 
     void setParameter(const int parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -1604,6 +1695,8 @@ friend class YouBotJoint;
     void getParameter(int& parameter) const;
 
     void setParameter(const int parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -1640,6 +1733,8 @@ friend class YouBotJoint;
 
     void setParameter(const int parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -1674,6 +1769,8 @@ friend class YouBotJoint;
     void getParameter(int& parameter) const;
 
     void setParameter(const int parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -1710,6 +1807,8 @@ friend class YouBotJoint;
 
     void setParameter(const int parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -1732,7 +1831,7 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// Switching threshold for position control between the first and second set of parameters
+/// Switching threshold for position control between the first and second set of parameters. If the velocity threshold is set to zero, the parameter set 2 is used all the time.
 ///////////////////////////////////////////////////////////////////////////////
 class CurrentControlSwitchingThreshold : public YouBotJointParameter {
 friend class YouBotJoint;
@@ -1744,6 +1843,8 @@ friend class YouBotJoint;
     void getParameter(quantity<angular_velocity>& parameter) const;
 
     void setParameter(const quantity<angular_velocity>& parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -1780,6 +1881,8 @@ friend class YouBotJoint;
 
     void setParameter(const quantity<current>& parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -1814,6 +1917,8 @@ friend class YouBotJoint;
     void getParameter(int& parameter) const;
 
     void setParameter(const int parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -1850,6 +1955,8 @@ friend class YouBotJoint;
 
     void setParameter(const int parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -1884,6 +1991,8 @@ friend class YouBotJoint;
     void getParameter(int& parameter) const;
 
     void setParameter(const int parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -1920,6 +2029,8 @@ friend class YouBotJoint;
 
     void setParameter(const int parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -1954,6 +2065,8 @@ friend class YouBotJoint;
     void getParameter(int& parameter) const;
 
     void setParameter(const int parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -1990,6 +2103,8 @@ friend class YouBotJoint;
 
     void setParameter(const int parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -2024,6 +2139,8 @@ friend class YouBotJoint;
     void getParameter(int& parameter) const;
 
     void setParameter(const int parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -2060,6 +2177,8 @@ friend class YouBotJoint;
 
     void setParameter(const int parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -2094,6 +2213,8 @@ friend class YouBotJoint;
     void getParameter(int& parameter) const;
 
     void setParameter(const int parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -2130,6 +2251,8 @@ friend class YouBotJoint;
 
     void setParameter(const int parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -2164,6 +2287,8 @@ friend class YouBotJoint;
     void getParameter(quantity<angular_velocity>& parameter) const;
 
     void setParameter(const quantity<angular_velocity>& parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -2200,6 +2325,8 @@ friend class YouBotJoint;
 
     void setParameter(const int parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -2234,6 +2361,8 @@ friend class YouBotJoint;
     void getParameter(int& parameter) const;
 
     void setParameter(const int parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -2270,6 +2399,8 @@ friend class YouBotJoint;
 
     void setParameter(const quantity<si::time>& parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -2305,6 +2436,8 @@ friend class YouBotJoint;
 
     void setParameter(const bool parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -2335,6 +2468,8 @@ friend class YouBotJoint;
     void getParameter(int& parameter) const;
 
     void setParameter(const int parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -2371,6 +2506,8 @@ friend class YouBotJoint;
 
     void setParameter(const int parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -2405,6 +2542,8 @@ friend class YouBotJoint;
     void getParameter(int& parameter) const;
 
     void setParameter(const int parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -2441,6 +2580,8 @@ friend class YouBotJoint;
 
     void setParameter(const bool parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -2471,6 +2612,8 @@ friend class YouBotJoint;
     void getParameter(unsigned int& parameter) const;
 
     void setParameter(const unsigned int parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -2509,6 +2652,8 @@ friend class YouBotJoint;
 
     void setParameter(const unsigned int parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -2543,6 +2688,8 @@ friend class YouBotJoint;
     void getParameter(unsigned int& parameter) const;
 
     void setParameter(const unsigned int parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -2579,6 +2726,8 @@ friend class YouBotJoint;
 
     void setParameter(const bool parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -2611,6 +2760,8 @@ friend class YouBotJoint;
     void getParameter(int& parameter) const;
 
     void setParameter(const int parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -2647,6 +2798,8 @@ friend class YouBotJoint;
 
     void setParameter(const quantity<resistance>& parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -2681,6 +2834,8 @@ friend class YouBotJoint;
     void getParameter(unsigned int& parameter) const;
 
     void setParameter(const unsigned int parameter);
+
+    void toString(std::string& value);
 
 
   private:
@@ -2720,6 +2875,8 @@ friend class YouBotJoint;
 
     void setParameter(const bool parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -2758,6 +2915,8 @@ friend class YouBotJoint;
 
     void setParameter(const unsigned int parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -2793,6 +2952,8 @@ friend class YouBotJoint;
 
     void setParameter(const bool parameter);
 
+    void toString(std::string& value);
+
 
   private:
     void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
@@ -2804,6 +2965,258 @@ friend class YouBotJoint;
     ParameterType getType() const {return this->parameterType;};
 
     bool value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// Set/Get Timeout to determine an interrupted communication with the EtherCAT master. (automatically stored in EEProm)
+///////////////////////////////////////////////////////////////////////////////
+class MotorControllerTimeout : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    MotorControllerTimeout();
+
+    virtual ~MotorControllerTimeout();
+
+    void getParameter(quantity<si::time>& parameter) const;
+
+    void setParameter(const quantity<si::time>& parameter);
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    quantity<si::time> upperLimit;
+
+    quantity<si::time> lowerLimit;
+
+    quantity<si::time> value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// Clear the flag that indicates a communication timeout between the EtherCAT master and the controller.
+
+///////////////////////////////////////////////////////////////////////////////
+class ClearMotorControllerTimeoutFlag : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    ClearMotorControllerTimeoutFlag();
+
+    virtual ~ClearMotorControllerTimeoutFlag();
+
+    bool getParameter() const;
+
+    void setParameter();
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    bool value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// Clear the flag that indicates that the I2t sum has exceeded the I2t limit.
+///////////////////////////////////////////////////////////////////////////////
+class ClearI2tExceededFlag : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    ClearI2tExceededFlag();
+
+    virtual ~ClearI2tExceededFlag();
+
+    void getParameter() const;
+
+    void setParameter();
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    bool value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// Counts how often an I2t sum was higher than the I2t limit.
+///////////////////////////////////////////////////////////////////////////////
+class I2tExceedCounter : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    I2tExceedCounter();
+
+    virtual ~I2tExceedCounter();
+
+    void getParameter(unsigned int& parameter) const;
+
+    void setParameter(const unsigned int parameter);
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    unsigned int upperLimit;
+
+    unsigned int lowerLimit;
+
+    unsigned int value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// An actual I2t sum that exceeds this limit leads to increasing the I2t exceed counter.
+///////////////////////////////////////////////////////////////////////////////
+class I2tLimit : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    I2tLimit();
+
+    virtual ~I2tLimit();
+
+    void getParameter(unsigned int& parameter) const;
+
+    void setParameter(const unsigned int parameter);
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    unsigned int upperLimit;
+
+    unsigned int lowerLimit;
+
+    unsigned int value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// Thermal winding time constant for the used motor. Used for I2t monitoring.
+///////////////////////////////////////////////////////////////////////////////
+class ThermalWindingTimeConstant : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    ThermalWindingTimeConstant();
+
+    virtual ~ThermalWindingTimeConstant();
+
+    void getParameter(quantity<si::time>& parameter) const;
+
+    void setParameter(const quantity<si::time>& parameter);
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    quantity<si::time> upperLimit;
+
+    quantity<si::time> lowerLimit;
+
+    quantity<si::time> value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// Counts the module operational time.
+///////////////////////////////////////////////////////////////////////////////
+class OperationalTime : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    OperationalTime();
+
+    virtual ~OperationalTime();
+
+    void getParameter(quantity<si::time>& parameter) const;
+
+    void setParameter(const quantity<si::time>& parameter);
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    quantity<si::time> upperLimit;
+
+    quantity<si::time> lowerLimit;
+
+    quantity<si::time> value;
 
     std::string name;
 

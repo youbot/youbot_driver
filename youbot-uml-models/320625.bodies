@@ -4,6 +4,10 @@ class VelocityError
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
 !!!532593.cpp!!!	getParameter(out parameter : quantity<si::angular_velocity>) : void
     parameter = this->value;
+!!!650993.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
 !!!532849.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
 
     message.stctOutput.commandNumber = msgType;

@@ -6,6 +6,10 @@ class ClearISumIfOvershootsTarget
     parameter = this->value;
 !!!503025.cpp!!!	setParameter(in parameter : bool) : void
     this->value = parameter;
+!!!643569.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
 !!!503153.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;

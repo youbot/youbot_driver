@@ -593,33 +593,73 @@ void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
       //   throw JointErrorException(errorMessage + "got over temperature");
     }
 
-    if (messageBuffer.stctInput.errorFlags & HALTED) {
+    if (messageBuffer.stctInput.errorFlags & MOTOR_HALTED) {
       //   LOG(error) << errorMessage << "is halted";
       //   throw JointErrorException(errorMessage + "is halted");
     }
 
-    if (messageBuffer.stctInput.errorFlags & HALL_SENSOR) {
+    if (messageBuffer.stctInput.errorFlags & HALL_SENSOR_ERROR) {
       LOG(error) << errorMessage << "got hall sensor problem";
       //   throw JointErrorException(errorMessage + "got hall sensor problem");
     }
 
-    if (messageBuffer.stctInput.errorFlags & ENCODER) {
+    if (messageBuffer.stctInput.errorFlags & ENCODER_ERROR) {
       LOG(error) << errorMessage << "got encoder problem";
       //   throw JointErrorException(errorMessage + "got encoder problem");
     }
 
-    if (messageBuffer.stctInput.errorFlags & MOTOR_WINDING) {
-      LOG(error) << errorMessage << "got motor winding problem";
+     if (messageBuffer.stctInput.errorFlags & INITIALIZATION_ERROR) {
+      LOG(error) << errorMessage << "got inizialization problem";
       //   throw JointErrorException(errorMessage + "got motor winding problem");
     }
 
-    if (messageBuffer.stctInput.errorFlags & CYCLE_TIME_VIOLATION) {
-      LOG(error) << errorMessage << "the cycle time is violated";
+    if (messageBuffer.stctInput.errorFlags & PWM_MODE_ACTIVE) {
+      LOG(error) << errorMessage << "has PWM mode active";
       //   throw JointErrorException(errorMessage + "the cycle time is violated");
     }
 
-    if (messageBuffer.stctInput.errorFlags & INIT_SIN_COMM) {
-      LOG(error) << errorMessage << "need to initialize the sinus commutation";
+    if (messageBuffer.stctInput.errorFlags & VELOCITY_MODE) {
+      LOG(error) << errorMessage << "has velocity mode active";
+      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & POSITION_MODE) {
+      LOG(info) << errorMessage << "has position mode active";
+      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & TORQUE_MODE) {
+      LOG(info) << errorMessage << "has torque mode active";
+      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & EMERGENCY_STOP) {
+      LOG(info) << errorMessage << "hasemergency stop active";
+      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & FREERUNNING) {
+      LOG(info) << errorMessage << "has freerunning active";
+      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & POSITION_REACHED) {
+      LOG(info) << errorMessage << "has position reached";
+      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & INITIALIZED) {
+      LOG(info) << errorMessage << "is initialized";
+      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & TIMEOUT) {
+      LOG(info) << errorMessage << "has a timeout";
+      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & I2T_EXCEEDED) {
+      LOG(info) << errorMessage << "exceeded I2t";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 

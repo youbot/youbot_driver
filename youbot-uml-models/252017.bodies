@@ -9,3 +9,7 @@ class EncoderTicksPerRound
       throw std::out_of_range("Zero Encoder Ticks per Round are not allowed");
     }
     this->value = parameter;
+!!!640625.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
