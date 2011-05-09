@@ -144,6 +144,9 @@ void FourSwedishWheelOmniBaseKinematic::wheelPositionsToCartesianPosition(const 
       this->lastWheelPositionInitialized = true;
     }
 
+    quantity<si::length> deltaLongitudinalPos;
+    quantity<si::length> deltaTransversalPos;
+
     quantity<si::length> wheel_radius_per4 = config.wheelRadius / 4.0;
 
     quantity<si::length> geom_factor = (config.lengthBetweenFrontAndRearWheels / 2.0) + (config.lengthBetweenFrontWheels / 2.0);
@@ -157,14 +160,17 @@ void FourSwedishWheelOmniBaseKinematic::wheelPositionsToCartesianPosition(const 
     lastWheelPositions[2] = wheelPositions[2];
     lastWheelPositions[3] = wheelPositions[3];
 
-    longitudinalPos += (-deltaPositionW1 + deltaPositionW2 - deltaPositionW3 + deltaPositionW4).value() * wheel_radius_per4.value() * meter;
-    transversalPos += (deltaPositionW1 + deltaPositionW2 - deltaPositionW3 - deltaPositionW4).value() * wheel_radius_per4.value() * meter;
+    deltaLongitudinalPos = (-deltaPositionW1 + deltaPositionW2 - deltaPositionW3 + deltaPositionW4).value() * wheel_radius_per4.value() * meter;
+    deltaTransversalPos = (deltaPositionW1 + deltaPositionW2 - deltaPositionW3 - deltaPositionW4).value() * wheel_radius_per4.value() * meter;
     angle += (deltaPositionW1 + deltaPositionW2 + deltaPositionW3 + deltaPositionW4) * (wheel_radius_per4 / geom_factor).value();
 
+    longitudinalPos += deltaLongitudinalPos * cos(angle) - deltaTransversalPos * sin(angle);
+    transversalPos += deltaLongitudinalPos * sin(angle) + deltaTransversalPos * cos(angle);
 
     longitudinalPosition = longitudinalPos;
     transversalPosition = transversalPos;
     orientation = angle;
+
   // Bouml preserved body end 00051371
 }
 
