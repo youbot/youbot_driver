@@ -72,8 +72,6 @@ void FourSwedishWheelOmniBaseKinematic::cartesianVelocityToWheelVelocities(const
     quantity<angular_velocity> RadPerSec_FromX;
     quantity<angular_velocity> RadPerSec_FromY;
     quantity<angular_velocity> RadPerSec_FromTheta;
-    quantity<si::length> Perimeter;
-    quantity<si::length> OneWheelRotation;
     wheelVelocities.assign(4, RadPerSec_FromX);
 
     if (config.wheelRadius.value() == 0 || config.rotationRatio == 0 || config.slideRatio == 0) {
@@ -85,10 +83,7 @@ void FourSwedishWheelOmniBaseKinematic::cartesianVelocityToWheelVelocities(const
     RadPerSec_FromY = transversalVelocity.value() / (config.wheelRadius.value() * config.slideRatio) * radian_per_second;
 
     // Calculate Rotation Component
-    Perimeter = (root < 2 > ((config.lengthBetweenFrontAndRearWheels * config.lengthBetweenFrontAndRearWheels) + (config.lengthBetweenFrontWheels * config.lengthBetweenFrontWheels))) * M_PI;
-    OneWheelRotation = config.rotationRatio * config.wheelRadius * 2.0 * M_PI;
-    RadPerSec_FromTheta = angularVelocity * (Perimeter / OneWheelRotation);
-
+    RadPerSec_FromTheta = ((config.lengthBetweenFrontAndRearWheels + config.lengthBetweenFrontWheels) / (2.0 * config.wheelRadius)) * angularVelocity;
 
     wheelVelocities[0] = -RadPerSec_FromX + RadPerSec_FromY + RadPerSec_FromTheta;
     wheelVelocities[1] = RadPerSec_FromX + RadPerSec_FromY + RadPerSec_FromTheta;

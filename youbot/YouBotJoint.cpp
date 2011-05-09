@@ -594,7 +594,7 @@ void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
     }
 
     if (messageBuffer.stctInput.errorFlags & MOTOR_HALTED) {
-      //   LOG(error) << errorMessage << "is halted";
+      //   LOG(info) << errorMessage << "is halted";
       //   throw JointErrorException(errorMessage + "is halted");
     }
 
@@ -619,47 +619,47 @@ void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
     }
 
     if (messageBuffer.stctInput.errorFlags & VELOCITY_MODE) {
-      LOG(error) << errorMessage << "has velocity mode active";
+   //   LOG(info) << errorMessage << "has velocity mode active";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & POSITION_MODE) {
-      LOG(info) << errorMessage << "has position mode active";
+   //   LOG(info) << errorMessage << "has position mode active";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & TORQUE_MODE) {
-      LOG(info) << errorMessage << "has torque mode active";
+   //   LOG(info) << errorMessage << "has torque mode active";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & EMERGENCY_STOP) {
-      LOG(info) << errorMessage << "hasemergency stop active";
+      LOG(info) << errorMessage << "has emergency stop active";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & FREERUNNING) {
-      LOG(info) << errorMessage << "has freerunning active";
+   //   LOG(info) << errorMessage << "has freerunning active";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & POSITION_REACHED) {
-      LOG(info) << errorMessage << "has position reached";
+  //    LOG(info) << errorMessage << "has position reached";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & INITIALIZED) {
-      LOG(info) << errorMessage << "is initialized";
+    //  LOG(info) << errorMessage << "is initialized";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & TIMEOUT) {
-      LOG(info) << errorMessage << "has a timeout";
+      LOG(error) << errorMessage << "has a timeout";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & I2T_EXCEEDED) {
-      LOG(info) << errorMessage << "exceeded I2t";
+      LOG(error) << errorMessage << "exceeded I2t";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 

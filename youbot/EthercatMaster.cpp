@@ -616,10 +616,11 @@ void EthercatMaster::updateSensorActorValues() {
 /*
       counter++;
       timeSum  = timeSum + realperiode;
+
       if(counter == 100){
 
         double dtotaltime = (double)timeSum.total_microseconds()/counter;
-        printf("TotalTime %7lf us\n", dtotaltime);
+        printf("TotalTime %7.0lf us\n", dtotaltime);
         counter = 0;
         timeSum = startTime - startTime;
       }
@@ -650,9 +651,9 @@ void EthercatMaster::updateSensorActorValues() {
             (firstBufferVector[i]).stctInput = *(ethercatInputBufferVector[i]);
 
             //check if RMS current is over the limit
-            actualCurrent = ((double) (firstBufferVector[i]).stctInput.actualCurrent) / 1000.0 * ampere;
-            now = boost::posix_time::microsec_clock::local_time();
-            motorProtections[i].isRMSCurrentOverLimit(actualCurrent, now);
+//            actualCurrent = ((double) (firstBufferVector[i]).stctInput.actualCurrent) / 1000.0 * ampere;
+//            now = boost::posix_time::microsec_clock::local_time();
+//            motorProtections[i].isRMSCurrentOverLimit(actualCurrent, now);
 
             //send mailbox messages from first buffer
             if (newMailboxDataFlagOne[i]) {
@@ -688,9 +689,9 @@ void EthercatMaster::updateSensorActorValues() {
             (secondBufferVector[i]).stctInput = *(ethercatInputBufferVector[i]);
 
             //check if RMS current is over the limit
-            actualCurrent = ((double) (firstBufferVector[i]).stctInput.actualCurrent) / 1000.0 * ampere;
-            now = boost::posix_time::microsec_clock::local_time();
-            motorProtections[i].isRMSCurrentOverLimit(actualCurrent, now);
+//            actualCurrent = ((double) (firstBufferVector[i]).stctInput.actualCurrent) / 1000.0 * ampere;
+//            now = boost::posix_time::microsec_clock::local_time();
+//            motorProtections[i].isRMSCurrentOverLimit(actualCurrent, now);
 
             //send mailbox messages from second buffer
             if (newMailboxDataFlagTwo[i]) {
@@ -716,11 +717,11 @@ void EthercatMaster::updateSensorActorValues() {
       //  printf("activeports:%i DCrtA:%i DCrtB:%d DCrtC:%d DCrtD:%d\n", (int)ec_slave[cnt].activeports, ec_slave[cnt].DCrtA, ec_slave[cnt].DCrtB, ec_slave[cnt].DCrtC, ec_slave[cnt].DCrtD);
       //  printf("next DC slave:%i previous DC slave:%i DC cyle time in ns:%d DC shift:%d DC sync activation:%d\n", ec_slave[cnt].DCnext, ec_slave[cnt].DCprevious, ec_slave[cnt].DCcycle, ec_slave[cnt].DCshift, ec_slave[cnt].DCactive);
 
-      for (unsigned int i = 0; i < motorProtections.size(); i++) {
-        if (motorProtections[i].createSafeMotorCommands(stopMotorCommand)) {
-          *(ethercatOutputBufferVector[i]) = stopMotorCommand.stctOutput;
-        }
-      }
+//      for (unsigned int i = 0; i < motorProtections.size(); i++) {
+//        if (motorProtections[i].createSafeMotorCommands(stopMotorCommand)) {
+//          *(ethercatOutputBufferVector[i]) = stopMotorCommand.stctOutput;
+//        }
+//      }
     }
   // Bouml preserved body end 0003F771
 }
