@@ -5,8 +5,6 @@ class FourSwedishWheelOmniBaseKinematic
     quantity<angular_velocity> RadPerSec_FromX;
     quantity<angular_velocity> RadPerSec_FromY;
     quantity<angular_velocity> RadPerSec_FromTheta;
-    quantity<si::length> Perimeter;
-    quantity<si::length> OneWheelRotation;
     wheelVelocities.assign(4, RadPerSec_FromX);
 
     if (config.wheelRadius.value() == 0 || config.rotationRatio == 0 || config.slideRatio == 0) {
@@ -18,10 +16,7 @@ class FourSwedishWheelOmniBaseKinematic
     RadPerSec_FromY = transversalVelocity.value() / (config.wheelRadius.value() * config.slideRatio) * radian_per_second;
 
     // Calculate Rotation Component
-    Perimeter = (root < 2 > ((config.lengthBetweenFrontAndRearWheels * config.lengthBetweenFrontAndRearWheels) + (config.lengthBetweenFrontWheels * config.lengthBetweenFrontWheels))) * M_PI;
-    OneWheelRotation = config.rotationRatio * config.wheelRadius * 2.0 * M_PI;
-    RadPerSec_FromTheta = angularVelocity * (Perimeter / OneWheelRotation);
-
+    RadPerSec_FromTheta = ((config.lengthBetweenFrontAndRearWheels + config.lengthBetweenFrontWheels) / (2.0 * config.wheelRadius)) * angularVelocity;
 
     wheelVelocities[0] = -RadPerSec_FromX + RadPerSec_FromY + RadPerSec_FromTheta;
     wheelVelocities[1] = RadPerSec_FromX + RadPerSec_FromY + RadPerSec_FromTheta;
@@ -64,6 +59,9 @@ class FourSwedishWheelOmniBaseKinematic
       this->lastWheelPositionInitialized = true;
     }
 
+    quantity<si::length> deltaLongitudinalPos;
+    quantity<si::length> deltaTransversalPos;
+
     quantity<si::length> wheel_radius_per4 = config.wheelRadius / 4.0;
 
     quantity<si::length> geom_factor = (config.lengthBetweenFrontAndRearWheels / 2.0) + (config.lengthBetweenFrontWheels / 2.0);
@@ -77,14 +75,17 @@ class FourSwedishWheelOmniBaseKinematic
     lastWheelPositions[2] = wheelPositions[2];
     lastWheelPositions[3] = wheelPositions[3];
 
-    longitudinalPos += (-deltaPositionW1 + deltaPositionW2 - deltaPositionW3 + deltaPositionW4).value() * wheel_radius_per4.value() * meter;
-    transversalPos += (deltaPositionW1 + deltaPositionW2 - deltaPositionW3 - deltaPositionW4).value() * wheel_radius_per4.value() * meter;
+    deltaLongitudinalPos = (-deltaPositionW1 + deltaPositionW2 - deltaPositionW3 + deltaPositionW4).value() * wheel_radius_per4.value() * meter;
+    deltaTransversalPos = (deltaPositionW1 + deltaPositionW2 - deltaPositionW3 - deltaPositionW4).value() * wheel_radius_per4.value() * meter;
     angle += (deltaPositionW1 + deltaPositionW2 + deltaPositionW3 + deltaPositionW4) * (wheel_radius_per4 / geom_factor).value();
 
+    longitudinalPos += deltaLongitudinalPos * cos(angle) - deltaTransversalPos * sin(angle);
+    transversalPos += deltaLongitudinalPos * sin(angle) + deltaTransversalPos * cos(angle);
 
     longitudinalPosition = longitudinalPos;
     transversalPosition = transversalPos;
     orientation = angle;
+
 !!!311665.cpp!!!	setConfiguration(in configuration : FourSwedishWheelOmniBaseKinematicConfiguration) : void
     this->config = configuration;
 !!!311793.cpp!!!	getConfiguration(out configuration : FourSwedishWheelOmniBaseKinematicConfiguration) : void

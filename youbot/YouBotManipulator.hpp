@@ -115,6 +115,8 @@ class YouBotManipulator {
   private:
     void initializeJoints();
 
+    void doJointCommutation();
+
     ConfigFile* configfile;
 
     std::vector<YouBotJoint> joints;

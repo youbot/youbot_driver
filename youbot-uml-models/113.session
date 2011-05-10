@@ -1,14 +1,9 @@
 window_sizes 1680 975 518 1156 894 0
 show_stereotypes
-selected artifact_ref 222065 // YouBotJointParameterReadOnly
+selected operation_ref 668529 // doJointCommutation
 open
   classview_ref 134641 // Joint
-  class_ref 297201 // MotorPoles
-  class_ref 361329 // ClearMotorControllerTimeoutFlag
-  operation_ref 650225 // toString
-  class_ref 361073 // RampGeneratorSpeed
-  class_ref 361841 // I2tSum
-  class_ref 328177 // MotorProtection
-  deploymentview_ref 161137 // Deployment
+  class_ref 286321 // YouBotManipulator
+  class_ref 286193 // YouBotBase
 end
 end

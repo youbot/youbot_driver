@@ -301,6 +301,8 @@ void YouBotManipulator::initializeJoints() {
       joints[i].setConfigurationParameter(inverseDir);
     }
 
+    //do the sine commutation of the joints
+    this->doJointCommutation();
 
     //TODO When to calibrate the manipulator and when it is not necessary
     //Calibrate all manipulator joints
@@ -373,6 +375,45 @@ void YouBotManipulator::initializeJoints() {
 
     return;
   // Bouml preserved body end 00068071
+}
+
+void YouBotManipulator::doJointCommutation() {
+  // Bouml preserved body begin 000A3371
+    
+    InitializeJoint doInitialization;
+    bool isInitialized = false;
+    int noInitialization = 0;
+
+    ClearMotorControllerTimeoutFlag clearTimeoutFlag;
+    for (unsigned int i = 1; i <= ARMJOINTS; i++) {
+      this->getArmJoint(i).setConfigurationParameter(clearTimeoutFlag);
+    }
+    
+    for (unsigned int i = 1; i <= ARMJOINTS; i++) {
+      doInitialization.setParameter(false);
+      this->getArmJoint(i).getConfigurationParameter(doInitialization);
+      doInitialization.getParameter(isInitialized);
+      if(!isInitialized){
+        noInitialization++;
+      }
+    }
+
+    if(noInitialization != 0){
+      doInitialization.setParameter(true);
+      LOG(info) << "Base Joint Commutation";
+
+      EthercatMaster::getInstance().AutomaticReceiveOn(false);
+      this->getArmJoint(1).setConfigurationParameter(doInitialization);
+      this->getArmJoint(2).setConfigurationParameter(doInitialization);
+      this->getArmJoint(3).setConfigurationParameter(doInitialization);
+      this->getArmJoint(4).setConfigurationParameter(doInitialization);
+      this->getArmJoint(5).setConfigurationParameter(doInitialization);
+      EthercatMaster::getInstance().AutomaticReceiveOn(true);
+
+      SLEEP_MILLISEC(2000);
+    }
+
+  // Bouml preserved body end 000A3371
 }
 
 
