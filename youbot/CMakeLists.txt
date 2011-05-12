@@ -11,6 +11,7 @@ SET(YOUBOT_DRIVER_SRC
   ${CMAKE_HOME_DIRECTORY}/youbot/MotorProtection.cpp
   ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameter.cpp
   ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameterReadOnly.cpp
+	${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameterPasswordProtected.cpp
   ${CMAKE_HOME_DIRECTORY}/base-kinematic/FourSwedishWheelOmniBaseKinematic.cpp
   ${CMAKE_HOME_DIRECTORY}/base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.cpp
 )
@@ -23,6 +24,7 @@ SET(YOUBOT_DRIVER_HEADERS
   YouBotManipulator.hpp
   YouBotJoint.hpp
   YouBotJointParameterReadOnly.hpp
+	YouBotJointParameterPasswordProtected.hpp
   YouBotJointParameter.hpp
   YouBotSlaveMailboxMsg.hpp
   YouBotSlaveMsg.hpp

@@ -194,6 +194,10 @@ classcanvas 152305 class_ref 361841 // I2tSum
   draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
   xyz 81 361 2006
 end
+classcanvas 152945 class_ref 368753 // YouBotJointParameterPasswordProtected
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  xyz -119 463 2029
+end
 relationcanvas 128881 relation_ref 210673 // <generalisation>
   from ref 128625 z 2001 to ref 128497
   no_role_a no_role_b
@@ -295,58 +299,63 @@ relationcanvas 148337 relation_ref 231665 // <generalisation>
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end
-relationcanvas 148721 relation_ref 301297 // <generalisation>
-  from ref 145393 z 2024 to ref 128753
-  no_role_a no_role_b
-  no_multiplicity_a no_multiplicity_b
-end
-relationcanvas 149105 relation_ref 301425 // <generalisation>
-  from ref 145649 z 2024 to ref 128753
-  no_role_a no_role_b
-  no_multiplicity_a no_multiplicity_b
-end
-relationcanvas 149489 relation_ref 301553 // <generalisation>
-  from ref 145905 z 2024 to ref 128753
-  no_role_a no_role_b
-  no_multiplicity_a no_multiplicity_b
-end
-relationcanvas 149873 relation_ref 301681 // <generalisation>
-  from ref 146161 z 2024 to ref 128753
-  no_role_a no_role_b
-  no_multiplicity_a no_multiplicity_b
-end
-relationcanvas 150257 relation_ref 301809 // <generalisation>
-  from ref 146417 z 2024 to ref 128753
-  no_role_a no_role_b
-  no_multiplicity_a no_multiplicity_b
-end
-relationcanvas 151665 relation_ref 301937 // <generalisation>
-  from ref 133361 z 2024 to ref 128753
-  no_role_a no_role_b
-  no_multiplicity_a no_multiplicity_b
-end
-relationcanvas 151793 relation_ref 301937 // <generalisation>
-  from ref 146673 z 2024 to ref 128753
-  no_role_a no_role_b
-  no_multiplicity_a no_multiplicity_b
-end
-relationcanvas 151921 relation_ref 302065 // <generalisation>
-  from ref 146929 z 2024 to ref 128753
-  no_role_a no_role_b
-  no_multiplicity_a no_multiplicity_b
-end
-relationcanvas 152049 relation_ref 302321 // <generalisation>
-  from ref 147441 z 2024 to ref 128753
-  no_role_a no_role_b
-  no_multiplicity_a no_multiplicity_b
-end
-relationcanvas 152177 relation_ref 302193 // <generalisation>
-  from ref 147185 z 2024 to ref 128753
-  no_role_a no_role_b
-  no_multiplicity_a no_multiplicity_b
-end
 relationcanvas 152561 relation_ref 323313 // <generalisation>
   from ref 152305 z 2018 to ref 131825
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 153073 relation_ref 330097 // <generalisation>
+  from ref 152945 z 2030 to ref 128753
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 153201 relation_ref 334193 // <generalisation>
+  from ref 145649 z 2030 to ref 152945
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 153329 relation_ref 334705 // <generalisation>
+  from ref 133361 z 2030 to ref 152945
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 153457 relation_ref 334705 // <generalisation>
+  from ref 146673 z 2030 to ref 152945
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 153585 relation_ref 334321 // <generalisation>
+  from ref 145905 z 2030 to ref 152945
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 153713 relation_ref 334833 // <generalisation>
+  from ref 146929 z 2030 to ref 152945
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 153841 relation_ref 334449 // <generalisation>
+  from ref 146161 z 2030 to ref 152945
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 153969 relation_ref 334577 // <generalisation>
+  from ref 146417 z 2030 to ref 152945
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 154097 relation_ref 335089 // <generalisation>
+  from ref 147441 z 2030 to ref 152945
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 154225 relation_ref 334961 // <generalisation>
+  from ref 147185 z 2030 to ref 152945
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 154353 relation_ref 334065 // <generalisation>
+  from ref 145393 z 2030 to ref 152945
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end

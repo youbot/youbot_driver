@@ -64,6 +64,7 @@
 #include "youbot/YouBotJointStorage.hpp"
 #include "youbot/ProtocolDefinitions.hpp"
 #include "youbot/YouBotJointParameter.hpp"
+#include "youbot/YouBotJointParameterPasswordProtected.hpp"
 #include "youbot/YouBotSlaveMsg.hpp"
 #include "youbot/YouBotSlaveMailboxMsg.hpp"
 

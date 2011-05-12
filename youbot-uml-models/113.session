@@ -1,9 +1,14 @@
 window_sizes 1680 975 518 1156 894 0
 show_stereotypes
-selected operation_ref 668529 // doJointCommutation
+selected artifact_ref 241649 // YouBotJointParameterPasswordProtected
 open
-  classview_ref 134641 // Joint
-  class_ref 286321 // YouBotManipulator
-  class_ref 286193 // YouBotBase
+  class_ref 294257 // RampGeneratorSpeedAndPositionControl
+  class_ref 293361 // MotorAcceleration
+  class_ref 319985 // DParameterSecondParametersCurrentControl
+  classview_ref 174065 // YouBotJointParameterPasswordProtected
+  classview_ref 160881 // YouBot
+  deploymentview_ref 161137 // Deployment
+  
+  package_ref 180849 // base-kinematic
 end
 end

@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 43
+  revision 44
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -52,6 +52,7 @@ ${description}
 #include \"youbot/YouBotJointStorage.hpp\"
 #include \"youbot/ProtocolDefinitions.hpp\"
 #include \"youbot/YouBotJointParameter.hpp\"
+#include \"youbot/YouBotJointParameterPasswordProtected.hpp\"
 #include \"youbot/YouBotSlaveMsg.hpp\"
 #include \"youbot/YouBotSlaveMailboxMsg.hpp\"
 
@@ -523,58 +524,36 @@ ${namespace_start}
 ${members}
 ${namespace_end}"
       associated_classes
+	class_ref 266481 // CalibrationDirection
 	class_ref 238577 // YouBotJointParameter
 	class_ref 251889 // JointName
+	class_ref 347761 // InitializeJoint
+	class_ref 266353 // CalibrateJoint
 	class_ref 354545 // FirmwareVersion
-	class_ref 266481 // CalibrationDirection
 	class_ref 251761 // GearRatio
 	class_ref 252017 // EncoderTicksPerRound
 	class_ref 252145 // InverseMovementDirection
-	class_ref 266353 // CalibrateJoint
 	class_ref 273009 // JointLimits
 	class_ref 279537 // StopJoint
 	class_ref 279665 // NoMoreAction
-	class_ref 347761 // InitializeJoint
 	class_ref 245105 // MaximumPositioningVelocity
-	class_ref 310513 // PWMLimit
-	class_ref 293233 // MaximumMotorCurrent
-	class_ref 310385 // MaximumVelocityToSetPosition
-	class_ref 293105 // SpeedControlSwitchingThreshold
-	class_ref 310641 // ClearTargetDistance
-	class_ref 310769 // PositionTargetReachedDistance
 	class_ref 293361 // MotorAcceleration
+	class_ref 294257 // RampGeneratorSpeedAndPositionControl
 	class_ref 295921 // PositionControlSwitchingThreshold
+	class_ref 293105 // SpeedControlSwitchingThreshold
+	class_ref 320241 // CurrentControlSwitchingThreshold
 	class_ref 252273 // PParameterFirstParametersPositionControl
 	class_ref 292849 // IParameterFirstParametersPositionControl
 	class_ref 292977 // DParameterFirstParametersPositionControl
-	class_ref 293489 // PIDControlTime
-	class_ref 310897 // CurrentControlLoopDelay
 	class_ref 293617 // IClippingParameterFirstParametersPositionControl
-	class_ref 311025 // PWMHysteresis
-	class_ref 311153 // ClearISumIfPWMReachesMaximum
-	class_ref 311281 // ClearISumIfOvershootsTarget
 	class_ref 293745 // PParameterFirstParametersSpeedControl
 	class_ref 293873 // IParameterFirstParametersSpeedControl
 	class_ref 294001 // DParameterFirstParametersSpeedControl
 	class_ref 294129 // IClippingParameterFirstParametersSpeedControl
-	class_ref 294257 // RampGeneratorSpeedAndPositionControl
-	class_ref 294385 // ReinitializationSinusoidalCommutation
-	class_ref 317809 // SetEncoderCounterZeroAtNextNChannel
-	class_ref 317937 // SetEncoderCounterZeroAtNextSwitch
-	class_ref 318065 // SetEncoderCounterZeroOnlyOnce
-	class_ref 318193 // EncoderStopSwitch
-	class_ref 318321 // ActualCommutationOffset
-	class_ref 318449 // StopSwitchPolarity
 	class_ref 319217 // PParameterFirstParametersCurrentControl
 	class_ref 319345 // IParameterFirstParametersCurrentControl
 	class_ref 319473 // DParameterFirstParametersCurrentControl
 	class_ref 319601 // IClippingParameterFirstParametersCurrentControl
-	class_ref 319729 // PParameterSecondParametersCurrentControl
-	class_ref 319857 // IParameterSecondParametersCurrentControl
-	class_ref 319985 // DParameterSecondParametersCurrentControl
-	class_ref 320113 // IClippingParameterSecondParametersCurrentControl
-	class_ref 320241 // CurrentControlSwitchingThreshold
-	class_ref 341233 // CommutationMotorCurrent
 	class_ref 294513 // PParameterSecondParametersPositionControl
 	class_ref 294641 // IParameterSecondParametersPositionControl
 	class_ref 294769 // DParameterSecondParametersPositionControl
@@ -583,34 +562,139 @@ ${namespace_end}"
 	class_ref 295153 // IParameterSecondParametersSpeedControl
 	class_ref 295281 // DParameterSecondParametersSpeedControl
 	class_ref 295409 // IClippingParameterSecondParametersSpeedControl
-	class_ref 320881 // MassInertiaConstant
+	class_ref 319729 // PParameterSecondParametersCurrentControl
+	class_ref 319857 // IParameterSecondParametersCurrentControl
+	class_ref 319985 // DParameterSecondParametersCurrentControl
+	class_ref 320113 // IClippingParameterSecondParametersCurrentControl
+      end
+      comment "/****************************************************************
+ *
+ * Copyright (c) 2011
+ * All rights reserved.
+ *
+ * Hochschule Bonn-Rhein-Sieg
+ * University of Applied Sciences
+ * Computer Science Department
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Author:
+ * Jan Paulus, Nico Hochgeschwender, Michael Reckhaus, Azamat Shakhimardanov
+ * Supervised by:
+ * Gerhard K. Kraetzschmar
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * This sofware is published under a dual-license: GNU Lesser General Public 
+ * License LGPL 2.1 and BSD license. The dual-license implies that users of this
+ * code may choose which terms they prefer.
+ *
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Hochschule Bonn-Rhein-Sieg nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License LGPL as
+ * published by the Free Software Foundation, either version 2.1 of the
+ * License, or (at your option) any later version or the BSD license.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License LGPL and the BSD license for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License LGPL and BSD license along with this program.
+ *
+ ****************************************************************/"
+    end
+
+    artifact 241649 "YouBotJointParameterPasswordProtected"
+      stereotype "source"
+      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
+#define ${NAMESPACE}_${NAME}_H
+
+${description}
+#include <vector>
+#include <sstream>
+#include <boost/limits.hpp>
+#include \"generic/Logger.hpp\"
+#include \"generic/Units.hpp\"
+#include \"generic/Time.hpp\"
+#include \"generic/Exceptions.hpp\"
+#include \"generic-joint/JointParameter.hpp\"
+#include \"youbot/YouBotJointParameter.hpp\"
+#include \"youbot/ProtocolDefinitions.hpp\"
+#include \"youbot/YouBotSlaveMsg.hpp\"
+#include \"youbot/YouBotSlaveMailboxMsg.hpp\"
+#include \"youbot/YouBotJointStorage.hpp\"
+${namespace_start}
+${definition}
+${namespace_end}
+#endif"
+      cpp_src "${description}
+#include \"youbot/YouBotJointParameterPasswordProtected.hpp\"
+${namespace_start}
+${members}
+${namespace_end}"
+      associated_classes
+	class_ref 368753 // YouBotJointParameterPasswordProtected
+	class_ref 321265 // ActivateOvervoltageProtection
+	class_ref 318321 // ActualCommutationOffset
+	class_ref 348017 // ApproveProtectedParameters
 	class_ref 321009 // BEMFConstant
-	class_ref 295537 // SineInitializationVelocity
+	class_ref 362097 // ClearI2tExceededFlag
+	class_ref 311281 // ClearISumIfOvershootsTarget
+	class_ref 311153 // ClearISumIfPWMReachesMaximum
+	class_ref 361329 // ClearMotorControllerTimeoutFlag
+	class_ref 310641 // ClearTargetDistance
 	class_ref 295665 // CommutationCompensationClockwise
 	class_ref 295793 // CommutationCompensationCounterClockwise
-	class_ref 321137 // InitSineDelay
-	class_ref 321265 // ActivateOvervoltageProtection
-	class_ref 321393 // MaximumPWMChangePerPIDInterval
-	class_ref 321521 // SineCompensationFactor
-	class_ref 348017 // ApproveProtectedParameters
-	class_ref 321649 // EncoderNullPolarity
-	class_ref 296561 // MotorContollerGearRatio
 	class_ref 296305 // CommutationMode
+	class_ref 341233 // CommutationMotorCurrent
+	class_ref 310897 // CurrentControlLoopDelay
+	class_ref 321649 // EncoderNullPolarity
 	class_ref 296945 // EncoderResolution
+	class_ref 318193 // EncoderStopSwitch
 	class_ref 297329 // HallSensorPolarityReversal
-	class_ref 296817 // InitializationMode
-	class_ref 296689 // MotorCoilResistance
-	class_ref 297201 // MotorPoles
-	class_ref 296177 // PIDControllerState
-	class_ref 296433 // PWMSchemeBlockCommutation
-	class_ref 297073 // ReversingEncoderDirection
-	class_ref 361201 // MotorControllerTimeout
-	class_ref 361329 // ClearMotorControllerTimeoutFlag
-	class_ref 362097 // ClearI2tExceededFlag
 	class_ref 361969 // I2tExceedCounter
 	class_ref 361713 // I2tLimit
-	class_ref 361457 // ThermalWindingTimeConstant
+	class_ref 296817 // InitializationMode
+	class_ref 321137 // InitSineDelay
+	class_ref 320881 // MassInertiaConstant
+	class_ref 293233 // MaximumMotorCurrent
+	class_ref 321393 // MaximumPWMChangePerPIDInterval
+	class_ref 310385 // MaximumVelocityToSetPosition
+	class_ref 296689 // MotorCoilResistance
+	class_ref 296561 // MotorContollerGearRatio
+	class_ref 361201 // MotorControllerTimeout
+	class_ref 297201 // MotorPoles
 	class_ref 361585 // OperationalTime
+	class_ref 296177 // PIDControllerState
+	class_ref 293489 // PIDControlTime
+	class_ref 310769 // PositionTargetReachedDistance
+	class_ref 311025 // PWMHysteresis
+	class_ref 310513 // PWMLimit
+	class_ref 296433 // PWMSchemeBlockCommutation
+	class_ref 294385 // ReinitializationSinusoidalCommutation
+	class_ref 297073 // ReversingEncoderDirection
+	class_ref 317809 // SetEncoderCounterZeroAtNextNChannel
+	class_ref 317937 // SetEncoderCounterZeroAtNextSwitch
+	class_ref 318065 // SetEncoderCounterZeroOnlyOnce
+	class_ref 321521 // SineCompensationFactor
+	class_ref 295537 // SineInitializationVelocity
+	class_ref 318449 // StopSwitchPolarity
+	class_ref 361457 // ThermalWindingTimeConstant
       end
       comment "/****************************************************************
  *
