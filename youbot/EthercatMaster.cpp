@@ -524,13 +524,15 @@ void EthercatMaster::getMailboxMsgBuffer(YouBotSlaveMailboxMsg& mailboxMsg, cons
     if (newMailboxInputDataFlagOne[jointNumber - 1] == true) {
       {
         boost::mutex::scoped_lock dataMutex1(mutexDataOne);
-        mailboxMsg = firstMailboxBufferVector[jointNumber - 1];
+        mailboxMsg.stctInput = firstMailboxBufferVector[jointNumber - 1].stctInput;
+     //   mailboxMsg.stctOutput = firstMailboxBufferVector[jointNumber - 1].stctOutput;
         newMailboxInputDataFlagOne[jointNumber - 1] = false;
       }
     } else if (newMailboxInputDataFlagTwo[jointNumber - 1] == true) {
       {
         boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
-        mailboxMsg = secondMailboxBufferVector[jointNumber - 1];
+        mailboxMsg.stctInput = secondMailboxBufferVector[jointNumber - 1].stctInput;
+    //    mailboxMsg.stctOutput = secondMailboxBufferVector[jointNumber - 1].stctOutput;
         newMailboxInputDataFlagTwo[jointNumber - 1] = false;
       }
 

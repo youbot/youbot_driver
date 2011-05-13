@@ -207,7 +207,7 @@ void YouBotGripper::parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailbox
       case NO_ERROR:
         break;
       case INVALID_COMMAND:
-        LOG(error) << errorMessage << "Parameter name: " << mailboxMsg.parameterName << "; Command no: " << mailboxMsg.stctInput.commandNumber << " is an invalid command!" ;
+        LOG(error) << errorMessage << "Parameter name: " << mailboxMsg.parameterName << "; Command no: " << mailboxMsg.stctOutput.commandNumber << " is an invalid command!" ;
       //    throw JointParameterException(errorMessage + "invalid command");
         break;
       case WRONG_TYPE:
@@ -215,7 +215,7 @@ void YouBotGripper::parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailbox
       //    throw JointParameterException(errorMessage + "wrong type");
         break;
       case INVALID_VALUE:
-        LOG(error) << errorMessage << "Parameter name: " << mailboxMsg.parameterName << " Value: " << mailboxMsg.stctInput.value << " is a invalid value!";
+        LOG(error) << errorMessage << "Parameter name: " << mailboxMsg.parameterName << " Value: " << mailboxMsg.stctOutput.value << " is a invalid value!";
       //    throw JointParameterException(errorMessage + "invalid value");
         break;
       case CONFIGURATION_EEPROM_LOCKED:
@@ -223,7 +223,7 @@ void YouBotGripper::parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailbox
       //    throw JointParameterException(errorMessage + "configuration EEPROM locked");
         break;
       case COMMAND_NOT_AVAILABLE:
-        LOG(error) << errorMessage << "Parameter name: " << mailboxMsg.parameterName << "; Command no: " << mailboxMsg.stctInput.commandNumber << "Command is not available!";
+        LOG(error) << errorMessage << "Parameter name: " << mailboxMsg.parameterName << "; Command no: " << mailboxMsg.stctOutput.commandNumber << "Command is not available!";
       //    throw JointParameterException(errorMessage + "command not available");
         break;
     }
