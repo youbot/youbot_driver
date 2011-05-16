@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 44
+  revision 45
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -654,7 +654,6 @@ ${namespace_end}"
 	class_ref 348017 // ApproveProtectedParameters
 	class_ref 321009 // BEMFConstant
 	class_ref 362097 // ClearI2tExceededFlag
-	class_ref 311281 // ClearISumIfOvershootsTarget
 	class_ref 311153 // ClearISumIfPWMReachesMaximum
 	class_ref 361329 // ClearMotorControllerTimeoutFlag
 	class_ref 310641 // ClearTargetDistance

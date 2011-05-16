@@ -336,53 +336,6 @@ void ClearI2tExceededFlag::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& mess
   // Bouml preserved body end 000A18F1
 }
 
-ClearISumIfOvershootsTarget::ClearISumIfOvershootsTarget() {
-  // Bouml preserved body begin 0007AB71
-    this->name = "ClearISumIfOvershootsTarget";
-    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-  // Bouml preserved body end 0007AB71
-}
-
-ClearISumIfOvershootsTarget::~ClearISumIfOvershootsTarget() {
-  // Bouml preserved body begin 0007ABF1
-  // Bouml preserved body end 0007ABF1
-}
-
-void ClearISumIfOvershootsTarget::getParameter(bool& parameter) const {
-  // Bouml preserved body begin 0007AC71
-    parameter = this->value;
-  // Bouml preserved body end 0007AC71
-}
-
-void ClearISumIfOvershootsTarget::setParameter(const bool parameter) {
-  // Bouml preserved body begin 0007ACF1
-    this->value = parameter;
-  // Bouml preserved body end 0007ACF1
-}
-
-void ClearISumIfOvershootsTarget::toString(std::string& value) {
-  // Bouml preserved body begin 0009D1F1
-  std::stringstream ss;
-  ss << this->name << ": " << this->value;
-  value  = ss.str();
-  // Bouml preserved body end 0009D1F1
-}
-
-void ClearISumIfOvershootsTarget::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
-  // Bouml preserved body begin 0007AD71
-    message.stctOutput.commandNumber = msgType;
-    message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 138; //ClearISumIfOvershootsTarget
-    message.stctOutput.value = value;
-  // Bouml preserved body end 0007AD71
-}
-
-void ClearISumIfOvershootsTarget::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
-  // Bouml preserved body begin 0007ADF1
-    this->value = message.stctInput.value;
-  // Bouml preserved body end 0007ADF1
-}
-
 ClearISumIfPWMReachesMaximum::ClearISumIfPWMReachesMaximum() {
   // Bouml preserved body begin 0007A771
     this->name = "ClearISumIfPWMReachesMaximum";

@@ -273,39 +273,6 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// Clears I Sum if the position overshoots the target value. 
-///////////////////////////////////////////////////////////////////////////////
-class ClearISumIfOvershootsTarget : public YouBotJointParameterPasswordProtected {
-friend class YouBotJoint;
-  public:
-    ClearISumIfOvershootsTarget();
-
-    virtual ~ClearISumIfOvershootsTarget();
-
-    void getParameter(bool& parameter) const;
-
-    void setParameter(const bool parameter);
-
-    void toString(std::string& value);
-
-
-  private:
-    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
-
-    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
-
-    std::string getName() const {return this->name;};
-
-    ParameterType getType() const {return this->parameterType;};
-
-    bool value;
-
-    std::string name;
-
-    ParameterType parameterType;
-
-};
-///////////////////////////////////////////////////////////////////////////////
 /// Clears I Sum if PWM reaches maximum value of 100%. 
 ///////////////////////////////////////////////////////////////////////////////
 class ClearISumIfPWMReachesMaximum : public YouBotJointParameterPasswordProtected {

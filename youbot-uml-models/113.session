@@ -1,8 +1,8 @@
-window_sizes 1672 972 518 1148 889 0
+window_sizes 1680 975 518 1156 894 0
 show_stereotypes
-selected classview_ref 167537 // YouBotJointParameterReadOnly
 open
+  classview_ref 174065 // YouBotJointParameterPasswordProtected
   
-package_ref 180849 // base-kinematic
+  package_ref 180849 // base-kinematic
 end
 end
