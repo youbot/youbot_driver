@@ -86,7 +86,7 @@ namespace youbot {
         ~Logger();
 
         template <class T>
-        Logger::Logger & operator<<(const T &v) {
+        Logger & operator<<(const T &v) {
             out << v;
             return *this;
         }
