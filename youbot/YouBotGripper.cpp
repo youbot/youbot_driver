@@ -180,10 +180,14 @@ void YouBotGripper::setData(const GripperBarSpacingSetPoint& barSpacing) {
     message.stctOutput.moduleAddress = GRIPPER;
     message.stctOutput.commandNumber = MVP;
     message.stctOutput.typeNumber = 1; //move gripper
-    message.stctOutput.motorNumber = 0; //always zero
     message.stctOutput.value = (int)(((this->lastGripperPosition - barSpacing.barSpacing)+barSpacingOffset)/maxTravelDistance * maxEncoderValue);
 
     this->lastGripperPosition = barSpacing.barSpacing;
+
+    message.stctOutput.motorNumber = 0; //move bar 0
+    setValueToMotorContoller(message);
+
+    message.stctOutput.motorNumber = 1; //move bar 1
     setValueToMotorContoller(message);
 
   // Bouml preserved body end 0005F8F1
