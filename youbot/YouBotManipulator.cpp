@@ -54,7 +54,7 @@ namespace youbot {
 YouBotManipulator::YouBotManipulator(const std::string name, const std::string configFilePath) {
   // Bouml preserved body begin 00067F71
 
-  this->controllerType = 174;
+  this->controllerType = 841;
   this->minFirmwareVersion = 1.43;
     
   string filename;
