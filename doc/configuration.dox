@@ -1,0 +1,71 @@
+/*!
+
+@page configuration Configuration
+
+
+@par Configuration file
+
+The configuration files contains all parameter for the youBot API. They are located in the config folder. 
+
+The youbot-ethercat.cfg file contains all parameters for the EtherCAT communication.
+Here is is possible to specify the Ethernet device name. The cycle time of the communication thread can be changed be the parameter EtherCATUpdateRate_[usec].
+
+The Topology of the youBot joint can be configured in the youbot-base.cfg and youbot-manipulator.cfg. Here you can assign to each youbot::YouBotJoint one EtherCAT slave.
+
+Additionally the config files contain joint specific parameters like the gear ratio or the encoder ticks per round. These parameters are needed by the API to do proper calculations. 
+
+
+@par Configuration parameters
+
+
+The motor controller parameters like the PID controller values can be modified by youbot::YouBotJointParameter.
+This is a list of the parameters:
+
+
+- youbot::MaximumPositioningVelocity in s^-1 rad 
+- youbot::MotorAcceleration in s^-2 rad
+- youbot::RampGeneratorSpeedAndPositionControl
+
+
+The switching threshold defines the joint speed when the second parameters set should be used. If the threshold is zero the second set is always used.
+- youbot::PositionControlSwitchingThreshold in s^-1 rad
+- youbot::SpeedControlSwitchingThreshold in s^-1 rad
+- youbot::CurrentControlSwitchingThreshold in s^-1 rad
+
+- youbot::PParameterFirstParametersPositionControl
+- youbot::IParameterFirstParametersPositionControl
+- youbot::DParameterFirstParametersPositionControl
+- youbot::IClippingParameterFirstParametersPositionControl
+
+- youbot::PParameterFirstParametersSpeedControl
+- youbot::IParameterFirstParametersSpeedControl
+- youbot::DParameterFirstParametersSpeedControl
+- youbot::IClippingParameterFirstParametersSpeedControl
+
+- youbot::PParameterFirstParametersCurrentControl
+- youbot::IParameterFirstParametersCurrentControl
+- youbot::DParameterFirstParametersCurrentControl
+- youbot::IClippingParameterFirstParametersCurrentControl
+
+- youbot::PParameterSecondParametersPositionControl
+- youbot::IParameterSecondParametersPositionControl
+- youbot::DParameterSecondParametersPositionControl
+- youbot::IClippingParameterSecondParametersPositionControl
+
+- youbot::PParameterSecondParametersSpeedControl
+- youbot::IParameterSecondParametersSpeedControl
+- youbot::DParameterSecondParametersSpeedControl
+- youbot::IClippingParameterSecondParametersSpeedControl
+
+- youbot::PParameterSecondParametersCurrentControl
+- youbot::IParameterSecondParametersCurrentControl
+- youbot::DParameterSecondParametersCurrentControl
+- youbot::IClippingParameterSecondParametersCurrentControl
+
+
+
+
+There is also a stand alone application to configure the joint parameters.  You can find it here:  https://github.com/youbot/youbot_applications/tree/master/joint_configurator
+
+
+*/

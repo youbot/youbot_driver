@@ -1,80 +1,7 @@
-/*! \mainpage
+/*!
 
-\section YouBotAPI
+@page usage Usage
 
-The basic idea of the youBot API is to represent a robot system as a combination of decoupled functional sub-systems. That is, this API represents manipulator arm and base platform as the combination of several joints. At the same time each joint is defined as a combination of a motor and a gearbox.
-
-There are three main classes in the youBot API that a user should be aware of.
-
-- YouBotManipulator class that represents youBot arm as the aggregation of several joints and a gripper
-- YouBotBase class that represents youBot base platform
-- YouBotJoint class that represents joints which make up both the manipulator and the base
-
-
-\section install Installation
-
-
-\subsection sysreq System requirements: 
-- Linux 
-- Ethernet adapter 
-- Root access to the Ethernet adapter 
-
-These libraries are required by the youBot API: 
-
-- Simple Open EtherCAT master http://soem.berlios.de
-- Boost C++ Libraries http://www.boost.org
-
-You can fetch, compile and install these library by hand or you can use robotpkg a software packaging tool to do this automatically. 
-
-\subsection instrobopkg Installation with robotpkg:
-If you want to use robotpkg please visit https://github.com/youbot/youbot_packages/wiki for more details.
-
-
-\subsection maninstal Manual installation:
-First, make sure that you have the gnu-make software available on your system (version 3.81 or later required), as well as a working C compiler chain.
-
-The console commands below are exemplary for a Ubuntu Linux.
-
-You will need a git version control software:
-@code
-    sudo apt-get install git git-core
-@endcode
-Cmake a cross platform make is also necessary:
-@code
-    sudo apt-get install cmake
-@endcode
-
-To download the youBot API sources type:
-@code
-    git clone git://github.com/youbot/youbot_driver.git
-@endcode
-
-Download the Simple Open EtherCAT master (SOEM) software from the website http://soem.berlios.de
-
-Before you compile the SOEM software you have to apply two patches, which can be downloaded here: https://github.com/youbot/youbot_driver/wiki/SOEMpatches.tar.gz
-
-After you have compiled and installed the SOEM you also have to install boost.
-
-@code
-    sudo apt-get install libboost-all-dev
-@endcode
-
-Now you should be able to compile the youBot API.
-@code
-    cd <your_folder>/youbot_driver
-    mkdir build
-    cd build
-    cmake ..
-    make
-@endcode
-
-The binaries will be generated in the folder ~/youbot_driver/bin. The libraries will be generated in the folder ~/youbot_driver/lib.
-
-
-If you do not want to do these steps manually, please use robotpkg.
-
-
-\section usage Usage
 
 The youBot API give you complete joint level access to the youBot joints. Every youBot joint is represented as a youbot::YouBotJoint class in the API.
 
@@ -146,11 +73,5 @@ sudo setcap cap_net_raw+ep ./YouBot_KeyboardRemoteControl
 
 This have to be done whenever the executable is created or replaces e.g. after building.
 
-\section license License
 
-
-This software is published under a dual-license: GNU Lesser General Public
-License LGPL 2.1 and BSD license. The dual-license implies that users of this
-code may choose which terms they prefer.
 */
-

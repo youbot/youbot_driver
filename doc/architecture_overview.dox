@@ -1,0 +1,12 @@
+/*!
+
+@page architecture_overview Architectural Overview
+
+
+@image html architecture.png.
+
+This figure shows the  rough
+ architectural overview of the youBot API. The arrows are indicating the data flow. As depicted uses the API a separate communication thread to handle the EtherCAT communication. The data transfer between the user thread and the communication thread is done by a buffer. The default value for the cycle time of the communication thread is 1 ms. The threading is totally encapsulated in the youbot::EthercatMaster class. The youbot:YouBotJoint class uses the youbot::EthercatMaster class to send and receive information from the youBot.
+
+
+*/

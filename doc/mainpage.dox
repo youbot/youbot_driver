@@ -1,0 +1,21 @@
+/*! \mainpage
+
+\section YouBotAPI
+
+The basic idea of the youBot API is to represent a robot system as a combination of decoupled functional sub-systems. That is, this API represents manipulator arm and base platform as the combination of several joints. At the same time each joint is defined as a combination of a motor and a gearbox.
+
+There are three main classes in the youBot API that a user should be aware of.
+
+- YouBotManipulator class that represents youBot arm as the aggregation of several joints and a gripper
+- YouBotBase class that represents youBot base platform
+- YouBotJoint class that represents joints which make up both the manipulator and the base
+
+
+\section license License
+
+
+This software is published under a dual-license: GNU Lesser General Public
+License LGPL 2.1 and BSD license. The dual-license implies that users of this
+code may choose which terms they prefer.
+*/
+
