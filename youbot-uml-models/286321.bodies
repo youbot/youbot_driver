@@ -1,6 +1,9 @@
 class YouBotManipulator
 !!!425841.cpp!!!	YouBotManipulator(in name : string, in configFilePath : string = "../config/")
 
+  this->controllerType = 174;
+  this->minFirmwareVersion = 1.43;
+    
   string filename;
   filename = name;
   filename.append(".cfg");
@@ -87,6 +90,8 @@ class YouBotManipulator
     joints[3].getData(data[3]);
     joints[4].getData(data[4]);
     EthercatMaster::getInstance().AutomaticReceiveOn(true);
+!!!688881.cpp!!!	areSame(in A : double, in B : double) : bool
+    return std::fabs(A - B) < 0.0001;
 !!!426097.cpp!!!	initializeJoints() : void
 
     LOG(info) << "Initializing Joints";
@@ -152,12 +157,40 @@ class YouBotManipulator
     double gearRatio_denominator = 1;
     MotorContollerGearRatio contollerGearRatio;
     contollerGearRatio.setParameter(0);
+    FirmwareVersion firmwareTypeVersion;
 
 
     for (unsigned int i = 0; i < ARMJOINTS; i++) {
       std::stringstream jointNameStream;
       jointNameStream << "Joint_" << i + 1;
       jointName = jointNameStream.str();
+      
+      
+      joints[i].getConfigurationParameter(firmwareTypeVersion);
+      std::string version;
+      int controllerType;
+      double firmwareVersion;
+      firmwareTypeVersion.getParameter(controllerType, firmwareVersion);
+      
+      string name;
+      configfile->readInto(name, jointName, "JointName");
+      jName.setParameter(name);
+
+      LOG(info) << jointName << " " << name << ": Controller Type: " << controllerType << " Firmware version: " << firmwareVersion;
+      
+      if(this->controllerType != controllerType){
+        std::stringstream ss;
+        ss << "The youBot base motor controller have to be of type: "<< this->controllerType;
+        throw std::runtime_error(ss.str().c_str());
+      }
+      
+      if(!areSame(firmwareVersion,this->minFirmwareVersion)){
+        if(firmwareVersion < this->minFirmwareVersion){
+          std::stringstream ss;
+          ss << "The motor controller firmware version have be "<< this->minFirmwareVersion <<" or higher.";
+          throw std::runtime_error(ss.str().c_str());
+        }
+      }
 
       //check if the motor contoller gear ratio is one.
       //The gear ratio will be taken in to acount by the driver
@@ -168,10 +201,6 @@ class YouBotManipulator
         throw std::runtime_error("The Motor Contoller Gear Ratio of " + jointName + " is not set to 1.");
       }
 
-
-      string name;
-      configfile->readInto(name, jointName, "JointName");
-      jName.setParameter(name);
       configfile->readInto(gearRatio_numerator, jointName, "GearRatio_numerator");
       configfile->readInto(gearRatio_denominator, jointName, "GearRatio_denominator");
       gearRatio.setParameter(gearRatio_numerator / gearRatio_denominator);
@@ -283,7 +312,7 @@ class YouBotManipulator
 
     if(noInitialization != 0){
       doInitialization.setParameter(true);
-      LOG(info) << "Base Joint Commutation";
+      LOG(info) << "Manipulator Joint Commutation";
 
       EthercatMaster::getInstance().AutomaticReceiveOn(false);
       this->getArmJoint(1).setConfigurationParameter(doInitialization);

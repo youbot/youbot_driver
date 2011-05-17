@@ -54,6 +54,9 @@ namespace youbot {
 YouBotBase::YouBotBase(const std::string name, const std::string configFilePath) {
   // Bouml preserved body begin 00067E71
 
+    this->controllerType = 174;
+    this->minFirmwareVersion = 1.43;
+    
     string filename;
     filename = name;
     filename.append(".cfg");
@@ -265,6 +268,12 @@ void YouBotBase::getJointData(std::vector<JointSensedCurrent>& data) {
   // Bouml preserved body end 0008FD71
 }
 
+bool YouBotBase::areSame(const double A, const double B) {
+  // Bouml preserved body begin 000A6971
+    return std::fabs(A - B) < 0.0001;
+  // Bouml preserved body end 000A6971
+}
+
 void YouBotBase::initializeJoints() {
   // Bouml preserved body begin 000464F1
 
@@ -320,7 +329,7 @@ void YouBotBase::initializeJoints() {
     InverseMovementDirection inverseDir;
     MotorContollerGearRatio contollerGearRatio;
     contollerGearRatio.setParameter(1);
-    FirmwareVersion firmwareVersion;
+    FirmwareVersion firmwareTypeVersion;
 
     double gearRatio_numerator = 0;
     double gearRatio_denominator = 1;
@@ -331,15 +340,33 @@ void YouBotBase::initializeJoints() {
       jointName = jointNameStream.str();
       //  configfile.setSection(jointName.c_str());
 
-      joints[i].getConfigurationParameter(firmwareVersion);
+      joints[i].getConfigurationParameter(firmwareTypeVersion);
       std::string version;
-      firmwareVersion.getParameter(version);
-
+      int controllerType;
+      double firmwareVersion;
+      firmwareTypeVersion.getParameter(controllerType, firmwareVersion);
+      
       string name;
       configfile->readInto(name, jointName, "JointName");
       jName.setParameter(name);
 
-      LOG(info) << jointName << " " << name << ": Firmware version: " << version;
+      LOG(info) << jointName << " " << name << ": Controller Type: " << controllerType << " Firmware version: " << firmwareVersion;
+      
+      if(this->controllerType != controllerType){
+        std::stringstream ss;
+        ss << "The youBot base motor controller have to be of type: "<< this->controllerType;
+        throw std::runtime_error(ss.str().c_str());
+      }
+      
+      if(!areSame(firmwareVersion,this->minFirmwareVersion)){
+        if(firmwareVersion < this->minFirmwareVersion){
+          std::stringstream ss;
+          ss << "The motor controller firmware version have be "<< this->minFirmwareVersion <<" or higher.";
+          throw std::runtime_error(ss.str().c_str());
+        }
+      }
+
+
       configfile->readInto(gearRatio_numerator, jointName, "GearRatio_numerator");
       configfile->readInto(gearRatio_denominator, jointName, "GearRatio_denominator");
       gearRatio.setParameter(gearRatio_numerator / gearRatio_denominator);

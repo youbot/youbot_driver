@@ -134,6 +134,8 @@ class YouBotBase {
 
 
   private:
+    bool areSame(const double A, const double B);
+
     void initializeJoints();
 
     void initializeKinematic();
@@ -147,6 +149,10 @@ class YouBotBase {
     std::string configFilePath;
 
     std::string ethercatConfigFileName;
+
+    int controllerType;
+
+    double minFirmwareVersion;
 
 };
 

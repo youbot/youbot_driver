@@ -193,22 +193,24 @@ FirmwareVersion::~FirmwareVersion() {
   // Bouml preserved body end 00098DF1
 }
 
-void FirmwareVersion::getParameter(std::string& parameter) const {
+void FirmwareVersion::getParameter(int& controllerType, double& firmwareVersion) const {
   // Bouml preserved body begin 00098E71
-    parameter = this->value;
+    controllerType = this->controllerType;
+    firmwareVersion = this->firmwareVersion;
   // Bouml preserved body end 00098E71
 }
 
-void FirmwareVersion::setParameter(const std::string parameter) {
+void FirmwareVersion::setParameter(const int controllerType, const double firmwareVersion) {
   // Bouml preserved body begin 00098EF1
-    this->value = parameter;
+    this->controllerType = controllerType;
+    this->firmwareVersion = firmwareVersion;
   // Bouml preserved body end 00098EF1
 }
 
 void FirmwareVersion::toString(std::string& value) {
   // Bouml preserved body begin 0009C571
   std::stringstream ss;
-  ss << this->name << ": " << this->value;
+  ss << this->name << ": " << this->controllerType << " Version: " << this->firmwareVersion;
   value  = ss.str();
   // Bouml preserved body end 0009C571
 }
@@ -224,7 +226,6 @@ void FirmwareVersion::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCo
 
 void FirmwareVersion::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 00098FF1
-    this->value = message.stctInput.value;
   // Bouml preserved body end 00098FF1
 }
 

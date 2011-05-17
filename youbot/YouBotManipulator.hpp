@@ -113,6 +113,8 @@ class YouBotManipulator {
 
 
   private:
+    bool areSame(const double A, const double B);
+
     void initializeJoints();
 
     void doJointCommutation();
@@ -126,6 +128,10 @@ class YouBotManipulator {
     std::string configFilePath;
 
     std::string ethercatConfigFileName;
+
+    int controllerType;
+
+    double minFirmwareVersion;
 
 };
 

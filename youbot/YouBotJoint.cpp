@@ -203,6 +203,7 @@ void YouBotJoint::setConfigurationParameter(const CalibrateJoint& parameter) {
       quantity<plane_angle> difAngle;
       JointSensedAngle startAngle;
 
+      /*
       maxAngle = 5.0 * M_PI / 180.0 * radian;
       this->getData(startAngle);
       //turn in calibration direction
@@ -245,7 +246,7 @@ void YouBotJoint::setConfigurationParameter(const CalibrateJoint& parameter) {
         throw std::runtime_error("Unable to do sinus commutation for joint: " + this->jointName);
       }
 
-
+*/
       //   LOG(info) << "Sinus commutation finished for joint: " << this->jointName;
 
       messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
@@ -342,7 +343,6 @@ void YouBotJoint::getConfigurationParameter(FirmwareVersion& parameter) {
   // Bouml preserved body begin 0009AA71
 
     YouBotSlaveMailboxMsg message;
-    std::string firmwareVersion;
     parameter.getYouBotMailboxMsg(message, GAP, storage);
 
     EthercatMaster::getInstance().setMailboxMsgBuffer(message, this->jointNumber);
@@ -359,8 +359,12 @@ void YouBotJoint::getConfigurationParameter(FirmwareVersion& parameter) {
     versionString[5] = message.stctInput.value >> 16;
     versionString[6] = message.stctInput.value >> 8;
     versionString[7] = message.stctInput.value & 0xff;
-    firmwareVersion = versionString;
-    parameter.setParameter(firmwareVersion);
+    
+    int controllerType = 0;
+    float firmwareVersion = 0;
+    sscanf (versionString,"%dV%f",&controllerType,&firmwareVersion);
+    
+    parameter.setParameter(controllerType, firmwareVersion);
 
     return;
   // Bouml preserved body end 0009AA71

@@ -54,6 +54,9 @@ namespace youbot {
 YouBotManipulator::YouBotManipulator(const std::string name, const std::string configFilePath) {
   // Bouml preserved body begin 00067F71
 
+  this->controllerType = 174;
+  this->minFirmwareVersion = 1.43;
+    
   string filename;
   filename = name;
   filename.append(".cfg");
@@ -199,6 +202,12 @@ void YouBotManipulator::getJointData(std::vector<JointSensedCurrent>& data) {
   // Bouml preserved body end 00090071
 }
 
+bool YouBotManipulator::areSame(const double A, const double B) {
+  // Bouml preserved body begin 000A82F1
+    return std::fabs(A - B) < 0.0001;
+  // Bouml preserved body end 000A82F1
+}
+
 void YouBotManipulator::initializeJoints() {
   // Bouml preserved body begin 00068071
 
@@ -265,12 +274,40 @@ void YouBotManipulator::initializeJoints() {
     double gearRatio_denominator = 1;
     MotorContollerGearRatio contollerGearRatio;
     contollerGearRatio.setParameter(0);
+    FirmwareVersion firmwareTypeVersion;
 
 
     for (unsigned int i = 0; i < ARMJOINTS; i++) {
       std::stringstream jointNameStream;
       jointNameStream << "Joint_" << i + 1;
       jointName = jointNameStream.str();
+      
+      
+      joints[i].getConfigurationParameter(firmwareTypeVersion);
+      std::string version;
+      int controllerType;
+      double firmwareVersion;
+      firmwareTypeVersion.getParameter(controllerType, firmwareVersion);
+      
+      string name;
+      configfile->readInto(name, jointName, "JointName");
+      jName.setParameter(name);
+
+      LOG(info) << jointName << " " << name << ": Controller Type: " << controllerType << " Firmware version: " << firmwareVersion;
+      
+      if(this->controllerType != controllerType){
+        std::stringstream ss;
+        ss << "The youBot base motor controller have to be of type: "<< this->controllerType;
+        throw std::runtime_error(ss.str().c_str());
+      }
+      
+      if(!areSame(firmwareVersion,this->minFirmwareVersion)){
+        if(firmwareVersion < this->minFirmwareVersion){
+          std::stringstream ss;
+          ss << "The motor controller firmware version have be "<< this->minFirmwareVersion <<" or higher.";
+          throw std::runtime_error(ss.str().c_str());
+        }
+      }
 
       //check if the motor contoller gear ratio is one.
       //The gear ratio will be taken in to acount by the driver
@@ -281,10 +318,6 @@ void YouBotManipulator::initializeJoints() {
         throw std::runtime_error("The Motor Contoller Gear Ratio of " + jointName + " is not set to 1.");
       }
 
-
-      string name;
-      configfile->readInto(name, jointName, "JointName");
-      jName.setParameter(name);
       configfile->readInto(gearRatio_numerator, jointName, "GearRatio_numerator");
       configfile->readInto(gearRatio_denominator, jointName, "GearRatio_denominator");
       gearRatio.setParameter(gearRatio_numerator / gearRatio_denominator);
@@ -400,7 +433,7 @@ void YouBotManipulator::doJointCommutation() {
 
     if(noInitialization != 0){
       doInitialization.setParameter(true);
-      LOG(info) << "Base Joint Commutation";
+      LOG(info) << "Manipulator Joint Commutation";
 
       EthercatMaster::getInstance().AutomaticReceiveOn(false);
       this->getArmJoint(1).setConfigurationParameter(doInitialization);

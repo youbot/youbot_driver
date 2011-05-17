@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 155
+  revision 158
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -1885,11 +1885,12 @@ ${inlines}
 
       operation 626289 "getParameter"
 	preserve_cpp_body_indent const public explicit_return_type "void"
-	nparams 1
-	  param out name "parameter" explicit_type "string"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+	nparams 2
+	  param out name "controllerType" explicit_type "int"
+	  param out name "firmwareVersion" explicit_type "double"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}, ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}, ${t1}& ${p1}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
 "
 	preserve_java_body_indent 
@@ -1900,11 +1901,12 @@ ${inlines}
 
       operation 626417 "setParameter"
 	preserve_cpp_body_indent public explicit_return_type "void"
-	nparams 1
-	  param in name "parameter" explicit_type "string"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
+	nparams 2
+	  param in name "controllerType" explicit_type "int"
+	  param in name "firmwareVersion" explicit_type "double"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
 "
 	preserve_java_body_indent 
@@ -1983,8 +1985,18 @@ ${inlines}
 	
       end
 
-      attribute 583793 "value"
-	private explicit_type "string"
+      attribute 583793 "controllerType"
+	private explicit_type "int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 609009 "firmwareVersion"
+	private explicit_type "double"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -22122,6 +22134,22 @@ ${inlines}
 ///@param data returns the actual motor currents by reference"
       end
 
+      operation 688881 "areSame"
+	preserve_cpp_body_indent private explicit_return_type "bool"
+	nparams 2
+	  param in name "A" explicit_type "double"
+	  param in name "B" explicit_type "double"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
       operation 426097 "initializeJoints"
 	preserve_cpp_body_indent private explicit_return_type "void"
 	nparams 0
@@ -22192,6 +22220,26 @@ ${inlines}
 
       attribute 459249 "ethercatConfigFileName"
 	private explicit_type "string"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 615793 "controllerType"
+	private explicit_type "int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 615665 "minFirmwareVersion"
+	private explicit_type "double"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -22447,6 +22495,22 @@ ${inlines}
 ///@param data returns the actual motor currents by reference"
       end
 
+      operation 682353 "areSame"
+	preserve_cpp_body_indent private explicit_return_type "bool"
+	nparams 2
+	  param in name "A" explicit_type "double"
+	  param in name "B" explicit_type "double"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
       operation 287985 "initializeJoints"
 	preserve_cpp_body_indent private explicit_return_type "void"
 	nparams 0
@@ -22521,6 +22585,26 @@ ${inlines}
 
       attribute 458993 "ethercatConfigFileName"
 	private explicit_type "string"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 608881 "controllerType"
+	private explicit_type "int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 609137 "minFirmwareVersion"
+	private explicit_type "double"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
