@@ -370,6 +370,23 @@ void YouBotJoint::getConfigurationParameter(FirmwareVersion& parameter) {
   // Bouml preserved body end 0009AA71
 }
 
+void YouBotJoint::setConfigurationParameter(const YouBotSlaveMailboxMsg& parameter) {
+  // Bouml preserved body begin 000A9D71
+   if (!setValueToMotorContoller(parameter)) {
+     throw JointParameterException("Unable to set parameter at joint: " + this->jointName);
+   }
+  // Bouml preserved body end 000A9D71
+}
+
+void YouBotJoint::getConfigurationParameter(YouBotSlaveMailboxMsg& parameter) {
+  // Bouml preserved body begin 000A9DF1
+   if (!retrieveValueFromMotorContoller(parameter)) {
+     throw JointParameterException("Unable to get parameter from joint: " + this->jointName);
+   }
+   this->parseMailboxStatusFlags(parameter);
+  // Bouml preserved body end 000A9DF1
+}
+
 ///stores the joint parameter permanent in the EEPROM of the motor contoller
 ///Attentions: The EEPROM has only a finite number of program-erase cycles
 void YouBotJoint::storeConfigurationParameterPermanent(const YouBotJointParameter& parameter) {
@@ -618,7 +635,7 @@ void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
     }
 
     if (messageBuffer.stctInput.errorFlags & PWM_MODE_ACTIVE) {
-      LOG(error) << errorMessage << "has PWM mode active";
+   //   LOG(info) << errorMessage << "has PWM mode active";
       //   throw JointErrorException(errorMessage + "the cycle time is violated");
     }
 

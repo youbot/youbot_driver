@@ -120,6 +120,10 @@ class YouBotJoint : public Joint {
 
     void getConfigurationParameter(FirmwareVersion& parameter);
 
+    void setConfigurationParameter(const YouBotSlaveMailboxMsg& parameter);
+
+    void getConfigurationParameter(YouBotSlaveMailboxMsg& parameter);
+
     ///stores the joint parameter permanent in the EEPROM of the motor contoller
     ///Attentions: The EEPROM has only a finite number of program-erase cycles
     void storeConfigurationParameterPermanent(const YouBotJointParameter& parameter);
