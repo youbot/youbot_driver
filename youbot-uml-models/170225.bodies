@@ -151,6 +151,7 @@ class YouBotJoint
       while (abs(sensedCurrent.current) < abs(parameter.maxCurrent)) {
         SLEEP_MILLISEC(timeTillNextMailboxUpdate);
         this->getData(sensedCurrent);
+        this->parseYouBotErrorFlags(messageBuffer);
       }
 
       //stop movement
@@ -236,6 +237,15 @@ class YouBotJoint
     parameter.setParameter(controllerType, firmwareVersion);
 
     return;
+!!!695665.cpp!!!	setConfigurationParameter(in parameter : YouBotSlaveMailboxMsg) : void
+   if (!setValueToMotorContoller(parameter)) {
+     throw JointParameterException("Unable to set parameter at joint: " + this->jointName);
+   }
+!!!695793.cpp!!!	getConfigurationParameter(out parameter : YouBotSlaveMailboxMsg) : void
+   if (!retrieveValueFromMotorContoller(parameter)) {
+     throw JointParameterException("Unable to get parameter from joint: " + this->jointName);
+   }
+   this->parseMailboxStatusFlags(parameter);
 !!!596465.cpp!!!	storeConfigurationParameterPermanent(in parameter : YouBotJointParameter) : void
     if (parameter.getType() == MOTOR_CONTOLLER_PARAMETER) {
 
@@ -412,7 +422,7 @@ class YouBotJoint
     }
 
     if (messageBuffer.stctInput.errorFlags & PWM_MODE_ACTIVE) {
-      LOG(error) << errorMessage << "has PWM mode active";
+   //   LOG(info) << errorMessage << "has PWM mode active";
       //   throw JointErrorException(errorMessage + "the cycle time is violated");
     }
 

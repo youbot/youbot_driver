@@ -75,6 +75,12 @@ class YouBotManipulator {
 
     virtual ~YouBotManipulator();
 
+    void doJointCommutation();
+
+    void calibrateManipulator();
+
+    void calibrateGripper();
+
     ///return a joint form the arm1
     ///@param armJointNumber 1-5 for the arm1 joints
     YouBotJoint& getArmJoint(const unsigned int armJointNumber);
@@ -116,8 +122,6 @@ class YouBotManipulator {
     bool areSame(const double A, const double B);
 
     void initializeJoints();
-
-    void doJointCommutation();
 
     ConfigFile* configfile;
 

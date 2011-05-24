@@ -2,7 +2,7 @@ class PWMLimit
 !!!496497.cpp!!!	PWMLimit()
     this->name = "PWMLimit";
     this->lowerLimit = 0;
-    this->upperLimit = 100;
+    this->upperLimit = 1799;
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
 !!!496753.cpp!!!	getParameter(out parameter : uint) : void
     parameter = this->value;
@@ -24,7 +24,7 @@ class PWMLimit
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
     message.stctOutput.typeNumber = 5; //PWMLimit
-    message.stctOutput.value = (((double)value)/100.0)*3599;
+    message.stctOutput.value = value;
 
 !!!497137.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
-    this->value = ((double)message.stctInput.value/3599.0)*100;
+    this->value = (double)message.stctInput.value;

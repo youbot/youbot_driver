@@ -79,6 +79,114 @@ YouBotManipulator::~YouBotManipulator() {
   // Bouml preserved body end 00067FF1
 }
 
+void YouBotManipulator::doJointCommutation() {
+  // Bouml preserved body begin 000A3371
+    
+    LOG(info) << "Manipulator Joint Commutation";
+    InitializeJoint doInitialization;
+    bool isInitialized = false;
+    int noInitialization = 0;
+    std::string jointName;
+    
+    ClearMotorControllerTimeoutFlag clearTimeoutFlag;
+    for (unsigned int i = 1; i <= ARMJOINTS; i++) {
+      this->getArmJoint(i).setConfigurationParameter(clearTimeoutFlag);
+    }
+    
+    for (unsigned int i = 1; i <= ARMJOINTS; i++) {
+      doInitialization.setParameter(false);
+      this->getArmJoint(i).getConfigurationParameter(doInitialization);
+      doInitialization.getParameter(isInitialized);
+      if(!isInitialized){
+        noInitialization++;
+      }
+    }
+
+    if(noInitialization != 0){
+      doInitialization.setParameter(true);
+      
+
+      EthercatMaster::getInstance().AutomaticReceiveOn(false);
+      this->getArmJoint(1).setConfigurationParameter(doInitialization);
+      this->getArmJoint(2).setConfigurationParameter(doInitialization);
+      this->getArmJoint(3).setConfigurationParameter(doInitialization);
+      this->getArmJoint(4).setConfigurationParameter(doInitialization);
+      this->getArmJoint(5).setConfigurationParameter(doInitialization);
+      EthercatMaster::getInstance().AutomaticReceiveOn(true);
+
+      SLEEP_MILLISEC(4000);
+      
+      for (unsigned int i = 1; i <= ARMJOINTS; i++) {
+      doInitialization.setParameter(false);
+      this->getArmJoint(i).getConfigurationParameter(doInitialization);
+      doInitialization.getParameter(isInitialized);
+        if(!isInitialized){
+          std::stringstream jointNameStream;
+          jointNameStream << "Joint " << i;
+          jointName = jointNameStream.str();
+          throw std::runtime_error("could not commutation " + jointName);
+        }
+      }
+    }
+    
+
+  // Bouml preserved body end 000A3371
+}
+
+void YouBotManipulator::calibrateManipulator() {
+  // Bouml preserved body begin 000A9C71
+  
+  //TODO When to calibrate the manipulator and when it is not necessary
+    //Calibrate all manipulator joints
+    std::vector<CalibrateJoint> calibrateJointVec;
+    quantity<si::current> current;
+    bool doCalibration = true;
+    std::string jointName;
+
+    double dummy = 0;
+
+
+    for (unsigned int i = 0; i < ARMJOINTS; i++) {
+
+      std::stringstream jointNameStream;
+      jointNameStream << "Joint_" << i + 1;
+      jointName = jointNameStream.str();
+ //     configfile.setSection(jointName.c_str());
+
+      configfile->readInto(doCalibration, jointName, "DoCalibration");
+
+      
+      
+      configfile->readInto(dummy, jointName, "CalibrationMaxCurrent_[ampere]");
+      current = dummy * ampere;
+      std::string direction;
+      configfile->readInto(direction, jointName, "CalibrationDirection");
+
+      calibrateJointVec.push_back(CalibrateJoint());
+
+      if (direction == "POSITIV") {
+        calibrateJointVec[i].setParameter(doCalibration, POSITIV, current);
+      } else if (direction == "NEGATIV") {
+        calibrateJointVec[i].setParameter(doCalibration, NEGATIV, current);
+      } else {
+        throw std::runtime_error("Wrong calibration direction for " + jointName);
+      }
+      joints[i].setConfigurationParameter(calibrateJointVec[i]);
+    }
+  // Bouml preserved body end 000A9C71
+}
+
+void YouBotManipulator::calibrateGripper() {
+  // Bouml preserved body begin 000A9CF1
+  // Calibrating Gripper
+    bool doCalibration = true;
+    configfile->readInto(doCalibration, "Gripper", "DoCalibration");
+    CalibrateGripper calibrate;
+    calibrate.setParameter(doCalibration);
+    gripperVector[0].setConfigurationParameter(calibrate);
+  // Bouml preserved body end 000A9CF1
+}
+
 ///return a joint form the arm1
 ///@param armJointNumber 1-5 for the arm1 joints
 YouBotJoint& YouBotManipulator::getArmJoint(const unsigned int armJointNumber) {
@@ -275,6 +383,7 @@ void YouBotManipulator::initializeJoints() {
     MotorContollerGearRatio contollerGearRatio;
     contollerGearRatio.setParameter(0);
     FirmwareVersion firmwareTypeVersion;
+    JointLimits jLimits;
 
 
     for (unsigned int i = 0; i < ARMJOINTS; i++) {
@@ -332,51 +441,18 @@ void YouBotManipulator::initializeJoints() {
       joints[i].setConfigurationParameter(gearRatio);
       joints[i].setConfigurationParameter(ticksPerRound);
       joints[i].setConfigurationParameter(inverseDir);
-    }
-
-    //do the sine commutation of the joints
-    this->doJointCommutation();
-
-    //TODO When to calibrate the manipulator and when it is not necessary
-    //Calibrate all manipulator joints
-    std::vector<CalibrateJoint> calibrateJointVec;
-    quantity<si::current> current;
-    JointLimits jLimits;
-    double dummy = 0;
-    bool doCalibration = true;
-
-    for (unsigned int i = 0; i < ARMJOINTS; i++) {
-
-      std::stringstream jointNameStream;
-      jointNameStream << "Joint_" << i + 1;
-      jointName = jointNameStream.str();
- //     configfile.setSection(jointName.c_str());
-
-      configfile->readInto(doCalibration, jointName, "DoCalibration");
-
+      
       int upperlimit = 0, lowerlimit = 0;
       configfile->readInto(lowerlimit, jointName, "LowerLimit_[encoderTicks]");
       configfile->readInto(upperlimit, jointName, "UpperLimit_[encoderTicks]");
 
       jLimits.setParameter(lowerlimit, upperlimit, true);
       joints[i].setConfigurationParameter(jLimits);
-      
-      configfile->readInto(dummy, jointName, "CalibrationMaxCurrent_[ampere]");
-      current = dummy * ampere;
-      std::string direction;
-      configfile->readInto(direction, jointName, "CalibrationDirection");
-
-      calibrateJointVec.push_back(CalibrateJoint());
-
-      if (direction == "POSITIV") {
-        calibrateJointVec[i].setParameter(doCalibration, POSITIV, current);
-      } else if (direction == "NEGATIV") {
-        calibrateJointVec[i].setParameter(doCalibration, NEGATIV, current);
-      } else {
-        throw std::runtime_error("Wrong calibration direction for " + jointName);
-      }
-      joints[i].setConfigurationParameter(calibrateJointVec[i]);
     }
+
+
+
+    
 
 
 
@@ -387,9 +463,9 @@ void YouBotManipulator::initializeJoints() {
     BarSpacingOffset barOffest;
     MaxTravelDistance maxDistance;
     MaxEncoderValue maxEncoder;
+    double dummy = 0;
 
  //   configfile.setSection("Gripper");
-    configfile->readInto(doCalibration, "Gripper", "DoCalibration");
     configfile->readInto(dummy, "Gripper", "BarSpacingOffset_[meter]");
     barOffest.setParameter(dummy * meter);
     gripperVector[0].setConfigurationParameter(barOffest);
@@ -401,52 +477,9 @@ void YouBotManipulator::initializeJoints() {
     maxEncoder.setParameter(maxenc);
     gripperVector[0].setConfigurationParameter(maxEncoder);
 
-    // Calibrating Gripper
-    CalibrateGripper calibrate;
-    calibrate.setParameter(doCalibration);
-    gripperVector[0].setConfigurationParameter(calibrate);
-
+   
     return;
   // Bouml preserved body end 00068071
-}
-
-void YouBotManipulator::doJointCommutation() {
-  // Bouml preserved body begin 000A3371
-    
-    InitializeJoint doInitialization;
-    bool isInitialized = false;
-    int noInitialization = 0;
-
-    ClearMotorControllerTimeoutFlag clearTimeoutFlag;
-    for (unsigned int i = 1; i <= ARMJOINTS; i++) {
-      this->getArmJoint(i).setConfigurationParameter(clearTimeoutFlag);
-    }
-    
-    for (unsigned int i = 1; i <= ARMJOINTS; i++) {
-      doInitialization.setParameter(false);
-      this->getArmJoint(i).getConfigurationParameter(doInitialization);
-      doInitialization.getParameter(isInitialized);
-      if(!isInitialized){
-        noInitialization++;
-      }
-    }
-
-    if(noInitialization != 0){
-      doInitialization.setParameter(true);
-      LOG(info) << "Manipulator Joint Commutation";
-
-      EthercatMaster::getInstance().AutomaticReceiveOn(false);
-      this->getArmJoint(1).setConfigurationParameter(doInitialization);
-      this->getArmJoint(2).setConfigurationParameter(doInitialization);
-      this->getArmJoint(3).setConfigurationParameter(doInitialization);
-      this->getArmJoint(4).setConfigurationParameter(doInitialization);
-      this->getArmJoint(5).setConfigurationParameter(doInitialization);
-      EthercatMaster::getInstance().AutomaticReceiveOn(true);
-
-      SLEEP_MILLISEC(2000);
-    }
-
-  // Bouml preserved body end 000A3371
 }
 
 

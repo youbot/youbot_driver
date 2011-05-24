@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 158
+  revision 162
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -483,6 +483,36 @@ ${inlines}
 	preserve_cpp_body_indent public explicit_return_type "void"
 	nparams 1
 	  param out name "parameter" type class_ref 354545 // FirmwareVersion
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 695665 "setConfigurationParameter"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param in name "parameter" explicit_type "YouBotSlaveMailboxMsg"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 695793 "getConfigurationParameter"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param out name "parameter" explicit_type "YouBotSlaveMailboxMsg"
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
@@ -14074,7 +14104,7 @@ ${inlines}
       operation 454385 "getParameter"
 	preserve_cpp_body_indent const public explicit_return_type "void"
 	nparams 1
-	  param out name "parameter" explicit_type "quantity<angular_velocity>"
+	  param out name "parameter" explicit_type "int"
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
@@ -14089,10 +14119,10 @@ ${inlines}
       operation 454513 "setParameter"
 	preserve_cpp_body_indent public explicit_return_type "void"
 	nparams 1
-	  param in name "parameter" explicit_type "quantity<angular_velocity>"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+	  param in name "parameter" explicit_type "int"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
 "
 	preserve_java_body_indent 
@@ -14172,7 +14202,7 @@ ${inlines}
       end
 
       attribute 438897 "upperLimit"
-	private explicit_type "quantity<angular_velocity>"
+	private explicit_type "int"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -14182,7 +14212,7 @@ ${inlines}
       end
 
       attribute 439025 "lowerLimit"
-	private explicit_type "quantity<angular_velocity>"
+	private explicit_type "int"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -14192,7 +14222,7 @@ ${inlines}
       end
 
       attribute 439153 "value"
-	private explicit_type "quantity<angular_velocity>"
+	private explicit_type "int"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -16137,7 +16167,7 @@ ${inlines}
       operation 459249 "getParameter"
 	preserve_cpp_body_indent const public explicit_return_type "void"
 	nparams 1
-	  param out name "parameter" explicit_type "bool"
+	  param out name "parameter" explicit_type "int"
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
@@ -16152,7 +16182,7 @@ ${inlines}
       operation 603121 "setParameter"
 	preserve_cpp_body_indent public explicit_return_type "void"
 	nparams 1
-	  param in name "parameter" explicit_type "bool"
+	  param in name "parameter" explicit_type "int"
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
@@ -16235,7 +16265,7 @@ ${inlines}
       end
 
       attribute 561777 "upperLimit"
-	private explicit_type "bool"
+	private explicit_type "int"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -16245,7 +16275,7 @@ ${inlines}
       end
 
       attribute 561905 "lowerLimit"
-	private explicit_type "bool"
+	private explicit_type "int"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -16255,7 +16285,7 @@ ${inlines}
       end
 
       attribute 441713 "value"
-	private explicit_type "bool"
+	private explicit_type "int"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -21575,6 +21605,21 @@ friend class YouBotGripper;" ""
 ///this method is executed in a separate thread"
       end
 
+      operation 695921 "parseYouBotErrorFlags"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 1
+	  param in name "messageBuffer" explicit_type "YouBotSlaveMsg"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
       attribute 289265 "ethernetDevice"
 	private explicit_type "std::string"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -21995,6 +22040,48 @@ ${inlines}
 	
       end
 
+      operation 668529 "doJointCommutation"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 695409 "calibrateManipulator"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 695537 "calibrateGripper"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
       operation 325617 "getArmJoint"
 	preserve_cpp_body_indent public explicit_return_type "YouBotJoint&"
 	nparams 1
@@ -22164,20 +22251,6 @@ ${inlines}
 	
       end
 
-      operation 668529 "doJointCommutation"
-	preserve_cpp_body_indent private explicit_return_type "void"
-	nparams 0
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
       attribute 418929 "configfile"
 	private explicit_type "ConfigFile*"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -22293,6 +22366,20 @@ ${inlines}
 	
 	
 	
+	
+      end
+
+      operation 567793 "doJointCommutation"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
 	
       end
 
@@ -22526,20 +22613,6 @@ ${inlines}
       end
 
       operation 318961 "initializeKinematic"
-	preserve_cpp_body_indent private explicit_return_type "void"
-	nparams 0
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 567793 "doJointCommutation"
 	preserve_cpp_body_indent private explicit_return_type "void"
 	nparams 0
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};

@@ -1,12 +1,12 @@
 class SineInitializationVelocity
 !!!454129.cpp!!!	SineInitializationVelocity()
     this->name = "SineInitializationVelocity";
-    this->lowerLimit = INT_MIN * radian_per_second;
-    this->upperLimit = INT_MAX * radian_per_second;
+    this->lowerLimit = INT_MIN;
+    this->upperLimit = INT_MAX;
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-!!!454385.cpp!!!	getParameter(out parameter : quantity<angular_velocity>) : void
+!!!454385.cpp!!!	getParameter(out parameter : int) : void
     parameter = this->value;
-!!!454513.cpp!!!	setParameter(in parameter : quantity<angular_velocity>) : void
+!!!454513.cpp!!!	setParameter(in parameter : int) : void
     if (this->lowerLimit > parameter) {
       throw std::out_of_range("The parameter exceeds the lower limit");
     }
@@ -23,8 +23,7 @@ class SineInitializationVelocity
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 241; //BlockCommutationMaximumSpeed
-    message.stctOutput.value = (int32) round((value.value() / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
+    message.stctOutput.typeNumber = 241; //SineInitializationVelocity
+    message.stctOutput.value = value;
 !!!454769.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
-    double motorRPM = message.stctInput.value;
-    this->value =  ((motorRPM / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
+    this->value = (int)message.stctInput.value;
