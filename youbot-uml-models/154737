@@ -1,6 +1,6 @@
 format 75
 "generic-joint" // generic-joint
-  revision 14
+  revision 15
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -122,6 +122,7 @@ ${namespace_end}
 	class_ref 170353 // JointData
 	class_ref 162289 // JointSensedData
 	class_ref 162929 // JointSensedAngle
+	class_ref 375281 // JointSensedEncoderTicks
 	class_ref 162801 // JointSensedVelocity
 	class_ref 169841 // JointSensedCurrent
 	class_ref 162673 // JointSensedTorque

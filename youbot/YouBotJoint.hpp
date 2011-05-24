@@ -175,6 +175,10 @@ class YouBotJoint : public Joint {
     ///@param communicationMode at the moment only non blocking communication is implemented
     virtual void setData(const JointPWMSetpoint& data, SyncMode communicationMode = NON_BLOCKING);
 
+    ///gets the encoder ticks of one joint
+    ///@param data returns the ticks by reference
+    virtual void getData(JointSensedEncoderTicks& data);
+
 
   private:
     void parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer);

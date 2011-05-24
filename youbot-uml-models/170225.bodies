@@ -151,7 +151,6 @@ class YouBotJoint
       while (abs(sensedCurrent.current) < abs(parameter.maxCurrent)) {
         SLEEP_MILLISEC(timeTillNextMailboxUpdate);
         this->getData(sensedCurrent);
-        this->parseYouBotErrorFlags(messageBuffer);
       }
 
       //stop movement
@@ -374,6 +373,14 @@ class YouBotJoint
     messageBuffer.stctOutput.controllerMode = PWM_MODE;
     messageBuffer.stctOutput.positionOrSpeed = data.pwm;
     EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+!!!702449.cpp!!!	getData(out data : JointSensedEncoderTicks) : void
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    this->parseYouBotErrorFlags(messageBuffer);
+
+    //  LOG(trace) << "enc: " << messageBuffer.stctInput.actualPosition;
+    data.EncoderTicks = messageBuffer.stctInput.actualPosition ;
+
 !!!281329.cpp!!!	parseYouBotErrorFlags(in messageBuffer : YouBotSlaveMsg) : void
     std::stringstream errorMessageStream;
     errorMessageStream << "Joint " << this->jointNumber << " ";

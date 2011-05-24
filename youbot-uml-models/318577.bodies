@@ -16,5 +16,5 @@ class ActualMotorVoltage
 
 !!!516721.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
     if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
-      this->value = message.stctInput.value; // TODO do convertion
+      this->value = message.stctInput.value; //TODO do convertion
     }

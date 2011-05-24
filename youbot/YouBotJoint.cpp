@@ -586,6 +586,20 @@ void YouBotJoint::setData(const JointPWMSetpoint& data, SyncMode communicationMo
   // Bouml preserved body end 00095671
 }
 
+///gets the encoder ticks of one joint
+///@param data returns the ticks by reference
+void YouBotJoint::getData(JointSensedEncoderTicks& data) {
+  // Bouml preserved body begin 000AB7F1
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    this->parseYouBotErrorFlags(messageBuffer);
+
+    //  LOG(trace) << "enc: " << messageBuffer.stctInput.actualPosition;
+    data.EncoderTicks = messageBuffer.stctInput.actualPosition ;
+
+  // Bouml preserved body end 000AB7F1
+}
+
 void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
   // Bouml preserved body begin 00044AF1
     std::stringstream errorMessageStream;
