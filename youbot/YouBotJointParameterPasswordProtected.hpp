@@ -1204,9 +1204,9 @@ friend class YouBotJoint;
 
     virtual ~PIDControllerState();
 
-    void getParameter(bool& parameter) const;
+    void getParameter(int& parameter) const;
 
-    void setParameter(const bool parameter);
+    void setParameter(const int parameter);
 
     void toString(std::string& value);
 
@@ -1220,11 +1220,11 @@ friend class YouBotJoint;
 
     ParameterType getType() const {return this->parameterType;};
 
-    bool upperLimit;
+    int upperLimit;
 
-    bool lowerLimit;
+    int lowerLimit;
 
-    bool value;
+    int value;
 
     std::string name;
 
@@ -1633,9 +1633,9 @@ friend class YouBotJoint;
 
     virtual ~SineInitializationVelocity();
 
-    void getParameter(quantity<angular_velocity>& parameter) const;
+    void getParameter(int& parameter) const;
 
-    void setParameter(const quantity<angular_velocity>& parameter);
+    void setParameter(const int parameter);
 
     void toString(std::string& value);
 
@@ -1649,11 +1649,11 @@ friend class YouBotJoint;
 
     ParameterType getType() const {return this->parameterType;};
 
-    quantity<angular_velocity> upperLimit;
+    int upperLimit;
 
-    quantity<angular_velocity> lowerLimit;
+    int lowerLimit;
 
-    quantity<angular_velocity> value;
+    int value;
 
     std::string name;
 

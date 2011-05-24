@@ -1752,13 +1752,13 @@ PIDControllerState::~PIDControllerState() {
   // Bouml preserved body end 00070171
 }
 
-void PIDControllerState::getParameter(bool& parameter) const {
+void PIDControllerState::getParameter(int& parameter) const {
   // Bouml preserved body begin 000701F1
     parameter = this->value;
   // Bouml preserved body end 000701F1
 }
 
-void PIDControllerState::setParameter(const bool parameter) {
+void PIDControllerState::setParameter(const int parameter) {
   // Bouml preserved body begin 000933F1
     if (this->lowerLimit > parameter) {
       throw std::out_of_range("The parameter exceeds the lower limit");
@@ -1973,7 +1973,7 @@ PWMLimit::PWMLimit() {
   // Bouml preserved body begin 00079371
     this->name = "PWMLimit";
     this->lowerLimit = 0;
-    this->upperLimit = 100;
+    this->upperLimit = 1799;
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
   // Bouml preserved body end 00079371
 }
@@ -2016,14 +2016,14 @@ void PWMLimit::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNu
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
     message.stctOutput.typeNumber = 5; //PWMLimit
-    message.stctOutput.value = (((double)value)/100.0)*3599;
+    message.stctOutput.value = value;
 
   // Bouml preserved body end 00079571
 }
 
 void PWMLimit::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 000795F1
-    this->value = ((double)message.stctInput.value/3599.0)*100;
+    this->value = (double)message.stctInput.value;
   // Bouml preserved body end 000795F1
 }
 
@@ -2390,8 +2390,8 @@ void SineCompensationFactor::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& me
 SineInitializationVelocity::SineInitializationVelocity() {
   // Bouml preserved body begin 0006EDF1
     this->name = "SineInitializationVelocity";
-    this->lowerLimit = INT_MIN * radian_per_second;
-    this->upperLimit = INT_MAX * radian_per_second;
+    this->lowerLimit = INT_MIN;
+    this->upperLimit = INT_MAX;
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
   // Bouml preserved body end 0006EDF1
 }
@@ -2401,13 +2401,13 @@ SineInitializationVelocity::~SineInitializationVelocity() {
   // Bouml preserved body end 0006EE71
 }
 
-void SineInitializationVelocity::getParameter(quantity<angular_velocity>& parameter) const {
+void SineInitializationVelocity::getParameter(int& parameter) const {
   // Bouml preserved body begin 0006EEF1
     parameter = this->value;
   // Bouml preserved body end 0006EEF1
 }
 
-void SineInitializationVelocity::setParameter(const quantity<angular_velocity>& parameter) {
+void SineInitializationVelocity::setParameter(const int parameter) {
   // Bouml preserved body begin 0006EF71
     if (this->lowerLimit > parameter) {
       throw std::out_of_range("The parameter exceeds the lower limit");
@@ -2433,15 +2433,14 @@ void SineInitializationVelocity::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& mess
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 241; //BlockCommutationMaximumSpeed
-    message.stctOutput.value = (int32) round((value.value() / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
+    message.stctOutput.typeNumber = 241; //SineInitializationVelocity
+    message.stctOutput.value = value;
   // Bouml preserved body end 0006EFF1
 }
 
 void SineInitializationVelocity::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 0006F071
-    double motorRPM = message.stctInput.value;
-    this->value =  ((motorRPM / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
+    this->value = (int)message.stctInput.value;
   // Bouml preserved body end 0006F071
 }
 
