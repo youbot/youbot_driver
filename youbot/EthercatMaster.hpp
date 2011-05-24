@@ -151,6 +151,8 @@ friend class YouBotGripper;
     ///this method is executed in a separate thread
     void updateSensorActorValues();
 
+    void parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer);
+
     std::string ethernetDevice;
 
     ec_mbxbuft mailboxBuffer;
