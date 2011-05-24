@@ -77,6 +77,8 @@ class YouBotBase {
 
     virtual ~YouBotBase();
 
+    void doJointCommutation();
+
     ///return a joint form the base
     ///@param baseJointNumber 1-4 for the base joints
     YouBotJoint& getBaseJoint(const unsigned int baseJointNumber);
@@ -139,8 +141,6 @@ class YouBotBase {
     void initializeJoints();
 
     void initializeKinematic();
-
-    void doJointCommutation();
 
     ConfigFile* configfile;
 
