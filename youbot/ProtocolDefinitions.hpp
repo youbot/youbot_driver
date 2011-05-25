@@ -76,6 +76,7 @@ typedef enum TMCLCommandNumber {
   FIRMWARE_VERSION = 136
 } CommandNumber;
 
+#define USER_VARIABLE_BANK 2
 
 //Opcodes of TMCL control functions (to be used to run or abort a TMCL program in the module)
 #define TMCL_APPL_STOP 128

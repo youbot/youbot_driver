@@ -26,8 +26,18 @@ using namespace youbot;
 
 int main() {
   try {
+		YouBotBase myYouBotBase("youbot-base");
+
+		// do the sine commutation of the base joints
+		myYouBotBase.doJointCommutation();
+
     YouBotManipulator myYouBotManipulator("youbot-manipulator");
-    YouBotBase myYouBotBase("youbot-base");
+
+		// do the sine commutation of the arm joints
+		myYouBotManipulator.doJointCommutation();
+
+		// calibrate the reference position of the arm joints
+    myYouBotManipulator.calibrateManipulator();
 
     //command base joint 1 a velocity of 2 radian per second
     JointVelocitySetpoint setVel;

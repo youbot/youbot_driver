@@ -1,11 +1,10 @@
-window_sizes 1280 725 372 902 642 0
+window_sizes 1280 725 372 902 644 0
 show_stereotypes
-selected attribute_ref 622321 // EncoderTicks
+selected operation_ref 709233 // getStatus
 open
-  classview_ref 134641 // Joint
-  class_ref 375281 // JointSensedEncoderTicks
+  class_ref 162417 // SyncMode
+  class_ref 170225 // YouBotJoint
   class_ref 286321 // YouBotManipulator
-  class_ref 286193 // YouBotBase
   deploymentview_ref 154609 // Deployment
 end
 end

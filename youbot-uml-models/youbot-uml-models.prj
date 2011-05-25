@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 163
+  revision 166
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -752,6 +752,88 @@ ${inlines}
 	
 	comment "///gets the encoder ticks of one joint
 ///@param data returns the ticks by reference"
+      end
+
+      operation 708977 "getUserVariable"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 2
+	  param in name "index" explicit_type "uint"
+	  param out name "data" explicit_type "int"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${v0}, ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}, ${t1}& ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 709105 "setUserVariable"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 2
+	  param in name "index" explicit_type "uint"
+	  param in name "data" explicit_type "int"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${v0}, const ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 709233 "getStatus"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param out name "statusMessages" explicit_type "std::vector<std::string>"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "/// Returns the status messages for the motor controller. "
+      end
+
+      operation 709361 "getStatus"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param out name "statusFlags" explicit_type "unsigned short"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "/// Returns the status messages as status flags for the motor controller. The status flag bits are assigned like this:
+/// 0:  Overcurrent
+/// 1:  Undervoltage
+/// 2:  Overvoltage
+/// 3:  Overtemperature
+/// 4:  Motor halted
+/// 5:  Hall error flag
+/// 6:  Encoder error flag
+/// 7:  Initialization error of sine commutation
+/// 8:  PWM mode active
+/// 9:  Velocity mode active
+/// 10: Position mode active
+/// 11: Torque mode active
+/// 12: Emergency stop flag
+/// 13: Freerunning flag
+/// 14: Position end flag
+/// 15: Module initialized
+/// 16: EtherCAT timeout flag
+/// 17: I2t exceeded flag (reset by timeout)"
       end
 
       operation 281329 "parseYouBotErrorFlags"
@@ -22104,6 +22186,7 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
+	comment "///does the sine commutation of the arm joints"
       end
 
       operation 695409 "calibrateManipulator"
@@ -22118,6 +22201,7 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
+	comment "///calibrate the reference position of the arm joints"
       end
 
       operation 695537 "calibrateGripper"
@@ -22433,6 +22517,7 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
+	comment "///does the sine commutation of the base joints"
       end
 
       operation 325489 "getBaseJoint"

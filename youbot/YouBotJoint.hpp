@@ -179,6 +179,34 @@ class YouBotJoint : public Joint {
     ///@param data returns the ticks by reference
     virtual void getData(JointSensedEncoderTicks& data);
 
+    void getUserVariable(const unsigned int index, int& data);
+
+    void setUserVariable(const unsigned int index, const int data);
+
+    /// Returns the status messages for the motor controller. 
+    void getStatus(std::vector<std::string>& statusMessages);
+
+    /// Returns the status messages as status flags for the motor controller. The status flag bits are assigned like this:
+    /// 0:  Overcurrent
+    /// 1:  Undervoltage
+    /// 2:  Overvoltage
+    /// 3:  Overtemperature
+    /// 4:  Motor halted
+    /// 5:  Hall error flag
+    /// 6:  Encoder error flag
+    /// 7:  Initialization error of sine commutation
+    /// 8:  PWM mode active
+    /// 9:  Velocity mode active
+    /// 10: Position mode active
+    /// 11: Torque mode active
+    /// 12: Emergency stop flag
+    /// 13: Freerunning flag
+    /// 14: Position end flag
+    /// 15: Module initialized
+    /// 16: EtherCAT timeout flag
+    /// 17: I2t exceeded flag (reset by timeout)
+    void getStatus(unsigned short& statusFlags);
+
 
   private:
     void parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer);

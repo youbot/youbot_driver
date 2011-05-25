@@ -381,6 +381,130 @@ class YouBotJoint
     //  LOG(trace) << "enc: " << messageBuffer.stctInput.actualPosition;
     data.EncoderTicks = messageBuffer.stctInput.actualPosition ;
 
+!!!708977.cpp!!!	getUserVariable(in index : uint, out data : int) : void
+  
+  if(index == 0 || index > 55){
+    throw JointParameterException("User variable index is out of range use 1-55 at: " + this->jointName);
+  }
+  //56 is the last userdata at bank 2
+    YouBotSlaveMailboxMsg message;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.commandNumber = GGP;
+    message.stctOutput.typeNumber = index;
+    message.stctOutput.motorNumber = USER_VARIABLE_BANK;
+    message.stctOutput.value = 0;
+    
+   if (!retrieveValueFromMotorContoller(message)) {
+     throw JointParameterException("Unable to get parameter from joint: " + this->jointName);
+   }
+   this->parseMailboxStatusFlags(message);
+   
+   data = message.stctInput.value;
+!!!709105.cpp!!!	setUserVariable(in index : uint, in data : int) : void
+  
+  if(index == 0 || index > 55){
+    throw JointParameterException("User variable index is out of range use 1-55 at: " + this->jointName);
+  }
+  //56 is the last userdata at bank 2
+    YouBotSlaveMailboxMsg message;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.commandNumber = GGP;
+    message.stctOutput.typeNumber = index;
+    message.stctOutput.motorNumber = USER_VARIABLE_BANK;
+    message.stctOutput.value = data;
+    
+  if (!setValueToMotorContoller(message)) {
+     throw JointParameterException("Unable to set parameter at joint: " + this->jointName);
+   }
+    this->parseMailboxStatusFlags(message);
+!!!709233.cpp!!!	getStatus(out statusMessages : std::vector<std::string>) : void
+  YouBotSlaveMsg messageBuffer;
+  messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+  
+  
+  std::stringstream errorMessageStream;
+  errorMessageStream << "Joint " << this->jointNumber << " ";
+  std::string errorMessage;
+  errorMessage = errorMessageStream.str();
+
+    if (messageBuffer.stctInput.errorFlags & OVER_CURRENT) {
+      statusMessages.push_back(errorMessage + "got over current");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & UNDER_VOLTAGE) {
+      statusMessages.push_back(errorMessage + "got under voltage");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & OVER_VOLTAGE) {
+      statusMessages.push_back(errorMessage + "got over voltage");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & OVER_TEMPERATURE) {
+      statusMessages.push_back(errorMessage + "got over temperature");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & MOTOR_HALTED) {
+      statusMessages.push_back(errorMessage + "is halted");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & HALL_SENSOR_ERROR) {
+      statusMessages.push_back(errorMessage + "got hall sensor problem");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & ENCODER_ERROR) {
+      statusMessages.push_back(errorMessage + "got encoder problem");
+    }
+
+     if (messageBuffer.stctInput.errorFlags & INITIALIZATION_ERROR) {
+      statusMessages.push_back(errorMessage + "got inizialization problem");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & PWM_MODE_ACTIVE) {
+      statusMessages.push_back(errorMessage + "has PWM mode active");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & VELOCITY_MODE) {
+      statusMessages.push_back(errorMessage + "has velocity mode active");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & POSITION_MODE) {
+      statusMessages.push_back(errorMessage + "has position mode active");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & TORQUE_MODE) {
+      statusMessages.push_back(errorMessage + "has torque mode active");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & EMERGENCY_STOP) {
+      statusMessages.push_back(errorMessage + "has emergency stop active");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & FREERUNNING) {
+      statusMessages.push_back(errorMessage + "has freerunning active");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & POSITION_REACHED) {
+      statusMessages.push_back(errorMessage + "has position reached");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & INITIALIZED) {
+      statusMessages.push_back(errorMessage + "is initialized");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & TIMEOUT) {
+      statusMessages.push_back(errorMessage + "has a timeout");
+    }
+
+    if (messageBuffer.stctInput.errorFlags & I2T_EXCEEDED) {
+      statusMessages.push_back(errorMessage + "exceeded I2t");
+    }
+  
+  
+!!!709361.cpp!!!	getStatus(out statusFlags : unsigned short) : void
+  YouBotSlaveMsg messageBuffer;
+  messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+  
+  statusFlags = messageBuffer.stctInput.errorFlags;
 !!!281329.cpp!!!	parseYouBotErrorFlags(in messageBuffer : YouBotSlaveMsg) : void
     std::stringstream errorMessageStream;
     errorMessageStream << "Joint " << this->jointNumber << " ";
