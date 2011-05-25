@@ -75,8 +75,10 @@ class YouBotManipulator {
 
     virtual ~YouBotManipulator();
 
+    ///does the sine commutation of the arm joints
     void doJointCommutation();
 
+    ///calibrate the reference position of the arm joints
     void calibrateManipulator();
 
     void calibrateGripper();
