@@ -77,6 +77,7 @@ class YouBotBase {
 
     virtual ~YouBotBase();
 
+    ///does the sine commutation of the base joints
     void doJointCommutation();
 
     ///return a joint form the base

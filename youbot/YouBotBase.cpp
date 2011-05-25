@@ -56,7 +56,7 @@ YouBotBase::YouBotBase(const std::string name, const std::string configFilePath)
 
     this->controllerType = 174;
     this->minFirmwareVersion = 1.43;
-    
+
     string filename;
     filename = name;
     filename.append(".cfg");
@@ -71,7 +71,7 @@ YouBotBase::YouBotBase(const std::string name, const std::string configFilePath)
 
     this->initializeKinematic();
 
-  //  this->doJointCommutation();
+    //  this->doJointCommutation();
 
   // Bouml preserved body end 00067E71
 }
@@ -83,9 +83,10 @@ YouBotBase::~YouBotBase() {
   // Bouml preserved body end 00067EF1
 }
 
+///does the sine commutation of the base joints
 void YouBotBase::doJointCommutation() {
   // Bouml preserved body begin 0008A9F1
-    
+
     InitializeJoint doInitialization;
     bool isInitialized = false;
     int noInitialization = 0;
@@ -96,36 +97,36 @@ void YouBotBase::doJointCommutation() {
     this->getBaseJoint(3).setConfigurationParameter(clearTimeoutFlag);
     this->getBaseJoint(4).setConfigurationParameter(clearTimeoutFlag);
 
-    
+
     doInitialization.setParameter(false);
     this->getBaseJoint(1).getConfigurationParameter(doInitialization);
     doInitialization.getParameter(isInitialized);
-    if(!isInitialized){
+    if (!isInitialized) {
       noInitialization++;
     }
 
     doInitialization.setParameter(false);
     this->getBaseJoint(2).getConfigurationParameter(doInitialization);
     doInitialization.getParameter(isInitialized);
-    if(!isInitialized){
+    if (!isInitialized) {
       noInitialization++;
     }
 
     doInitialization.setParameter(false);
     this->getBaseJoint(3).getConfigurationParameter(doInitialization);
     doInitialization.getParameter(isInitialized);
-    if(!isInitialized){
+    if (!isInitialized) {
       noInitialization++;
     }
 
     doInitialization.setParameter(false);
     this->getBaseJoint(4).getConfigurationParameter(doInitialization);
     doInitialization.getParameter(isInitialized);
-    if(!isInitialized){
+    if (!isInitialized) {
       noInitialization++;
     }
 
-    if(noInitialization != 0){
+    if (noInitialization != 0) {
       doInitialization.setParameter(true);
       LOG(info) << "Base Joint Commutation";
 
@@ -136,33 +137,51 @@ void YouBotBase::doJointCommutation() {
       this->getBaseJoint(4).setConfigurationParameter(doInitialization);
       EthercatMaster::getInstance().AutomaticReceiveOn(true);
 
-      SLEEP_MILLISEC(4000);
-    }
-    
-    std::string jointName;
-    
-    for (unsigned int i = 1; i <= BASEJOINTS; i++) {
-      doInitialization.setParameter(false);
-      this->getBaseJoint(i).getConfigurationParameter(doInitialization);
-      doInitialization.getParameter(isInitialized);
-        if(!isInitialized){
+      unsigned short statusFlags;
+      std::vector<bool> isCommutated;
+      isCommutated.assign(BASEJOINTS, false);
+      unsigned int u = 0;
+
+      // check for the next 5 sec if the joints are commutated
+      for (u = 1; u <= 5000; u++) {
+        for (unsigned int i = 1; i <= BASEJOINTS; i++) {
+          this->getBaseJoint(1).getStatus(statusFlags);
+          if (statusFlags & INITIALIZED) {
+            isCommutated[i - 1] = true;
+          }
+        }
+        if (isCommutated[0] && isCommutated[1] && isCommutated[2] && isCommutated[3]) {
+          break;
+        }
+        SLEEP_MILLISEC(1);
+      }
+
+
+      std::string jointName;
+
+      for (unsigned int i = 1; i <= BASEJOINTS; i++) {
+        doInitialization.setParameter(false);
+        this->getBaseJoint(i).getConfigurationParameter(doInitialization);
+        doInitialization.getParameter(isInitialized);
+        if (!isInitialized) {
           std::stringstream jointNameStream;
           jointNameStream << "Joint " << i;
           jointName = jointNameStream.str();
           throw std::runtime_error("could not commutation " + jointName);
         }
       }
-/*
-    SLEEP_MILLISEC(2500);
-    quantity<si::velocity> longitudinalVelocity = 0.0 * meter_per_second;
-    quantity<si::velocity> transversalVelocity = 0.0 * meter_per_second;
-    quantity<si::angular_velocity> angularVelocity = 0.1 * radian_per_second;
+    }
+    /*
+        SLEEP_MILLISEC(2500);
+        quantity<si::velocity> longitudinalVelocity = 0.0 * meter_per_second;
+        quantity<si::velocity> transversalVelocity = 0.0 * meter_per_second;
+        quantity<si::angular_velocity> angularVelocity = 0.1 * radian_per_second;
 
-    this->setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
-    SLEEP_MILLISEC(500);
-    angularVelocity = 0 * radian_per_second;
-    this->setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
-    */
+        this->setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
+        SLEEP_MILLISEC(500);
+        angularVelocity = 0 * radian_per_second;
+        this->setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
+     */
   // Bouml preserved body end 0008A9F1
 }
 
@@ -428,23 +447,23 @@ void YouBotBase::initializeJoints() {
       int controllerType;
       double firmwareVersion;
       firmwareTypeVersion.getParameter(controllerType, firmwareVersion);
-      
+
       string name;
       configfile->readInto(name, jointName, "JointName");
       jName.setParameter(name);
 
       LOG(info) << jointName << " " << name << ": Controller Type: " << controllerType << " Firmware version: " << firmwareVersion;
-      
-      if(this->controllerType != controllerType){
+
+      if (this->controllerType != controllerType) {
         std::stringstream ss;
-        ss << "The youBot base motor controller have to be of type: "<< this->controllerType;
+        ss << "The youBot base motor controller have to be of type: " << this->controllerType;
         throw std::runtime_error(ss.str().c_str());
       }
-      
-      if(!areSame(firmwareVersion,this->minFirmwareVersion)){
-        if(firmwareVersion < this->minFirmwareVersion){
+
+      if (!areSame(firmwareVersion, this->minFirmwareVersion)) {
+        if (firmwareVersion < this->minFirmwareVersion) {
           std::stringstream ss;
-          ss << "The motor controller firmware version have be "<< this->minFirmwareVersion <<" or higher.";
+          ss << "The motor controller firmware version have be " << this->minFirmwareVersion << " or higher.";
           throw std::runtime_error(ss.str().c_str());
         }
       }
@@ -470,7 +489,7 @@ void YouBotBase::initializeJoints() {
       joints[i].getConfigurationParameter(contollerGearRatio);
       unsigned int cGearRatio;
       contollerGearRatio.getParameter(cGearRatio);
-      if(cGearRatio != 1){
+      if (cGearRatio != 1) {
         throw std::runtime_error("The Motor Contoller Gear Ratio of " + jointName + " is not set to 1.");
       }
     }
