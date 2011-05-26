@@ -1,10 +1,8 @@
 window_sizes 1280 725 372 902 644 0
 show_stereotypes
-selected operation_ref 709233 // getStatus
 open
-  class_ref 162417 // SyncMode
-  class_ref 170225 // YouBotJoint
-  class_ref 286321 // YouBotManipulator
+  classview_ref 134641 // Joint
+  classview_ref 154353 // JointParameter
   deploymentview_ref 154609 // Deployment
 end
 end

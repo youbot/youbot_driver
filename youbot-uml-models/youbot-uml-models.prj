@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 166
+  revision 170
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -434,41 +434,11 @@ ${inlines}
 	
       end
 
-      operation 418929 "setConfigurationParameter"
-	preserve_cpp_body_indent public explicit_return_type "void"
-	nparams 1
-	  param in name "parameter" type class_ref 279537 // StopJoint
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 419057 "setConfigurationParameter"
-	preserve_cpp_body_indent public explicit_return_type "void"
-	nparams 1
-	  param in name "parameter" type class_ref 279665 // NoMoreAction
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
       operation 619505 "setConfigurationParameter"
 	preserve_cpp_body_indent public explicit_return_type "void"
 	nparams 1
 	  param in name "parameter" type class_ref 347761 // InitializeJoint
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
@@ -659,8 +629,45 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
-	comment "///gets the velocity of one joint which have been calculated from the actual encoder values
+	comment "///gets the velocity of one joint
 ///@param data returns the velocity by reference"
+      end
+
+      operation 715889 "getData"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "data" type class_ref 381809 // JointSensedRoundsPerMinute
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///gets the velocity in round per minute of one joint
+///@param data returns the velocity by reference"
+      end
+
+      operation 716017 "setData"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 2
+	  param in name "data" type class_ref 381937 // JointRoundsPerMinuteSetpoint
+	  param in name "communicationMode" type class_ref 162417 // SyncMode
+	    defaultvalue "NON_BLOCKING"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///sets the velocity in round per minute to one joint
+///@param data the setpoint velocity
+///@param communicationMode at the moment only non blocking communication is implemented"
       end
 
       operation 246385 "getData"
@@ -834,6 +841,49 @@ ${inlines}
 /// 15: Module initialized
 /// 16: EtherCAT timeout flag
 /// 17: I2t exceeded flag (reset by timeout)"
+      end
+
+      operation 716145 "setEncoderToZero"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "/// set the encoder values of the joint to zero. This postion will be the new reference."
+      end
+
+      operation 419057 "noMoreAction"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 418929 "stopJoint"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
       end
 
       operation 281329 "parseYouBotErrorFlags"
@@ -1255,7 +1305,7 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// Sensed encoder ticks of the joint"
-      attribute 622321 "EncoderTicks"
+      attribute 622321 "encoderTicks"
 	public explicit_type "signed int"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -1270,6 +1320,41 @@ ${inlines}
 	  a public
 	    cpp default "${type}"
 	    classrelation_ref 342641 // <realization>
+	  b parent class_ref 162289 // JointSensedData
+      end
+    end
+
+    class 381809 "JointSensedRoundsPerMinute"
+      visibility package 
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/// Sensed rounds per minute (rpm) of the joint"
+      attribute 628849 "rpm"
+	public explicit_type "int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      classrelation 349169 // <realization>
+	relation 349169 -_-|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 349169 // <realization>
 	  b parent class_ref 162289 // JointSensedData
       end
     end
@@ -1505,6 +1590,41 @@ ${inlines}
 	  a public
 	    cpp default "${type}"
 	    classrelation_ref 308977 // <realization>
+	  b parent class_ref 170481 // JointDataSetpoint
+      end
+    end
+
+    class 381937 "JointRoundsPerMinuteSetpoint"
+      visibility package 
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/// Rounds per minute set-point of the joint"
+      attribute 628977 "rpm"
+	public explicit_type "int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      classrelation 349297 // <realization>
+	relation 349297 -_-|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 349297 // <realization>
 	  b parent class_ref 170481 // JointDataSetpoint
       end
     end
@@ -3159,378 +3279,6 @@ ${inlines}
 
       attribute 534769 "areLimitsActive"
 	private explicit_type "bool"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-    end
-
-    class 279537 "StopJoint"
-      visibility package 
-      cpp_decl "///////////////////////////////////////////////////////////////////////////////
-${description}
-///////////////////////////////////////////////////////////////////////////////
-${template}class ${name}${inherit} {
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      comment "/// stops the joint"
-      extra_member 145265 "friend class YouBotJoint;"
-	
-	cpp "friend class YouBotJoint;" ""
-	java ""
-	php ""
-	python ""
-	idl ""
-      end
-
-      classrelation 252017 // <generalisation>
-	relation 252017 ---|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 252017 // <generalisation>
-	  b parent class_ref 238577 // YouBotJointParameter
-      end
-
-      operation 416881 "StopJoint"
-	preserve_cpp_body_indent public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
-"
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
-"
-	
-	
-	
-	
-      end
-
-      operation 417009 "~StopJoint"
-	cpp_virtual public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
-"
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
-"
-	
-	
-	
-	
-      end
-
-      operation 417137 "getParameter"
-	preserve_cpp_body_indent const public explicit_return_type "void"
-	nparams 1
-	  param out name "parameter" explicit_type "bool"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 417265 "setParameter"
-	preserve_cpp_body_indent public explicit_return_type "void"
-	nparams 1
-	  param in name "parameter" explicit_type "bool"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 641137 "toString"
-	preserve_cpp_body_indent public explicit_return_type "void"
-	nparams 1
-	  param out name "value" explicit_type "std::string"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 417393 "getYouBotMailboxMsg"
-	preserve_cpp_body_indent const private explicit_return_type "void"
-	nparams 3
-	  param out name "message" explicit_type "YouBotSlaveMailboxMsg"
-	  param in name "msgType" explicit_type "TMCLCommandNumber"
-	  param in name "storage" type class_ref 303857 // YouBotJointStorage
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}, ${t1} ${p1}${v1}, const ${t2}& ${p2}${)}${const}${volatile}${throw}${abstract} {};
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 417521 "setYouBotMailboxMsg"
-	preserve_cpp_body_indent private explicit_return_type "void"
-	nparams 2
-	  param in name "message" explicit_type "YouBotSlaveMailboxMsg"
-	  param in name "storage" type class_ref 303857 // YouBotJointStorage
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}, const ${t1}& ${p1}${v1}${)}${const}${volatile}${throw}${abstract} {};
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 417649 "getName"
-	preserve_cpp_body_indent const private explicit_return_type "string"
-	nparams 0
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->name;};
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 417777 "getType"
-	preserve_cpp_body_indent const private return_type class_ref 210929 // ParameterType
-	nparams 0
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->parameterType;};
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      attribute 411377 "value"
-	private explicit_type "bool"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 411505 "name"
-	private explicit_type "string"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 411633 "parameterType"
-	private type class_ref 210929 // ParameterType
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-    end
-
-    class 279665 "NoMoreAction"
-      visibility package 
-      cpp_decl "///////////////////////////////////////////////////////////////////////////////
-${description}
-///////////////////////////////////////////////////////////////////////////////
-${template}class ${name}${inherit} {
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      comment "/// No more action"
-      extra_member 145137 "friend class YouBotJoint;"
-	
-	cpp "friend class YouBotJoint;" ""
-	java ""
-	php ""
-	python ""
-	idl ""
-      end
-
-      classrelation 252145 // <generalisation>
-	relation 252145 ---|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 252145 // <generalisation>
-	  b parent class_ref 238577 // YouBotJointParameter
-      end
-
-      operation 417905 "NoMoreAction"
-	preserve_cpp_body_indent public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
-"
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
-"
-	
-	
-	
-	
-      end
-
-      operation 418033 "~NoMoreAction"
-	cpp_virtual public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
-"
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
-"
-	
-	
-	
-	
-      end
-
-      operation 418161 "getParameter"
-	preserve_cpp_body_indent const public explicit_return_type "void"
-	nparams 1
-	  param out name "parameter" explicit_type "bool"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 418289 "setParameter"
-	preserve_cpp_body_indent public explicit_return_type "void"
-	nparams 1
-	  param in name "parameter" explicit_type "bool"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 641265 "toString"
-	preserve_cpp_body_indent public explicit_return_type "void"
-	nparams 1
-	  param out name "value" explicit_type "std::string"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 418417 "getYouBotMailboxMsg"
-	preserve_cpp_body_indent const private explicit_return_type "void"
-	nparams 3
-	  param out name "message" explicit_type "YouBotSlaveMailboxMsg"
-	  param in name "msgType" explicit_type "TMCLCommandNumber"
-	  param in name "storage" type class_ref 303857 // YouBotJointStorage
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}, ${t1} ${p1}${v1}, const ${t2}& ${p2}${)}${const}${volatile}${throw}${abstract} {};
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 418545 "setYouBotMailboxMsg"
-	preserve_cpp_body_indent private explicit_return_type "void"
-	nparams 2
-	  param in name "message" explicit_type "YouBotSlaveMailboxMsg"
-	  param in name "storage" type class_ref 303857 // YouBotJointStorage
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}, const ${t1}& ${p1}${v1}${)}${const}${volatile}${throw}${abstract} {};
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 418673 "getName"
-	preserve_cpp_body_indent const private explicit_return_type "string"
-	nparams 0
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->name;};
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 418801 "getType"
-	preserve_cpp_body_indent const private return_type class_ref 210929 // ParameterType
-	nparams 0
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->parameterType;};
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      attribute 412017 "value"
-	private explicit_type "bool"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 412145 "name"
-	private explicit_type "string"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 412273 "parameterType"
-	private type class_ref 210929 // ParameterType
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -22118,6 +21866,26 @@ friend class YouBotGripper;" ""
 
       attribute 577265 "pendingMailboxMsgsReply"
 	private explicit_type "std::vector<bool>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 635505 "communicationErrors"
+	private explicit_type "long int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 635633 "maxCommunicationErrors"
+	private explicit_type "long int"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""

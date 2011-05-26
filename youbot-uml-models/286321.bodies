@@ -88,11 +88,16 @@ class YouBotManipulator
 
 !!!695409.cpp!!!	calibrateManipulator() : void
 
-    //TODO When to calibrate the manipulator and when it is not necessary
     //Calibrate all manipulator joints
-    std::vector<CalibrateJoint> calibrateJointVec;
-    quantity<si::current> current;
-    bool doCalibration = true;
+    std::vector<JointRoundsPerMinuteSetpoint> calibrationVel;
+    JointRoundsPerMinuteSetpoint tempdummy;
+    tempdummy.rpm = 0;
+    calibrationVel.assign(ARMJOINTS, tempdummy);
+    std::vector<quantity<si::current> > maxCurrent;
+    quantity<si::current> tempdummy2;
+    maxCurrent.assign(ARMJOINTS, tempdummy2);
+    std::vector<bool> doCalibration;
+    doCalibration.assign(ARMJOINTS, true);
     std::string jointName;
 
     double dummy = 0;
@@ -115,38 +120,94 @@ class YouBotManipulator
     IsCalibratedSetMessage.stctOutput.value = 1;
 
 
+    //get parameters for calibration
     for (unsigned int i = 0; i < ARMJOINTS; i++) {
 
       std::stringstream jointNameStream;
       jointNameStream << "Joint_" << i + 1;
       jointName = jointNameStream.str();
-
-      configfile->readInto(doCalibration, jointName, "DoCalibration");
+      bool calib = true;
+      configfile->readInto(calib, jointName, "DoCalibration");
+      doCalibration[i] = calib;
 
       joints[i].getConfigurationParameter(IsCalibratedReadMessage);
       if (IsCalibratedReadMessage.stctInput.value == 1) {
-        doCalibration = false;
+        doCalibration[i] = false;
       }
 
 
       configfile->readInto(dummy, jointName, "CalibrationMaxCurrent_[ampere]");
-      current = dummy * ampere;
+      maxCurrent[i] = dummy * ampere;
       std::string direction;
       configfile->readInto(direction, jointName, "CalibrationDirection");
-
-      calibrateJointVec.push_back(CalibrateJoint());
+      GearRatio gearRatio;
+      joints[i].getConfigurationParameter(gearRatio);
+      double gearratio = 1;
+      gearRatio.getParameter(gearratio);
 
       if (direction == "POSITIV") {
-        calibrateJointVec[i].setParameter(doCalibration, POSITIV, current);
+        calibrationVel[i].rpm = 1 / gearratio;
       } else if (direction == "NEGATIV") {
-        calibrateJointVec[i].setParameter(doCalibration, NEGATIV, current);
+        calibrationVel[i].rpm = -1 / gearratio;
       } else {
         throw std::runtime_error("Wrong calibration direction for " + jointName);
       }
-      //do the calibration
-      joints[i].setConfigurationParameter(calibrateJointVec[i]);
+    }
+
+
+    LOG(info) << "Calibrate Joints ";
+    
+    std::vector<bool> finished;
+    finished.assign(ARMJOINTS, false);
+    JointSensedCurrent sensedCurrent;
+    JointRoundsPerMinuteSetpoint stopMovement;
+    stopMovement.rpm = 0;
+    
+    
+    //move the joints slowly in calibration direction
+    for (unsigned int i = 0; i < ARMJOINTS; i++) {
+      if(doCalibration[i] == true){
+        joints[i].setData(calibrationVel[i]);
+      }else{
+        finished[i] = true;
+      }
+    }
+
+    //monitor the current to find end stop 
+    while (!(finished[0] && finished[1] && finished[2] && finished[3] && finished[4])) {
+      for (unsigned int i = 0; i < ARMJOINTS; i++) {
+        joints[i].getData(sensedCurrent);
+        //turn till a max current is reached
+        if (abs(sensedCurrent.current) > abs(maxCurrent[i])) {
+          //stop movement
+          joints[i].setData(stopMovement);
+          finished[i] = true;
+        }
+      }
+      SLEEP_MILLISEC(1);
+    }
+
+    // wait to let the joint stop the motion
+    SLEEP_MILLISEC(500);
+    
+    for (unsigned int i = 0; i < ARMJOINTS; i++) {
+      if(doCalibration[i] == true){
+      //set encoder reference position
+      joints[i].setEncoderToZero();
+
+      /*
+      //switch to position controll
+      SLEEP_MILLISEC(100);
+      messageBuffer.stctOutput.controllerMode = POSITION_CONTROL;
+      messageBuffer.stctOutput.positionOrSpeed = 0;
+      //   LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.positionOrSpeed << " rad_sec " << data.angularVelocity;
+      EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+       */
       // set a flag in the user variable to remember that it is calibrated
       joints[i].setConfigurationParameter(IsCalibratedSetMessage);
+      
+      //     LOG(info) << "Calibration finished for joint: " << this->jointName;
+      }
     }
 !!!695537.cpp!!!	calibrateGripper() : void
     // Calibrating Gripper
