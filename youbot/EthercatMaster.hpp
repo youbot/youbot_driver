@@ -228,6 +228,10 @@ friend class YouBotGripper;
 
     std::vector<bool> pendingMailboxMsgsReply;
 
+    long int communicationErrors;
+
+    long int maxCommunicationErrors;
+
 };
 
 } // namespace youbot

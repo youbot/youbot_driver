@@ -71,6 +71,8 @@ EthercatMaster::EthercatMaster() {
     timeTillNextEthercatUpdate = 1000; //usec
     mailboxTimeout = 4000; //micro sec
     ethercatTimeout = 500; //micro sec
+    communicationErrors = 0;
+    maxCommunicationErrors = 100;
     stopThread = false;
     newDataFlagOne = false;
     newDataFlagTwo = false;
@@ -90,6 +92,7 @@ EthercatMaster::EthercatMaster() {
     configfile->readInto(timeTillNextEthercatUpdate, "EtherCAT", "EtherCATUpdateRate_[usec]");
     configfile->readInto(ethercatTimeout, "EtherCAT", "EtherCATTimeout_[usec]");
     configfile->readInto(mailboxTimeout, "EtherCAT", "MailboxTimeout_[usec]");
+    configfile->readInto(maxCommunicationErrors, "EtherCAT", "MaximumNumberOfEtherCATErrors");
 
 
   // Bouml preserved body end 00041171
@@ -636,7 +639,15 @@ void EthercatMaster::updateSensorActorValues() {
 
       if (ec_receive_processdata(this->ethercatTimeout) == 0) {
         LOG(error) << "Receiving data failed";
+        communicationErrors++;
         //   throw std::runtime_error("Receiving data failed");
+      }else{
+        communicationErrors = 0;
+      }
+      
+      if(communicationErrors > maxCommunicationErrors){
+        LOG(error) << "Lost EtherCAT connection";
+        this->closeEthercat();
       }
 
       if (newDataFlagOne == false) {
