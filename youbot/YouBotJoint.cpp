@@ -303,30 +303,6 @@ void YouBotJoint::setConfigurationParameter(const JointLimits& parameter) {
   // Bouml preserved body end 000642F1
 }
 
-void YouBotJoint::setConfigurationParameter(const StopJoint& parameter) {
-  // Bouml preserved body begin 00066471
-    if (parameter.value) {
-      YouBotSlaveMsg messageBuffer;
-      messageBuffer.stctOutput.controllerMode = MOTOR_STOP;
-      messageBuffer.stctOutput.positionOrSpeed = 0;
-
-      EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
-    }
-  // Bouml preserved body end 00066471
-}
-
-void YouBotJoint::setConfigurationParameter(const NoMoreAction& parameter) {
-  // Bouml preserved body begin 000664F1
-    if (parameter.value) {
-      YouBotSlaveMsg messageBuffer;
-      messageBuffer.stctOutput.controllerMode = NO_MORE_ACTION;
-      messageBuffer.stctOutput.positionOrSpeed = 0;
-
-      EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
-    }
-  // Bouml preserved body end 000664F1
-}
-
 void YouBotJoint::setConfigurationParameter(const InitializeJoint& parameter) {
   // Bouml preserved body begin 000973F1
     if (parameter.value) {
@@ -518,7 +494,7 @@ void YouBotJoint::setData(const JointVelocitySetpoint& data, SyncMode communicat
   // Bouml preserved body end 0003C371
 }
 
-///gets the velocity of one joint which have been calculated from the actual encoder values
+///gets the velocity of one joint
 ///@param data returns the velocity by reference
 void YouBotJoint::getData(JointSensedVelocity& data) {
   // Bouml preserved body begin 0003DD71
@@ -533,6 +509,40 @@ void YouBotJoint::getData(JointSensedVelocity& data) {
     //convert RPM of the motor to radian per second of the wheel/joint
     data.angularVelocity = ((motorRPM / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
   // Bouml preserved body end 0003DD71
+}
+
+///gets the velocity in round per minute of one joint
+///@param data returns the velocity by reference
+void YouBotJoint::getData(JointSensedRoundsPerMinute& data) {
+  // Bouml preserved body begin 000AEC71
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    this->parseYouBotErrorFlags(messageBuffer);
+
+    data.rpm = messageBuffer.stctInput.actualVelocity;
+  // Bouml preserved body end 000AEC71
+}
+
+///sets the velocity in round per minute to one joint
+///@param data the setpoint velocity
+///@param communicationMode at the moment only non blocking communication is implemented
+void YouBotJoint::setData(const JointRoundsPerMinuteSetpoint& data, SyncMode communicationMode) {
+  // Bouml preserved body begin 000AECF1
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
+
+    if (storage.gearRatio == 0) {
+      throw std::out_of_range("A Gear Ratio of 0 is not allowed");
+    }
+
+    messageBuffer.stctOutput.positionOrSpeed = data.rpm;
+    if (storage.inverseMovementDirection) {
+      messageBuffer.stctOutput.positionOrSpeed *= -1;
+    }
+
+    //  LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.positionOrSpeed << " rad_sec " << data.angularVelocity;
+    EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+  // Bouml preserved body end 000AECF1
 }
 
 ///gets temperature of the motor which have been measured by a thermometer
@@ -595,7 +605,7 @@ void YouBotJoint::getData(JointSensedEncoderTicks& data) {
     this->parseYouBotErrorFlags(messageBuffer);
 
     //  LOG(trace) << "enc: " << messageBuffer.stctInput.actualPosition;
-    data.EncoderTicks = messageBuffer.stctInput.actualPosition ;
+    data.encoderTicks = messageBuffer.stctInput.actualPosition ;
 
   // Bouml preserved body end 000AB7F1
 }
@@ -758,6 +768,39 @@ void YouBotJoint::getStatus(unsigned short& statusFlags) {
   
   statusFlags = messageBuffer.stctInput.errorFlags;
   // Bouml preserved body end 000AD2F1
+}
+
+/// set the encoder values of the joint to zero. This postion will be the new reference.
+void YouBotJoint::setEncoderToZero() {
+  // Bouml preserved body begin 000AED71
+
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer.stctOutput.controllerMode = SET_POSITION_TO_REFERENCE;
+    messageBuffer.stctOutput.positionOrSpeed = 0;
+
+    EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+
+  // Bouml preserved body end 000AED71
+}
+
+void YouBotJoint::noMoreAction() {
+  // Bouml preserved body begin 000664F1
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer.stctOutput.controllerMode = NO_MORE_ACTION;
+    messageBuffer.stctOutput.positionOrSpeed = 0;
+
+    EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+  // Bouml preserved body end 000664F1
+}
+
+void YouBotJoint::stopJoint() {
+  // Bouml preserved body begin 00066471
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer.stctOutput.controllerMode = MOTOR_STOP;
+    messageBuffer.stctOutput.positionOrSpeed = 0;
+
+    EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+  // Bouml preserved body end 00066471
 }
 
 void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {

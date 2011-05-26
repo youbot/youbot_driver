@@ -112,10 +112,6 @@ class YouBotJoint : public Joint {
 
     void setConfigurationParameter(const JointLimits& parameter);
 
-    void setConfigurationParameter(const StopJoint& parameter);
-
-    void setConfigurationParameter(const NoMoreAction& parameter);
-
     void setConfigurationParameter(const InitializeJoint& parameter);
 
     void getConfigurationParameter(FirmwareVersion& parameter);
@@ -153,9 +149,18 @@ class YouBotJoint : public Joint {
     ///@param communicationMode at the moment only non blocking communication is implemented
     virtual void setData(const JointVelocitySetpoint& data, SyncMode communicationMode = NON_BLOCKING);
 
-    ///gets the velocity of one joint which have been calculated from the actual encoder values
+    ///gets the velocity of one joint
     ///@param data returns the velocity by reference
     virtual void getData(JointSensedVelocity& data);
+
+    ///gets the velocity in round per minute of one joint
+    ///@param data returns the velocity by reference
+    virtual void getData(JointSensedRoundsPerMinute& data);
+
+    ///sets the velocity in round per minute to one joint
+    ///@param data the setpoint velocity
+    ///@param communicationMode at the moment only non blocking communication is implemented
+    virtual void setData(const JointRoundsPerMinuteSetpoint& data, SyncMode communicationMode = NON_BLOCKING);
 
     ///gets temperature of the motor which have been measured by a thermometer
     ///@param data returns the actual temperature by reference
@@ -206,6 +211,13 @@ class YouBotJoint : public Joint {
     /// 16: EtherCAT timeout flag
     /// 17: I2t exceeded flag (reset by timeout)
     void getStatus(unsigned short& statusFlags);
+
+    /// set the encoder values of the joint to zero. This postion will be the new reference.
+    void setEncoderToZero();
+
+    void noMoreAction();
+
+    void stopJoint();
 
 
   private:
