@@ -137,7 +137,7 @@ friend class YouBotGripper;
     ///gets a mailbox message form the buffer which came form the motor controllers
     ///@param msgBuffer ethercat mailbox message
     ///@param jointNumber joint number of the receiver joint
-    void getMailboxMsgBuffer(YouBotSlaveMailboxMsg& mailboxMsg, const unsigned int jointNumber);
+    bool getMailboxMsgBuffer(YouBotSlaveMailboxMsg& mailboxMsg, const unsigned int jointNumber);
 
     ///sends the mailbox Messages which have been stored in the buffer
     ///@param mailboxMsg ethercat mailbox message

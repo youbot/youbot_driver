@@ -520,7 +520,7 @@ void EthercatMaster::setMailboxMsgBuffer(const YouBotSlaveMailboxMsg& msgBuffer,
 ///gets a mailbox message form the buffer which came form the motor controllers
 ///@param msgBuffer ethercat mailbox message
 ///@param jointNumber joint number of the receiver joint
-void EthercatMaster::getMailboxMsgBuffer(YouBotSlaveMailboxMsg& mailboxMsg, const unsigned int jointNumber) {
+bool EthercatMaster::getMailboxMsgBuffer(YouBotSlaveMailboxMsg& mailboxMsg, const unsigned int jointNumber) {
   // Bouml preserved body begin 00049DF1
 
 
@@ -531,6 +531,7 @@ void EthercatMaster::getMailboxMsgBuffer(YouBotSlaveMailboxMsg& mailboxMsg, cons
      //   mailboxMsg.stctOutput = firstMailboxBufferVector[jointNumber - 1].stctOutput;
         newMailboxInputDataFlagOne[jointNumber - 1] = false;
       }
+      return true;
     } else if (newMailboxInputDataFlagTwo[jointNumber - 1] == true) {
       {
         boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
@@ -538,9 +539,9 @@ void EthercatMaster::getMailboxMsgBuffer(YouBotSlaveMailboxMsg& mailboxMsg, cons
     //    mailboxMsg.stctOutput = secondMailboxBufferVector[jointNumber - 1].stctOutput;
         newMailboxInputDataFlagTwo[jointNumber - 1] = false;
       }
-
+      return true;
     }
-    return;
+    return false;
   // Bouml preserved body end 00049DF1
 }
 
@@ -610,7 +611,7 @@ void EthercatMaster::updateSensorActorValues() {
 
 
       if(timeToWait < 0 || timeToWait > timeTillNextEthercatUpdate){
-     //   LOG(info) << "Missed communication period of " << timeTillNextEthercatUpdate << " microseconds it have been " << pastTime.total_microseconds() << " microseconds ";
+    //    printf("Missed communication period of %d  microseconds it have been %d microseconds \n",timeTillNextEthercatUpdate, (int)pastTime.total_microseconds()+ 100);
       }else{
         boost::this_thread::sleep(boost::posix_time::microseconds(timeToWait));
       }

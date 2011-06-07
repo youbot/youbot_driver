@@ -321,11 +321,28 @@ void YouBotJoint::getConfigurationParameter(FirmwareVersion& parameter) {
     YouBotSlaveMailboxMsg message;
     parameter.getYouBotMailboxMsg(message, GAP, storage);
 
+    bool unvalid = true;
+    unsigned int retry = 0;
+
     EthercatMaster::getInstance().setMailboxMsgBuffer(message, this->jointNumber);
 
-    SLEEP_MILLISEC(timeTillNextMailboxUpdate + 5);
+    SLEEP_MILLISEC(timeTillNextMailboxUpdate);
 
-    EthercatMaster::getInstance().getMailboxMsgBuffer(message, this->jointNumber);
+    do {
+      if( EthercatMaster::getInstance().getMailboxMsgBuffer(message, this->jointNumber) ) {
+        unvalid = false;
+      } else {
+        SLEEP_MILLISEC(timeTillNextMailboxUpdate);
+        retry++;
+      }
+    } while (retry < mailboxMsgRetries && unvalid);
+
+    if (unvalid) {
+      this->parseMailboxStatusFlags(message);
+      throw std::runtime_error("Unable to get firmware version for joint: " + this->jointName);
+      return;
+    } 
+    
     char versionString[8] = {0};
     versionString[0] = message.stctInput.replyAddress;
     versionString[1] = message.stctInput.moduleAddress;
