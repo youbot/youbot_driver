@@ -133,6 +133,8 @@ void YouBotManipulator::doJointCommutation() {
         }
         SLEEP_MILLISEC(1);
       }
+      
+      SLEEP_MILLISEC(10); // the controller likes it
     
       for (unsigned int i = 1; i <= ARMJOINTS; i++) {
         doInitialization.setParameter(false);

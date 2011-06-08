@@ -193,61 +193,7 @@ void YouBotJoint::setConfigurationParameter(const CalibrateJoint& parameter) {
         calibrationVel *= -1;
       }
 
-
-      //we need some movements in velocity control to do sinus commutation
-      //    LOG(info) << "Do sinus commutation for joint: " << this->jointName;
-
-      JointSensedAngle sensedAngle;
       JointSensedCurrent sensedCurrent;
-      quantity<plane_angle> maxAngle;
-      quantity<plane_angle> difAngle;
-      JointSensedAngle startAngle;
-
-      /*
-      maxAngle = 5.0 * M_PI / 180.0 * radian;
-      this->getData(startAngle);
-      //turn in calibration direction
-      messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
-      messageBuffer.stctOutput.positionOrSpeed = calibrationVel;
-      EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
-
-      while ((abs(sensedCurrent.current) < abs(parameter.maxCurrent)) && (abs(sensedAngle.angle - startAngle.angle) < abs(maxAngle))) {
-        SLEEP_MILLISEC(timeTillNextMailboxUpdate);
-        this->getData(sensedAngle);
-        this->getData(sensedCurrent);
-      }
-
-      messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
-      messageBuffer.stctOutput.positionOrSpeed = 0;
-      EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
-      SLEEP_MILLISEC(500);
-
-      //check if the joint has moved enough otherwise move in other direction
-      if (abs(sensedAngle.angle - startAngle.angle) < abs(maxAngle)) {
-        //   LOG(info) << "turn in other direction ";
-        this->getData(startAngle);
-        messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
-        messageBuffer.stctOutput.positionOrSpeed = -calibrationVel;
-        EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
-
-        sensedCurrent.current = 0;
-        while ((abs(sensedCurrent.current) < abs(parameter.maxCurrent)) && (abs(sensedAngle.angle - startAngle.angle) < abs(maxAngle))) {
-          SLEEP_MILLISEC(timeTillNextMailboxUpdate);
-          this->getData(sensedAngle);
-          this->getData(sensedCurrent);
-        }
-
-        messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
-        messageBuffer.stctOutput.positionOrSpeed = 0;
-        EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
-        SLEEP_MILLISEC(500);
-      }
-      if (abs(sensedAngle.angle - startAngle.angle) < abs(maxAngle)) {
-        throw std::runtime_error("Unable to do sinus commutation for joint: " + this->jointName);
-      }
-
-*/
-      //   LOG(info) << "Sinus commutation finished for joint: " << this->jointName;
 
       messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
       messageBuffer.stctOutput.positionOrSpeed = calibrationVel;

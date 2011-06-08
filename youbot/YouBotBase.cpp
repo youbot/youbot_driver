@@ -157,6 +157,7 @@ void YouBotBase::doJointCommutation() {
       }
 
 
+      SLEEP_MILLISEC(10); // the controller likes it
       std::string jointName;
 
       for (unsigned int i = 1; i <= BASEJOINTS; i++) {
@@ -171,17 +172,6 @@ void YouBotBase::doJointCommutation() {
         }
       }
     }
-    /*
-        SLEEP_MILLISEC(2500);
-        quantity<si::velocity> longitudinalVelocity = 0.0 * meter_per_second;
-        quantity<si::velocity> transversalVelocity = 0.0 * meter_per_second;
-        quantity<si::angular_velocity> angularVelocity = 0.1 * radian_per_second;
-
-        this->setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
-        SLEEP_MILLISEC(500);
-        angularVelocity = 0 * radian_per_second;
-        this->setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
-     */
   // Bouml preserved body end 0008A9F1
 }
 
