@@ -131,7 +131,7 @@ void EthercatMaster::destroy()
     if (instance) {
       delete instance;
     }
-    instance = 0;
+    instance = NULL;
 
   // Bouml preserved body end 00042FF1
 }
@@ -399,7 +399,7 @@ void EthercatMaster::initializeEthercat() {
     stopThread = false;
     threads.create_thread(boost::bind(&EthercatMaster::updateSensorActorValues, this));
 
-    SLEEP_MILLISEC(500); //needed to start up thread and ethercat communication
+    SLEEP_MILLISEC(10); //needed to start up thread and ethercat communication
 
     return;
   // Bouml preserved body end 000410F1
@@ -409,7 +409,7 @@ void EthercatMaster::initializeEthercat() {
 bool EthercatMaster::closeEthercat() {
   // Bouml preserved body begin 00041271
     stopThread = true;
-
+    
     threads.join_all();
 
    // Request safe operational state for all slaves
