@@ -1,0 +1,31 @@
+class SmartEnergyCurrentDownStep
+!!!751089.cpp!!!	SmartEnergyCurrentDownStep()
+    this->name = "SmartEnergyCurrentDownStep";
+    this->lowerLimit = 0;
+    this->upperLimit = 3;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!751345.cpp!!!	getParameter(out parameter : unsigned int) : void
+    parameter = this->value;
+!!!751473.cpp!!!	setParameter(in parameter : unsigned int) : void
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+!!!751601.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+!!!751729.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
+
+
+
+    message.stctOutput.typeNumber = 169;
+    message.stctOutput.value = value;
+
+!!!751857.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
+    this->value = message.stctInput.value;
+

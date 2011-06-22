@@ -95,6 +95,7 @@ class YouBotBase
       }
 
 
+      SLEEP_MILLISEC(10); // the controller likes it
       std::string jointName;
 
       for (unsigned int i = 1; i <= BASEJOINTS; i++) {
@@ -109,17 +110,6 @@ class YouBotBase
         }
       }
     }
-    /*
-        SLEEP_MILLISEC(2500);
-        quantity<si::velocity> longitudinalVelocity = 0.0 * meter_per_second;
-        quantity<si::velocity> transversalVelocity = 0.0 * meter_per_second;
-        quantity<si::angular_velocity> angularVelocity = 0.1 * radian_per_second;
-
-        this->setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
-        SLEEP_MILLISEC(500);
-        angularVelocity = 0 * radian_per_second;
-        this->setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
-     */
 !!!325489.cpp!!!	getBaseJoint(in baseJointNumber : uint) : YouBotJoint&
     if (baseJointNumber <= 0 || baseJointNumber > BASEJOINTS) {
       throw std::out_of_range("Invalid Joint Number");

@@ -1,0 +1,25 @@
+class StopOnStall
+!!!764913.cpp!!!	StopOnStall()
+    this->name = "StopOnStall";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!765169.cpp!!!	getParameter(out parameter : bool) : void
+    parameter = this->value;
+!!!765297.cpp!!!	setParameter(in parameter : bool) : void
+    this->value = parameter;
+!!!765425.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+!!!765553.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
+
+
+
+    message.stctOutput.typeNumber = 181;
+    if(value)
+      message.stctOutput.value = 1;
+    else
+      message.stctOutput.value = 0;
+
+!!!765681.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
+    this->value = message.stctInput.value;
+

@@ -48,7 +48,7 @@ class EthercatMaster
     if (instance) {
       delete instance;
     }
-    instance = 0;
+    instance = NULL;
 
 !!!281201.cpp!!!	getNumberOfSlaves() : unsigned int
     return this->nrOfSlaves;
@@ -292,12 +292,12 @@ class EthercatMaster
     stopThread = false;
     threads.create_thread(boost::bind(&EthercatMaster::updateSensorActorValues, this));
 
-    SLEEP_MILLISEC(500); //needed to start up thread and ethercat communication
+    SLEEP_MILLISEC(10); //needed to start up thread and ethercat communication
 
     return;
 !!!266865.cpp!!!	closeEthercat() : bool
     stopThread = true;
-
+    
     threads.join_all();
 
    // Request safe operational state for all slaves
@@ -381,7 +381,7 @@ class EthercatMaster
 
     }
     return;
-!!!302577.cpp!!!	getMailboxMsgBuffer(out mailboxMsg : YouBotSlaveMailboxMsg, in jointNumber : uint) : void
+!!!302577.cpp!!!	getMailboxMsgBuffer(out mailboxMsg : YouBotSlaveMailboxMsg, in jointNumber : uint) : bool
 
 
     if (newMailboxInputDataFlagOne[jointNumber - 1] == true) {
@@ -391,6 +391,7 @@ class EthercatMaster
      //   mailboxMsg.stctOutput = firstMailboxBufferVector[jointNumber - 1].stctOutput;
         newMailboxInputDataFlagOne[jointNumber - 1] = false;
       }
+      return true;
     } else if (newMailboxInputDataFlagTwo[jointNumber - 1] == true) {
       {
         boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
@@ -398,9 +399,9 @@ class EthercatMaster
     //    mailboxMsg.stctOutput = secondMailboxBufferVector[jointNumber - 1].stctOutput;
         newMailboxInputDataFlagTwo[jointNumber - 1] = false;
       }
-
+      return true;
     }
-    return;
+    return false;
 !!!339825.cpp!!!	sendMailboxMessage(in mailboxMsg : YouBotSlaveMailboxMsg) : bool
     //  LOG(trace) << "send mailbox message (buffer two) slave " << mailboxMsg.getSlaveNo();
     mailboxBufferSend[0] = mailboxMsg.stctOutput.moduleAddress;
@@ -452,7 +453,7 @@ class EthercatMaster
 
 
       if(timeToWait < 0 || timeToWait > timeTillNextEthercatUpdate){
-     //   LOG(info) << "Missed communication period of " << timeTillNextEthercatUpdate << " microseconds it have been " << pastTime.total_microseconds() << " microseconds ";
+    //    printf("Missed communication period of %d  microseconds it have been %d microseconds \n",timeTillNextEthercatUpdate, (int)pastTime.total_microseconds()+ 100);
       }else{
         boost::this_thread::sleep(boost::posix_time::microseconds(timeToWait));
       }

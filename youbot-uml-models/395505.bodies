@@ -1,0 +1,31 @@
+class MaximumCurrent
+!!!734961.cpp!!!	MaximumCurrent()
+    this->name = "MaximumCurrent";
+    this->lowerLimit = 0;
+    this->upperLimit = 255;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!735217.cpp!!!	getParameter(out parameter : int) : void
+    parameter = this->value;
+!!!735345.cpp!!!	setParameter(in parameter : int) : void
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+!!!735473.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+!!!735601.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
+
+
+
+    message.stctOutput.typeNumber = 6;
+    message.stctOutput.value = value;
+
+!!!735729.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
+    this->value = message.stctInput.value;
+

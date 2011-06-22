@@ -1,0 +1,20 @@
+class GripperFirmwareVersion
+!!!781041.cpp!!!	GripperFirmwareVersion()
+    this->name = "FirmwareVersion";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!781297.cpp!!!	getParameter(out controllerType : int, out firmwareVersion : double) : void
+    controllerType = this->controllerType;
+    firmwareVersion = this->firmwareVersion;
+!!!781425.cpp!!!	setParameter(in controllerType : int, in firmwareVersion : double) : void
+    this->controllerType = controllerType;
+    this->firmwareVersion = firmwareVersion;
+!!!781553.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->controllerType << " Version: " << this->firmwareVersion;
+  value  = ss.str();
+!!!781681.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
+    message.stctOutput.commandNumber = FIRMWARE_VERSION;
+    message.stctOutput.moduleAddress = GRIPPER;
+    message.stctOutput.typeNumber = 0;
+    message.stctOutput.motorNumber = 0;
+    message.stctOutput.value = 0;

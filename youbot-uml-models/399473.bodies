@@ -1,0 +1,23 @@
+class ErrorFlags
+!!!770673.cpp!!!	ErrorFlags()
+    this->name = "ErrorFlags";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!770929.cpp!!!	getParameter(out parameter : unsigned int) : void
+    parameter = this->value;
+!!!771057.cpp!!!	setParameter(in parameter : unsigned int) : void
+
+    this->value = parameter;
+!!!771185.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+!!!771313.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
+
+
+
+    message.stctOutput.typeNumber = 208;
+    message.stctOutput.value = value;
+
+!!!771441.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
+    this->value = message.stctInput.value;
+

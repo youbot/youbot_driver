@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 46
+  revision 49
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -345,10 +345,46 @@ ${members}
 ${namespace_end}"
       associated_classes
 	class_ref 258929 // YouBotGripperParameter
+	class_ref 406129 // GripperFirmwareVersion
 	class_ref 259057 // CalibrateGripper
 	class_ref 259441 // BarSpacingOffset
 	class_ref 266097 // MaxEncoderValue
 	class_ref 265969 // MaxTravelDistance
+	class_ref 399345 // ActualLoadValue
+	class_ref 396529 // ChopperBlankTime
+	class_ref 396785 // ChopperHysteresisDecrement
+	class_ref 396913 // ChopperHysteresisEnd
+	class_ref 396657 // ChopperMode
+	class_ref 397041 // ChopperOffTime
+	class_ref 396401 // DoubleStepEnable
+	class_ref 399473 // ErrorFlags
+	class_ref 399217 // Freewheeling
+	class_ref 395377 // MaximumAcceleration
+	class_ref 395505 // MaximumCurrent
+	class_ref 395249 // MaximumPositioningSpeed
+	class_ref 395889 // MicrostepResolution
+	class_ref 399601 // PowerDownDelay
+	class_ref 396145 // PulseDivisor
+	class_ref 396017 // RampDivisor
+	class_ref 395761 // RampMode
+	class_ref 398449 // ShortDetectionTimer
+	class_ref 398321 // ShortProtectionDisable
+	class_ref 398065 // SlopeControlHighSide
+	class_ref 398193 // SlopeControlLowSide
+	class_ref 398705 // SmartEnergyActualCurrent
+	class_ref 397297 // SmartEnergyCurrentDownStep
+	class_ref 397169 // SmartEnergyCurrentMinimum
+	class_ref 397553 // SmartEnergyCurrentUpStep
+	class_ref 397425 // SmartEnergyHysteresis
+	class_ref 397681 // SmartEnergyHysteresisStart
+	class_ref 399089 // SmartEnergySlowRunCurrent
+	class_ref 398961 // SmartEnergyThresholdSpeed
+	class_ref 397809 // StallGuard2FilterEnable
+	class_ref 397937 // StallGuard2Threshold
+	class_ref 395633 // StandbyCurrent
+	class_ref 396273 // StepInterpolationEnable
+	class_ref 398833 // StopOnStall
+	class_ref 398577 // Vsense
       end
       comment "/****************************************************************
  *
@@ -430,7 +466,6 @@ ${namespace_start}
 ${members}
 ${namespace_end}"
       associated_classes
-	class_ref 210929 // ParameterType
 	class_ref 296049 // YouBotJointParameterReadOnly
 	class_ref 318577 // ActualMotorVoltage
 	class_ref 318705 // ActualPWMDutyCycle

@@ -1,0 +1,30 @@
+class ChopperHysteresisDecrement
+!!!746481.cpp!!!	ChopperHysteresisDecrement()
+    this->name = "ChopperHysteresisDecrement";
+    this->lowerLimit = 0;
+    this->upperLimit = 3;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!746737.cpp!!!	getParameter(out parameter : unsigned int) : void
+    parameter = this->value;
+!!!746865.cpp!!!	setParameter(in parameter : unsigned int) : void
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+!!!746993.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+!!!747121.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
+
+
+
+    message.stctOutput.typeNumber = 164;
+    message.stctOutput.value = value;
+
+!!!747249.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
+    this->value = message.stctInput.value;

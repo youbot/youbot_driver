@@ -88,9 +88,11 @@ class YouBotGripper : public OneDOFGripper {
 
 
   public:
-    void getConfigurationParameter(YouBotGripperParameter& parameter);
+    void getConfigurationParameter(GripperFirmwareVersion& parameter);
 
-    void setConfigurationParameter(const YouBotGripperParameter& parameter);
+    void getConfigurationParameter(YouBotGripperParameter& parameter, const BarNumber& barNumber);
+
+    void setConfigurationParameter(const YouBotGripperParameter& parameter, const BarNumber& barNumber);
 
     void setConfigurationParameter(const CalibrateGripper& parameter);
 
@@ -120,10 +122,14 @@ class YouBotGripper : public OneDOFGripper {
   private:
     void parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailboxMsg);
 
+
+  public:
     bool setValueToMotorContoller(const YouBotSlaveMailboxMsg& mailboxMsg);
 
     bool retrieveValueFromMotorContoller(YouBotSlaveMailboxMsg& message);
 
+
+  private:
     unsigned int timeTillNextMailboxUpdate;
 
     unsigned int mailboxMsgRetries;

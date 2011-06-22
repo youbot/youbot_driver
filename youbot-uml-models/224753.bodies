@@ -1,9 +1,9 @@
 class YouBotGripper
 !!!389105.cpp!!!	YouBotGripper(in jointNo : uint)
     this->jointNumber = jointNo;
-    this->mailboxMsgRetries = 100;
+    this->mailboxMsgRetries = 200;
     this->timeTillNextMailboxUpdate = 1; //ms
-    this->maxTravelDistance = 0.023 * meter;
+    this->maxTravelDistance = 0.023/2.0 * meter;
     this->maxEncoderValue = 67000;
     this->barSpacingOffset = 0 * meter;
     this->lastGripperPosition = 0 * meter;
@@ -11,37 +11,145 @@ class YouBotGripper
   throw std::runtime_error("Please use YouBotGripperParameter");
 !!!391793.cpp!!!	setConfigurationParameter(in parameter : GripperParameter) : void
   throw std::runtime_error("Please use YouBotGripperParameter");
-!!!295665.cpp!!!	getConfigurationParameter(out parameter : YouBotGripperParameter) : void
-  LOG(info) << "Nothing to do";
-!!!399345.cpp!!!	setConfigurationParameter(in parameter : YouBotGripperParameter) : void
-   LOG(info) << "Nothing to do";
+!!!782193.cpp!!!	getConfigurationParameter(out parameter : GripperFirmwareVersion) : void
+
+    YouBotSlaveMailboxMsg message;
+    parameter.getYouBotMailboxMsg(message);
+
+    bool unvalid = true;
+    unsigned int retry = 0;
+
+    EthercatMaster::getInstance().setMailboxMsgBuffer(message, this->jointNumber);
+    SLEEP_MILLISEC(timeTillNextMailboxUpdate);
+
+    do {
+      if( EthercatMaster::getInstance().getMailboxMsgBuffer(message, this->jointNumber) ) {
+        unvalid = false;
+      } else {
+        SLEEP_MILLISEC(timeTillNextMailboxUpdate);
+        retry++;
+      }
+    } while (retry < mailboxMsgRetries && unvalid);
+
+    if (unvalid) {
+      this->parseMailboxStatusFlags(message);
+      throw std::runtime_error("Unable to get firmware version of the gripper");
+      return;
+    } 
+    
+    char versionString[8] = {0};
+    versionString[0] = message.stctInput.replyAddress;
+    versionString[1] = message.stctInput.moduleAddress;
+    versionString[2] = message.stctInput.status;
+    versionString[3] = message.stctInput.commandNumber;
+    versionString[4] = message.stctInput.value >> 24;
+    versionString[5] = message.stctInput.value >> 16;
+    versionString[6] = message.stctInput.value >> 8;
+    versionString[7] = message.stctInput.value & 0xff;
+    
+   // LOG(trace) << versionString;
+    int controllerType = 0;
+    float firmwareVersion = 0;
+    sscanf (versionString,"KR%dV%f",&controllerType,&firmwareVersion); //KR842V20
+
+    
+    parameter.setParameter(controllerType, firmwareVersion);
+
+    return;
+!!!295665.cpp!!!	getConfigurationParameter(out parameter : YouBotGripperParameter, in barNumber : BarNumber) : void
+  if (parameter.getType() == MOTOR_CONTOLLER_PARAMETER) {
+
+      YouBotSlaveMailboxMsg message;
+      parameter.getYouBotMailboxMsg(message);
+      message.stctOutput.commandNumber = GAP;
+      message.stctOutput.moduleAddress = GRIPPER;
+      if(barNumber == BAR_ONE){
+        message.stctOutput.motorNumber = 0;
+      }else if(barNumber == BAR_TWO){
+        message.stctOutput.motorNumber = 1;
+      }else{
+        throw JointParameterException("Invalid bar number");
+      }
+
+      message.parameterName = parameter.getName();
+      if (retrieveValueFromMotorContoller(message)) {
+        parameter.setYouBotMailboxMsg(message);
+      } else {
+        throw JointParameterException("Unable to get parameter: " + parameter.getName() + " from the gripper");
+      }
+      SLEEP_MILLISEC(10);
+    }
+!!!399345.cpp!!!	setConfigurationParameter(in parameter : YouBotGripperParameter, in barNumber : BarNumber) : void
+   if (parameter.getType() == MOTOR_CONTOLLER_PARAMETER) {
+
+      YouBotSlaveMailboxMsg message;
+      parameter.getYouBotMailboxMsg(message);
+      message.stctOutput.commandNumber = SAP;
+      message.stctOutput.moduleAddress = GRIPPER;
+      message.stctOutput.motorNumber = barNumber;
+
+      message.parameterName = parameter.getName();
+      if (!setValueToMotorContoller(message)) {
+        throw JointParameterException("Unable to set parameter: " + parameter.getName() + " to the gripper");
+      }
+      SLEEP_MILLISEC(10);
+    }
 !!!295537.cpp!!!	setConfigurationParameter(in parameter : CalibrateGripper) : void
     
       if (parameter.value) {
+        
+        StopOnStall stopStall;
+        stopStall.setParameter(true);
+    //    this->setConfigurationParameter(stopStall, BAR_ONE);
+    //    this->setConfigurationParameter(stopStall, BAR_TWO);
+
+        /*
+        StallGuard2Threshold sgThreshold;
+        sgThreshold.setParameter(0);
+        this->setConfigurationParameter(sgThreshold, BAR_ONE);
+        this->setConfigurationParameter(sgThreshold, BAR_TWO);
+        this->getConfigurationParameter(sgThreshold, BAR_ONE);
+   
+        
+        SmartEnergyHysteresis hysteresis;
+        this->getConfigurationParameter(hysteresis, BAR_TWO);
+        hysteresis.getParameter(dummy);
+        LOG(trace) << "hysteresis 2 "<< dummy;
+        */
         YouBotSlaveMailboxMsg message;
 
-        LOG(info) << "Calibrate gripper";
+        LOG(info) << "Calibrate Gripper";
         message.stctOutput.moduleAddress = GRIPPER;
         message.stctOutput.commandNumber = MVP;
-        message.stctOutput.typeNumber = 1; //move gripper
-        message.stctOutput.motorNumber = 0; //always zero
+        message.stctOutput.typeNumber = 1; //move gripper relative
         message.stctOutput.value = this->maxEncoderValue;
 
-        setValueToMotorContoller(message);
-        
-        SLEEP_MILLISEC(4000); //wait until the gripper ist closed
 
-        //set encoder reference to zero
-        YouBotSlaveMsg messageBuffer;
-        messageBuffer.stctOutput.controllerMode = MOTOR_STOP;
-        messageBuffer.stctOutput.positionOrSpeed = 0;
-        EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+        message.stctOutput.motorNumber = 0; //move bar 0
+        setValueToMotorContoller(message);
+        SLEEP_MILLISEC(10);
+        message.stctOutput.motorNumber = 1; //move bar 1
+        setValueToMotorContoller(message);
+        SLEEP_MILLISEC(10);
+        
+        SLEEP_MILLISEC(4000); //wait until the gripper is closed
+
+        
         this->lastGripperPosition = 0 * meter;
 
         //stop Gripper motor
-        SLEEP_MILLISEC(timeTillNextMailboxUpdate*2);
         message.stctOutput.value = 0;
+        message.stctOutput.motorNumber = 0; //move bar 0
         setValueToMotorContoller(message);
+        SLEEP_MILLISEC(10);
+        message.stctOutput.motorNumber = 1; //move bar 1
+        setValueToMotorContoller(message);
+        SLEEP_MILLISEC(10);
+        stopStall.setParameter(false);
+     //   this->setConfigurationParameter(stopStall, BAR_ONE);
+    //    this->setConfigurationParameter(stopStall, BAR_TWO);
+
+
       }
     
 !!!399473.cpp!!!	setConfigurationParameter(in parameter : BarSpacingOffset) : void
@@ -68,16 +176,17 @@ class YouBotGripper
     YouBotSlaveMailboxMsg message;
     message.stctOutput.moduleAddress = GRIPPER;
     message.stctOutput.commandNumber = MVP;
-    message.stctOutput.typeNumber = 1; //move gripper
+    message.stctOutput.typeNumber = 1; //move gripper relative
     message.stctOutput.value = (int)(((this->lastGripperPosition - barSpacing.barSpacing)+barSpacingOffset)/maxTravelDistance * maxEncoderValue);
 
     this->lastGripperPosition = barSpacing.barSpacing;
 
     message.stctOutput.motorNumber = 0; //move bar 0
     setValueToMotorContoller(message);
-
+    SLEEP_MILLISEC(10);
     message.stctOutput.motorNumber = 1; //move bar 1
     setValueToMotorContoller(message);
+    SLEEP_MILLISEC(10);
 
 !!!391537.cpp!!!	getData(out barSpacing : GripperBarSpacingSetPoint) : void
    LOG(info) << "At the moment it is not possible to get the sensed position of the gripper";
@@ -122,24 +231,29 @@ class YouBotGripper
     unsigned int retry = 0;
 
     EthercatMaster::getInstance().setMailboxMsgBuffer(mailboxMsgBuffer, this->jointNumber);
+//    LOG(trace) << "set Output CommandNumber " << (int) mailboxMsgBuffer.stctOutput.commandNumber
+//                  << " moduleAddress " << (int) mailboxMsgBuffer.stctOutput.moduleAddress
+//                  << " motorNumber " << (int) mailboxMsgBuffer.stctOutput.motorNumber
+//                  << " typeNumber " << (int) mailboxMsgBuffer.stctOutput.typeNumber
+//                  << " value " << mailboxMsgBuffer.stctOutput.value;
 
     SLEEP_MILLISEC(timeTillNextMailboxUpdate);
 
     do {
-      EthercatMaster::getInstance().getMailboxMsgBuffer(mailboxMsgBuffer, this->jointNumber);
-      /*    LOG(trace) << "CommandNumber " << (int) mailboxMsgBuffer.stctInput.commandNumber
-                  << " moduleAddress " << (int) mailboxMsgBuffer.stctInput.moduleAddress
-                  << " replyAddress " << (int) mailboxMsgBuffer.stctInput.replyAddress
-                  << " status " << (int) mailboxMsgBuffer.stctInput.status
-                  << " value " << mailboxMsgBuffer.stctInput.value;
-       */
-      if (mailboxMsgBuffer.stctOutput.commandNumber == mailboxMsgBuffer.stctInput.commandNumber &&
-              mailboxMsgBuffer.stctInput.status == NO_ERROR) {
+          
+       
+      if (EthercatMaster::getInstance().getMailboxMsgBuffer(mailboxMsgBuffer, this->jointNumber) &&
+          mailboxMsgBuffer.stctInput.status == NO_ERROR) {
         unvalid = false;
       } else {
         SLEEP_MILLISEC(timeTillNextMailboxUpdate);
         retry++;
       }
+//      LOG(trace) << "set Input CommandNumber " << (int) mailboxMsgBuffer.stctInput.commandNumber
+//                  << " moduleAddress " << (int) mailboxMsgBuffer.stctInput.moduleAddress
+//                  << " replyAddress " << (int) mailboxMsgBuffer.stctInput.replyAddress
+//                  << " status " << (int) mailboxMsgBuffer.stctInput.status
+//                  << " value " << mailboxMsgBuffer.stctInput.value;
     } while (retry < mailboxMsgRetries && unvalid);
 
     if (unvalid) {
@@ -155,24 +269,32 @@ class YouBotGripper
     unsigned int retry = 0;
 
     EthercatMaster::getInstance().setMailboxMsgBuffer(message, this->jointNumber);
+//     LOG(trace) << "get Output CommandNumber " << (int) message.stctOutput.commandNumber
+//                  << " moduleAddress " << (int) message.stctOutput.moduleAddress
+//                  << " motorNumber " << (int) message.stctOutput.motorNumber
+//                  << " typeNumber " << (int) message.stctOutput.typeNumber
+//                  << " value " << message.stctOutput.value
+//                  << " No " << this->jointNumber;
 
     SLEEP_MILLISEC(timeTillNextMailboxUpdate);
 
     do {
-      EthercatMaster::getInstance().getMailboxMsgBuffer(message, this->jointNumber);
-      /*   LOG(trace) << "CommandNumber " << (int) message.stctInput.commandNumber
-                 << " moduleAddress " << (int) message.stctInput.moduleAddress
-                 << " replyAddress " << (int) message.stctInput.replyAddress
-                 << " status " << (int) message.stctInput.status
-                 << " value " << message.stctInput.value;
-       */
-      if (message.stctOutput.commandNumber == message.stctInput.commandNumber &&
-              message.stctInput.status == NO_ERROR) {
+         
+       
+      if (EthercatMaster::getInstance().getMailboxMsgBuffer(message, this->jointNumber) &&
+          message.stctInput.status == NO_ERROR) {
         unvalid = false;
       } else {
         SLEEP_MILLISEC(timeTillNextMailboxUpdate);
         retry++;
       }
+//      LOG(trace) << "get input CommandNumber " << (int) message.stctInput.commandNumber
+//                 << " moduleAddress " << (int) message.stctInput.moduleAddress
+//                 << " replyAddress " << (int) message.stctInput.replyAddress
+//                 << " status " << (int) message.stctInput.status
+//                 << " value " << message.stctInput.value
+//                 << " No " << this->jointNumber;
+         
     } while (retry < mailboxMsgRetries && unvalid);
 
     if (unvalid) {

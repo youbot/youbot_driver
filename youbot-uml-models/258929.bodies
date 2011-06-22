@@ -1,5 +1,6 @@
 class YouBotGripperParameter
-!!!651249.cpp!!!	toString(out value : std::string) : void
-  std::stringstream ss;
-  ss << this->name << ": " << this->value;
-  value  = ss.str();
+!!!723953.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
+    message.stctOutput.commandNumber = FIRMWARE_VERSION;
+
+    message.stctOutput.typeNumber = 0;
+    message.stctOutput.value = 0;

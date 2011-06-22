@@ -1,0 +1,22 @@
+class StallGuard2FilterEnable
+!!!755697.cpp!!!	StallGuard2FilterEnable()
+    this->name = "StallGuard2FilterEnable";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!755953.cpp!!!	getParameter(out parameter : bool) : void
+    parameter = this->value;
+!!!756081.cpp!!!	setParameter(in parameter : bool) : void
+    this->value = parameter;
+!!!756209.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+!!!756337.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
+
+
+
+    message.stctOutput.typeNumber = 173;
+    message.stctOutput.value = value;
+
+!!!756465.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
+    this->value = message.stctInput.value;
+

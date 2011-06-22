@@ -36,11 +36,23 @@ classcanvas 129777 class_ref 224753 // YouBotGripper
     operation_ref 482417 // parseMailboxStatusFlags
     operation_ref 388977 // setValueToMotorContoller
     operation_ref 388849 // retrieveValueFromMotorContoller
-  xyz 23 436 2006
+  xyz 22 635 2006
 end
 classcanvas 130161 class_ref 259313 // GripperBarSpacingSetPoint
   draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
   xyz 571 392 2000
+end
+classcanvas 130417 class_ref 259185 // GripperParameter
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  xyz 573 512 2000
+end
+classcanvas 130801 class_ref 258929 // YouBotGripperParameter
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  xyz 832 363 2006
+end
+classcanvas 131057 class_ref 406129 // GripperFirmwareVersion
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  xyz 733 705 2000
 end
 relationcanvas 129137 relation_ref 184049 // <generalisation>
   from ref 129009 z 2001 to ref 128625
@@ -59,6 +71,16 @@ relationcanvas 130033 relation_ref 190961 // <generalisation>
 end
 relationcanvas 130289 relation_ref 232049 // <generalisation>
   from ref 130161 z 2001 to ref 129009
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 130929 relation_ref 231921 // <generalisation>
+  from ref 130801 z 2007 to ref 130417
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 131185 relation_ref 374129 // <generalisation>
+  from ref 131057 z 2007 to ref 130801
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end

@@ -511,7 +511,7 @@ void YouBotManipulator::initializeJoints() {
 
       if (this->controllerType != controllerType) {
         std::stringstream ss;
-        ss << "The youBot base motor controller have to be of type: " << this->controllerType;
+        ss << "The youBot manipulator motor controller have to be of type: " << this->controllerType;
         throw std::runtime_error(ss.str().c_str());
       }
 

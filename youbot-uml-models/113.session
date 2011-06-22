@@ -1,8 +1,14 @@
-window_sizes 1280 725 372 902 644 0
+window_sizes 1680 976 372 1302 895 0
+diagrams
+  active  classdiagram_ref 154737 // Gripper
+    1302 895 100 2 300 0
+end
 show_stereotypes
+selected operation_ref 388849 // retrieveValueFromMotorContoller
 open
-  classview_ref 134641 // Joint
-  classview_ref 154353 // JointParameter
-  deploymentview_ref 154609 // Deployment
+  class_ref 170225 // YouBotJoint
+  class_ref 224753 // YouBotGripper
+  classview_ref 161009 // GripperParameter
+  deploymentview_ref 161137 // Deployment
 end
 end

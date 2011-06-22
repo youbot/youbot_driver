@@ -162,6 +162,16 @@ enum YouBotMailboxStatusFlags {
     REPLY_WRITE_PROTECTED = 8
 };
 
+enum ParameterType {
+  MOTOR_CONTOLLER_PARAMETER,
+  API_PARAMETER
+};
+
+enum BarNumber {
+  BAR_ONE = 0,
+  BAR_TWO = 1
+};
+
 
 #endif	/* PROTOCOLDEFINITIONS_HPP */
 

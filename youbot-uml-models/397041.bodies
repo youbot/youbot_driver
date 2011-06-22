@@ -1,0 +1,34 @@
+class ChopperOffTime
+!!!748785.cpp!!!	ChopperOffTime()
+    this->name = "ChopperOffTime";
+    this->lowerLimit = 0;
+    this->upperLimit = 15;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!749041.cpp!!!	getParameter(out parameter : unsigned int) : void
+    parameter = this->value;
+!!!749169.cpp!!!	setParameter(in parameter : unsigned int) : void
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (parameter == 1) {
+      throw std::out_of_range("One is not allowed for this parameter");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+!!!749297.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+!!!749425.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
+
+
+
+    message.stctOutput.typeNumber = 167; 
+    message.stctOutput.value = value;
+
+!!!749553.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
+    this->value = message.stctInput.value;
+

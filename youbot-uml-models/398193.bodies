@@ -1,0 +1,31 @@
+class SlopeControlLowSide
+!!!759153.cpp!!!	SlopeControlLowSide()
+    this->name = "SlopeControlLowSide";
+    this->lowerLimit = 0;
+    this->upperLimit = 3;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!759409.cpp!!!	getParameter(out parameter : unsigned int) : void
+    parameter = this->value;
+!!!759537.cpp!!!	setParameter(in parameter : unsigned int) : void
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+!!!759665.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+!!!759793.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
+
+
+
+    message.stctOutput.typeNumber = 176;
+    message.stctOutput.value = value;
+
+!!!759921.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
+    this->value = message.stctInput.value;
+

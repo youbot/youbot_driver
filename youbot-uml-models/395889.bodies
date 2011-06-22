@@ -1,0 +1,31 @@
+class MicrostepResolution
+!!!738417.cpp!!!	MicrostepResolution()
+    this->name = "MicrostepResolution";
+    this->lowerLimit = 0;
+    this->upperLimit = 8;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!738673.cpp!!!	getParameter(out parameter : unsigned int) : void
+    parameter = this->value;
+!!!738801.cpp!!!	setParameter(in parameter : unsigned int) : void
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+!!!738929.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+!!!739057.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
+
+
+
+    message.stctOutput.typeNumber = 140;
+    message.stctOutput.value = value;
+
+!!!739185.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
+    this->value = message.stctInput.value;
+
