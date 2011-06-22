@@ -154,7 +154,7 @@ void YouBotManipulator::doJointCommutation() {
 }
 
 ///calibrate the reference position of the arm joints
-void YouBotManipulator::calibrateManipulator() {
+void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
   // Bouml preserved body begin 000A9C71
 
     //Calibrate all manipulator joints
@@ -204,6 +204,9 @@ void YouBotManipulator::calibrateManipulator() {
         doCalibration[i] = false;
       }
 
+      if(forceCalibration){
+        doCalibration[i] = true;
+      }
 
       configfile->readInto(dummy, jointName, "CalibrationMaxCurrent_[ampere]");
       maxCurrent[i] = dummy * ampere;
