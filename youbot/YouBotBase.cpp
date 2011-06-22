@@ -533,7 +533,7 @@ void YouBotBase::initializeJoints() {
       configfile->readInto(lowerlimit, jointName, "LowerLimit_[encoderTicks]");
       configfile->readInto(upperlimit, jointName, "UpperLimit_[encoderTicks]");
 
-      jLimits.setParameter(lowerlimit, upperlimit, true);
+      jLimits.setParameter(lowerlimit, upperlimit, false);
       joints[i].setConfigurationParameter(jLimits);
     }
 

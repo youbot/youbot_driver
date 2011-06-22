@@ -174,6 +174,14 @@ class JointPWMSetpoint : public JointDataSetpoint {
     int pwm;
 
 };
+///////////////////////////////////////////////////////////////////////////////
+/// encoder ticks setpoint of the joint
+///////////////////////////////////////////////////////////////////////////////
+class JointEncoderSetpoint : public JointDataSetpoint {
+  public:
+    signed int encoderTicks;
+
+};
 
 } // namespace youbot
 #endif

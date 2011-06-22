@@ -116,6 +116,8 @@ friend class YouBotGripper;
     ///establishes the ethercat connection
     void initializeEthercat();
 
+    void setJointLimits(const int lowerJointLimit, const int upperJointLimit, const bool activateLimit, const unsigned int& jointNumber);
+
     ///closes the ethercat connection
     bool closeEthercat();
 
@@ -231,6 +233,12 @@ friend class YouBotGripper;
     long int communicationErrors;
 
     long int maxCommunicationErrors;
+
+    std::vector<int> upperLimit;
+
+    std::vector<int> lowerLimit;
+
+    std::vector<bool> limitActive;
 
 };
 

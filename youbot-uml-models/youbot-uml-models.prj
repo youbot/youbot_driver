@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 178
+  revision 179
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -576,6 +576,26 @@ ${inlines}
 	
 	comment "///commands a position or angle to one joint
 ///@param data the to command position
+///@param communicationMode at the moment only non blocking communication is implemented"
+      end
+
+      operation 795505 "setData"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 2
+	  param in name "data" type class_ref 412657 // JointEncoderSetpoint
+	  param in name "communicationMode" type class_ref 162417 // SyncMode
+	    defaultvalue "NON_BLOCKING"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///commands a encoder value (position) to one joint
+///@param data the to command encoder value
 ///@param communicationMode at the moment only non blocking communication is implemented"
       end
 
@@ -1625,6 +1645,41 @@ ${inlines}
 	  a public
 	    cpp default "${type}"
 	    classrelation_ref 349297 // <realization>
+	  b parent class_ref 170481 // JointDataSetpoint
+      end
+    end
+
+    class 412657 "JointEncoderSetpoint"
+      visibility package 
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/// encoder ticks setpoint of the joint"
+      attribute 685681 "encoderTicks"
+	public explicit_type "signed int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      classrelation 380785 // <generalisation>
+	relation 380785 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 380785 // <generalisation>
 	  b parent class_ref 170481 // JointDataSetpoint
       end
     end
@@ -21347,6 +21402,24 @@ friend class YouBotGripper;" ""
 	comment "///establishes the ethercat connection"
       end
 
+      operation 795377 "setJointLimits"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 4
+	  param in name "lowerJointLimit" explicit_type "int"
+	  param in name "upperJointLimit" explicit_type "int"
+	  param in name "activateLimit" explicit_type "bool"
+	  param in name "jointNumber" explicit_type "unsigned int"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}, const ${t1} ${p1}, const ${t2} ${p2}, const ${t3}& ${p3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}, const ${t1} ${p1}, const ${t2} ${p2}, const ${t3}& ${p3}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
       operation 266865 "closeEthercat"
 	preserve_cpp_body_indent private explicit_return_type "bool"
 	nparams 0
@@ -21886,6 +21959,36 @@ friend class YouBotGripper;" ""
 
       attribute 635633 "maxCommunicationErrors"
 	private explicit_type "long int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 685297 "upperLimit"
+	private explicit_type "std::vector<int>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 685425 "lowerLimit"
+	private explicit_type "std::vector<int>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 685553 "limitActive"
+	private explicit_type "std::vector<bool>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""

@@ -357,6 +357,11 @@ void EthercatMaster::initializeEthercat() {
         newMailboxInputDataFlagOne.push_back(false);
         newMailboxInputDataFlagTwo.push_back(false);
         pendingMailboxMsgsReply.push_back(false);
+        int i = 0;
+        bool b = false;
+        upperLimit.push_back(i);
+        lowerLimit.push_back(i);
+        limitActive.push_back(b);
         if (actualSlaveName == baseJointControllerName) {
           motorProtections.push_back(MotorProtection(maxContinuousCurrentBase,
                   thermalTimeConstantWindingBase,
@@ -403,6 +408,15 @@ void EthercatMaster::initializeEthercat() {
 
     return;
   // Bouml preserved body end 000410F1
+}
+
+void EthercatMaster::setJointLimits(const int lowerJointLimit, const int upperJointLimit, const bool activateLimit, const unsigned int& jointNumber) {
+  // Bouml preserved body begin 000C22F1
+    upperLimit[jointNumber - 1] = upperJointLimit;
+    lowerLimit[jointNumber - 1] = lowerJointLimit;
+    limitActive[jointNumber - 1] = activateLimit;
+  
+  // Bouml preserved body end 000C22F1
 }
 
 ///closes the ethercat connection
@@ -663,6 +677,16 @@ void EthercatMaster::updateSensorActorValues() {
            
             //fill first input buffer (receive data)
             (firstBufferVector[i]).stctInput = *(ethercatInputBufferVector[i]);
+            
+            //check if for joint limits
+            if(limitActive[i]){
+              if( !((firstBufferVector[i]).stctInput.actualPosition < upperLimit[i] && (firstBufferVector[i]).stctInput.actualPosition > lowerLimit[i]) ){
+                std::stringstream ss;
+                ss << "Joint " << i+1 << " exceeded the joint limit! Upper limit: "<< upperLimit[i] <<" lower limit: "<<lowerLimit[i] << " position: " << (firstBufferVector[i]).stctInput.actualPosition;
+                throw std::runtime_error(ss.str());
+              }
+            }
+              
 
            // this->parseYouBotErrorFlags(secondBufferVector[i]);
             //check if RMS current is over the limit
@@ -700,6 +724,15 @@ void EthercatMaster::updateSensorActorValues() {
             }
             //fill second input buffer (receive data)
             (secondBufferVector[i]).stctInput = *(ethercatInputBufferVector[i]);
+            
+            //check if for joint limits
+            if(limitActive[i]){
+              if( !((secondBufferVector[i]).stctInput.actualPosition < upperLimit[i] && (secondBufferVector[i]).stctInput.actualPosition > lowerLimit[i]) ){
+                std::stringstream ss;
+                ss << "Joint " << i+1 << " exceeded the joint limit! Upper limit: "<< upperLimit[i] <<" lower limit: "<<lowerLimit[i] << " position: " << (secondBufferVector[i]).stctInput.actualPosition;
+                throw std::runtime_error(ss.str());
+              }
+            }
             
            // this->parseYouBotErrorFlags(secondBufferVector[i]);
             //check if RMS current is over the limit

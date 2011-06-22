@@ -245,6 +245,7 @@ void YouBotJoint::setConfigurationParameter(const JointLimits& parameter) {
     this->storage.lowerLimit = parameter.lowerLimit;
     this->storage.upperLimit = parameter.upperLimit;
     this->storage.areLimitsActive = parameter.areLimitsActive;
+  //  EthercatMaster::getInstance().setJointLimits(parameter.lowerLimit, parameter.upperLimit, parameter.areLimitsActive, this->jointNumber);
 
   // Bouml preserved body end 000642F1
 }
@@ -388,12 +389,19 @@ void YouBotJoint::setData(const JointAngleSetpoint& data, SyncMode communication
     }
 
     if(storage.areLimitsActive){
+
       quantity<plane_angle> lowLimit = ((double) this->storage.lowerLimit / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
       quantity<plane_angle> upLimit = ((double) this->storage.upperLimit / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
+      
+      if (storage.inverseMovementDirection) {
+        upLimit = ((double) -(this->storage.lowerLimit) / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
+        lowLimit = ((double) -(this->storage.upperLimit) / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
+      }
+      
 
       if (!((data.angle < upLimit) && (data.angle > lowLimit))) {
         std::stringstream errorMessageStream;
-        errorMessageStream << "The setpoint angle is out of range. The valid range is between " << lowLimit << " and " << upLimit;
+        errorMessageStream << "The setpoint angle is out of range. The valid range is between " << lowLimit << " and " << upLimit << " and it is: " << data.angle;
         //    LOG(trace) << "abs_value: " << abs(data.angle) << " abslow " << abs(lowLimit) << " absupper " << abs(upLimit);
         throw std::out_of_range(errorMessageStream.str());
       }
@@ -410,6 +418,36 @@ void YouBotJoint::setData(const JointAngleSetpoint& data, SyncMode communication
     //   LOG(trace) << "value: " << data.angle << " gear " << gearRatio << " encoderperRound " << encoderTicksPerRound << " encPos " << messageBuffer.stctOutput.positionOrSpeed << " joint " << this->jointNumber;
     EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
   // Bouml preserved body end 0003C1F1
+}
+
+///commands a encoder value (position) to one joint
+///@param data the to command encoder value
+///@param communicationMode at the moment only non blocking communication is implemented
+void YouBotJoint::setData(const JointEncoderSetpoint& data, SyncMode communicationMode) {
+  // Bouml preserved body begin 000C2371
+
+    if(storage.areLimitsActive){
+
+      if (!((data.encoderTicks < this->storage.upperLimit) && (data.encoderTicks > this->storage.lowerLimit))) {
+        std::stringstream errorMessageStream;
+        errorMessageStream << "The setpoint angle is out of range. The valid range is between " << this->storage.lowerLimit << " and " << this->storage.upperLimit << " and it is: " << data.encoderTicks;
+        //    LOG(trace) << "abs_value: " << abs(data.angle) << " abslow " << abs(lowLimit) << " absupper " << abs(upLimit);
+        throw std::out_of_range(errorMessageStream.str());
+      }
+    }
+
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer.stctOutput.controllerMode = POSITION_CONTROL;
+    messageBuffer.stctOutput.positionOrSpeed = data.encoderTicks;
+    
+
+//    if (storage.inverseMovementDirection) {
+//      messageBuffer.stctOutput.positionOrSpeed *= -1;
+//    }
+    
+    LOG(trace) << messageBuffer.stctOutput.positionOrSpeed <<" "<< this->jointNumber;
+     EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+  // Bouml preserved body end 000C2371
 }
 
 ///gets the position or angle of one joint which have been calculated from the actual encoder value 

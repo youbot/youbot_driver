@@ -119,13 +119,13 @@ void YouBotManipulator::doJointCommutation() {
       std::vector<bool> isCommutated;
       isCommutated.assign(ARMJOINTS, false);
       unsigned int u = 0;
-      
+
       // check for the next 5 sec if the joints are commutated
       for (u = 1; u <= 5000; u++) {
         for (unsigned int i = 1; i <= ARMJOINTS; i++) {
           this->getArmJoint(i).getStatus(statusFlags);
           if (statusFlags & INITIALIZED) {
-            isCommutated[i-1] = true;
+            isCommutated[i - 1] = true;
           }
         }
         if (isCommutated[0] && isCommutated[1] && isCommutated[2] && isCommutated[3] && isCommutated[4]) {
@@ -133,9 +133,9 @@ void YouBotManipulator::doJointCommutation() {
         }
         SLEEP_MILLISEC(1);
       }
-      
+
       SLEEP_MILLISEC(10); // the controller likes it
-    
+
       for (unsigned int i = 1; i <= ARMJOINTS; i++) {
         doInitialization.setParameter(false);
         this->getArmJoint(i).getConfigurationParameter(doInitialization);
@@ -204,7 +204,7 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
         doCalibration[i] = false;
       }
 
-      if(forceCalibration){
+      if (forceCalibration) {
         doCalibration[i] = true;
       }
 
@@ -228,19 +228,19 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
 
 
     LOG(info) << "Calibrate Joints ";
-    
+
     std::vector<bool> finished;
     finished.assign(ARMJOINTS, false);
     JointSensedCurrent sensedCurrent;
     JointRoundsPerMinuteSetpoint stopMovement;
     stopMovement.rpm = 0;
-    
-    
+
+
     //move the joints slowly in calibration direction
     for (unsigned int i = 0; i < ARMJOINTS; i++) {
-      if(doCalibration[i] == true){
+      if (doCalibration[i] == true) {
         joints[i].setData(calibrationVel[i]);
-      }else{
+      } else {
         finished[i] = true;
       }
     }
@@ -261,26 +261,66 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
 
     // wait to let the joint stop the motion
     SLEEP_MILLISEC(500);
-    
-    for (unsigned int i = 0; i < ARMJOINTS; i++) {
-      if(doCalibration[i] == true){
-      //set encoder reference position
-      joints[i].setEncoderToZero();
 
-      /*
-      //switch to position controll
-      SLEEP_MILLISEC(100);
-      messageBuffer.stctOutput.controllerMode = POSITION_CONTROL;
-      messageBuffer.stctOutput.positionOrSpeed = 0;
-      //   LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.positionOrSpeed << " rad_sec " << data.angularVelocity;
-      EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
-       */
-      // set a flag in the user variable to remember that it is calibrated
-      joints[i].setConfigurationParameter(IsCalibratedSetMessage);
-      
-      //     LOG(info) << "Calibration finished for joint: " << this->jointName;
+    for (unsigned int i = 0; i < ARMJOINTS; i++) {
+      if (doCalibration[i] == true) {
+        //set encoder reference position
+        joints[i].setEncoderToZero();
+
+        /*
+        //switch to position controll
+        SLEEP_MILLISEC(100);
+        messageBuffer.stctOutput.controllerMode = POSITION_CONTROL;
+        messageBuffer.stctOutput.positionOrSpeed = 0;
+        //   LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.positionOrSpeed << " rad_sec " << data.angularVelocity;
+        EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+         */
+        // set a flag in the user variable to remember that it is calibrated
+        joints[i].setConfigurationParameter(IsCalibratedSetMessage);
+
+        //     LOG(info) << "Calibration finished for joint: " << this->jointName;
       }
     }
+
+    //  if(doCalibration[0] && doCalibration[1] && doCalibration[2] && doCalibration[3] && doCalibration[4] ){
+    JointAngleSetpoint desiredJointAngle;
+
+    desiredJointAngle.angle = 2.56244 * radian;
+    joints[0].setData(desiredJointAngle);
+
+    desiredJointAngle.angle = 1.04883 * radian;
+    joints[1].setData(desiredJointAngle);
+
+    desiredJointAngle.angle = -2.43523 * radian;
+    joints[2].setData(desiredJointAngle);
+
+    desiredJointAngle.angle = 1.73184 * radian;
+    joints[3].setData(desiredJointAngle);
+
+    desiredJointAngle.angle = 1.73184 * radian;
+    joints[4].setData(desiredJointAngle);
+    LOG(info) << "unfold arm";
+    SLEEP_MILLISEC(4000);
+    //   }
+
+    //setting joint Limits
+    JointLimits jLimits;
+    for (unsigned int i = 0; i < ARMJOINTS; i++) {
+      long upperlimit = 0, lowerlimit = 0;
+      std::stringstream jointNameStream;
+      jointNameStream << "Joint_" << i + 1;
+      jointName = jointNameStream.str();
+      JointEncoderSetpoint minEncoderValue;
+      configfile->readInto(lowerlimit, jointName, "LowerLimit_[encoderTicks]");
+      configfile->readInto(upperlimit, jointName, "UpperLimit_[encoderTicks]");
+      minEncoderValue.encoderTicks = upperlimit;
+
+      jLimits.setParameter(lowerlimit, upperlimit, true);
+      joints[i].setConfigurationParameter(jLimits);
+    }
+
+
+
   // Bouml preserved body end 000A9C71
 }
 
@@ -491,7 +531,7 @@ void YouBotManipulator::initializeJoints() {
     MotorContollerGearRatio contollerGearRatio;
     contollerGearRatio.setParameter(0);
     FirmwareVersion firmwareTypeVersion;
-    JointLimits jLimits;
+
 
 
     for (unsigned int i = 0; i < ARMJOINTS; i++) {
@@ -550,12 +590,6 @@ void YouBotManipulator::initializeJoints() {
       joints[i].setConfigurationParameter(ticksPerRound);
       joints[i].setConfigurationParameter(inverseDir);
 
-      long upperlimit = 0, lowerlimit = 0;
-      configfile->readInto(lowerlimit, jointName, "LowerLimit_[encoderTicks]");
-      configfile->readInto(upperlimit, jointName, "UpperLimit_[encoderTicks]");
-
-      jLimits.setParameter(lowerlimit, upperlimit, true);
-      joints[i].setConfigurationParameter(jLimits);
     }
 
 
