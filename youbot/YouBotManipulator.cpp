@@ -283,24 +283,24 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
     }
 
     //  if(doCalibration[0] && doCalibration[1] && doCalibration[2] && doCalibration[3] && doCalibration[4] ){
-    JointAngleSetpoint desiredJointAngle;
-
-    desiredJointAngle.angle = 2.56244 * radian;
-    joints[0].setData(desiredJointAngle);
-
-    desiredJointAngle.angle = 1.04883 * radian;
-    joints[1].setData(desiredJointAngle);
-
-    desiredJointAngle.angle = -2.43523 * radian;
-    joints[2].setData(desiredJointAngle);
-
-    desiredJointAngle.angle = 1.73184 * radian;
-    joints[3].setData(desiredJointAngle);
-
-    desiredJointAngle.angle = 1.73184 * radian;
-    joints[4].setData(desiredJointAngle);
-    LOG(info) << "unfold arm";
-    SLEEP_MILLISEC(4000);
+//    JointAngleSetpoint desiredJointAngle;
+//
+//    desiredJointAngle.angle = 2.56244 * radian;
+//    joints[0].setData(desiredJointAngle);
+//
+//    desiredJointAngle.angle = 1.04883 * radian;
+//    joints[1].setData(desiredJointAngle);
+//
+//    desiredJointAngle.angle = -2.43523 * radian;
+//    joints[2].setData(desiredJointAngle);
+//
+//    desiredJointAngle.angle = 1.73184 * radian;
+//    joints[3].setData(desiredJointAngle);
+//
+//    desiredJointAngle.angle = 1.73184 * radian;
+//    joints[4].setData(desiredJointAngle);
+//    LOG(info) << "unfold arm";
+//    SLEEP_MILLISEC(4000);
     //   }
 
     //setting joint Limits
