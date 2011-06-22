@@ -118,6 +118,7 @@ void FourSwedishWheelOmniBaseKinematic::wheelVelocitiesToCartesianVelocity(const
     transversalVelocity = (wheelVelocities[0] + wheelVelocities[1] - wheelVelocities[2] - wheelVelocities[3]).value() * wheel_radius_per4.value() * meter_per_second;
     angularVelocity = (wheelVelocities[0] + wheelVelocities[1] + wheelVelocities[2] + wheelVelocities[3]) * (wheel_radius_per4 / geom_factor).value();
 
+    return;
   // Bouml preserved body end 0004C0F1
 }
 
@@ -171,7 +172,42 @@ void FourSwedishWheelOmniBaseKinematic::wheelPositionsToCartesianPosition(const 
     transversalPosition = transversalPos;
     orientation = angle;
 
+    return;
   // Bouml preserved body end 00051371
+}
+
+///Calculates from the cartesian position the wheel positions
+///@param longitudinalPosition is the forward or backward position
+///@param transversalPosition is the sideway position
+///@param orientation is the rotation around the center
+///@param wheelPositions are the individual positions of the wheels
+void FourSwedishWheelOmniBaseKinematic::cartesianPositionToWheelPositions(const quantity<si::length>& longitudinalPosition, const quantity<si::length>& transversalPosition, const quantity<plane_angle>& orientation, std::vector<quantity<plane_angle> >& wheelPositions) {
+  // Bouml preserved body begin 000C08F1
+
+    quantity<plane_angle> Rad_FromX;
+    quantity<plane_angle> Rad_FromY;
+    quantity<plane_angle> Rad_FromTheta;
+    wheelPositions.assign(4, Rad_FromX);
+
+    if (config.wheelRadius.value() == 0 || config.rotationRatio == 0 || config.slideRatio == 0) {
+      throw std::out_of_range("The wheelRadius, RotationRatio or the SlideRatio are not allowed to be zero");
+    }
+
+    // RadPerSec_FromX = longitudinalVelocity / config.wheelRadius;
+    Rad_FromX = longitudinalPosition.value() / config.wheelRadius.value() * radian;
+    Rad_FromY = transversalPosition.value() / (config.wheelRadius.value() * config.slideRatio) * radian;
+
+    // Calculate Rotation Component
+    Rad_FromTheta = ((config.lengthBetweenFrontAndRearWheels + config.lengthBetweenFrontWheels) / (2.0 * config.wheelRadius)) * orientation;
+
+    wheelPositions[0] = -Rad_FromX + Rad_FromY + Rad_FromTheta;
+    wheelPositions[1] = Rad_FromX + Rad_FromY + Rad_FromTheta;
+    wheelPositions[2] = -Rad_FromX - Rad_FromY + Rad_FromTheta;
+    wheelPositions[3] = Rad_FromX - Rad_FromY + Rad_FromTheta;
+
+    return;
+
+  // Bouml preserved body end 000C08F1
 }
 
 void FourSwedishWheelOmniBaseKinematic::setConfiguration(const FourSwedishWheelOmniBaseKinematicConfiguration& configuration) {

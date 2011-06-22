@@ -90,6 +90,12 @@ class YouBotBase {
     ///@param orientation is the rotation around the center of the YouBot
     void getBasePosition(quantity<si::length>& longitudinalPosition, quantity<si::length>& transversalPosition, quantity<plane_angle>& orientation);
 
+    ///sets the cartesien base position
+    ///@param longitudinalPosition is the forward or backward position
+    ///@param transversalPosition is the sideway position
+    ///@param orientation is the rotation around the center of the YouBot
+    void setBasePosition(const quantity<si::length>& longitudinalPosition, const quantity<si::length>& transversalPosition, const quantity<plane_angle>& orientation);
+
     ///gets the cartesien base velocity
     ///@param longitudinalVelocity is the forward or backward velocity
     ///@param transversalVelocity is the sideway velocity

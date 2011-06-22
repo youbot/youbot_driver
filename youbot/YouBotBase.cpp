@@ -211,6 +211,51 @@ void YouBotBase::getBasePosition(quantity<si::length>& longitudinalPosition, qua
   // Bouml preserved body end 000514F1
 }
 
+///sets the cartesien base position
+///@param longitudinalPosition is the forward or backward position
+///@param transversalPosition is the sideway position
+///@param orientation is the rotation around the center of the YouBot
+void YouBotBase::setBasePosition(const quantity<si::length>& longitudinalPosition, const quantity<si::length>& transversalPosition, const quantity<plane_angle>& orientation) {
+  // Bouml preserved body begin 000C0971
+
+    std::vector<quantity<plane_angle> > wheelPositions;
+    quantity<plane_angle> dummy;
+    JointAngleSetpoint setpointPos;
+    wheelPositions.assign(BASEJOINTS, dummy);
+    JointSensedAngle sensedPos;
+
+    youBotBaseKinematic.cartesianPositionToWheelPositions(longitudinalPosition, transversalPosition, orientation, wheelPositions);
+    
+    if (wheelPositions.size() < BASEJOINTS)
+      throw std::out_of_range("To less wheel velocities");
+    
+    joints[0].setEncoderToZero();
+    joints[1].setEncoderToZero();
+    joints[2].setEncoderToZero();
+    joints[3].setEncoderToZero();
+    SLEEP_MILLISEC(10);
+
+    EthercatMaster::getInstance().AutomaticSendOn(false);
+    joints[0].getData(sensedPos);
+    setpointPos.angle = sensedPos.angle + wheelPositions[0];
+    joints[0].setData(setpointPos, NON_BLOCKING);
+    
+    joints[1].getData(sensedPos);
+    setpointPos.angle = sensedPos.angle + wheelPositions[1];
+    joints[1].setData(setpointPos, NON_BLOCKING);
+    
+    joints[2].getData(sensedPos);
+    setpointPos.angle = sensedPos.angle + wheelPositions[2];
+    joints[2].setData(setpointPos, NON_BLOCKING);
+    
+    joints[3].getData(sensedPos);
+    setpointPos.angle = sensedPos.angle + wheelPositions[3];
+    joints[3].setData(setpointPos, NON_BLOCKING);
+    EthercatMaster::getInstance().AutomaticSendOn(true);
+
+  // Bouml preserved body end 000C0971
+}
+
 ///gets the cartesien base velocity
 ///@param longitudinalVelocity is the forward or backward velocity
 ///@param transversalVelocity is the sideway velocity
@@ -425,6 +470,7 @@ void YouBotBase::initializeJoints() {
 
     double gearRatio_numerator = 0;
     double gearRatio_denominator = 1;
+    JointLimits jLimits;
 
     for (unsigned int i = 0; i < BASEJOINTS; i++) {
       std::stringstream jointNameStream;
@@ -482,6 +528,13 @@ void YouBotBase::initializeJoints() {
       if (cGearRatio != 1) {
         throw std::runtime_error("The Motor Contoller Gear Ratio of " + jointName + " is not set to 1.");
       }
+      
+      long upperlimit = 0, lowerlimit = 0;
+      configfile->readInto(lowerlimit, jointName, "LowerLimit_[encoderTicks]");
+      configfile->readInto(upperlimit, jointName, "UpperLimit_[encoderTicks]");
+
+      jLimits.setParameter(lowerlimit, upperlimit, true);
+      joints[i].setConfigurationParameter(jLimits);
     }
 
     return;

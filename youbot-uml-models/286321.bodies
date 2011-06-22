@@ -88,7 +88,7 @@ class YouBotManipulator
     }
 
 
-!!!695409.cpp!!!	calibrateManipulator() : void
+!!!695409.cpp!!!	calibrateManipulator(in forceCalibration : bool = false) : void
 
     //Calibrate all manipulator joints
     std::vector<JointRoundsPerMinuteSetpoint> calibrationVel;
@@ -137,6 +137,9 @@ class YouBotManipulator
         doCalibration[i] = false;
       }
 
+      if(forceCalibration){
+        doCalibration[i] = true;
+      }
 
       configfile->readInto(dummy, jointName, "CalibrationMaxCurrent_[ampere]");
       maxCurrent[i] = dummy * ampere;
@@ -416,7 +419,7 @@ class YouBotManipulator
       joints[i].setConfigurationParameter(ticksPerRound);
       joints[i].setConfigurationParameter(inverseDir);
 
-      int upperlimit = 0, lowerlimit = 0;
+      long upperlimit = 0, lowerlimit = 0;
       configfile->readInto(lowerlimit, jointName, "LowerLimit_[encoderTicks]");
       configfile->readInto(upperlimit, jointName, "UpperLimit_[encoderTicks]");
 

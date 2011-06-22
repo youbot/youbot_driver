@@ -64,9 +64,9 @@ class YouBotJointStorage {
 
     bool inverseMovementDirection;
 
-    int upperLimit;
+    long upperLimit;
 
-    int lowerLimit;
+    long lowerLimit;
 
     bool areLimitsActive;
 

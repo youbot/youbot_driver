@@ -132,6 +132,43 @@ class YouBotBase
     wheelPositions[3] = sensedPos.angle;
 
     youBotBaseKinematic.wheelPositionsToCartesianPosition(wheelPositions, longitudinalPosition, transversalPosition, orientation);
+!!!788849.cpp!!!	setBasePosition(in longitudinalPosition : quantity<si::length>, in transversalPosition : quantity<si::length>, in orientation : quantity<plane_angle>) : void
+
+    std::vector<quantity<plane_angle> > wheelPositions;
+    quantity<plane_angle> dummy;
+    JointAngleSetpoint setpointPos;
+    wheelPositions.assign(BASEJOINTS, dummy);
+    JointSensedAngle sensedPos;
+
+    youBotBaseKinematic.cartesianPositionToWheelPositions(longitudinalPosition, transversalPosition, orientation, wheelPositions);
+    
+    if (wheelPositions.size() < BASEJOINTS)
+      throw std::out_of_range("To less wheel velocities");
+    
+    joints[0].setEncoderToZero();
+    joints[1].setEncoderToZero();
+    joints[2].setEncoderToZero();
+    joints[3].setEncoderToZero();
+    SLEEP_MILLISEC(10);
+
+    EthercatMaster::getInstance().AutomaticSendOn(false);
+    joints[0].getData(sensedPos);
+    setpointPos.angle = sensedPos.angle + wheelPositions[0];
+    joints[0].setData(setpointPos, NON_BLOCKING);
+    
+    joints[1].getData(sensedPos);
+    setpointPos.angle = sensedPos.angle + wheelPositions[1];
+    joints[1].setData(setpointPos, NON_BLOCKING);
+    
+    joints[2].getData(sensedPos);
+    setpointPos.angle = sensedPos.angle + wheelPositions[2];
+    joints[2].setData(setpointPos, NON_BLOCKING);
+    
+    joints[3].getData(sensedPos);
+    setpointPos.angle = sensedPos.angle + wheelPositions[3];
+    joints[3].setData(setpointPos, NON_BLOCKING);
+    EthercatMaster::getInstance().AutomaticSendOn(true);
+
 !!!332401.cpp!!!	getBaseVelocity(out longitudinalVelocity : quantity<si::velocity>, out transversalVelocity : quantity<si::velocity>, out angularVelocity : quantity<si::angular_velocity>) : void
 
     std::vector<quantity<angular_velocity> > wheelVelocities;
@@ -283,6 +320,7 @@ class YouBotBase
 
     double gearRatio_numerator = 0;
     double gearRatio_denominator = 1;
+    JointLimits jLimits;
 
     for (unsigned int i = 0; i < BASEJOINTS; i++) {
       std::stringstream jointNameStream;
@@ -340,6 +378,13 @@ class YouBotBase
       if (cGearRatio != 1) {
         throw std::runtime_error("The Motor Contoller Gear Ratio of " + jointName + " is not set to 1.");
       }
+      
+      long upperlimit = 0, lowerlimit = 0;
+      configfile->readInto(lowerlimit, jointName, "LowerLimit_[encoderTicks]");
+      configfile->readInto(upperlimit, jointName, "UpperLimit_[encoderTicks]");
+
+      jLimits.setParameter(lowerlimit, upperlimit, true);
+      joints[i].setConfigurationParameter(jLimits);
     }
 
     return;

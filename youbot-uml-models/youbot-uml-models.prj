@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 176
+  revision 178
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -1054,7 +1054,7 @@ ${inlines}
       end
 
       attribute 404465 "upperLimit"
-	public explicit_type "int"
+	public explicit_type "long"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -1064,7 +1064,7 @@ ${inlines}
       end
 
       attribute 404593 "lowerLimit"
-	public explicit_type "int"
+	public explicit_type "long"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -21959,10 +21959,12 @@ ${inlines}
 
       operation 695409 "calibrateManipulator"
 	preserve_cpp_body_indent public explicit_return_type "void"
-	nparams 0
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+	nparams 1
+	  param in name "forceCalibration" explicit_type "bool"
+	    defaultvalue "false"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
 "
 	preserve_java_body_indent 
@@ -22321,6 +22323,27 @@ ${inlines}
 	preserve_python_body_indent 
 	
 	comment "///gets the cartesien base position which is calculated from the odometry
+///@param longitudinalPosition is the forward or backward position
+///@param transversalPosition is the sideway position
+///@param orientation is the rotation around the center of the YouBot"
+      end
+
+      operation 788849 "setBasePosition"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 3
+	  param in name "longitudinalPosition" explicit_type "quantity<si::length>"
+	  param in name "transversalPosition" explicit_type "quantity<si::length>"
+	  param in name "orientation" explicit_type "quantity<plane_angle>"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///sets the cartesien base position
 ///@param longitudinalPosition is the forward or backward position
 ///@param transversalPosition is the sideway position
 ///@param orientation is the rotation around the center of the YouBot"
@@ -23018,6 +23041,29 @@ ${inlines}
 ///@param longitudinalPosition is the forward or backward position
 ///@param transversalPosition is the sideway position
 ///@param orientation is the rotation around the center"
+      end
+
+      operation 788721 "cartesianPositionToWheelPositions"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 4
+	  param in name "longitudinalPosition" explicit_type "quantity<si::length>"
+	  param in name "transversalPosition" explicit_type "quantity<si::length>"
+	  param in name "orientation" explicit_type "quantity<plane_angle>"
+	  param out name "wheelPositions" explicit_type "std::vector<quantity<plane_angle> >"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}, ${t3}& ${p3}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}, ${t3}& ${p3}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///Calculates from the cartesian position the wheel positions
+///@param longitudinalPosition is the forward or backward position
+///@param transversalPosition is the sideway position
+///@param orientation is the rotation around the center
+///@param wheelPositions are the individual positions of the wheels"
       end
 
       classrelation 197617 // <generalisation>

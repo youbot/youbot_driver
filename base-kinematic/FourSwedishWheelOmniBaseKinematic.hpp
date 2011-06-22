@@ -90,6 +90,13 @@ class FourSwedishWheelOmniBaseKinematic : public WheeledBaseKinematic {
     ///@param orientation is the rotation around the center
     virtual void wheelPositionsToCartesianPosition(const std::vector<quantity<plane_angle> >& wheelPositions, quantity<si::length>& longitudinalPosition, quantity<si::length>& transversalPosition, quantity<plane_angle>& orientation);
 
+    ///Calculates from the cartesian position the wheel positions
+    ///@param longitudinalPosition is the forward or backward position
+    ///@param transversalPosition is the sideway position
+    ///@param orientation is the rotation around the center
+    ///@param wheelPositions are the individual positions of the wheels
+    virtual void cartesianPositionToWheelPositions(const quantity<si::length>& longitudinalPosition, const quantity<si::length>& transversalPosition, const quantity<plane_angle>& orientation, std::vector<quantity<plane_angle> >& wheelPositions);
+
     void setConfiguration(const FourSwedishWheelOmniBaseKinematicConfiguration& configuration);
 
     void getConfiguration(FourSwedishWheelOmniBaseKinematicConfiguration& configuration) const;

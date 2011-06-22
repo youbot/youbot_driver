@@ -550,7 +550,7 @@ void YouBotManipulator::initializeJoints() {
       joints[i].setConfigurationParameter(ticksPerRound);
       joints[i].setConfigurationParameter(inverseDir);
 
-      int upperlimit = 0, lowerlimit = 0;
+      long upperlimit = 0, lowerlimit = 0;
       configfile->readInto(lowerlimit, jointName, "LowerLimit_[encoderTicks]");
       configfile->readInto(upperlimit, jointName, "UpperLimit_[encoderTicks]");
 
