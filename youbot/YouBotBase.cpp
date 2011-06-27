@@ -168,7 +168,7 @@ void YouBotBase::doJointCommutation() {
           std::stringstream jointNameStream;
           jointNameStream << "Joint " << i;
           jointName = jointNameStream.str();
-          throw std::runtime_error("could not commutation " + jointName);
+          throw std::runtime_error("could not commutation base " + jointName);
         }
       }
     }
@@ -414,7 +414,7 @@ bool YouBotBase::areSame(const double A, const double B) {
 void YouBotBase::initializeJoints() {
   // Bouml preserved body begin 000464F1
 
-    LOG(info) << "Initializing Joints";
+  //  LOG(info) << "Initializing Joints";
 
     //get number of slaves
     unsigned int noSlaves = EthercatMaster::getInstance(this->ethercatConfigFileName, this->configFilePath).getNumberOfSlaves();
@@ -488,7 +488,7 @@ void YouBotBase::initializeJoints() {
       configfile->readInto(name, jointName, "JointName");
       jName.setParameter(name);
 
-      LOG(info) << jointName << " " << name << ": Controller Type: " << controllerType << " Firmware version: " << firmwareVersion;
+      LOG(info) << name << "\t Controller Type: " << controllerType << "  Firmware version: " << firmwareVersion;
 
       if (this->controllerType != controllerType) {
         std::stringstream ss;
@@ -526,7 +526,7 @@ void YouBotBase::initializeJoints() {
       unsigned int cGearRatio;
       contollerGearRatio.getParameter(cGearRatio);
       if (cGearRatio != 1) {
-        throw std::runtime_error("The Motor Contoller Gear Ratio of " + jointName + " is not set to 1.");
+        throw std::runtime_error("The Motor Controller Gear Ratio of " + jointName + " is not set to 1.");
       }
       
       long upperlimit = 0, lowerlimit = 0;

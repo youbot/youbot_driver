@@ -142,7 +142,7 @@ void YouBotManipulator::doJointCommutation() {
         doInitialization.getParameter(isInitialized);
         if (!isInitialized) {
           std::stringstream jointNameStream;
-          jointNameStream << "Joint " << i;
+          jointNameStream << "Manipulator Joint " << i;
           jointName = jointNameStream.str();
           throw std::runtime_error("could not commutation " + jointName);
         }
@@ -227,7 +227,7 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
     }
 
 
-    LOG(info) << "Calibrate Joints ";
+    LOG(info) << "Calibrate Manipulator Joints ";
 
     std::vector<bool> finished;
     finished.assign(ARMJOINTS, false);
@@ -467,7 +467,7 @@ bool YouBotManipulator::areSame(const double A, const double B) {
 void YouBotManipulator::initializeJoints() {
   // Bouml preserved body begin 00068071
 
-    LOG(info) << "Initializing Joints";
+ //   LOG(info) << "Initializing Joints";
 
 
     //get number of slaves
@@ -550,7 +550,7 @@ void YouBotManipulator::initializeJoints() {
       configfile->readInto(name, jointName, "JointName");
       jName.setParameter(name);
 
-      LOG(info) << jointName << " " << name << ": Controller Type: " << controllerType << " Firmware version: " << firmwareVersion;
+      LOG(info) << name << "\t Controller Type: " << controllerType << "  Firmware version: " << firmwareVersion;
 
       if (this->controllerType != controllerType) {
         std::stringstream ss;
@@ -572,7 +572,7 @@ void YouBotManipulator::initializeJoints() {
       unsigned int cGearRatio;
       contollerGearRatio.getParameter(cGearRatio);
       if (cGearRatio != 1) {
-        throw std::runtime_error("The Motor Contoller Gear Ratio of " + jointName + " is not set to 1.");
+        throw std::runtime_error("The Motor Controller Gear Ratio of " + jointName + " is not set to 1.");
       }
 
       configfile->readInto(gearRatio_numerator, jointName, "GearRatio_numerator");

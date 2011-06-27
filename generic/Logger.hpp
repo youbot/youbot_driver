@@ -76,7 +76,7 @@ namespace youbot {
     private:
         static const bool toConsole = true;
         static const bool toFile = false;
-        static const severity_level logginLevel = trace;
+        static const severity_level logginLevel = info;
 
         std::stringstream out;
         bool print;

@@ -224,7 +224,7 @@ void EthercatMaster::initializeEthercat() {
 
     /* initialise SOEM, bind socket to ifname */
     if (ec_init(ethernetDevice.c_str())) {
-      LOG(trace) << "Initializing EtherCAT on " << ethernetDevice;
+      LOG(info) << "Initializing EtherCAT on " << ethernetDevice;
       /* find and auto-config slaves */
       if (ec_config(TRUE, &IOmap_) > 0) {
 
@@ -395,16 +395,16 @@ void EthercatMaster::initializeEthercat() {
     }
 
     if (nrOfSlaves > 0) {
-      LOG(info) << "Number of slaves with IO found: " << nrOfSlaves;
+      LOG(info) << nrOfSlaves << " EtherCAT slaves found" ;
     } else {
-      throw std::runtime_error("No Ethercat slave could be found");
+      throw std::runtime_error("No EtherCAT slave could be found");
       return;
     }
 
     stopThread = false;
     threads.create_thread(boost::bind(&EthercatMaster::updateSensorActorValues, this));
 
-    SLEEP_MILLISEC(10); //needed to start up thread and ethercat communication
+    SLEEP_MILLISEC(10); //needed to start up thread and EtherCAT communication
 
     return;
   // Bouml preserved body end 000410F1
