@@ -581,6 +581,10 @@ void YouBotJoint::setData(const JointCurrentSetpoint& data, SyncMode communicati
     YouBotSlaveMsg messageBuffer;
     messageBuffer.stctOutput.controllerMode = CURRENT_MODE;
     messageBuffer.stctOutput.positionOrSpeed = (int32) (data.current.value() * 1000.0);  //convert from Ampere to milli Ampere
+    
+    if (storage.inverseMovementDirection) {
+      messageBuffer.stctOutput.positionOrSpeed *= -1;
+    }
     EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
   // Bouml preserved body end 000955F1
 }
@@ -593,6 +597,10 @@ void YouBotJoint::setData(const JointPWMSetpoint& data, SyncMode communicationMo
     YouBotSlaveMsg messageBuffer;
     messageBuffer.stctOutput.controllerMode = PWM_MODE;
     messageBuffer.stctOutput.positionOrSpeed = data.pwm;
+    
+    if (storage.inverseMovementDirection) {
+      messageBuffer.stctOutput.positionOrSpeed *= -1;
+    }
     EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
   // Bouml preserved body end 00095671
 }
