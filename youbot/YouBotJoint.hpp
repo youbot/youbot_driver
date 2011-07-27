@@ -189,6 +189,17 @@ class YouBotJoint : public Joint {
     ///@param data returns the ticks by reference
     virtual void getData(JointSensedEncoderTicks& data);
 
+    ///sets the output part of a EtherCAT slave message
+    ///this methode should be only used if you know what you are doing
+    ///@param data output part of a EtherCAT slave message
+    ///@param communicationMode at the moment only non blocking communication is implemented
+    virtual void setData(const SlaveMessageOutput& data, SyncMode communicationMode = NON_BLOCKING);
+
+    ///gets the input part of a EtherCAT slave message, the sensor values
+    ///this methode should be only used if you know what you are doing
+    ///@param data returns the sensor values by reference
+    virtual void getData(SlaveMessageInput& data);
+
     void getUserVariable(const unsigned int index, int& data);
 
     void setUserVariable(const unsigned int index, const int data);

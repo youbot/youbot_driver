@@ -619,6 +619,32 @@ void YouBotJoint::getData(JointSensedEncoderTicks& data) {
   // Bouml preserved body end 000AB7F1
 }
 
+///sets the output part of a EtherCAT slave message
+///this methode should be only used if you know what you are doing
+///@param data output part of a EtherCAT slave message
+///@param communicationMode at the moment only non blocking communication is implemented
+void YouBotJoint::setData(const SlaveMessageOutput& data, SyncMode communicationMode) {
+  // Bouml preserved body begin 000C5671
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer.stctOutput = data;
+  
+    EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+  // Bouml preserved body end 000C5671
+}
+
+///gets the input part of a EtherCAT slave message, the sensor values
+///this methode should be only used if you know what you are doing
+///@param data returns the sensor values by reference
+void YouBotJoint::getData(SlaveMessageInput& data) {
+  // Bouml preserved body begin 000C56F1
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    this->parseYouBotErrorFlags(messageBuffer);
+
+    data = messageBuffer.stctInput;
+  // Bouml preserved body end 000C56F1
+}
+
 void YouBotJoint::getUserVariable(const unsigned int index, int& data) {
   // Bouml preserved body begin 000AD171
   
