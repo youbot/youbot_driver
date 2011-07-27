@@ -81,7 +81,7 @@ bool MotorProtection::createSafeMotorCommands(YouBotSlaveMsg& MotorCommand) {
 
     if (motorOverLimit && timeSinceOverLimit < coolingTimeAfterOverLimit) {
       MotorCommand.stctOutput.controllerMode = VELOCITY_CONTROL;
-      MotorCommand.stctOutput.positionOrSpeed = 0;
+      MotorCommand.stctOutput.value = 0;
       return true;
     } else {
       motorOverLimit = false;

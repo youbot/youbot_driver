@@ -116,7 +116,7 @@ friend class YouBotGripper;
     ///establishes the ethercat connection
     void initializeEthercat();
 
-    void setJointLimits(const int lowerJointLimit, const int upperJointLimit, const bool activateLimit, const unsigned int& jointNumber);
+    void setJointLimits(const int lowerJointLimit, const int upperJointLimit, const bool inverseMovement, const bool activateLimit, const unsigned int& jointNumber);
 
     ///closes the ethercat connection
     bool closeEthercat();
@@ -148,6 +148,8 @@ friend class YouBotGripper;
     ///receives mailbox messages and stores them in the buffer
     ///@param mailboxMsg ethercat mailbox message
     bool receiveMailboxMessage(YouBotSlaveMailboxMsg& mailboxMsg);
+
+    void checkJointLimits();
 
     ///sends and receives ethercat messages and mailbox messages to and from the motor controllers
     ///this method is executed in a separate thread
@@ -188,9 +190,9 @@ friend class YouBotGripper;
 
     std::vector<bool> newOutputDataFlagTwo;
 
-    std::vector<OutputBuffer*> ethercatOutputBufferVector;
+    std::vector<SlaveMessageOutput*> ethercatOutputBufferVector;
 
-    std::vector<InputBuffer*> ethercatInputBufferVector;
+    std::vector<SlaveMessageInput*> ethercatInputBufferVector;
 
     std::vector<YouBotSlaveMailboxMsg> firstMailboxBufferVector;
 
@@ -239,6 +241,10 @@ friend class YouBotGripper;
     std::vector<int> lowerLimit;
 
     std::vector<bool> limitActive;
+
+    std::vector<bool> jointLimitReached;
+
+    std::vector<bool> inverseMovementDirection;
 
 };
 

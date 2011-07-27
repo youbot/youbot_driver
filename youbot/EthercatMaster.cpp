@@ -345,8 +345,8 @@ void EthercatMaster::initializeEthercat() {
 
         firstBufferVector.push_back(emptySlaveMsg);
         secondBufferVector.push_back(emptySlaveMsg);
-        ethercatOutputBufferVector.push_back((OutputBuffer*) (ec_slave[cnt].outputs));
-        ethercatInputBufferVector.push_back((InputBuffer*) (ec_slave[cnt].inputs));
+        ethercatOutputBufferVector.push_back((SlaveMessageOutput*) (ec_slave[cnt].outputs));
+        ethercatInputBufferVector.push_back((SlaveMessageInput*) (ec_slave[cnt].inputs));
         YouBotSlaveMailboxMsg emptyMailboxSlaveMsg(cnt);
         firstMailboxBufferVector.push_back(emptyMailboxSlaveMsg);
         secondMailboxBufferVector.push_back(emptyMailboxSlaveMsg);
@@ -362,6 +362,8 @@ void EthercatMaster::initializeEthercat() {
         upperLimit.push_back(i);
         lowerLimit.push_back(i);
         limitActive.push_back(b);
+        jointLimitReached.push_back(b);
+        inverseMovementDirection.push_back(b);
         if (actualSlaveName == baseJointControllerName) {
           motorProtections.push_back(MotorProtection(maxContinuousCurrentBase,
                   thermalTimeConstantWindingBase,
@@ -410,11 +412,12 @@ void EthercatMaster::initializeEthercat() {
   // Bouml preserved body end 000410F1
 }
 
-void EthercatMaster::setJointLimits(const int lowerJointLimit, const int upperJointLimit, const bool activateLimit, const unsigned int& jointNumber) {
+void EthercatMaster::setJointLimits(const int lowerJointLimit, const int upperJointLimit, const bool inverseMovement, const bool activateLimit, const unsigned int& jointNumber) {
   // Bouml preserved body begin 000C22F1
     upperLimit[jointNumber - 1] = upperJointLimit;
     lowerLimit[jointNumber - 1] = lowerJointLimit;
     limitActive[jointNumber - 1] = activateLimit;
+    inverseMovementDirection[jointNumber - 1] = inverseMovement;
   
   // Bouml preserved body end 000C22F1
 }
@@ -424,6 +427,7 @@ bool EthercatMaster::closeEthercat() {
   // Bouml preserved body begin 00041271
     stopThread = true;
     
+
     threads.join_all();
 
    // Request safe operational state for all slaves
@@ -597,6 +601,120 @@ bool EthercatMaster::receiveMailboxMessage(YouBotSlaveMailboxMsg& mailboxMsg) {
   // Bouml preserved body end 00052FF1
 }
 
+void EthercatMaster::checkJointLimits() {
+  // Bouml preserved body begin 000C3CF1
+    SlaveMessageOutput* jointMsgOut;
+    SlaveMessageInput* jointMsgIN;
+
+    for (unsigned int jointNo = 0; jointNo < firstBufferVector.size(); jointNo++) {
+      jointMsgOut = ethercatOutputBufferVector[jointNo];
+      jointMsgIN = ethercatInputBufferVector[jointNo];
+
+      //check if for joint limits
+      bool limitReached = false;
+      bool reachedUpperLimit = false;
+      bool reachedLowerLimit = false;
+
+      if (limitActive[jointNo]) {
+
+        if (jointMsgIN->actualPosition > upperLimit[jointNo]) {
+          reachedUpperLimit = true;
+        }
+        if (jointMsgIN->actualPosition < lowerLimit[jointNo]) {
+          reachedLowerLimit = true;
+        }
+
+        if (reachedUpperLimit || reachedLowerLimit) {
+
+          limitReached = true;
+
+          switch (jointMsgOut->controllerMode) {
+            case POSITION_CONTROL:
+              LOG(info) << "pos";
+              if (!(jointMsgOut->value < upperLimit[jointNo] && jointMsgOut->value > lowerLimit[jointNo])) {
+                limitReached = true;
+              } else {
+                limitReached = false;
+              }
+              break;
+            case VELOCITY_CONTROL:
+              LOG(info) << "vel";
+              if (!inverseMovementDirection[jointNo]) {
+                if ((jointMsgOut->value <= 0 && reachedUpperLimit) || (jointMsgOut->value >= 0 && reachedLowerLimit)) {
+                  limitReached = true;
+                } else {
+                  limitReached = false;
+                }
+              } else {
+                if ((jointMsgOut->value >= 0 && reachedUpperLimit) || (jointMsgOut->value <= 0 && reachedLowerLimit)) {
+                  limitReached = true;
+                } else {
+                  limitReached = false;
+                }
+              }
+              break;
+            case PWM_MODE:
+              LOG(info) << "pwm";
+              if (!inverseMovementDirection[jointNo]) {
+                if ((jointMsgOut->value <= 0 && reachedUpperLimit) || (jointMsgOut->value >= 0 && reachedLowerLimit)) {
+                  limitReached = true;
+                } else {
+                  limitReached = false;
+                }
+              } else {
+                if ((jointMsgOut->value >= 0 && reachedUpperLimit) || (jointMsgOut->value <= 0 && reachedLowerLimit)) {
+                  limitReached = true;
+                } else {
+                  limitReached = false;
+                }
+              }
+              break;
+            case CURRENT_MODE:
+              LOG(info) << "current";
+              if (!inverseMovementDirection[jointNo]) {
+                if ((jointMsgOut->value <= 0 && reachedUpperLimit) || (jointMsgOut->value >= 0 && reachedLowerLimit)) {
+                  limitReached = true;
+                } else {
+                  limitReached = false;
+                }
+              } else {
+                if ((jointMsgOut->value >= 0 && reachedUpperLimit) || (jointMsgOut->value <= 0 && reachedLowerLimit)) {
+                  limitReached = true;
+                } else {
+                  limitReached = false;
+                }
+              }
+              break;
+            default:
+              LOG(info) << "other";
+              limitReached = true;
+              break;
+
+          }
+        }
+
+        if (limitReached == true) {
+
+          jointMsgOut->controllerMode = PWM_MODE;
+          jointMsgOut->value = 0;
+
+          if (jointLimitReached[jointNo] == false) {
+      //      LOG(error) << "Joint " << jointNo + 1 << " exceeded the joint limit! Upper limit: " << upperLimit[jointNo] << " lower limit: " << lowerLimit[jointNo] << " position: " << jointMsgIN->actualPosition;
+            //       throw std::runtime_error(ss.str());
+            jointLimitReached[jointNo] = true;
+          }
+        } else {
+          if (jointLimitReached[jointNo] == true){
+      //      LOG(error) << "Joint " << jointNo + 1 << " is not in the limit any more";
+          }
+          jointLimitReached[jointNo] = false;
+
+        }
+      }
+    }
+  // Bouml preserved body end 000C3CF1
+}
+
 ///sends and receives ethercat messages and mailbox messages to and from the motor controllers
 ///this method is executed in a separate thread
 void EthercatMaster::updateSensorActorValues() {
@@ -646,16 +764,19 @@ void EthercatMaster::updateSensorActorValues() {
       }
 */
 
+      //check if for joint limits
+   //   this->checkJointLimits();  //TODO test joint limit check
+      
       //send and receive data from ethercat
       if (ec_send_processdata() == 0) {
         LOG(error) << "Sending process data failed";
-        //  throw std::runtime_error("Sending process data failed");
       }
 
       if (ec_receive_processdata(this->ethercatTimeout) == 0) {
-        LOG(error) << "Receiving data failed";
+        if(communicationErrors == 0){
+          LOG(error) << "Receiving data failed";
+        }
         communicationErrors++;
-        //   throw std::runtime_error("Receiving data failed");
       }else{
         communicationErrors = 0;
       }
@@ -678,21 +799,8 @@ void EthercatMaster::updateSensorActorValues() {
             //fill first input buffer (receive data)
             (firstBufferVector[i]).stctInput = *(ethercatInputBufferVector[i]);
             
-            //check if for joint limits
-            if(limitActive[i]){
-              if( !((firstBufferVector[i]).stctInput.actualPosition < upperLimit[i] && (firstBufferVector[i]).stctInput.actualPosition > lowerLimit[i]) ){
-                std::stringstream ss;
-                ss << "Joint " << i+1 << " exceeded the joint limit! Upper limit: "<< upperLimit[i] <<" lower limit: "<<lowerLimit[i] << " position: " << (firstBufferVector[i]).stctInput.actualPosition;
-                throw std::runtime_error(ss.str());
-              }
-            }
               
-
            // this->parseYouBotErrorFlags(secondBufferVector[i]);
-            //check if RMS current is over the limit
-//            actualCurrent = ((double) (firstBufferVector[i]).stctInput.actualCurrent) / 1000.0 * ampere;
-//            now = boost::posix_time::microsec_clock::local_time();
-//            motorProtections[i].isRMSCurrentOverLimit(actualCurrent, now);
 
             //send mailbox messages from first buffer
             if (newMailboxDataFlagOne[i]) {
@@ -725,20 +833,7 @@ void EthercatMaster::updateSensorActorValues() {
             //fill second input buffer (receive data)
             (secondBufferVector[i]).stctInput = *(ethercatInputBufferVector[i]);
             
-            //check if for joint limits
-            if(limitActive[i]){
-              if( !((secondBufferVector[i]).stctInput.actualPosition < upperLimit[i] && (secondBufferVector[i]).stctInput.actualPosition > lowerLimit[i]) ){
-                std::stringstream ss;
-                ss << "Joint " << i+1 << " exceeded the joint limit! Upper limit: "<< upperLimit[i] <<" lower limit: "<<lowerLimit[i] << " position: " << (secondBufferVector[i]).stctInput.actualPosition;
-                throw std::runtime_error(ss.str());
-              }
-            }
-            
            // this->parseYouBotErrorFlags(secondBufferVector[i]);
-            //check if RMS current is over the limit
-//            actualCurrent = ((double) (firstBufferVector[i]).stctInput.actualCurrent) / 1000.0 * ampere;
-//            now = boost::posix_time::microsec_clock::local_time();
-//            motorProtections[i].isRMSCurrentOverLimit(actualCurrent, now);
 
             //send mailbox messages from second buffer
             if (newMailboxDataFlagTwo[i]) {

@@ -60,18 +60,18 @@ namespace youbot {
 
 	/// Output part from the EtherCat message of the youBot EtherCat slaves
 
-	struct OutputBuffer {
-		int32 positionOrSpeed;
+	struct SlaveMessageOutput {
+		int32 value;
 		uint8 controllerMode;
 	} __attribute__((__packed__));
 
 
-	/// Output part from the EtherCat message of the youBot EtherCat slaves
+	/// Input part from the EtherCat message of the youBot EtherCat slaves
 
-	struct InputBuffer {
-		int32 actualPosition;
-		int32 actualCurrent;
-		int32 actualVelocity;
+	struct SlaveMessageInput {
+		int32 actualPosition;   // encoder ticks
+		int32 actualCurrent;    // mA
+		int32 actualVelocity;   // rpm motor axis
 		uint16 errorFlags;
 		uint16 driverTemperature;
 	} __attribute__((__packed__));
@@ -83,15 +83,15 @@ namespace youbot {
 	public:
 
 
-		OutputBuffer stctOutput;
-		InputBuffer stctInput;
+		SlaveMessageOutput stctOutput;
+		SlaveMessageInput stctInput;
 		unsigned int jointNumber;
 
 		// Constructor
 
 		YouBotSlaveMsg() {
 			stctOutput.controllerMode = 0;
-			stctOutput.positionOrSpeed = 0;
+			stctOutput.value = 0;
 			stctInput.actualCurrent = 0;
 			stctInput.actualPosition = 0;
 			stctInput.actualVelocity = 0;

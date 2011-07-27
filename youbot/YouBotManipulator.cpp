@@ -252,7 +252,8 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
         //turn till a max current is reached
         if (abs(sensedCurrent.current) > abs(maxCurrent[i])) {
           //stop movement
-          joints[i].setData(stopMovement);
+        //  joints[i].setData(stopMovement);
+          joints[i].stopJoint();
           finished[i] = true;
         }
       }
@@ -271,8 +272,8 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
         //switch to position controll
         SLEEP_MILLISEC(100);
         messageBuffer.stctOutput.controllerMode = POSITION_CONTROL;
-        messageBuffer.stctOutput.positionOrSpeed = 0;
-        //   LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.positionOrSpeed << " rad_sec " << data.angularVelocity;
+        messageBuffer.stctOutput.value = 0;
+        //   LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.value << " rad_sec " << data.angularVelocity;
         EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
          */
         // set a flag in the user variable to remember that it is calibrated
