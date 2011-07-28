@@ -100,6 +100,8 @@ EthercatMaster::EthercatMaster() {
 
 EthercatMaster::~EthercatMaster() {
   // Bouml preserved body begin 000411F1
+    stopThread = true;
+    threads.join_all();
     this->closeEthercat();
     if (configfile != NULL)
       delete configfile;
@@ -425,10 +427,7 @@ void EthercatMaster::setJointLimits(const int lowerJointLimit, const int upperJo
 ///closes the ethercat connection
 bool EthercatMaster::closeEthercat() {
   // Bouml preserved body begin 00041271
-    stopThread = true;
-    
 
-    threads.join_all();
 
    // Request safe operational state for all slaves
     ec_slave[0].state = EC_STATE_SAFE_OP;
@@ -784,6 +783,8 @@ void EthercatMaster::updateSensorActorValues() {
       if(communicationErrors > maxCommunicationErrors){
         LOG(error) << "Lost EtherCAT connection";
         this->closeEthercat();
+        stopThread = true;
+        break;
       }
 
       if (newDataFlagOne == false) {
