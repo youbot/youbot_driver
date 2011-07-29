@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 179
+  revision 184
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -779,6 +779,45 @@ ${inlines}
 	
 	comment "///gets the encoder ticks of one joint
 ///@param data returns the ticks by reference"
+      end
+
+      operation 808561 "setData"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 2
+	  param in name "data" explicit_type "SlaveMessageOutput"
+	  param in name "communicationMode" type class_ref 162417 // SyncMode
+	    defaultvalue "NON_BLOCKING"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///sets the output part of a EtherCAT slave message
+///this methode should be only used if you know what you are doing
+///@param data output part of a EtherCAT slave message
+///@param communicationMode at the moment only non blocking communication is implemented"
+      end
+
+      operation 808689 "getData"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "data" explicit_type "SlaveMessageInput"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///gets the input part of a EtherCAT slave message, the sensor values
+///this methode should be only used if you know what you are doing
+///@param data returns the sensor values by reference"
       end
 
       operation 708977 "getUserVariable"
@@ -21404,14 +21443,15 @@ friend class YouBotGripper;" ""
 
       operation 795377 "setJointLimits"
 	preserve_cpp_body_indent private explicit_return_type "void"
-	nparams 4
+	nparams 5
 	  param in name "lowerJointLimit" explicit_type "int"
 	  param in name "upperJointLimit" explicit_type "int"
+	  param in name "inverseMovement" explicit_type "bool"
 	  param in name "activateLimit" explicit_type "bool"
 	  param in name "jointNumber" explicit_type "unsigned int"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}, const ${t1} ${p1}, const ${t2} ${p2}, const ${t3}& ${p3}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}, const ${t1} ${p1}, const ${t2} ${p2}, const ${t3} ${p3}, const ${t4}& ${p4}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}, const ${t1} ${p1}, const ${t2} ${p2}, const ${t3}& ${p3}${)}${const}${volatile}${throw}${staticnl}{
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}, const ${t1} ${p1}, const ${t2} ${p2}, const ${t3} ${p3}, const ${t4}& ${p4}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
 "
 	preserve_java_body_indent 
@@ -21542,6 +21582,20 @@ friend class YouBotGripper;" ""
 	
 	comment "///receives mailbox messages and stores them in the buffer
 ///@param mailboxMsg ethercat mailbox message"
+      end
+
+      operation 802033 "checkJointLimits"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
       end
 
       operation 259953 "updateSensorActorValues"
@@ -21737,7 +21791,7 @@ friend class YouBotGripper;" ""
       end
 
       attribute 305777 "ethercatOutputBufferVector"
-	private explicit_type "std::vector<OutputBuffer*>"
+	private explicit_type "std::vector<SlaveMessageOutput*>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -21747,7 +21801,7 @@ friend class YouBotGripper;" ""
       end
 
       attribute 305905 "ethercatInputBufferVector"
-	private explicit_type "std::vector<InputBuffer*>"
+	private explicit_type "std::vector<SlaveMessageInput*>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -21988,6 +22042,26 @@ friend class YouBotGripper;" ""
       end
 
       attribute 685553 "limitActive"
+	private explicit_type "std::vector<bool>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 692209 "jointLimitReached"
+	private explicit_type "std::vector<bool>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 692337 "inverseMovementDirection"
 	private explicit_type "std::vector<bool>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -23393,6 +23467,28 @@ ${inlines}
 	python_decl ""
 	idl_decl ""
       end
+    end
+  end
+
+  classview 180593 "ManipulatorKinematic"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    classdiagram 187505 "system"
+      draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+      size A4
     end
   end
 

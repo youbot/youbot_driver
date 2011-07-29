@@ -724,7 +724,7 @@ void EthercatMaster::updateSensorActorValues() {
 */
 
       //check if for joint limits
-      this->checkJointLimits();  //TODO test joint limit check
+    //  this->checkJointLimits();  //TODO test joint limit check
       
       //send and receive data from ethercat
       if (ec_send_processdata() == 0) {

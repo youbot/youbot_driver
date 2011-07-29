@@ -234,6 +234,8 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
     JointSensedCurrent sensedCurrent;
     JointRoundsPerMinuteSetpoint stopMovement;
     stopMovement.rpm = 0;
+    JointPWMSetpoint pwmStopMovement;
+    pwmStopMovement.pwm = 0;
 
 
     //move the joints slowly in calibration direction
@@ -252,8 +254,7 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
         //turn till a max current is reached
         if (abs(sensedCurrent.current) > abs(maxCurrent[i])) {
           //stop movement
-        //  joints[i].setData(stopMovement);
-          joints[i].stopJoint();
+          joints[i].setData(pwmStopMovement);
           finished[i] = true;
         }
       }
@@ -261,24 +262,14 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
     }
 
     // wait to let the joint stop the motion
-    SLEEP_MILLISEC(500);
+    SLEEP_MILLISEC(100);
 
     for (unsigned int i = 0; i < ARMJOINTS; i++) {
       if (doCalibration[i] == true) {
         //set encoder reference position
         joints[i].setEncoderToZero();
-
-        /*
-        //switch to position controll
-        SLEEP_MILLISEC(100);
-        messageBuffer.stctOutput.controllerMode = POSITION_CONTROL;
-        messageBuffer.stctOutput.value = 0;
-        //   LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.value << " rad_sec " << data.angularVelocity;
-        EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
-         */
         // set a flag in the user variable to remember that it is calibrated
         joints[i].setConfigurationParameter(IsCalibratedSetMessage);
-
         //     LOG(info) << "Calibration finished for joint: " << this->jointName;
       }
     }

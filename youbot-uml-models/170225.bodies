@@ -89,7 +89,7 @@ class YouBotJoint
       JointSensedCurrent sensedCurrent;
 
       messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
-      messageBuffer.stctOutput.positionOrSpeed = calibrationVel;
+      messageBuffer.stctOutput.value = calibrationVel;
       EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
 
       sensedCurrent.current = 0;
@@ -101,21 +101,21 @@ class YouBotJoint
 
       //stop movement
       messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
-      messageBuffer.stctOutput.positionOrSpeed = 0;
-      //   LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.positionOrSpeed << " rad_sec " << data.angularVelocity;
+      messageBuffer.stctOutput.value = 0;
+      //   LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.value << " rad_sec " << data.angularVelocity;
       EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
 
       //set encoder reference position
       SLEEP_MILLISEC(500);
       messageBuffer.stctOutput.controllerMode = SET_POSITION_TO_REFERENCE;
-      messageBuffer.stctOutput.positionOrSpeed = 0;
+      messageBuffer.stctOutput.value = 0;
       EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
 
       //switch to position controll
       SLEEP_MILLISEC(100);
       messageBuffer.stctOutput.controllerMode = POSITION_CONTROL;
-      messageBuffer.stctOutput.positionOrSpeed = 0;
-      //   LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.positionOrSpeed << " rad_sec " << data.angularVelocity;
+      messageBuffer.stctOutput.value = 0;
+      //   LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.value << " rad_sec " << data.angularVelocity;
       EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
 
       //     LOG(info) << "Calibration finished for joint: " << this->jointName;
@@ -130,13 +130,13 @@ class YouBotJoint
     this->storage.lowerLimit = parameter.lowerLimit;
     this->storage.upperLimit = parameter.upperLimit;
     this->storage.areLimitsActive = parameter.areLimitsActive;
-  //  EthercatMaster::getInstance().setJointLimits(parameter.lowerLimit, parameter.upperLimit, parameter.areLimitsActive, this->jointNumber);
+    EthercatMaster::getInstance().setJointLimits(parameter.lowerLimit, parameter.upperLimit, storage.inverseMovementDirection, parameter.areLimitsActive, this->jointNumber);
 
 !!!619505.cpp!!!	setConfigurationParameter(in parameter : InitializeJoint) : void
     if (parameter.value) {
       YouBotSlaveMsg messageBuffer;
       messageBuffer.stctOutput.controllerMode = INITIALIZE;
-      messageBuffer.stctOutput.positionOrSpeed = 0;
+      messageBuffer.stctOutput.value = 0;
 
       EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
     }
@@ -252,13 +252,13 @@ class YouBotJoint
 
     YouBotSlaveMsg messageBuffer;
     messageBuffer.stctOutput.controllerMode = POSITION_CONTROL;
-    messageBuffer.stctOutput.positionOrSpeed = (int32) round((data.angle.value() * ((double) storage.encoderTicksPerRound / (2.0 * M_PI))) / storage.gearRatio);
+    messageBuffer.stctOutput.value = (int32) round((data.angle.value() * ((double) storage.encoderTicksPerRound / (2.0 * M_PI))) / storage.gearRatio);
 
 
     if (storage.inverseMovementDirection) {
-      messageBuffer.stctOutput.positionOrSpeed *= -1;
+      messageBuffer.stctOutput.value *= -1;
     }
-    //   LOG(trace) << "value: " << data.angle << " gear " << gearRatio << " encoderperRound " << encoderTicksPerRound << " encPos " << messageBuffer.stctOutput.positionOrSpeed << " joint " << this->jointNumber;
+    //   LOG(trace) << "value: " << data.angle << " gear " << gearRatio << " encoderperRound " << encoderTicksPerRound << " encPos " << messageBuffer.stctOutput.value << " joint " << this->jointNumber;
     EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
 !!!795505.cpp!!!	setData(in data : JointEncoderSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
 
@@ -274,14 +274,14 @@ class YouBotJoint
 
     YouBotSlaveMsg messageBuffer;
     messageBuffer.stctOutput.controllerMode = POSITION_CONTROL;
-    messageBuffer.stctOutput.positionOrSpeed = data.encoderTicks;
+    messageBuffer.stctOutput.value = data.encoderTicks;
     
 
 //    if (storage.inverseMovementDirection) {
-//      messageBuffer.stctOutput.positionOrSpeed *= -1;
+//      messageBuffer.stctOutput.value *= -1;
 //    }
     
-    LOG(trace) << messageBuffer.stctOutput.positionOrSpeed <<" "<< this->jointNumber;
+    LOG(trace) << messageBuffer.stctOutput.value <<" "<< this->jointNumber;
      EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
 !!!253169.cpp!!!	getData(out data : JointSensedAngle) : void
     YouBotSlaveMsg messageBuffer;
@@ -308,12 +308,12 @@ class YouBotJoint
       throw std::out_of_range("A Gear Ratio of 0 is not allowed");
     }
 
-    messageBuffer.stctOutput.positionOrSpeed = (int32) round((data.angularVelocity.value() / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
+    messageBuffer.stctOutput.value = (int32) round((data.angularVelocity.value() / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
     if (storage.inverseMovementDirection) {
-      messageBuffer.stctOutput.positionOrSpeed *= -1;
+      messageBuffer.stctOutput.value *= -1;
     }
 
-    //  LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.positionOrSpeed << " rad_sec " << data.angularVelocity;
+    //  LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.value << " rad_sec " << data.angularVelocity;
     EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
 !!!253297.cpp!!!	getData(out data : JointSensedVelocity) : void
     YouBotSlaveMsg messageBuffer;
@@ -335,17 +335,12 @@ class YouBotJoint
 !!!716017.cpp!!!	setData(in data : JointRoundsPerMinuteSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
     YouBotSlaveMsg messageBuffer;
     messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
-
-    if (storage.gearRatio == 0) {
-      throw std::out_of_range("A Gear Ratio of 0 is not allowed");
-    }
-
-    messageBuffer.stctOutput.positionOrSpeed = data.rpm;
+    messageBuffer.stctOutput.value = data.rpm;
+    
     if (storage.inverseMovementDirection) {
-      messageBuffer.stctOutput.positionOrSpeed *= -1;
+      messageBuffer.stctOutput.value *= -1;
     }
 
-    //  LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.positionOrSpeed << " rad_sec " << data.angularVelocity;
     EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
 !!!246385.cpp!!!	getData(out data : JointSensedTemperature) : void
     YouBotSlaveMsg messageBuffer;
@@ -365,12 +360,20 @@ class YouBotJoint
 !!!611825.cpp!!!	setData(in data : JointCurrentSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
     YouBotSlaveMsg messageBuffer;
     messageBuffer.stctOutput.controllerMode = CURRENT_MODE;
-    messageBuffer.stctOutput.positionOrSpeed = (int32) data.current.value() * 1000.0;  //convert from Ampere to milli Ampere
+    messageBuffer.stctOutput.value = (int32) (data.current.value() * 1000.0);  //convert from Ampere to milli Ampere
+    
+    if (storage.inverseMovementDirection) {
+      messageBuffer.stctOutput.value *= -1;
+    }
     EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
 !!!611953.cpp!!!	setData(in data : JointPWMSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
     YouBotSlaveMsg messageBuffer;
     messageBuffer.stctOutput.controllerMode = PWM_MODE;
-    messageBuffer.stctOutput.positionOrSpeed = data.pwm;
+    messageBuffer.stctOutput.value = data.pwm;
+    
+    if (storage.inverseMovementDirection) {
+      messageBuffer.stctOutput.value *= -1;
+    }
     EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
 !!!702449.cpp!!!	getData(out data : JointSensedEncoderTicks) : void
     YouBotSlaveMsg messageBuffer;
@@ -380,6 +383,17 @@ class YouBotJoint
     //  LOG(trace) << "enc: " << messageBuffer.stctInput.actualPosition;
     data.encoderTicks = messageBuffer.stctInput.actualPosition ;
 
+!!!808561.cpp!!!	setData(in data : SlaveMessageOutput, in communicationMode : SyncMode = NON_BLOCKING) : void
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer.stctOutput = data;
+  
+    EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+!!!808689.cpp!!!	getData(out data : SlaveMessageInput) : void
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    this->parseYouBotErrorFlags(messageBuffer);
+
+    data = messageBuffer.stctInput;
 !!!708977.cpp!!!	getUserVariable(in index : uint, out data : int) : void
   
   if(index == 0 || index > 55){
@@ -508,20 +522,20 @@ class YouBotJoint
 
     YouBotSlaveMsg messageBuffer;
     messageBuffer.stctOutput.controllerMode = SET_POSITION_TO_REFERENCE;
-    messageBuffer.stctOutput.positionOrSpeed = 0;
+    messageBuffer.stctOutput.value = 0;
 
     EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
 
 !!!419057.cpp!!!	noMoreAction() : void
     YouBotSlaveMsg messageBuffer;
     messageBuffer.stctOutput.controllerMode = NO_MORE_ACTION;
-    messageBuffer.stctOutput.positionOrSpeed = 0;
+    messageBuffer.stctOutput.value = 0;
 
     EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
 !!!418929.cpp!!!	stopJoint() : void
     YouBotSlaveMsg messageBuffer;
     messageBuffer.stctOutput.controllerMode = MOTOR_STOP;
-    messageBuffer.stctOutput.positionOrSpeed = 0;
+    messageBuffer.stctOutput.value = 0;
 
     EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
 !!!281329.cpp!!!	parseYouBotErrorFlags(in messageBuffer : YouBotSlaveMsg) : void
