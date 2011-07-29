@@ -3,7 +3,7 @@
 @page download_install Download and Install
 
 
-\subsection sysreq System requirements: 
+\section sysreq System requirements: 
 - Linux 
 - Ethernet adapter 
 - Root access to the Ethernet adapter 
@@ -15,11 +15,11 @@ These libraries are required by the youBot API:
 
 You can fetch, compile and install these library by hand or you can use robotpkg a software packaging tool to do this automatically. 
 
-\subsection instrobopkg Installation with robotpkg:
+\section instrobopkg Installation with robotpkg:
 If you want to use robotpkg please visit https://github.com/youbot/youbot_packages/wiki for more details.
 
 
-\subsection maninstal Manual installation:
+\section maninstal Manual installation:
 First, make sure that you have the gnu-make software available on your system (version 3.81 or later required), as well as a working C compiler chain.
 
 The console commands below are exemplary for a Ubuntu Linux.

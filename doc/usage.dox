@@ -26,11 +26,52 @@ using namespace youbot;
 
 int main() {
   try {
+    
+    ///////// Usage of the base  /////////
+    
+    // creates a YouBotBase instance with the name "youbot-base" which is also the name of the config file
 		YouBotBase myYouBotBase("youbot-base");
 
 		// do the sine commutation of the base joints
 		myYouBotBase.doJointCommutation();
+    
+    // create variables to set and get the base cartesian velocity and pose
+    quantity<si::velocity> longitudinalVelocity = 0.2 * meter_per_second;
+    quantity<si::velocity> transversalVelocity = 0.0 * meter_per_second;
+    quantity<si::angular_velocity> angularVelocity = 0 * radian_per_second;
 
+    quantity<si::velocity> actualLongitudinalVelocity = 0 * meter_per_second;
+    quantity<si::velocity> actualTransversalVelocity = 0 * meter_per_second;
+    quantity<si::angular_velocity> actualAngularVelocity = 0 * radian_per_second;
+
+    quantity<si::length> actualLongitudinalPose = 0 * meter;
+    quantity<si::length> actualTransversalPose = 0 * meter;
+    quantity<si::plane_angle> actualAngle = 0 * radian;
+    
+    // sets the base cartesian velocity
+    myYouBotBase.setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
+    
+    // reads the base cartesian velocity
+    myYouBotBase.getBaseVelocity(actualLongitudinalVelocity, actualTransversalVelocity, actualAngularVelocity);
+    
+    // reads the base cartesian position which have been calculated from the odometry
+    myYouBotBase.getBasePosition(actualLongitudinalPose, actualTransversalPose, actualAngle);
+    
+    // print the actual cartesian velocity
+    LOG(info) << "actual velocity longitudinal: " << actualLongitudinalVelocity << " transversal: " << actualTransversalVelocity << " angular: " << actualAngularVelocity;
+    
+    //command base joint 1 a velocity of 2 radian per second
+    JointVelocitySetpoint setVel;
+    setVel.angularVelocity = 2 *radian_per_second;
+    myYouBotBase.getBaseJoint(1).setData(setVel);
+    setVel.angularVelocity = 0 *radian_per_second;
+    myYouBotBase.getBaseJoint(1).setData(setVel);
+    
+    
+    
+    ///////// Usage of the manipulator  /////////
+
+    // creates a YouBotManipulator instance with the name "youbot-manipulator" which is also the name of the config file
     YouBotManipulator myYouBotManipulator("youbot-manipulator");
 
 		// do the sine commutation of the arm joints
@@ -38,13 +79,6 @@ int main() {
 
 		// calibrate the reference position of the arm joints
     myYouBotManipulator.calibrateManipulator();
-
-    //command base joint 1 a velocity of 2 radian per second
-    JointVelocitySetpoint setVel;
-    setVel.angularVelocity = 2 *radian_per_second;
-    myYouBotBase.getBaseJoint(1).setData(setVel);
-    setVel.angularVelocity = 0 *radian_per_second;
-    myYouBotBase.getBaseJoint(1).setData(setVel);
 
     //receive motor current form joint 1 of the manipulator
     JointSensedCurrent current;
@@ -61,6 +95,19 @@ int main() {
     //configure 2 radian_per_second as the maximum positioning velocity of the manipulator joint 1
     maxPositioningVelocity.setParameter(2 * radian_per_second);
     myYouBotManipulator.getArmJoint(1).setConfigurationParameter(maxPositioningVelocity);
+    
+    
+    
+    ///////// Usage of the gripper  /////////
+    
+    // calibrate the reference position of the gripper
+    myYouBotManipulator.calibrateGripper();
+    
+    // open the gripper 2 cm
+    GripperBarSpacingSetPoint gripperSetPoint;
+    gripperSetPoint.barSpacing = 0.02 * meter;
+    myYouBotManipulator.getArmGripper().setData(gripperSetPoint);
+    
 
   } catch (std::exception& e) {
     std::cout << e.what() << std::endl;
