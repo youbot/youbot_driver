@@ -467,6 +467,7 @@ void YouBotBase::initializeJoints() {
     MotorContollerGearRatio contollerGearRatio;
     contollerGearRatio.setParameter(1);
     FirmwareVersion firmwareTypeVersion;
+    TorqueConstant torqueConst;
 
     double gearRatio_numerator = 0;
     double gearRatio_denominator = 1;
@@ -511,6 +512,11 @@ void YouBotBase::initializeJoints() {
       int ticks;
       configfile->readInto(ticks, jointName, "EncoderTicksPerRound");
       ticksPerRound.setParameter(ticks);
+      
+      double torqueConstant;
+      configfile->readInto(torqueConstant, jointName, "TorqueConstant_[newton_meter_divided_by_ampere]");
+      torqueConst.setParameter(torqueConstant);
+      
       bool invdir = false;
       configfile->readInto(invdir, jointName, "InverseMovementDirection");
       inverseDir.setParameter(invdir);
@@ -518,6 +524,7 @@ void YouBotBase::initializeJoints() {
       joints[i].setConfigurationParameter(jName);
       joints[i].setConfigurationParameter(gearRatio);
       joints[i].setConfigurationParameter(ticksPerRound);
+      joints[i].setConfigurationParameter(torqueConst);
       joints[i].setConfigurationParameter(inverseDir);
 
       //check if the motor contoller gear ratio is one.

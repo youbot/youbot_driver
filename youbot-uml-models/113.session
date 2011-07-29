@@ -1,12 +1,13 @@
-window_sizes 1680 976 511 1163 895 0
+window_sizes 1680 976 511 1163 893 0
 diagrams
   active  classdiagram_ref 187505 // system
     1163 893 100 4 0 0
 end
 show_stereotypes
-selected class_ref 190577 // EthercatMaster
+selected operation_ref 815345 // getData
 open
-  classview_ref 134641 // Joint
-  classview_ref 160881 // YouBot
+  attribute_ref 349937 // timeTillNextMailboxUpdate
+  class_ref 303857 // YouBotJointStorage
+  deploymentview_ref 161137 // Deployment
 end
 end

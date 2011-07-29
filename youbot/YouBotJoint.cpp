@@ -327,6 +327,12 @@ void YouBotJoint::getConfigurationParameter(YouBotSlaveMailboxMsg& parameter) {
   // Bouml preserved body end 000A9DF1
 }
 
+void YouBotJoint::setConfigurationParameter(const TorqueConstant& parameter) {
+  // Bouml preserved body begin 000C7171
+   parameter.getParameter(this->storage.torqueConstant);
+  // Bouml preserved body end 000C7171
+}
+
 ///stores the joint parameter permanent in the EEPROM of the motor contoller
 ///Attentions: The EEPROM has only a finite number of program-erase cycles
 void YouBotJoint::storeConfigurationParameterPermanent(const YouBotJointParameter& parameter) {
@@ -564,7 +570,8 @@ void YouBotJoint::getData(JointSensedCurrent& data) {
     messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
     this->parseYouBotErrorFlags(messageBuffer);
     //convert mili ampere to ampere
-    data.current = messageBuffer.stctInput.actualCurrent / 1000.0 * ampere;
+    double current = messageBuffer.stctInput.actualCurrent;
+    data.current =  current / 1000.0 * ampere;
   // Bouml preserved body end 0003DDF1
 }
 
@@ -638,6 +645,36 @@ void YouBotJoint::getData(SlaveMessageInput& data) {
 
     data = messageBuffer.stctInput;
   // Bouml preserved body end 000C56F1
+}
+
+///commands a torque to one joint
+///@param data the to command torque
+///@param communicationMode at the moment only non blocking communication is implemented
+void YouBotJoint::setData(const JointTorqueSetpoint& data, SyncMode communicationMode) {
+  // Bouml preserved body begin 000C7071
+    JointCurrentSetpoint currentSetpoint;
+    
+    if (this->storage.torqueConstant == 0) {
+      throw std::out_of_range("A torque constant of 0 is not allowed");
+    }
+   
+    currentSetpoint.current = ((data.torque.value()*this->storage.gearRatio)/this->storage.torqueConstant) * ampere;
+    this->setData(currentSetpoint);
+  // Bouml preserved body end 000C7071
+}
+
+///gets the motor torque of one joint which have been calculated from the current
+///@param data returns the actual motor torque by reference
+void YouBotJoint::getData(JointSensedTorque& data) {
+  // Bouml preserved body begin 000C70F1
+  JointSensedCurrent sensedCurrent;
+  this->getData(sensedCurrent);
+  
+  if (this->storage.gearRatio == 0) {
+    throw std::out_of_range("A Gear Ratio of 0 is not allowed");
+  }
+  data.torque = ((sensedCurrent.current.value() * this->storage.torqueConstant) / this->storage.gearRatio) * newton_meter;
+  // Bouml preserved body end 000C70F1
 }
 
 void YouBotJoint::getUserVariable(const unsigned int index, int& data) {

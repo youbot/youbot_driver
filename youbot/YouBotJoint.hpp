@@ -120,6 +120,8 @@ class YouBotJoint : public Joint {
 
     void getConfigurationParameter(YouBotSlaveMailboxMsg& parameter);
 
+    void setConfigurationParameter(const TorqueConstant& parameter);
+
     ///stores the joint parameter permanent in the EEPROM of the motor contoller
     ///Attentions: The EEPROM has only a finite number of program-erase cycles
     void storeConfigurationParameterPermanent(const YouBotJointParameter& parameter);
@@ -199,6 +201,15 @@ class YouBotJoint : public Joint {
     ///this methode should be only used if you know what you are doing
     ///@param data returns the sensor values by reference
     virtual void getData(SlaveMessageInput& data);
+
+    ///commands a torque to one joint
+    ///@param data the to command torque
+    ///@param communicationMode at the moment only non blocking communication is implemented
+    virtual void setData(const JointTorqueSetpoint& data, SyncMode communicationMode = NON_BLOCKING);
+
+    ///gets the motor torque of one joint which have been calculated from the current
+    ///@param data returns the actual motor torque by reference
+    virtual void getData(JointSensedTorque& data);
 
     void getUserVariable(const unsigned int index, int& data);
 

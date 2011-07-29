@@ -1,0 +1,15 @@
+class TorqueConstant
+!!!815601.cpp!!!	TorqueConstant()
+    this->name = "TorqueConstant";
+    this->parameterType = API_PARAMETER;
+!!!815857.cpp!!!	getParameter(out parameter : double) : void
+    parameter = this->value;
+!!!815985.cpp!!!	setParameter(in parameter : double) : void
+    if (parameter == 0 || parameter < 0) {
+      throw std::out_of_range("It is not allowed to set a zero or negative torque constant");
+    }
+    this->value = parameter;
+!!!816113.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();

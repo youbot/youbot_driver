@@ -70,6 +70,8 @@ class YouBotJointStorage {
 
     bool areLimitsActive;
 
+    double torqueConstant;
+
 };
 
 } // namespace youbot

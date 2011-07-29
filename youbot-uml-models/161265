@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 49
+  revision 50
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -569,6 +569,7 @@ ${namespace_end}"
 	class_ref 252017 // EncoderTicksPerRound
 	class_ref 252145 // InverseMovementDirection
 	class_ref 273009 // JointLimits
+	class_ref 419185 // TorqueConstant
 	class_ref 245105 // MaximumPositioningVelocity
 	class_ref 293361 // MotorAcceleration
 	class_ref 294257 // RampGeneratorSpeedAndPositionControl

@@ -523,6 +523,7 @@ void YouBotManipulator::initializeJoints() {
     MotorContollerGearRatio contollerGearRatio;
     contollerGearRatio.setParameter(0);
     FirmwareVersion firmwareTypeVersion;
+    TorqueConstant torqueConst;
 
 
 
@@ -573,6 +574,11 @@ void YouBotManipulator::initializeJoints() {
       int ticks;
       configfile->readInto(ticks, jointName, "EncoderTicksPerRound");
       ticksPerRound.setParameter(ticks);
+      
+      double torqueConstant;
+      configfile->readInto(torqueConstant, jointName, "TorqueConstant_[newton_meter_divided_by_ampere]");
+      torqueConst.setParameter(torqueConstant);
+      
       bool invdir = false;
       configfile->readInto(invdir, jointName, "InverseMovementDirection");
       inverseDir.setParameter(invdir);
@@ -580,6 +586,7 @@ void YouBotManipulator::initializeJoints() {
       joints[i].setConfigurationParameter(jName);
       joints[i].setConfigurationParameter(gearRatio);
       joints[i].setConfigurationParameter(ticksPerRound);
+      joints[i].setConfigurationParameter(torqueConst);
       joints[i].setConfigurationParameter(inverseDir);
 
     }

@@ -193,6 +193,8 @@ class YouBotJoint
      throw JointParameterException("Unable to get parameter from joint: " + this->jointName);
    }
    this->parseMailboxStatusFlags(parameter);
+!!!815473.cpp!!!	setConfigurationParameter(in parameter : TorqueConstant) : void
+   parameter.getParameter(this->storage.torqueConstant);
 !!!596465.cpp!!!	storeConfigurationParameterPermanent(in parameter : YouBotJointParameter) : void
     if (parameter.getType() == MOTOR_CONTOLLER_PARAMETER) {
 
@@ -356,7 +358,8 @@ class YouBotJoint
     messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
     this->parseYouBotErrorFlags(messageBuffer);
     //convert mili ampere to ampere
-    data.current = messageBuffer.stctInput.actualCurrent / 1000.0 * ampere;
+    double current = messageBuffer.stctInput.actualCurrent;
+    data.current =  current / 1000.0 * ampere;
 !!!611825.cpp!!!	setData(in data : JointCurrentSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
     YouBotSlaveMsg messageBuffer;
     messageBuffer.stctOutput.controllerMode = CURRENT_MODE;
@@ -394,6 +397,23 @@ class YouBotJoint
     this->parseYouBotErrorFlags(messageBuffer);
 
     data = messageBuffer.stctInput;
+!!!815217.cpp!!!	setData(in data : JointTorqueSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
+    JointCurrentSetpoint currentSetpoint;
+    
+    if (this->storage.torqueConstant == 0) {
+      throw std::out_of_range("A torque constant of 0 is not allowed");
+    }
+   
+    currentSetpoint.current = ((data.torque.value()*this->storage.gearRatio)/this->storage.torqueConstant) * ampere;
+    this->setData(currentSetpoint);
+!!!815345.cpp!!!	getData(out data : JointSensedTorque) : void
+  JointSensedCurrent sensedCurrent;
+  this->getData(sensedCurrent);
+  
+  if (this->storage.gearRatio == 0) {
+    throw std::out_of_range("A Gear Ratio of 0 is not allowed");
+  }
+  data.torque = ((sensedCurrent.current.value() * this->storage.torqueConstant) / this->storage.gearRatio) * newton_meter;
 !!!708977.cpp!!!	getUserVariable(in index : uint, out data : int) : void
   
   if(index == 0 || index > 55){

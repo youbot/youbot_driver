@@ -373,6 +373,41 @@ void JointLimits::toString(std::string& value) {
   // Bouml preserved body end 0009C7F1
 }
 
+TorqueConstant::TorqueConstant() {
+  // Bouml preserved body begin 000C71F1
+    this->name = "TorqueConstant";
+    this->parameterType = API_PARAMETER;
+  // Bouml preserved body end 000C71F1
+}
+
+TorqueConstant::~TorqueConstant() {
+  // Bouml preserved body begin 000C7271
+  // Bouml preserved body end 000C7271
+}
+
+void TorqueConstant::getParameter(double& parameter) const {
+  // Bouml preserved body begin 000C72F1
+    parameter = this->value;
+  // Bouml preserved body end 000C72F1
+}
+
+void TorqueConstant::setParameter(const double parameter) {
+  // Bouml preserved body begin 000C7371
+    if (parameter == 0 || parameter < 0) {
+      throw std::out_of_range("It is not allowed to set a zero or negative torque constant");
+    }
+    this->value = parameter;
+  // Bouml preserved body end 000C7371
+}
+
+void TorqueConstant::toString(std::string& value) {
+  // Bouml preserved body begin 000C73F1
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 000C73F1
+}
+
 MaximumPositioningVelocity::MaximumPositioningVelocity() {
   // Bouml preserved body begin 0005A171
     this->name = "MaximumPositioningVelocity";

@@ -375,6 +375,39 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
+/// the resolution of the encoders, it is needed for the calculations of the youBot Driver
+///////////////////////////////////////////////////////////////////////////////
+class TorqueConstant : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    TorqueConstant();
+
+    virtual ~TorqueConstant();
+
+    void getParameter(double& parameter) const;
+
+    void setParameter(const double parameter);
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {};
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {};
+
+    std::string getName() const {return this->name;};
+
+    ::ParameterType getType() const {return this->parameterType;};
+
+    double value;
+
+    std::string name;
+
+    ::ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
 /// The maximum velocity used for move to position command when executing a ramp to a position. In sensorless commutation mode the velocity threshold for hallFX. In sensorless commutation mode used as velocity threshold for hallFXTM. Set this value to a realistic velocity which the motor can reach!
 ///////////////////////////////////////////////////////////////////////////////
 class MaximumPositioningVelocity : public YouBotJointParameter {
