@@ -531,17 +531,12 @@ void YouBotJoint::setData(const JointRoundsPerMinuteSetpoint& data, SyncMode com
   // Bouml preserved body begin 000AECF1
     YouBotSlaveMsg messageBuffer;
     messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
-
-    if (storage.gearRatio == 0) {
-      throw std::out_of_range("A Gear Ratio of 0 is not allowed");
-    }
-
     messageBuffer.stctOutput.value = data.rpm;
+    
     if (storage.inverseMovementDirection) {
       messageBuffer.stctOutput.value *= -1;
     }
 
-    //  LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.value << " rad_sec " << data.angularVelocity;
     EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
   // Bouml preserved body end 000AECF1
 }

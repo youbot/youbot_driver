@@ -629,7 +629,6 @@ void EthercatMaster::checkJointLimits() {
 
           switch (jointMsgOut->controllerMode) {
             case POSITION_CONTROL:
-              LOG(info) << "pos";
               if (!(jointMsgOut->value < upperLimit[jointNo] && jointMsgOut->value > lowerLimit[jointNo])) {
                 limitReached = true;
               } else {
@@ -637,55 +636,15 @@ void EthercatMaster::checkJointLimits() {
               }
               break;
             case VELOCITY_CONTROL:
-              LOG(info) << "vel";
-              if (!inverseMovementDirection[jointNo]) {
-                if ((jointMsgOut->value <= 0 && reachedUpperLimit) || (jointMsgOut->value >= 0 && reachedLowerLimit)) {
-                  limitReached = true;
-                } else {
-                  limitReached = false;
-                }
-              } else {
-                if ((jointMsgOut->value >= 0 && reachedUpperLimit) || (jointMsgOut->value <= 0 && reachedLowerLimit)) {
-                  limitReached = true;
-                } else {
-                  limitReached = false;
-                }
-              }
-              break;
             case PWM_MODE:
-              LOG(info) << "pwm";
-              if (!inverseMovementDirection[jointNo]) {
-                if ((jointMsgOut->value <= 0 && reachedUpperLimit) || (jointMsgOut->value >= 0 && reachedLowerLimit)) {
-                  limitReached = true;
-                } else {
-                  limitReached = false;
-                }
-              } else {
-                if ((jointMsgOut->value >= 0 && reachedUpperLimit) || (jointMsgOut->value <= 0 && reachedLowerLimit)) {
-                  limitReached = true;
-                } else {
-                  limitReached = false;
-                }
-              }
-              break;
             case CURRENT_MODE:
-              LOG(info) << "current";
-              if (!inverseMovementDirection[jointNo]) {
-                if ((jointMsgOut->value <= 0 && reachedUpperLimit) || (jointMsgOut->value >= 0 && reachedLowerLimit)) {
-                  limitReached = true;
-                } else {
-                  limitReached = false;
-                }
+              if ((jointMsgOut->value >= 0 && reachedUpperLimit) || (jointMsgOut->value <= 0 && reachedLowerLimit)) {
+                limitReached = true;
               } else {
-                if ((jointMsgOut->value >= 0 && reachedUpperLimit) || (jointMsgOut->value <= 0 && reachedLowerLimit)) {
-                  limitReached = true;
-                } else {
-                  limitReached = false;
-                }
+                limitReached = false;
               }
               break;
             default:
-              LOG(info) << "other";
               limitReached = true;
               break;
 
@@ -696,15 +655,16 @@ void EthercatMaster::checkJointLimits() {
 
           jointMsgOut->controllerMode = PWM_MODE;
           jointMsgOut->value = 0;
+      //    LOG(info) << "limit reached Joint " << jointNo + 1;
 
           if (jointLimitReached[jointNo] == false) {
-      //      LOG(error) << "Joint " << jointNo + 1 << " exceeded the joint limit! Upper limit: " << upperLimit[jointNo] << " lower limit: " << lowerLimit[jointNo] << " position: " << jointMsgIN->actualPosition;
+            LOG(error) << "Joint " << jointNo + 1 << " exceeded the joint limit! Upper limit: " << upperLimit[jointNo] << " lower limit: " << lowerLimit[jointNo] << " position: " << jointMsgIN->actualPosition;
             //       throw std::runtime_error(ss.str());
             jointLimitReached[jointNo] = true;
           }
         } else {
           if (jointLimitReached[jointNo] == true){
-      //      LOG(error) << "Joint " << jointNo + 1 << " is not in the limit any more";
+            LOG(info) << "Joint " << jointNo + 1 << " is not in the limit any more";
           }
           jointLimitReached[jointNo] = false;
 
@@ -764,7 +724,7 @@ void EthercatMaster::updateSensorActorValues() {
 */
 
       //check if for joint limits
-   //   this->checkJointLimits();  //TODO test joint limit check
+      this->checkJointLimits();  //TODO test joint limit check
       
       //send and receive data from ethercat
       if (ec_send_processdata() == 0) {
