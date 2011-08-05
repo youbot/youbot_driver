@@ -54,14 +54,14 @@ class YouBotJoint
 !!!380401.cpp!!!	setConfigurationParameter(in parameter : JointName) : void
     this->jointName = parameter.value;
 !!!475505.cpp!!!	getConfigurationParameter(out parameter : GearRatio) : void
-    parameter.value = this->storage.gearRatio;
+    parameter.setParameter(this->storage.gearRatio);
 !!!475121.cpp!!!	setConfigurationParameter(in parameter : GearRatio) : void
     if (parameter.value == 0) {
       throw std::out_of_range("A Gear Ratio of zero is not allowed");
     }
     this->storage.gearRatio = parameter.value;
 !!!475633.cpp!!!	getConfigurationParameter(out parameter : EncoderTicksPerRound) : void
-    parameter.value = this->storage.encoderTicksPerRound;
+    parameter.setParameter(this->storage.encoderTicksPerRound);
 !!!475249.cpp!!!	setConfigurationParameter(in parameter : EncoderTicksPerRound) : void
     if (parameter.value == 0) {
       throw std::out_of_range("Zero Encoder Ticks per Round are not allowed");
@@ -122,9 +122,9 @@ class YouBotJoint
     }
 
 !!!402673.cpp!!!	setConfigurationParameter(in parameter : InverseMovementDirection) : void
-
     this->storage.inverseMovementDirection = parameter.value;
-
+!!!824945.cpp!!!	getConfigurationParameter(out parameter : InverseMovementDirection) : void
+    parameter.setParameter(this->storage.inverseMovementDirection);
 !!!410353.cpp!!!	setConfigurationParameter(in parameter : JointLimits) : void
 
     this->storage.lowerLimit = parameter.lowerLimit;
@@ -132,6 +132,8 @@ class YouBotJoint
     this->storage.areLimitsActive = parameter.areLimitsActive;
     EthercatMaster::getInstance().setJointLimits(parameter.lowerLimit, parameter.upperLimit, storage.inverseMovementDirection, parameter.areLimitsActive, this->jointNumber);
 
+!!!824817.cpp!!!	getConfigurationParameter(out parameter : JointLimits) : void
+    parameter.setParameter(this->storage.lowerLimit, this->storage.upperLimit, this->storage.areLimitsActive);
 !!!619505.cpp!!!	setConfigurationParameter(in parameter : InitializeJoint) : void
     if (parameter.value) {
       YouBotSlaveMsg messageBuffer;

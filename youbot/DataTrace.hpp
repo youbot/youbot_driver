@@ -139,6 +139,8 @@ class DataTrace {
 
     unsigned long timeDurationMicroSec;
 
+    std::vector<YouBotJointParameterReadOnly*> parameterVector;
+
 };
 
 } // namespace youbot

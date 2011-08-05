@@ -51,22 +51,22 @@
 #include "youbot/DataTrace.hpp"
 namespace youbot {
 
-  DataTrace::DataTrace(YouBotJoint& youBotJoint) : joint(youBotJoint) {
-    // Bouml preserved body begin 000C8F71
+DataTrace::DataTrace(YouBotJoint& youBotJoint):joint(youBotJoint) {
+  // Bouml preserved body begin 000C8F71
 
     roundsPerMinuteSetpoint.rpm = 0;
     PWMSetpoint.pwm = 0;
     encoderSetpoint.encoderTicks = 0;
-    // Bouml preserved body end 000C8F71
-  }
+  // Bouml preserved body end 000C8F71
+}
 
-  DataTrace::~DataTrace() {
-    // Bouml preserved body begin 000C8FF1
-    // Bouml preserved body end 000C8FF1
-  }
+DataTrace::~DataTrace() {
+  // Bouml preserved body begin 000C8FF1
+  // Bouml preserved body end 000C8FF1
+}
 
-  void DataTrace::startTrace() {
-    // Bouml preserved body begin 000C93F1
+void DataTrace::startTrace() {
+  // Bouml preserved body begin 000C93F1
 
 
     file.open("jointDataTrace", std::fstream::out | std::fstream::trunc);
@@ -106,73 +106,188 @@ namespace youbot {
             << "TIMEOUT" << " "
             << "I2T_EXCEEDED" << std::endl;
 
+    parametersBeginTraceFile.open("ParametersAtBegin", std::fstream::out | std::fstream::trunc);
+    std::string parameterString;
+    parameterVector.push_back(new ActualMotorVoltage);
+    parameterVector.push_back(new ActualPWMDutyCycle);
+ //   parameterVector.push_back(new ErrorAndStatus);
+    parameterVector.push_back(new I2tSum);
+    parameterVector.push_back(new PositionError);
+    parameterVector.push_back(new PositionErrorSum);
+    parameterVector.push_back(new RampGeneratorSpeed);
+    parameterVector.push_back(new VelocityError);
+    parameterVector.push_back(new VelocityErrorSum);
+ //   parameterVector.push_back(new CalibrateJoint);
+    parameterVector.push_back(new CurrentControlSwitchingThreshold);
+    parameterVector.push_back(new DParameterFirstParametersCurrentControl);
+    parameterVector.push_back(new DParameterFirstParametersPositionControl);
+    parameterVector.push_back(new DParameterFirstParametersSpeedControl);
+    parameterVector.push_back(new DParameterSecondParametersCurrentControl);
+    parameterVector.push_back(new DParameterSecondParametersPositionControl);
+    parameterVector.push_back(new DParameterSecondParametersSpeedControl);
+    parameterVector.push_back(new EncoderTicksPerRound);
+ //   parameterVector.push_back(new FirmwareVersion);
+    parameterVector.push_back(new GearRatio);
+    parameterVector.push_back(new IClippingParameterFirstParametersCurrentControl);
+    parameterVector.push_back(new IClippingParameterFirstParametersPositionControl);
+    parameterVector.push_back(new IClippingParameterFirstParametersSpeedControl);
+    parameterVector.push_back(new IClippingParameterSecondParametersCurrentControl);
+    parameterVector.push_back(new IClippingParameterSecondParametersPositionControl);
+    parameterVector.push_back(new IClippingParameterSecondParametersSpeedControl);
+//    parameterVector.push_back(new InitializeJoint);
+    parameterVector.push_back(new InverseMovementDirection);
+    parameterVector.push_back(new IParameterFirstParametersCurrentControl);
+    parameterVector.push_back(new IParameterFirstParametersPositionControl);
+    parameterVector.push_back(new IParameterFirstParametersSpeedControl);
+    parameterVector.push_back(new IParameterSecondParametersCurrentControl);
+    parameterVector.push_back(new IParameterSecondParametersPositionControl);
+    parameterVector.push_back(new IParameterSecondParametersSpeedControl);
+    parameterVector.push_back(new JointLimits);
+    parameterVector.push_back(new JointName);
+    parameterVector.push_back(new MaximumPositioningVelocity);
+    parameterVector.push_back(new MotorAcceleration);
+    parameterVector.push_back(new PositionControlSwitchingThreshold);
+    parameterVector.push_back(new PParameterFirstParametersCurrentControl);
+    parameterVector.push_back(new PParameterFirstParametersPositionControl);
+    parameterVector.push_back(new PParameterFirstParametersSpeedControl);
+    parameterVector.push_back(new PParameterSecondParametersCurrentControl);
+    parameterVector.push_back(new PParameterSecondParametersPositionControl);
+    parameterVector.push_back(new PParameterSecondParametersSpeedControl);
+    parameterVector.push_back(new RampGeneratorSpeedAndPositionControl);
+    parameterVector.push_back(new SpeedControlSwitchingThreshold);
+    parameterVector.push_back(new TorqueConstant);
+    parameterVector.push_back(new ActivateOvervoltageProtection);
+    parameterVector.push_back(new ActualCommutationOffset);
+ //   parameterVector.push_back(new ApproveProtectedParameters);
+    parameterVector.push_back(new BEMFConstant);
+ //   parameterVector.push_back(new ClearI2tExceededFlag);
+    parameterVector.push_back(new ClearISumIfPWMReachesMaximum);
+ //   parameterVector.push_back(new ClearMotorControllerTimeoutFlag);
+    parameterVector.push_back(new ClearTargetDistance);
+    parameterVector.push_back(new CommutationCompensationClockwise);
+    parameterVector.push_back(new CommutationCompensationCounterClockwise);
+    parameterVector.push_back(new CommutationMode);
+    parameterVector.push_back(new CommutationMotorCurrent);
+    parameterVector.push_back(new CurrentControlLoopDelay);
+    parameterVector.push_back(new EncoderNullPolarity);
+    parameterVector.push_back(new EncoderResolution);
+    parameterVector.push_back(new EncoderStopSwitch);
+    parameterVector.push_back(new HallSensorPolarityReversal);
+    parameterVector.push_back(new I2tExceedCounter);
+    parameterVector.push_back(new I2tLimit);
+    parameterVector.push_back(new InitializationMode);
+    parameterVector.push_back(new InitSineDelay);
+    parameterVector.push_back(new MassInertiaConstant);
+    parameterVector.push_back(new MaximumMotorCurrent);
+    parameterVector.push_back(new MaximumPWMChangePerPIDInterval);
+    parameterVector.push_back(new MaximumVelocityToSetPosition);
+    parameterVector.push_back(new MotorCoilResistance);
+    parameterVector.push_back(new MotorContollerGearRatio);
+    parameterVector.push_back(new MotorControllerTimeout);
+    parameterVector.push_back(new MotorPoles);
+    parameterVector.push_back(new OperationalTime);
+    parameterVector.push_back(new PIDControllerState);
+    parameterVector.push_back(new PIDControlTime);
+    parameterVector.push_back(new PositionTargetReachedDistance);
+    parameterVector.push_back(new PWMHysteresis);
+    parameterVector.push_back(new PWMLimit);
+    parameterVector.push_back(new PWMSchemeBlockCommutation);
+ //   parameterVector.push_back(new ReinitializationSinusoidalCommutation);
+    parameterVector.push_back(new ReversingEncoderDirection);
+    parameterVector.push_back(new SetEncoderCounterZeroAtNextNChannel);
+    parameterVector.push_back(new SetEncoderCounterZeroAtNextSwitch);
+    parameterVector.push_back(new SetEncoderCounterZeroOnlyOnce);
+    parameterVector.push_back(new SineCompensationFactor);
+    parameterVector.push_back(new SineInitializationVelocity);
+    parameterVector.push_back(new StopSwitchPolarity);
+    parameterVector.push_back(new ThermalWindingTimeConstant);
+
+    for (int i = 0; i < parameterVector.size(); i++) {
+      joint.getConfigurationParameter(*(parameterVector[i]));
+      parameterVector[i]->toString(parameterString);
+   //   std::cout << parameterString << std::endl;
+      parametersBeginTraceFile << parameterString << std::endl;
+    }
+    parametersBeginTraceFile.close();
+
+
     traceStartTime = microsec_clock::local_time();
-    // Bouml preserved body end 000C93F1
-  }
+  // Bouml preserved body end 000C93F1
+}
 
-  void DataTrace::stopTrace() {
-    // Bouml preserved body begin 000C9471
+void DataTrace::stopTrace() {
+  // Bouml preserved body begin 000C9471
     file.close();
-    // Bouml preserved body end 000C9471
-  }
 
-  void DataTrace::plotTrace() {
-    // Bouml preserved body begin 000C9571
+    parametersEndTraceFile.open("ParametersAfterTrace", std::fstream::out | std::fstream::trunc);
+    std::string parameterString;
+    for (int i = 0; i < parameterVector.size(); i++) {
+      joint.getConfigurationParameter(*(parameterVector[i]));
+      parameterVector[i]->toString(parameterString);
+      parametersEndTraceFile << parameterString << std::endl;
+      delete parameterVector[i];
+    }
+    parametersEndTraceFile.close();
+  // Bouml preserved body end 000C9471
+}
+
+void DataTrace::plotTrace() {
+  // Bouml preserved body begin 000C9571
     std::system("gnuplot ../gnuplotconfig");
-    // Bouml preserved body end 000C9571
-  }
+  // Bouml preserved body end 000C9571
+}
 
-  void DataTrace::updateTrace(const JointAngleSetpoint& setpoint) {
-    // Bouml preserved body begin 000C9071
+void DataTrace::updateTrace(const JointAngleSetpoint& setpoint) {
+  // Bouml preserved body begin 000C9071
     angleSetpoint = setpoint;
     this->update();
-    // Bouml preserved body end 000C9071
-  }
+  // Bouml preserved body end 000C9071
+}
 
-  void DataTrace::updateTrace(const JointVelocitySetpoint& setpoint) {
-    // Bouml preserved body begin 000C90F1
+void DataTrace::updateTrace(const JointVelocitySetpoint& setpoint) {
+  // Bouml preserved body begin 000C90F1
     velocitySetpoint = setpoint;
     this->update();
-    // Bouml preserved body end 000C90F1
-  }
+  // Bouml preserved body end 000C90F1
+}
 
-  void DataTrace::updateTrace(const JointRoundsPerMinuteSetpoint& setpoint) {
-    // Bouml preserved body begin 000C9171
+void DataTrace::updateTrace(const JointRoundsPerMinuteSetpoint& setpoint) {
+  // Bouml preserved body begin 000C9171
     roundsPerMinuteSetpoint = setpoint;
     this->update();
-    // Bouml preserved body end 000C9171
-  }
+  // Bouml preserved body end 000C9171
+}
 
-  void DataTrace::updateTrace(const JointCurrentSetpoint& setpoint) {
-    // Bouml preserved body begin 000C91F1
+void DataTrace::updateTrace(const JointCurrentSetpoint& setpoint) {
+  // Bouml preserved body begin 000C91F1
     currentSetpoint = setpoint;
     this->update();
-    // Bouml preserved body end 000C91F1
-  }
+  // Bouml preserved body end 000C91F1
+}
 
-  void DataTrace::updateTrace(const JointTorqueSetpoint& setpoint) {
-    // Bouml preserved body begin 000C9271
+void DataTrace::updateTrace(const JointTorqueSetpoint& setpoint) {
+  // Bouml preserved body begin 000C9271
     torqueSetpoint = setpoint;
     this->update();
-    // Bouml preserved body end 000C9271
-  }
+  // Bouml preserved body end 000C9271
+}
 
-  void DataTrace::updateTrace(const JointPWMSetpoint& setpoint) {
-    // Bouml preserved body begin 000C92F1
+void DataTrace::updateTrace(const JointPWMSetpoint& setpoint) {
+  // Bouml preserved body begin 000C92F1
     PWMSetpoint = setpoint;
     this->update();
-    // Bouml preserved body end 000C92F1
-  }
+  // Bouml preserved body end 000C92F1
+}
 
-  void DataTrace::updateTrace(const JointEncoderSetpoint& setpoint) {
-    // Bouml preserved body begin 000C9371
+void DataTrace::updateTrace(const JointEncoderSetpoint& setpoint) {
+  // Bouml preserved body begin 000C9371
     encoderSetpoint = setpoint;
     this->update();
-    // Bouml preserved body end 000C9371
-  }
+  // Bouml preserved body end 000C9371
+}
 
-  void DataTrace::update() {
-    // Bouml preserved body begin 000C94F1
+void DataTrace::update() {
+  // Bouml preserved body begin 000C94F1
     timeDuration = microsec_clock::local_time() - traceStartTime;
     timeDurationMicroSec = timeDuration.total_milliseconds();
     unsigned short statusFlags;
@@ -221,8 +336,8 @@ namespace youbot {
             << bool(statusFlags & I2T_EXCEEDED) << std::endl; //32
 
 
-    // Bouml preserved body end 000C94F1
-  }
+  // Bouml preserved body end 000C94F1
+}
 
 
 } // namespace youbot

@@ -110,7 +110,11 @@ class YouBotJoint : public Joint {
 
     void setConfigurationParameter(const InverseMovementDirection& parameter);
 
+    void getConfigurationParameter(InverseMovementDirection& parameter);
+
     void setConfigurationParameter(const JointLimits& parameter);
+
+    void getConfigurationParameter(JointLimits& parameter);
 
     void setConfigurationParameter(const InitializeJoint& parameter);
 

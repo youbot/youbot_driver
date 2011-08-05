@@ -368,7 +368,7 @@ void JointLimits::setParameter(const int lowerLimit, const int upperLimit, const
 void JointLimits::toString(std::string& value) {
   // Bouml preserved body begin 0009C7F1
   std::stringstream ss;
-  ss << this->name << ": lower Limit" << this->lowerLimit  << " upper Limit" << this->upperLimit;
+  ss << this->name << ": lower Limit: " << this->lowerLimit  << " upper Limit: " << this->upperLimit;
   value  = ss.str();
   // Bouml preserved body end 0009C7F1
 }

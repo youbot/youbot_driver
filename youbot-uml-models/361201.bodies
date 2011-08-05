@@ -22,9 +22,9 @@ class MotorControllerTimeout
 !!!653553.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
 
 
-    if (msgType = SAP)
+    if (msgType == SAP){
       message.stctOutput.commandNumber = SGP;
-    else if (msgType = GAP) {
+    }else if (msgType == GAP) {
       message.stctOutput.commandNumber = GGP;
     } else {
       message.stctOutput.commandNumber = msgType;

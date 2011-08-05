@@ -76,7 +76,7 @@ friend class YouBotJoint;
   public:
     virtual ~YouBotJointParameterReadOnly();
 
-    void toString(std::string& value);
+    virtual void toString(std::string& value);
 
 
   protected:

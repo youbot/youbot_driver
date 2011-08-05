@@ -1604,9 +1604,9 @@ void MotorControllerTimeout::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message,
   // Bouml preserved body begin 0009F8F1
 
 
-    if (msgType = SAP)
+    if (msgType == SAP){
       message.stctOutput.commandNumber = SGP;
-    else if (msgType = GAP) {
+    }else if (msgType == GAP) {
       message.stctOutput.commandNumber = GGP;
     } else {
       message.stctOutput.commandNumber = msgType;

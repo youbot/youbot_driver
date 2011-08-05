@@ -1071,6 +1071,7 @@ ${description}
 #include \"youbot/EthercatMaster.hpp\"
 #include \"youbot/YouBotJointParameter.hpp\"
 #include \"boost/date_time/posix_time/posix_time.hpp\"
+#include <stdlib.h>
 ${namespace_start}
 ${definition}
 ${namespace_end}

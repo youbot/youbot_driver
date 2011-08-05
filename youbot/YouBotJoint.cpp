@@ -145,7 +145,7 @@ void YouBotJoint::setConfigurationParameter(const JointName& parameter) {
 
 void YouBotJoint::getConfigurationParameter(GearRatio& parameter) {
   // Bouml preserved body begin 00074171
-    parameter.value = this->storage.gearRatio;
+    parameter.setParameter(this->storage.gearRatio);
   // Bouml preserved body end 00074171
 }
 
@@ -160,7 +160,7 @@ void YouBotJoint::setConfigurationParameter(const GearRatio& parameter) {
 
 void YouBotJoint::getConfigurationParameter(EncoderTicksPerRound& parameter) {
   // Bouml preserved body begin 000741F1
-    parameter.value = this->storage.encoderTicksPerRound;
+    parameter.setParameter(this->storage.encoderTicksPerRound);
   // Bouml preserved body end 000741F1
 }
 
@@ -233,10 +233,14 @@ void YouBotJoint::setConfigurationParameter(const CalibrateJoint& parameter) {
 
 void YouBotJoint::setConfigurationParameter(const InverseMovementDirection& parameter) {
   // Bouml preserved body begin 000624F1
-
     this->storage.inverseMovementDirection = parameter.value;
-
   // Bouml preserved body end 000624F1
+}
+
+void YouBotJoint::getConfigurationParameter(InverseMovementDirection& parameter) {
+  // Bouml preserved body begin 000C9671
+    parameter.setParameter(this->storage.inverseMovementDirection);
+  // Bouml preserved body end 000C9671
 }
 
 void YouBotJoint::setConfigurationParameter(const JointLimits& parameter) {
@@ -248,6 +252,12 @@ void YouBotJoint::setConfigurationParameter(const JointLimits& parameter) {
     EthercatMaster::getInstance().setJointLimits(parameter.lowerLimit, parameter.upperLimit, storage.inverseMovementDirection, parameter.areLimitsActive, this->jointNumber);
 
   // Bouml preserved body end 000642F1
+}
+
+void YouBotJoint::getConfigurationParameter(JointLimits& parameter) {
+  // Bouml preserved body begin 000C95F1
+    parameter.setParameter(this->storage.lowerLimit, this->storage.upperLimit, this->storage.areLimitsActive);
+  // Bouml preserved body end 000C95F1
 }
 
 void YouBotJoint::setConfigurationParameter(const InitializeJoint& parameter) {

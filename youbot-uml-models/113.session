@@ -4,10 +4,12 @@ diagrams
     1163 893 100 4 0 0
 end
 show_stereotypes
-selected operation_ref 815345 // getData
+selected operation_ref 823153 // DataTrace
 open
-  attribute_ref 349937 // timeTillNextMailboxUpdate
-  class_ref 303857 // YouBotJointStorage
+  classview_ref 134641 // Joint
+  operation_ref 824433 // stopTrace
+  operation_ref 824689 // plotTrace
+  operation_ref 824561 // update
   deploymentview_ref 161137 // Deployment
 end
 end
