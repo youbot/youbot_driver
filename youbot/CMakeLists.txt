@@ -9,6 +9,7 @@ SET(YOUBOT_DRIVER_SRC
   ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripper.cpp
   ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripperParameter.cpp
   ${CMAKE_HOME_DIRECTORY}/youbot/MotorProtection.cpp
+  ${CMAKE_HOME_DIRECTORY}/youbot/DataTrace.cpp
   ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameter.cpp
   ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameterReadOnly.cpp
 	${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameterPasswordProtected.cpp
@@ -31,6 +32,7 @@ SET(YOUBOT_DRIVER_HEADERS
   ProtocolDefinitions.hpp
   YouBotJointStorage.hpp
   MotorProtection.hpp
+  DataTrace.hpp
 ../base-kinematic/FourSwedishWheelOmniBaseKinematic.hpp
 ../base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.hpp
 ../base-kinematic/WheeledBaseKinematic.hpp
@@ -62,7 +64,7 @@ SET(YOUBOT_DRIVER_CONFIG
   ${CMAKE_HOME_DIRECTORY}/config/applications.cfg
 )
 
-ADD_LIBRARY(YouBotDriver STATIC
+ADD_LIBRARY(YouBotDriver
   ${YOUBOT_DRIVER_SRC}
 )
 
