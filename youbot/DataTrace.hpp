@@ -66,6 +66,16 @@
 #include <stdlib.h>
 namespace youbot {
 
+
+enum DataTraceCntrollerMode {
+    POSITION_CONTROL_RAD,
+    POSITION_CONTROL_ENC,
+    VELOCITY_CONTROL_RAD_SEC,
+    VELOCITY_CONTROL_RPM,
+    PWM_MODE,
+    CURRENT_MODE,
+    TORQUE_MODE
+};
 ///////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -140,6 +150,8 @@ class DataTrace {
     unsigned long timeDurationMicroSec;
 
     std::vector<YouBotJointParameterReadOnly*> parameterVector;
+
+    DataTraceCntrollerMode controllerMode;
 
 };
 

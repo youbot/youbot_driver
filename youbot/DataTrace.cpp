@@ -110,14 +110,14 @@ void DataTrace::startTrace() {
     std::string parameterString;
     parameterVector.push_back(new ActualMotorVoltage);
     parameterVector.push_back(new ActualPWMDutyCycle);
- //   parameterVector.push_back(new ErrorAndStatus);
+    //   parameterVector.push_back(new ErrorAndStatus);
     parameterVector.push_back(new I2tSum);
     parameterVector.push_back(new PositionError);
     parameterVector.push_back(new PositionErrorSum);
     parameterVector.push_back(new RampGeneratorSpeed);
     parameterVector.push_back(new VelocityError);
     parameterVector.push_back(new VelocityErrorSum);
- //   parameterVector.push_back(new CalibrateJoint);
+    //   parameterVector.push_back(new CalibrateJoint);
     parameterVector.push_back(new CurrentControlSwitchingThreshold);
     parameterVector.push_back(new DParameterFirstParametersCurrentControl);
     parameterVector.push_back(new DParameterFirstParametersPositionControl);
@@ -126,7 +126,7 @@ void DataTrace::startTrace() {
     parameterVector.push_back(new DParameterSecondParametersPositionControl);
     parameterVector.push_back(new DParameterSecondParametersSpeedControl);
     parameterVector.push_back(new EncoderTicksPerRound);
- //   parameterVector.push_back(new FirmwareVersion);
+    //   parameterVector.push_back(new FirmwareVersion);
     parameterVector.push_back(new GearRatio);
     parameterVector.push_back(new IClippingParameterFirstParametersCurrentControl);
     parameterVector.push_back(new IClippingParameterFirstParametersPositionControl);
@@ -134,7 +134,7 @@ void DataTrace::startTrace() {
     parameterVector.push_back(new IClippingParameterSecondParametersCurrentControl);
     parameterVector.push_back(new IClippingParameterSecondParametersPositionControl);
     parameterVector.push_back(new IClippingParameterSecondParametersSpeedControl);
-//    parameterVector.push_back(new InitializeJoint);
+    //    parameterVector.push_back(new InitializeJoint);
     parameterVector.push_back(new InverseMovementDirection);
     parameterVector.push_back(new IParameterFirstParametersCurrentControl);
     parameterVector.push_back(new IParameterFirstParametersPositionControl);
@@ -158,11 +158,11 @@ void DataTrace::startTrace() {
     parameterVector.push_back(new TorqueConstant);
     parameterVector.push_back(new ActivateOvervoltageProtection);
     parameterVector.push_back(new ActualCommutationOffset);
- //   parameterVector.push_back(new ApproveProtectedParameters);
+    //   parameterVector.push_back(new ApproveProtectedParameters);
     parameterVector.push_back(new BEMFConstant);
- //   parameterVector.push_back(new ClearI2tExceededFlag);
+    //   parameterVector.push_back(new ClearI2tExceededFlag);
     parameterVector.push_back(new ClearISumIfPWMReachesMaximum);
- //   parameterVector.push_back(new ClearMotorControllerTimeoutFlag);
+    //   parameterVector.push_back(new ClearMotorControllerTimeoutFlag);
     parameterVector.push_back(new ClearTargetDistance);
     parameterVector.push_back(new CommutationCompensationClockwise);
     parameterVector.push_back(new CommutationCompensationCounterClockwise);
@@ -192,7 +192,7 @@ void DataTrace::startTrace() {
     parameterVector.push_back(new PWMHysteresis);
     parameterVector.push_back(new PWMLimit);
     parameterVector.push_back(new PWMSchemeBlockCommutation);
- //   parameterVector.push_back(new ReinitializationSinusoidalCommutation);
+    //   parameterVector.push_back(new ReinitializationSinusoidalCommutation);
     parameterVector.push_back(new ReversingEncoderDirection);
     parameterVector.push_back(new SetEncoderCounterZeroAtNextNChannel);
     parameterVector.push_back(new SetEncoderCounterZeroAtNextSwitch);
@@ -205,7 +205,7 @@ void DataTrace::startTrace() {
     for (int i = 0; i < parameterVector.size(); i++) {
       joint.getConfigurationParameter(*(parameterVector[i]));
       parameterVector[i]->toString(parameterString);
-   //   std::cout << parameterString << std::endl;
+      //   std::cout << parameterString << std::endl;
       parametersBeginTraceFile << parameterString << std::endl;
     }
     parametersBeginTraceFile.close();
@@ -240,6 +240,7 @@ void DataTrace::plotTrace() {
 void DataTrace::updateTrace(const JointAngleSetpoint& setpoint) {
   // Bouml preserved body begin 000C9071
     angleSetpoint = setpoint;
+    controllerMode = POSITION_CONTROL_RAD;
     this->update();
   // Bouml preserved body end 000C9071
 }
@@ -247,6 +248,7 @@ void DataTrace::updateTrace(const JointAngleSetpoint& setpoint) {
 void DataTrace::updateTrace(const JointVelocitySetpoint& setpoint) {
   // Bouml preserved body begin 000C90F1
     velocitySetpoint = setpoint;
+    controllerMode = VELOCITY_CONTROL_RAD_SEC;
     this->update();
   // Bouml preserved body end 000C90F1
 }
@@ -254,6 +256,7 @@ void DataTrace::updateTrace(const JointVelocitySetpoint& setpoint) {
 void DataTrace::updateTrace(const JointRoundsPerMinuteSetpoint& setpoint) {
   // Bouml preserved body begin 000C9171
     roundsPerMinuteSetpoint = setpoint;
+    controllerMode = VELOCITY_CONTROL_RPM;
     this->update();
   // Bouml preserved body end 000C9171
 }
@@ -261,6 +264,7 @@ void DataTrace::updateTrace(const JointRoundsPerMinuteSetpoint& setpoint) {
 void DataTrace::updateTrace(const JointCurrentSetpoint& setpoint) {
   // Bouml preserved body begin 000C91F1
     currentSetpoint = setpoint;
+    controllerMode = CURRENT_MODE;
     this->update();
   // Bouml preserved body end 000C91F1
 }
@@ -268,6 +272,7 @@ void DataTrace::updateTrace(const JointCurrentSetpoint& setpoint) {
 void DataTrace::updateTrace(const JointTorqueSetpoint& setpoint) {
   // Bouml preserved body begin 000C9271
     torqueSetpoint = setpoint;
+    controllerMode = TORQUE_MODE;
     this->update();
   // Bouml preserved body end 000C9271
 }
@@ -275,6 +280,7 @@ void DataTrace::updateTrace(const JointTorqueSetpoint& setpoint) {
 void DataTrace::updateTrace(const JointPWMSetpoint& setpoint) {
   // Bouml preserved body begin 000C92F1
     PWMSetpoint = setpoint;
+    controllerMode = PWM_MODE;
     this->update();
   // Bouml preserved body end 000C92F1
 }
@@ -282,6 +288,7 @@ void DataTrace::updateTrace(const JointPWMSetpoint& setpoint) {
 void DataTrace::updateTrace(const JointEncoderSetpoint& setpoint) {
   // Bouml preserved body begin 000C9371
     encoderSetpoint = setpoint;
+    controllerMode = POSITION_CONTROL_ENC;
     this->update();
   // Bouml preserved body end 000C9371
 }
@@ -299,15 +306,84 @@ void DataTrace::update() {
     joint.getData(sensedRoundsPerMinute);
     joint.getData(sensedCurrent);
     joint.getData(sensedTorque);
+    std::stringstream angleSet, angleEncSet, velSet, velRPMSet, currentSet, pwmSet, torqueSet;
+
+    switch (controllerMode) {
+      case POSITION_CONTROL_RAD:
+        angleSet << angleSetpoint.angle.value();
+        angleEncSet << "NaN";
+        velSet << "NaN";
+        velRPMSet << "NaN";
+        currentSet << "NaN";
+        pwmSet << "NaN";
+        torqueSet << "NaN";
+        break;
+      case POSITION_CONTROL_ENC:
+        angleSet << "NaN";
+        angleEncSet << encoderSetpoint.encoderTicks;
+        velSet << "NaN";
+        velRPMSet << "NaN";
+        currentSet << "NaN";
+        pwmSet << "NaN";
+        torqueSet << "NaN";
+        break;
+      case VELOCITY_CONTROL_RAD_SEC:
+        angleSet << "NaN";
+        angleEncSet << "NaN";
+        velSet << velocitySetpoint.angularVelocity.value();
+        velRPMSet << "NaN";
+        currentSet << "NaN";
+        pwmSet << "NaN";
+        torqueSet << "NaN";
+        break;
+      case VELOCITY_CONTROL_RPM:
+        angleSet << "NaN";
+        angleEncSet << "NaN";
+        velSet << "NaN";
+        velRPMSet << roundsPerMinuteSetpoint.rpm;
+        currentSet << "NaN";
+        pwmSet << "NaN";
+        torqueSet << "NaN";
+        break;
+      case PWM_MODE:
+        angleSet << "NaN";
+        angleEncSet << "NaN";
+        velSet << "NaN";
+        velRPMSet << "NaN";
+        currentSet << "NaN";
+        pwmSet << PWMSetpoint.pwm;
+        torqueSet << "NaN";
+        break;
+      case CURRENT_MODE:
+        angleSet << "NaN";
+        angleEncSet << "NaN";
+        velSet << "NaN";
+        velRPMSet << "NaN";
+        currentSet << currentSetpoint.current.value();
+        pwmSet << "NaN";
+        torqueSet << "NaN";
+        break;
+      case TORQUE_MODE:
+        angleSet << "NaN";
+        angleEncSet << "NaN";
+        velSet << "NaN";
+        velRPMSet << "NaN";
+        currentSet << "NaN";
+        pwmSet << "NaN";
+        torqueSet << torqueSetpoint.torque.value();
+        break;
+    };
+
+
 
     file << timeDurationMicroSec //1
-            << " " << angleSetpoint.angle.value() //2
-            << " " << velocitySetpoint.angularVelocity.value() //3
-            << " " << roundsPerMinuteSetpoint.rpm //4
-            << " " << currentSetpoint.current.value() //5
-            << " " << torqueSetpoint.torque.value() //6
-            << " " << PWMSetpoint.pwm //7
-            << " " << encoderSetpoint.encoderTicks //8
+            << " " << angleSet.str() //2
+            << " " << velSet.str() //3
+            << " " << velRPMSet.str() //4
+            << " " << currentSet.str() //5
+            << " " << torqueSet.str() //6
+            << " " << pwmSet.str() //7
+            << " " << angleEncSet.str() //8
 
             << " " << sensedAngle.angle.value() //9
             << " " << sensedEncoderTicks.encoderTicks //10

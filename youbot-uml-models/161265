@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 51
+  revision 52
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -1073,6 +1073,16 @@ ${description}
 #include \"boost/date_time/posix_time/posix_time.hpp\"
 #include <stdlib.h>
 ${namespace_start}
+
+enum DataTraceCntrollerMode {
+    POSITION_CONTROL_RAD,
+    POSITION_CONTROL_ENC,
+    VELOCITY_CONTROL_RAD_SEC,
+    VELOCITY_CONTROL_RPM,
+    PWM_MODE,
+    CURRENT_MODE,
+    TORQUE_MODE
+};
 ${definition}
 ${namespace_end}
 #endif

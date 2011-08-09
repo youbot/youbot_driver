@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 186
+  revision 187
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -23682,6 +23682,16 @@ ${inlines}
 
       attribute 709105 "parameterVector"
 	private explicit_type "std::vector<YouBotJointParameterReadOnly*>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 715633 "controllerMode"
+	private explicit_type "DataTraceCntrollerMode"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
