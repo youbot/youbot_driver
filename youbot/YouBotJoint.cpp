@@ -396,6 +396,10 @@ void YouBotJoint::getData(JointData& data) {
 void YouBotJoint::setData(const JointAngleSetpoint& data, SyncMode communicationMode) {
   // Bouml preserved body begin 0003C1F1
 
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    this->parseYouBotErrorFlags(messageBuffer);
+    
     if (storage.gearRatio == 0) {
       throw std::out_of_range("A Gear Ratio of zero is not allowed");
     }
@@ -423,7 +427,6 @@ void YouBotJoint::setData(const JointAngleSetpoint& data, SyncMode communication
       }
     }
 
-    YouBotSlaveMsg messageBuffer;
     messageBuffer.stctOutput.controllerMode = POSITION_CONTROL;
     messageBuffer.stctOutput.value = (int32) round((data.angle.value() * ((double) storage.encoderTicksPerRound / (2.0 * M_PI))) / storage.gearRatio);
 
@@ -442,6 +445,10 @@ void YouBotJoint::setData(const JointAngleSetpoint& data, SyncMode communication
 void YouBotJoint::setData(const JointEncoderSetpoint& data, SyncMode communicationMode) {
   // Bouml preserved body begin 000C2371
 
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    this->parseYouBotErrorFlags(messageBuffer);
+  
     if(storage.areLimitsActive){
 
       if (!((data.encoderTicks < this->storage.upperLimit) && (data.encoderTicks > this->storage.lowerLimit))) {
@@ -452,7 +459,6 @@ void YouBotJoint::setData(const JointEncoderSetpoint& data, SyncMode communicati
       }
     }
 
-    YouBotSlaveMsg messageBuffer;
     messageBuffer.stctOutput.controllerMode = POSITION_CONTROL;
     messageBuffer.stctOutput.value = data.encoderTicks;
     
@@ -494,7 +500,11 @@ void YouBotJoint::getData(JointSensedAngle& data) {
 ///@param communicationMode at the moment only non blocking communication is implemented
 void YouBotJoint::setData(const JointVelocitySetpoint& data, SyncMode communicationMode) {
   // Bouml preserved body begin 0003C371
+  
     YouBotSlaveMsg messageBuffer;
+    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    this->parseYouBotErrorFlags(messageBuffer);
+  
     messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
 
     if (storage.gearRatio == 0) {
@@ -546,6 +556,9 @@ void YouBotJoint::getData(JointSensedRoundsPerMinute& data) {
 void YouBotJoint::setData(const JointRoundsPerMinuteSetpoint& data, SyncMode communicationMode) {
   // Bouml preserved body begin 000AECF1
     YouBotSlaveMsg messageBuffer;
+    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    this->parseYouBotErrorFlags(messageBuffer);
+    
     messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
     messageBuffer.stctOutput.value = data.rpm;
     
@@ -591,6 +604,9 @@ void YouBotJoint::getData(JointSensedCurrent& data) {
 void YouBotJoint::setData(const JointCurrentSetpoint& data, SyncMode communicationMode) {
   // Bouml preserved body begin 000955F1
     YouBotSlaveMsg messageBuffer;
+    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    this->parseYouBotErrorFlags(messageBuffer);
+    
     messageBuffer.stctOutput.controllerMode = CURRENT_MODE;
     messageBuffer.stctOutput.value = (int32) (data.current.value() * 1000.0);  //convert from Ampere to milli Ampere
     
@@ -607,6 +623,9 @@ void YouBotJoint::setData(const JointCurrentSetpoint& data, SyncMode communicati
 void YouBotJoint::setData(const JointPWMSetpoint& data, SyncMode communicationMode) {
   // Bouml preserved body begin 00095671
     YouBotSlaveMsg messageBuffer;
+    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    this->parseYouBotErrorFlags(messageBuffer);
+    
     messageBuffer.stctOutput.controllerMode = PWM_MODE;
     messageBuffer.stctOutput.value = data.pwm;
     
@@ -638,6 +657,9 @@ void YouBotJoint::getData(JointSensedEncoderTicks& data) {
 void YouBotJoint::setData(const SlaveMessageOutput& data, SyncMode communicationMode) {
   // Bouml preserved body begin 000C5671
     YouBotSlaveMsg messageBuffer;
+    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    this->parseYouBotErrorFlags(messageBuffer);
+    
     messageBuffer.stctOutput = data;
   
     EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
@@ -883,28 +905,28 @@ void YouBotJoint::stopJoint() {
 void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
   // Bouml preserved body begin 00044AF1
     std::stringstream errorMessageStream;
-    errorMessageStream << "Joint " << this->jointNumber << " ";
+    errorMessageStream << "Joint " << this->jointNumber << ": ";
     std::string errorMessage;
     errorMessage = errorMessageStream.str();
 
 
     if (messageBuffer.stctInput.errorFlags & OVER_CURRENT) {
-      LOG(error) << errorMessage << "got over current";
+      LOG(error) << errorMessage << "over current";
       //    throw JointErrorException(errorMessage + "got over current");
     }
 
     if (messageBuffer.stctInput.errorFlags & UNDER_VOLTAGE) {
-      LOG(error) << errorMessage << "got under voltage";
+      LOG(error) << errorMessage << "under voltage";
       //    throw JointErrorException(errorMessage + "got under voltage");
     }
 
     if (messageBuffer.stctInput.errorFlags & OVER_VOLTAGE) {
-      LOG(error) << errorMessage << "got over voltage";
+      LOG(error) << errorMessage << "over voltage";
       //   throw JointErrorException(errorMessage + "got over voltage");
     }
 
     if (messageBuffer.stctInput.errorFlags & OVER_TEMPERATURE) {
-      LOG(error) << errorMessage << "got over temperature";
+      LOG(error) << errorMessage << "over temperature";
       //   throw JointErrorException(errorMessage + "got over temperature");
     }
 
@@ -914,17 +936,17 @@ void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
     }
 
     if (messageBuffer.stctInput.errorFlags & HALL_SENSOR_ERROR) {
-      LOG(error) << errorMessage << "got hall sensor problem";
+      LOG(error) << errorMessage << "hall sensor problem";
       //   throw JointErrorException(errorMessage + "got hall sensor problem");
     }
 
     if (messageBuffer.stctInput.errorFlags & ENCODER_ERROR) {
-      LOG(error) << errorMessage << "got encoder problem";
+      LOG(error) << errorMessage << "encoder problem";
       //   throw JointErrorException(errorMessage + "got encoder problem");
     }
 
      if (messageBuffer.stctInput.errorFlags & INITIALIZATION_ERROR) {
-      LOG(error) << errorMessage << "got inizialization problem";
+      LOG(error) << errorMessage << "initialization problem";
       //   throw JointErrorException(errorMessage + "got motor winding problem");
     }
 
@@ -949,7 +971,7 @@ void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
     }
 
     if (messageBuffer.stctInput.errorFlags & EMERGENCY_STOP) {
-      LOG(info) << errorMessage << "has emergency stop active";
+      LOG(info) << errorMessage << "emergency stop active";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
@@ -963,13 +985,13 @@ void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
-    if (messageBuffer.stctInput.errorFlags & INITIALIZED) {
-    //  LOG(info) << errorMessage << "is initialized";
+    if (!(messageBuffer.stctInput.errorFlags & INITIALIZED)) {
+      LOG(info) << errorMessage << "not initialized";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & TIMEOUT) {
-      LOG(error) << errorMessage << "has a timeout";
+      LOG(error) << errorMessage << "exceeded timeout";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
