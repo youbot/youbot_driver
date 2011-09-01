@@ -1,15 +1,9 @@
-window_sizes 1680 976 511 1163 895 0
-diagrams
-  active  classdiagram_ref 187505 // system
-    1163 893 100 4 0 0
-end
+window_sizes 1680 976 454 1220 893 0
 show_stereotypes
-selected attribute_ref 715633 // controllerMode
 open
   classview_ref 134641 // Joint
-  operation_ref 824433 // stopTrace
-  operation_ref 824689 // plotTrace
-  operation_ref 824561 // update
+  class_ref 286321 // YouBotManipulator
+  class_ref 286193 // YouBotBase
   deploymentview_ref 161137 // Deployment
 end
 end

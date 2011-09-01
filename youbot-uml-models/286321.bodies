@@ -306,15 +306,6 @@ class YouBotManipulator
     joints[3].getData(data[3]);
     joints[4].getData(data[4]);
     EthercatMaster::getInstance().AutomaticReceiveOn(true);
-!!!589809.cpp!!!	getJointData(out data : std::vector<JointSensedTemperature>) : void
-    data.resize(ARMJOINTS);
-    EthercatMaster::getInstance().AutomaticReceiveOn(false);
-    joints[0].getData(data[0]);
-    joints[1].getData(data[1]);
-    joints[2].getData(data[2]);
-    joints[3].getData(data[3]);
-    joints[4].getData(data[4]);
-    EthercatMaster::getInstance().AutomaticReceiveOn(true);
 !!!589937.cpp!!!	getJointData(out data : std::vector<JointSensedCurrent>) : void
     data.resize(ARMJOINTS);
     EthercatMaster::getInstance().AutomaticReceiveOn(false);

@@ -244,14 +244,6 @@ class YouBotBase
     joints[2].getData(data[2]);
     joints[3].getData(data[3]);
     EthercatMaster::getInstance().AutomaticReceiveOn(true);
-!!!589041.cpp!!!	getJointData(out data : std::vector<JointSensedTemperature>) : void
-    data.resize(BASEJOINTS);
-    EthercatMaster::getInstance().AutomaticReceiveOn(false);
-    joints[0].getData(data[0]);
-    joints[1].getData(data[1]);
-    joints[2].getData(data[2]);
-    joints[3].getData(data[3]);
-    EthercatMaster::getInstance().AutomaticReceiveOn(true);
 !!!589169.cpp!!!	getJointData(out data : std::vector<JointSensedCurrent>) : void
     data.resize(BASEJOINTS);
     EthercatMaster::getInstance().AutomaticReceiveOn(false);

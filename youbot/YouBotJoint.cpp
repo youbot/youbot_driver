@@ -570,21 +570,6 @@ void YouBotJoint::setData(const JointRoundsPerMinuteSetpoint& data, SyncMode com
   // Bouml preserved body end 000AECF1
 }
 
-///gets temperature of the motor which have been measured by a thermometer
-///@param data returns the actual temperature by reference
-void YouBotJoint::getData(JointSensedTemperature& data) {
-  // Bouml preserved body begin 0003C271
-    YouBotSlaveMsg messageBuffer;
-    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
-    this->parseYouBotErrorFlags(messageBuffer);
-
-    //the formular is taken from the TMCM-174/841: EtherCAT Communication Protocol
-    data.temperature = (25.0 + (((messageBuffer.stctInput.driverTemperature - 1.43) / (3.3 * 4095)) / 0.0043)) * boost::units::celsius::degree;
- //   data.temperature = ((25.0 + ((messageBuffer.stctInput.driverTemperature * (3.3 / 4096)) - 1.43)) / 0.0043) * boost::units::celsius::degree;
-
-  // Bouml preserved body end 0003C271
-}
-
 ///gets the motor current of one joint which have been measured by a hal sensor
 ///@param data returns the actual motor current by reference
 void YouBotJoint::getData(JointSensedCurrent& data) {

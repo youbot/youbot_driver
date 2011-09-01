@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 187
+  revision 189
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -733,23 +733,6 @@ ${inlines}
 	comment "///sets the velocity in round per minute to one joint
 ///@param data the setpoint velocity
 ///@param communicationMode at the moment only non blocking communication is implemented"
-      end
-
-      operation 246385 "getData"
-	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
-	nparams 1
-	  param out name "data" type class_ref 162545 // JointSensedTemperature
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-	comment "///gets temperature of the motor which have been measured by a thermometer
-///@param data returns the actual temperature by reference"
       end
 
       operation 253425 "getData"
@@ -22546,24 +22529,6 @@ ${inlines}
 ///@param data returns the velocities by reference"
       end
 
-      operation 589809 "getJointData"
-	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
-	nparams 1
-	  param out name "data" explicit_type "std::vector<JointSensedTemperature>"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-	comment "///gets temperatures of all manipulator motors which have been measured by a thermometer
-///These values are all read at the same time from the different joints 
-///@param data returns the actual temperatures by reference"
-      end
-
       operation 589937 "getJointData"
 	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 1
@@ -22927,24 +22892,6 @@ ${inlines}
 	comment "///gets the velocities of all base joints which have been calculated from the actual encoder values
 ///These values are all read at the same time from the different joints 
 ///@param data returns the velocities by reference"
-      end
-
-      operation 589041 "getJointData"
-	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
-	nparams 1
-	  param out name "data" explicit_type "std::vector<JointSensedTemperature>"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-	comment "///gets temperatures of all base motors which have been measured by a thermometer
-///These values are all read at the same time from the different joints 
-///@param data returns the actual temperatures by reference"
       end
 
       operation 589169 "getJointData"

@@ -375,21 +375,6 @@ void YouBotBase::getJointData(std::vector<JointSensedVelocity>& data) {
   // Bouml preserved body end 0008FC71
 }
 
-///gets temperatures of all base motors which have been measured by a thermometer
-///These values are all read at the same time from the different joints 
-///@param data returns the actual temperatures by reference
-void YouBotBase::getJointData(std::vector<JointSensedTemperature>& data) {
-  // Bouml preserved body begin 0008FCF1
-    data.resize(BASEJOINTS);
-    EthercatMaster::getInstance().AutomaticReceiveOn(false);
-    joints[0].getData(data[0]);
-    joints[1].getData(data[1]);
-    joints[2].getData(data[2]);
-    joints[3].getData(data[3]);
-    EthercatMaster::getInstance().AutomaticReceiveOn(true);
-  // Bouml preserved body end 0008FCF1
-}
-
 ///gets the motor currents of all base joints which have been measured by a hal sensor
 ///These values are all read at the same time from the different joints 
 ///@param data returns the actual motor currents by reference

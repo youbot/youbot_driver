@@ -109,11 +109,6 @@ class YouBotManipulator {
     ///@param data returns the velocities by reference
     virtual void getJointData(std::vector<JointSensedVelocity>& data);
 
-    ///gets temperatures of all manipulator motors which have been measured by a thermometer
-    ///These values are all read at the same time from the different joints 
-    ///@param data returns the actual temperatures by reference
-    virtual void getJointData(std::vector<JointSensedTemperature>& data);
-
     ///gets the motor currents of all manipulator joints which have been measured by a hal sensor
     ///These values are all read at the same time from the different joints 
     ///@param data returns the actual motor currents by reference
