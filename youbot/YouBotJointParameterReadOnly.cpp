@@ -618,5 +618,49 @@ void ActualMotorDriverTemperature::setYouBotMailboxMsg(const YouBotSlaveMailboxM
   // Bouml preserved body end 000CB2F1
 }
 
+ActualModuleSupplyCurrent::ActualModuleSupplyCurrent() {
+  // Bouml preserved body begin 000CB471
+    this->name = "ActualModuleSupplyCurrent";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 000CB471
+}
+
+ActualModuleSupplyCurrent::~ActualModuleSupplyCurrent() {
+  // Bouml preserved body begin 000CB4F1
+  // Bouml preserved body end 000CB4F1
+}
+
+void ActualModuleSupplyCurrent::getParameter(quantity<si::current>& parameter) const {
+  // Bouml preserved body begin 000CB571
+    parameter = this->value;
+  // Bouml preserved body end 000CB571
+}
+
+void ActualModuleSupplyCurrent::toString(std::string& value) {
+  // Bouml preserved body begin 000CB5F1
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 000CB5F1
+}
+
+void ActualModuleSupplyCurrent::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
+  // Bouml preserved body begin 000CB671
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 157; //ActualModuleSupplyCurrent
+  //  message.stctOutput.value = value;
+
+  // Bouml preserved body end 000CB671
+}
+
+void ActualModuleSupplyCurrent::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
+  // Bouml preserved body begin 000CB6F1
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+      this->value = (double)message.stctInput.value /1000.0 * ampere; //convert from milli A to A
+    }
+  // Bouml preserved body end 000CB6F1
+}
+
 
 } // namespace youbot

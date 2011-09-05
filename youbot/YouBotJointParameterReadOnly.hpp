@@ -423,6 +423,37 @@ friend class YouBotJoint;
     ::ParameterType parameterType;
 
 };
+///////////////////////////////////////////////////////////////////////////////
+/// Get actual supply current of the module.
+///////////////////////////////////////////////////////////////////////////////
+class ActualModuleSupplyCurrent : public YouBotJointParameterReadOnly {
+friend class YouBotJoint;
+  public:
+    ActualModuleSupplyCurrent();
+
+    virtual ~ActualModuleSupplyCurrent();
+
+    void getParameter(quantity<si::current>& parameter) const;
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ::ParameterType getType() const {return this->parameterType;};
+
+    quantity<si::current> value;
+
+    std::string name;
+
+    ::ParameterType parameterType;
+
+};
 
 } // namespace youbot
 #endif
