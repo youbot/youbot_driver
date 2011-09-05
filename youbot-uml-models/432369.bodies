@@ -1,0 +1,24 @@
+class ActualMotorDriverTemperature
+!!!831601.cpp!!!	ActualMotorDriverTemperature()
+    this->name = "ActualMotorDriverTemperature";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!831857.cpp!!!	getParameter(out parameter : quantity<celsius::temperature>) : void
+    parameter = this->value;
+!!!831985.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+!!!832113.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 152; //ActualMotorDriverTemperature
+  //  message.stctOutput.value = value;
+
+!!!832241.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+      double materialConstant = 3434;
+      double R_NTC = ((double)9011.2/message.stctInput.value) - 2.2;
+      double nominator = materialConstant * 298.16;
+      double denominator = materialConstant + (log(R_NTC/10.0) * 298.16);
+      this->value = ((nominator/denominator) - 273.16) * celsius::degree;
+    }

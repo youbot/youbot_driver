@@ -1,9 +1,11 @@
-window_sizes 1680 976 454 1220 893 0
+window_sizes 1680 976 454 1220 895 0
 show_stereotypes
+selected class_ref 295537 // SineInitializationVelocity
 open
-  classview_ref 134641 // Joint
-  class_ref 286321 // YouBotManipulator
-  class_ref 286193 // YouBotBase
+  class_ref 162545 // JointSensedTemperature
+  class_ref 169841 // JointSensedCurrent
+  class_ref 295537 // SineInitializationVelocity
+  class_ref 432497 // ActualModuleSupplyCurrent
   deploymentview_ref 161137 // Deployment
 end
 end

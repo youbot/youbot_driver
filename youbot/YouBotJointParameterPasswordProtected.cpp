@@ -2240,5 +2240,62 @@ void ThermalWindingTimeConstant::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg
   // Bouml preserved body end 000A0271
 }
 
+MotorHaltedVelocity::MotorHaltedVelocity() {
+  // Bouml preserved body begin 000CB871
+    this->name = "MotorHaltedVelocity";
+    this->lowerLimit = INT_MIN;
+    this->upperLimit = INT_MAX;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 000CB871
+}
+
+MotorHaltedVelocity::~MotorHaltedVelocity() {
+  // Bouml preserved body begin 000CB8F1
+  // Bouml preserved body end 000CB8F1
+}
+
+void MotorHaltedVelocity::getParameter(int& parameter) const {
+  // Bouml preserved body begin 000CB971
+    parameter = this->value;
+  // Bouml preserved body end 000CB971
+}
+
+void MotorHaltedVelocity::setParameter(const int parameter) {
+  // Bouml preserved body begin 000CB9F1
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+  // Bouml preserved body end 000CB9F1
+}
+
+void MotorHaltedVelocity::toString(std::string& value) {
+  // Bouml preserved body begin 000CBA71
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 000CBA71
+}
+
+void MotorHaltedVelocity::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
+  // Bouml preserved body begin 000CBAF1
+
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 9; //MotorHaltedVelocity
+    message.stctOutput.value = value;
+  // Bouml preserved body end 000CBAF1
+}
+
+void MotorHaltedVelocity::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
+  // Bouml preserved body begin 000CBB71
+    this->value = (int)message.stctInput.value;
+  // Bouml preserved body end 000CBB71
+}
+
 
 } // namespace youbot

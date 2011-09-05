@@ -378,6 +378,12 @@ class YouBotJoint
       messageBuffer.stctOutput.value *= -1;
     }
     EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+!!!831473.cpp!!!	getData(out data : JointSensedPWM) : void
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    this->parseYouBotErrorFlags(messageBuffer);
+
+    data.pwm = messageBuffer.stctInput.actualPWM;
 !!!611953.cpp!!!	setData(in data : JointPWMSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
     YouBotSlaveMsg messageBuffer;
     messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);

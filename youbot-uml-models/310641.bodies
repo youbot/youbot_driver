@@ -24,7 +24,7 @@ class ClearTargetDistance
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
     message.stctOutput.typeNumber = 9; //ClearTargetDistance
-    message.stctOutput.value = value; //TODO do convertion
+    message.stctOutput.value = value;
 
 !!!498161.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
-    this->value = message.stctInput.value; //TODO do convertion
+    this->value = message.stctInput.value;

@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 52
+  revision 53
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -476,6 +476,8 @@ ${namespace_end}"
 	class_ref 320753 // VelocityErrorSum
 	class_ref 361073 // RampGeneratorSpeed
 	class_ref 361841 // I2tSum
+	class_ref 432369 // ActualMotorDriverTemperature
+	class_ref 432497 // ActualModuleSupplyCurrent
       end
       comment "/****************************************************************
  *
@@ -600,6 +602,8 @@ ${namespace_end}"
 	class_ref 319857 // IParameterSecondParametersCurrentControl
 	class_ref 319985 // DParameterSecondParametersCurrentControl
 	class_ref 320113 // IClippingParameterSecondParametersCurrentControl
+	class_ref 310385 // MaximumVelocityToSetPosition
+	class_ref 310769 // PositionTargetReachedDistance
       end
       comment "/****************************************************************
  *
@@ -688,7 +692,6 @@ ${namespace_end}"
 	class_ref 348017 // ApproveProtectedParameters
 	class_ref 321009 // BEMFConstant
 	class_ref 362097 // ClearI2tExceededFlag
-	class_ref 311153 // ClearISumIfPWMReachesMaximum
 	class_ref 361329 // ClearMotorControllerTimeoutFlag
 	class_ref 310641 // ClearTargetDistance
 	class_ref 295665 // CommutationCompensationClockwise
@@ -696,7 +699,6 @@ ${namespace_end}"
 	class_ref 296305 // CommutationMode
 	class_ref 341233 // CommutationMotorCurrent
 	class_ref 310897 // CurrentControlLoopDelay
-	class_ref 321649 // EncoderNullPolarity
 	class_ref 296945 // EncoderResolution
 	class_ref 318193 // EncoderStopSwitch
 	class_ref 297329 // HallSensorPolarityReversal
@@ -707,15 +709,11 @@ ${namespace_end}"
 	class_ref 320881 // MassInertiaConstant
 	class_ref 293233 // MaximumMotorCurrent
 	class_ref 321393 // MaximumPWMChangePerPIDInterval
-	class_ref 310385 // MaximumVelocityToSetPosition
 	class_ref 296689 // MotorCoilResistance
-	class_ref 296561 // MotorContollerGearRatio
 	class_ref 361201 // MotorControllerTimeout
 	class_ref 297201 // MotorPoles
 	class_ref 361585 // OperationalTime
-	class_ref 296177 // PIDControllerState
 	class_ref 293489 // PIDControlTime
-	class_ref 310769 // PositionTargetReachedDistance
 	class_ref 311025 // PWMHysteresis
 	class_ref 310513 // PWMLimit
 	class_ref 296433 // PWMSchemeBlockCommutation
@@ -728,6 +726,7 @@ ${namespace_end}"
 	class_ref 295537 // SineInitializationVelocity
 	class_ref 318449 // StopSwitchPolarity
 	class_ref 361457 // ThermalWindingTimeConstant
+	class_ref 432625 // MotorHaltedVelocity
       end
       comment "/****************************************************************
  *

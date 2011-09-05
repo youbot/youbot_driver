@@ -1411,7 +1411,7 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// Velocity for sine initialization.
+/// Velocity for sine initialization. [rpm]
 ///////////////////////////////////////////////////////////////////////////////
 class SineInitializationVelocity : public YouBotJointParameterPasswordProtected {
 friend class YouBotJoint;
@@ -1521,6 +1521,44 @@ friend class YouBotJoint;
     quantity<si::time> lowerLimit;
 
     quantity<si::time> value;
+
+    std::string name;
+
+    ::ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// If the actual speed is below this value the motor halted flag will be set. [rpm]
+
+///////////////////////////////////////////////////////////////////////////////
+class MotorHaltedVelocity : public YouBotJointParameterPasswordProtected {
+friend class YouBotJoint;
+  public:
+    MotorHaltedVelocity();
+
+    virtual ~MotorHaltedVelocity();
+
+    void getParameter(int& parameter) const;
+
+    void setParameter(const int parameter);
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ::ParameterType getType() const {return this->parameterType;};
+
+    int upperLimit;
+
+    int lowerLimit;
+
+    int value;
 
     std::string name;
 
