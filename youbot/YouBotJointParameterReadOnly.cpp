@@ -570,5 +570,53 @@ void I2tSum::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const You
   // Bouml preserved body end 000A0FF1
 }
 
+ActualMotorDriverTemperature::ActualMotorDriverTemperature() {
+  // Bouml preserved body begin 000CB071
+    this->name = "ActualMotorDriverTemperature";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 000CB071
+}
+
+ActualMotorDriverTemperature::~ActualMotorDriverTemperature() {
+  // Bouml preserved body begin 000CB0F1
+  // Bouml preserved body end 000CB0F1
+}
+
+void ActualMotorDriverTemperature::getParameter(quantity<celsius::temperature>& parameter) const {
+  // Bouml preserved body begin 000CB171
+    parameter = this->value;
+  // Bouml preserved body end 000CB171
+}
+
+void ActualMotorDriverTemperature::toString(std::string& value) {
+  // Bouml preserved body begin 000CB1F1
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 000CB1F1
+}
+
+void ActualMotorDriverTemperature::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
+  // Bouml preserved body begin 000CB271
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 152; //ActualMotorDriverTemperature
+  //  message.stctOutput.value = value;
+
+  // Bouml preserved body end 000CB271
+}
+
+void ActualMotorDriverTemperature::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
+  // Bouml preserved body begin 000CB2F1
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+      double materialConstant = 3434;
+      double R_NTC = ((double)9011.2/message.stctInput.value) - 2.2;
+      double nominator = materialConstant * 298.16;
+      double denominator = materialConstant + (log(R_NTC/10.0) * 298.16);
+      this->value = ((nominator/denominator) - 273.16) * celsius::degree;
+    }
+  // Bouml preserved body end 000CB2F1
+}
+
 
 } // namespace youbot

@@ -392,6 +392,37 @@ friend class YouBotJoint;
     ::ParameterType parameterType;
 
 };
+///////////////////////////////////////////////////////////////////////////////
+/// Actual temperature of the motor driver. 
+///////////////////////////////////////////////////////////////////////////////
+class ActualMotorDriverTemperature : public YouBotJointParameterReadOnly {
+friend class YouBotJoint;
+  public:
+    ActualMotorDriverTemperature();
+
+    virtual ~ActualMotorDriverTemperature();
+
+    void getParameter(quantity<celsius::temperature>& parameter) const;
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ::ParameterType getType() const {return this->parameterType;};
+
+    quantity<celsius::temperature> value;
+
+    std::string name;
+
+    ::ParameterType parameterType;
+
+};
 
 } // namespace youbot
 #endif
