@@ -182,6 +182,10 @@ class YouBotJoint : public Joint {
     ///@param communicationMode at the moment only non blocking communication is implemented
     virtual void setData(const JointCurrentSetpoint& data, SyncMode communicationMode = NON_BLOCKING);
 
+    ///gets the actual PWM value of one joint
+    ///@param data returns the PWM value by reference
+    virtual void getData(JointSensedPWM& data);
+
     ///commands a pulse-width modulation to one joint
     ///@param data the to command pulse-width modulation
     ///@param communicationMode at the moment only non blocking communication is implemented

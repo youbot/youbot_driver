@@ -153,6 +153,8 @@ class DataTrace {
 
     DataTraceCntrollerMode controllerMode;
 
+    JointSensedPWM actualPWM;
+
 };
 
 } // namespace youbot

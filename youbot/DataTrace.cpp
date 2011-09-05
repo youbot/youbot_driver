@@ -104,7 +104,8 @@ void DataTrace::startTrace() {
             << "POSITION_REACHED" << " "
             << "INITIALIZED" << " "
             << "TIMEOUT" << " "
-            << "I2T_EXCEEDED" << std::endl;
+            << "I2T_EXCEEDED" << " "
+            << "actual PWM"<< std::endl;
 
     parametersBeginTraceFile.open("ParametersAtBegin", std::fstream::out | std::fstream::trunc);
     std::string parameterString;
@@ -161,7 +162,6 @@ void DataTrace::startTrace() {
     //   parameterVector.push_back(new ApproveProtectedParameters);
     parameterVector.push_back(new BEMFConstant);
     //   parameterVector.push_back(new ClearI2tExceededFlag);
-    parameterVector.push_back(new ClearISumIfPWMReachesMaximum);
     //   parameterVector.push_back(new ClearMotorControllerTimeoutFlag);
     parameterVector.push_back(new ClearTargetDistance);
     parameterVector.push_back(new CommutationCompensationClockwise);
@@ -169,7 +169,6 @@ void DataTrace::startTrace() {
     parameterVector.push_back(new CommutationMode);
     parameterVector.push_back(new CommutationMotorCurrent);
     parameterVector.push_back(new CurrentControlLoopDelay);
-    parameterVector.push_back(new EncoderNullPolarity);
     parameterVector.push_back(new EncoderResolution);
     parameterVector.push_back(new EncoderStopSwitch);
     parameterVector.push_back(new HallSensorPolarityReversal);
@@ -182,11 +181,9 @@ void DataTrace::startTrace() {
     parameterVector.push_back(new MaximumPWMChangePerPIDInterval);
     parameterVector.push_back(new MaximumVelocityToSetPosition);
     parameterVector.push_back(new MotorCoilResistance);
-    parameterVector.push_back(new MotorContollerGearRatio);
     parameterVector.push_back(new MotorControllerTimeout);
     parameterVector.push_back(new MotorPoles);
     parameterVector.push_back(new OperationalTime);
-    parameterVector.push_back(new PIDControllerState);
     parameterVector.push_back(new PIDControlTime);
     parameterVector.push_back(new PositionTargetReachedDistance);
     parameterVector.push_back(new PWMHysteresis);
@@ -306,6 +303,7 @@ void DataTrace::update() {
     joint.getData(sensedRoundsPerMinute);
     joint.getData(sensedCurrent);
     joint.getData(sensedTorque);
+    joint.getData(actualPWM);
     std::stringstream angleSet, angleEncSet, velSet, velRPMSet, currentSet, pwmSet, torqueSet;
 
     switch (controllerMode) {
@@ -409,7 +407,8 @@ void DataTrace::update() {
             << bool(statusFlags & POSITION_REACHED) << " " //29
             << bool(statusFlags & INITIALIZED) << " " //30
             << bool(statusFlags & TIMEOUT) << " " //31
-            << bool(statusFlags & I2T_EXCEEDED) << std::endl; //32
+            << bool(statusFlags & I2T_EXCEEDED) //32
+            << " " << actualPWM.pwm << std::endl; //33
 
 
   // Bouml preserved body end 000C94F1

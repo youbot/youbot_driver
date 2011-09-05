@@ -1514,6 +1514,80 @@ friend class YouBotJoint;
     ::ParameterType parameterType;
 
 };
+///////////////////////////////////////////////////////////////////////////////
+/// Maximum velocity at which end position can be set. Prevents issuing of end position when the target is passed at high velocity
+///////////////////////////////////////////////////////////////////////////////
+class MaximumVelocityToSetPosition : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    MaximumVelocityToSetPosition();
+
+    virtual ~MaximumVelocityToSetPosition();
+
+    void getParameter(quantity<angular_velocity>& parameter) const;
+
+    void setParameter(const quantity<angular_velocity>& parameter);
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ::ParameterType getType() const {return this->parameterType;};
+
+    quantity<angular_velocity> upperLimit;
+
+    quantity<angular_velocity> lowerLimit;
+
+    quantity<angular_velocity> value;
+
+    std::string name;
+
+    ::ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// Maximum distance at which the position end flag is set.
+///////////////////////////////////////////////////////////////////////////////
+class PositionTargetReachedDistance : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    PositionTargetReachedDistance();
+
+    virtual ~PositionTargetReachedDistance();
+
+    void getParameter(int& parameter) const;
+
+    void setParameter(const int parameter);
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ::ParameterType getType() const {return this->parameterType;};
+
+    int upperLimit;
+
+    int lowerLimit;
+
+    int value;
+
+    std::string name;
+
+    ::ParameterType parameterType;
+
+};
 
 } // namespace youbot
 #endif

@@ -2144,5 +2144,122 @@ void IClippingParameterSecondParametersCurrentControl::setYouBotMailboxMsg(const
   // Bouml preserved body end 000811F1
 }
 
+MaximumVelocityToSetPosition::MaximumVelocityToSetPosition() {
+  // Bouml preserved body begin 00078F71
+    this->name = "MaximumVelocityToSetPosition";
+    this->lowerLimit = INT_MIN * radian_per_second;
+    this->upperLimit = INT_MAX * radian_per_second;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 00078F71
+}
+
+MaximumVelocityToSetPosition::~MaximumVelocityToSetPosition() {
+  // Bouml preserved body begin 00078FF1
+  // Bouml preserved body end 00078FF1
+}
+
+void MaximumVelocityToSetPosition::getParameter(quantity<angular_velocity>& parameter) const {
+  // Bouml preserved body begin 00079071
+    parameter = this->value;
+  // Bouml preserved body end 00079071
+}
+
+void MaximumVelocityToSetPosition::setParameter(const quantity<angular_velocity>& parameter) {
+  // Bouml preserved body begin 000790F1
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+  // Bouml preserved body end 000790F1
+}
+
+void MaximumVelocityToSetPosition::toString(std::string& value) {
+  // Bouml preserved body begin 0009CAF1
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 0009CAF1
+}
+
+void MaximumVelocityToSetPosition::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
+  // Bouml preserved body begin 00079171
+
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 7; //MVP Target reached velocity
+    message.stctOutput.value = (int32) round((value.value() / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
+
+  // Bouml preserved body end 00079171
+}
+
+void MaximumVelocityToSetPosition::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
+  // Bouml preserved body begin 000791F1
+    double motorRPM = message.stctInput.value;
+    this->value =  ((motorRPM / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
+  // Bouml preserved body end 000791F1
+}
+
+PositionTargetReachedDistance::PositionTargetReachedDistance() {
+  // Bouml preserved body begin 00079B71
+    this->name = "PositionTargetReachedDistance";
+    this->lowerLimit = INT_MIN;
+    this->upperLimit = INT_MAX;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 00079B71
+}
+
+PositionTargetReachedDistance::~PositionTargetReachedDistance() {
+  // Bouml preserved body begin 00079BF1
+  // Bouml preserved body end 00079BF1
+}
+
+void PositionTargetReachedDistance::getParameter(int& parameter) const {
+  // Bouml preserved body begin 00079C71
+    parameter = this->value;
+  // Bouml preserved body end 00079C71
+}
+
+void PositionTargetReachedDistance::setParameter(const int parameter) {
+  // Bouml preserved body begin 00079CF1
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+  // Bouml preserved body end 00079CF1
+}
+
+void PositionTargetReachedDistance::toString(std::string& value) {
+  // Bouml preserved body begin 0009CC71
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 0009CC71
+}
+
+void PositionTargetReachedDistance::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
+  // Bouml preserved body begin 00079D71
+
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 10; //PositionTargetReachedDistance
+    message.stctOutput.value = value; 
+
+  // Bouml preserved body end 00079D71
+}
+
+void PositionTargetReachedDistance::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
+  // Bouml preserved body begin 00079DF1
+    this->value = message.stctInput.value;
+  // Bouml preserved body end 00079DF1
+}
+
 
 } // namespace youbot

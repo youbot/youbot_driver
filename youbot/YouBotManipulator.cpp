@@ -55,7 +55,7 @@ YouBotManipulator::YouBotManipulator(const std::string name, const std::string c
   // Bouml preserved body begin 00067F71
 
     this->controllerType = 841;
-    this->minFirmwareVersion = 1.43;
+    this->minFirmwareVersion = 1.45;
 
     string filename;
     filename = name;
@@ -504,8 +504,6 @@ void YouBotManipulator::initializeJoints() {
     InverseMovementDirection inverseDir;
     double gearRatio_numerator = 0;
     double gearRatio_denominator = 1;
-    MotorContollerGearRatio contollerGearRatio;
-    contollerGearRatio.setParameter(0);
     FirmwareVersion firmwareTypeVersion;
     TorqueConstant torqueConst;
 
@@ -541,15 +539,6 @@ void YouBotManipulator::initializeJoints() {
           ss << "The motor controller firmware version have be " << this->minFirmwareVersion << " or higher.";
           throw std::runtime_error(ss.str().c_str());
         }
-      }
-
-      //check if the motor contoller gear ratio is one.
-      //The gear ratio will be taken in to acount by the driver
-      joints[i].getConfigurationParameter(contollerGearRatio);
-      unsigned int cGearRatio;
-      contollerGearRatio.getParameter(cGearRatio);
-      if (cGearRatio != 1) {
-        throw std::runtime_error("The Motor Controller Gear Ratio of " + jointName + " is not set to 1.");
       }
 
       configfile->readInto(gearRatio_numerator, jointName, "GearRatio_numerator");

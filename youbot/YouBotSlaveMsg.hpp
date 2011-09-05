@@ -72,8 +72,8 @@ namespace youbot {
 		int32 actualPosition;   // encoder ticks
 		int32 actualCurrent;    // mA
 		int32 actualVelocity;   // rpm motor axis
-		uint16 errorFlags;
-		uint16 driverTemperature;
+		uint32 errorFlags;
+		int32 actualPWM;
 	} __attribute__((__packed__));
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -95,7 +95,7 @@ namespace youbot {
 			stctInput.actualCurrent = 0;
 			stctInput.actualPosition = 0;
 			stctInput.actualVelocity = 0;
-			stctInput.driverTemperature = 0;
+			stctInput.actualPWM = 0;
 			stctInput.errorFlags = 0;
 			jointNumber = 0;
 		}

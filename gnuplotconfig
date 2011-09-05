@@ -50,12 +50,12 @@ set grid
 set offsets 0, 0, 0.01, 0.01
 plot  "jointDataTrace" using 1:6 title 'torque setpoint' with lines linewidth 2, "jointDataTrace" using 1:14 title 'sensed torque' with lines
 
-#set title "joint PWM"
-#set ylabel "PWM"
-#set xlabel "time [milliseconds]"
-#set grid
-#set offsets 0, 0, 0.01, 0.01
-#plot  "jointDataTrace" using 1:7 title 'PWM setpoint' with lines linewidth 2
+set title "joint PWM"
+set ylabel "PWM"
+set xlabel "time [milliseconds]"
+set grid
+set offsets 0, 0, 0.01, 0.01
+plot  "jointDataTrace" using 1:7 title 'PWM setpoint' with lines linewidth 2, "jointDataTrace" using 1:33 title 'actual PWM' with lines
 
 unset datafile
 
@@ -118,21 +118,21 @@ set ylabel "hall sensor error"
 set grid
 plot "jointDataTrace" using 1:20 title '' with lines
 
-set size 1, 0.25
-set origin 0.0,0.5
-set yrange [-0.1:1.1]
-set ytics 1
-set ylabel "encoder error"
-set grid
-plot "jointDataTrace" using 1:21 title '' with lines
+#set size 1, 0.25
+#set origin 0.0,0.5
+#set yrange [-0.1:1.1]
+#set ytics 1
+#set ylabel "encoder error"
+#set grid
+#plot "jointDataTrace" using 1:21 title '' with lines
 
-set size 1, 0.25
-set origin 0.0,0.75
-set yrange [-0.1:1.1]
-set ytics 1
-set ylabel "initialization error"
-set grid
-plot "jointDataTrace" using 1:22 title '' with lines
+#set size 1, 0.25
+#set origin 0.0,0.75
+#set yrange [-0.1:1.1]
+#set ytics 1
+#set ylabel "initialization error"
+#set grid
+#plot "jointDataTrace" using 1:22 title '' with lines
 
 unset multiplot
 
@@ -179,21 +179,21 @@ set multiplot
 set xlabel ""
 set title ""
 
-set size 1, 0.25
-set origin 0,0
-set yrange [-0.1:1.1]
-set ytics 1
-set ylabel "emergency stop"
-set grid
-plot "jointDataTrace" using 1:27 title '' with lines
+#set size 1, 0.25
+#set origin 0,0
+#set yrange [-0.1:1.1]
+#set ytics 1
+#set ylabel "emergency stop"
+#set grid
+#plot "jointDataTrace" using 1:27 title '' with lines
 
-set size 1, 0.25
-set origin 0.0,0.25
-set yrange [-0.1:1.1]
-set ytics 1
-set ylabel "freerunning"
-set grid
-plot "jointDataTrace" using 1:28 title '' with lines
+#set size 1, 0.25
+#set origin 0.0,0.25
+#set yrange [-0.1:1.1]
+#set ytics 1
+#set ylabel "freerunning"
+#set grid
+#plot "jointDataTrace" using 1:28 title '' with lines
 
 set size 1, 0.25
 set origin 0.0,0.5
@@ -211,11 +211,6 @@ set ylabel "initialized"
 set grid
 plot "jointDataTrace" using 1:30 title '' with lines
 
-unset multiplot
-
-set multiplot 
-set xlabel ""
-set title ""
 
 set size 1, 0.25
 set origin 0,0

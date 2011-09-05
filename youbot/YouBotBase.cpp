@@ -55,7 +55,7 @@ YouBotBase::YouBotBase(const std::string name, const std::string configFilePath)
   // Bouml preserved body begin 00067E71
 
     this->controllerType = 174;
-    this->minFirmwareVersion = 1.43;
+    this->minFirmwareVersion = 1.45;
 
     string filename;
     filename = name;
@@ -449,8 +449,6 @@ void YouBotBase::initializeJoints() {
     GearRatio gearRatio;
     EncoderTicksPerRound ticksPerRound;
     InverseMovementDirection inverseDir;
-    MotorContollerGearRatio contollerGearRatio;
-    contollerGearRatio.setParameter(1);
     FirmwareVersion firmwareTypeVersion;
     TorqueConstant torqueConst;
 
@@ -511,16 +509,7 @@ void YouBotBase::initializeJoints() {
       joints[i].setConfigurationParameter(ticksPerRound);
       joints[i].setConfigurationParameter(torqueConst);
       joints[i].setConfigurationParameter(inverseDir);
-
-      //check if the motor contoller gear ratio is one.
-      //The gear ratio will be taken in to acount by the driver
-      joints[i].getConfigurationParameter(contollerGearRatio);
-      unsigned int cGearRatio;
-      contollerGearRatio.getParameter(cGearRatio);
-      if (cGearRatio != 1) {
-        throw std::runtime_error("The Motor Controller Gear Ratio of " + jointName + " is not set to 1.");
-      }
-      
+   
       long upperlimit = 0, lowerlimit = 0;
       configfile->readInto(lowerlimit, jointName, "LowerLimit_[encoderTicks]");
       configfile->readInto(upperlimit, jointName, "UpperLimit_[encoderTicks]");

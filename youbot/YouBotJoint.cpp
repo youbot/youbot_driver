@@ -602,6 +602,18 @@ void YouBotJoint::setData(const JointCurrentSetpoint& data, SyncMode communicati
   // Bouml preserved body end 000955F1
 }
 
+///gets the actual PWM value of one joint
+///@param data returns the PWM value by reference
+void YouBotJoint::getData(JointSensedPWM& data) {
+  // Bouml preserved body begin 000CAFF1
+    YouBotSlaveMsg messageBuffer;
+    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    this->parseYouBotErrorFlags(messageBuffer);
+
+    data.pwm = messageBuffer.stctInput.actualPWM;
+  // Bouml preserved body end 000CAFF1
+}
+
 ///commands a pulse-width modulation to one joint
 ///@param data the to command pulse-width modulation
 ///@param communicationMode at the moment only non blocking communication is implemented

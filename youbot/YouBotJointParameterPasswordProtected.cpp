@@ -336,53 +336,6 @@ void ClearI2tExceededFlag::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& mess
   // Bouml preserved body end 000A18F1
 }
 
-ClearISumIfPWMReachesMaximum::ClearISumIfPWMReachesMaximum() {
-  // Bouml preserved body begin 0007A771
-    this->name = "ClearISumIfPWMReachesMaximum";
-    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-  // Bouml preserved body end 0007A771
-}
-
-ClearISumIfPWMReachesMaximum::~ClearISumIfPWMReachesMaximum() {
-  // Bouml preserved body begin 0007A7F1
-  // Bouml preserved body end 0007A7F1
-}
-
-void ClearISumIfPWMReachesMaximum::getParameter(bool& parameter) const {
-  // Bouml preserved body begin 0007A871
-    parameter = this->value;
-  // Bouml preserved body end 0007A871
-}
-
-void ClearISumIfPWMReachesMaximum::setParameter(const bool parameter) {
-  // Bouml preserved body begin 0007A8F1
-    this->value = parameter;
-  // Bouml preserved body end 0007A8F1
-}
-
-void ClearISumIfPWMReachesMaximum::toString(std::string& value) {
-  // Bouml preserved body begin 0009D171
-  std::stringstream ss;
-  ss << this->name << ": " << this->value;
-  value  = ss.str();
-  // Bouml preserved body end 0009D171
-}
-
-void ClearISumIfPWMReachesMaximum::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
-  // Bouml preserved body begin 0007A971
-    message.stctOutput.commandNumber = msgType;
-    message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 137; //ClearISumIfPWMReachesMaximum
-    message.stctOutput.value = value;
-  // Bouml preserved body end 0007A971
-}
-
-void ClearISumIfPWMReachesMaximum::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
-  // Bouml preserved body begin 0007A9F1
-    this->value = message.stctInput.value;
-  // Bouml preserved body end 0007A9F1
-}
-
 ClearMotorControllerTimeoutFlag::ClearMotorControllerTimeoutFlag() {
   // Bouml preserved body begin 0009FAF1
     this->name = "ClearMotorControllerTimeoutFlag";
@@ -478,14 +431,14 @@ void ClearTargetDistance::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TM
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
     message.stctOutput.typeNumber = 9; //ClearTargetDistance
-    message.stctOutput.value = value; //TODO do convertion
+    message.stctOutput.value = value;
 
   // Bouml preserved body end 00079971
 }
 
 void ClearTargetDistance::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 000799F1
-    this->value = message.stctInput.value; //TODO do convertion
+    this->value = message.stctInput.value;
   // Bouml preserved body end 000799F1
 }
 
@@ -776,55 +729,6 @@ void CurrentControlLoopDelay::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& m
   // Bouml preserved body begin 0007A1F1
     this->value = (((double)message.stctInput.value)/(1000 * 1000)) * 50 * seconds; //µsec to sec
   // Bouml preserved body end 0007A1F1
-}
-
-EncoderNullPolarity::EncoderNullPolarity() {
-  // Bouml preserved body begin 00083F71
-    this->name = "EncoderNullPolarity";
-    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-  // Bouml preserved body end 00083F71
-}
-
-EncoderNullPolarity::~EncoderNullPolarity() {
-  // Bouml preserved body begin 00083FF1
-  // Bouml preserved body end 00083FF1
-}
-
-void EncoderNullPolarity::getParameter(bool& parameter) const {
-  // Bouml preserved body begin 00084071
-    parameter = this->value;
-  // Bouml preserved body end 00084071
-}
-
-void EncoderNullPolarity::setParameter(const bool parameter) {
-  // Bouml preserved body begin 000840F1
-    this->value = parameter;
-  // Bouml preserved body end 000840F1
-}
-
-void EncoderNullPolarity::toString(std::string& value) {
-  // Bouml preserved body begin 0009E6F1
-  std::stringstream ss;
-  ss << this->name << ": " << this->value;
-  value  = ss.str();
-  // Bouml preserved body end 0009E6F1
-}
-
-void EncoderNullPolarity::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
-  // Bouml preserved body begin 00084171
-
-    message.stctOutput.commandNumber = msgType;
-    message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 252; //EncoderNullPolarity
-    message.stctOutput.value = value; 
-
-  // Bouml preserved body end 00084171
-}
-
-void EncoderNullPolarity::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
-  // Bouml preserved body begin 000841F1
-    this->value = message.stctInput.value;
-  // Bouml preserved body end 000841F1
 }
 
 EncoderResolution::EncoderResolution() {
@@ -1394,65 +1298,6 @@ void MaximumPWMChangePerPIDInterval::setYouBotMailboxMsg(const YouBotSlaveMailbo
   // Bouml preserved body end 000839F1
 }
 
-MaximumVelocityToSetPosition::MaximumVelocityToSetPosition() {
-  // Bouml preserved body begin 00078F71
-    this->name = "MaximumVelocityToSetPosition";
-    this->lowerLimit = INT_MIN * radian_per_second;
-    this->upperLimit = INT_MAX * radian_per_second;
-    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-  // Bouml preserved body end 00078F71
-}
-
-MaximumVelocityToSetPosition::~MaximumVelocityToSetPosition() {
-  // Bouml preserved body begin 00078FF1
-  // Bouml preserved body end 00078FF1
-}
-
-void MaximumVelocityToSetPosition::getParameter(quantity<angular_velocity>& parameter) const {
-  // Bouml preserved body begin 00079071
-    parameter = this->value;
-  // Bouml preserved body end 00079071
-}
-
-void MaximumVelocityToSetPosition::setParameter(const quantity<angular_velocity>& parameter) {
-  // Bouml preserved body begin 000790F1
-    if (this->lowerLimit > parameter) {
-      throw std::out_of_range("The parameter exceeds the lower limit");
-    }
-    if (this->upperLimit < parameter) {
-      throw std::out_of_range("The parameter exceeds the upper limit");
-    }
-
-    this->value = parameter;
-  // Bouml preserved body end 000790F1
-}
-
-void MaximumVelocityToSetPosition::toString(std::string& value) {
-  // Bouml preserved body begin 0009CAF1
-  std::stringstream ss;
-  ss << this->name << ": " << this->value;
-  value  = ss.str();
-  // Bouml preserved body end 0009CAF1
-}
-
-void MaximumVelocityToSetPosition::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
-  // Bouml preserved body begin 00079171
-
-    message.stctOutput.commandNumber = msgType;
-    message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 7; //MVP Target reached velocity
-    message.stctOutput.value = (int32) round((value.value() / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
-
-  // Bouml preserved body end 00079171
-}
-
-void MaximumVelocityToSetPosition::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
-  // Bouml preserved body begin 000791F1
-    double motorRPM = message.stctInput.value;
-    this->value =  ((motorRPM / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
-  // Bouml preserved body end 000791F1
-}
-
 MotorCoilResistance::MotorCoilResistance() {
   // Bouml preserved body begin 00070DF1
     this->name = "MotorCoilResistance";
@@ -1508,55 +1353,6 @@ void MotorCoilResistance::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& messa
       this->value = ((double)message.stctInput.value)/1000 * ohm;
     }
   // Bouml preserved body end 00072271
-}
-
-MotorContollerGearRatio::MotorContollerGearRatio() {
-  // Bouml preserved body begin 00070AF1
-    this->name = "MotorContollerGearRatio";
-    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-  // Bouml preserved body end 00070AF1
-}
-
-MotorContollerGearRatio::~MotorContollerGearRatio() {
-  // Bouml preserved body begin 00070B71
-  // Bouml preserved body end 00070B71
-}
-
-void MotorContollerGearRatio::getParameter(unsigned int& parameter) const {
-  // Bouml preserved body begin 00070BF1
-    parameter = this->value;
-  // Bouml preserved body end 00070BF1
-}
-
-void MotorContollerGearRatio::setParameter(const unsigned int parameter) {
-  // Bouml preserved body begin 00089071
-    this->value = parameter;
-  // Bouml preserved body end 00089071
-}
-
-void MotorContollerGearRatio::toString(std::string& value) {
-  // Bouml preserved body begin 0009E471
-  std::stringstream ss;
-  ss << this->name << ": " << this->value;
-  value  = ss.str();
-  // Bouml preserved body end 0009E471
-}
-
-void MotorContollerGearRatio::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
-  // Bouml preserved body begin 00070C71
-    message.stctOutput.commandNumber = msgType;
-    message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 211; //MotorContollerGearRatio
-    message.stctOutput.value = value;
-  // Bouml preserved body end 00070C71
-}
-
-void MotorContollerGearRatio::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
-  // Bouml preserved body begin 000721F1
-    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
-      this->value = message.stctInput.value;
-    }
-  // Bouml preserved body end 000721F1
 }
 
 MotorControllerTimeout::MotorControllerTimeout() {
@@ -1738,63 +1534,6 @@ void OperationalTime::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, 
   // Bouml preserved body end 000A06F1
 }
 
-PIDControllerState::PIDControllerState() {
-  // Bouml preserved body begin 000700F1
-    this->name = "ArePIDcontrollersActive";
-    this->lowerLimit = 0;
-    this->upperLimit = 2;
-    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-  // Bouml preserved body end 000700F1
-}
-
-PIDControllerState::~PIDControllerState() {
-  // Bouml preserved body begin 00070171
-  // Bouml preserved body end 00070171
-}
-
-void PIDControllerState::getParameter(int& parameter) const {
-  // Bouml preserved body begin 000701F1
-    parameter = this->value;
-  // Bouml preserved body end 000701F1
-}
-
-void PIDControllerState::setParameter(const int parameter) {
-  // Bouml preserved body begin 000933F1
-    if (this->lowerLimit > parameter) {
-      throw std::out_of_range("The parameter exceeds the lower limit");
-    }
-    if (this->upperLimit < parameter) {
-      throw std::out_of_range("The parameter exceeds the upper limit");
-    }
-    this->value = parameter;
-  // Bouml preserved body end 000933F1
-}
-
-void PIDControllerState::toString(std::string& value) {
-  // Bouml preserved body begin 0009E771
-  std::stringstream ss;
-  ss << this->name << ": " << this->value;
-  value  = ss.str();
-  // Bouml preserved body end 0009E771
-}
-
-void PIDControllerState::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
-  // Bouml preserved body begin 000702F1
-    message.stctOutput.commandNumber = msgType;
-    message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 147; //ArePIDcontrollersActive
-    message.stctOutput.value = value;
-  // Bouml preserved body end 000702F1
-}
-
-void PIDControllerState::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
-  // Bouml preserved body begin 00070371
-    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
-      this->value = message.stctInput.value;
-    }
-  // Bouml preserved body end 00070371
-}
-
 PIDControlTime::PIDControlTime() {
   // Bouml preserved body begin 0006ADF1
     this->name = "PIDControlTime";
@@ -1851,64 +1590,6 @@ void PIDControlTime::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, c
   // Bouml preserved body begin 0006B071
     this->value = ((double)message.stctInput.value)/1000 * seconds; //milli sec to sec
   // Bouml preserved body end 0006B071
-}
-
-PositionTargetReachedDistance::PositionTargetReachedDistance() {
-  // Bouml preserved body begin 00079B71
-    this->name = "PositionTargetReachedDistance";
-    this->lowerLimit = INT_MIN;
-    this->upperLimit = INT_MAX;
-    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-  // Bouml preserved body end 00079B71
-}
-
-PositionTargetReachedDistance::~PositionTargetReachedDistance() {
-  // Bouml preserved body begin 00079BF1
-  // Bouml preserved body end 00079BF1
-}
-
-void PositionTargetReachedDistance::getParameter(int& parameter) const {
-  // Bouml preserved body begin 00079C71
-    parameter = this->value;
-  // Bouml preserved body end 00079C71
-}
-
-void PositionTargetReachedDistance::setParameter(const int parameter) {
-  // Bouml preserved body begin 00079CF1
-    if (this->lowerLimit > parameter) {
-      throw std::out_of_range("The parameter exceeds the lower limit");
-    }
-    if (this->upperLimit < parameter) {
-      throw std::out_of_range("The parameter exceeds the upper limit");
-    }
-
-    this->value = parameter;
-  // Bouml preserved body end 00079CF1
-}
-
-void PositionTargetReachedDistance::toString(std::string& value) {
-  // Bouml preserved body begin 0009CC71
-  std::stringstream ss;
-  ss << this->name << ": " << this->value;
-  value  = ss.str();
-  // Bouml preserved body end 0009CC71
-}
-
-void PositionTargetReachedDistance::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
-  // Bouml preserved body begin 00079D71
-
-    message.stctOutput.commandNumber = msgType;
-    message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 10; //PositionTargetReachedDistance
-    message.stctOutput.value = value; //TODO do convertion
-
-  // Bouml preserved body end 00079D71
-}
-
-void PositionTargetReachedDistance::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
-  // Bouml preserved body begin 00079DF1
-    this->value = message.stctInput.value; //TODO do convertion
-  // Bouml preserved body end 00079DF1
 }
 
 PWMHysteresis::PWMHysteresis() {

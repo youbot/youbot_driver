@@ -679,12 +679,8 @@ void EthercatMaster::checkJointLimits() {
 void EthercatMaster::updateSensorActorValues() {
   // Bouml preserved body begin 0003F771
 
-    boost::posix_time::ptime now;
-    quantity<si::current> actualCurrent = 0 * ampere;
-    YouBotSlaveMsg stopMotorCommand;
     long timeToWait = 0;
-
-    ptime startTime;
+    ptime startTime = microsec_clock::local_time();
     time_duration pastTime;
     int counter = 0;
     time_duration realperiode;
@@ -693,21 +689,16 @@ void EthercatMaster::updateSensorActorValues() {
 
     while (!stopThread) {
 
-      if (ec_iserror())
-        LOG(info) << "there is an error in the soem driver";
-
       pastTime = microsec_clock::local_time() - startTime;
-      
       timeToWait = timeTillNextEthercatUpdate - pastTime.total_microseconds() - 100;
-
-
+      
       if(timeToWait < 0 || timeToWait > timeTillNextEthercatUpdate){
     //    printf("Missed communication period of %d  microseconds it have been %d microseconds \n",timeTillNextEthercatUpdate, (int)pastTime.total_microseconds()+ 100);
       }else{
         boost::this_thread::sleep(boost::posix_time::microseconds(timeToWait));
       }
 
-      realperiode = microsec_clock::local_time() - startTime;
+ //   realperiode = microsec_clock::local_time() - startTime;
       startTime = microsec_clock::local_time();
 
 /*
@@ -746,6 +737,10 @@ void EthercatMaster::updateSensorActorValues() {
         stopThread = true;
         break;
       }
+      
+      if (ec_iserror())
+        LOG(error) << "there is an error in the soem driver";
+      
 
       if (newDataFlagOne == false) {
         {

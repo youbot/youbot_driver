@@ -273,39 +273,6 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// Clears I Sum if PWM reaches maximum value of 100%. 
-///////////////////////////////////////////////////////////////////////////////
-class ClearISumIfPWMReachesMaximum : public YouBotJointParameterPasswordProtected {
-friend class YouBotJoint;
-  public:
-    ClearISumIfPWMReachesMaximum();
-
-    virtual ~ClearISumIfPWMReachesMaximum();
-
-    void getParameter(bool& parameter) const;
-
-    void setParameter(const bool parameter);
-
-    void toString(std::string& value);
-
-
-  private:
-    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
-
-    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
-
-    std::string getName() const {return this->name;};
-
-    ::ParameterType getType() const {return this->parameterType;};
-
-    bool value;
-
-    std::string name;
-
-    ::ParameterType parameterType;
-
-};
-///////////////////////////////////////////////////////////////////////////////
 /// Clear the flag that indicates a communication timeout between the EtherCAT master and the controller.
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -561,39 +528,6 @@ friend class YouBotJoint;
     quantity<si::time> lowerLimit;
 
     quantity<si::time> value;
-
-    std::string name;
-
-    ::ParameterType parameterType;
-
-};
-///////////////////////////////////////////////////////////////////////////////
-/// Encoder null polarity for zeroing of position counter.
-///////////////////////////////////////////////////////////////////////////////
-class EncoderNullPolarity : public YouBotJointParameterPasswordProtected {
-friend class YouBotJoint;
-  public:
-    EncoderNullPolarity();
-
-    virtual ~EncoderNullPolarity();
-
-    void getParameter(bool& parameter) const;
-
-    void setParameter(const bool parameter);
-
-    void toString(std::string& value);
-
-
-  private:
-    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
-
-    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
-
-    std::string getName() const {return this->name;};
-
-    ::ParameterType getType() const {return this->parameterType;};
-
-    bool value;
 
     std::string name;
 
@@ -974,43 +908,6 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// Maximum velocity at which end position can be set. Prevents issuing of end position when the target is passed at high velocity
-///////////////////////////////////////////////////////////////////////////////
-class MaximumVelocityToSetPosition : public YouBotJointParameterPasswordProtected {
-friend class YouBotJoint;
-  public:
-    MaximumVelocityToSetPosition();
-
-    virtual ~MaximumVelocityToSetPosition();
-
-    void getParameter(quantity<angular_velocity>& parameter) const;
-
-    void setParameter(const quantity<angular_velocity>& parameter);
-
-    void toString(std::string& value);
-
-
-  private:
-    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
-
-    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
-
-    std::string getName() const {return this->name;};
-
-    ::ParameterType getType() const {return this->parameterType;};
-
-    quantity<angular_velocity> upperLimit;
-
-    quantity<angular_velocity> lowerLimit;
-
-    quantity<angular_velocity> value;
-
-    std::string name;
-
-    ::ParameterType parameterType;
-
-};
-///////////////////////////////////////////////////////////////////////////////
 /// Resistance of motor coil. Used for current resistance regulation, position regulation and velocity regulation.
 ///////////////////////////////////////////////////////////////////////////////
 class MotorCoilResistance : public YouBotJointParameterPasswordProtected {
@@ -1041,39 +938,6 @@ friend class YouBotJoint;
     quantity<resistance> lowerLimit;
 
     quantity<resistance> value;
-
-    std::string name;
-
-    ::ParameterType parameterType;
-
-};
-///////////////////////////////////////////////////////////////////////////////
-/// The gear ratio which is stored in the motor controller
-///////////////////////////////////////////////////////////////////////////////
-class MotorContollerGearRatio : public YouBotJointParameterPasswordProtected {
-friend class YouBotJoint;
-  public:
-    MotorContollerGearRatio();
-
-    virtual ~MotorContollerGearRatio();
-
-    void getParameter(unsigned int& parameter) const;
-
-    void setParameter(const unsigned int parameter);
-
-    void toString(std::string& value);
-
-
-  private:
-    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
-
-    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
-
-    std::string getName() const {return this->name;};
-
-    ::ParameterType getType() const {return this->parameterType;};
-
-    unsigned int value;
 
     std::string name;
 
@@ -1192,46 +1056,6 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// Enables or Disables the PID controller.
-/// 0: Enable the standard PID calculation. \n
-/// 1: Disable the PID calculation. The Motor PWM is then directly derived from the target velocity.  \n
-/// 2: Enable an integrating PID algorithm. In this case the result of the PID calculation is integrated to the PWM value. This PID regulation is easier to use than the standard PID regulation. 
-///////////////////////////////////////////////////////////////////////////////
-class PIDControllerState : public YouBotJointParameterPasswordProtected {
-friend class YouBotJoint;
-  public:
-    PIDControllerState();
-
-    virtual ~PIDControllerState();
-
-    void getParameter(int& parameter) const;
-
-    void setParameter(const int parameter);
-
-    void toString(std::string& value);
-
-
-  private:
-    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
-
-    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
-
-    std::string getName() const {return this->name;};
-
-    ::ParameterType getType() const {return this->parameterType;};
-
-    int upperLimit;
-
-    int lowerLimit;
-
-    int value;
-
-    std::string name;
-
-    ::ParameterType parameterType;
-
-};
-///////////////////////////////////////////////////////////////////////////////
 /// PID calculation delay: Set operational frequency PID
 ///////////////////////////////////////////////////////////////////////////////
 class PIDControlTime : public YouBotJointParameterPasswordProtected {
@@ -1262,43 +1086,6 @@ friend class YouBotJoint;
     quantity<si::time> lowerLimit;
 
     quantity<si::time> value;
-
-    std::string name;
-
-    ::ParameterType parameterType;
-
-};
-///////////////////////////////////////////////////////////////////////////////
-/// Maximum distance at which the position end flag is set.
-///////////////////////////////////////////////////////////////////////////////
-class PositionTargetReachedDistance : public YouBotJointParameterPasswordProtected {
-friend class YouBotJoint;
-  public:
-    PositionTargetReachedDistance();
-
-    virtual ~PositionTargetReachedDistance();
-
-    void getParameter(int& parameter) const;
-
-    void setParameter(const int parameter);
-
-    void toString(std::string& value);
-
-
-  private:
-    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
-
-    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
-
-    std::string getName() const {return this->name;};
-
-    ::ParameterType getType() const {return this->parameterType;};
-
-    int upperLimit;
-
-    int lowerLimit;
-
-    int value;
 
     std::string name;
 
