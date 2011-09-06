@@ -294,7 +294,7 @@ void DataTrace::update() {
   // Bouml preserved body begin 000C94F1
     timeDuration = microsec_clock::local_time() - traceStartTime;
     timeDurationMicroSec = timeDuration.total_milliseconds();
-    unsigned short statusFlags;
+    unsigned int statusFlags;
 
     joint.getStatus(statusFlags);
     joint.getData(sensedAngle);

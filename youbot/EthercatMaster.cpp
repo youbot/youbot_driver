@@ -866,15 +866,15 @@ void EthercatMaster::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) 
       //   throw JointErrorException(errorMessage + "got hall sensor problem");
     }
 
-    if (messageBuffer.stctInput.errorFlags & ENCODER_ERROR) {
-      LOG(error) << errorMessage << "got encoder problem";
-      //   throw JointErrorException(errorMessage + "got encoder problem");
-    }
-
-     if (messageBuffer.stctInput.errorFlags & INITIALIZATION_ERROR) {
-      LOG(error) << errorMessage << "got inizialization problem";
-      //   throw JointErrorException(errorMessage + "got motor winding problem");
-    }
+//    if (messageBuffer.stctInput.errorFlags & ENCODER_ERROR) {
+//      LOG(error) << errorMessage << "got encoder problem";
+//      //   throw JointErrorException(errorMessage + "got encoder problem");
+//    }
+//
+//     if (messageBuffer.stctInput.errorFlags & INITIALIZATION_ERROR) {
+//      LOG(error) << errorMessage << "got inizialization problem";
+//      //   throw JointErrorException(errorMessage + "got motor winding problem");
+//    }
 
     if (messageBuffer.stctInput.errorFlags & PWM_MODE_ACTIVE) {
     //  LOG(error) << errorMessage << "has PWM mode active";
@@ -896,15 +896,15 @@ void EthercatMaster::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) 
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
-    if (messageBuffer.stctInput.errorFlags & EMERGENCY_STOP) {
-      LOG(info) << errorMessage << "has emergency stop active";
-      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
-    }
-
-    if (messageBuffer.stctInput.errorFlags & FREERUNNING) {
-   //   LOG(info) << errorMessage << "has freerunning active";
-      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
-    }
+//    if (messageBuffer.stctInput.errorFlags & EMERGENCY_STOP) {
+//      LOG(info) << errorMessage << "has emergency stop active";
+//      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+//    }
+//
+//    if (messageBuffer.stctInput.errorFlags & FREERUNNING) {
+//   //   LOG(info) << errorMessage << "has freerunning active";
+//      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+//    }
 
     if (messageBuffer.stctInput.errorFlags & POSITION_REACHED) {
   //    LOG(info) << errorMessage << "has position reached";

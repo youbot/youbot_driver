@@ -229,19 +229,19 @@ class YouBotJoint : public Joint {
     /// 3:  Overtemperature
     /// 4:  Motor halted
     /// 5:  Hall error flag
-    /// 6:  Encoder error flag
-    /// 7:  Initialization error of sine commutation
+    /// 6:  ---
+    /// 7:  ---
     /// 8:  PWM mode active
     /// 9:  Velocity mode active
     /// 10: Position mode active
     /// 11: Torque mode active
-    /// 12: Emergency stop flag
-    /// 13: Freerunning flag
+    /// 12: ---
+    /// 13: ---
     /// 14: Position end flag
     /// 15: Module initialized
     /// 16: EtherCAT timeout flag
-    /// 17: I2t exceeded flag (reset by timeout)
-    void getStatus(unsigned short& statusFlags);
+    /// 17: I2t exceeded flag
+    void getStatus(unsigned int& statusFlags);
 
     /// set the encoder values of the joint to zero. This postion will be the new reference.
     void setEncoderToZero();

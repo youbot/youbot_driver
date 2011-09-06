@@ -786,13 +786,13 @@ void YouBotJoint::getStatus(std::vector<std::string>& statusMessages) {
       statusMessages.push_back(errorMessage + "got hall sensor problem");
     }
 
-    if (messageBuffer.stctInput.errorFlags & ENCODER_ERROR) {
-      statusMessages.push_back(errorMessage + "got encoder problem");
-    }
-
-     if (messageBuffer.stctInput.errorFlags & INITIALIZATION_ERROR) {
-      statusMessages.push_back(errorMessage + "got inizialization problem");
-    }
+//    if (messageBuffer.stctInput.errorFlags & ENCODER_ERROR) {
+//      statusMessages.push_back(errorMessage + "got encoder problem");
+//    }
+//
+//     if (messageBuffer.stctInput.errorFlags & INITIALIZATION_ERROR) {
+//      statusMessages.push_back(errorMessage + "got inizialization problem");
+//    }
 
     if (messageBuffer.stctInput.errorFlags & PWM_MODE_ACTIVE) {
       statusMessages.push_back(errorMessage + "has PWM mode active");
@@ -810,13 +810,13 @@ void YouBotJoint::getStatus(std::vector<std::string>& statusMessages) {
       statusMessages.push_back(errorMessage + "has torque mode active");
     }
 
-    if (messageBuffer.stctInput.errorFlags & EMERGENCY_STOP) {
-      statusMessages.push_back(errorMessage + "has emergency stop active");
-    }
-
-    if (messageBuffer.stctInput.errorFlags & FREERUNNING) {
-      statusMessages.push_back(errorMessage + "has freerunning active");
-    }
+//    if (messageBuffer.stctInput.errorFlags & EMERGENCY_STOP) {
+//      statusMessages.push_back(errorMessage + "has emergency stop active");
+//    }
+//
+//    if (messageBuffer.stctInput.errorFlags & FREERUNNING) {
+//      statusMessages.push_back(errorMessage + "has freerunning active");
+//    }
 
     if (messageBuffer.stctInput.errorFlags & POSITION_REACHED) {
       statusMessages.push_back(errorMessage + "has position reached");
@@ -845,19 +845,19 @@ void YouBotJoint::getStatus(std::vector<std::string>& statusMessages) {
 /// 3:  Overtemperature
 /// 4:  Motor halted
 /// 5:  Hall error flag
-/// 6:  Encoder error flag
-/// 7:  Initialization error of sine commutation
+/// 6:  ---
+/// 7:  ---
 /// 8:  PWM mode active
 /// 9:  Velocity mode active
 /// 10: Position mode active
 /// 11: Torque mode active
-/// 12: Emergency stop flag
-/// 13: Freerunning flag
+/// 12: ---
+/// 13: ---
 /// 14: Position end flag
 /// 15: Module initialized
 /// 16: EtherCAT timeout flag
-/// 17: I2t exceeded flag (reset by timeout)
-void YouBotJoint::getStatus(unsigned short& statusFlags) {
+/// 17: I2t exceeded flag
+void YouBotJoint::getStatus(unsigned int& statusFlags) {
   // Bouml preserved body begin 000AD2F1
   YouBotSlaveMsg messageBuffer;
   messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
@@ -937,15 +937,15 @@ void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
       //   throw JointErrorException(errorMessage + "got hall sensor problem");
     }
 
-    if (messageBuffer.stctInput.errorFlags & ENCODER_ERROR) {
-      LOG(error) << errorMessage << "encoder problem";
-      //   throw JointErrorException(errorMessage + "got encoder problem");
-    }
-
-     if (messageBuffer.stctInput.errorFlags & INITIALIZATION_ERROR) {
-      LOG(error) << errorMessage << "initialization problem";
-      //   throw JointErrorException(errorMessage + "got motor winding problem");
-    }
+//    if (messageBuffer.stctInput.errorFlags & ENCODER_ERROR) {
+//      LOG(error) << errorMessage << "encoder problem";
+//      //   throw JointErrorException(errorMessage + "got encoder problem");
+//    }
+//
+//     if (messageBuffer.stctInput.errorFlags & INITIALIZATION_ERROR) {
+//      LOG(error) << errorMessage << "initialization problem";
+//      //   throw JointErrorException(errorMessage + "got motor winding problem");
+//    }
 
     if (messageBuffer.stctInput.errorFlags & PWM_MODE_ACTIVE) {
    //   LOG(info) << errorMessage << "has PWM mode active";
@@ -967,15 +967,15 @@ void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
-    if (messageBuffer.stctInput.errorFlags & EMERGENCY_STOP) {
-      LOG(info) << errorMessage << "emergency stop active";
-      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
-    }
-
-    if (messageBuffer.stctInput.errorFlags & FREERUNNING) {
-   //   LOG(info) << errorMessage << "has freerunning active";
-      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
-    }
+//    if (messageBuffer.stctInput.errorFlags & EMERGENCY_STOP) {
+//      LOG(info) << errorMessage << "emergency stop active";
+//      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+//    }
+//
+//    if (messageBuffer.stctInput.errorFlags & FREERUNNING) {
+//   //   LOG(info) << errorMessage << "has freerunning active";
+//      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+//    }
 
     if (messageBuffer.stctInput.errorFlags & POSITION_REACHED) {
   //    LOG(info) << errorMessage << "has position reached";
