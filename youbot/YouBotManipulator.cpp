@@ -115,7 +115,7 @@ void YouBotManipulator::doJointCommutation() {
       this->getArmJoint(5).setConfigurationParameter(doInitialization);
       EthercatMaster::getInstance().AutomaticReceiveOn(true);
 
-      unsigned short statusFlags;
+      unsigned int statusFlags;
       std::vector<bool> isCommutated;
       isCommutated.assign(ARMJOINTS, false);
       unsigned int u = 0;

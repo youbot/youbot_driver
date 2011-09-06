@@ -137,7 +137,7 @@ void YouBotBase::doJointCommutation() {
       this->getBaseJoint(4).setConfigurationParameter(doInitialization);
       EthercatMaster::getInstance().AutomaticReceiveOn(true);
 
-      unsigned short statusFlags;
+      unsigned int statusFlags;
       std::vector<bool> isCommutated;
       isCommutated.assign(BASEJOINTS, false);
       unsigned int u = 0;
