@@ -1,0 +1,3 @@
+class JointSensedTemperature
+!!!841201.cpp!!!	JointSensedTemperature()
+  this->temperature = 0 * celsius::degree;

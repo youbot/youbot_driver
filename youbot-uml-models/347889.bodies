@@ -1,0 +1,3 @@
+class JointPWMSetpoint
+!!!842865.cpp!!!	JointPWMSetpoint()
+  this->pwm = 0;

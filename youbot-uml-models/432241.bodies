@@ -1,0 +1,3 @@
+class JointSensedPWM
+!!!842097.cpp!!!	JointSensedPWM()
+  this->pwm = 0;

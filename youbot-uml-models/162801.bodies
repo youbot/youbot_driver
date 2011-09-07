@@ -1,0 +1,3 @@
+class JointSensedVelocity
+!!!841457.cpp!!!	JointSensedVelocity()
+  this->angularVelocity = 0 * radian_per_second;

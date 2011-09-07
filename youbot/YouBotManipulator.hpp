@@ -109,10 +109,25 @@ class YouBotManipulator {
     ///@param data returns the velocities by reference
     virtual void getJointData(std::vector<JointSensedVelocity>& data);
 
+    ///commands current to all manipulator joints
+    ///all current values will be set at the same time
+    ///@param JointData the to command current
+    void setJointData(const std::vector<JointCurrentSetpoint>& JointData);
+
     ///gets the motor currents of all manipulator joints which have been measured by a hal sensor
     ///These values are all read at the same time from the different joints 
     ///@param data returns the actual motor currents by reference
     virtual void getJointData(std::vector<JointSensedCurrent>& data);
+
+    ///commands torque to all manipulator joints
+    ///all torque values will be set at the same time
+    ///@param JointData the to command torque 
+    void setJointData(const std::vector<JointTorqueSetpoint>& JointData);
+
+    ///gets the joint torque of all manipulator joints which have been calculated from the current
+    ///These values are all read at the same time from the different joints 
+    ///@param data returns the actual joint torque by reference
+    virtual void getJointData(std::vector<JointSensedTorque>& data);
 
 
   private:

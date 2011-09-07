@@ -1,0 +1,3 @@
+class JointEncoderSetpoint
+!!!843121.cpp!!!	JointEncoderSetpoint()
+  this->encoderTicks = 0;

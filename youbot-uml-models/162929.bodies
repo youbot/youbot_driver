@@ -1,0 +1,3 @@
+class JointSensedAngle
+!!!841585.cpp!!!	JointSensedAngle()
+  this->angle = 0 * radian;

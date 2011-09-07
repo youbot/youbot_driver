@@ -1,0 +1,3 @@
+class JointAngleSetpoint
+!!!842609.cpp!!!	JointAngleSetpoint()
+  this->angle = 0 * radian;

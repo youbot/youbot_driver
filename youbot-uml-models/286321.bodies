@@ -53,7 +53,7 @@ class YouBotManipulator
       this->getArmJoint(5).setConfigurationParameter(doInitialization);
       EthercatMaster::getInstance().AutomaticReceiveOn(true);
 
-      unsigned short statusFlags;
+      unsigned int statusFlags;
       std::vector<bool> isCommutated;
       isCommutated.assign(ARMJOINTS, false);
       unsigned int u = 0;
@@ -306,7 +306,38 @@ class YouBotManipulator
     joints[3].getData(data[3]);
     joints[4].getData(data[4]);
     EthercatMaster::getInstance().AutomaticReceiveOn(true);
+!!!843377.cpp!!!	setJointData(in JointData : std::vector<JointCurrentSetpoint>) : void
+    if (JointData.size() != ARMJOINTS)
+      throw std::out_of_range("Wrong number of JointCurrentSetpoint");
+
+    EthercatMaster::getInstance().AutomaticSendOn(false);
+    joints[0].setData(JointData[0], NON_BLOCKING);
+    joints[1].setData(JointData[1], NON_BLOCKING);
+    joints[2].setData(JointData[2], NON_BLOCKING);
+    joints[3].setData(JointData[3], NON_BLOCKING);
+    joints[4].setData(JointData[4], NON_BLOCKING);
+    EthercatMaster::getInstance().AutomaticSendOn(true);
 !!!589937.cpp!!!	getJointData(out data : std::vector<JointSensedCurrent>) : void
+    data.resize(ARMJOINTS);
+    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    joints[0].getData(data[0]);
+    joints[1].getData(data[1]);
+    joints[2].getData(data[2]);
+    joints[3].getData(data[3]);
+    joints[4].getData(data[4]);
+    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+!!!843505.cpp!!!	setJointData(in JointData : std::vector<JointTorqueSetpoint>) : void
+    if (JointData.size() != ARMJOINTS)
+      throw std::out_of_range("Wrong number of JointTorqueSetpoint");
+
+    EthercatMaster::getInstance().AutomaticSendOn(false);
+    joints[0].setData(JointData[0], NON_BLOCKING);
+    joints[1].setData(JointData[1], NON_BLOCKING);
+    joints[2].setData(JointData[2], NON_BLOCKING);
+    joints[3].setData(JointData[3], NON_BLOCKING);
+    joints[4].setData(JointData[4], NON_BLOCKING);
+    EthercatMaster::getInstance().AutomaticSendOn(true);
+!!!843633.cpp!!!	getJointData(out data : std::vector<JointSensedTorque>) : void
     data.resize(ARMJOINTS);
     EthercatMaster::getInstance().AutomaticReceiveOn(false);
     joints[0].getData(data[0]);

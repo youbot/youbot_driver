@@ -1,0 +1,3 @@
+class JointVelocitySetpoint
+!!!842481.cpp!!!	JointVelocitySetpoint()
+  this->angularVelocity = 0 * radian_per_second;

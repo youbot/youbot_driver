@@ -375,6 +375,23 @@ void YouBotBase::getJointData(std::vector<JointSensedVelocity>& data) {
   // Bouml preserved body end 0008FC71
 }
 
+///commands current to all base joints
+///all current values will be set at the same time
+///@param JointData the to command current
+void YouBotBase::setJointData(const std::vector<JointCurrentSetpoint>& JointData) {
+  // Bouml preserved body begin 000CDFF1
+    if (JointData.size() != BASEJOINTS)
+      throw std::out_of_range("Wrong number of JointCurrentSetpoint");
+
+    EthercatMaster::getInstance().AutomaticSendOn(false);
+    joints[0].setData(JointData[0], NON_BLOCKING);
+    joints[1].setData(JointData[1], NON_BLOCKING);
+    joints[2].setData(JointData[2], NON_BLOCKING);
+    joints[3].setData(JointData[3], NON_BLOCKING);
+    EthercatMaster::getInstance().AutomaticSendOn(true);
+  // Bouml preserved body end 000CDFF1
+}
+
 ///gets the motor currents of all base joints which have been measured by a hal sensor
 ///These values are all read at the same time from the different joints 
 ///@param data returns the actual motor currents by reference
@@ -388,6 +405,38 @@ void YouBotBase::getJointData(std::vector<JointSensedCurrent>& data) {
     joints[3].getData(data[3]);
     EthercatMaster::getInstance().AutomaticReceiveOn(true);
   // Bouml preserved body end 0008FD71
+}
+
+///commands torque to all base joints
+///all torque values will be set at the same time
+///@param JointData the to command torque 
+void YouBotBase::setJointData(const std::vector<JointTorqueSetpoint>& JointData) {
+  // Bouml preserved body begin 000CE071
+    if (JointData.size() != BASEJOINTS)
+      throw std::out_of_range("Wrong number of JointTorqueSetpoint");
+
+    EthercatMaster::getInstance().AutomaticSendOn(false);
+    joints[0].setData(JointData[0], NON_BLOCKING);
+    joints[1].setData(JointData[1], NON_BLOCKING);
+    joints[2].setData(JointData[2], NON_BLOCKING);
+    joints[3].setData(JointData[3], NON_BLOCKING);
+    EthercatMaster::getInstance().AutomaticSendOn(true);
+  // Bouml preserved body end 000CE071
+}
+
+///gets the joint torque of all base joints which have been calculated from the current
+///These values are all read at the same time from the different joints 
+///@param data returns the actual joint torque by reference
+void YouBotBase::getJointData(std::vector<JointSensedTorque>& data) {
+  // Bouml preserved body begin 000CE0F1
+    data.resize(BASEJOINTS);
+    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    joints[0].getData(data[0]);
+    joints[1].getData(data[1]);
+    joints[2].getData(data[2]);
+    joints[3].getData(data[3]);
+    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+  // Bouml preserved body end 000CE0F1
 }
 
 bool YouBotBase::areSame(const double A, const double B) {

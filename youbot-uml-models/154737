@@ -1,6 +1,6 @@
 format 75
 "generic-joint" // generic-joint
-  revision 18
+  revision 19
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -118,6 +118,12 @@ ${definition}
 ${namespace_end}
 #endif
 "
+      cpp_src "${description}
+#include \"generic-joint/JointData.hpp\"
+
+${namespace_start}
+${members}
+${namespace_end}"
       associated_classes
 	class_ref 170353 // JointData
 	class_ref 162289 // JointSensedData

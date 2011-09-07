@@ -1,0 +1,3 @@
+class JointSensedCurrent
+!!!841969.cpp!!!	JointSensedCurrent()
+  this->current = 0 * ampere;

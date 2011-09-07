@@ -1,0 +1,3 @@
+class JointSensedEncoderTicks
+!!!841713.cpp!!!	JointSensedEncoderTicks()
+  this->encoderTicks = 0;

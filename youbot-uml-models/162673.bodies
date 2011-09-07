@@ -1,0 +1,3 @@
+class JointSensedTorque
+!!!841329.cpp!!!	JointSensedTorque()
+  this->torque = 0 * newton_meter;

@@ -1,0 +1,3 @@
+class JointSensedRoundsPerMinute
+!!!841841.cpp!!!	JointSensedRoundsPerMinute()
+  this->rpm = 0;

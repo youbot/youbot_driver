@@ -1,0 +1,3 @@
+class JointTorqueSetpoint
+!!!842353.cpp!!!	JointTorqueSetpoint()
+  this->torque = 0 * newton_meter;

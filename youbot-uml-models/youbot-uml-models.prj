@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 192
+  revision 193
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -1298,6 +1298,7 @@ ${inlines}
 	    classrelation_ref 176113 // <realization>
 	  b parent class_ref 170353 // JointData
       end
+
     end
 
     class 162545 "JointSensedTemperature"
@@ -1318,6 +1319,7 @@ ${inlines}
       comment "/// sensed Temperature of the joint"
       attribute 252913 "temperature"
 	public explicit_type "quantity<celsius::temperature>"
+	init_value "0"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -1332,6 +1334,20 @@ ${inlines}
 	    cpp default "${type}"
 	    classrelation_ref 175857 // <realization>
 	  b parent class_ref 162289 // JointSensedData
+      end
+
+      operation 841201 "JointSensedTemperature"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
       end
     end
 
@@ -1368,6 +1384,20 @@ ${inlines}
 	    classrelation_ref 168561 // <realization>
 	  b parent class_ref 162289 // JointSensedData
       end
+
+      operation 841329 "JointSensedTorque"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
     end
 
     class 162801 "JointSensedVelocity"
@@ -1402,6 +1432,20 @@ ${inlines}
 	    cpp default "${type}"
 	    classrelation_ref 168689 // <realization>
 	  b parent class_ref 162289 // JointSensedData
+      end
+
+      operation 841457 "JointSensedVelocity"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
       end
     end
 
@@ -1438,6 +1482,20 @@ ${inlines}
 	    classrelation_ref 168817 // <realization>
 	  b parent class_ref 162289 // JointSensedData
       end
+
+      operation 841585 "JointSensedAngle"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
     end
 
     class 375281 "JointSensedEncoderTicks"
@@ -1472,6 +1530,20 @@ ${inlines}
 	    cpp default "${type}"
 	    classrelation_ref 342641 // <realization>
 	  b parent class_ref 162289 // JointSensedData
+      end
+
+      operation 841713 "JointSensedEncoderTicks"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
       end
     end
 
@@ -1508,6 +1580,20 @@ ${inlines}
 	    classrelation_ref 349169 // <realization>
 	  b parent class_ref 162289 // JointSensedData
       end
+
+      operation 841841 "JointSensedRoundsPerMinute"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
     end
 
     class 169841 "JointSensedCurrent"
@@ -1542,6 +1628,20 @@ ${inlines}
 	    cpp default "${type}"
 	    classrelation_ref 175729 // <realization>
 	  b parent class_ref 162289 // JointSensedData
+      end
+
+      operation 841969 "JointSensedCurrent"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
       end
     end
 
@@ -1578,6 +1678,20 @@ ${inlines}
 	    classrelation_ref 393841 // <realization>
 	  b parent class_ref 162289 // JointSensedData
       end
+
+      operation 842097 "JointSensedPWM"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
     end
 
     class 170481 "JointDataSetpoint"
@@ -1603,6 +1717,7 @@ ${inlines}
 	    classrelation_ref 176241 // <realization>
 	  b parent class_ref 170353 // JointData
       end
+
     end
 
     class 170609 "JointTorqueSetpoint"
@@ -1637,6 +1752,20 @@ ${inlines}
 	    cpp default "${type}"
 	    classrelation_ref 176497 // <realization>
 	  b parent class_ref 170481 // JointDataSetpoint
+      end
+
+      operation 842353 "JointTorqueSetpoint"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
       end
     end
 
@@ -1673,6 +1802,20 @@ ${inlines}
 	    classrelation_ref 176753 // <realization>
 	  b parent class_ref 170481 // JointDataSetpoint
       end
+
+      operation 842481 "JointVelocitySetpoint"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
     end
 
     class 170865 "JointAngleSetpoint"
@@ -1707,6 +1850,20 @@ ${inlines}
 	    cpp default "${type}"
 	    classrelation_ref 177009 // <realization>
 	  b parent class_ref 170481 // JointDataSetpoint
+      end
+
+      operation 842609 "JointAngleSetpoint"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
       end
     end
 
@@ -1743,6 +1900,20 @@ ${inlines}
 	    classrelation_ref 177265 // <realization>
 	  b parent class_ref 170481 // JointDataSetpoint
       end
+
+      operation 842737 "JointCurrentSetpoint"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
     end
 
     class 347889 "JointPWMSetpoint"
@@ -1777,6 +1948,20 @@ ${inlines}
 	    cpp default "${type}"
 	    classrelation_ref 308977 // <realization>
 	  b parent class_ref 170481 // JointDataSetpoint
+      end
+
+      operation 842865 "JointPWMSetpoint"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
       end
     end
 
@@ -1813,6 +1998,20 @@ ${inlines}
 	    classrelation_ref 349297 // <realization>
 	  b parent class_ref 170481 // JointDataSetpoint
       end
+
+      operation 842993 "JointRoundsPerMinuteSetpoint"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
     end
 
     class 412657 "JointEncoderSetpoint"
@@ -1847,6 +2046,20 @@ ${inlines}
 	    cpp default "${type}"
 	    classrelation_ref 380785 // <generalisation>
 	  b parent class_ref 170481 // JointDataSetpoint
+      end
+
+      operation 843121 "JointEncoderSetpoint"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
       end
     end
   end
@@ -22357,6 +22570,24 @@ ${inlines}
 ///@param data returns the velocities by reference"
       end
 
+      operation 843377 "setJointData"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param in name "JointData" explicit_type "std::vector<JointCurrentSetpoint>"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///commands current to all manipulator joints
+///all current values will be set at the same time
+///@param JointData the to command current"
+      end
+
       operation 589937 "getJointData"
 	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 1
@@ -22373,6 +22604,42 @@ ${inlines}
 	comment "///gets the motor currents of all manipulator joints which have been measured by a hal sensor
 ///These values are all read at the same time from the different joints 
 ///@param data returns the actual motor currents by reference"
+      end
+
+      operation 843505 "setJointData"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param in name "JointData" explicit_type "std::vector<JointTorqueSetpoint>"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///commands torque to all manipulator joints
+///all torque values will be set at the same time
+///@param JointData the to command torque "
+      end
+
+      operation 843633 "getJointData"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "data" explicit_type "std::vector<JointSensedTorque>"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///gets the joint torque of all manipulator joints which have been calculated from the current
+///These values are all read at the same time from the different joints 
+///@param data returns the actual joint torque by reference"
       end
 
       operation 688881 "areSame"
@@ -22722,6 +22989,24 @@ ${inlines}
 ///@param data returns the velocities by reference"
       end
 
+      operation 843761 "setJointData"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param in name "JointData" explicit_type "std::vector<JointCurrentSetpoint>"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///commands current to all base joints
+///all current values will be set at the same time
+///@param JointData the to command current"
+      end
+
       operation 589169 "getJointData"
 	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 1
@@ -22738,6 +23023,42 @@ ${inlines}
 	comment "///gets the motor currents of all base joints which have been measured by a hal sensor
 ///These values are all read at the same time from the different joints 
 ///@param data returns the actual motor currents by reference"
+      end
+
+      operation 843889 "setJointData"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param in name "JointData" explicit_type "std::vector<JointTorqueSetpoint>"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///commands torque to all base joints
+///all torque values will be set at the same time
+///@param JointData the to command torque "
+      end
+
+      operation 844017 "getJointData"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "data" explicit_type "std::vector<JointSensedTorque>"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///gets the joint torque of all base joints which have been calculated from the current
+///These values are all read at the same time from the different joints 
+///@param data returns the actual joint torque by reference"
       end
 
       operation 682353 "areSame"

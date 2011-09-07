@@ -75,7 +75,7 @@ class YouBotBase
       this->getBaseJoint(4).setConfigurationParameter(doInitialization);
       EthercatMaster::getInstance().AutomaticReceiveOn(true);
 
-      unsigned short statusFlags;
+      unsigned int statusFlags;
       std::vector<bool> isCommutated;
       isCommutated.assign(BASEJOINTS, false);
       unsigned int u = 0;
@@ -244,7 +244,35 @@ class YouBotBase
     joints[2].getData(data[2]);
     joints[3].getData(data[3]);
     EthercatMaster::getInstance().AutomaticReceiveOn(true);
+!!!843761.cpp!!!	setJointData(in JointData : std::vector<JointCurrentSetpoint>) : void
+    if (JointData.size() != BASEJOINTS)
+      throw std::out_of_range("Wrong number of JointCurrentSetpoint");
+
+    EthercatMaster::getInstance().AutomaticSendOn(false);
+    joints[0].setData(JointData[0], NON_BLOCKING);
+    joints[1].setData(JointData[1], NON_BLOCKING);
+    joints[2].setData(JointData[2], NON_BLOCKING);
+    joints[3].setData(JointData[3], NON_BLOCKING);
+    EthercatMaster::getInstance().AutomaticSendOn(true);
 !!!589169.cpp!!!	getJointData(out data : std::vector<JointSensedCurrent>) : void
+    data.resize(BASEJOINTS);
+    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    joints[0].getData(data[0]);
+    joints[1].getData(data[1]);
+    joints[2].getData(data[2]);
+    joints[3].getData(data[3]);
+    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+!!!843889.cpp!!!	setJointData(in JointData : std::vector<JointTorqueSetpoint>) : void
+    if (JointData.size() != BASEJOINTS)
+      throw std::out_of_range("Wrong number of JointTorqueSetpoint");
+
+    EthercatMaster::getInstance().AutomaticSendOn(false);
+    joints[0].setData(JointData[0], NON_BLOCKING);
+    joints[1].setData(JointData[1], NON_BLOCKING);
+    joints[2].setData(JointData[2], NON_BLOCKING);
+    joints[3].setData(JointData[3], NON_BLOCKING);
+    EthercatMaster::getInstance().AutomaticSendOn(true);
+!!!844017.cpp!!!	getJointData(out data : std::vector<JointSensedTorque>) : void
     data.resize(BASEJOINTS);
     EthercatMaster::getInstance().AutomaticReceiveOn(false);
     joints[0].getData(data[0]);

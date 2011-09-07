@@ -1,0 +1,3 @@
+class JointCurrentSetpoint
+!!!842737.cpp!!!	JointCurrentSetpoint()
+  this->current = 0 * ampere;
