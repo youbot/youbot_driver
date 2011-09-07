@@ -237,16 +237,6 @@ void ErrorAndStatus::parseYouBotErrorFlags() const {
       //   throw JointErrorException(errorMessage + "got hall sensor problem");
     }
 
-    if (value & ENCODER_ERROR) {
-      LOG(error) << errorMessage << "encoder problem";
-      //   throw JointErrorException(errorMessage + "got encoder problem");
-    }
-
-    if (value & INITIALIZATION_ERROR) {
-      LOG(error) << errorMessage << "inizialization problem";
-      //   throw JointErrorException(errorMessage + "got motor winding problem");
-    }
-
     if (value & PWM_MODE_ACTIVE) {
       LOG(info) << errorMessage << "PWM mode active";
       //   throw JointErrorException(errorMessage + "the cycle time is violated");
@@ -264,16 +254,6 @@ void ErrorAndStatus::parseYouBotErrorFlags() const {
 
     if (value & TORQUE_MODE) {
       LOG(info) << errorMessage << "torque mode active";
-      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
-    }
-
-    if (value & EMERGENCY_STOP) {
-      LOG(info) << errorMessage << "emergency stop active";
-      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
-    }
-
-    if (value & FREERUNNING) {
-      LOG(info) << errorMessage << "freerunning active";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 

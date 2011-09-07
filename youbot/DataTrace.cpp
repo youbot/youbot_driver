@@ -86,6 +86,7 @@ void DataTrace::startTrace() {
             << " " << "sensed RPM"
             << " " << "sensed current [A]"
             << " " << "sensed torque [Nm]"
+            << " " << "actual PWM"
 
             << " " << "OVER_CURRENT" << " "
             << "UNDER_VOLTAGE" << " "
@@ -93,19 +94,15 @@ void DataTrace::startTrace() {
             << "OVER_TEMPERATURE" << " "
             << "MOTOR_HALTED" << " "
             << "HALL_SENSOR_ERROR" << " "
-            << "ENCODER_ERROR" << " "
-            << "INITIALIZATION_ERROR" << " "
             << "PWM_MODE_ACTIVE" << " "
             << "VELOCITY_MODE" << " "
             << "POSITION_MODE" << " "
             << "TORQUE_MODE" << " "
-            << "EMERGENCY_STOP" << " "
-            << "FREERUNNING" << " "
             << "POSITION_REACHED" << " "
             << "INITIALIZED" << " "
             << "TIMEOUT" << " "
             << "I2T_EXCEEDED" << " "
-            << "actual PWM"<< std::endl;
+            << std::endl;
 
     parametersBeginTraceFile.open("ParametersAtBegin", std::fstream::out | std::fstream::trunc);
     std::string parameterString;
@@ -389,26 +386,23 @@ void DataTrace::update() {
             << " " << sensedRoundsPerMinute.rpm //12
             << " " << sensedCurrent.current.value() //13
             << " " << sensedTorque.torque.value() //14
+            << " " << actualPWM.pwm //15
 
-            << " " << bool(statusFlags & OVER_CURRENT) << " " //15
-            << bool(statusFlags & UNDER_VOLTAGE) << " " //16
-            << bool(statusFlags & OVER_VOLTAGE) << " " //17
-            << bool(statusFlags & OVER_TEMPERATURE) << " " //18
-            << bool(statusFlags & MOTOR_HALTED) << " " //19
-            << bool(statusFlags & HALL_SENSOR_ERROR) << " " //20
-            << bool(statusFlags & ENCODER_ERROR) << " " //21
-            << bool(statusFlags & INITIALIZATION_ERROR) << " " //22
-            << bool(statusFlags & PWM_MODE_ACTIVE) << " " //23
-            << bool(statusFlags & VELOCITY_MODE) << " " //24
-            << bool(statusFlags & POSITION_MODE) << " " //25
-            << bool(statusFlags & TORQUE_MODE) << " " //26
-            << bool(statusFlags & EMERGENCY_STOP) << " " //27
-            << bool(statusFlags & FREERUNNING) << " " //28
-            << bool(statusFlags & POSITION_REACHED) << " " //29
-            << bool(statusFlags & INITIALIZED) << " " //30
-            << bool(statusFlags & TIMEOUT) << " " //31
-            << bool(statusFlags & I2T_EXCEEDED) //32
-            << " " << actualPWM.pwm << std::endl; //33
+            << " " << bool(statusFlags & OVER_CURRENT) << " " //16
+            << bool(statusFlags & UNDER_VOLTAGE) << " " //17
+            << bool(statusFlags & OVER_VOLTAGE) << " " //18
+            << bool(statusFlags & OVER_TEMPERATURE) << " " //19
+            << bool(statusFlags & MOTOR_HALTED) << " " //20
+            << bool(statusFlags & HALL_SENSOR_ERROR) << " " //21
+            << bool(statusFlags & PWM_MODE_ACTIVE) << " " //22
+            << bool(statusFlags & VELOCITY_MODE) << " " //23
+            << bool(statusFlags & POSITION_MODE) << " " //24
+            << bool(statusFlags & TORQUE_MODE) << " " //25
+            << bool(statusFlags & POSITION_REACHED) << " " //26
+            << bool(statusFlags & INITIALIZED) << " " //27
+            << bool(statusFlags & TIMEOUT) << " " //28
+            << bool(statusFlags & I2T_EXCEEDED) //29
+            << std::endl;
 
 
   // Bouml preserved body end 000C94F1
