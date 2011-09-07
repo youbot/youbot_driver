@@ -74,6 +74,8 @@ class JointSensedPWM : public JointSensedData {
 
     JointSensedPWM();
 
+    JointSensedPWM(const signed int& value);
+
 };
 ///////////////////////////////////////////////////////////////////////////////
 /// Sensed position / angle of the joint
@@ -83,6 +85,8 @@ class JointSensedAngle : public JointSensedData {
     quantity<plane_angle> angle;
 
     JointSensedAngle();
+
+    JointSensedAngle(const quantity<plane_angle>& value);
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -94,6 +98,8 @@ class JointSensedEncoderTicks : public JointSensedData {
 
     JointSensedEncoderTicks();
 
+    JointSensedEncoderTicks(const signed int& value);
+
 };
 ///////////////////////////////////////////////////////////////////////////////
 /// Sensed velocity of the joint
@@ -103,6 +109,8 @@ class JointSensedVelocity : public JointSensedData {
     quantity<si::angular_velocity> angularVelocity;
 
     JointSensedVelocity();
+
+    JointSensedVelocity(const quantity<si::angular_velocity>& value);
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -114,6 +122,8 @@ class JointSensedRoundsPerMinute : public JointSensedData {
 
     JointSensedRoundsPerMinute();
 
+    JointSensedRoundsPerMinute(const int value);
+
 };
 ///////////////////////////////////////////////////////////////////////////////
 /// Sensed electric current of the joint
@@ -123,6 +133,8 @@ class JointSensedCurrent : public JointSensedData {
     quantity<si::current> current;
 
     JointSensedCurrent();
+
+    JointSensedCurrent(const quantity<si::current>& value);
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -134,15 +146,7 @@ class JointSensedTorque : public JointSensedData {
 
     JointSensedTorque();
 
-};
-///////////////////////////////////////////////////////////////////////////////
-/// sensed Temperature of the joint
-///////////////////////////////////////////////////////////////////////////////
-class JointSensedTemperature : public JointSensedData {
-  public:
-    quantity<celsius::temperature> temperature;
-
-    JointSensedTemperature();
+    JointSensedTorque(const quantity<si::torque>& value);
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -159,6 +163,8 @@ class JointAngleSetpoint : public JointDataSetpoint {
 
     JointAngleSetpoint();
 
+    JointAngleSetpoint(const quantity<plane_angle>& value);
+
 };
 ///////////////////////////////////////////////////////////////////////////////
 /// Set-point velocity of the joint
@@ -168,6 +174,8 @@ class JointVelocitySetpoint : public JointDataSetpoint {
     quantity<angular_velocity> angularVelocity;
 
     JointVelocitySetpoint();
+
+    JointVelocitySetpoint(const quantity<angular_velocity>& value);
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -179,6 +187,8 @@ class JointRoundsPerMinuteSetpoint : public JointDataSetpoint {
 
     JointRoundsPerMinuteSetpoint();
 
+    JointRoundsPerMinuteSetpoint(const int value);
+
 };
 ///////////////////////////////////////////////////////////////////////////////
 /// Set-point current of the joint
@@ -188,6 +198,8 @@ class JointCurrentSetpoint : public JointDataSetpoint {
     quantity<si::current> current;
 
     JointCurrentSetpoint();
+
+    JointCurrentSetpoint(const quantity<si::current>& value);
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -199,6 +211,8 @@ class JointTorqueSetpoint : public JointDataSetpoint {
 
     JointTorqueSetpoint();
 
+    JointTorqueSetpoint(const quantity<si::torque>& value);
+
 };
 ///////////////////////////////////////////////////////////////////////////////
 /// Pulse-width modulation set-point of the joint
@@ -209,6 +223,8 @@ class JointPWMSetpoint : public JointDataSetpoint {
 
     JointPWMSetpoint();
 
+    JointPWMSetpoint(const int value);
+
 };
 ///////////////////////////////////////////////////////////////////////////////
 /// encoder ticks setpoint of the joint
@@ -218,6 +234,8 @@ class JointEncoderSetpoint : public JointDataSetpoint {
     signed int encoderTicks;
 
     JointEncoderSetpoint();
+
+    JointEncoderSetpoint(const signed int& value);
 
 };
 

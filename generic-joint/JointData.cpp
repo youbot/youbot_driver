@@ -58,10 +58,22 @@ JointSensedPWM::JointSensedPWM() {
   // Bouml preserved body end 000CD971
 }
 
+JointSensedPWM::JointSensedPWM(const signed int& value) {
+  // Bouml preserved body begin 000CFDF1
+  this->pwm = value;
+  // Bouml preserved body end 000CFDF1
+}
+
 JointSensedAngle::JointSensedAngle() {
   // Bouml preserved body begin 000CD771
   this->angle = 0 * radian;
   // Bouml preserved body end 000CD771
+}
+
+JointSensedAngle::JointSensedAngle(const quantity<plane_angle>& value) {
+  // Bouml preserved body begin 000CFBF1
+  this->angle = value;
+  // Bouml preserved body end 000CFBF1
 }
 
 JointSensedEncoderTicks::JointSensedEncoderTicks() {
@@ -70,10 +82,22 @@ JointSensedEncoderTicks::JointSensedEncoderTicks() {
   // Bouml preserved body end 000CD7F1
 }
 
+JointSensedEncoderTicks::JointSensedEncoderTicks(const signed int& value) {
+  // Bouml preserved body begin 000CFC71
+  this->encoderTicks = value;
+  // Bouml preserved body end 000CFC71
+}
+
 JointSensedVelocity::JointSensedVelocity() {
   // Bouml preserved body begin 000CD6F1
   this->angularVelocity = 0 * radian_per_second;
   // Bouml preserved body end 000CD6F1
+}
+
+JointSensedVelocity::JointSensedVelocity(const quantity<si::angular_velocity>& value) {
+  // Bouml preserved body begin 000CFB71
+  this->angularVelocity = value;
+  // Bouml preserved body end 000CFB71
 }
 
 JointSensedRoundsPerMinute::JointSensedRoundsPerMinute() {
@@ -82,10 +106,22 @@ JointSensedRoundsPerMinute::JointSensedRoundsPerMinute() {
   // Bouml preserved body end 000CD871
 }
 
+JointSensedRoundsPerMinute::JointSensedRoundsPerMinute(const int value) {
+  // Bouml preserved body begin 000CFCF1
+  this->rpm = value;
+  // Bouml preserved body end 000CFCF1
+}
+
 JointSensedCurrent::JointSensedCurrent() {
   // Bouml preserved body begin 000CD8F1
   this->current = 0 * ampere;
   // Bouml preserved body end 000CD8F1
+}
+
+JointSensedCurrent::JointSensedCurrent(const quantity<si::current>& value) {
+  // Bouml preserved body begin 000CFD71
+  this->current = value;
+  // Bouml preserved body end 000CFD71
 }
 
 JointSensedTorque::JointSensedTorque() {
@@ -94,10 +130,10 @@ JointSensedTorque::JointSensedTorque() {
   // Bouml preserved body end 000CD671
 }
 
-JointSensedTemperature::JointSensedTemperature() {
-  // Bouml preserved body begin 000CD5F1
-  this->temperature = 0 * celsius::degree;
-  // Bouml preserved body end 000CD5F1
+JointSensedTorque::JointSensedTorque(const quantity<si::torque>& value) {
+  // Bouml preserved body begin 000CFAF1
+  this->torque = value;
+  // Bouml preserved body end 000CFAF1
 }
 
 JointAngleSetpoint::JointAngleSetpoint() {
@@ -106,10 +142,22 @@ JointAngleSetpoint::JointAngleSetpoint() {
   // Bouml preserved body end 000CDB71
 }
 
+JointAngleSetpoint::JointAngleSetpoint(const quantity<plane_angle>& value) {
+  // Bouml preserved body begin 000CFF71
+  this->angle = value;
+  // Bouml preserved body end 000CFF71
+}
+
 JointVelocitySetpoint::JointVelocitySetpoint() {
   // Bouml preserved body begin 000CDAF1
   this->angularVelocity = 0 * radian_per_second;
   // Bouml preserved body end 000CDAF1
+}
+
+JointVelocitySetpoint::JointVelocitySetpoint(const quantity<angular_velocity>& value) {
+  // Bouml preserved body begin 000CFEF1
+  this->angularVelocity = value;
+  // Bouml preserved body end 000CFEF1
 }
 
 JointRoundsPerMinuteSetpoint::JointRoundsPerMinuteSetpoint() {
@@ -118,10 +166,22 @@ JointRoundsPerMinuteSetpoint::JointRoundsPerMinuteSetpoint() {
   // Bouml preserved body end 000CDCF1
 }
 
+JointRoundsPerMinuteSetpoint::JointRoundsPerMinuteSetpoint(const int value) {
+  // Bouml preserved body begin 000D00F1
+  this->rpm = value;
+  // Bouml preserved body end 000D00F1
+}
+
 JointCurrentSetpoint::JointCurrentSetpoint() {
   // Bouml preserved body begin 000CDBF1
   this->current = 0 * ampere;
   // Bouml preserved body end 000CDBF1
+}
+
+JointCurrentSetpoint::JointCurrentSetpoint(const quantity<si::current>& value) {
+  // Bouml preserved body begin 000CFFF1
+  this->current = value;
+  // Bouml preserved body end 000CFFF1
 }
 
 JointTorqueSetpoint::JointTorqueSetpoint() {
@@ -130,16 +190,34 @@ JointTorqueSetpoint::JointTorqueSetpoint() {
   // Bouml preserved body end 000CDA71
 }
 
+JointTorqueSetpoint::JointTorqueSetpoint(const quantity<si::torque>& value) {
+  // Bouml preserved body begin 000CFE71
+  this->torque = value;
+  // Bouml preserved body end 000CFE71
+}
+
 JointPWMSetpoint::JointPWMSetpoint() {
   // Bouml preserved body begin 000CDC71
   this->pwm = 0;
   // Bouml preserved body end 000CDC71
 }
 
+JointPWMSetpoint::JointPWMSetpoint(const int value) {
+  // Bouml preserved body begin 000D0071
+  this->pwm = value;
+  // Bouml preserved body end 000D0071
+}
+
 JointEncoderSetpoint::JointEncoderSetpoint() {
   // Bouml preserved body begin 000CDD71
   this->encoderTicks = 0;
   // Bouml preserved body end 000CDD71
+}
+
+JointEncoderSetpoint::JointEncoderSetpoint(const signed int& value) {
+  // Bouml preserved body begin 000D0171
+  this->encoderTicks = value;
+  // Bouml preserved body end 000D0171
 }
 
 
