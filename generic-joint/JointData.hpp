@@ -72,6 +72,8 @@ class JointSensedPWM : public JointSensedData {
   public:
     signed int pwm;
 
+    JointSensedPWM();
+
 };
 ///////////////////////////////////////////////////////////////////////////////
 /// Sensed position / angle of the joint
@@ -79,6 +81,8 @@ class JointSensedPWM : public JointSensedData {
 class JointSensedAngle : public JointSensedData {
   public:
     quantity<plane_angle> angle;
+
+    JointSensedAngle();
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -88,6 +92,8 @@ class JointSensedEncoderTicks : public JointSensedData {
   public:
     signed int encoderTicks;
 
+    JointSensedEncoderTicks();
+
 };
 ///////////////////////////////////////////////////////////////////////////////
 /// Sensed velocity of the joint
@@ -95,6 +101,8 @@ class JointSensedEncoderTicks : public JointSensedData {
 class JointSensedVelocity : public JointSensedData {
   public:
     quantity<si::angular_velocity> angularVelocity;
+
+    JointSensedVelocity();
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -104,6 +112,8 @@ class JointSensedRoundsPerMinute : public JointSensedData {
   public:
     int rpm;
 
+    JointSensedRoundsPerMinute();
+
 };
 ///////////////////////////////////////////////////////////////////////////////
 /// Sensed electric current of the joint
@@ -111,6 +121,8 @@ class JointSensedRoundsPerMinute : public JointSensedData {
 class JointSensedCurrent : public JointSensedData {
   public:
     quantity<si::current> current;
+
+    JointSensedCurrent();
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -120,6 +132,8 @@ class JointSensedTorque : public JointSensedData {
   public:
     quantity<si::torque> torque;
 
+    JointSensedTorque();
+
 };
 ///////////////////////////////////////////////////////////////////////////////
 /// sensed Temperature of the joint
@@ -127,6 +141,8 @@ class JointSensedTorque : public JointSensedData {
 class JointSensedTemperature : public JointSensedData {
   public:
     quantity<celsius::temperature> temperature;
+
+    JointSensedTemperature();
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -141,6 +157,8 @@ class JointAngleSetpoint : public JointDataSetpoint {
   public:
     quantity<plane_angle> angle;
 
+    JointAngleSetpoint();
+
 };
 ///////////////////////////////////////////////////////////////////////////////
 /// Set-point velocity of the joint
@@ -148,6 +166,8 @@ class JointAngleSetpoint : public JointDataSetpoint {
 class JointVelocitySetpoint : public JointDataSetpoint {
   public:
     quantity<angular_velocity> angularVelocity;
+
+    JointVelocitySetpoint();
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -157,6 +177,8 @@ class JointRoundsPerMinuteSetpoint : public JointDataSetpoint {
   public:
     int rpm;
 
+    JointRoundsPerMinuteSetpoint();
+
 };
 ///////////////////////////////////////////////////////////////////////////////
 /// Set-point current of the joint
@@ -164,6 +186,8 @@ class JointRoundsPerMinuteSetpoint : public JointDataSetpoint {
 class JointCurrentSetpoint : public JointDataSetpoint {
   public:
     quantity<si::current> current;
+
+    JointCurrentSetpoint();
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -173,6 +197,8 @@ class JointTorqueSetpoint : public JointDataSetpoint {
   public:
     quantity<si::torque> torque;
 
+    JointTorqueSetpoint();
+
 };
 ///////////////////////////////////////////////////////////////////////////////
 /// Pulse-width modulation set-point of the joint
@@ -181,6 +207,8 @@ class JointPWMSetpoint : public JointDataSetpoint {
   public:
     int pwm;
 
+    JointPWMSetpoint();
+
 };
 ///////////////////////////////////////////////////////////////////////////////
 /// encoder ticks setpoint of the joint
@@ -188,6 +216,8 @@ class JointPWMSetpoint : public JointDataSetpoint {
 class JointEncoderSetpoint : public JointDataSetpoint {
   public:
     signed int encoderTicks;
+
+    JointEncoderSetpoint();
 
 };
 

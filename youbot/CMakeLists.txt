@@ -2,6 +2,7 @@
 SET(YOUBOT_DRIVER_SRC
   ${CMAKE_HOME_DIRECTORY}/generic/Logger.cpp
   ${CMAKE_HOME_DIRECTORY}/generic/ConfigFile.cpp
+  ${CMAKE_HOME_DIRECTORY}/generic-joint/JointData.cpp
   ${CMAKE_HOME_DIRECTORY}/youbot/EthercatMaster.cpp
   ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJoint.cpp
   ${CMAKE_HOME_DIRECTORY}/youbot/YouBotBase.cpp
