@@ -246,6 +246,8 @@ friend class YouBotGripper;
 
     std::vector<bool> inverseMovementDirection;
 
+    std::vector<YouBotSlaveMsg> BufferForGetMsgBuffer;
+
 };
 
 } // namespace youbot

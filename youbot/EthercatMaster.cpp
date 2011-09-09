@@ -483,23 +483,27 @@ void EthercatMaster::setMsgBuffer(const YouBotSlaveMsg& msgBuffer, const unsigne
 YouBotSlaveMsg EthercatMaster::getMsgBuffer(const unsigned int jointNumber) {
   // Bouml preserved body begin 00041571
 
+    static bool lastValueof_newDataFlagOne;
+    static bool lastValueof_newDataFlagTwo;
     YouBotSlaveMsg returnMsg;
 
+    
     if (this->automaticReceiveOn == true) {
-      if (newDataFlagOne == true) {
+      if (newDataFlagOne == true && lastValueof_newDataFlagOne == false) {
         {
           boost::mutex::scoped_lock dataMutex1(mutexDataOne);
-          returnMsg = firstBufferVector[jointNumber - 1];
+          BufferForGetMsgBuffer = firstBufferVector;
         }
-      } else if (newDataFlagTwo == true) {
+      } else if (newDataFlagTwo == true && lastValueof_newDataFlagTwo == false) {
         {
           boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
-          returnMsg = secondBufferVector[jointNumber - 1];
+          BufferForGetMsgBuffer = secondBufferVector;
         }
-
-      } else {
-        return returnMsg;
-      }
+      } 
+      
+      returnMsg = BufferForGetMsgBuffer[jointNumber - 1];
+      lastValueof_newDataFlagOne = newDataFlagOne;
+      lastValueof_newDataFlagTwo = newDataFlagTwo;
     } else {
       returnMsg = this->automaticReceiveOffBufferVector[jointNumber - 1];
     }
