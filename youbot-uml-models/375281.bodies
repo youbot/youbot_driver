@@ -1,3 +1,5 @@
 class JointSensedEncoderTicks
 !!!841713.cpp!!!	JointSensedEncoderTicks()
   this->encoderTicks = 0;
+!!!851057.cpp!!!	JointSensedEncoderTicks(in value : signed int)
+  this->encoderTicks = value;

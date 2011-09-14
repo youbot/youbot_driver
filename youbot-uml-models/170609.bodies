@@ -1,3 +1,5 @@
 class JointTorqueSetpoint
 !!!842353.cpp!!!	JointTorqueSetpoint()
   this->torque = 0 * newton_meter;
+!!!851569.cpp!!!	JointTorqueSetpoint(in value : quantity<si::torque>)
+  this->torque = value;

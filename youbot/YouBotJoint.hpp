@@ -116,6 +116,8 @@ class YouBotJoint : public Joint {
 
     void getConfigurationParameter(JointLimits& parameter);
 
+    void getConfigurationParameter(JointLimitsRadian& parameter);
+
     void setConfigurationParameter(const InitializeJoint& parameter);
 
     void getConfigurationParameter(FirmwareVersion& parameter);

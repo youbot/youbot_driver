@@ -1,3 +1,5 @@
 class JointSensedRoundsPerMinute
 !!!841841.cpp!!!	JointSensedRoundsPerMinute()
   this->rpm = 0;
+!!!851185.cpp!!!	JointSensedRoundsPerMinute(in value : int)
+  this->rpm = value;

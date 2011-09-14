@@ -125,7 +125,7 @@ class YouBotJoint
     this->storage.inverseMovementDirection = parameter.value;
 !!!824945.cpp!!!	getConfigurationParameter(out parameter : InverseMovementDirection) : void
     parameter.setParameter(this->storage.inverseMovementDirection);
-!!!410353.cpp!!!	setConfigurationParameter(in parameter : JointLimits) : void
+!!!869233.cpp!!!	setConfigurationParameter(in parameter : JointLimits) : void
 
     this->storage.lowerLimit = parameter.lowerLimit;
     this->storage.upperLimit = parameter.upperLimit;
@@ -134,6 +134,10 @@ class YouBotJoint
 
 !!!824817.cpp!!!	getConfigurationParameter(out parameter : JointLimits) : void
     parameter.setParameter(this->storage.lowerLimit, this->storage.upperLimit, this->storage.areLimitsActive);
+!!!869361.cpp!!!	getConfigurationParameter(out parameter : JointLimitsRadian) : void
+    quantity<plane_angle> lowlimit = ((double) this->storage.lowerLimit / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
+    quantity<plane_angle> uplimit = ((double) this->storage.upperLimit / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
+    parameter.setParameter(lowlimit, uplimit, this->storage.areLimitsActive);
 !!!619505.cpp!!!	setConfigurationParameter(in parameter : InitializeJoint) : void
     if (parameter.value) {
       YouBotSlaveMsg messageBuffer;

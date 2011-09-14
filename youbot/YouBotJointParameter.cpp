@@ -373,6 +373,48 @@ void JointLimits::toString(std::string& value) {
   // Bouml preserved body end 0009C7F1
 }
 
+JointLimitsRadian::JointLimitsRadian() {
+  // Bouml preserved body begin 000D3EF1
+    this->name = "JointLimitsRadian";
+    this->parameterType = API_PARAMETER;
+    this->lowerLimit = 0;
+    this->upperLimit = 0;
+    this->areLimitsActive = true;
+  // Bouml preserved body end 000D3EF1
+}
+
+JointLimitsRadian::~JointLimitsRadian() {
+  // Bouml preserved body begin 000D3F71
+  // Bouml preserved body end 000D3F71
+}
+
+void JointLimitsRadian::getParameter(quantity<plane_angle>& lowerLimit, quantity<plane_angle>& upperLimit, bool& areLimitsActive) const {
+  // Bouml preserved body begin 000D3FF1
+    lowerLimit = this->lowerLimit;
+    upperLimit = this->upperLimit;
+    areLimitsActive = this->areLimitsActive;
+  // Bouml preserved body end 000D3FF1
+}
+
+void JointLimitsRadian::setParameter(const quantity<plane_angle>& lowerLimit, const quantity<plane_angle>& upperLimit, const bool activateLimits) {
+  // Bouml preserved body begin 000D4071
+    if (lowerLimit > upperLimit) {
+      throw std::out_of_range("The lower joint limit it not allowed to be bigger than the upper limit");
+    }
+    this->lowerLimit = lowerLimit;
+    this->upperLimit = upperLimit;
+    this->areLimitsActive = activateLimits;
+  // Bouml preserved body end 000D4071
+}
+
+void JointLimitsRadian::toString(std::string& value) {
+  // Bouml preserved body begin 000D40F1
+  std::stringstream ss;
+  ss << this->name << ": lower Limit: " << this->lowerLimit  << " upper Limit: " << this->upperLimit;
+  value  = ss.str();
+  // Bouml preserved body end 000D40F1
+}
+
 TorqueConstant::TorqueConstant() {
   // Bouml preserved body begin 000C71F1
     this->name = "TorqueConstant";

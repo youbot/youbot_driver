@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 193
+  revision 197
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -434,7 +434,7 @@ ${inlines}
 	
       end
 
-      operation 410353 "setConfigurationParameter"
+      operation 869233 "setConfigurationParameter"
 	preserve_cpp_body_indent public explicit_return_type "void"
 	nparams 1
 	  param in name "parameter" type class_ref 273009 // JointLimits
@@ -453,6 +453,21 @@ ${inlines}
 	preserve_cpp_body_indent public explicit_return_type "void"
 	nparams 1
 	  param out name "parameter" type class_ref 273009 // JointLimits
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 869361 "getConfigurationParameter"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param out name "parameter" type class_ref 445681 // JointLimitsRadian
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
@@ -1298,57 +1313,6 @@ ${inlines}
 	    classrelation_ref 176113 // <realization>
 	  b parent class_ref 170353 // JointData
       end
-
-    end
-
-    class 162545 "JointSensedTemperature"
-      visibility package 
-      cpp_decl "///////////////////////////////////////////////////////////////////////////////
-${description}
-///////////////////////////////////////////////////////////////////////////////
-${template}class ${name}${inherit} {
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      comment "/// sensed Temperature of the joint"
-      attribute 252913 "temperature"
-	public explicit_type "quantity<celsius::temperature>"
-	init_value "0"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      classrelation 175857 // <realization>
-	relation 175857 -_-|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 175857 // <realization>
-	  b parent class_ref 162289 // JointSensedData
-      end
-
-      operation 841201 "JointSensedTemperature"
-	preserve_cpp_body_indent public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
-"
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
     end
 
     class 162673 "JointSensedTorque"
@@ -1391,6 +1355,21 @@ ${inlines}
 	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
 "
 	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 850673 "JointSensedTorque"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 1
+	  param in name "value" explicit_type "quantity<si::torque>"
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0}& ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}const ${t0}& ${p0}${)}${volatile}${throw} {
   ${body}}
 "
 	preserve_java_body_indent 
@@ -1447,6 +1426,21 @@ ${inlines}
 	
 	
       end
+
+      operation 850801 "JointSensedVelocity"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 1
+	  param in name "value" explicit_type "quantity<si::angular_velocity>"
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0}& ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}const ${t0}& ${p0}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
     end
 
     class 162929 "JointSensedAngle"
@@ -1494,6 +1488,21 @@ ${inlines}
 	
 	
 	
+	
+      end
+
+      operation 850929 "JointSensedAngle"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 1
+	  param in name "value" explicit_type "quantity<plane_angle>"
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0}& ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}const ${t0}& ${p0}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
 	
       end
     end
@@ -1545,6 +1554,21 @@ ${inlines}
 	
 	
       end
+
+      operation 851057 "JointSensedEncoderTicks"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 1
+	  param in name "value" explicit_type "signed int"
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0}& ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}const ${t0}& ${p0}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
     end
 
     class 381809 "JointSensedRoundsPerMinute"
@@ -1592,6 +1616,21 @@ ${inlines}
 	
 	
 	
+	
+      end
+
+      operation 851185 "JointSensedRoundsPerMinute"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 1
+	  param in name "value" explicit_type "int"
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0} ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}const ${t0} ${p0}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
 	
       end
     end
@@ -1643,6 +1682,21 @@ ${inlines}
 	
 	
       end
+
+      operation 851313 "JointSensedCurrent"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 1
+	  param in name "value" explicit_type "quantity<si::current>"
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0}& ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}const ${t0}& ${p0}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
     end
 
     class 432241 "JointSensedPWM"
@@ -1692,6 +1746,21 @@ ${inlines}
 	
 	
       end
+
+      operation 851441 "JointSensedPWM"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 1
+	  param in name "value" explicit_type "signed int"
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0}& ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}const ${t0}& ${p0}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
     end
 
     class 170481 "JointDataSetpoint"
@@ -1717,7 +1786,6 @@ ${inlines}
 	    classrelation_ref 176241 // <realization>
 	  b parent class_ref 170353 // JointData
       end
-
     end
 
     class 170609 "JointTorqueSetpoint"
@@ -1765,6 +1833,21 @@ ${inlines}
 	
 	
 	
+	
+      end
+
+      operation 851569 "JointTorqueSetpoint"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 1
+	  param in name "value" explicit_type "quantity<si::torque>"
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0}& ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}const ${t0}& ${p0}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
 	
       end
     end
@@ -1816,6 +1899,21 @@ ${inlines}
 	
 	
       end
+
+      operation 851697 "JointVelocitySetpoint"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 1
+	  param in name "value" explicit_type "quantity<angular_velocity>"
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0}& ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}const ${t0}& ${p0}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
     end
 
     class 170865 "JointAngleSetpoint"
@@ -1863,6 +1961,21 @@ ${inlines}
 	
 	
 	
+	
+      end
+
+      operation 851825 "JointAngleSetpoint"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 1
+	  param in name "value" explicit_type "quantity<plane_angle>"
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0}& ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}const ${t0}& ${p0}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
 	
       end
     end
@@ -1914,6 +2027,21 @@ ${inlines}
 	
 	
       end
+
+      operation 851953 "JointCurrentSetpoint"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 1
+	  param in name "value" explicit_type "quantity<si::current>"
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0}& ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}const ${t0}& ${p0}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
     end
 
     class 347889 "JointPWMSetpoint"
@@ -1961,6 +2089,21 @@ ${inlines}
 	
 	
 	
+	
+      end
+
+      operation 852081 "JointPWMSetpoint"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 1
+	  param in name "value" explicit_type "int"
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0} ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}const ${t0} ${p0}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
 	
       end
     end
@@ -2012,6 +2155,21 @@ ${inlines}
 	
 	
       end
+
+      operation 852209 "JointRoundsPerMinuteSetpoint"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 1
+	  param in name "value" explicit_type "int"
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0} ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}const ${t0} ${p0}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
     end
 
     class 412657 "JointEncoderSetpoint"
@@ -2059,6 +2217,21 @@ ${inlines}
 	
 	
 	
+	
+      end
+
+      operation 852337 "JointEncoderSetpoint"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 1
+	  param in name "value" explicit_type "signed int"
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0}& ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}const ${t0}& ${p0}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
 	
       end
     end
@@ -3527,7 +3700,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// joint position limits"
+      comment "/// joint position limits in encoder ticks"
       extra_member 145393 "friend class YouBotJoint;"
 	
 	cpp "friend class YouBotJoint;" ""
@@ -3712,6 +3885,216 @@ ${inlines}
       end
 
       attribute 534769 "areLimitsActive"
+	private explicit_type "bool"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+    end
+
+    class 445681 "JointLimitsRadian"
+      visibility package 
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/// joint position limits in radian"
+      extra_member 224113 "friend class YouBotJoint;"
+	
+	cpp "friend class YouBotJoint;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      classrelation 401009 // <generalisation>
+	relation 401009 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 401009 // <generalisation>
+	  b parent class_ref 238577 // YouBotJointParameter
+      end
+
+      operation 868081 "JointLimitsRadian"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 868209 "~JointLimitsRadian"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 868337 "getParameter"
+	preserve_cpp_body_indent const public explicit_return_type "void"
+	nparams 3
+	  param out name "lowerLimit" explicit_type "quantity<plane_angle>"
+	  param out name "upperLimit" explicit_type "quantity<plane_angle>"
+	  param out name "areLimitsActive" explicit_type "bool"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}, ${t1}& ${p1}, ${t2}& ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}, ${t1}& ${p1}, ${t2}& ${p2}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 868465 "setParameter"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 3
+	  param in name "lowerLimit" explicit_type "quantity<plane_angle>"
+	  param in name "upperLimit" explicit_type "quantity<plane_angle>"
+	  param in name "activateLimits" explicit_type "bool"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}, const ${t2} ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}, const ${t2} ${p2}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 868593 "toString"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param out name "value" explicit_type "std::string"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 868721 "getYouBotMailboxMsg"
+	preserve_cpp_body_indent const private explicit_return_type "void"
+	nparams 3
+	  param out name "message" explicit_type "YouBotSlaveMailboxMsg"
+	  param in name "msgType" explicit_type "TMCLCommandNumber"
+	  param in name "storage" type class_ref 303857 // YouBotJointStorage
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}, ${t1} ${p1}${v1}, const ${t2}& ${p2}${)}${const}${volatile}${throw}${abstract} {};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 868849 "setYouBotMailboxMsg"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 2
+	  param in name "message" explicit_type "YouBotSlaveMailboxMsg"
+	  param in name "storage" type class_ref 303857 // YouBotJointStorage
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}, const ${t1}& ${p1}${v1}${)}${const}${volatile}${throw}${abstract} {};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 868977 "getName"
+	preserve_cpp_body_indent const private explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->name;};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 869105 "getType"
+	preserve_cpp_body_indent const private return_type class_ref 210929 // ParameterType
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->parameterType;};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      attribute 748913 "lowerLimit"
+	private explicit_type "quantity<plane_angle>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 749041 "upperLimit"
+	private explicit_type "quantity<plane_angle>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 749169 "name"
+	private explicit_type "string"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 749297 "parameterType"
+	private type class_ref 210929 // ParameterType
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 749425 "areLimitsActive"
 	private explicit_type "bool"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -22372,6 +22755,16 @@ friend class YouBotGripper;" ""
 	python_decl ""
 	idl_decl ""
       end
+
+      attribute 730225 "BufferForGetMsgBuffer"
+	private explicit_type "std::vector<YouBotSlaveMsg>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
     end
 
     class 286321 "YouBotManipulator"
@@ -23798,6 +24191,602 @@ ${inlines}
 
       attribute 722289 "actualPWM"
 	private type class_ref 432241 // JointSensedPWM
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+    end
+  end
+
+  classview 187121 "EthercatMasterWithoutThread"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    class 439153 "EthercatMaster"
+      visibility package 
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/// The Ethercat Master is managing the whole ethercat communication 
+/// It have to be a singleton in the system"
+      extra_member 217585 "friend"
+	
+	cpp "friend class YouBotJoint;
+friend class YouBotGripper;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      attribute 736753 "instance"
+	private explicit_type "static EthercatMaster*"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      operation 858865 "EthercatMaster"
+	preserve_cpp_body_indent private explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 858993 "EthercatMaster"
+	preserve_cpp_body_indent private explicit_return_type ""
+	nparams 1
+	  param in name "" type class_ref 439153 // EthercatMaster
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0}& ${p0}${v0}${)}${volatile}${throw} {};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 859121 "~EthercatMaster"
+	preserve_cpp_body_indent private explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 859249 "getInstance"
+	class_operation preserve_cpp_body_indent public explicit_return_type "EthercatMaster&"
+	nparams 2
+	  param in name "configFile" explicit_type "string"
+	    defaultvalue "\"youbot-ethercat.cfg\""
+	  param in name "configFilePath" explicit_type "string"
+	    defaultvalue "\"../config/\""
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${v0}, const ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///creates a instance of the singleton EthercatMaster if there is none and returns a reference to it
+///@param configFile configuration file name incl. the extension
+///@param configFilePath the path where the configuration is located with a / at the end"
+      end
+
+      operation 859377 "destroy"
+	class_operation preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "/// destroy the singleton instance by calling the destructor"
+      end
+
+      operation 859505 "getNumberOfSlaves"
+	preserve_cpp_body_indent const public explicit_return_type "unsigned int"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///return the quantity of ethercat slave which have an input/output buffer"
+      end
+
+      operation 859633 "AutomaticSendOn"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param in name "enableAutomaticSend" explicit_type "bool"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 859761 "AutomaticReceiveOn"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param in name "enableAutomaticReceive" explicit_type "bool"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 859889 "getEthercatDiagnosticInformation"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param out name "ethercatSlaveInfos" explicit_type "std::vector<ec_slavet>"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///provides all ethercat slave informations from the SOEM driver
+///@param ethercatSlaveInfos ethercat slave informations"
+      end
+
+      operation 861297 "sendAndReceiveProcessData"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///sends and receives ethercat messages to and from the motor controllers"
+      end
+
+      operation 860017 "initializeEthercat"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///establishes the ethercat connection"
+      end
+
+      operation 860145 "setJointLimits"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 5
+	  param in name "lowerJointLimit" explicit_type "int"
+	  param in name "upperJointLimit" explicit_type "int"
+	  param in name "inverseMovement" explicit_type "bool"
+	  param in name "activateLimit" explicit_type "bool"
+	  param in name "jointNumber" explicit_type "unsigned int"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}, const ${t1} ${p1}, const ${t2} ${p2}, const ${t3} ${p3}, const ${t4}& ${p4}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}, const ${t1} ${p1}, const ${t2} ${p2}, const ${t3} ${p3}, const ${t4}& ${p4}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 860273 "closeEthercat"
+	preserve_cpp_body_indent private explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///closes the ethercat connection"
+      end
+
+      operation 860401 "setMsgBuffer"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 2
+	  param in name "msgBuffer" explicit_type "YouBotSlaveMsg"
+	  param in name "jointNumber" explicit_type "uint"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}, const ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///stores a ethercat message to the buffer
+///@param msgBuffer ethercat message
+///@param jointNumber joint number of the sender joint"
+      end
+
+      operation 860529 "getMsgBuffer"
+	preserve_cpp_body_indent private explicit_return_type "YouBotSlaveMsg"
+	nparams 1
+	  param in name "jointNumber" explicit_type "uint"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///get a ethercat message form the buffer
+///@param msgBuffer ethercat message
+///@param jointNumber joint number of the receiver joint"
+      end
+
+      operation 860657 "setMailboxMsgBuffer"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 2
+	  param in name "msgBuffer" explicit_type "YouBotSlaveMailboxMsg"
+	  param in name "jointNumber" explicit_type "uint"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}, const ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///stores a mailbox message in a buffer which will be sent to the motor controllers
+///@param msgBuffer ethercat mailbox message
+///@param jointNumber joint number of the sender joint"
+      end
+
+      operation 860785 "getMailboxMsgBuffer"
+	preserve_cpp_body_indent private explicit_return_type "bool"
+	nparams 2
+	  param out name "mailboxMsg" explicit_type "YouBotSlaveMailboxMsg"
+	  param in name "jointNumber" explicit_type "uint"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}, const ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///gets a mailbox message form the buffer which came form the motor controllers
+///@param msgBuffer ethercat mailbox message
+///@param jointNumber joint number of the receiver joint"
+      end
+
+      operation 860913 "sendMailboxMessage"
+	preserve_cpp_body_indent private explicit_return_type "bool"
+	nparams 1
+	  param in name "mailboxMsg" explicit_type "YouBotSlaveMailboxMsg"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///sends the mailbox Messages which have been stored in the buffer
+///@param mailboxMsg ethercat mailbox message"
+      end
+
+      operation 861041 "receiveMailboxMessage"
+	preserve_cpp_body_indent private explicit_return_type "bool"
+	nparams 1
+	  param out name "mailboxMsg" explicit_type "YouBotSlaveMailboxMsg"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///receives mailbox messages and stores them in the buffer
+///@param mailboxMsg ethercat mailbox message"
+      end
+
+      operation 861169 "checkJointLimits"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 861425 "parseYouBotErrorFlags"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 1
+	  param in name "messageBuffer" explicit_type "YouBotSlaveMsg"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      attribute 736881 "ethernetDevice"
+	private explicit_type "std::string"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 737777 "processDataBuffer"
+	private explicit_type "std::vector<YouBotSlaveMsg>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 738289 "nrOfSlaves"
+	private explicit_type "unsigned int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 738929 "ethercatOutputBufferVector"
+	private explicit_type "std::vector<SlaveMessageOutput*>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 739057 "ethercatInputBufferVector"
+	private explicit_type "std::vector<SlaveMessageInput*>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 739185 "firstMailboxBufferVector"
+	private explicit_type "std::vector<YouBotSlaveMailboxMsg>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 739697 "mailboxBufferSend"
+	private explicit_type "ec_mbxbuft"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 739825 "mailboxTimeout"
+	private explicit_type "uint"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 739953 "mailboxBufferReceive"
+	private explicit_type "ec_mbxbuft"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 740337 "configfile"
+	private explicit_type "ConfigFile*"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 740465 "ethercatSlaveInfo"
+	private explicit_type "std::vector<ec_slavet>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 740593 "IOmap_"
+	private explicit_type "char"
+	multiplicity "4096"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${multiplicity}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 740721 "ethercatTimeout"
+	private explicit_type "uint"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 740849 "configFileName"
+	class_attribute private explicit_type "string"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 740977 "configFilepath"
+	class_attribute private explicit_type "string"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 741873 "upperLimit"
+	private explicit_type "std::vector<int>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 742001 "lowerLimit"
+	private explicit_type "std::vector<int>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 742129 "limitActive"
+	private explicit_type "std::vector<bool>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 742257 "jointLimitReached"
+	private explicit_type "std::vector<bool>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 742385 "inverseMovementDirection"
+	private explicit_type "std::vector<bool>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""

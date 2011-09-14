@@ -248,20 +248,28 @@ void YouBotJoint::getConfigurationParameter(InverseMovementDirection& parameter)
 }
 
 void YouBotJoint::setConfigurationParameter(const JointLimits& parameter) {
-  // Bouml preserved body begin 000642F1
+  // Bouml preserved body begin 000D4371
 
     this->storage.lowerLimit = parameter.lowerLimit;
     this->storage.upperLimit = parameter.upperLimit;
     this->storage.areLimitsActive = parameter.areLimitsActive;
     EthercatMaster::getInstance().setJointLimits(parameter.lowerLimit, parameter.upperLimit, storage.inverseMovementDirection, parameter.areLimitsActive, this->jointNumber);
 
-  // Bouml preserved body end 000642F1
+  // Bouml preserved body end 000D4371
 }
 
 void YouBotJoint::getConfigurationParameter(JointLimits& parameter) {
   // Bouml preserved body begin 000C95F1
     parameter.setParameter(this->storage.lowerLimit, this->storage.upperLimit, this->storage.areLimitsActive);
   // Bouml preserved body end 000C95F1
+}
+
+void YouBotJoint::getConfigurationParameter(JointLimitsRadian& parameter) {
+  // Bouml preserved body begin 000D43F1
+    quantity<plane_angle> lowlimit = ((double) this->storage.lowerLimit / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
+    quantity<plane_angle>  suplimit = ((double) this->storage.upperLimit / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
+    parameter.setParameter(lowlimit, uplimit, this->storage.areLimitsActive);
+  // Bouml preserved body end 000D43F1
 }
 
 void YouBotJoint::setConfigurationParameter(const InitializeJoint& parameter) {

@@ -1,0 +1,22 @@
+class JointLimitsRadian
+!!!868081.cpp!!!	JointLimitsRadian()
+    this->name = "JointLimitsRadian";
+    this->parameterType = API_PARAMETER;
+    this->lowerLimit = 0;
+    this->upperLimit = 0;
+    this->areLimitsActive = true;
+!!!868337.cpp!!!	getParameter(out lowerLimit : quantity<plane_angle>, out upperLimit : quantity<plane_angle>, out areLimitsActive : bool) : void
+    lowerLimit = this->lowerLimit;
+    upperLimit = this->upperLimit;
+    areLimitsActive = this->areLimitsActive;
+!!!868465.cpp!!!	setParameter(in lowerLimit : quantity<plane_angle>, in upperLimit : quantity<plane_angle>, in activateLimits : bool) : void
+    if (lowerLimit > upperLimit) {
+      throw std::out_of_range("The lower joint limit it not allowed to be bigger than the upper limit");
+    }
+    this->lowerLimit = lowerLimit;
+    this->upperLimit = upperLimit;
+    this->areLimitsActive = activateLimits;
+!!!868593.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": lower Limit: " << this->lowerLimit  << " upper Limit: " << this->upperLimit;
+  value  = ss.str();

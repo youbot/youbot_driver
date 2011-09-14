@@ -338,7 +338,7 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// joint position limits
+/// joint position limits in encoder ticks
 ///////////////////////////////////////////////////////////////////////////////
 class JointLimits : public YouBotJointParameter {
 friend class YouBotJoint;
@@ -366,6 +366,43 @@ friend class YouBotJoint;
     int lowerLimit;
 
     int upperLimit;
+
+    std::string name;
+
+    ::ParameterType parameterType;
+
+    bool areLimitsActive;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// joint position limits in radian
+///////////////////////////////////////////////////////////////////////////////
+class JointLimitsRadian : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    JointLimitsRadian();
+
+    virtual ~JointLimitsRadian();
+
+    void getParameter(quantity<plane_angle>& lowerLimit, quantity<plane_angle>& upperLimit, bool& areLimitsActive) const;
+
+    void setParameter(const quantity<plane_angle>& lowerLimit, const quantity<plane_angle>& upperLimit, const bool activateLimits);
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {};
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {};
+
+    std::string getName() const {return this->name;};
+
+    ::ParameterType getType() const {return this->parameterType;};
+
+    quantity<plane_angle> lowerLimit;
+
+    quantity<plane_angle> upperLimit;
 
     std::string name;
 

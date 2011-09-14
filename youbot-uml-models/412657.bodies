@@ -1,3 +1,5 @@
 class JointEncoderSetpoint
 !!!843121.cpp!!!	JointEncoderSetpoint()
   this->encoderTicks = 0;
+!!!852337.cpp!!!	JointEncoderSetpoint(in value : signed int)
+  this->encoderTicks = value;
