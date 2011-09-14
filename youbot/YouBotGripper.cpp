@@ -49,7 +49,11 @@
  *
  ****************************************************************/
 #include "youbot/YouBotGripper.hpp"
-#include "youbot/EthercatMaster.hpp"
+#ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+  #include "youbot/EthercatMasterWithoutThread.hpp"
+#else
+  #include "youbot/EthercatMaster.hpp"
+#endif
 namespace youbot {
 
 YouBotGripper::YouBotGripper(const unsigned int jointNo) {

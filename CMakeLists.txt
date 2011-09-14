@@ -13,6 +13,13 @@ SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/lib) #dynamic librari
 
 INCLUDE_DIRECTORIES(${CMAKE_HOME_DIRECTORY})
 
+# switch off the background communication thread of the ethercat master
+SET(USE_ETHERCAT_MASTER_WITH_THREAD ON)
+
+IF(NOT USE_ETHERCAT_MASTER_WITH_THREAD)
+  ADD_DEFINITIONS(-DETHERCAT_MASTER_WITHOUT_THREAD)
+ENDIF(NOT USE_ETHERCAT_MASTER_WITH_THREAD)
+
 # find required and optional dependencies via Find<name>.cmake modules
 
 #FIND_PACKAGE(CppUnit)

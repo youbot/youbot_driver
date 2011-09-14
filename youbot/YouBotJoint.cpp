@@ -49,7 +49,11 @@
  *
  ****************************************************************/
 #include "youbot/YouBotJoint.hpp"
-#include "youbot/EthercatMaster.hpp"
+#ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+  #include "youbot/EthercatMasterWithoutThread.hpp"
+#else
+  #include "youbot/EthercatMaster.hpp"
+#endif
 namespace youbot {
 
 YouBotJoint::YouBotJoint(unsigned int jointNo) {

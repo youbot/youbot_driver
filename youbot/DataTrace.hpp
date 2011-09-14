@@ -54,16 +54,22 @@
 #include <vector>
 #include <sstream>
 #include <string>
+#include <cstdio>
+#include <stdexcept>
+#include <iostream>
+#include <stdlib.h>
 #include "generic/Logger.hpp"
 #include "generic/Units.hpp"
 #include "generic/Time.hpp"
 #include "generic/ConfigFile.hpp"
 #include "generic/Exceptions.hpp"
 #include "youbot/YouBotJoint.hpp"
-#include "youbot/EthercatMaster.hpp"
 #include "youbot/YouBotJointParameter.hpp"
-#include "boost/date_time/posix_time/posix_time.hpp"
-#include <stdlib.h>
+#ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+  #include "youbot/EthercatMasterWithoutThread.hpp"
+#else
+  #include "youbot/EthercatMaster.hpp"
+#endif
 namespace youbot {
 
 

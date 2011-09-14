@@ -59,9 +59,13 @@
 #include "generic/Time.hpp"
 #include "generic/ConfigFile.hpp"
 #include "generic/Exceptions.hpp"
-#include "youbot/EthercatMaster.hpp"
 #include "youbot/YouBotGripper.hpp"
 #include "youbot/YouBotJoint.hpp"
+#ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+  #include "youbot/EthercatMasterWithoutThread.hpp"
+#else
+  #include "youbot/EthercatMaster.hpp"
+#endif
 namespace youbot {
 
 /// The number of manipulator joints
