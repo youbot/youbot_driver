@@ -267,7 +267,7 @@ void YouBotJoint::getConfigurationParameter(JointLimits& parameter) {
 void YouBotJoint::getConfigurationParameter(JointLimitsRadian& parameter) {
   // Bouml preserved body begin 000D43F1
     quantity<plane_angle> lowlimit = ((double) this->storage.lowerLimit / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
-    quantity<plane_angle>  suplimit = ((double) this->storage.upperLimit / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
+    quantity<plane_angle> uplimit = ((double) this->storage.upperLimit / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
     parameter.setParameter(lowlimit, uplimit, this->storage.areLimitsActive);
   // Bouml preserved body end 000D43F1
 }
