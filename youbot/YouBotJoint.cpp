@@ -474,10 +474,9 @@ void YouBotJoint::setData(const JointEncoderSetpoint& data, SyncMode communicati
     messageBuffer.stctOutput.controllerMode = POSITION_CONTROL;
     messageBuffer.stctOutput.value = data.encoderTicks;
     
-
-//    if (storage.inverseMovementDirection) {
-//      messageBuffer.stctOutput.value *= -1;
-//    }
+    if (storage.inverseMovementDirection) {
+      messageBuffer.stctOutput.value *= -1;
+    }
     
     LOG(trace) << messageBuffer.stctOutput.value <<" "<< this->jointNumber;
      EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
@@ -547,6 +546,10 @@ void YouBotJoint::getData(JointSensedVelocity& data) {
     double motorRPM = messageBuffer.stctInput.actualVelocity;
     //convert RPM of the motor to radian per second of the wheel/joint
     data.angularVelocity = ((motorRPM / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
+    
+    if (storage.inverseMovementDirection) {
+      data.angularVelocity *= -1;
+    }
   // Bouml preserved body end 0003DD71
 }
 
@@ -559,6 +562,10 @@ void YouBotJoint::getData(JointSensedRoundsPerMinute& data) {
     this->parseYouBotErrorFlags(messageBuffer);
 
     data.rpm = messageBuffer.stctInput.actualVelocity;
+    
+    if (storage.inverseMovementDirection) {
+      data.rpm *= -1;
+    }
   // Bouml preserved body end 000AEC71
 }
 
@@ -592,6 +599,10 @@ void YouBotJoint::getData(JointSensedCurrent& data) {
     //convert mili ampere to ampere
     double current = messageBuffer.stctInput.actualCurrent;
     data.current =  current / 1000.0 * ampere;
+    
+    if (storage.inverseMovementDirection) {
+      data.current *= -1;
+    }
   // Bouml preserved body end 0003DDF1
 }
 
@@ -623,6 +634,11 @@ void YouBotJoint::getData(JointSensedPWM& data) {
     this->parseYouBotErrorFlags(messageBuffer);
 
     data.pwm = messageBuffer.stctInput.actualPWM;
+    
+    if (storage.inverseMovementDirection) {
+      data.pwm *= -1;
+    }
+    
   // Bouml preserved body end 000CAFF1
 }
 
@@ -655,6 +671,10 @@ void YouBotJoint::getData(JointSensedEncoderTicks& data) {
 
     //  LOG(trace) << "enc: " << messageBuffer.stctInput.actualPosition;
     data.encoderTicks = messageBuffer.stctInput.actualPosition ;
+    
+    if (storage.inverseMovementDirection) {
+      data.encoderTicks *= -1;
+    }
 
   // Bouml preserved body end 000AB7F1
 }
