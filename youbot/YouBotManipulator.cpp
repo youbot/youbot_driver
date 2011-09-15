@@ -123,6 +123,9 @@ void YouBotManipulator::doJointCommutation() {
       // check for the next 5 sec if the joints are commutated
       for (u = 1; u <= 5000; u++) {
         for (unsigned int i = 1; i <= ARMJOINTS; i++) {
+          #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+            EthercatMaster::getInstance().sendAndReceiveProcessData();
+          #endif
           this->getArmJoint(i).getStatus(statusFlags);
           if (statusFlags & INITIALIZED) {
             isCommutated[i - 1] = true;
@@ -170,9 +173,8 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
     std::string jointName;
 
     double dummy = 0;
-    char index = 56; // up to 55 is user variable
+    char index = 16; // Parameter 0 to 15 of bank 2 are password protected
 
-    //56 is the last user variable at bank 2
     YouBotSlaveMailboxMsg IsCalibratedReadMessage;
     IsCalibratedReadMessage.stctOutput.moduleAddress = DRIVE;
     IsCalibratedReadMessage.stctOutput.commandNumber = GGP;
@@ -242,6 +244,9 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
     for (unsigned int i = 0; i < ARMJOINTS; i++) {
       if (doCalibration[i] == true) {
         joints[i].setData(calibrationVel[i]);
+        #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+          EthercatMaster::getInstance().sendAndReceiveProcessData();
+        #endif
       } else {
         finished[i] = true;
       }
@@ -250,11 +255,17 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
     //monitor the current to find end stop 
     while (!(finished[0] && finished[1] && finished[2] && finished[3] && finished[4])) {
       for (unsigned int i = 0; i < ARMJOINTS; i++) {
+        #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+          EthercatMaster::getInstance().sendAndReceiveProcessData();
+        #endif
         joints[i].getData(sensedCurrent);
         //turn till a max current is reached
         if (abs(sensedCurrent.current) > abs(maxCurrent[i])) {
           //stop movement
           joints[i].setData(pwmStopMovement);
+          #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+            EthercatMaster::getInstance().sendAndReceiveProcessData();
+          #endif
           finished[i] = true;
         }
       }
@@ -268,6 +279,9 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
       if (doCalibration[i] == true) {
         //set encoder reference position
         joints[i].setEncoderToZero();
+        #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+          EthercatMaster::getInstance().sendAndReceiveProcessData();
+        #endif
         // set a flag in the user variable to remember that it is calibrated
         joints[i].setConfigurationParameter(IsCalibratedSetMessage);
         //     LOG(info) << "Calibration finished for joint: " << this->jointName;

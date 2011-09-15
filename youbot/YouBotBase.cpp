@@ -145,6 +145,9 @@ void YouBotBase::doJointCommutation() {
       // check for the next 5 sec if the joints are commutated
       for (u = 1; u <= 5000; u++) {
         for (unsigned int i = 1; i <= BASEJOINTS; i++) {
+          #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+            EthercatMaster::getInstance().sendAndReceiveProcessData();
+          #endif
           this->getBaseJoint(i).getStatus(statusFlags);
           if (statusFlags & INITIALIZED) {
             isCommutated[i - 1] = true;

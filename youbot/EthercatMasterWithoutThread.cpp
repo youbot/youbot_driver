@@ -136,7 +136,7 @@ unsigned int EthercatMaster::getNumberOfSlaves() const {
 
 void EthercatMaster::AutomaticSendOn(const bool enableAutomaticSend) {
   // Bouml preserved body begin 000D1DF1
-    LOG(error) << "automatic send is not possible if the EtherCAT master has no thread";
+    LOG(trace) << "automatic send is not possible if the EtherCAT master has no thread";
 
     return;
   // Bouml preserved body end 000D1DF1
@@ -144,7 +144,7 @@ void EthercatMaster::AutomaticSendOn(const bool enableAutomaticSend) {
 
 void EthercatMaster::AutomaticReceiveOn(const bool enableAutomaticReceive) {
   // Bouml preserved body begin 000D1E71
-    LOG(error) << "automatic receive is not possible if the EtherCAT master has no thread";
+    LOG(trace) << "automatic receive is not possible if the EtherCAT master has no thread";
     return;
   // Bouml preserved body end 000D1E71
 }
