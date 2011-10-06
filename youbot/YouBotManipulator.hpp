@@ -145,13 +145,11 @@ class YouBotManipulator {
 
     std::vector<YouBotGripper> gripperVector;
 
-    std::string configFilePath;
-
-    std::string ethercatConfigFileName;
-
     int controllerType;
 
     double minFirmwareVersion;
+
+    EthercatMaster& ethercatMaster;
 
 };
 

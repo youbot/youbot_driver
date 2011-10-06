@@ -51,7 +51,8 @@
 #include "youbot/YouBotBase.hpp"
 namespace youbot {
 
-YouBotBase::YouBotBase(const std::string name, const std::string configFilePath) {
+YouBotBase::YouBotBase(const std::string name, const std::string configFilePath)
+: ethercatMaster(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath)) {
   // Bouml preserved body begin 00067E71
 
     this->controllerType = 174;
@@ -61,17 +62,11 @@ YouBotBase::YouBotBase(const std::string name, const std::string configFilePath)
     filename = name;
     filename.append(".cfg");
     configfile == NULL;
-
-    this->configFilePath = configFilePath;
-    this->ethercatConfigFileName = "youbot-ethercat.cfg";
-
     configfile = new ConfigFile(filename, configFilePath);
-
+    
     this->initializeJoints();
 
     this->initializeKinematic();
-
-    //  this->doJointCommutation();
 
   // Bouml preserved body end 00067E71
 }
@@ -130,12 +125,12 @@ void YouBotBase::doJointCommutation() {
       doInitialization.setParameter(true);
       LOG(info) << "Base Joint Commutation";
 
-      EthercatMaster::getInstance().AutomaticReceiveOn(false);
+      ethercatMaster.AutomaticReceiveOn(false);
       this->getBaseJoint(1).setConfigurationParameter(doInitialization);
       this->getBaseJoint(2).setConfigurationParameter(doInitialization);
       this->getBaseJoint(3).setConfigurationParameter(doInitialization);
       this->getBaseJoint(4).setConfigurationParameter(doInitialization);
-      EthercatMaster::getInstance().AutomaticReceiveOn(true);
+      ethercatMaster.AutomaticReceiveOn(true);
 
       unsigned int statusFlags;
       std::vector<bool> isCommutated;
@@ -146,7 +141,7 @@ void YouBotBase::doJointCommutation() {
       for (u = 1; u <= 5000; u++) {
         for (unsigned int i = 1; i <= BASEJOINTS; i++) {
           #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
-            EthercatMaster::getInstance().sendAndReceiveProcessData();
+            ethercatMaster.sendAndReceiveProcessData();
           #endif
           this->getBaseJoint(i).getStatus(statusFlags);
           if (statusFlags & INITIALIZED) {
@@ -169,9 +164,9 @@ void YouBotBase::doJointCommutation() {
         doInitialization.getParameter(isInitialized);
         if (!isInitialized) {
           std::stringstream jointNameStream;
-          jointNameStream << "Joint " << i;
+          jointNameStream << "joint " << i;
           jointName = jointNameStream.str();
-          throw std::runtime_error("could not commutation base " + jointName);
+          throw std::runtime_error("Could not commutate base " + jointName);
         }
       }
     }
@@ -238,7 +233,7 @@ void YouBotBase::setBasePosition(const quantity<si::length>& longitudinalPositio
     joints[3].setEncoderToZero();
     SLEEP_MILLISEC(10);
 
-    EthercatMaster::getInstance().AutomaticSendOn(false);
+    ethercatMaster.AutomaticSendOn(false);
     joints[0].getData(sensedPos);
     setpointPos.angle = sensedPos.angle + wheelPositions[0];
     joints[0].setData(setpointPos, NON_BLOCKING);
@@ -254,7 +249,7 @@ void YouBotBase::setBasePosition(const quantity<si::length>& longitudinalPositio
     joints[3].getData(sensedPos);
     setpointPos.angle = sensedPos.angle + wheelPositions[3];
     joints[3].setData(setpointPos, NON_BLOCKING);
-    EthercatMaster::getInstance().AutomaticSendOn(true);
+    ethercatMaster.AutomaticSendOn(true);
 
   // Bouml preserved body end 000C0971
 }
@@ -300,7 +295,7 @@ void YouBotBase::setBaseVelocity(const quantity<si::velocity>& longitudinalVeloc
     if (wheelVelocities.size() < BASEJOINTS)
       throw std::out_of_range("To less wheel velocities");
 
-    EthercatMaster::getInstance().AutomaticSendOn(false);
+    ethercatMaster.AutomaticSendOn(false);
     setVel.angularVelocity = wheelVelocities[0];
     joints[0].setData(setVel, NON_BLOCKING);
     setVel.angularVelocity = wheelVelocities[1];
@@ -309,7 +304,7 @@ void YouBotBase::setBaseVelocity(const quantity<si::velocity>& longitudinalVeloc
     joints[2].setData(setVel, NON_BLOCKING);
     setVel.angularVelocity = wheelVelocities[3];
     joints[3].setData(setVel, NON_BLOCKING);
-    EthercatMaster::getInstance().AutomaticSendOn(true);
+    ethercatMaster.AutomaticSendOn(true);
   // Bouml preserved body end 0004DD71
 }
 
@@ -321,12 +316,12 @@ void YouBotBase::setJointData(const std::vector<JointAngleSetpoint>& JointData) 
     if (JointData.size() != BASEJOINTS)
       throw std::out_of_range("Wrong number of JointAngleSetpoints");
 
-    EthercatMaster::getInstance().AutomaticSendOn(false);
+    ethercatMaster.AutomaticSendOn(false);
     joints[0].setData(JointData[0], NON_BLOCKING);
     joints[1].setData(JointData[1], NON_BLOCKING);
     joints[2].setData(JointData[2], NON_BLOCKING);
     joints[3].setData(JointData[3], NON_BLOCKING);
-    EthercatMaster::getInstance().AutomaticSendOn(true);
+    ethercatMaster.AutomaticSendOn(true);
 
   // Bouml preserved body end 0008F9F1
 }
@@ -337,12 +332,12 @@ void YouBotBase::setJointData(const std::vector<JointAngleSetpoint>& JointData) 
 void YouBotBase::getJointData(std::vector<JointSensedAngle>& data) {
   // Bouml preserved body begin 0008FBF1
     data.resize(BASEJOINTS);
-    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    ethercatMaster.AutomaticReceiveOn(false);
     joints[0].getData(data[0]);
     joints[1].getData(data[1]);
     joints[2].getData(data[2]);
     joints[3].getData(data[3]);
-    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+    ethercatMaster.AutomaticReceiveOn(true);
   // Bouml preserved body end 0008FBF1
 }
 
@@ -354,12 +349,12 @@ void YouBotBase::setJointData(const std::vector<JointVelocitySetpoint>& JointDat
     if (JointData.size() != BASEJOINTS)
       throw std::out_of_range("Wrong number of JointVelocitySetpoints");
 
-    EthercatMaster::getInstance().AutomaticSendOn(false);
+    ethercatMaster.AutomaticSendOn(false);
     joints[0].setData(JointData[0], NON_BLOCKING);
     joints[1].setData(JointData[1], NON_BLOCKING);
     joints[2].setData(JointData[2], NON_BLOCKING);
     joints[3].setData(JointData[3], NON_BLOCKING);
-    EthercatMaster::getInstance().AutomaticSendOn(true);
+    ethercatMaster.AutomaticSendOn(true);
   // Bouml preserved body end 0008FA71
 }
 
@@ -369,12 +364,12 @@ void YouBotBase::setJointData(const std::vector<JointVelocitySetpoint>& JointDat
 void YouBotBase::getJointData(std::vector<JointSensedVelocity>& data) {
   // Bouml preserved body begin 0008FC71
     data.resize(BASEJOINTS);
-    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    ethercatMaster.AutomaticReceiveOn(false);
     joints[0].getData(data[0]);
     joints[1].getData(data[1]);
     joints[2].getData(data[2]);
     joints[3].getData(data[3]);
-    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+    ethercatMaster.AutomaticReceiveOn(true);
   // Bouml preserved body end 0008FC71
 }
 
@@ -386,12 +381,12 @@ void YouBotBase::setJointData(const std::vector<JointCurrentSetpoint>& JointData
     if (JointData.size() != BASEJOINTS)
       throw std::out_of_range("Wrong number of JointCurrentSetpoint");
 
-    EthercatMaster::getInstance().AutomaticSendOn(false);
+    ethercatMaster.AutomaticSendOn(false);
     joints[0].setData(JointData[0], NON_BLOCKING);
     joints[1].setData(JointData[1], NON_BLOCKING);
     joints[2].setData(JointData[2], NON_BLOCKING);
     joints[3].setData(JointData[3], NON_BLOCKING);
-    EthercatMaster::getInstance().AutomaticSendOn(true);
+    ethercatMaster.AutomaticSendOn(true);
   // Bouml preserved body end 000CDFF1
 }
 
@@ -401,12 +396,12 @@ void YouBotBase::setJointData(const std::vector<JointCurrentSetpoint>& JointData
 void YouBotBase::getJointData(std::vector<JointSensedCurrent>& data) {
   // Bouml preserved body begin 0008FD71
     data.resize(BASEJOINTS);
-    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    ethercatMaster.AutomaticReceiveOn(false);
     joints[0].getData(data[0]);
     joints[1].getData(data[1]);
     joints[2].getData(data[2]);
     joints[3].getData(data[3]);
-    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+    ethercatMaster.AutomaticReceiveOn(true);
   // Bouml preserved body end 0008FD71
 }
 
@@ -418,12 +413,12 @@ void YouBotBase::setJointData(const std::vector<JointTorqueSetpoint>& JointData)
     if (JointData.size() != BASEJOINTS)
       throw std::out_of_range("Wrong number of JointTorqueSetpoint");
 
-    EthercatMaster::getInstance().AutomaticSendOn(false);
+    ethercatMaster.AutomaticSendOn(false);
     joints[0].setData(JointData[0], NON_BLOCKING);
     joints[1].setData(JointData[1], NON_BLOCKING);
     joints[2].setData(JointData[2], NON_BLOCKING);
     joints[3].setData(JointData[3], NON_BLOCKING);
-    EthercatMaster::getInstance().AutomaticSendOn(true);
+    ethercatMaster.AutomaticSendOn(true);
   // Bouml preserved body end 000CE071
 }
 
@@ -433,12 +428,12 @@ void YouBotBase::setJointData(const std::vector<JointTorqueSetpoint>& JointData)
 void YouBotBase::getJointData(std::vector<JointSensedTorque>& data) {
   // Bouml preserved body begin 000CE0F1
     data.resize(BASEJOINTS);
-    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    ethercatMaster.AutomaticReceiveOn(false);
     joints[0].getData(data[0]);
     joints[1].getData(data[1]);
     joints[2].getData(data[2]);
     joints[3].getData(data[3]);
-    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+    ethercatMaster.AutomaticReceiveOn(true);
   // Bouml preserved body end 000CE0F1
 }
 
@@ -454,7 +449,7 @@ void YouBotBase::initializeJoints() {
   //  LOG(info) << "Initializing Joints";
 
     //get number of slaves
-    unsigned int noSlaves = EthercatMaster::getInstance(this->ethercatConfigFileName, this->configFilePath).getNumberOfSlaves();
+    unsigned int noSlaves = ethercatMaster.getNumberOfSlaves();
 
     if (noSlaves < BASEJOINTS) {
       throw std::out_of_range("Not enough ethercat slaves were found to create a YouBotBase!");

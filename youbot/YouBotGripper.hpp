@@ -59,6 +59,12 @@
 #include "generic/Exceptions.hpp"
 #include "youbot/ProtocolDefinitions.hpp"
 
+#ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+  #include "youbot/EthercatMasterWithoutThread.hpp"
+#else
+  #include "youbot/EthercatMaster.hpp"
+#endif
+
 #include "youbot/YouBotSlaveMsg.hpp"
 #include "youbot/YouBotSlaveMailboxMsg.hpp"
 #include "generic-gripper/Gripper.hpp"
@@ -68,7 +74,6 @@
 #include "one-dof-gripper/OneDOFGripperData.hpp"
 #include "youbot/YouBotGripperParameter.hpp"
 
-
 namespace youbot {
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -76,7 +81,7 @@ namespace youbot {
 ///////////////////////////////////////////////////////////////////////////////
 class YouBotGripper : public OneDOFGripper {
   public:
-    YouBotGripper(const unsigned int jointNo);
+    YouBotGripper(const unsigned int jointNo, const std::string& configFilePath = "../config/");
 
     virtual ~YouBotGripper();
 
@@ -130,6 +135,8 @@ class YouBotGripper : public OneDOFGripper {
 
 
   private:
+    EthercatMaster* ethercatMaster;
+
     unsigned int timeTillNextMailboxUpdate;
 
     unsigned int mailboxMsgRetries;

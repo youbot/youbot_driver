@@ -167,13 +167,11 @@ class YouBotBase {
 
     std::vector<YouBotJoint> joints;
 
-    std::string configFilePath;
-
-    std::string ethercatConfigFileName;
-
     int controllerType;
 
     double minFirmwareVersion;
+
+    EthercatMaster& ethercatMaster;
 
 };
 

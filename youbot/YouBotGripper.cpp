@@ -56,7 +56,7 @@
 #endif
 namespace youbot {
 
-YouBotGripper::YouBotGripper(const unsigned int jointNo) {
+YouBotGripper::YouBotGripper(const unsigned int jointNo, const std::string& configFilePath) {
   // Bouml preserved body begin 0005EFF1
     this->jointNumber = jointNo;
     this->mailboxMsgRetries = 200;
@@ -65,6 +65,7 @@ YouBotGripper::YouBotGripper(const unsigned int jointNo) {
     this->maxEncoderValue = 67000;
     this->barSpacingOffset = 0 * meter;
     this->lastGripperPosition = 0 * meter;
+    ethercatMaster = &(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath));
   // Bouml preserved body end 0005EFF1
 }
 
@@ -94,11 +95,11 @@ void YouBotGripper::getConfigurationParameter(GripperFirmwareVersion& parameter)
     bool unvalid = true;
     unsigned int retry = 0;
 
-    EthercatMaster::getInstance().setMailboxMsgBuffer(message, this->jointNumber);
+    ethercatMaster->setMailboxMsgBuffer(message, this->jointNumber);
     SLEEP_MILLISEC(timeTillNextMailboxUpdate);
 
     do {
-      if( EthercatMaster::getInstance().getMailboxMsgBuffer(message, this->jointNumber) ) {
+      if( ethercatMaster->getMailboxMsgBuffer(message, this->jointNumber) ) {
         unvalid = false;
       } else {
         SLEEP_MILLISEC(timeTillNextMailboxUpdate);
@@ -361,7 +362,7 @@ bool YouBotGripper::setValueToMotorContoller(const YouBotSlaveMailboxMsg& mailbo
     bool unvalid = true;
     unsigned int retry = 0;
 
-    EthercatMaster::getInstance().setMailboxMsgBuffer(mailboxMsgBuffer, this->jointNumber);
+    ethercatMaster->setMailboxMsgBuffer(mailboxMsgBuffer, this->jointNumber);
 //    LOG(trace) << "set Output CommandNumber " << (int) mailboxMsgBuffer.stctOutput.commandNumber
 //                  << " moduleAddress " << (int) mailboxMsgBuffer.stctOutput.moduleAddress
 //                  << " motorNumber " << (int) mailboxMsgBuffer.stctOutput.motorNumber
@@ -373,7 +374,7 @@ bool YouBotGripper::setValueToMotorContoller(const YouBotSlaveMailboxMsg& mailbo
     do {
           
        
-      if (EthercatMaster::getInstance().getMailboxMsgBuffer(mailboxMsgBuffer, this->jointNumber) &&
+      if (ethercatMaster->getMailboxMsgBuffer(mailboxMsgBuffer, this->jointNumber) &&
           mailboxMsgBuffer.stctInput.status == NO_ERROR) {
         unvalid = false;
       } else {
@@ -403,7 +404,7 @@ bool YouBotGripper::retrieveValueFromMotorContoller(YouBotSlaveMailboxMsg& messa
     bool unvalid = true;
     unsigned int retry = 0;
 
-    EthercatMaster::getInstance().setMailboxMsgBuffer(message, this->jointNumber);
+    ethercatMaster->setMailboxMsgBuffer(message, this->jointNumber);
 //     LOG(trace) << "get Output CommandNumber " << (int) message.stctOutput.commandNumber
 //                  << " moduleAddress " << (int) message.stctOutput.moduleAddress
 //                  << " motorNumber " << (int) message.stctOutput.motorNumber
@@ -416,7 +417,7 @@ bool YouBotGripper::retrieveValueFromMotorContoller(YouBotSlaveMailboxMsg& messa
     do {
          
        
-      if (EthercatMaster::getInstance().getMailboxMsgBuffer(message, this->jointNumber) &&
+      if (ethercatMaster->getMailboxMsgBuffer(message, this->jointNumber) &&
           message.stctInput.status == NO_ERROR) {
         unvalid = false;
       } else {

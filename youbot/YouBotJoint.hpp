@@ -68,6 +68,12 @@
 #include "youbot/YouBotSlaveMsg.hpp"
 #include "youbot/YouBotSlaveMailboxMsg.hpp"
 
+#ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+  #include "youbot/EthercatMasterWithoutThread.hpp"
+#else
+  #include "youbot/EthercatMaster.hpp"
+#endif
+
 namespace youbot {
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -76,7 +82,7 @@ namespace youbot {
 ///////////////////////////////////////////////////////////////////////////////
 class YouBotJoint : public Joint {
   public:
-    YouBotJoint(unsigned int jointNo);
+    YouBotJoint(const unsigned int jointNo, const std::string& configFilePath = "../config/");
 
     ~YouBotJoint();
 
@@ -261,6 +267,8 @@ class YouBotJoint : public Joint {
     bool retrieveValueFromMotorContoller(YouBotSlaveMailboxMsg& message);
 
     bool setValueToMotorContoller(const YouBotSlaveMailboxMsg& mailboxMsg);
+
+    EthercatMaster* ethercatMaster;
 
     std::string jointName;
 
