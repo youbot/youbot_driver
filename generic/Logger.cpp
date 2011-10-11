@@ -52,38 +52,46 @@
 #include "generic/Logger.hpp"
 
 namespace youbot {
+  
+  bool Logger::toConsole = true;
+  bool Logger::toFile = false;
+  severity_level Logger::logginLevel = info;
 
   Logger::Logger(const std::string &funcName, const int &lineNo, const std::string &fileName, severity_level level) {
 
-    if (level >= logginLevel) {
-      print = true;
+    if (toConsole || toFile) {
+      if (level >= logginLevel) {
+        print = true;
 
-      switch (level) {
-        case trace:
-          out << "Trace" << ": ";
-          break;
-        case debug:
-          out << "Debug" << ": ";
-          break;
-        case info:
-          out << "Info" << ": ";
-          break;
-        case warning:
-          out << "Warning" << ": ";
-          break;
-        case error:
-          out << "Error" << ": ";
-          break;
-        case fatal:
-          out << "Fatal" << ": ";
-          break;
-        default:
-          break;
+        switch (level) {
+          case trace:
+            out << "Trace" << ": ";
+            break;
+          case debug:
+            out << "Debug" << ": ";
+            break;
+          case info:
+            out << "Info" << ": ";
+            break;
+          case warning:
+            out << "Warning" << ": ";
+            break;
+          case error:
+            out << "Error" << ": ";
+            break;
+          case fatal:
+            out << "Fatal" << ": ";
+            break;
+          default:
+            break;
+        }
+        //  out << "function " << funcName << ": ";
+        //  out << "line " << lineNo << ": ";
+        //  out << "fileName " << fileName << ": ";
+        //  out << "time " << boost::posix_time::microsec_clock::local_time() << ": ";
+      } else {
+        print = false;
       }
-    //  out << "function " << funcName << ": ";
-    //  out << "line " << lineNo << ": ";
-    //  out << "fileName " << fileName << ": ";
-    //  out << "time " << boost::posix_time::microsec_clock::local_time() << ": ";
     } else {
       print = false;
     }

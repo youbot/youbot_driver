@@ -56,7 +56,7 @@ YouBotBase::YouBotBase(const std::string name, const std::string configFilePath)
   // Bouml preserved body begin 00067E71
 
     this->controllerType = 174;
-    this->minFirmwareVersion = 1.45;
+    this->minFirmwareVersion = 1.43;
 
     string filename;
     filename = name;

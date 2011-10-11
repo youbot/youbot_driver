@@ -74,16 +74,16 @@ namespace youbot {
     ///////////////////////////////////////////////////////////////////////////////
     class Logger {
     private:
-        static const bool toConsole = true;
-        static const bool toFile = false;
-        static const severity_level logginLevel = info;
-
         std::stringstream out;
         bool print;
     public:
 
         Logger(const std::string &funcName, const int &lineNo, const std::string &fileName, severity_level level);
         ~Logger();
+        
+        static bool toConsole;
+        static bool toFile;
+        static severity_level logginLevel;
 
         template <class T>
         Logger & operator<<(const T &v) {
@@ -94,6 +94,7 @@ namespace youbot {
 
 
 #define LOG(level) Logger(__PRETTY_FUNCTION__, __LINE__ , __FILE__, level)
+
 
 } // namespace youbot
 

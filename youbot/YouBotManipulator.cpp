@@ -56,7 +56,7 @@ YouBotManipulator::YouBotManipulator(const std::string name, const std::string c
   // Bouml preserved body begin 00067F71
 
     this->controllerType = 841;
-    this->minFirmwareVersion = 1.45;
+    this->minFirmwareVersion = 1.43;
 
     string filename;
     filename = name;
