@@ -474,7 +474,6 @@ void YouBotJoint::setData(const JointEncoderSetpoint& data, SyncMode communicati
       messageBuffer.stctOutput.value *= -1;
     }
     
-    LOG(trace) << messageBuffer.stctOutput.value <<" "<< this->jointNumber;
      ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
   // Bouml preserved body end 000C2371
 }
@@ -936,22 +935,22 @@ void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
 
 
     if (messageBuffer.stctInput.errorFlags & OVER_CURRENT) {
-      LOG(error) << errorMessage << "over current";
+      LOG(warning) << errorMessage << "over current";
       //    throw JointErrorException(errorMessage + "got over current");
     }
 
     if (messageBuffer.stctInput.errorFlags & UNDER_VOLTAGE) {
-      LOG(error) << errorMessage << "under voltage";
+      LOG(warning) << errorMessage << "under voltage";
       //    throw JointErrorException(errorMessage + "got under voltage");
     }
 
     if (messageBuffer.stctInput.errorFlags & OVER_VOLTAGE) {
-      LOG(error) << errorMessage << "over voltage";
+      LOG(warning) << errorMessage << "over voltage";
       //   throw JointErrorException(errorMessage + "got over voltage");
     }
 
     if (messageBuffer.stctInput.errorFlags & OVER_TEMPERATURE) {
-      LOG(error) << errorMessage << "over temperature";
+      LOG(warning) << errorMessage << "over temperature";
       //   throw JointErrorException(errorMessage + "got over temperature");
     }
 
@@ -961,17 +960,17 @@ void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
     }
 
     if (messageBuffer.stctInput.errorFlags & HALL_SENSOR_ERROR) {
-      LOG(error) << errorMessage << "hall sensor problem";
+      LOG(warning) << errorMessage << "hall sensor problem";
       //   throw JointErrorException(errorMessage + "got hall sensor problem");
     }
 
 //    if (messageBuffer.stctInput.errorFlags & ENCODER_ERROR) {
-//      LOG(error) << errorMessage << "encoder problem";
+//      LOG(warning) << errorMessage << "encoder problem";
 //      //   throw JointErrorException(errorMessage + "got encoder problem");
 //    }
 //
 //     if (messageBuffer.stctInput.errorFlags & INITIALIZATION_ERROR) {
-//      LOG(error) << errorMessage << "initialization problem";
+//      LOG(warning) << errorMessage << "initialization problem";
 //      //   throw JointErrorException(errorMessage + "got motor winding problem");
 //    }
 
@@ -1011,17 +1010,17 @@ void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
     }
 
     if (!(messageBuffer.stctInput.errorFlags & INITIALIZED)) {
-      LOG(info) << errorMessage << "not initialized";
+      LOG(warning) << errorMessage << "not initialized";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & TIMEOUT) {
-      LOG(error) << errorMessage << "exceeded timeout";
+      LOG(warning) << errorMessage << "exceeded timeout";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & I2T_EXCEEDED) {
-      LOG(error) << errorMessage << "exceeded I2t";
+      LOG(warning) << errorMessage << "exceeded I2t";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 

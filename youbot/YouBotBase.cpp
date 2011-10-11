@@ -446,7 +446,7 @@ bool YouBotBase::areSame(const double A, const double B) {
 void YouBotBase::initializeJoints() {
   // Bouml preserved body begin 000464F1
 
-  //  LOG(info) << "Initializing Joints";
+    LOG(trace) << "Initializing Joints";
 
     //get number of slaves
     unsigned int noSlaves = ethercatMaster.getNumberOfSlaves();

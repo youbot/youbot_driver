@@ -170,7 +170,7 @@ void EthercatMaster::sendAndReceiveProcessData() {
 
     //receive data from ethercat
     if (ec_receive_processdata(this->ethercatTimeout) == 0) {
-      LOG(error) << "Receiving data failed";
+      LOG(warning) << "Receiving data failed";
     }
 
     for (unsigned int i = 0; i < processDataBuffer.size(); i++) {
@@ -185,7 +185,7 @@ void EthercatMaster::sendAndReceiveProcessData() {
 
     //send data to ethercat
     if (ec_send_processdata() == 0) {
-      LOG(error) << "Sending process data failed";
+      LOG(warning) << "Sending process data failed";
     }
 
   // Bouml preserved body end 000D2471
@@ -221,7 +221,7 @@ void EthercatMaster::initializeEthercat() {
         /* distributed clock is not working
         //Configure distributed clock
         if(!ec_configdc()){
-          LOG(info) << "no distributed clock is available";
+          LOG(warning) << "no distributed clock is available";
         }else{
 
           uint32 CyclTime = 4000000;
@@ -236,7 +236,7 @@ void EthercatMaster::initializeEthercat() {
         /* wait for all slaves to reach SAFE_OP state */
         ec_statecheck(0, EC_STATE_SAFE_OP, EC_TIMEOUTSTATE);
         if (ec_slave[0].state != EC_STATE_SAFE_OP) {
-          LOG(info) << "Not all slaves reached safe operational state.";
+          LOG(warning) << "Not all slaves reached safe operational state.";
           ec_readstate();
           //If not all slaves operational find out which one
           for (int i = 1; i <= ec_slavecount; i++) {
@@ -412,7 +412,6 @@ bool EthercatMaster::getMailboxMsgBuffer(YouBotSlaveMailboxMsg& mailboxMsg, cons
 ///@param mailboxMsg ethercat mailbox message
 bool EthercatMaster::sendMailboxMessage(const YouBotSlaveMailboxMsg& mailboxMsg) {
   // Bouml preserved body begin 000D22F1
-    //  LOG(trace) << "send mailbox message (buffer two) slave " << mailboxMsg.getSlaveNo();
     mailboxBufferSend[0] = mailboxMsg.stctOutput.moduleAddress;
     mailboxBufferSend[1] = mailboxMsg.stctOutput.commandNumber;
     mailboxBufferSend[2] = mailboxMsg.stctOutput.typeNumber;
@@ -434,7 +433,6 @@ bool EthercatMaster::sendMailboxMessage(const YouBotSlaveMailboxMsg& mailboxMsg)
 bool EthercatMaster::receiveMailboxMessage(YouBotSlaveMailboxMsg& mailboxMsg) {
   // Bouml preserved body begin 000D2371
     if (ec_mbxreceive(mailboxMsg.getSlaveNo(), &mailboxBufferReceive, mailboxTimeout)) {
-      //    LOG(trace) << "received mailbox message (buffer two) slave " << mailboxMsg.getSlaveNo();
       mailboxMsg.stctInput.replyAddress = (int) mailboxBufferReceive[0];
       mailboxMsg.stctInput.moduleAddress = (int) mailboxBufferReceive[1];
       mailboxMsg.stctInput.status = (int) mailboxBufferReceive[2];

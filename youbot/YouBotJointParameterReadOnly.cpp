@@ -208,22 +208,22 @@ void ErrorAndStatus::parseYouBotErrorFlags() const {
 
 
     if (value & OVER_CURRENT) {
-      LOG(error) << errorMessage << "over current";
+      LOG(warning) << errorMessage << "over current";
       //    throw JointErrorException(errorMessage + "got over current");
     }
 
     if (value & UNDER_VOLTAGE) {
-      LOG(error) << errorMessage << "under voltage";
+      LOG(warning) << errorMessage << "under voltage";
       //    throw JointErrorException(errorMessage + "got under voltage");
     }
 
     if (value & OVER_VOLTAGE) {
-      LOG(error) << errorMessage << "over voltage";
+      LOG(warning) << errorMessage << "over voltage";
       //   throw JointErrorException(errorMessage + "got over voltage");
     }
 
     if (value & OVER_TEMPERATURE) {
-      LOG(error) << errorMessage << "over temperature";
+      LOG(warning) << errorMessage << "over temperature";
       //   throw JointErrorException(errorMessage + "got over temperature");
     }
 
@@ -233,7 +233,7 @@ void ErrorAndStatus::parseYouBotErrorFlags() const {
     }
 
     if (value & HALL_SENSOR_ERROR) {
-      LOG(error) << errorMessage << "hall sensor problem";
+      LOG(warning) << errorMessage << "hall sensor problem";
       //   throw JointErrorException(errorMessage + "got hall sensor problem");
     }
 
@@ -268,12 +268,12 @@ void ErrorAndStatus::parseYouBotErrorFlags() const {
     }
 
     if (value & TIMEOUT) {
-      LOG(error) << errorMessage << "timeout";
+      LOG(warning) << errorMessage << "timeout";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
     if (value & I2T_EXCEEDED) {
-      LOG(error) << errorMessage << "I2t exceeded";
+      LOG(warning) << errorMessage << "I2t exceeded";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 

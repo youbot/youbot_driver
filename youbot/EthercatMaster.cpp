@@ -250,7 +250,7 @@ void EthercatMaster::initializeEthercat() {
         /* distributed clock is not working
         //Configure distributed clock
         if(!ec_configdc()){
-          LOG(info) << "no distributed clock is available";
+          LOG(warning) << "no distributed clock is available";
         }else{
 
           uint32 CyclTime = 4000000;
@@ -265,7 +265,7 @@ void EthercatMaster::initializeEthercat() {
         /* wait for all slaves to reach SAFE_OP state */
         ec_statecheck(0, EC_STATE_SAFE_OP, EC_TIMEOUTSTATE);
         if (ec_slave[0].state != EC_STATE_SAFE_OP) {
-          LOG(info) << "Not all slaves reached safe operational state.";
+          LOG(warning) << "Not all slaves reached safe operational state.";
           ec_readstate();
           //If not all slaves operational find out which one
           for (int i = 1; i <= ec_slavecount; i++) {
@@ -723,12 +723,12 @@ void EthercatMaster::updateSensorActorValues() {
       
       //send and receive data from ethercat
       if (ec_send_processdata() == 0) {
-        LOG(error) << "Sending process data failed";
+        LOG(warning) << "Sending process data failed";
       }
 
       if (ec_receive_processdata(this->ethercatTimeout) == 0) {
         if(communicationErrors == 0){
-          LOG(error) << "Receiving data failed";
+          LOG(warning) << "Receiving data failed";
         }
         communicationErrors++;
       }else{
@@ -743,7 +743,7 @@ void EthercatMaster::updateSensorActorValues() {
       }
       
       if (ec_iserror())
-        LOG(error) << "there is an error in the soem driver";
+        LOG(warning) << "there is an error in the soem driver";
       
 
       if (newDataFlagOne == false) {
