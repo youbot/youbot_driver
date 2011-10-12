@@ -1,6 +1,15 @@
 PROJECT(YouBot_Driver)
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+
+SET(ROS_ROOT_PATH $ENV{ROS_ROOT})
+
+IF(DEFINED ROS_ROOT_PATH)
+	include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
+	rosbuild_find_ros_package(soem)
+ENDIF(DEFINED ROS_ROOT_PATH)
+
+
 SET(CMAKE_BUILD_TYPE Debug)
 SET(CMAKE_C_FLAGS_DEBUG "-fPIC -Wall -g")
 SET(CMAKE_CXX_FLAGS_DEBUG "-fPIC -O0 -g")
