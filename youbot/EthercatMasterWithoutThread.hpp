@@ -113,7 +113,8 @@ friend class YouBotGripper;
     void getEthercatDiagnosticInformation(std::vector<ec_slavet>& ethercatSlaveInfos);
 
     ///sends and receives ethercat messages to and from the motor controllers
-    void sendAndReceiveProcessData();
+    /// returns a true if everything it OK and returns false if something fail
+    bool sendAndReceiveProcessData();
 
 
   private:

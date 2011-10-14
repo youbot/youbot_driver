@@ -162,22 +162,25 @@ void EthercatMaster::getEthercatDiagnosticInformation(std::vector<ec_slavet>& et
 }
 
 ///sends and receives ethercat messages to and from the motor controllers
-void EthercatMaster::sendAndReceiveProcessData() {
+/// returns a true if everything it OK and returns false if something fail
+bool EthercatMaster::sendAndReceiveProcessData() {
   // Bouml preserved body begin 000D2471
 
+    bool returnValue = true;
     //check if for joint limits
     //  this->checkJointLimits();  //TODO test joint limit check
 
     //receive data from ethercat
     if (ec_receive_processdata(this->ethercatTimeout) == 0) {
-      LOG(warning) << "Receiving data failed";
+  //    LOG(warning) << "Receiving data failed";
+      returnValue = false;
     }
 
     for (unsigned int i = 0; i < processDataBuffer.size(); i++) {
-      //fill first output buffer (send data)
+      //fill output buffer (send data)
       *(ethercatOutputBufferVector[i]) = (processDataBuffer[i]).stctOutput;
 
-      //fill first input buffer (receive data)
+      //fill input buffer (receive data)
       (processDataBuffer[i]).stctInput = *(ethercatInputBufferVector[i]);
 
       // this->parseYouBotErrorFlags(secondBufferVector[i]);
@@ -185,8 +188,15 @@ void EthercatMaster::sendAndReceiveProcessData() {
 
     //send data to ethercat
     if (ec_send_processdata() == 0) {
-      LOG(warning) << "Sending process data failed";
+   //   LOG(warning) << "Sending process data failed";
+      returnValue = false;
     }
+    
+    if (ec_iserror()){
+      returnValue = false;
+    }
+    
+    return returnValue;
 
   // Bouml preserved body end 000D2471
 }

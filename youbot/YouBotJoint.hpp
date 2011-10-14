@@ -128,8 +128,10 @@ class YouBotJoint : public Joint {
 
     void getConfigurationParameter(FirmwareVersion& parameter);
 
+    ///this methode should be only used if you know what you are doing
     void setConfigurationParameter(const YouBotSlaveMailboxMsg& parameter);
 
+    ///this methode should be only used if you know what you are doing
     void getConfigurationParameter(YouBotSlaveMailboxMsg& parameter);
 
     void setConfigurationParameter(const TorqueConstant& parameter);
