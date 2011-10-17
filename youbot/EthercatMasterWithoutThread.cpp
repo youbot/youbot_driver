@@ -161,44 +161,54 @@ void EthercatMaster::getEthercatDiagnosticInformation(std::vector<ec_slavet>& et
   // Bouml preserved body end 000D1EF1
 }
 
-///sends and receives ethercat messages to and from the motor controllers
+///sends ethercat messages to the motor controllers
 /// returns a true if everything it OK and returns false if something fail
-bool EthercatMaster::sendAndReceiveProcessData() {
+bool EthercatMaster::sendProcessData() {
   // Bouml preserved body begin 000D2471
-
-    bool returnValue = true;
-    //check if for joint limits
-    //  this->checkJointLimits();  //TODO test joint limit check
-
-    //receive data from ethercat
-    if (ec_receive_processdata(this->ethercatTimeout) == 0) {
-  //    LOG(warning) << "Receiving data failed";
-      returnValue = false;
-    }
 
     for (unsigned int i = 0; i < processDataBuffer.size(); i++) {
       //fill output buffer (send data)
       *(ethercatOutputBufferVector[i]) = (processDataBuffer[i]).stctOutput;
-
-      //fill input buffer (receive data)
-      (processDataBuffer[i]).stctInput = *(ethercatInputBufferVector[i]);
-
-      // this->parseYouBotErrorFlags(secondBufferVector[i]);
     }
 
     //send data to ethercat
     if (ec_send_processdata() == 0) {
-   //   LOG(warning) << "Sending process data failed";
-      returnValue = false;
+      return false;
     }
     
-    if (ec_iserror()){
-      returnValue = false;
-    }
-    
-    return returnValue;
+    return true;
 
   // Bouml preserved body end 000D2471
+}
+
+/// receives ethercat messages from the motor controllers
+/// returns a true if everything it OK and returns false if something fail
+bool EthercatMaster::receiveProcessData() {
+  // Bouml preserved body begin 000D5D71
+
+    //receive data from ethercat
+    if (ec_receive_processdata(this->ethercatTimeout) == 0) {
+      return false;
+    }
+
+    for (unsigned int i = 0; i < processDataBuffer.size(); i++) {
+      //fill input buffer (receive data)
+      (processDataBuffer[i]).stctInput = *(ethercatInputBufferVector[i]);
+    }
+
+    return true;
+
+  // Bouml preserved body end 000D5D71
+}
+
+/// checks if an error has occurred in the soem driver
+/// returns a true if an error has occurred
+bool EthercatMaster::isErrorInSoemDriver() {
+  // Bouml preserved body begin 000D5DF1
+   
+    return ec_iserror();
+
+  // Bouml preserved body end 000D5DF1
 }
 
 ///establishes the ethercat connection

@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 197
+  revision 200
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -197,11 +197,13 @@ ${inlines}
 
       operation 266993 "YouBotJoint"
 	preserve_cpp_body_indent public explicit_return_type ""
-	nparams 1
+	nparams 2
 	  param in name "jointNo" explicit_type "uint"
-	cpp_decl "    ${description}${inline}${name}${(}${t0} ${p0}${)}${volatile}${throw};
+	  param in name "configFilePath" explicit_type "std::string"
+	    defaultvalue "\"../config/\""
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0} ${p0}${v0}, const ${t1}& ${p1}${v1}${)}${volatile}${throw};
 "
-	cpp_def "${description}${inline}${class}::${name}${(}${t0} ${p0}${)}${volatile}${throw} {
+	cpp_def "${description}${inline}${class}::${name}${(}const ${t0} ${p0}, const ${t1}& ${p1}${)}${volatile}${throw} {
   ${body}}
 "
 	preserve_java_body_indent 
@@ -522,6 +524,7 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
+	comment "///this methode should be only used if you know what you are doing"
       end
 
       operation 695793 "getConfigurationParameter"
@@ -537,6 +540,7 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
+	comment "///this methode should be only used if you know what you are doing"
       end
 
       operation 815473 "setConfigurationParameter"
@@ -1100,6 +1104,16 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
+      end
+
+      attribute 756081 "ethercatMaster"
+	private explicit_type "EthercatMaster*"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
       end
 
       attribute 321649 "jointName"
@@ -22791,7 +22805,8 @@ ${inlines}
 	    defaultvalue "\"../config/\""
 	cpp_decl "    ${description}${inline}${name}${(}const ${t0} ${p0}${v0}, const ${t1} ${p1}${v1}${)}${volatile}${throw};
 "
-	cpp_def "${description}${inline}${class}::${name}${(}const ${t0} ${p0}, const ${t1} ${p1}${)}${volatile}${throw} {
+	cpp_def "${description}${inline}${class}::${name}${(}const ${t0} ${p0}, const ${t1} ${p1}${)}${volatile}${throw}
+: ethercatMaster(EthercatMaster::getInstance(\"youbot-ethercat.cfg\", configFilePath)) {
   ${body}}
 "
 	preserve_java_body_indent 
@@ -23095,26 +23110,6 @@ ${inlines}
 	idl_decl ""
       end
 
-      attribute 459121 "configFilePath"
-	private explicit_type "string"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 459249 "ethercatConfigFileName"
-	private explicit_type "string"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
       attribute 615793 "controllerType"
 	private explicit_type "int"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -23127,6 +23122,16 @@ ${inlines}
 
       attribute 615665 "minFirmwareVersion"
 	private explicit_type "double"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 756209 "ethercatMaster"
+	private explicit_type "EthercatMaster&"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -23160,7 +23165,8 @@ ${inlines}
 	    defaultvalue "\"../config/\""
 	cpp_decl "    ${description}${inline}${name}${(}const ${t0} ${p0}${v0}, const ${t1} ${p1}${v1}${)}${volatile}${throw};
 "
-	cpp_def "${description}${inline}${class}::${name}${(}const ${t0} ${p0}, const ${t1} ${p1}${)}${volatile}${throw} {
+	cpp_def "${description}${inline}${class}::${name}${(}const ${t0} ${p0}, const ${t1} ${p1}${)}${volatile}${throw}
+: ethercatMaster(EthercatMaster::getInstance(\"youbot-ethercat.cfg\", configFilePath)) {
   ${body}}
 "
 	preserve_java_body_indent 
@@ -23518,26 +23524,6 @@ ${inlines}
 	idl_decl ""
       end
 
-      attribute 458865 "configFilePath"
-	private explicit_type "string"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 458993 "ethercatConfigFileName"
-	private explicit_type "string"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
       attribute 608881 "controllerType"
 	private explicit_type "int"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -23550,6 +23536,16 @@ ${inlines}
 
       attribute 609137 "minFirmwareVersion"
 	private explicit_type "double"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 755953 "ethercatMaster"
+	private explicit_type "EthercatMaster&"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -24392,8 +24388,8 @@ friend class YouBotGripper;" ""
 ///@param ethercatSlaveInfos ethercat slave informations"
       end
 
-      operation 861297 "sendAndReceiveProcessData"
-	preserve_cpp_body_indent public explicit_return_type "void"
+      operation 861297 "sendProcessData"
+	preserve_cpp_body_indent public explicit_return_type "bool"
 	nparams 0
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
@@ -24404,7 +24400,40 @@ friend class YouBotGripper;" ""
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
-	comment "///sends and receives ethercat messages to and from the motor controllers"
+	comment "///sends ethercat messages to the motor controllers
+/// returns a true if everything it OK and returns false if something fail"
+      end
+
+      operation 875889 "receiveProcessData"
+	preserve_cpp_body_indent public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "/// receives ethercat messages from the motor controllers
+/// returns a true if everything it OK and returns false if something fail"
+      end
+
+      operation 876017 "isErrorInSoemDriver"
+	preserve_cpp_body_indent public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "/// checks if an error has occurred in the soem driver
+/// returns a true if an error has occurred"
       end
 
       operation 860017 "initializeEthercat"
@@ -25511,11 +25540,13 @@ ${inlines}
       comment "/// The youBot gripper with one degree of freedom"
       operation 389105 "YouBotGripper"
 	preserve_cpp_body_indent public explicit_return_type ""
-	nparams 1
+	nparams 2
 	  param in name "jointNo" explicit_type "uint"
-	cpp_decl "    ${description}${inline}${name}${(}const ${t0} ${p0}${)}${volatile}${throw};
+	  param in name "configFilePath" explicit_type "std::string"
+	    defaultvalue "\"../config/\""
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0} ${p0}${v0}, const ${t1}& ${p1}${v1}${)}${volatile}${throw};
 "
-	cpp_def "${description}${inline}${class}::${name}${(}const ${t0} ${p0}${)}${volatile}${throw} {
+	cpp_def "${description}${inline}${class}::${name}${(}const ${t0} ${p0}, const ${t1}& ${p1}${)}${volatile}${throw} {
   ${body}}
 "
 	preserve_java_body_indent 
@@ -25816,6 +25847,16 @@ ${inlines}
 	    cpp default "${type}"
 	    classrelation_ref 190961 // <generalisation>
 	  b parent class_ref 217585 // OneDOFGripper
+      end
+
+      attribute 756337 "ethercatMaster"
+	private explicit_type "EthercatMaster*"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
       end
 
       attribute 386673 "timeTillNextMailboxUpdate"

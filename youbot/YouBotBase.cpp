@@ -92,6 +92,10 @@ void YouBotBase::doJointCommutation() {
     this->getBaseJoint(3).setConfigurationParameter(clearTimeoutFlag);
     this->getBaseJoint(4).setConfigurationParameter(clearTimeoutFlag);
 
+    #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+      ethercatMaster.sendProcessData();
+      ethercatMaster.receiveProcessData();
+    #endif
 
     doInitialization.setParameter(false);
     this->getBaseJoint(1).getConfigurationParameter(doInitialization);
@@ -141,7 +145,8 @@ void YouBotBase::doJointCommutation() {
       for (u = 1; u <= 5000; u++) {
         for (unsigned int i = 1; i <= BASEJOINTS; i++) {
           #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
-            ethercatMaster.sendAndReceiveProcessData();
+            ethercatMaster.sendProcessData();
+            ethercatMaster.receiveProcessData();
           #endif
           this->getBaseJoint(i).getStatus(statusFlags);
           if (statusFlags & INITIALIZED) {

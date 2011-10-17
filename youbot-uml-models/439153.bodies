@@ -44,11 +44,11 @@ class EthercatMaster
 !!!859505.cpp!!!	getNumberOfSlaves() : unsigned int
     return this->nrOfSlaves;
 !!!859633.cpp!!!	AutomaticSendOn(in enableAutomaticSend : bool) : void
-    LOG(error) << "automatic send is not possible if the EtherCAT master has no thread";
+    LOG(trace) << "automatic send is not possible if the EtherCAT master has no thread";
 
     return;
 !!!859761.cpp!!!	AutomaticReceiveOn(in enableAutomaticReceive : bool) : void
-    LOG(error) << "automatic receive is not possible if the EtherCAT master has no thread";
+    LOG(trace) << "automatic receive is not possible if the EtherCAT master has no thread";
     return;
 !!!859889.cpp!!!	getEthercatDiagnosticInformation(out ethercatSlaveInfos : std::vector<ec_slavet>) : void
     ethercatSlaveInfos = this->ethercatSlaveInfo;
@@ -56,30 +56,37 @@ class EthercatMaster
       ethercatSlaveInfos[i].inputs = NULL;
       ethercatSlaveInfos[i].outputs = NULL;
     }
-!!!861297.cpp!!!	sendAndReceiveProcessData() : void
-
-    //check if for joint limits
-    //  this->checkJointLimits();  //TODO test joint limit check
-
-    //receive data from ethercat
-    if (ec_receive_processdata(this->ethercatTimeout) == 0) {
-      LOG(error) << "Receiving data failed";
-    }
+!!!861297.cpp!!!	sendProcessData() : bool
 
     for (unsigned int i = 0; i < processDataBuffer.size(); i++) {
-      //fill first output buffer (send data)
+      //fill output buffer (send data)
       *(ethercatOutputBufferVector[i]) = (processDataBuffer[i]).stctOutput;
-
-      //fill first input buffer (receive data)
-      (processDataBuffer[i]).stctInput = *(ethercatInputBufferVector[i]);
-
-      // this->parseYouBotErrorFlags(secondBufferVector[i]);
     }
 
     //send data to ethercat
     if (ec_send_processdata() == 0) {
-      LOG(error) << "Sending process data failed";
+      return false;
     }
+    
+    return true;
+
+!!!875889.cpp!!!	receiveProcessData() : bool
+
+    //receive data from ethercat
+    if (ec_receive_processdata(this->ethercatTimeout) == 0) {
+      return false;
+    }
+
+    for (unsigned int i = 0; i < processDataBuffer.size(); i++) {
+      //fill input buffer (receive data)
+      (processDataBuffer[i]).stctInput = *(ethercatInputBufferVector[i]);
+    }
+
+    return true;
+
+!!!876017.cpp!!!	isErrorInSoemDriver() : bool
+   
+    return ec_iserror();
 
 !!!860017.cpp!!!	initializeEthercat() : void
 
@@ -109,7 +116,7 @@ class EthercatMaster
         /* distributed clock is not working
         //Configure distributed clock
         if(!ec_configdc()){
-          LOG(info) << "no distributed clock is available";
+          LOG(warning) << "no distributed clock is available";
         }else{
 
           uint32 CyclTime = 4000000;
@@ -124,7 +131,7 @@ class EthercatMaster
         /* wait for all slaves to reach SAFE_OP state */
         ec_statecheck(0, EC_STATE_SAFE_OP, EC_TIMEOUTSTATE);
         if (ec_slave[0].state != EC_STATE_SAFE_OP) {
-          LOG(info) << "Not all slaves reached safe operational state.";
+          LOG(warning) << "Not all slaves reached safe operational state.";
           ec_readstate();
           //If not all slaves operational find out which one
           for (int i = 1; i <= ec_slavecount; i++) {
@@ -257,7 +264,6 @@ class EthercatMaster
     mailboxMsg.stctInput = firstMailboxBufferVector[jointNumber - 1].stctInput;
     return returnvalue;
 !!!860913.cpp!!!	sendMailboxMessage(in mailboxMsg : YouBotSlaveMailboxMsg) : bool
-    //  LOG(trace) << "send mailbox message (buffer two) slave " << mailboxMsg.getSlaveNo();
     mailboxBufferSend[0] = mailboxMsg.stctOutput.moduleAddress;
     mailboxBufferSend[1] = mailboxMsg.stctOutput.commandNumber;
     mailboxBufferSend[2] = mailboxMsg.stctOutput.typeNumber;
@@ -273,7 +279,6 @@ class EthercatMaster
     }
 !!!861041.cpp!!!	receiveMailboxMessage(out mailboxMsg : YouBotSlaveMailboxMsg) : bool
     if (ec_mbxreceive(mailboxMsg.getSlaveNo(), &mailboxBufferReceive, mailboxTimeout)) {
-      //    LOG(trace) << "received mailbox message (buffer two) slave " << mailboxMsg.getSlaveNo();
       mailboxMsg.stctInput.replyAddress = (int) mailboxBufferReceive[0];
       mailboxMsg.stctInput.moduleAddress = (int) mailboxBufferReceive[1];
       mailboxMsg.stctInput.status = (int) mailboxBufferReceive[2];

@@ -1,5 +1,5 @@
 class YouBotJoint
-!!!266993.cpp!!!	YouBotJoint(in jointNo : uint)
+!!!266993.cpp!!!	YouBotJoint(in jointNo : uint, in configFilePath : std::string = "../config/")
     this->jointNumber = jointNo;
     timeTillNextMailboxUpdate = 1; //ms
     mailboxMsgRetries = 100;
@@ -7,6 +7,7 @@ class YouBotJoint
     this->storage.lowerLimit = 0;
     this->storage.upperLimit = 0;
     this->storage.areLimitsActive = false;
+    ethercatMaster = &(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath));
 !!!475761.cpp!!!	setConfigurationParameter(in parameter : JointParameter) : void
   throw std::runtime_error("Please use YouBotJointParameters");
 !!!380529.cpp!!!	getConfigurationParameter(out parameter : JointParameter) : void
@@ -90,7 +91,7 @@ class YouBotJoint
 
       messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
       messageBuffer.stctOutput.value = calibrationVel;
-      EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+      ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 
       sensedCurrent.current = 0;
       //turn till a max current is reached
@@ -103,20 +104,20 @@ class YouBotJoint
       messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
       messageBuffer.stctOutput.value = 0;
       //   LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.value << " rad_sec " << data.angularVelocity;
-      EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+      ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 
       //set encoder reference position
       SLEEP_MILLISEC(500);
       messageBuffer.stctOutput.controllerMode = SET_POSITION_TO_REFERENCE;
       messageBuffer.stctOutput.value = 0;
-      EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+      ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 
       //switch to position controll
       SLEEP_MILLISEC(100);
       messageBuffer.stctOutput.controllerMode = POSITION_CONTROL;
       messageBuffer.stctOutput.value = 0;
       //   LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.value << " rad_sec " << data.angularVelocity;
-      EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+      ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 
       //     LOG(info) << "Calibration finished for joint: " << this->jointName;
     }
@@ -130,7 +131,7 @@ class YouBotJoint
     this->storage.lowerLimit = parameter.lowerLimit;
     this->storage.upperLimit = parameter.upperLimit;
     this->storage.areLimitsActive = parameter.areLimitsActive;
-    EthercatMaster::getInstance().setJointLimits(parameter.lowerLimit, parameter.upperLimit, storage.inverseMovementDirection, parameter.areLimitsActive, this->jointNumber);
+    ethercatMaster->setJointLimits(parameter.lowerLimit, parameter.upperLimit, storage.inverseMovementDirection, parameter.areLimitsActive, this->jointNumber);
 
 !!!824817.cpp!!!	getConfigurationParameter(out parameter : JointLimits) : void
     parameter.setParameter(this->storage.lowerLimit, this->storage.upperLimit, this->storage.areLimitsActive);
@@ -144,7 +145,7 @@ class YouBotJoint
       messageBuffer.stctOutput.controllerMode = INITIALIZE;
       messageBuffer.stctOutput.value = 0;
 
-      EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+      ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
     }
 !!!633457.cpp!!!	getConfigurationParameter(out parameter : FirmwareVersion) : void
 
@@ -154,12 +155,12 @@ class YouBotJoint
     bool unvalid = true;
     unsigned int retry = 0;
 
-    EthercatMaster::getInstance().setMailboxMsgBuffer(message, this->jointNumber);
+    ethercatMaster->setMailboxMsgBuffer(message, this->jointNumber);
 
     SLEEP_MILLISEC(timeTillNextMailboxUpdate);
 
     do {
-      if( EthercatMaster::getInstance().getMailboxMsgBuffer(message, this->jointNumber) ) {
+      if( ethercatMaster->getMailboxMsgBuffer(message, this->jointNumber) ) {
         unvalid = false;
       } else {
         SLEEP_MILLISEC(timeTillNextMailboxUpdate);
@@ -232,7 +233,7 @@ class YouBotJoint
 !!!246257.cpp!!!	setData(in data : JointAngleSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
 
     YouBotSlaveMsg messageBuffer;
-    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    messageBuffer = ethercatMaster->getMsgBuffer(this->jointNumber);
     this->parseYouBotErrorFlags(messageBuffer);
     
     if (storage.gearRatio == 0) {
@@ -270,11 +271,11 @@ class YouBotJoint
       messageBuffer.stctOutput.value *= -1;
     }
     //   LOG(trace) << "value: " << data.angle << " gear " << gearRatio << " encoderperRound " << encoderTicksPerRound << " encPos " << messageBuffer.stctOutput.value << " joint " << this->jointNumber;
-    EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+    ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 !!!795505.cpp!!!	setData(in data : JointEncoderSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
 
     YouBotSlaveMsg messageBuffer;
-    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    messageBuffer = ethercatMaster->getMsgBuffer(this->jointNumber);
     this->parseYouBotErrorFlags(messageBuffer);
   
     if(storage.areLimitsActive){
@@ -290,16 +291,14 @@ class YouBotJoint
     messageBuffer.stctOutput.controllerMode = POSITION_CONTROL;
     messageBuffer.stctOutput.value = data.encoderTicks;
     
-
-//    if (storage.inverseMovementDirection) {
-//      messageBuffer.stctOutput.value *= -1;
-//    }
+    if (storage.inverseMovementDirection) {
+      messageBuffer.stctOutput.value *= -1;
+    }
     
-    LOG(trace) << messageBuffer.stctOutput.value <<" "<< this->jointNumber;
-     EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+     ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 !!!253169.cpp!!!	getData(out data : JointSensedAngle) : void
     YouBotSlaveMsg messageBuffer;
-    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    messageBuffer = ethercatMaster->getMsgBuffer(this->jointNumber);
     this->parseYouBotErrorFlags(messageBuffer);
 
     if (storage.gearRatio == 0) {
@@ -317,7 +316,7 @@ class YouBotJoint
 !!!246641.cpp!!!	setData(in data : JointVelocitySetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
   
     YouBotSlaveMsg messageBuffer;
-    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    messageBuffer = ethercatMaster->getMsgBuffer(this->jointNumber);
     this->parseYouBotErrorFlags(messageBuffer);
   
     messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
@@ -332,10 +331,10 @@ class YouBotJoint
     }
 
     //  LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.value << " rad_sec " << data.angularVelocity;
-    EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+    ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 !!!253297.cpp!!!	getData(out data : JointSensedVelocity) : void
     YouBotSlaveMsg messageBuffer;
-    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    messageBuffer = ethercatMaster->getMsgBuffer(this->jointNumber);
     this->parseYouBotErrorFlags(messageBuffer);
 
     if (storage.gearRatio == 0) {
@@ -344,15 +343,23 @@ class YouBotJoint
     double motorRPM = messageBuffer.stctInput.actualVelocity;
     //convert RPM of the motor to radian per second of the wheel/joint
     data.angularVelocity = ((motorRPM / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
+    
+    if (storage.inverseMovementDirection) {
+      data.angularVelocity *= -1;
+    }
 !!!715889.cpp!!!	getData(out data : JointSensedRoundsPerMinute) : void
     YouBotSlaveMsg messageBuffer;
-    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    messageBuffer = ethercatMaster->getMsgBuffer(this->jointNumber);
     this->parseYouBotErrorFlags(messageBuffer);
 
     data.rpm = messageBuffer.stctInput.actualVelocity;
+    
+    if (storage.inverseMovementDirection) {
+      data.rpm *= -1;
+    }
 !!!716017.cpp!!!	setData(in data : JointRoundsPerMinuteSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
     YouBotSlaveMsg messageBuffer;
-    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    messageBuffer = ethercatMaster->getMsgBuffer(this->jointNumber);
     this->parseYouBotErrorFlags(messageBuffer);
     
     messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
@@ -362,17 +369,21 @@ class YouBotJoint
       messageBuffer.stctOutput.value *= -1;
     }
 
-    EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+    ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 !!!253425.cpp!!!	getData(out data : JointSensedCurrent) : void
     YouBotSlaveMsg messageBuffer;
-    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    messageBuffer = ethercatMaster->getMsgBuffer(this->jointNumber);
     this->parseYouBotErrorFlags(messageBuffer);
     //convert mili ampere to ampere
     double current = messageBuffer.stctInput.actualCurrent;
     data.current =  current / 1000.0 * ampere;
+    
+    if (storage.inverseMovementDirection) {
+      data.current *= -1;
+    }
 !!!611825.cpp!!!	setData(in data : JointCurrentSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
     YouBotSlaveMsg messageBuffer;
-    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    messageBuffer = ethercatMaster->getMsgBuffer(this->jointNumber);
     this->parseYouBotErrorFlags(messageBuffer);
     
     messageBuffer.stctOutput.controllerMode = CURRENT_MODE;
@@ -381,16 +392,21 @@ class YouBotJoint
     if (storage.inverseMovementDirection) {
       messageBuffer.stctOutput.value *= -1;
     }
-    EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+    ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 !!!831473.cpp!!!	getData(out data : JointSensedPWM) : void
     YouBotSlaveMsg messageBuffer;
-    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    messageBuffer = ethercatMaster->getMsgBuffer(this->jointNumber);
     this->parseYouBotErrorFlags(messageBuffer);
 
     data.pwm = messageBuffer.stctInput.actualPWM;
+    
+    if (storage.inverseMovementDirection) {
+      data.pwm *= -1;
+    }
+    
 !!!611953.cpp!!!	setData(in data : JointPWMSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
     YouBotSlaveMsg messageBuffer;
-    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    messageBuffer = ethercatMaster->getMsgBuffer(this->jointNumber);
     this->parseYouBotErrorFlags(messageBuffer);
     
     messageBuffer.stctOutput.controllerMode = PWM_MODE;
@@ -399,26 +415,30 @@ class YouBotJoint
     if (storage.inverseMovementDirection) {
       messageBuffer.stctOutput.value *= -1;
     }
-    EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+    ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 !!!702449.cpp!!!	getData(out data : JointSensedEncoderTicks) : void
     YouBotSlaveMsg messageBuffer;
-    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    messageBuffer = ethercatMaster->getMsgBuffer(this->jointNumber);
     this->parseYouBotErrorFlags(messageBuffer);
 
     //  LOG(trace) << "enc: " << messageBuffer.stctInput.actualPosition;
     data.encoderTicks = messageBuffer.stctInput.actualPosition ;
+    
+    if (storage.inverseMovementDirection) {
+      data.encoderTicks *= -1;
+    }
 
 !!!808561.cpp!!!	setData(in data : SlaveMessageOutput, in communicationMode : SyncMode = NON_BLOCKING) : void
     YouBotSlaveMsg messageBuffer;
-    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    messageBuffer = ethercatMaster->getMsgBuffer(this->jointNumber);
     this->parseYouBotErrorFlags(messageBuffer);
     
     messageBuffer.stctOutput = data;
   
-    EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+    ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 !!!808689.cpp!!!	getData(out data : SlaveMessageInput) : void
     YouBotSlaveMsg messageBuffer;
-    messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+    messageBuffer = ethercatMaster->getMsgBuffer(this->jointNumber);
     this->parseYouBotErrorFlags(messageBuffer);
 
     data = messageBuffer.stctInput;
@@ -477,7 +497,7 @@ class YouBotJoint
     this->parseMailboxStatusFlags(message);
 !!!709233.cpp!!!	getStatus(out statusMessages : std::vector<std::string>) : void
   YouBotSlaveMsg messageBuffer;
-  messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+  messageBuffer = ethercatMaster->getMsgBuffer(this->jointNumber);
   
   
   std::stringstream errorMessageStream;
@@ -560,7 +580,7 @@ class YouBotJoint
   
 !!!709361.cpp!!!	getStatus(out statusFlags : unsigned int) : void
   YouBotSlaveMsg messageBuffer;
-  messageBuffer = EthercatMaster::getInstance().getMsgBuffer(this->jointNumber);
+  messageBuffer = ethercatMaster->getMsgBuffer(this->jointNumber);
   
   statusFlags = messageBuffer.stctInput.errorFlags;
 !!!716145.cpp!!!	setEncoderToZero() : void
@@ -569,20 +589,20 @@ class YouBotJoint
     messageBuffer.stctOutput.controllerMode = SET_POSITION_TO_REFERENCE;
     messageBuffer.stctOutput.value = 0;
 
-    EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+    ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 
 !!!419057.cpp!!!	noMoreAction() : void
     YouBotSlaveMsg messageBuffer;
     messageBuffer.stctOutput.controllerMode = NO_MORE_ACTION;
     messageBuffer.stctOutput.value = 0;
 
-    EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+    ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 !!!418929.cpp!!!	stopJoint() : void
     YouBotSlaveMsg messageBuffer;
     messageBuffer.stctOutput.controllerMode = MOTOR_STOP;
     messageBuffer.stctOutput.value = 0;
 
-    EthercatMaster::getInstance().setMsgBuffer(messageBuffer, this->jointNumber);
+    ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 !!!281329.cpp!!!	parseYouBotErrorFlags(in messageBuffer : YouBotSlaveMsg) : void
     std::stringstream errorMessageStream;
     errorMessageStream << "Joint " << this->jointNumber << ": ";
@@ -591,22 +611,22 @@ class YouBotJoint
 
 
     if (messageBuffer.stctInput.errorFlags & OVER_CURRENT) {
-      LOG(error) << errorMessage << "over current";
+      LOG(warning) << errorMessage << "over current";
       //    throw JointErrorException(errorMessage + "got over current");
     }
 
     if (messageBuffer.stctInput.errorFlags & UNDER_VOLTAGE) {
-      LOG(error) << errorMessage << "under voltage";
+      LOG(warning) << errorMessage << "under voltage";
       //    throw JointErrorException(errorMessage + "got under voltage");
     }
 
     if (messageBuffer.stctInput.errorFlags & OVER_VOLTAGE) {
-      LOG(error) << errorMessage << "over voltage";
+      LOG(warning) << errorMessage << "over voltage";
       //   throw JointErrorException(errorMessage + "got over voltage");
     }
 
     if (messageBuffer.stctInput.errorFlags & OVER_TEMPERATURE) {
-      LOG(error) << errorMessage << "over temperature";
+      LOG(warning) << errorMessage << "over temperature";
       //   throw JointErrorException(errorMessage + "got over temperature");
     }
 
@@ -616,17 +636,17 @@ class YouBotJoint
     }
 
     if (messageBuffer.stctInput.errorFlags & HALL_SENSOR_ERROR) {
-      LOG(error) << errorMessage << "hall sensor problem";
+      LOG(warning) << errorMessage << "hall sensor problem";
       //   throw JointErrorException(errorMessage + "got hall sensor problem");
     }
 
 //    if (messageBuffer.stctInput.errorFlags & ENCODER_ERROR) {
-//      LOG(error) << errorMessage << "encoder problem";
+//      LOG(warning) << errorMessage << "encoder problem";
 //      //   throw JointErrorException(errorMessage + "got encoder problem");
 //    }
 //
 //     if (messageBuffer.stctInput.errorFlags & INITIALIZATION_ERROR) {
-//      LOG(error) << errorMessage << "initialization problem";
+//      LOG(warning) << errorMessage << "initialization problem";
 //      //   throw JointErrorException(errorMessage + "got motor winding problem");
 //    }
 
@@ -666,17 +686,17 @@ class YouBotJoint
     }
 
     if (!(messageBuffer.stctInput.errorFlags & INITIALIZED)) {
-      LOG(info) << errorMessage << "not initialized";
+      LOG(warning) << errorMessage << "not initialized";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & TIMEOUT) {
-      LOG(error) << errorMessage << "exceeded timeout";
+      LOG(warning) << errorMessage << "exceeded timeout";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & I2T_EXCEEDED) {
-      LOG(error) << errorMessage << "exceeded I2t";
+      LOG(warning) << errorMessage << "exceeded I2t";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
@@ -722,12 +742,12 @@ class YouBotJoint
     bool unvalid = true;
     unsigned int retry = 0;
 
-    EthercatMaster::getInstance().setMailboxMsgBuffer(message, this->jointNumber);
+    ethercatMaster->setMailboxMsgBuffer(message, this->jointNumber);
 
     SLEEP_MILLISEC(timeTillNextMailboxUpdate);
 
     do {
-      EthercatMaster::getInstance().getMailboxMsgBuffer(message, this->jointNumber);
+      ethercatMaster->getMailboxMsgBuffer(message, this->jointNumber);
     /*     LOG(trace) << "CommandNumber " << (int) message.stctInput.commandNumber
                  << " moduleAddress " << (int) message.stctInput.moduleAddress
                  << " replyAddress " << (int) message.stctInput.replyAddress
@@ -757,12 +777,12 @@ class YouBotJoint
     bool unvalid = true;
     unsigned int retry = 0;
 
-    EthercatMaster::getInstance().setMailboxMsgBuffer(mailboxMsgBuffer, this->jointNumber);
+    ethercatMaster->setMailboxMsgBuffer(mailboxMsgBuffer, this->jointNumber);
 
     SLEEP_MILLISEC(timeTillNextMailboxUpdate);
 
     do {
-      EthercatMaster::getInstance().getMailboxMsgBuffer(mailboxMsgBuffer, this->jointNumber);
+      ethercatMaster->getMailboxMsgBuffer(mailboxMsgBuffer, this->jointNumber);
       /*    LOG(trace) << "CommandNumber " << (int) mailboxMsgBuffer.stctInput.commandNumber
                   << " moduleAddress " << (int) mailboxMsgBuffer.stctInput.moduleAddress
                   << " replyAddress " << (int) mailboxMsgBuffer.stctInput.replyAddress

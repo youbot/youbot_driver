@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 55
+  revision 56
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -56,6 +56,12 @@ ${description}
 #include \"youbot/YouBotSlaveMsg.hpp\"
 #include \"youbot/YouBotSlaveMailboxMsg.hpp\"
 
+#ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+  #include \"youbot/EthercatMasterWithoutThread.hpp\"
+#else
+  #include \"youbot/EthercatMaster.hpp\"
+#endif
+
 ${namespace_start}
 ${definition}
 ${namespace_end}
@@ -63,11 +69,6 @@ ${namespace_end}
 "
       cpp_src "${description}
 #include \"youbot/YouBotJoint.hpp\"
-#ifdef ETHERCAT_MASTER_WITHOUT_THREAD
-  #include \"youbot/EthercatMasterWithoutThread.hpp\"
-#else
-  #include \"youbot/EthercatMaster.hpp\"
-#endif
 ${namespace_start}
 ${members}
 ${namespace_end}"
@@ -244,6 +245,12 @@ ${description}
 #include \"generic/Exceptions.hpp\"
 #include \"youbot/ProtocolDefinitions.hpp\"
 
+#ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+  #include \"youbot/EthercatMasterWithoutThread.hpp\"
+#else
+  #include \"youbot/EthercatMaster.hpp\"
+#endif
+
 #include \"youbot/YouBotSlaveMsg.hpp\"
 #include \"youbot/YouBotSlaveMailboxMsg.hpp\"
 #include \"generic-gripper/Gripper.hpp\"
@@ -252,7 +259,6 @@ ${description}
 #include \"one-dof-gripper/OneDOFGripper.hpp\"
 #include \"one-dof-gripper/OneDOFGripperData.hpp\"
 #include \"youbot/YouBotGripperParameter.hpp\"
-
 
 ${namespace_start}
 ${definition}

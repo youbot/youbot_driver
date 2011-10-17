@@ -112,9 +112,17 @@ friend class YouBotGripper;
     ///@param ethercatSlaveInfos ethercat slave informations
     void getEthercatDiagnosticInformation(std::vector<ec_slavet>& ethercatSlaveInfos);
 
-    ///sends and receives ethercat messages to and from the motor controllers
+    ///sends ethercat messages to the motor controllers
     /// returns a true if everything it OK and returns false if something fail
-    bool sendAndReceiveProcessData();
+    bool sendProcessData();
+
+    /// receives ethercat messages from the motor controllers
+    /// returns a true if everything it OK and returns false if something fail
+    bool receiveProcessData();
+
+    /// checks if an error has occurred in the soem driver
+    /// returns a true if an error has occurred
+    bool isErrorInSoemDriver();
 
 
   private:

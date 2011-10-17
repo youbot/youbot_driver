@@ -122,7 +122,8 @@ void YouBotManipulator::doJointCommutation() {
       for (u = 1; u <= 5000; u++) {
         for (unsigned int i = 1; i <= ARMJOINTS; i++) {
           #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
-            ethercatMaster.sendAndReceiveProcessData();
+            ethercatMaster.sendProcessData();
+            ethercatMaster.receiveProcessData();
           #endif
           this->getArmJoint(i).getStatus(statusFlags);
           if (statusFlags & INITIALIZED) {
@@ -243,7 +244,8 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
       if (doCalibration[i] == true) {
         joints[i].setData(calibrationVel[i]);
         #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
-          ethercatMaster.sendAndReceiveProcessData();
+          ethercatMaster.sendProcessData();
+          ethercatMaster.receiveProcessData();
         #endif
       } else {
         finished[i] = true;
@@ -254,7 +256,8 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
     while (!(finished[0] && finished[1] && finished[2] && finished[3] && finished[4])) {
       for (unsigned int i = 0; i < ARMJOINTS; i++) {
         #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
-          ethercatMaster.sendAndReceiveProcessData();
+          ethercatMaster.sendProcessData();
+          ethercatMaster.receiveProcessData();
         #endif
         joints[i].getData(sensedCurrent);
         //turn till a max current is reached
@@ -262,7 +265,8 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
           //stop movement
           joints[i].setData(pwmStopMovement);
           #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
-            ethercatMaster.sendAndReceiveProcessData();
+            ethercatMaster.sendProcessData();
+            ethercatMaster.receiveProcessData();
           #endif
           finished[i] = true;
         }
@@ -278,7 +282,8 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
         //set encoder reference position
         joints[i].setEncoderToZero();
         #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
-          ethercatMaster.sendAndReceiveProcessData();
+          ethercatMaster.sendProcessData();
+          ethercatMaster.receiveProcessData();
         #endif
         // set a flag in the user variable to remember that it is calibrated
         joints[i].setConfigurationParameter(IsCalibratedSetMessage);

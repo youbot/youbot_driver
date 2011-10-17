@@ -1,11 +1,11 @@
 window_sizes 1680 976 454 1220 895 0
 show_stereotypes
-selected artifact_ref 168817 // YouBotJoint
+selected operation_ref 876017 // isErrorInSoemDriver
 open
   classview_ref 134641 // Joint
-  classview_ref 167537 // YouBotJointParameterReadOnly
   classview_ref 160881 // YouBot
-  classview_ref 187121 // EthercatMasterWithoutThread
+  class_ref 439153 // EthercatMaster
+  classview_ref 141169 // Gripper
   deploymentview_ref 161137 // Deployment
 end
 end

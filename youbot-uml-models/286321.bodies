@@ -2,14 +2,11 @@ class YouBotManipulator
 !!!425841.cpp!!!	YouBotManipulator(in name : string, in configFilePath : string = "../config/")
 
     this->controllerType = 841;
-    this->minFirmwareVersion = 1.45;
+    this->minFirmwareVersion = 1.43;
 
     string filename;
     filename = name;
     filename.append(".cfg");
-
-    this->configFilePath = configFilePath;
-    this->ethercatConfigFileName = "youbot-ethercat.cfg";
 
     configfile == NULL;
     configfile = new ConfigFile(filename, configFilePath);
@@ -45,13 +42,13 @@ class YouBotManipulator
       LOG(info) << "Manipulator Joint Commutation";
       doInitialization.setParameter(true);
 
-      EthercatMaster::getInstance().AutomaticReceiveOn(false);
+      ethercatMaster.AutomaticReceiveOn(false);
       this->getArmJoint(1).setConfigurationParameter(doInitialization);
       this->getArmJoint(2).setConfigurationParameter(doInitialization);
       this->getArmJoint(3).setConfigurationParameter(doInitialization);
       this->getArmJoint(4).setConfigurationParameter(doInitialization);
       this->getArmJoint(5).setConfigurationParameter(doInitialization);
-      EthercatMaster::getInstance().AutomaticReceiveOn(true);
+      ethercatMaster.AutomaticReceiveOn(true);
 
       unsigned int statusFlags;
       std::vector<bool> isCommutated;
@@ -61,6 +58,10 @@ class YouBotManipulator
       // check for the next 5 sec if the joints are commutated
       for (u = 1; u <= 5000; u++) {
         for (unsigned int i = 1; i <= ARMJOINTS; i++) {
+          #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+            ethercatMaster.sendProcessData();
+            ethercatMaster.receiveProcessData();
+          #endif
           this->getArmJoint(i).getStatus(statusFlags);
           if (statusFlags & INITIALIZED) {
             isCommutated[i - 1] = true;
@@ -80,9 +81,9 @@ class YouBotManipulator
         doInitialization.getParameter(isInitialized);
         if (!isInitialized) {
           std::stringstream jointNameStream;
-          jointNameStream << "Manipulator Joint " << i;
+          jointNameStream << "manipulator joint " << i;
           jointName = jointNameStream.str();
-          throw std::runtime_error("could not commutation " + jointName);
+          throw std::runtime_error("Could not commutate " + jointName);
         }
       }
     }
@@ -103,9 +104,8 @@ class YouBotManipulator
     std::string jointName;
 
     double dummy = 0;
-    char index = 56; // up to 55 is user variable
+    char index = 16; // Parameter 0 to 15 of bank 2 are password protected
 
-    //56 is the last user variable at bank 2
     YouBotSlaveMailboxMsg IsCalibratedReadMessage;
     IsCalibratedReadMessage.stctOutput.moduleAddress = DRIVE;
     IsCalibratedReadMessage.stctOutput.commandNumber = GGP;
@@ -175,6 +175,10 @@ class YouBotManipulator
     for (unsigned int i = 0; i < ARMJOINTS; i++) {
       if (doCalibration[i] == true) {
         joints[i].setData(calibrationVel[i]);
+        #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+          ethercatMaster.sendProcessData();
+          ethercatMaster.receiveProcessData();
+        #endif
       } else {
         finished[i] = true;
       }
@@ -183,11 +187,19 @@ class YouBotManipulator
     //monitor the current to find end stop 
     while (!(finished[0] && finished[1] && finished[2] && finished[3] && finished[4])) {
       for (unsigned int i = 0; i < ARMJOINTS; i++) {
+        #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+          ethercatMaster.sendProcessData();
+          ethercatMaster.receiveProcessData();
+        #endif
         joints[i].getData(sensedCurrent);
         //turn till a max current is reached
         if (abs(sensedCurrent.current) > abs(maxCurrent[i])) {
           //stop movement
           joints[i].setData(pwmStopMovement);
+          #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+            ethercatMaster.sendProcessData();
+            ethercatMaster.receiveProcessData();
+          #endif
           finished[i] = true;
         }
       }
@@ -201,6 +213,10 @@ class YouBotManipulator
       if (doCalibration[i] == true) {
         //set encoder reference position
         joints[i].setEncoderToZero();
+        #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+          ethercatMaster.sendProcessData();
+          ethercatMaster.receiveProcessData();
+        #endif
         // set a flag in the user variable to remember that it is calibrated
         joints[i].setConfigurationParameter(IsCalibratedSetMessage);
         //     LOG(info) << "Calibration finished for joint: " << this->jointName;
@@ -269,83 +285,83 @@ class YouBotManipulator
     if (JointData.size() != ARMJOINTS)
       throw std::out_of_range("Wrong number of JointAngleSetpoints");
 
-    EthercatMaster::getInstance().AutomaticSendOn(false);
+    ethercatMaster.AutomaticSendOn(false);
     joints[0].setData(JointData[0], NON_BLOCKING);
     joints[1].setData(JointData[1], NON_BLOCKING);
     joints[2].setData(JointData[2], NON_BLOCKING);
     joints[3].setData(JointData[3], NON_BLOCKING);
     joints[4].setData(JointData[4], NON_BLOCKING);
-    EthercatMaster::getInstance().AutomaticSendOn(true);
+    ethercatMaster.AutomaticSendOn(true);
 
 !!!589425.cpp!!!	getJointData(out data : std::vector<JointSensedAngle>) : void
     data.resize(ARMJOINTS);
-    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    ethercatMaster.AutomaticReceiveOn(false);
     joints[0].getData(data[0]);
     joints[1].getData(data[1]);
     joints[2].getData(data[2]);
     joints[3].getData(data[3]);
     joints[4].getData(data[4]);
-    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+    ethercatMaster.AutomaticReceiveOn(true);
 !!!589553.cpp!!!	setJointData(in JointData : std::vector<JointVelocitySetpoint>) : void
     if (JointData.size() != ARMJOINTS)
       throw std::out_of_range("Wrong number of JointVelocitySetpoints");
 
-    EthercatMaster::getInstance().AutomaticSendOn(false);
+    ethercatMaster.AutomaticSendOn(false);
     joints[0].setData(JointData[0], NON_BLOCKING);
     joints[1].setData(JointData[1], NON_BLOCKING);
     joints[2].setData(JointData[2], NON_BLOCKING);
     joints[3].setData(JointData[3], NON_BLOCKING);
     joints[4].setData(JointData[4], NON_BLOCKING);
-    EthercatMaster::getInstance().AutomaticSendOn(true);
+    ethercatMaster.AutomaticSendOn(true);
 !!!589681.cpp!!!	getJointData(out data : std::vector<JointSensedVelocity>) : void
     data.resize(ARMJOINTS);
-    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    ethercatMaster.AutomaticReceiveOn(false);
     joints[0].getData(data[0]);
     joints[1].getData(data[1]);
     joints[2].getData(data[2]);
     joints[3].getData(data[3]);
     joints[4].getData(data[4]);
-    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+    ethercatMaster.AutomaticReceiveOn(true);
 !!!843377.cpp!!!	setJointData(in JointData : std::vector<JointCurrentSetpoint>) : void
     if (JointData.size() != ARMJOINTS)
       throw std::out_of_range("Wrong number of JointCurrentSetpoint");
 
-    EthercatMaster::getInstance().AutomaticSendOn(false);
+    ethercatMaster.AutomaticSendOn(false);
     joints[0].setData(JointData[0], NON_BLOCKING);
     joints[1].setData(JointData[1], NON_BLOCKING);
     joints[2].setData(JointData[2], NON_BLOCKING);
     joints[3].setData(JointData[3], NON_BLOCKING);
     joints[4].setData(JointData[4], NON_BLOCKING);
-    EthercatMaster::getInstance().AutomaticSendOn(true);
+    ethercatMaster.AutomaticSendOn(true);
 !!!589937.cpp!!!	getJointData(out data : std::vector<JointSensedCurrent>) : void
     data.resize(ARMJOINTS);
-    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    ethercatMaster.AutomaticReceiveOn(false);
     joints[0].getData(data[0]);
     joints[1].getData(data[1]);
     joints[2].getData(data[2]);
     joints[3].getData(data[3]);
     joints[4].getData(data[4]);
-    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+    ethercatMaster.AutomaticReceiveOn(true);
 !!!843505.cpp!!!	setJointData(in JointData : std::vector<JointTorqueSetpoint>) : void
     if (JointData.size() != ARMJOINTS)
       throw std::out_of_range("Wrong number of JointTorqueSetpoint");
 
-    EthercatMaster::getInstance().AutomaticSendOn(false);
+    ethercatMaster.AutomaticSendOn(false);
     joints[0].setData(JointData[0], NON_BLOCKING);
     joints[1].setData(JointData[1], NON_BLOCKING);
     joints[2].setData(JointData[2], NON_BLOCKING);
     joints[3].setData(JointData[3], NON_BLOCKING);
     joints[4].setData(JointData[4], NON_BLOCKING);
-    EthercatMaster::getInstance().AutomaticSendOn(true);
+    ethercatMaster.AutomaticSendOn(true);
 !!!843633.cpp!!!	getJointData(out data : std::vector<JointSensedTorque>) : void
     data.resize(ARMJOINTS);
-    EthercatMaster::getInstance().AutomaticReceiveOn(false);
+    ethercatMaster.AutomaticReceiveOn(false);
     joints[0].getData(data[0]);
     joints[1].getData(data[1]);
     joints[2].getData(data[2]);
     joints[3].getData(data[3]);
     joints[4].getData(data[4]);
-    EthercatMaster::getInstance().AutomaticReceiveOn(true);
+    ethercatMaster.AutomaticReceiveOn(true);
 !!!688881.cpp!!!	areSame(in A : double, in B : double) : bool
     return std::fabs(A - B) < 0.0001;
 !!!426097.cpp!!!	initializeJoints() : void
@@ -354,7 +370,7 @@ class YouBotManipulator
 
 
     //get number of slaves
-    unsigned int noSlaves = EthercatMaster::getInstance(this->ethercatConfigFileName, this->configFilePath).getNumberOfSlaves();
+    unsigned int noSlaves = ethercatMaster.getNumberOfSlaves();
 
 
     if (noSlaves < ARMJOINTS) {
