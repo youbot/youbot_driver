@@ -2,6 +2,6 @@ boost:
   ubuntu:
     10.04: libboost-all-dev
     10.10: libboost-all-dev
-		11.04: libboost-all-dev
-		11.10: libboost-all-dev
+    11.04: libboost-all-dev
+    11.10: libboost-all-dev
 
