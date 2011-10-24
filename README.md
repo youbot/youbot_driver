@@ -31,6 +31,23 @@ You can fetch, compile and install these library by hand or you can use robotpkg
 If you want to use robotpkg please visit this [site](https://github.com/youbot/youbot_packages/wiki) for more details.
 
 
+### Installation with rosmake:
+Install a minimal installation of ROS. (see ros.org)
+Clone the youBot API sources:
+    
+    git clone git://github.com/youbot/youbot_driver.git
+
+Clone additional ros packages which include the SOEM (Simple Open EtherCAT master):
+
+    git clone git://github.com/janpaulus/brics-external-packages-ros.git
+
+Add both repository folders to the ROS_PACKAGE_PATH environment variable.
+
+Compile the youbot driver by typing:
+
+    rosmake youbot_driver --rosdep-install
+
+
 ### Manual installation:
 First, make sure that you have the gnu-make software available on your system (version 3.81 or later required), as well as a working C compiler chain.
 The console commands below are exemplary for a Ubuntu Linux.
