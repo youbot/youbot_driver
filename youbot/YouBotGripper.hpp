@@ -103,9 +103,15 @@ class YouBotGripper : public OneDOFGripper {
 
     void setConfigurationParameter(const BarSpacingOffset& parameter);
 
+    void getConfigurationParameter(BarSpacingOffset& parameter);
+
     void setConfigurationParameter(const MaxTravelDistance& parameter);
 
+    void getConfigurationParameter(MaxTravelDistance& parameter);
+
     void setConfigurationParameter(const MaxEncoderValue& parameter);
+
+    void getConfigurationParameter(MaxEncoderValue& parameter);
 
 
   protected:

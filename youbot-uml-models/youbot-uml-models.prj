@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 200
+  revision 201
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -25676,6 +25676,21 @@ ${inlines}
 	
       end
 
+      operation 882545 "getConfigurationParameter"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param out name "parameter" type class_ref 259441 // BarSpacingOffset
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
       operation 400881 "setConfigurationParameter"
 	preserve_cpp_body_indent public explicit_return_type "void"
 	nparams 1
@@ -25691,6 +25706,21 @@ ${inlines}
 	
       end
 
+      operation 882673 "getConfigurationParameter"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param out name "parameter" type class_ref 265969 // MaxTravelDistance
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
       operation 401009 "setConfigurationParameter"
 	preserve_cpp_body_indent public explicit_return_type "void"
 	nparams 1
@@ -25698,6 +25728,21 @@ ${inlines}
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 882801 "getConfigurationParameter"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param out name "parameter" type class_ref 266097 // MaxEncoderValue
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
 "
 	preserve_java_body_indent 

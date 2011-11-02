@@ -113,6 +113,7 @@ void GripperFirmwareVersion::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& me
 CalibrateGripper::CalibrateGripper() {
   // Bouml preserved body begin 0005F3F1
     this->name = "CalibrateGripper";
+    this->parameterType = API_PARAMETER;
   // Bouml preserved body end 0005F3F1
 }
 
@@ -154,6 +155,7 @@ void CalibrateGripper::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message)
 BarSpacingOffset::BarSpacingOffset() {
   // Bouml preserved body begin 0005FC71
     this->name = "BarSpacingOffset";
+    this->parameterType = API_PARAMETER;
   // Bouml preserved body end 0005FC71
 }
 
@@ -198,6 +200,7 @@ void BarSpacingOffset::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message)
 MaxEncoderValue::MaxEncoderValue() {
   // Bouml preserved body begin 00061B71
     this->name = "MaxEncoderValue";
+    this->parameterType = API_PARAMETER;
   // Bouml preserved body end 00061B71
 }
 
@@ -239,6 +242,7 @@ void MaxEncoderValue::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) 
 MaxTravelDistance::MaxTravelDistance() {
   // Bouml preserved body begin 000618F1
     this->name = "MaxTravelDistance";
+    this->parameterType = API_PARAMETER;
   // Bouml preserved body end 000618F1
 }
 

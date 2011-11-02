@@ -1,6 +1,7 @@
 class MaxTravelDistance
 !!!399601.cpp!!!	MaxTravelDistance()
     this->name = "MaxTravelDistance";
+    this->parameterType = API_PARAMETER;
 !!!399857.cpp!!!	getParameter(out parameter : quantity<si::length>) : void
     parameter = this->value;
 !!!399985.cpp!!!	setParameter(in parameter : quantity<si::length>) : void

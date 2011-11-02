@@ -95,6 +95,8 @@ void YouBotJoint::getConfigurationParameter(YouBotJointParameterReadOnly& parame
       } else {
         throw JointParameterException("Unable to get parameter: " + parameter.getName() + " from joint: " + this->jointName);
       }
+    }else{
+      throw JointParameterException("Parameter " + parameter.getName() + " is not a motor controller parameter of a joint");
     }
   // Bouml preserved body end 00071FF1
 }
@@ -112,6 +114,8 @@ void YouBotJoint::getConfigurationParameter(YouBotJointParameter& parameter) {
       } else {
         throw JointParameterException("Unable to get parameter: " + parameter.getName() + " from joint: " + this->jointName);
       }
+    }else{
+      throw JointParameterException("Parameter " + parameter.getName() + " is not a motor controller parameter of a joint");
     }
   // Bouml preserved body end 0005BCF1
 }
@@ -127,6 +131,8 @@ void YouBotJoint::setConfigurationParameter(const YouBotJointParameter& paramete
       if (!setValueToMotorContoller(message)) {
         throw JointParameterException("Unable to set parameter: " + parameter.getName() + " to joint: " + this->jointName);
       }
+    }else{
+      throw JointParameterException("Parameter " + parameter.getName() + " is not a motor controller parameter of a joint");
     }
   // Bouml preserved body end 0005BC71
 }
@@ -367,6 +373,8 @@ void YouBotJoint::storeConfigurationParameterPermanent(const YouBotJointParamete
       if (!setValueToMotorContoller(message)) {
         throw JointParameterException("Unable to store parameter: " + parameter.getName() + " to joint: " + this->jointName);
       }
+    }else{
+      throw JointParameterException("Parameter " + parameter.getName() + " is not a motor controller parameter of a joint");
     }
   // Bouml preserved body end 000919F1
 }
@@ -384,6 +392,8 @@ void YouBotJoint::restoreConfigurationParameter(YouBotJointParameter& parameter)
       }
 
       this->getConfigurationParameter(parameter);
+    }else{
+      throw JointParameterException("Parameter " + parameter.getName() + " is not a motor controller parameter of a joint");
     }
   // Bouml preserved body end 00091A71
 }

@@ -49,11 +49,6 @@
  *
  ****************************************************************/
 #include "youbot/YouBotGripper.hpp"
-#ifdef ETHERCAT_MASTER_WITHOUT_THREAD
-  #include "youbot/EthercatMasterWithoutThread.hpp"
-#else
-  #include "youbot/EthercatMaster.hpp"
-#endif
 namespace youbot {
 
 YouBotGripper::YouBotGripper(const unsigned int jointNo, const std::string& configFilePath) {
@@ -158,6 +153,8 @@ void YouBotGripper::getConfigurationParameter(YouBotGripperParameter& parameter,
         throw JointParameterException("Unable to get parameter: " + parameter.getName() + " from the gripper");
       }
       SLEEP_MILLISEC(10);
+    }else{
+      throw JointParameterException("Parameter " + parameter.getName() + " is not a motor controller parameter of the gripper");
     }
   // Bouml preserved body end 000482F1
 }
@@ -177,6 +174,8 @@ void YouBotGripper::setConfigurationParameter(const YouBotGripperParameter& para
         throw JointParameterException("Unable to set parameter: " + parameter.getName() + " to the gripper");
       }
       SLEEP_MILLISEC(10);
+    }else{
+      throw JointParameterException("Parameter " + parameter.getName() + " is not a motor controller parameter of the gripper");
     }
   // Bouml preserved body end 000617F1
 }
@@ -245,8 +244,14 @@ void YouBotGripper::setConfigurationParameter(const CalibrateGripper& parameter)
 
 void YouBotGripper::setConfigurationParameter(const BarSpacingOffset& parameter) {
   // Bouml preserved body begin 00061871
-      this->barSpacingOffset = parameter.value;
+  this->barSpacingOffset = parameter.value;
   // Bouml preserved body end 00061871
+}
+
+void YouBotGripper::getConfigurationParameter(BarSpacingOffset& parameter) {
+  // Bouml preserved body begin 000D7771
+  parameter.value = this->barSpacingOffset;
+  // Bouml preserved body end 000D7771
 }
 
 void YouBotGripper::setConfigurationParameter(const MaxTravelDistance& parameter) {
@@ -255,10 +260,22 @@ void YouBotGripper::setConfigurationParameter(const MaxTravelDistance& parameter
   // Bouml preserved body end 00061DF1
 }
 
+void YouBotGripper::getConfigurationParameter(MaxTravelDistance& parameter) {
+  // Bouml preserved body begin 000D77F1
+  parameter.value = this->maxTravelDistance;
+  // Bouml preserved body end 000D77F1
+}
+
 void YouBotGripper::setConfigurationParameter(const MaxEncoderValue& parameter) {
   // Bouml preserved body begin 00061E71
   this->maxEncoderValue = parameter.value;
   // Bouml preserved body end 00061E71
+}
+
+void YouBotGripper::getConfigurationParameter(MaxEncoderValue& parameter) {
+  // Bouml preserved body begin 000D7871
+  parameter.value = this->maxEncoderValue;
+  // Bouml preserved body end 000D7871
 }
 
 void YouBotGripper::getData(const GripperData& data) {

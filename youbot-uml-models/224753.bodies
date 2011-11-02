@@ -79,6 +79,8 @@ class YouBotGripper
         throw JointParameterException("Unable to get parameter: " + parameter.getName() + " from the gripper");
       }
       SLEEP_MILLISEC(10);
+    }else{
+      throw JointParameterException("Parameter " + parameter.getName() + " is not a motor controller parameter of the gripper");
     }
 !!!399345.cpp!!!	setConfigurationParameter(in parameter : YouBotGripperParameter, in barNumber : BarNumber) : void
    if (parameter.getType() == MOTOR_CONTOLLER_PARAMETER) {
@@ -94,6 +96,8 @@ class YouBotGripper
         throw JointParameterException("Unable to set parameter: " + parameter.getName() + " to the gripper");
       }
       SLEEP_MILLISEC(10);
+    }else{
+      throw JointParameterException("Parameter " + parameter.getName() + " is not a motor controller parameter of the gripper");
     }
 !!!295537.cpp!!!	setConfigurationParameter(in parameter : CalibrateGripper) : void
     
@@ -154,11 +158,17 @@ class YouBotGripper
       }
     
 !!!399473.cpp!!!	setConfigurationParameter(in parameter : BarSpacingOffset) : void
-      this->barSpacingOffset = parameter.value;
+  this->barSpacingOffset = parameter.value;
+!!!882545.cpp!!!	getConfigurationParameter(out parameter : BarSpacingOffset) : void
+  parameter.value = this->barSpacingOffset;
 !!!400881.cpp!!!	setConfigurationParameter(in parameter : MaxTravelDistance) : void
   this->maxTravelDistance = parameter.value;
+!!!882673.cpp!!!	getConfigurationParameter(out parameter : MaxTravelDistance) : void
+  parameter.value = this->maxTravelDistance;
 !!!401009.cpp!!!	setConfigurationParameter(in parameter : MaxEncoderValue) : void
   this->maxEncoderValue = parameter.value;
+!!!882801.cpp!!!	getConfigurationParameter(out parameter : MaxEncoderValue) : void
+  parameter.value = this->maxEncoderValue;
 !!!392049.cpp!!!	getData(in data : GripperData) : void
     LOG(info) << "Nothing to do";
 !!!391921.cpp!!!	setData(in data : GripperData) : void

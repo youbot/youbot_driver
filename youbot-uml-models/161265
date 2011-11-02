@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 56
+  revision 57
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -267,11 +267,6 @@ ${namespace_end}
 "
       cpp_src "${description}
 #include \"youbot/YouBotGripper.hpp\"
-#ifdef ETHERCAT_MASTER_WITHOUT_THREAD
-  #include \"youbot/EthercatMasterWithoutThread.hpp\"
-#else
-  #include \"youbot/EthercatMaster.hpp\"
-#endif
 ${namespace_start}
 ${members}
 ${namespace_end}"

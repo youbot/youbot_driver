@@ -33,6 +33,7 @@ If you want to use robotpkg please visit this [site](https://github.com/youbot/y
 
 ### Installation with rosmake:
 Install a minimal installation of ROS. (see ros.org)
+
 Clone the youBot API sources:
     
     git clone git://github.com/youbot/youbot_driver.git

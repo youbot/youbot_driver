@@ -25,6 +25,8 @@ class YouBotJoint
       } else {
         throw JointParameterException("Unable to get parameter: " + parameter.getName() + " from joint: " + this->jointName);
       }
+    }else{
+      throw JointParameterException("Parameter " + parameter.getName() + " is not a motor controller parameter of a joint");
     }
 !!!376049.cpp!!!	getConfigurationParameter(out parameter : YouBotJointParameter) : void
     if (parameter.getType() == MOTOR_CONTOLLER_PARAMETER) {
@@ -38,6 +40,8 @@ class YouBotJoint
       } else {
         throw JointParameterException("Unable to get parameter: " + parameter.getName() + " from joint: " + this->jointName);
       }
+    }else{
+      throw JointParameterException("Parameter " + parameter.getName() + " is not a motor controller parameter of a joint");
     }
 !!!375921.cpp!!!	setConfigurationParameter(in parameter : YouBotJointParameter) : void
     if (parameter.getType() == MOTOR_CONTOLLER_PARAMETER) {
@@ -49,6 +53,8 @@ class YouBotJoint
       if (!setValueToMotorContoller(message)) {
         throw JointParameterException("Unable to set parameter: " + parameter.getName() + " to joint: " + this->jointName);
       }
+    }else{
+      throw JointParameterException("Parameter " + parameter.getName() + " is not a motor controller parameter of a joint");
     }
 !!!475377.cpp!!!	getConfigurationParameter(out parameter : JointName) : void
     parameter.value = this->jointName;
@@ -213,6 +219,8 @@ class YouBotJoint
       if (!setValueToMotorContoller(message)) {
         throw JointParameterException("Unable to store parameter: " + parameter.getName() + " to joint: " + this->jointName);
       }
+    }else{
+      throw JointParameterException("Parameter " + parameter.getName() + " is not a motor controller parameter of a joint");
     }
 !!!596593.cpp!!!	restoreConfigurationParameter(out parameter : YouBotJointParameter) : void
     if (parameter.getType() == MOTOR_CONTOLLER_PARAMETER) {
@@ -225,6 +233,8 @@ class YouBotJoint
       }
 
       this->getConfigurationParameter(parameter);
+    }else{
+      throw JointParameterException("Parameter " + parameter.getName() + " is not a motor controller parameter of a joint");
     }
 !!!267249.cpp!!!	setData(in data : JointDataSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
     LOG(info) << "Nothing to do";

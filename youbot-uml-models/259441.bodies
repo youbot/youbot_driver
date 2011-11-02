@@ -1,6 +1,7 @@
 class BarSpacingOffset
 !!!392305.cpp!!!	BarSpacingOffset()
     this->name = "BarSpacingOffset";
+    this->parameterType = API_PARAMETER;
 !!!392561.cpp!!!	getParameter(out parameter : quantity<si::length>) : void
     parameter = this->value;
 !!!392689.cpp!!!	setParameter(in parameter : quantity<si::length>) : void
