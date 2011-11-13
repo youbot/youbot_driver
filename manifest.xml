@@ -8,7 +8,7 @@
   <license>BSD / LGPL</license>
   <review status="unreviewed" notes=""/>
   <url>http://youbot.github.com/youbot_driver/</url>
-	<rosdep name="boost" />
+	<rosdep name="boost-all" />
   <depend package="soem"/>
 </package>
 
