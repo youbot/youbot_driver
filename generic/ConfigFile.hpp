@@ -150,6 +150,8 @@ namespace youbot {
             string sectionEndTag = "]",
             string sentry = "EndConfigFile");
     ConfigFile();
+    
+    ~ConfigFile(){};
 
     // Search for key and read value or optional default value
     template<class T> T read(const string& key, const T& value)const;

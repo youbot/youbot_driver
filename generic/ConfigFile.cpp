@@ -10,7 +10,9 @@ namespace youbot {
           string comment, string sectionStartTag, string sectionEndTag, string sentry)
   : myDelimiter(delimiter), myComment(comment), mySectionStartTag(sectionStartTag), mySectionEndTag(sectionEndTag), mySentry(sentry) {
 
-
+    if(filepath.at(filepath.length()-1) != '/'){
+      filepath.append("/");
+    }
     filepath.append(filename);
 
     //Ensure, that we are working with Config Files
