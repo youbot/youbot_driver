@@ -94,47 +94,47 @@ class YouBotJoint : public Joint {
 
 
   public:
-    void getConfigurationParameter(YouBotJointParameterReadOnly& parameter);
+    virtual void getConfigurationParameter(YouBotJointParameterReadOnly& parameter);
 
-    void getConfigurationParameter(YouBotJointParameter& parameter);
+    virtual void getConfigurationParameter(YouBotJointParameter& parameter);
 
-    void setConfigurationParameter(const YouBotJointParameter& parameter);
+    virtual void setConfigurationParameter(const YouBotJointParameter& parameter);
 
-    void getConfigurationParameter(JointName& parameter);
+    virtual void getConfigurationParameter(JointName& parameter);
 
-    void setConfigurationParameter(const JointName& parameter);
+    virtual void setConfigurationParameter(const JointName& parameter);
 
-    void getConfigurationParameter(GearRatio& parameter);
+    virtual void getConfigurationParameter(GearRatio& parameter);
 
-    void setConfigurationParameter(const GearRatio& parameter);
+    virtual void setConfigurationParameter(const GearRatio& parameter);
 
-    void getConfigurationParameter(EncoderTicksPerRound& parameter);
+    virtual void getConfigurationParameter(EncoderTicksPerRound& parameter);
 
-    void setConfigurationParameter(const EncoderTicksPerRound& parameter);
+    virtual void setConfigurationParameter(const EncoderTicksPerRound& parameter);
 
-    void setConfigurationParameter(const CalibrateJoint& parameter);
+    virtual void setConfigurationParameter(const CalibrateJoint& parameter);
 
-    void setConfigurationParameter(const InverseMovementDirection& parameter);
+    virtual void setConfigurationParameter(const InverseMovementDirection& parameter);
 
-    void getConfigurationParameter(InverseMovementDirection& parameter);
+    virtual void getConfigurationParameter(InverseMovementDirection& parameter);
 
-    void setConfigurationParameter(const JointLimits& parameter);
+    virtual void setConfigurationParameter(const JointLimits& parameter);
 
-    void getConfigurationParameter(JointLimits& parameter);
+    virtual void getConfigurationParameter(JointLimits& parameter);
 
-    void getConfigurationParameter(JointLimitsRadian& parameter);
+    virtual void getConfigurationParameter(JointLimitsRadian& parameter);
 
-    void setConfigurationParameter(const InitializeJoint& parameter);
+    virtual void setConfigurationParameter(const InitializeJoint& parameter);
 
-    void getConfigurationParameter(FirmwareVersion& parameter);
-
-    ///this methode should be only used if you know what you are doing
-    void setConfigurationParameter(const YouBotSlaveMailboxMsg& parameter);
+    virtual void getConfigurationParameter(FirmwareVersion& parameter);
 
     ///this methode should be only used if you know what you are doing
-    void getConfigurationParameter(YouBotSlaveMailboxMsg& parameter);
+    virtual void setConfigurationParameter(const YouBotSlaveMailboxMsg& parameter);
 
-    void setConfigurationParameter(const TorqueConstant& parameter);
+    ///this methode should be only used if you know what you are doing
+    virtual void getConfigurationParameter(YouBotSlaveMailboxMsg& parameter);
+
+    virtual void setConfigurationParameter(const TorqueConstant& parameter);
 
     ///stores the joint parameter permanent in the EEPROM of the motor contoller
     ///Attentions: The EEPROM has only a finite number of program-erase cycles
@@ -230,7 +230,7 @@ class YouBotJoint : public Joint {
     void setUserVariable(const unsigned int index, const int data);
 
     /// Returns the status messages for the motor controller. 
-    void getStatus(std::vector<std::string>& statusMessages);
+    virtual void getStatus(std::vector<std::string>& statusMessages);
 
     /// Returns the status messages as status flags for the motor controller. The status flag bits are assigned like this:
     /// 0:  Overcurrent
@@ -251,7 +251,7 @@ class YouBotJoint : public Joint {
     /// 15: Module initialized
     /// 16: EtherCAT timeout flag
     /// 17: I2t exceeded flag
-    void getStatus(unsigned int& statusFlags);
+    virtual void getStatus(unsigned int& statusFlags);
 
     /// set the encoder values of the joint to zero. This postion will be the new reference.
     void setEncoderToZero();

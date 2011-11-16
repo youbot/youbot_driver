@@ -72,6 +72,35 @@ enum CalibrationDirection {
 
 };
 ///////////////////////////////////////////////////////////////////////////////
+/// abstract youBot API joint parameter
+///////////////////////////////////////////////////////////////////////////////
+class YouBotApiJointParameter : public YouBotJointParameterReadOnly {
+friend class YouBotJoint;
+  protected:
+    YouBotApiJointParameter();
+
+
+  public:
+    virtual ~YouBotApiJointParameter();
+
+    virtual void toString(std::string& value);
+
+
+  protected:
+    virtual void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const = 0;
+
+    virtual void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) = 0;
+
+    virtual std::string getName() const = 0;
+
+    virtual ::ParameterType getType() const = 0;
+
+    std::string name;
+
+    ::ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
 /// abstract youBot joint parameter
 ///////////////////////////////////////////////////////////////////////////////
 class YouBotJointParameter : public YouBotJointParameterReadOnly {
@@ -103,7 +132,7 @@ friend class YouBotJoint;
 ///////////////////////////////////////////////////////////////////////////////
 /// the name of the joint
 ///////////////////////////////////////////////////////////////////////////////
-class JointName : public YouBotJointParameter {
+class JointName : public YouBotApiJointParameter {
 friend class YouBotJoint;
   public:
     JointName();
@@ -136,7 +165,7 @@ friend class YouBotJoint;
 ///////////////////////////////////////////////////////////////////////////////
 /// Initialize Joint
 ///////////////////////////////////////////////////////////////////////////////
-class InitializeJoint : public YouBotJointParameter {
+class InitializeJoint : public YouBotApiJointParameter {
 friend class YouBotJoint;
   public:
     InitializeJoint();
@@ -169,7 +198,7 @@ friend class YouBotJoint;
 ///////////////////////////////////////////////////////////////////////////////
 /// calibrates the joint
 ///////////////////////////////////////////////////////////////////////////////
-class CalibrateJoint : public YouBotJointParameter {
+class CalibrateJoint : public YouBotApiJointParameter {
 friend class YouBotJoint;
   public:
     CalibrateJoint();
@@ -206,7 +235,7 @@ friend class YouBotJoint;
 ///////////////////////////////////////////////////////////////////////////////
 /// the firmware version of the joint
 ///////////////////////////////////////////////////////////////////////////////
-class FirmwareVersion : public YouBotJointParameter {
+class FirmwareVersion : public YouBotApiJointParameter {
 friend class YouBotJoint;
   public:
     FirmwareVersion();
@@ -241,7 +270,7 @@ friend class YouBotJoint;
 ///////////////////////////////////////////////////////////////////////////////
 /// the gear ratio which is needed for the calculations in the youBot driver
 ///////////////////////////////////////////////////////////////////////////////
-class GearRatio : public YouBotJointParameter {
+class GearRatio : public YouBotApiJointParameter {
 friend class YouBotJoint;
   public:
     GearRatio();
@@ -274,7 +303,7 @@ friend class YouBotJoint;
 ///////////////////////////////////////////////////////////////////////////////
 /// the resolution of the encoders, it is needed for the calculations of the youBot Driver
 ///////////////////////////////////////////////////////////////////////////////
-class EncoderTicksPerRound : public YouBotJointParameter {
+class EncoderTicksPerRound : public YouBotApiJointParameter {
 friend class YouBotJoint;
   public:
     EncoderTicksPerRound();
@@ -307,7 +336,7 @@ friend class YouBotJoint;
 ///////////////////////////////////////////////////////////////////////////////
 /// inverse the joint movement direction
 ///////////////////////////////////////////////////////////////////////////////
-class InverseMovementDirection : public YouBotJointParameter {
+class InverseMovementDirection : public YouBotApiJointParameter {
 friend class YouBotJoint;
   public:
     InverseMovementDirection();
@@ -340,7 +369,7 @@ friend class YouBotJoint;
 ///////////////////////////////////////////////////////////////////////////////
 /// joint position limits in encoder ticks
 ///////////////////////////////////////////////////////////////////////////////
-class JointLimits : public YouBotJointParameter {
+class JointLimits : public YouBotApiJointParameter {
 friend class YouBotJoint;
   public:
     JointLimits();
@@ -377,7 +406,7 @@ friend class YouBotJoint;
 ///////////////////////////////////////////////////////////////////////////////
 /// joint position limits in radian
 ///////////////////////////////////////////////////////////////////////////////
-class JointLimitsRadian : public YouBotJointParameter {
+class JointLimitsRadian : public YouBotApiJointParameter {
 friend class YouBotJoint;
   public:
     JointLimitsRadian();
@@ -414,7 +443,7 @@ friend class YouBotJoint;
 ///////////////////////////////////////////////////////////////////////////////
 /// the resolution of the encoders, it is needed for the calculations of the youBot Driver
 ///////////////////////////////////////////////////////////////////////////////
-class TorqueConstant : public YouBotJointParameter {
+class TorqueConstant : public YouBotApiJointParameter {
 friend class YouBotJoint;
   public:
     TorqueConstant();

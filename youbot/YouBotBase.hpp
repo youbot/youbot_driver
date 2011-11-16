@@ -118,7 +118,7 @@ class YouBotBase {
     ///commands positions or angles to all base joints
     ///all positions will be set at the same time
     ///@param JointData the to command positions
-    void setJointData(const std::vector<JointAngleSetpoint>& JointData);
+    virtual void setJointData(const std::vector<JointAngleSetpoint>& JointData);
 
     ///gets the position or angle of all base joints which have been calculated from the actual encoder value
     ///These values are all read at the same time from the different joints 
@@ -128,7 +128,7 @@ class YouBotBase {
     ///commands velocities to all base joints
     ///all velocities will be set at the same time
     ///@param JointData the to command velocities
-    void setJointData(const std::vector<JointVelocitySetpoint>& JointData);
+    virtual void setJointData(const std::vector<JointVelocitySetpoint>& JointData);
 
     ///gets the velocities of all base joints which have been calculated from the actual encoder values
     ///These values are all read at the same time from the different joints 
@@ -138,7 +138,7 @@ class YouBotBase {
     ///commands current to all base joints
     ///all current values will be set at the same time
     ///@param JointData the to command current
-    void setJointData(const std::vector<JointCurrentSetpoint>& JointData);
+    virtual void setJointData(const std::vector<JointCurrentSetpoint>& JointData);
 
     ///gets the motor currents of all base joints which have been measured by a hal sensor
     ///These values are all read at the same time from the different joints 
@@ -148,7 +148,7 @@ class YouBotBase {
     ///commands torque to all base joints
     ///all torque values will be set at the same time
     ///@param JointData the to command torque 
-    void setJointData(const std::vector<JointTorqueSetpoint>& JointData);
+    virtual void setJointData(const std::vector<JointTorqueSetpoint>& JointData);
 
     ///gets the joint torque of all base joints which have been calculated from the current
     ///These values are all read at the same time from the different joints 

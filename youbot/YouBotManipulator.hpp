@@ -96,7 +96,7 @@ class YouBotManipulator {
     ///commands positions or angles to all manipulator joints
     ///all positions will be set at the same time
     ///@param JointData the to command positions
-    void setJointData(const std::vector<JointAngleSetpoint>& JointData);
+    virtual void setJointData(const std::vector<JointAngleSetpoint>& JointData);
 
     ///gets the position or angle of all manipulator joints which have been calculated from the actual encoder value
     ///These values are all read at the same time from the different joints 
@@ -106,7 +106,7 @@ class YouBotManipulator {
     ///commands velocities to all manipulator joints
     ///all velocities will be set at the same time
     ///@param JointData the to command velocities
-    void setJointData(const std::vector<JointVelocitySetpoint>& JointData);
+    virtual void setJointData(const std::vector<JointVelocitySetpoint>& JointData);
 
     ///gets the velocities of all manipulator joints which have been calculated from the actual encoder values
     ///These values are all read at the same time from the different joints 
@@ -116,7 +116,7 @@ class YouBotManipulator {
     ///commands current to all manipulator joints
     ///all current values will be set at the same time
     ///@param JointData the to command current
-    void setJointData(const std::vector<JointCurrentSetpoint>& JointData);
+    virtual void setJointData(const std::vector<JointCurrentSetpoint>& JointData);
 
     ///gets the motor currents of all manipulator joints which have been measured by a hal sensor
     ///These values are all read at the same time from the different joints 
@@ -126,7 +126,7 @@ class YouBotManipulator {
     ///commands torque to all manipulator joints
     ///all torque values will be set at the same time
     ///@param JointData the to command torque 
-    void setJointData(const std::vector<JointTorqueSetpoint>& JointData);
+    virtual void setJointData(const std::vector<JointTorqueSetpoint>& JointData);
 
     ///gets the joint torque of all manipulator joints which have been calculated from the current
     ///These values are all read at the same time from the different joints 
