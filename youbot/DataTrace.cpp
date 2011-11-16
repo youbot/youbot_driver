@@ -106,6 +106,8 @@ void DataTrace::startTrace() {
 
     parametersBeginTraceFile.open("ParametersAtBegin", std::fstream::out | std::fstream::trunc);
     std::string parameterString;
+
+
     parameterVector.push_back(new ActualMotorVoltage);
     parameterVector.push_back(new ActualPWMDutyCycle);
     //   parameterVector.push_back(new ErrorAndStatus);
@@ -123,9 +125,7 @@ void DataTrace::startTrace() {
     parameterVector.push_back(new DParameterSecondParametersCurrentControl);
     parameterVector.push_back(new DParameterSecondParametersPositionControl);
     parameterVector.push_back(new DParameterSecondParametersSpeedControl);
-    parameterVector.push_back(new EncoderTicksPerRound);
-    //   parameterVector.push_back(new FirmwareVersion);
-    parameterVector.push_back(new GearRatio);
+
     parameterVector.push_back(new IClippingParameterFirstParametersCurrentControl);
     parameterVector.push_back(new IClippingParameterFirstParametersPositionControl);
     parameterVector.push_back(new IClippingParameterFirstParametersSpeedControl);
@@ -133,15 +133,14 @@ void DataTrace::startTrace() {
     parameterVector.push_back(new IClippingParameterSecondParametersPositionControl);
     parameterVector.push_back(new IClippingParameterSecondParametersSpeedControl);
     //    parameterVector.push_back(new InitializeJoint);
-    parameterVector.push_back(new InverseMovementDirection);
+    
     parameterVector.push_back(new IParameterFirstParametersCurrentControl);
     parameterVector.push_back(new IParameterFirstParametersPositionControl);
     parameterVector.push_back(new IParameterFirstParametersSpeedControl);
     parameterVector.push_back(new IParameterSecondParametersCurrentControl);
     parameterVector.push_back(new IParameterSecondParametersPositionControl);
     parameterVector.push_back(new IParameterSecondParametersSpeedControl);
-    parameterVector.push_back(new JointLimits);
-    parameterVector.push_back(new JointName);
+
     parameterVector.push_back(new MaximumPositioningVelocity);
     parameterVector.push_back(new MotorAcceleration);
     parameterVector.push_back(new PositionControlSwitchingThreshold);
@@ -153,7 +152,7 @@ void DataTrace::startTrace() {
     parameterVector.push_back(new PParameterSecondParametersSpeedControl);
     parameterVector.push_back(new RampGeneratorSpeedAndPositionControl);
     parameterVector.push_back(new SpeedControlSwitchingThreshold);
-    parameterVector.push_back(new TorqueConstant);
+
     parameterVector.push_back(new ActivateOvervoltageProtection);
     parameterVector.push_back(new ActualCommutationOffset);
     //   parameterVector.push_back(new ApproveProtectedParameters);
@@ -196,6 +195,58 @@ void DataTrace::startTrace() {
     parameterVector.push_back(new StopSwitchPolarity);
     parameterVector.push_back(new ThermalWindingTimeConstant);
 
+//    apiParameterVector.push_back(new JointName);
+//    apiParameterVector.push_back(new TorqueConstant);
+//    apiParameterVector.push_back(new JointLimits);
+//    apiParameterVector.push_back(new GearRatio);
+//    apiParameterVector.push_back(new EncoderTicksPerRound);
+//    apiParameterVector.push_back(new InverseMovementDirection);
+
+//    for (int i = 0; i < apiParameterVector.size(); i++) {
+//      joint.getConfigurationParameter(*(apiParameterVector[i]));
+//      apiParameterVector[i]->toString(parameterString);
+//      //   std::cout << parameterString << std::endl;
+//      parametersBeginTraceFile << parameterString << std::endl;
+//    }
+
+
+    JointName jointName;
+    joint.getConfigurationParameter(jointName);
+    jointName.toString(parameterString);
+    //   std::cout << parameterString << std::endl;
+    parametersBeginTraceFile << parameterString << std::endl;
+
+    TorqueConstant torqueconst;
+    joint.getConfigurationParameter(torqueconst);
+    torqueconst.toString(parameterString);
+    //   std::cout << parameterString << std::endl;
+    parametersBeginTraceFile << parameterString << std::endl;
+
+    JointLimits jointLimits;
+    joint.getConfigurationParameter(jointLimits);
+    jointLimits.toString(parameterString);
+    //   std::cout << parameterString << std::endl;
+    parametersBeginTraceFile << parameterString << std::endl;
+
+    EncoderTicksPerRound encoderTicksPerRound;
+    joint.getConfigurationParameter(encoderTicksPerRound);
+    encoderTicksPerRound.toString(parameterString);
+    //   std::cout << parameterString << std::endl;
+    parametersBeginTraceFile << parameterString << std::endl;
+
+    GearRatio gearRatio;
+    joint.getConfigurationParameter(gearRatio);
+    gearRatio.toString(parameterString);
+    //   std::cout << parameterString << std::endl;
+    parametersBeginTraceFile << parameterString << std::endl;
+    
+    InverseMovementDirection inverseMovementDirection;
+    joint.getConfigurationParameter(inverseMovementDirection);
+    inverseMovementDirection.toString(parameterString);
+    //   std::cout << parameterString << std::endl;
+    parametersBeginTraceFile << parameterString << std::endl;
+    
+    
     for (int i = 0; i < parameterVector.size(); i++) {
       joint.getConfigurationParameter(*(parameterVector[i]));
       parameterVector[i]->toString(parameterString);
@@ -215,12 +266,51 @@ void DataTrace::stopTrace() {
 
     parametersEndTraceFile.open("ParametersAfterTrace", std::fstream::out | std::fstream::trunc);
     std::string parameterString;
+    
+        JointName jointName;
+    joint.getConfigurationParameter(jointName);
+    jointName.toString(parameterString);
+    //   std::cout << parameterString << std::endl;
+    parametersEndTraceFile << parameterString << std::endl;
+
+    TorqueConstant torqueconst;
+    joint.getConfigurationParameter(torqueconst);
+    torqueconst.toString(parameterString);
+    //   std::cout << parameterString << std::endl;
+    parametersEndTraceFile << parameterString << std::endl;
+
+    JointLimits jointLimits;
+    joint.getConfigurationParameter(jointLimits);
+    jointLimits.toString(parameterString);
+    //   std::cout << parameterString << std::endl;
+    parametersEndTraceFile << parameterString << std::endl;
+
+    EncoderTicksPerRound encoderTicksPerRound;
+    joint.getConfigurationParameter(encoderTicksPerRound);
+    encoderTicksPerRound.toString(parameterString);
+    //   std::cout << parameterString << std::endl;
+    parametersEndTraceFile << parameterString << std::endl;
+
+    GearRatio gearRatio;
+    joint.getConfigurationParameter(gearRatio);
+    gearRatio.toString(parameterString);
+    //   std::cout << parameterString << std::endl;
+    parametersEndTraceFile << parameterString << std::endl;
+    
+    InverseMovementDirection inverseMovementDirection;
+    joint.getConfigurationParameter(inverseMovementDirection);
+    inverseMovementDirection.toString(parameterString);
+    //   std::cout << parameterString << std::endl;
+    parametersBeginTraceFile << parameterString << std::endl;
+    
     for (int i = 0; i < parameterVector.size(); i++) {
       joint.getConfigurationParameter(*(parameterVector[i]));
       parameterVector[i]->toString(parameterString);
       parametersEndTraceFile << parameterString << std::endl;
       delete parameterVector[i];
     }
+    
+    
     parametersEndTraceFile.close();
   // Bouml preserved body end 000C9471
 }

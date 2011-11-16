@@ -353,6 +353,12 @@ void YouBotJoint::getConfigurationParameter(YouBotSlaveMailboxMsg& parameter) {
   // Bouml preserved body end 000A9DF1
 }
 
+void YouBotJoint::getConfigurationParameter(TorqueConstant& parameter) {
+  // Bouml preserved body begin 000D9571
+   parameter.setParameter(this->storage.torqueConstant);
+  // Bouml preserved body end 000D9571
+}
+
 void YouBotJoint::setConfigurationParameter(const TorqueConstant& parameter) {
   // Bouml preserved body begin 000C7171
    parameter.getParameter(this->storage.torqueConstant);

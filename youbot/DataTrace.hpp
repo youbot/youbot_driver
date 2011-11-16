@@ -155,11 +155,11 @@ class DataTrace {
 
     unsigned long timeDurationMicroSec;
 
-    std::vector<YouBotJointParameterReadOnly*> parameterVector;
-
     DataTraceCntrollerMode controllerMode;
 
     JointSensedPWM actualPWM;
+
+    std::vector<YouBotJointParameterReadOnly*> parameterVector;
 
 };
 

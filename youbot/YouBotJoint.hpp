@@ -134,6 +134,8 @@ class YouBotJoint : public Joint {
     ///this methode should be only used if you know what you are doing
     virtual void getConfigurationParameter(YouBotSlaveMailboxMsg& parameter);
 
+    virtual void getConfigurationParameter(TorqueConstant& parameter);
+
     virtual void setConfigurationParameter(const TorqueConstant& parameter);
 
     ///stores the joint parameter permanent in the EEPROM of the motor contoller
