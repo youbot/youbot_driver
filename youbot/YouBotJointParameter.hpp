@@ -74,7 +74,7 @@ enum CalibrationDirection {
 ///////////////////////////////////////////////////////////////////////////////
 /// abstract youBot API joint parameter
 ///////////////////////////////////////////////////////////////////////////////
-class YouBotApiJointParameter : public YouBotJointParameterReadOnly {
+class YouBotApiJointParameter : public JointParameter {
 friend class YouBotJoint;
   protected:
     YouBotApiJointParameter();
