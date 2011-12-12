@@ -450,6 +450,94 @@ void VelocityErrorSum::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message,
   // Bouml preserved body end 000825F1
 }
 
+CurrentError::CurrentError() {
+  // Bouml preserved body begin 000DAEF1
+    this->name = "CurrentError";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 000DAEF1
+}
+
+CurrentError::~CurrentError() {
+  // Bouml preserved body begin 000DAF71
+  // Bouml preserved body end 000DAF71
+}
+
+void CurrentError::getParameter(quantity<si::current>& parameter) const {
+  // Bouml preserved body begin 000DAFF1
+    parameter = this->value;
+  // Bouml preserved body end 000DAFF1
+}
+
+void CurrentError::toString(std::string& value) {
+  // Bouml preserved body begin 000DB071
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 000DB071
+}
+
+void CurrentError::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
+  // Bouml preserved body begin 000DB0F1
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 200; //CurrentError
+  //  message.stctOutput.value = value;
+
+  // Bouml preserved body end 000DB0F1
+}
+
+void CurrentError::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
+  // Bouml preserved body begin 000DB171
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+      this->value = (double)message.stctInput.value /1000.0 * ampere; //convert from milli A to A
+    }
+  // Bouml preserved body end 000DB171
+}
+
+CurrentErrorSum::CurrentErrorSum() {
+  // Bouml preserved body begin 000DB2F1
+    this->name = "CurrentErrorSum";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 000DB2F1
+}
+
+CurrentErrorSum::~CurrentErrorSum() {
+  // Bouml preserved body begin 000DB371
+  // Bouml preserved body end 000DB371
+}
+
+void CurrentErrorSum::getParameter(quantity<si::current>& parameter) const {
+  // Bouml preserved body begin 000DB3F1
+    parameter = this->value;
+  // Bouml preserved body end 000DB3F1
+}
+
+void CurrentErrorSum::toString(std::string& value) {
+  // Bouml preserved body begin 000DB471
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 000DB471
+}
+
+void CurrentErrorSum::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
+  // Bouml preserved body begin 000DB4F1
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 201; //CurrentErrorSum
+  //  message.stctOutput.value = value;
+
+  // Bouml preserved body end 000DB4F1
+}
+
+void CurrentErrorSum::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
+  // Bouml preserved body begin 000DB571
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+      this->value = (double)message.stctInput.value /1000.0 * ampere; //convert from milli A to A
+    }
+  // Bouml preserved body end 000DB571
+}
+
 RampGeneratorSpeed::RampGeneratorSpeed() {
   // Bouml preserved body begin 0009F271
     this->name = "RampGeneratorSpeed";

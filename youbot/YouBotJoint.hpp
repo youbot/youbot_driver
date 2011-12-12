@@ -86,10 +86,14 @@ class YouBotJoint : public Joint {
 
     ~YouBotJoint();
 
+
+  protected:
     virtual void setConfigurationParameter(const JointParameter& parameter);
 
     virtual void getConfigurationParameter(JointParameter& parameter);
 
+
+  public:
     virtual void getConfigurationParameter(YouBotJointParameterReadOnly& parameter);
 
     virtual void getConfigurationParameter(YouBotJointParameter& parameter);

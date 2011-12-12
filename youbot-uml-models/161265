@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 57
+  revision 59
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -483,6 +483,8 @@ ${namespace_end}"
 	class_ref 320497 // PositionErrorSum
 	class_ref 320625 // VelocityError
 	class_ref 320753 // VelocityErrorSum
+	class_ref 458737 // CurrentError
+	class_ref 458865 // CurrentErrorSum
 	class_ref 361073 // RampGeneratorSpeed
 	class_ref 361841 // I2tSum
 	class_ref 432369 // ActualMotorDriverTemperature
@@ -571,6 +573,7 @@ ${members}
 ${namespace_end}"
       associated_classes
 	class_ref 266481 // CalibrationDirection
+	class_ref 452209 // YouBotApiJointParameter
 	class_ref 238577 // YouBotJointParameter
 	class_ref 251889 // JointName
 	class_ref 347761 // InitializeJoint
@@ -718,7 +721,6 @@ ${namespace_end}"
 	class_ref 321137 // InitSineDelay
 	class_ref 320881 // MassInertiaConstant
 	class_ref 293233 // MaximumMotorCurrent
-	class_ref 321393 // MaximumPWMChangePerPIDInterval
 	class_ref 296689 // MotorCoilResistance
 	class_ref 361201 // MotorControllerTimeout
 	class_ref 297201 // MotorPoles

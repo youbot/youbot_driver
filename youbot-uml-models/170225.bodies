@@ -206,6 +206,8 @@ class YouBotJoint
      throw JointParameterException("Unable to get parameter from joint: " + this->jointName);
    }
    this->parseMailboxStatusFlags(parameter);
+!!!890225.cpp!!!	getConfigurationParameter(out parameter : TorqueConstant) : void
+   parameter.setParameter(this->storage.torqueConstant);
 !!!815473.cpp!!!	setConfigurationParameter(in parameter : TorqueConstant) : void
    parameter.getParameter(this->storage.torqueConstant);
 !!!596465.cpp!!!	storeConfigurationParameterPermanent(in parameter : YouBotJointParameter) : void

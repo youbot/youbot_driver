@@ -1,9 +1,13 @@
-window_sizes 1680 976 454 1220 895 0
+window_sizes 1680 976 398 1276 895 0
+diagrams
+  active  classdiagram_ref 141681 // JointParameter
+    1002 645 100 1 144 0
+end
 show_stereotypes
-selected operation_ref 882545 // getConfigurationParameter
 open
   classview_ref 134641 // Joint
-  class_ref 224753 // YouBotGripper
+  class_ref 347761 // InitializeJoint
+  classview_ref 167537 // YouBotJointParameterReadOnly
   deploymentview_ref 161137 // Deployment
 end
 end

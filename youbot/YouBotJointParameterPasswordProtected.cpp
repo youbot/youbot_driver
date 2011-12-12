@@ -1240,64 +1240,6 @@ void MaximumMotorCurrent::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& messa
   // Bouml preserved body end 0006A871
 }
 
-MaximumPWMChangePerPIDInterval::MaximumPWMChangePerPIDInterval() {
-  // Bouml preserved body begin 00083771
-    this->name = "MaximumPWMChangePerPIDInterval";
-    this->lowerLimit = 0;
-    this->upperLimit = 3599;
-    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-  // Bouml preserved body end 00083771
-}
-
-MaximumPWMChangePerPIDInterval::~MaximumPWMChangePerPIDInterval() {
-  // Bouml preserved body begin 000837F1
-  // Bouml preserved body end 000837F1
-}
-
-void MaximumPWMChangePerPIDInterval::getParameter(int& parameter) const {
-  // Bouml preserved body begin 00083871
-    parameter = this->value;
-  // Bouml preserved body end 00083871
-}
-
-void MaximumPWMChangePerPIDInterval::setParameter(const int parameter) {
-  // Bouml preserved body begin 000838F1
-    if (this->lowerLimit > parameter) {
-      throw std::out_of_range("The parameter exceeds the lower limit");
-    }
-    if (this->upperLimit < parameter) {
-      throw std::out_of_range("The parameter exceeds the upper limit");
-    }
-
-    this->value = parameter;
-  // Bouml preserved body end 000838F1
-}
-
-void MaximumPWMChangePerPIDInterval::toString(std::string& value) {
-  // Bouml preserved body begin 0009E571
-  std::stringstream ss;
-  ss << this->name << ": " << this->value;
-  value  = ss.str();
-  // Bouml preserved body end 0009E571
-}
-
-void MaximumPWMChangePerPIDInterval::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
-  // Bouml preserved body begin 00083971
-
-    message.stctOutput.commandNumber = msgType;
-    message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 246; //MaximumPWMChangePerPIDInterval
-    message.stctOutput.value = value;
-
-  // Bouml preserved body end 00083971
-}
-
-void MaximumPWMChangePerPIDInterval::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
-  // Bouml preserved body begin 000839F1
-    this->value = message.stctInput.value;
-  // Bouml preserved body end 000839F1
-}
-
 MotorCoilResistance::MotorCoilResistance() {
   // Bouml preserved body begin 00070DF1
     this->name = "MotorCoilResistance";

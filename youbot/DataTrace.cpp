@@ -174,7 +174,6 @@ void DataTrace::startTrace() {
     parameterVector.push_back(new InitSineDelay);
     parameterVector.push_back(new MassInertiaConstant);
     parameterVector.push_back(new MaximumMotorCurrent);
-    parameterVector.push_back(new MaximumPWMChangePerPIDInterval);
     parameterVector.push_back(new MaximumVelocityToSetPosition);
     parameterVector.push_back(new MotorCoilResistance);
     parameterVector.push_back(new MotorControllerTimeout);

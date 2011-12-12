@@ -871,43 +871,6 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// Maximum PWM change per PID interval. 
-///////////////////////////////////////////////////////////////////////////////
-class MaximumPWMChangePerPIDInterval : public YouBotJointParameterPasswordProtected {
-friend class YouBotJoint;
-  public:
-    MaximumPWMChangePerPIDInterval();
-
-    virtual ~MaximumPWMChangePerPIDInterval();
-
-    void getParameter(int& parameter) const;
-
-    void setParameter(const int parameter);
-
-    void toString(std::string& value);
-
-
-  private:
-    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
-
-    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
-
-    std::string getName() const {return this->name;};
-
-    ::ParameterType getType() const {return this->parameterType;};
-
-    int upperLimit;
-
-    int lowerLimit;
-
-    int value;
-
-    std::string name;
-
-    ::ParameterType parameterType;
-
-};
-///////////////////////////////////////////////////////////////////////////////
 /// Resistance of motor coil. Used for current resistance regulation, position regulation and velocity regulation.
 ///////////////////////////////////////////////////////////////////////////////
 class MotorCoilResistance : public YouBotJointParameterPasswordProtected {

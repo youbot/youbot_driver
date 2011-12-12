@@ -325,6 +325,68 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
+/// Actual error of current PID regulator
+///////////////////////////////////////////////////////////////////////////////
+class CurrentError : public YouBotJointParameterReadOnly {
+friend class YouBotJoint;
+  public:
+    CurrentError();
+
+    virtual ~CurrentError();
+
+    void getParameter(quantity<si::current>& parameter) const;
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ::ParameterType getType() const {return this->parameterType;};
+
+    quantity<si::current> value;
+
+    std::string name;
+
+    ::ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// Sum of errors of current PID regulator
+///////////////////////////////////////////////////////////////////////////////
+class CurrentErrorSum : public YouBotJointParameterReadOnly {
+friend class YouBotJoint;
+  public:
+    CurrentErrorSum();
+
+    virtual ~CurrentErrorSum();
+
+    void getParameter(quantity<si::current>& parameter) const;
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ::ParameterType getType() const {return this->parameterType;};
+
+    quantity<si::current> value;
+
+    std::string name;
+
+    ::ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
 /// The actual speed of the velocity ramp used for positioning and velocity mode. 
 ///////////////////////////////////////////////////////////////////////////////
 class RampGeneratorSpeed : public YouBotJointParameterReadOnly {

@@ -165,7 +165,7 @@ friend class YouBotJoint;
 ///////////////////////////////////////////////////////////////////////////////
 /// Initialize Joint
 ///////////////////////////////////////////////////////////////////////////////
-class InitializeJoint : public YouBotApiJointParameter {
+class InitializeJoint : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
     InitializeJoint();
