@@ -16,5 +16,6 @@ class CurrentErrorSum
 
 !!!898417.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
     if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
-      this->value = (double)message.stctInput.value /1000.0 * ampere; //convert from milli A to A
+      double temp = (int)message.stctInput.value;
+      this->value = temp /1000.0 * ampere; //convert from milli A to A
     }

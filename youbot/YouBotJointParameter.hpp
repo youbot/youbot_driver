@@ -1654,6 +1654,73 @@ friend class YouBotJoint;
     ::ParameterType parameterType;
 
 };
+///////////////////////////////////////////////////////////////////////////////
+/// Clear the flag that indicates that the I2t sum has exceeded the I2t limit.
+///////////////////////////////////////////////////////////////////////////////
+class ClearI2tExceededFlag : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    ClearI2tExceededFlag();
+
+    virtual ~ClearI2tExceededFlag();
+
+    void getParameter() const;
+
+    void setParameter();
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ::ParameterType getType() const {return this->parameterType;};
+
+    bool value;
+
+    std::string name;
+
+    ::ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// Clear the flag that indicates a communication timeout between the EtherCAT master and the controller.
+
+///////////////////////////////////////////////////////////////////////////////
+class ClearMotorControllerTimeoutFlag : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    ClearMotorControllerTimeoutFlag();
+
+    virtual ~ClearMotorControllerTimeoutFlag();
+
+    bool getParameter() const;
+
+    void setParameter();
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ::ParameterType getType() const {return this->parameterType;};
+
+    bool value;
+
+    std::string name;
+
+    ::ParameterType parameterType;
+
+};
 
 } // namespace youbot
 #endif

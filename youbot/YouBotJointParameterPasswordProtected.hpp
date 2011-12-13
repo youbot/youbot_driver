@@ -240,110 +240,6 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// Clear the flag that indicates that the I2t sum has exceeded the I2t limit.
-///////////////////////////////////////////////////////////////////////////////
-class ClearI2tExceededFlag : public YouBotJointParameterPasswordProtected {
-friend class YouBotJoint;
-  public:
-    ClearI2tExceededFlag();
-
-    virtual ~ClearI2tExceededFlag();
-
-    void getParameter() const;
-
-    void setParameter();
-
-    void toString(std::string& value);
-
-
-  private:
-    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
-
-    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
-
-    std::string getName() const {return this->name;};
-
-    ::ParameterType getType() const {return this->parameterType;};
-
-    bool value;
-
-    std::string name;
-
-    ::ParameterType parameterType;
-
-};
-///////////////////////////////////////////////////////////////////////////////
-/// Clear the flag that indicates a communication timeout between the EtherCAT master and the controller.
-
-///////////////////////////////////////////////////////////////////////////////
-class ClearMotorControllerTimeoutFlag : public YouBotJointParameterPasswordProtected {
-friend class YouBotJoint;
-  public:
-    ClearMotorControllerTimeoutFlag();
-
-    virtual ~ClearMotorControllerTimeoutFlag();
-
-    bool getParameter() const;
-
-    void setParameter();
-
-    void toString(std::string& value);
-
-
-  private:
-    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
-
-    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
-
-    std::string getName() const {return this->name;};
-
-    ::ParameterType getType() const {return this->parameterType;};
-
-    bool value;
-
-    std::string name;
-
-    ::ParameterType parameterType;
-
-};
-///////////////////////////////////////////////////////////////////////////////
-/// Velocity is set to 0 if actual position differs from motor position for more than this value, until the motor catches up. Prevents velocity overshoot if the motor can't follow the velocity ramp.
-///////////////////////////////////////////////////////////////////////////////
-class ClearTargetDistance : public YouBotJointParameterPasswordProtected {
-friend class YouBotJoint;
-  public:
-    ClearTargetDistance();
-
-    virtual ~ClearTargetDistance();
-
-    void getParameter(int& parameter) const;
-
-    void setParameter(const int parameter);
-
-    void toString(std::string& value);
-
-
-  private:
-    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
-
-    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
-
-    std::string getName() const {return this->name;};
-
-    ::ParameterType getType() const {return this->parameterType;};
-
-    int upperLimit;
-
-    int lowerLimit;
-
-    int value;
-
-    std::string name;
-
-    ::ParameterType parameterType;
-
-};
-///////////////////////////////////////////////////////////////////////////////
 /// Commutation (CW) to compensate for the Hall sensor deviations. The aim is that the motor rotates in either direction with equal speed.
 ///////////////////////////////////////////////////////////////////////////////
 class CommutationCompensationClockwise : public YouBotJointParameterPasswordProtected {
@@ -1142,9 +1038,9 @@ friend class YouBotJoint;
 
     virtual ~PWMSchemeBlockCommutation();
 
-    void getParameter(unsigned int& parameter) const;
+    void getParameter(int& parameter) const;
 
-    void setParameter(const unsigned int parameter);
+    void setParameter(const int parameter);
 
     void toString(std::string& value);
 
@@ -1158,11 +1054,11 @@ friend class YouBotJoint;
 
     ::ParameterType getType() const {return this->parameterType;};
 
-    unsigned int upperLimit;
+    int upperLimit;
 
-    unsigned int lowerLimit;
+    int lowerLimit;
 
-    unsigned int value;
+    int value;
 
     std::string name;
 

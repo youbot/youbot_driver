@@ -24,7 +24,8 @@ class CurrentControlLoopDelay
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
     message.stctOutput.typeNumber = 134; //CurrentControlLoopDelay
-    message.stctOutput.value = value.value() * 1000 *1000 /50; //sec to µsec
+    message.stctOutput.value = (uint32)(value.value() * 1000 *1000 /50.0); //sec to µsec
 
 !!!500209.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
-    this->value = (((double)message.stctInput.value)/(1000 * 1000)) * 50 * seconds; //µsec to sec
+    double temp = (uint32)message.stctInput.value;
+    this->value = (temp/(1000.0 * 1000.0)) * 50 * seconds; //µsec to sec

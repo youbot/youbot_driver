@@ -14,4 +14,5 @@ class PositionError
     message.stctOutput.typeNumber = 226; //PositionError
 //    message.stctOutput.value = value;
 !!!530929.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
-    value = ((double) message.stctInput.value / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
+    double temp = (int)message.stctInput.value;
+    value = (temp / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;

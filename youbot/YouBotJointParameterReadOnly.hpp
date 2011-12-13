@@ -103,7 +103,7 @@ friend class YouBotJoint;
 
     virtual ~ActualMotorVoltage();
 
-    void getParameter(unsigned int& parameter) const;
+    void getParameter(quantity<electric_potential>& parameter) const;
 
     void toString(std::string& value);
 
@@ -117,7 +117,7 @@ friend class YouBotJoint;
 
     ::ParameterType getType() const {return this->parameterType;};
 
-    unsigned int value;
+    quantity<electric_potential> value;
 
     std::string name;
 
@@ -125,7 +125,7 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// Actual PWM duty cycle (0%... 100%).
+/// Actual PWM duty cycle.
 ///////////////////////////////////////////////////////////////////////////////
 class ActualPWMDutyCycle : public YouBotJointParameterReadOnly {
 friend class YouBotJoint;
@@ -134,7 +134,7 @@ friend class YouBotJoint;
 
     virtual ~ActualPWMDutyCycle();
 
-    void getParameter(unsigned int& parameter) const;
+    void getParameter(int& parameter) const;
 
     void toString(std::string& value);
 
@@ -148,7 +148,7 @@ friend class YouBotJoint;
 
     ::ParameterType getType() const {return this->parameterType;};
 
-    unsigned int value;
+    int value;
 
     std::string name;
 

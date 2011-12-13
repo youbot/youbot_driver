@@ -1,12 +1,12 @@
 window_sizes 1680 976 398 1276 895 0
 diagrams
   active  classdiagram_ref 141681 // JointParameter
-    1002 645 100 1 144 0
+    1276 895 100 1 144 0
 end
 show_stereotypes
+selected class_ref 318705 // ActualPWMDutyCycle
 open
-  classview_ref 134641 // Joint
-  class_ref 347761 // InitializeJoint
+  classview_ref 174065 // YouBotJointParameterPasswordProtected
   classview_ref 167537 // YouBotJointParameterReadOnly
   deploymentview_ref 161137 // Deployment
 end

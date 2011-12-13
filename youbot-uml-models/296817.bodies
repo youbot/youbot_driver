@@ -2,7 +2,7 @@ class InitializationMode
 !!!463089.cpp!!!	InitializationMode()
     this->name = "InitializationMode";
     this->lowerLimit = 0;
-    this->upperLimit = 1;
+    this->upperLimit = 2;
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
 !!!463345.cpp!!!	getParameter(out parameter : int) : void
     parameter = this->value;
@@ -25,5 +25,5 @@ class InitializationMode
     message.stctOutput.value = value;
 !!!467697.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
     if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
-      this->value = message.stctInput.value; //TODO do convertion
+      this->value = (int32)message.stctInput.value; 
     }

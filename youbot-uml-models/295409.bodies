@@ -27,4 +27,4 @@ class IClippingParameterSecondParametersSpeedControl
     message.stctOutput.value = value;
 
 !!!453745.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
-    this->value = message.stctInput.value;
+    this->value = (int32)message.stctInput.value;

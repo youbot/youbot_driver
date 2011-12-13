@@ -22,8 +22,9 @@ class MotorCoilResistance
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
     message.stctOutput.typeNumber = 240; //MotorCoilResistance
-    message.stctOutput.value = value.value() * 1000; //from ohm to milli ohm
+    message.stctOutput.value = (int32)(value.value() * 1000); //from ohm to milli ohm
 !!!467569.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
     if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
-      this->value = ((double)message.stctInput.value)/1000 * ohm;
+      double temp = (int32)message.stctInput.value;
+      this->value = temp/1000.0 * ohm;
     }

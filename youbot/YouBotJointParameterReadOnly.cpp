@@ -78,7 +78,7 @@ ActualMotorVoltage::~ActualMotorVoltage() {
   // Bouml preserved body end 0007E0F1
 }
 
-void ActualMotorVoltage::getParameter(unsigned int& parameter) const {
+void ActualMotorVoltage::getParameter(quantity<electric_potential>& parameter) const {
   // Bouml preserved body begin 0007E171
     parameter = this->value;
   // Bouml preserved body end 0007E171
@@ -105,7 +105,8 @@ void ActualMotorVoltage::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMC
 void ActualMotorVoltage::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 0007E271
     if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
-      this->value = message.stctInput.value; //TODO do convertion
+      double temp = message.stctInput.value;
+      this->value = temp/100.0 * volt; //TODO do convertion
     }
   // Bouml preserved body end 0007E271
 }
@@ -122,7 +123,7 @@ ActualPWMDutyCycle::~ActualPWMDutyCycle() {
   // Bouml preserved body end 0007E471
 }
 
-void ActualPWMDutyCycle::getParameter(unsigned int& parameter) const {
+void ActualPWMDutyCycle::getParameter(int& parameter) const {
   // Bouml preserved body begin 0007E4F1
     parameter = this->value;
   // Bouml preserved body end 0007E4F1
@@ -149,7 +150,7 @@ void ActualPWMDutyCycle::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMC
 void ActualPWMDutyCycle::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 0007E5F1
     if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
-      this->value = (((double)message.stctInput.value)/3599.0)*100.0 ;
+      this->value = (int)message.stctInput.value ;
     }
   // Bouml preserved body end 0007E5F1
 }
@@ -317,7 +318,8 @@ void PositionError::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLComm
 
 void PositionError::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 000819F1
-    value = ((double) message.stctInput.value / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
+    double temp = (int)message.stctInput.value;
+    value = (temp / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
   // Bouml preserved body end 000819F1
 }
 
@@ -360,7 +362,8 @@ void PositionErrorSum::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLC
 
 void PositionErrorSum::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 00081DF1
-    value = ((double) message.stctInput.value / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
+    double temp = (int)message.stctInput.value;
+    value = (temp / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
   // Bouml preserved body end 00081DF1
 }
 
@@ -403,7 +406,8 @@ void VelocityError::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLComm
 
 void VelocityError::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 000821F1
-    this->value = ((((double)message.stctInput.value) / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
+    double temp = (int)message.stctInput.value;
+    this->value = ((temp / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
   // Bouml preserved body end 000821F1
 }
 
@@ -446,7 +450,9 @@ void VelocityErrorSum::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLC
 
 void VelocityErrorSum::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 000825F1
-    this->value = ((((double)message.stctInput.value) / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
+    double temp = (int32)message.stctInput.value;
+    this->value = ((temp / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
+    
   // Bouml preserved body end 000825F1
 }
 
@@ -489,7 +495,8 @@ void CurrentError::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLComma
 void CurrentError::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 000DB171
     if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
-      this->value = (double)message.stctInput.value /1000.0 * ampere; //convert from milli A to A
+      double temp = (int)message.stctInput.value;
+      this->value = temp /1000.0 * ampere; //convert from milli A to A
     }
   // Bouml preserved body end 000DB171
 }
@@ -533,7 +540,8 @@ void CurrentErrorSum::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCo
 void CurrentErrorSum::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 000DB571
     if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
-      this->value = (double)message.stctInput.value /1000.0 * ampere; //convert from milli A to A
+      double temp = (int)message.stctInput.value;
+      this->value = temp /1000.0 * ampere; //convert from milli A to A
     }
   // Bouml preserved body end 000DB571
 }
@@ -577,7 +585,8 @@ void RampGeneratorSpeed::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMC
 
 void RampGeneratorSpeed::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 0009F4F1
-    this->value = ((((double)message.stctInput.value) / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
+    double temp = (int)message.stctInput.value;
+    this->value = ((temp / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
   // Bouml preserved body end 0009F4F1
 }
 

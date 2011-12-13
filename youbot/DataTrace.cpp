@@ -159,7 +159,6 @@ void DataTrace::startTrace() {
     parameterVector.push_back(new BEMFConstant);
     //   parameterVector.push_back(new ClearI2tExceededFlag);
     //   parameterVector.push_back(new ClearMotorControllerTimeoutFlag);
-    parameterVector.push_back(new ClearTargetDistance);
     parameterVector.push_back(new CommutationCompensationClockwise);
     parameterVector.push_back(new CommutationCompensationCounterClockwise);
     parameterVector.push_back(new CommutationMode);

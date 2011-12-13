@@ -24,7 +24,8 @@ class InitSineDelay
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
     message.stctOutput.typeNumber = 244; //InitSineDelay
-    message.stctOutput.value = value.value() * 1000; //sec to µsec
+    message.stctOutput.value = (int32)(value.value() * 1000); //sec to µsec
 
 !!!537073.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
-    this->value = (((double)message.stctInput.value)/1000)  * seconds; //µsec to sec
+  double temp = (int32)message.stctInput.value;
+  this->value = (temp/1000.0)  * seconds; //µsec to sec

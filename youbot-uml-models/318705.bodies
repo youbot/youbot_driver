@@ -2,7 +2,7 @@ class ActualPWMDutyCycle
 !!!517105.cpp!!!	ActualPWMDutyCycle()
     this->name = "ActualPWMDutyCycle";
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-!!!517361.cpp!!!	getParameter(out parameter : uint) : void
+!!!517361.cpp!!!	getParameter(out parameter : int) : void
     parameter = this->value;
 !!!650481.cpp!!!	toString(out value : std::string) : void
   std::stringstream ss;
@@ -16,5 +16,5 @@ class ActualPWMDutyCycle
 
 !!!517617.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
     if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
-      this->value = (((double)message.stctInput.value)/3599.0)*100.0 ;
+      this->value = (int)message.stctInput.value ;
     }

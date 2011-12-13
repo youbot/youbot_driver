@@ -16,4 +16,6 @@ class VelocityErrorSum
  //   message.stctOutput.value = value;
 
 !!!534001.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
-    this->value = ((((double)message.stctInput.value) / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
+    double temp = (int32)message.stctInput.value;
+    this->value = ((temp / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
+    

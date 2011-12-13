@@ -27,4 +27,4 @@ class BEMFConstant
     message.stctOutput.value = value; //TODO do convertion
 
 !!!536049.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
-    this->value = message.stctInput.value; //TODO do convertion
+    this->value = (int32)message.stctInput.value; //TODO do convertion

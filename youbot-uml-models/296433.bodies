@@ -4,9 +4,9 @@ class PWMSchemeBlockCommutation
     this->lowerLimit = 0;
     this->upperLimit = 2;
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-!!!461041.cpp!!!	getParameter(out parameter : uint) : void
+!!!461041.cpp!!!	getParameter(out parameter : int) : void
     parameter = this->value;
-!!!603377.cpp!!!	setParameter(in parameter : uint) : void
+!!!603377.cpp!!!	setParameter(in parameter : int) : void
     if (this->lowerLimit > parameter) {
       throw std::out_of_range("The parameter exceeds the lower limit");
     }
@@ -22,8 +22,8 @@ class PWMSchemeBlockCommutation
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
     message.stctOutput.typeNumber = 167; //PWMSchemeBlockCommutation
-    message.stctOutput.value = value;
+    message.stctOutput.value = (int32)value;
 !!!467313.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
     if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
-      this->value = message.stctInput.value; //TODO do convertion
+      this->value = (int32)message.stctInput.value; 
     }

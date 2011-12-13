@@ -27,5 +27,5 @@ class MotorAcceleration
     message.stctOutput.value = (int32) round((value.value() / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
 
 !!!437361.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
-    double motorRPMperSec = message.stctInput.value;
+    double motorRPMperSec = (int32)message.stctInput.value;
     this->value =  ((motorRPMperSec / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second/second;

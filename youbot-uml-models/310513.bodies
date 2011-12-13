@@ -24,7 +24,7 @@ class PWMLimit
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
     message.stctOutput.typeNumber = 5; //PWMLimit
-    message.stctOutput.value = value;
+    message.stctOutput.value = (uint32)value;
 
 !!!497137.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
-    this->value = (double)message.stctInput.value;
+    this->value = (uint32)message.stctInput.value;

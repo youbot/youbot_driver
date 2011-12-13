@@ -46,7 +46,7 @@ classcanvas 142833 class_ref 251761 // GearRatio
 end
 classcanvas 143089 class_ref 252017 // EncoderTicksPerRound
   draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
-  xyz 202 563 2012
+  xyz 169 626 2012
 end
 note 143345 "These classes are also derived from the YouBotJointParameter class:
 
@@ -113,7 +113,7 @@ SineInitializationVelocity
 SpeedControlSwitchingThreshold
 StopJoint
 StopSwitchPolarity"
-  xyzwh 94 611 2000 391 1233
+  xyzwh -56 714 2000 391 1233
 classcanvas 143473 class_ref 318577 // ActualMotorVoltage
   draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
   xyz 607 184 2023
@@ -209,6 +209,14 @@ end
 classcanvas 160241 class_ref 347761 // InitializeJoint
   draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
   xyz 57 458 2029
+end
+classcanvas 160625 class_ref 361329 // ClearMotorControllerTimeoutFlag
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  xyz 162 528 2035
+end
+classcanvas 160881 class_ref 362097 // ClearI2tExceededFlag
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  xyz 178 459 2041
 end
 relationcanvas 128881 relation_ref 210673 // <generalisation>
   from ref 128625 z 2001 to ref 128497
@@ -383,6 +391,16 @@ relationcanvas 160113 relation_ref 415473 // <generalisation>
 end
 relationcanvas 160497 relation_ref 422257 // <generalisation>
   from ref 160241 z 2030 to ref 128753
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 161265 relation_ref 429041 // <generalisation>
+  from ref 160881 z 2042 to ref 128753
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 161393 relation_ref 429169 // <generalisation>
+  from ref 160625 z 2036 to ref 128753
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end
