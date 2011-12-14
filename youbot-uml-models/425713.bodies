@@ -1,14 +1,53 @@
 class DataTrace
-!!!823153.cpp!!!	DataTrace(inout youBotJoint : YouBotJoint)
+!!!823153.cpp!!!	DataTrace(inout youBotJoint : YouBotJoint, in Name : string)
 
     roundsPerMinuteSetpoint.rpm = 0;
     PWMSetpoint.pwm = 0;
     encoderSetpoint.encoderTicks = 0;
+    this->name = Name;
+    if(Name != ""){
+      this->path = Name;
+      this->path.append("/");
+    }
+    
+    if(boost::filesystem::exists((path+"jointDataTrace").c_str())){
+      std::cout << "Do you want to overwrite the existing files? [n/y]" << std::endl; 
+
+      char input = getchar();
+      
+      if(input!= 'y'){
+        throw std::runtime_error("Will not overwrite files!");
+      }
+
+    }else{
+      boost::filesystem::path rootPath (this->path);
+
+      if ( !boost::filesystem::create_directories( rootPath ))
+        throw std::runtime_error("could not create folder!");
+      
+    }
+    
 !!!824305.cpp!!!	startTrace() : void
 
-
-    file.open("jointDataTrace", std::fstream::out | std::fstream::trunc);
-
+    timeDurationMicroSec = 0;
+    
+   
+    file.open((path+"jointDataTrace").c_str(), std::fstream::out | std::fstream::trunc);
+    
+    ptime today;
+    today = second_clock::local_time();
+    
+    file << "# Name: " << this->name << std::endl;
+    
+    file << "# Date: " << boost::posix_time::to_simple_string(today) << std::endl;
+    
+    JointName jointName;
+    std::string parameterString;
+    joint.getConfigurationParameter(jointName);
+    jointName.toString(parameterString);
+    file << "# " << parameterString << std::endl;
+    
+    
     file << "# time [milliseconds]"
             << " " << "angle setpoint [rad]"
             << " " << "velocity setpoint [rad/s]"
@@ -42,8 +81,8 @@ class DataTrace
             << "I2T_EXCEEDED" << " "
             << std::endl;
 
-    parametersBeginTraceFile.open("ParametersAtBegin", std::fstream::out | std::fstream::trunc);
-    std::string parameterString;
+    parametersBeginTraceFile.open((path+"ParametersAtBegin").c_str(), std::fstream::out | std::fstream::trunc);
+    
 
 
     parameterVector.push_back(new ActualMotorVoltage);
@@ -146,8 +185,9 @@ class DataTrace
 //    }
 
 
-    JointName jointName;
-    joint.getConfigurationParameter(jointName);
+    parametersBeginTraceFile << "Name: " << this->name << std::endl;
+    parametersBeginTraceFile << "Date: " << boost::posix_time::to_simple_string(today) << std::endl;
+  //  joint.getConfigurationParameter(jointName);
     jointName.toString(parameterString);
     //   std::cout << parameterString << std::endl;
     parametersBeginTraceFile << parameterString << std::endl;
@@ -196,8 +236,13 @@ class DataTrace
 !!!824433.cpp!!!	stopTrace() : void
     file.close();
 
-    parametersEndTraceFile.open("ParametersAfterTrace", std::fstream::out | std::fstream::trunc);
+    parametersEndTraceFile.open((path+"ParametersAfterTrace").c_str(), std::fstream::out | std::fstream::trunc);
     std::string parameterString;
+    
+    parametersEndTraceFile << "Name: " << this->name << std::endl;
+    ptime today;
+    today = second_clock::local_time();
+    parametersEndTraceFile << "Date: " << boost::posix_time::to_simple_string(today) << std::endl;
     
         JointName jointName;
     joint.getConfigurationParameter(jointName);
@@ -233,7 +278,7 @@ class DataTrace
     joint.getConfigurationParameter(inverseMovementDirection);
     inverseMovementDirection.toString(parameterString);
     //   std::cout << parameterString << std::endl;
-    parametersBeginTraceFile << parameterString << std::endl;
+    parametersEndTraceFile << parameterString << std::endl;
     
     for (int i = 0; i < parameterVector.size(); i++) {
       joint.getConfigurationParameter(*(parameterVector[i]));
@@ -245,7 +290,11 @@ class DataTrace
     
     parametersEndTraceFile.close();
 !!!824689.cpp!!!	plotTrace() : void
-    std::system("gnuplot ../gnuplotconfig");
+  
+    std::string executeString = "cd ";
+    executeString.append(path);
+    executeString.append("; gnuplot ../../gnuplotconfig");
+    std::system(executeString.c_str());
 !!!823409.cpp!!!	updateTrace(in setpoint : JointAngleSetpoint) : void
     angleSetpoint = setpoint;
     controllerMode = POSITION_CONTROL_RAD;
@@ -274,6 +323,8 @@ class DataTrace
     encoderSetpoint = setpoint;
     controllerMode = POSITION_CONTROL_ENC;
     this->update();
+!!!905201.cpp!!!	getTimeDurationMilliSec() : ulong
+  return timeDurationMicroSec;
 !!!824561.cpp!!!	update() : void
     timeDuration = microsec_clock::local_time() - traceStartTime;
     timeDurationMicroSec = timeDuration.total_milliseconds();

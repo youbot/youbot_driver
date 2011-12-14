@@ -51,12 +51,35 @@
 #include "youbot/DataTrace.hpp"
 namespace youbot {
 
-DataTrace::DataTrace(YouBotJoint& youBotJoint):joint(youBotJoint) {
+DataTrace::DataTrace(YouBotJoint& youBotJoint, const std::string Name):joint(youBotJoint) {
   // Bouml preserved body begin 000C8F71
 
     roundsPerMinuteSetpoint.rpm = 0;
     PWMSetpoint.pwm = 0;
     encoderSetpoint.encoderTicks = 0;
+    this->name = Name;
+    if(Name != ""){
+      this->path = Name;
+      this->path.append("/");
+    }
+    
+    if(boost::filesystem::exists((path+"jointDataTrace").c_str())){
+      std::cout << "Do you want to overwrite the existing files? [n/y]" << std::endl; 
+
+      char input = getchar();
+      
+      if(input!= 'y'){
+        throw std::runtime_error("Will not overwrite files!");
+      }
+
+    }else{
+      boost::filesystem::path rootPath (this->path);
+
+      if ( !boost::filesystem::create_directories( rootPath ))
+        throw std::runtime_error("could not create folder!");
+      
+    }
+    
   // Bouml preserved body end 000C8F71
 }
 
@@ -68,9 +91,25 @@ DataTrace::~DataTrace() {
 void DataTrace::startTrace() {
   // Bouml preserved body begin 000C93F1
 
-
-    file.open("jointDataTrace", std::fstream::out | std::fstream::trunc);
-
+    timeDurationMicroSec = 0;
+    
+   
+    file.open((path+"jointDataTrace").c_str(), std::fstream::out | std::fstream::trunc);
+    
+    ptime today;
+    today = second_clock::local_time();
+    
+    file << "# Name: " << this->name << std::endl;
+    
+    file << "# Date: " << boost::posix_time::to_simple_string(today) << std::endl;
+    
+    JointName jointName;
+    std::string parameterString;
+    joint.getConfigurationParameter(jointName);
+    jointName.toString(parameterString);
+    file << "# " << parameterString << std::endl;
+    
+    
     file << "# time [milliseconds]"
             << " " << "angle setpoint [rad]"
             << " " << "velocity setpoint [rad/s]"
@@ -104,8 +143,8 @@ void DataTrace::startTrace() {
             << "I2T_EXCEEDED" << " "
             << std::endl;
 
-    parametersBeginTraceFile.open("ParametersAtBegin", std::fstream::out | std::fstream::trunc);
-    std::string parameterString;
+    parametersBeginTraceFile.open((path+"ParametersAtBegin").c_str(), std::fstream::out | std::fstream::trunc);
+    
 
 
     parameterVector.push_back(new ActualMotorVoltage);
@@ -208,8 +247,9 @@ void DataTrace::startTrace() {
 //    }
 
 
-    JointName jointName;
-    joint.getConfigurationParameter(jointName);
+    parametersBeginTraceFile << "Name: " << this->name << std::endl;
+    parametersBeginTraceFile << "Date: " << boost::posix_time::to_simple_string(today) << std::endl;
+  //  joint.getConfigurationParameter(jointName);
     jointName.toString(parameterString);
     //   std::cout << parameterString << std::endl;
     parametersBeginTraceFile << parameterString << std::endl;
@@ -262,8 +302,13 @@ void DataTrace::stopTrace() {
   // Bouml preserved body begin 000C9471
     file.close();
 
-    parametersEndTraceFile.open("ParametersAfterTrace", std::fstream::out | std::fstream::trunc);
+    parametersEndTraceFile.open((path+"ParametersAfterTrace").c_str(), std::fstream::out | std::fstream::trunc);
     std::string parameterString;
+    
+    parametersEndTraceFile << "Name: " << this->name << std::endl;
+    ptime today;
+    today = second_clock::local_time();
+    parametersEndTraceFile << "Date: " << boost::posix_time::to_simple_string(today) << std::endl;
     
         JointName jointName;
     joint.getConfigurationParameter(jointName);
@@ -299,7 +344,7 @@ void DataTrace::stopTrace() {
     joint.getConfigurationParameter(inverseMovementDirection);
     inverseMovementDirection.toString(parameterString);
     //   std::cout << parameterString << std::endl;
-    parametersBeginTraceFile << parameterString << std::endl;
+    parametersEndTraceFile << parameterString << std::endl;
     
     for (int i = 0; i < parameterVector.size(); i++) {
       joint.getConfigurationParameter(*(parameterVector[i]));
@@ -315,7 +360,11 @@ void DataTrace::stopTrace() {
 
 void DataTrace::plotTrace() {
   // Bouml preserved body begin 000C9571
-    std::system("gnuplot ../gnuplotconfig");
+  
+    std::string executeString = "cd ";
+    executeString.append(path);
+    executeString.append("; gnuplot ../../gnuplotconfig");
+    std::system(executeString.c_str());
   // Bouml preserved body end 000C9571
 }
 
@@ -373,6 +422,12 @@ void DataTrace::updateTrace(const JointEncoderSetpoint& setpoint) {
     controllerMode = POSITION_CONTROL_ENC;
     this->update();
   // Bouml preserved body end 000C9371
+}
+
+unsigned long DataTrace::getTimeDurationMilliSec() {
+  // Bouml preserved body begin 000DCFF1
+  return timeDurationMicroSec;
+  // Bouml preserved body end 000DCFF1
 }
 
 void DataTrace::update() {

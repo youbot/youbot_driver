@@ -25,7 +25,7 @@ int main() {
 
     myBase.doJointCommutation();
 
-    DataTrace myTrace(myBase.getBaseJoint(4));
+    DataTrace myTrace(myBase.getBaseJoint(4), "testName");
 
     JointCurrentSetpoint currentSetpoint;
     currentSetpoint.current = 0.4 * ampere;

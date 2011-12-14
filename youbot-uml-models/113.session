@@ -4,10 +4,9 @@ diagrams
     1276 895 100 1 144 0
 end
 show_stereotypes
-selected class_ref 318705 // ActualPWMDutyCycle
+selected artifact_ref 248177 // DataTrace
 open
-  classview_ref 174065 // YouBotJointParameterPasswordProtected
-  classview_ref 167537 // YouBotJointParameterReadOnly
+  classview_ref 160881 // YouBot
   deploymentview_ref 161137 // Deployment
 end
 end

@@ -58,6 +58,8 @@
 #include <stdexcept>
 #include <iostream>
 #include <stdlib.h>
+#include "boost/date_time/gregorian/gregorian.hpp"
+#include "boost/filesystem.hpp"
 #include "generic/Logger.hpp"
 #include "generic/Units.hpp"
 #include "generic/Time.hpp"
@@ -87,7 +89,7 @@ enum DataTraceCntrollerMode {
 ///////////////////////////////////////////////////////////////////////////////
 class DataTrace {
   public:
-    DataTrace(YouBotJoint& youBotJoint);
+    DataTrace(YouBotJoint& youBotJoint, const std::string Name);
 
     virtual ~DataTrace();
 
@@ -110,6 +112,8 @@ class DataTrace {
     void updateTrace(const JointPWMSetpoint& setpoint);
 
     void updateTrace(const JointEncoderSetpoint& setpoint);
+
+    unsigned long getTimeDurationMilliSec();
 
 
   private:
@@ -160,6 +164,10 @@ class DataTrace {
     JointSensedPWM actualPWM;
 
     std::vector<YouBotJointParameterReadOnly*> parameterVector;
+
+    std::string name;
+
+    std::string path;
 
 };
 

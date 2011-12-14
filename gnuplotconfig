@@ -12,7 +12,7 @@ set title "joint angle"
 set ylabel "angle [rad]"
 set xlabel "time [milliseconds]"
 set grid
-set offsets 0, 0, 1, 1
+set offsets 0, 0, 0.1, 0.1
 plot  "jointDataTrace" using 1:2 title 'angle setpoint' with lines linewidth 2, "jointDataTrace" using 1:9 title 'sensed angle' with lines
 
 set title "joint encoder ticks"
