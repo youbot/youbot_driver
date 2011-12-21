@@ -73,6 +73,7 @@
 #include "one-dof-gripper/OneDOFGripper.hpp"
 #include "one-dof-gripper/OneDOFGripperData.hpp"
 #include "youbot/YouBotGripperParameter.hpp"
+#include "youbot/YouBotGripperBar.hpp"
 
 namespace youbot {
 
@@ -93,54 +94,52 @@ class YouBotGripper : public OneDOFGripper {
 
 
   public:
-    void getConfigurationParameter(GripperFirmwareVersion& parameter);
+    virtual void getConfigurationParameter(GripperFirmwareVersion& parameter);
 
-    void getConfigurationParameter(YouBotGripperParameter& parameter, const BarNumber& barNumber);
+    virtual void setConfigurationParameter(const CalibrateGripper& parameter);
 
-    void setConfigurationParameter(const YouBotGripperParameter& parameter, const BarNumber& barNumber);
+    virtual void setConfigurationParameter(const BarSpacingOffset& parameter);
 
-    void setConfigurationParameter(const CalibrateGripper& parameter);
+    virtual void getConfigurationParameter(BarSpacingOffset& parameter);
 
-    void setConfigurationParameter(const BarSpacingOffset& parameter);
+    virtual void setConfigurationParameter(const MaxTravelDistance& parameter);
 
-    void getConfigurationParameter(BarSpacingOffset& parameter);
+    virtual void getConfigurationParameter(MaxTravelDistance& parameter);
 
-    void setConfigurationParameter(const MaxTravelDistance& parameter);
+    virtual void setConfigurationParameter(const MaxEncoderValue& parameter);
 
-    void getConfigurationParameter(MaxTravelDistance& parameter);
+    virtual void getConfigurationParameter(MaxEncoderValue& parameter);
 
-    void setConfigurationParameter(const MaxEncoderValue& parameter);
-
-    void getConfigurationParameter(MaxEncoderValue& parameter);
+    virtual void getConfigurationParameter(YouBotSlaveMailboxMsg& parameter);
 
 
   protected:
-    void getData(const GripperData& data);
+    virtual void getData(const GripperData& data);
 
     virtual void setData(const GripperData& data);
 
-    void getData(OneDOFGripperData& data);
+    virtual void getData(OneDOFGripperData& data);
 
-    void setData(const OneDOFGripperData& data);
+    virtual void setData(const OneDOFGripperData& data);
 
 
   public:
-    void setData(const GripperBarSpacingSetPoint& barSpacing);
+    virtual void setData(const GripperBarSpacingSetPoint& barSpacing);
 
-    void getData(GripperBarSpacingSetPoint& barSpacing);
+    virtual void getData(GripperSensedBarSpacing& barSpacing);
+
+    YouBotGripperBar& getGripperBar1();
+
+    YouBotGripperBar& getGripperBar2();
 
 
   private:
     void parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailboxMsg);
 
-
-  public:
     bool setValueToMotorContoller(const YouBotSlaveMailboxMsg& mailboxMsg);
 
     bool retrieveValueFromMotorContoller(YouBotSlaveMailboxMsg& message);
 
-
-  private:
     EthercatMaster* ethercatMaster;
 
     unsigned int timeTillNextMailboxUpdate;
@@ -156,6 +155,10 @@ class YouBotGripper : public OneDOFGripper {
     quantity<si::length> barSpacingOffset;
 
     quantity<si::length> lastGripperPosition;
+
+    YouBotGripperBar* bar1;
+
+    YouBotGripperBar* bar2;
 
 };
 

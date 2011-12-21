@@ -11,6 +11,7 @@ IF(USE_ETHERCAT_MASTER_WITH_THREAD)
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotBase.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotManipulator.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripper.cpp
+    ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripperBar.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripperParameter.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/MotorProtection.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/DataTrace.cpp
@@ -30,6 +31,7 @@ ELSE(USE_ETHERCAT_MASTER_WITH_THREAD)
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotBase.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotManipulator.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripper.cpp
+    ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripperBar.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripperParameter.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/MotorProtection.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/DataTrace.cpp
@@ -48,6 +50,7 @@ SET(YOUBOT_DRIVER_HEADERS
   EthercatMaster.hpp
   EthercatMasterWithoutThread.hpp
   YouBotGripper.hpp
+  YouBotGripperBar.hpp
   YouBotGripperParameter.hpp
   YouBotBase.hpp
   YouBotManipulator.hpp

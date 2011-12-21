@@ -143,7 +143,7 @@ class YouBotManipulator {
 
     std::vector<YouBotJoint> joints;
 
-    std::vector<YouBotGripper> gripperVector;
+    YouBotGripper* gripper;
 
     int controllerType;
 

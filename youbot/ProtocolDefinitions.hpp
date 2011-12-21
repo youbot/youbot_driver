@@ -167,9 +167,15 @@ enum ParameterType {
   API_PARAMETER
 };
 
-enum BarNumber {
-  BAR_ONE = 0,
-  BAR_TWO = 1
+enum GripperErrorFlags {
+    STALL_GUARD_STATUS = 0x1,
+    GRIPPER_OVER_TEMPERATURE = 0x2,
+    PRE_WARNING_OVER_TEMPERATURE = 0x4,
+    SHORT_TO_GROUND_A = 0x8,
+    SHORT_TO_GROUND_B = 0x10,
+    OPEN_LOAD_A = 0x20,
+    OPEN_LOAD_B = 0x40,
+    STAND_STILL = 0x80
 };
 
 

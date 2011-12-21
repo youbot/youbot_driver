@@ -1,5 +1,5 @@
-#ifndef YOUBOT_ONEDOFGRIPPERDATA_H
-#define YOUBOT_ONEDOFGRIPPERDATA_H
+#ifndef YOUBOT_YOUBOTGRIPPERBAR_H
+#define YOUBOT_YOUBOTGRIPPERBAR_H
 
 /****************************************************************
  *
@@ -51,45 +51,67 @@
  * License LGPL and BSD license along with this program.
  *
  ****************************************************************/
+#include <vector>
+#include <sstream>
+#include "generic/Logger.hpp"
 #include "generic/Units.hpp"
+#include "generic/Time.hpp"
+#include "generic/Exceptions.hpp"
+#include "youbot/ProtocolDefinitions.hpp"
+
+#ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+  #include "youbot/EthercatMasterWithoutThread.hpp"
+#else
+  #include "youbot/EthercatMaster.hpp"
+#endif
+
+#include "youbot/YouBotSlaveMsg.hpp"
+#include "youbot/YouBotSlaveMailboxMsg.hpp"
+#include "generic-gripper/Gripper.hpp"
 #include "generic-gripper/GripperData.hpp"
+#include "generic-gripper/GripperParameter.hpp"
+#include "one-dof-gripper/OneDOFGripper.hpp"
+#include "one-dof-gripper/OneDOFGripperData.hpp"
+#include "youbot/YouBotGripperParameter.hpp"
+
 namespace youbot {
 
 ///////////////////////////////////////////////////////////////////////////////
-/// abstract class of data for gripper with one degree of freedom
+/// One bar of the youBot gripper
 ///////////////////////////////////////////////////////////////////////////////
-class OneDOFGripperData : public GripperData {
-};
-///////////////////////////////////////////////////////////////////////////////
-/// Setpoint length of the bar spacing for a one DOF gripper
-///////////////////////////////////////////////////////////////////////////////
-class GripperBarSpacingSetPoint : public OneDOFGripperData {
+class YouBotGripperBar {
   public:
-    quantity<si::length> barSpacing;
+    YouBotGripperBar(const unsigned int barNo, const unsigned int jointNo, const std::string& configFilePath = "../config/");
 
-};
-///////////////////////////////////////////////////////////////////////////////
-/// The sensed bar spacing for a one DOF gripper
-///////////////////////////////////////////////////////////////////////////////
-class GripperSensedBarSpacing : public OneDOFGripperData {
-  public:
-    quantity<si::length> barSpacing;
+    virtual ~YouBotGripperBar();
 
-};
-///////////////////////////////////////////////////////////////////////////////
-/// The sensed bar velocity for a one DOF gripper
-///////////////////////////////////////////////////////////////////////////////
-class GripperSensedVelocity : public OneDOFGripperData {
-  public:
-    long barVelocity;
+    virtual void getConfigurationParameter(YouBotGripperParameter& parameter);
 
-};
-///////////////////////////////////////////////////////////////////////////////
-/// The encoder setpoint for one bar
-///////////////////////////////////////////////////////////////////////////////
-class GripperBarEncoterSetpoint : public OneDOFGripperData {
-  public:
-    int barEncoder;
+    virtual void setConfigurationParameter(const YouBotGripperParameter& parameter);
+
+    virtual void getConfigurationParameter(YouBotSlaveMailboxMsg& parameter);
+
+    virtual void setData(const GripperBarEncoterSetpoint& encoderSetpoint);
+
+    virtual void getData(GripperSensedVelocity& barVelocity);
+
+
+  private:
+    void parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailboxMsg);
+
+    bool setValueToMotorContoller(const YouBotSlaveMailboxMsg& mailboxMsg);
+
+    bool retrieveValueFromMotorContoller(YouBotSlaveMailboxMsg& message);
+
+    EthercatMaster* ethercatMaster;
+
+    unsigned int timeTillNextMailboxUpdate;
+
+    unsigned int mailboxMsgRetries;
+
+    unsigned int jointNumber;
+
+    unsigned int barNo;
 
 };
 

@@ -284,6 +284,233 @@ void MaxTravelDistance::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message
   // Bouml preserved body end 000BE971
 }
 
+ActualPosition::ActualPosition() {
+  // Bouml preserved body begin 000E10F1
+    this->name = "ActualPosition";
+    this->lowerLimit = INT_MIN;
+    this->upperLimit = INT_MAX;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 000E10F1
+}
+
+ActualPosition::~ActualPosition() {
+  // Bouml preserved body begin 000E1171
+  // Bouml preserved body end 000E1171
+}
+
+void ActualPosition::getParameter(int& parameter) const {
+  // Bouml preserved body begin 000E11F1
+    parameter = this->value;
+  // Bouml preserved body end 000E11F1
+}
+
+void ActualPosition::setParameter(const int parameter) {
+  // Bouml preserved body begin 000E1271
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+  // Bouml preserved body end 000E1271
+}
+
+void ActualPosition::toString(std::string& value) {
+  // Bouml preserved body begin 000E12F1
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 000E12F1
+}
+
+void ActualPosition::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
+  // Bouml preserved body begin 000E1371
+    message.stctOutput.typeNumber = 1;
+    message.stctOutput.value = (uint32)(value * -1);
+
+  // Bouml preserved body end 000E1371
+}
+
+void ActualPosition::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
+  // Bouml preserved body begin 000E13F1
+    this->value = (int32)message.stctInput.value;
+    this->value = this->value * -1;
+  // Bouml preserved body end 000E13F1
+}
+
+PositionSetpoint::PositionSetpoint() {
+  // Bouml preserved body begin 000E19F1
+    this->name = "PositionSetpoint";
+    this->lowerLimit = INT_MIN;
+    this->upperLimit = INT_MAX;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 000E19F1
+}
+
+PositionSetpoint::~PositionSetpoint() {
+  // Bouml preserved body begin 000E1A71
+  // Bouml preserved body end 000E1A71
+}
+
+void PositionSetpoint::getParameter(int& parameter) const {
+  // Bouml preserved body begin 000E1AF1
+    parameter = this->value;
+  // Bouml preserved body end 000E1AF1
+}
+
+void PositionSetpoint::setParameter(const int parameter) {
+  // Bouml preserved body begin 000E1B71
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+  // Bouml preserved body end 000E1B71
+}
+
+void PositionSetpoint::toString(std::string& value) {
+  // Bouml preserved body begin 000E1BF1
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 000E1BF1
+}
+
+void PositionSetpoint::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
+  // Bouml preserved body begin 000E1C71
+
+    message.stctOutput.typeNumber = 0;
+    message.stctOutput.value = (uint32)(value * -1);
+
+  // Bouml preserved body end 000E1C71
+}
+
+void PositionSetpoint::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
+  // Bouml preserved body begin 000E1CF1
+    this->value = (int)message.stctInput.value;
+    this->value = this->value * -1;
+
+  // Bouml preserved body end 000E1CF1
+}
+
+ActualVelocity::ActualVelocity() {
+  // Bouml preserved body begin 000E1571
+    this->name = "ActualVelocity";
+    this->lowerLimit = INT_MIN;
+    this->upperLimit = INT_MAX;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 000E1571
+}
+
+ActualVelocity::~ActualVelocity() {
+  // Bouml preserved body begin 000E15F1
+  // Bouml preserved body end 000E15F1
+}
+
+void ActualVelocity::getParameter(int& parameter) const {
+  // Bouml preserved body begin 000E1671
+    parameter = this->value;
+  // Bouml preserved body end 000E1671
+}
+
+void ActualVelocity::setParameter(const int parameter) {
+  // Bouml preserved body begin 000E16F1
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+  // Bouml preserved body end 000E16F1
+}
+
+void ActualVelocity::toString(std::string& value) {
+  // Bouml preserved body begin 000E1771
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 000E1771
+}
+
+void ActualVelocity::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
+  // Bouml preserved body begin 000E17F1
+
+    message.stctOutput.typeNumber = 3;
+    message.stctOutput.value = (uint32)value;
+
+  // Bouml preserved body end 000E17F1
+}
+
+void ActualVelocity::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
+  // Bouml preserved body begin 000E1871
+    this->value = (int32)message.stctInput.value;
+
+  // Bouml preserved body end 000E1871
+}
+
+VelocitySetpoint::VelocitySetpoint() {
+  // Bouml preserved body begin 000E1E71
+    this->name = "VelocitySetpoint";
+    this->lowerLimit = INT_MIN;
+    this->upperLimit = INT_MAX;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 000E1E71
+}
+
+VelocitySetpoint::~VelocitySetpoint() {
+  // Bouml preserved body begin 000E1EF1
+  // Bouml preserved body end 000E1EF1
+}
+
+void VelocitySetpoint::getParameter(int& parameter) const {
+  // Bouml preserved body begin 000E1F71
+    parameter = this->value;
+  // Bouml preserved body end 000E1F71
+}
+
+void VelocitySetpoint::setParameter(const int parameter) {
+  // Bouml preserved body begin 000E1FF1
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+  // Bouml preserved body end 000E1FF1
+}
+
+void VelocitySetpoint::toString(std::string& value) {
+  // Bouml preserved body begin 000E2071
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 000E2071
+}
+
+void VelocitySetpoint::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
+  // Bouml preserved body begin 000E20F1
+    message.stctOutput.typeNumber = 2;
+    message.stctOutput.value = (uint32)value;
+
+  // Bouml preserved body end 000E20F1
+}
+
+void VelocitySetpoint::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
+  // Bouml preserved body begin 000E2171
+    this->value = (int32)message.stctInput.value;
+
+  // Bouml preserved body end 000E2171
+}
+
 ActualLoadValue::ActualLoadValue() {
   // Bouml preserved body begin 000BBDF1
     this->name = "ActualLoadValue";
@@ -508,7 +735,7 @@ void ChopperHysteresisEnd::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) c
 
 void ChopperHysteresisEnd::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000B6B71
-    this->value = message.stctInput.value;
+    this->value = (int32)message.stctInput.value;
   // Bouml preserved body end 000B6B71
 }
 
@@ -709,8 +936,6 @@ void ErrorFlags::toString(std::string& value) {
 
 void ErrorFlags::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000BC4F1
-
-
 
     message.stctOutput.typeNumber = 208;
     message.stctOutput.value = value;
@@ -2047,18 +2272,14 @@ void StallGuard2Threshold::toString(std::string& value) {
 
 void StallGuard2Threshold::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B8EF1
-
-
-
     message.stctOutput.typeNumber = 174;
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B8EF1
 }
 
 void StallGuard2Threshold::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000B8F71
-    this->value = message.stctInput.value;
+    this->value = (int32)message.stctInput.value;
 
   // Bouml preserved body end 000B8F71
 }

@@ -62,6 +62,7 @@ YouBotManipulator::YouBotManipulator(const std::string name, const std::string c
     filename = name;
     filename.append(".cfg");
 
+    this->gripper = NULL;
     configfile == NULL;
     configfile = new ConfigFile(filename, configFilePath);
 
@@ -74,6 +75,8 @@ YouBotManipulator::~YouBotManipulator() {
   // Bouml preserved body begin 00067FF1
     if (configfile != NULL)
       delete configfile;
+    
+    delete gripper;
   // Bouml preserved body end 00067FF1
 }
 
@@ -340,7 +343,7 @@ void YouBotManipulator::calibrateGripper() {
     configfile->readInto(doCalibration, "Gripper", "DoCalibration");
     CalibrateGripper calibrate;
     calibrate.setParameter(doCalibration);
-    gripperVector[0].setConfigurationParameter(calibrate);
+    gripper->setConfigurationParameter(calibrate);
   // Bouml preserved body end 000A9CF1
 }
 
@@ -358,11 +361,7 @@ YouBotJoint& YouBotManipulator::getArmJoint(const unsigned int armJointNumber) {
 
 YouBotGripper& YouBotManipulator::getArmGripper() {
   // Bouml preserved body begin 0005F9F1
-    if (this->gripperVector.size() >= 1) {
-      return this->gripperVector[0];
-    } else {
-      throw std::out_of_range("There is no Gripper");
-    }
+      return *gripper;
   // Bouml preserved body end 0005F9F1
 }
 
@@ -637,22 +636,30 @@ void YouBotManipulator::initializeJoints() {
     //Initializing Gripper
     // configfile.setSection("JointTopology");
     configfile->readInto(slaveNumber, "JointTopology", "ManipulatorJoint5");
-    this->gripperVector.push_back(YouBotGripper(slaveNumber));
+    this->gripper = new YouBotGripper(slaveNumber);
     BarSpacingOffset barOffest;
     MaxTravelDistance maxDistance;
     MaxEncoderValue maxEncoder;
     double dummy = 0;
+    int controllerType;
+    double firmwareVersion;
+    
+    GripperFirmwareVersion gripperVersion;
+    this->gripper->getConfigurationParameter(gripperVersion);
+    gripperVersion.getParameter(controllerType, firmwareVersion);
+    
+    LOG(info) << "Gripper" << "\t\t Controller Type: " << controllerType << "  Firmware version: " << firmwareVersion;
 
     configfile->readInto(dummy, "Gripper", "BarSpacingOffset_[meter]");
     barOffest.setParameter(dummy * meter);
-    gripperVector[0].setConfigurationParameter(barOffest);
+    this->gripper->setConfigurationParameter(barOffest);
     configfile->readInto(dummy, "Gripper", "MaxTravelDistance_[meter]");
     maxDistance.setParameter(dummy * meter);
-    gripperVector[0].setConfigurationParameter(maxDistance);
+    this->gripper->setConfigurationParameter(maxDistance);
     int maxenc = 0;
     configfile->readInto(maxenc, "Gripper", "MaxEncoderValue");
     maxEncoder.setParameter(maxenc);
-    gripperVector[0].setConfigurationParameter(maxEncoder);
+    this->gripper->setConfigurationParameter(maxEncoder);
 
 
     return;

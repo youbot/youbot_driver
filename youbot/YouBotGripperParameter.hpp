@@ -69,6 +69,7 @@ namespace youbot {
 ///////////////////////////////////////////////////////////////////////////////
 class YouBotGripperParameter : public GripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   protected:
     YouBotGripperParameter();
 
@@ -76,17 +77,17 @@ friend class YouBotGripper;
   public:
     virtual ~YouBotGripperParameter();
 
+    virtual void toString(std::string& value) = 0;
+
+    virtual ::ParameterType getType() const = 0;
+
+    virtual std::string getName() const = 0;
+
 
   protected:
     virtual void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const = 0;
 
     virtual void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) = 0;
-
-    virtual ::ParameterType getType() const = 0;
-
-    virtual void toString(std::string& value) = 0;
-
-    virtual std::string getName() const = 0;
 
     std::string name;
 
@@ -100,6 +101,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class GripperFirmwareVersion : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     GripperFirmwareVersion();
 
@@ -135,6 +137,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class CalibrateGripper : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     CalibrateGripper();
 
@@ -168,6 +171,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class BarSpacingOffset : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     BarSpacingOffset();
 
@@ -201,6 +205,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class MaxEncoderValue : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     MaxEncoderValue();
 
@@ -234,6 +239,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class MaxTravelDistance : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     MaxTravelDistance();
 
@@ -263,12 +269,165 @@ friend class YouBotGripper;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
+/// Acceleration parameter for velocity control and position control
+///////////////////////////////////////////////////////////////////////////////
+class ActualPosition : public YouBotGripperParameter {
+friend class YouBotGripper;
+friend class YouBotGripperBar;
+  public:
+    ActualPosition();
+
+    virtual ~ActualPosition();
+
+    void getParameter(int& parameter) const;
+
+    void setParameter(const int parameter);
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message);
+
+    std::string getName() const {return this->name;};
+
+    ::ParameterType getType() const {return this->parameterType;};
+
+    int upperLimit;
+
+    int lowerLimit;
+
+    int value;
+
+    std::string name;
+
+    ::ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// Acceleration parameter for velocity control and position control
+///////////////////////////////////////////////////////////////////////////////
+class PositionSetpoint : public YouBotGripperParameter {
+friend class YouBotGripper;
+friend class YouBotGripperBar;
+  public:
+    PositionSetpoint();
+
+    virtual ~PositionSetpoint();
+
+    void getParameter(int& parameter) const;
+
+    void setParameter(const int parameter);
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message);
+
+    std::string getName() const {return this->name;};
+
+    ::ParameterType getType() const {return this->parameterType;};
+
+    int upperLimit;
+
+    int lowerLimit;
+
+    int value;
+
+    std::string name;
+
+    ::ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// Acceleration parameter for velocity control and position control
+///////////////////////////////////////////////////////////////////////////////
+class ActualVelocity : public YouBotGripperParameter {
+friend class YouBotGripper;
+friend class YouBotGripperBar;
+  public:
+    ActualVelocity();
+
+    virtual ~ActualVelocity();
+
+    void getParameter(int& parameter) const;
+
+    void setParameter(const int parameter);
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message);
+
+    std::string getName() const {return this->name;};
+
+    ::ParameterType getType() const {return this->parameterType;};
+
+    int upperLimit;
+
+    int lowerLimit;
+
+    int value;
+
+    std::string name;
+
+    ::ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// Acceleration parameter for velocity control and position control
+///////////////////////////////////////////////////////////////////////////////
+class VelocitySetpoint : public YouBotGripperParameter {
+friend class YouBotGripper;
+friend class YouBotGripperBar;
+  public:
+    VelocitySetpoint();
+
+    virtual ~VelocitySetpoint();
+
+    void getParameter(int& parameter) const;
+
+    void setParameter(const int parameter);
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message);
+
+    std::string getName() const {return this->name;};
+
+    ::ParameterType getType() const {return this->parameterType;};
+
+    int upperLimit;
+
+    int lowerLimit;
+
+    int value;
+
+    std::string name;
+
+    ::ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
 /// Readout of the actual load value with used for stall detection (stallGuard2).
 
 
 ///////////////////////////////////////////////////////////////////////////////
 class ActualLoadValue : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     ActualLoadValue();
 
@@ -307,6 +466,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class ChopperBlankTime : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     ChopperBlankTime();
 
@@ -347,6 +507,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class ChopperHysteresisDecrement : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     ChopperHysteresisDecrement();
 
@@ -387,6 +548,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class ChopperHysteresisEnd : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     ChopperHysteresisEnd();
 
@@ -427,6 +589,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class ChopperMode : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     ChopperMode();
 
@@ -464,6 +627,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class ChopperOffTime : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     ChopperOffTime();
 
@@ -504,6 +668,9 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class DoubleStepEnable : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
+
+
   public:
     DoubleStepEnable();
 
@@ -552,6 +719,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class ErrorFlags : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     ErrorFlags();
 
@@ -594,6 +762,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class Freewheeling : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     Freewheeling();
 
@@ -631,6 +800,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class MaximumAcceleration : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     MaximumAcceleration();
 
@@ -669,6 +839,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class MaximumCurrent : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     MaximumCurrent();
 
@@ -706,6 +877,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class MaximumPositioningSpeed : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     MaximumPositioningSpeed();
 
@@ -751,6 +923,8 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class MicrostepResolution : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
+
   public:
     MicrostepResolution();
 
@@ -788,6 +962,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class PowerDownDelay : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     PowerDownDelay();
 
@@ -825,6 +1000,9 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class PulseDivisor : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
+
+
   public:
     PulseDivisor();
 
@@ -862,6 +1040,8 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class RampDivisor : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
+
   public:
     RampDivisor();
 
@@ -901,6 +1081,8 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class RampMode : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
+
   public:
     RampMode();
 
@@ -944,6 +1126,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class ShortDetectionTimer : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     ShortDetectionTimer();
 
@@ -984,6 +1167,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class ShortProtectionDisable : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     ShortProtectionDisable();
 
@@ -1020,6 +1204,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class SlopeControlHighSide : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     SlopeControlHighSide();
 
@@ -1058,6 +1243,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class SlopeControlLowSide : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     SlopeControlLowSide();
 
@@ -1099,6 +1285,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class SmartEnergyActualCurrent : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     SmartEnergyActualCurrent();
 
@@ -1140,6 +1327,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class SmartEnergyCurrentDownStep : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     SmartEnergyCurrentDownStep();
 
@@ -1180,6 +1368,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class SmartEnergyCurrentMinimum : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     SmartEnergyCurrentMinimum();
 
@@ -1221,6 +1410,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class SmartEnergyCurrentUpStep : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     SmartEnergyCurrentUpStep();
 
@@ -1260,6 +1450,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class SmartEnergyHysteresis : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     SmartEnergyHysteresis();
 
@@ -1298,6 +1489,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class SmartEnergyHysteresisStart : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     SmartEnergyHysteresisStart();
 
@@ -1336,6 +1528,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class SmartEnergySlowRunCurrent : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     SmartEnergySlowRunCurrent();
 
@@ -1374,6 +1567,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class SmartEnergyThresholdSpeed : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     SmartEnergyThresholdSpeed();
 
@@ -1413,6 +1607,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class StallGuard2FilterEnable : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     StallGuard2FilterEnable();
 
@@ -1449,6 +1644,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class StallGuard2Threshold : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     StallGuard2Threshold();
 
@@ -1487,6 +1683,8 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class StandbyCurrent : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
+
   public:
     StandbyCurrent();
 
@@ -1527,6 +1725,9 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class StepInterpolationEnable : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
+
+
   public:
     StepInterpolationEnable();
 
@@ -1560,6 +1761,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class StopOnStall : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     StopOnStall();
 
@@ -1598,6 +1800,7 @@ friend class YouBotGripper;
 ///////////////////////////////////////////////////////////////////////////////
 class Vsense : public YouBotGripperParameter {
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   public:
     Vsense();
 

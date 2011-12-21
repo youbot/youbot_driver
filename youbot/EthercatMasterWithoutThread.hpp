@@ -82,6 +82,7 @@ namespace youbot {
 class EthercatMaster {
 friend class YouBotJoint;
 friend class YouBotGripper;
+friend class YouBotGripperBar;
   private:
     static EthercatMaster* instance;
 
