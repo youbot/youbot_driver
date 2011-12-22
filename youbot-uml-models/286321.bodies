@@ -8,6 +8,7 @@ class YouBotManipulator
     filename = name;
     filename.append(".cfg");
 
+    this->gripper = NULL;
     configfile == NULL;
     configfile = new ConfigFile(filename, configFilePath);
 
@@ -16,6 +17,8 @@ class YouBotManipulator
 !!!425969.cpp!!!	~YouBotManipulator()
     if (configfile != NULL)
       delete configfile;
+    
+    delete gripper;
 !!!668529.cpp!!!	doJointCommutation() : void
 
     InitializeJoint doInitialization;
@@ -268,7 +271,7 @@ class YouBotManipulator
     configfile->readInto(doCalibration, "Gripper", "DoCalibration");
     CalibrateGripper calibrate;
     calibrate.setParameter(doCalibration);
-    gripperVector[0].setConfigurationParameter(calibrate);
+    gripper->setConfigurationParameter(calibrate);
 !!!325617.cpp!!!	getArmJoint(in armJointNumber : uint) : YouBotJoint&
 
     if (armJointNumber <= 0 || armJointNumber > ARMJOINTS) {
@@ -276,11 +279,7 @@ class YouBotManipulator
     }
     return joints[armJointNumber - 1];
 !!!391665.cpp!!!	getArmGripper() : YouBotGripper&
-    if (this->gripperVector.size() >= 1) {
-      return this->gripperVector[0];
-    } else {
-      throw std::out_of_range("There is no Gripper");
-    }
+      return *gripper;
 !!!589297.cpp!!!	setJointData(in JointData : std::vector<JointAngleSetpoint>) : void
     if (JointData.size() != ARMJOINTS)
       throw std::out_of_range("Wrong number of JointAngleSetpoints");
@@ -491,22 +490,30 @@ class YouBotManipulator
     //Initializing Gripper
     // configfile.setSection("JointTopology");
     configfile->readInto(slaveNumber, "JointTopology", "ManipulatorJoint5");
-    this->gripperVector.push_back(YouBotGripper(slaveNumber));
+    this->gripper = new YouBotGripper(slaveNumber);
     BarSpacingOffset barOffest;
     MaxTravelDistance maxDistance;
     MaxEncoderValue maxEncoder;
     double dummy = 0;
+    int controllerType;
+    double firmwareVersion;
+    
+    GripperFirmwareVersion gripperVersion;
+    this->gripper->getConfigurationParameter(gripperVersion);
+    gripperVersion.getParameter(controllerType, firmwareVersion);
+    
+    LOG(info) << "Gripper" << "\t\t Controller Type: " << controllerType << "  Firmware version: " << firmwareVersion;
 
     configfile->readInto(dummy, "Gripper", "BarSpacingOffset_[meter]");
     barOffest.setParameter(dummy * meter);
-    gripperVector[0].setConfigurationParameter(barOffest);
+    this->gripper->setConfigurationParameter(barOffest);
     configfile->readInto(dummy, "Gripper", "MaxTravelDistance_[meter]");
     maxDistance.setParameter(dummy * meter);
-    gripperVector[0].setConfigurationParameter(maxDistance);
+    this->gripper->setConfigurationParameter(maxDistance);
     int maxenc = 0;
     configfile->readInto(maxenc, "Gripper", "MaxEncoderValue");
     maxEncoder.setParameter(maxenc);
-    gripperVector[0].setConfigurationParameter(maxEncoder);
+    this->gripper->setConfigurationParameter(maxEncoder);
 
 
     return;

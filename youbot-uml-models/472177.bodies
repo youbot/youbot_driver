@@ -1,0 +1,28 @@
+class ActualPosition
+!!!921841.cpp!!!	ActualPosition()
+    this->name = "ActualPosition";
+    this->lowerLimit = INT_MIN;
+    this->upperLimit = INT_MAX;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!922097.cpp!!!	getParameter(out parameter : int) : void
+    parameter = this->value;
+!!!922225.cpp!!!	setParameter(in parameter : int) : void
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+!!!922353.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+!!!922481.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
+    message.stctOutput.typeNumber = 1;
+    message.stctOutput.value = (uint32)(value * -1);
+
+!!!922609.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
+    this->value = (int32)message.stctInput.value;
+    this->value = this->value * -1;

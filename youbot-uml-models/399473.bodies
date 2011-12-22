@@ -13,8 +13,6 @@ class ErrorFlags
   value  = ss.str();
 !!!771313.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
 
-
-
     message.stctOutput.typeNumber = 208;
     message.stctOutput.value = value;
 

@@ -1,12 +1,12 @@
-window_sizes 1680 976 398 1276 895 0
+window_sizes 1672 973 448 1218 890 0
 diagrams
-  active  classdiagram_ref 141681 // JointParameter
-    1276 895 100 1 144 0
+  active  activitydiagram_ref 194801 // ArmActivityDiagram
+    1226 895 100 4 0 0
 end
 show_stereotypes
-selected artifact_ref 248177 // DataTrace
+selected operation_ref 932849 // open
 open
-  classview_ref 160881 // YouBot
-  deploymentview_ref 161137 // Deployment
+  operation_ref 932977 // closeUntilMaxForce
+  attribute_ref 791153 // bar2
 end
 end

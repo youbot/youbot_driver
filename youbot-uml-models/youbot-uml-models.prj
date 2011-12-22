@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 207
+  revision 210
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -22061,7 +22061,8 @@ ${inlines}
       extra_member 128881 "friend"
 	
 	cpp "friend class YouBotJoint;
-friend class YouBotGripper;" ""
+friend class YouBotGripper;
+friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -23191,8 +23192,8 @@ ${inlines}
 	idl_decl ""
       end
 
-      attribute 387825 "gripperVector"
-	private explicit_type "std::vector<YouBotGripper>"
+      attribute 387825 "gripper"
+	private explicit_type "YouBotGripper*"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -24321,6 +24322,192 @@ ${inlines}
 	idl_decl ""
       end
     end
+
+    activity 128369 "BaseWorkSequence"
+      activitydiagram 194545 "ActivityDiagram"
+	package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations no shadow default
+	show_infonote default drawing_language default show_stereotype_properties default
+	size A4
+      end
+
+      activitynode 128113 initial_node ""
+	flow 129905 "<flow>"
+	  on activityaction_ref 128753 // activity action instanciade YouBotBase Class
+	end
+      end
+
+      activitynode 128241 activity_final ""
+      end
+
+      activityaction 128113 "instanciade YouBotBase Class"
+	opaque_action
+      end
+
+      activityaction 128241 "destroy YouBotBase class"
+	opaque_action
+	flow 130033 "<flow>"
+	  on activitynode_ref 128241 // activity_final
+	end
+      end
+
+      activityaction 128369 "configure youBot"
+	opaque_action
+	flow 129393 "<flow>"
+	  on activityaction_ref 128241 // activity action destroy YouBotBase class
+	end
+      end
+
+      activityaction 128497 "commutade youBot motors"
+	opaque_action
+	flow 129265 "<flow>"
+	  on activityaction_ref 128881 // activity action set / get joint process data
+	end
+      end
+
+      activityaction 128753 "instanciade YouBotBase Class"
+	opaque_action
+	flow 128881 "<flow>"
+	  on activitynode_ref 128753 // fork
+	end
+      end
+
+      activitynode 128753 fork ""
+	flow 129009 "<flow>"
+	  on activityaction_ref 128497 // activity action commutade youBot motors
+	end
+
+	flow 129137 "<flow>"
+	  on activityaction_ref 128369 // activity action configure youBot
+	end
+      end
+
+      activityaction 128881 "set / get joint process data"
+	opaque_action
+	flow 129521 "<flow>"
+	  on activityaction_ref 128241 // activity action destroy YouBotBase class
+	end
+      end
+    end
+
+    activity 128625 "commutade youBot motors"
+      activityaction 128625 "reset motor controller timeout"
+	opaque_action
+	flow 129649 "<flow>"
+	  on activityaction_ref 129009 // activity action commutade youBot motors
+	end
+      end
+
+      activitynode 128625 initial_node ""
+	flow 128753 "<flow>"
+	  on activityaction_ref 128625 // activity action reset motor controller timeout
+	end
+      end
+
+      activitynode 128881 activity_final ""
+      end
+
+      activityaction 129009 "commutade youBot motors"
+	opaque_action
+	flow 129777 "<flow>"
+	  on activitynode_ref 128881 // activity_final
+	end
+      end
+    end
+
+    activity 128753 "ArmWorkSequence"
+      activitydiagram 194801 "ArmActivityDiagram"
+	package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+	show_infonote default drawing_language default show_stereotype_properties default
+	size A4
+      end
+
+      activityaction 129137 "destroy YouBotManipulator class"
+	opaque_action
+	flow 130929 "<flow>"
+	  on activitynode_ref 129137 // activity_final
+	end
+      end
+
+      activityaction 129265 "set / get joint process data"
+	opaque_action
+	flow 130673 "<flow>"
+	  on activityaction_ref 129137 // activity action destroy YouBotManipulator class
+	end
+      end
+
+      activityaction 129393 "commutade youBot motors"
+	opaque_action
+	flow 131057 "<flow>"
+	  on activityaction_ref 129777 // activity action calibrate manipulator
+	end
+      end
+
+      activityaction 129521 "configure youBot"
+	opaque_action
+	flow 130801 "<flow>"
+	  on activityaction_ref 129137 // activity action destroy YouBotManipulator class
+	end
+      end
+
+      activityaction 129649 "instanciade YouBotManipulator class"
+	opaque_action
+	flow 130289 "<flow>"
+	  on activityaction_ref 129393 // activity action commutade youBot motors
+	end
+
+	flow 130417 "<flow>"
+	  on activityaction_ref 129521 // activity action configure youBot
+	end
+      end
+
+      activitynode 129009 initial_node ""
+	flow 130161 "<flow>"
+	  on activityaction_ref 129649 // activity action instanciade YouBotManipulator class
+	end
+      end
+
+      activitynode 129137 activity_final ""
+      end
+
+      activityaction 129777 "calibrate manipulator"
+	opaque_action
+	flow 131185 "<flow>"
+	  on activityaction_ref 129265 // activity action set / get joint process data
+	end
+      end
+    end
+
+    activity 129009 "instanciade YouBotManipulator class"
+      activitynode 129265 initial_node ""
+	flow 131313 "<flow>"
+	  on activityaction_ref 129905 // activity action initialize EtherCAT
+	end
+      end
+
+      activityaction 129905 "initialize EtherCAT"
+	opaque_action
+	flow 131441 "<flow>"
+	  on activityaction_ref 130033 // activity action set EtherCAT slave to operation mode
+	end
+      end
+
+      activityaction 130033 "set EtherCAT slave to operation mode"
+	opaque_action
+	flow 131569 "<flow>"
+	  on activityaction_ref 130161 // activity action instanciade YouBotJoint classes
+	end
+      end
+
+      activityaction 130161 "instanciade YouBotJoint classes"
+	opaque_action
+	flow 131697 "<flow>"
+	  on activitynode_ref 129393 // activity_final
+	end
+      end
+
+      activitynode 129393 activity_final ""
+      end
+    end
   end
 
   classview 187121 "EthercatMasterWithoutThread"
@@ -24359,7 +24546,8 @@ ${inlines}
       extra_member 217585 "friend"
 	
 	cpp "friend class YouBotJoint;
-friend class YouBotGripper;" ""
+friend class YouBotGripper;
+friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -25682,7 +25870,7 @@ ${inlines}
       end
 
       operation 389233 "~YouBotGripper"
-	cpp_virtual public explicit_return_type ""
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
 "
@@ -25726,7 +25914,7 @@ ${inlines}
       end
 
       operation 782193 "getConfigurationParameter"
-	preserve_cpp_body_indent public explicit_return_type "void"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param out name "parameter" type class_ref 406129 // GripperFirmwareVersion
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
@@ -25740,40 +25928,8 @@ ${inlines}
 	
       end
 
-      operation 295665 "getConfigurationParameter"
-	preserve_cpp_body_indent public explicit_return_type "void"
-	nparams 2
-	  param out name "parameter" type class_ref 258929 // YouBotGripperParameter
-	  param in name "barNumber" explicit_type "BarNumber"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 399345 "setConfigurationParameter"
-	preserve_cpp_body_indent public explicit_return_type "void"
-	nparams 2
-	  param in name "parameter" type class_ref 258929 // YouBotGripperParameter
-	  param in name "barNumber" explicit_type "BarNumber"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
       operation 295537 "setConfigurationParameter"
-	preserve_cpp_body_indent public explicit_return_type "void"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "parameter" type class_ref 259057 // CalibrateGripper
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
@@ -25788,7 +25944,7 @@ ${inlines}
       end
 
       operation 399473 "setConfigurationParameter"
-	preserve_cpp_body_indent public explicit_return_type "void"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "parameter" type class_ref 259441 // BarSpacingOffset
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
@@ -25803,7 +25959,7 @@ ${inlines}
       end
 
       operation 882545 "getConfigurationParameter"
-	preserve_cpp_body_indent public explicit_return_type "void"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param out name "parameter" type class_ref 259441 // BarSpacingOffset
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
@@ -25818,7 +25974,7 @@ ${inlines}
       end
 
       operation 400881 "setConfigurationParameter"
-	preserve_cpp_body_indent public explicit_return_type "void"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "parameter" type class_ref 265969 // MaxTravelDistance
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
@@ -25833,7 +25989,7 @@ ${inlines}
       end
 
       operation 882673 "getConfigurationParameter"
-	preserve_cpp_body_indent public explicit_return_type "void"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param out name "parameter" type class_ref 265969 // MaxTravelDistance
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
@@ -25848,7 +26004,7 @@ ${inlines}
       end
 
       operation 401009 "setConfigurationParameter"
-	preserve_cpp_body_indent public explicit_return_type "void"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "parameter" type class_ref 266097 // MaxEncoderValue
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
@@ -25863,7 +26019,7 @@ ${inlines}
       end
 
       operation 882801 "getConfigurationParameter"
-	preserve_cpp_body_indent public explicit_return_type "void"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param out name "parameter" type class_ref 266097 // MaxEncoderValue
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
@@ -25877,8 +26033,23 @@ ${inlines}
 	
       end
 
+      operation 911729 "getConfigurationParameter"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param inout name "parameter" explicit_type "YouBotSlaveMailboxMsg"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
       operation 392049 "getData"
-	preserve_cpp_body_indent protected explicit_return_type "void"
+	preserve_cpp_body_indent cpp_virtual protected explicit_return_type "void"
 	nparams 1
 	  param in name "data" type class_ref 217841 // GripperData
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
@@ -25908,7 +26079,7 @@ ${inlines}
       end
 
       operation 295921 "getData"
-	preserve_cpp_body_indent protected explicit_return_type "void"
+	preserve_cpp_body_indent cpp_virtual protected explicit_return_type "void"
 	nparams 1
 	  param out name "data" type class_ref 218097 // OneDOFGripperData
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
@@ -25923,7 +26094,7 @@ ${inlines}
       end
 
       operation 295793 "setData"
-	preserve_cpp_body_indent protected explicit_return_type "void"
+	preserve_cpp_body_indent cpp_virtual protected explicit_return_type "void"
 	nparams 1
 	  param in name "data" type class_ref 218097 // OneDOFGripperData
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
@@ -25938,7 +26109,7 @@ ${inlines}
       end
 
       operation 391409 "setData"
-	preserve_cpp_body_indent public explicit_return_type "void"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param in name "barSpacing" type class_ref 259313 // GripperBarSpacingSetPoint
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
@@ -25953,12 +26124,68 @@ ${inlines}
       end
 
       operation 391537 "getData"
-	preserve_cpp_body_indent public explicit_return_type "void"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 1
-	  param out name "barSpacing" type class_ref 259313 // GripperBarSpacingSetPoint
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+	  param out name "barSpacing" type class_ref 465393 // GripperSensedBarSpacing
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 932849 "open"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 932977 "closeUntilMaxForce"
+	preserve_cpp_body_indent public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 921585 "getGripperBar1"
+	preserve_cpp_body_indent public explicit_return_type "YouBotGripperBar&"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 921713 "getGripperBar2"
+	preserve_cpp_body_indent public explicit_return_type "YouBotGripperBar&"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
 "
 	preserve_java_body_indent 
@@ -25983,7 +26210,7 @@ ${inlines}
       end
 
       operation 388977 "setValueToMotorContoller"
-	preserve_cpp_body_indent public explicit_return_type "bool"
+	preserve_cpp_body_indent private explicit_return_type "bool"
 	nparams 1
 	  param in name "mailboxMsg" explicit_type "YouBotSlaveMailboxMsg"
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
@@ -25998,7 +26225,7 @@ ${inlines}
       end
 
       operation 388849 "retrieveValueFromMotorContoller"
-	preserve_cpp_body_indent public explicit_return_type "bool"
+	preserve_cpp_body_indent private explicit_return_type "bool"
 	nparams 1
 	  param out name "message" explicit_type "YouBotSlaveMailboxMsg"
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
@@ -26090,8 +26317,18 @@ ${inlines}
 	idl_decl ""
       end
 
-      attribute 394993 "lastGripperPosition"
-	private explicit_type "quantity<si::length>"
+      attribute 791025 "bar1"
+	private explicit_type "YouBotGripperBar*"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 791153 "bar2"
+	private explicit_type "YouBotGripperBar*"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -26127,6 +26364,330 @@ ${inlines}
 
       attribute 387697 "barSpacing"
 	public explicit_type "quantity<si::length>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+    end
+
+    class 465393 "GripperSensedBarSpacing"
+      visibility package 
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/// The sensed bar spacing for a one DOF gripper"
+      classrelation 435697 // <generalisation>
+	relation 435697 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 435697 // <generalisation>
+	  b parent class_ref 218097 // OneDOFGripperData
+      end
+
+      attribute 783345 "barSpacing"
+	public explicit_type "quantity<si::length>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+    end
+
+    class 465521 "GripperSensedVelocity"
+      visibility package 
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/// The sensed bar velocity for a one DOF gripper"
+      classrelation 435825 // <generalisation>
+	relation 435825 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 435825 // <generalisation>
+	  b parent class_ref 218097 // OneDOFGripperData
+      end
+
+      attribute 783473 "barVelocity"
+	public explicit_type "long"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+    end
+
+    class 472689 "GripperBarEncoterSetpoint"
+      visibility package 
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/// The encoder setpoint for one bar"
+      classrelation 442993 // <generalisation>
+	relation 442993 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 442993 // <generalisation>
+	  b parent class_ref 218097 // OneDOFGripperData
+      end
+
+      attribute 793969 "barEncoder"
+	public explicit_type "int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+    end
+
+    class 472049 "YouBotGripperBar"
+      visibility package 
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/// One bar of the youBot gripper"
+      operation 918385 "YouBotGripperBar"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 3
+	  param in name "barNo" explicit_type "uint"
+	  param in name "jointNo" explicit_type "uint"
+	  param in name "configFilePath" explicit_type "std::string"
+	    defaultvalue "\"../config/\""
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0} ${p0}, const ${t1} ${p1}${v1}, const ${t2}& ${p2}${v2}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}const ${t0} ${p0}, const ${t1} ${p1}, const ${t2}& ${p2}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 918513 "~YouBotGripperBar"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 919025 "getConfigurationParameter"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "parameter" type class_ref 258929 // YouBotGripperParameter
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 919153 "setConfigurationParameter"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param in name "parameter" type class_ref 258929 // YouBotGripperParameter
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 920177 "getConfigurationParameter"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param inout name "parameter" explicit_type "YouBotSlaveMailboxMsg"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 920817 "setData"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param in name "encoderSetpoint" type class_ref 472689 // GripperBarEncoterSetpoint
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 921073 "getData"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "barVelocity" type class_ref 465521 // GripperSensedVelocity
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 921201 "parseMailboxStatusFlags"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 1
+	  param in name "mailboxMsg" explicit_type "YouBotSlaveMailboxMsg"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 921329 "setValueToMotorContoller"
+	preserve_cpp_body_indent private explicit_return_type "bool"
+	nparams 1
+	  param in name "mailboxMsg" explicit_type "YouBotSlaveMailboxMsg"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 921457 "retrieveValueFromMotorContoller"
+	preserve_cpp_body_indent private explicit_return_type "bool"
+	nparams 1
+	  param out name "message" explicit_type "YouBotSlaveMailboxMsg"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      attribute 790001 "ethercatMaster"
+	private explicit_type "EthercatMaster*"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 790129 "timeTillNextMailboxUpdate"
+	private explicit_type "uint"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 790257 "mailboxMsgRetries"
+	private explicit_type "uint"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 790385 "jointNumber"
+	private explicit_type "uint"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 791281 "barNo"
+	private explicit_type "uint"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -26196,7 +26757,17 @@ ${inlines}
       comment "/// abstract youBot gripper parameter"
       extra_member 128241 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 243825 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -26231,6 +26802,40 @@ ${inlines}
 	
       end
 
+      operation 651249 "toString"
+	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "value" explicit_type "std::string"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 772977 "getType"
+	abstract preserve_cpp_body_indent const cpp_virtual public return_type class_ref 210929 // ParameterType
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 389873 "getName"
+	abstract preserve_cpp_body_indent const cpp_virtual public explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
       operation 723953 "getYouBotMailboxMsg"
 	abstract preserve_cpp_body_indent const cpp_virtual protected explicit_return_type "void"
 	nparams 1
@@ -26248,40 +26853,6 @@ ${inlines}
 	nparams 1
 	  param in name "message" explicit_type "YouBotSlaveMailboxMsg"
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 772977 "getType"
-	abstract preserve_cpp_body_indent const cpp_virtual protected return_type class_ref 210929 // ParameterType
-	nparams 0
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 651249 "toString"
-	abstract preserve_cpp_body_indent cpp_virtual protected explicit_return_type "void"
-	nparams 1
-	  param out name "value" explicit_type "std::string"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 389873 "getName"
-	abstract preserve_cpp_body_indent const cpp_virtual protected explicit_return_type "string"
-	nparams 0
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
 	preserve_java_body_indent 
 	preserve_php_body_indent 
@@ -26336,7 +26907,17 @@ ${inlines}
       comment "/// the firmware version of the gripper"
       extra_member 197745 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 243953 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -26537,7 +27118,17 @@ ${inlines}
       comment "/// Calibrate the gripper"
       extra_member 128497 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 244081 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -26726,7 +27317,17 @@ ${inlines}
       comment "/// The maximum bar spacing distance of the gripper"
       extra_member 128113 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 244209 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -26915,7 +27516,17 @@ ${inlines}
       comment "/// The encoder value when the gripper has reached it's maximum bar spacing position"
       extra_member 128369 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 244337 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -27104,7 +27715,17 @@ ${inlines}
       comment "/// Represents a bar spacing offset. It could be useful if the gripper can not be totally closed."
       extra_member 128625 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 244465 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -27275,6 +27896,882 @@ ${inlines}
       end
     end
 
+    class 472177 "ActualPosition"
+      visibility package 
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/// Acceleration parameter for velocity control and position control"
+      extra_member 249073 "friend class YouBotGripper;"
+	
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 249201 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      operation 921841 "ActualPosition"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 921969 "~ActualPosition"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 922097 "getParameter"
+	preserve_cpp_body_indent const public explicit_return_type "void"
+	nparams 1
+	  param out name "parameter" explicit_type "int"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 922225 "setParameter"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param in name "parameter" explicit_type "int"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 922353 "toString"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param out name "value" explicit_type "std::string"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 922481 "getYouBotMailboxMsg"
+	preserve_cpp_body_indent const private explicit_return_type "void"
+	nparams 1
+	  param out name "message" explicit_type "YouBotSlaveMailboxMsg"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 922609 "setYouBotMailboxMsg"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 1
+	  param in name "message" explicit_type "YouBotSlaveMailboxMsg"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 922737 "getName"
+	preserve_cpp_body_indent const private explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->name;};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 922865 "getType"
+	preserve_cpp_body_indent const private return_type class_ref 210929 // ParameterType
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->parameterType;};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      attribute 791409 "upperLimit"
+	private explicit_type "int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 791537 "lowerLimit"
+	private explicit_type "int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 791665 "value"
+	private explicit_type "int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 791793 "name"
+	private explicit_type "string"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 791921 "parameterType"
+	private type class_ref 210929 // ParameterType
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      classrelation 442481 // <generalisation>
+	relation 442481 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 442481 // <generalisation>
+	  b parent class_ref 258929 // YouBotGripperParameter
+      end
+    end
+
+    class 472433 "PositionSetpoint"
+      visibility package 
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/// Acceleration parameter for velocity control and position control"
+      extra_member 249585 "friend class YouBotGripper;"
+	
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 249713 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      operation 924145 "PositionSetpoint"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 924273 "~PositionSetpoint"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 924401 "getParameter"
+	preserve_cpp_body_indent const public explicit_return_type "void"
+	nparams 1
+	  param out name "parameter" explicit_type "int"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 924529 "setParameter"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param in name "parameter" explicit_type "int"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 924657 "toString"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param out name "value" explicit_type "std::string"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 924785 "getYouBotMailboxMsg"
+	preserve_cpp_body_indent const private explicit_return_type "void"
+	nparams 1
+	  param out name "message" explicit_type "YouBotSlaveMailboxMsg"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 924913 "setYouBotMailboxMsg"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 1
+	  param in name "message" explicit_type "YouBotSlaveMailboxMsg"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 925041 "getName"
+	preserve_cpp_body_indent const private explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->name;};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 925169 "getType"
+	preserve_cpp_body_indent const private return_type class_ref 210929 // ParameterType
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->parameterType;};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      attribute 792689 "upperLimit"
+	private explicit_type "int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 792817 "lowerLimit"
+	private explicit_type "int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 792945 "value"
+	private explicit_type "int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 793073 "name"
+	private explicit_type "string"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 793201 "parameterType"
+	private type class_ref 210929 // ParameterType
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      classrelation 442737 // <generalisation>
+	relation 442737 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 442737 // <generalisation>
+	  b parent class_ref 258929 // YouBotGripperParameter
+      end
+    end
+
+    class 472305 "ActualVelocity"
+      visibility package 
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/// Acceleration parameter for velocity control and position control"
+      extra_member 249329 "friend class YouBotGripper;"
+	
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 249457 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      operation 922993 "ActualVelocity"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 923121 "~ActualVelocity"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 923249 "getParameter"
+	preserve_cpp_body_indent const public explicit_return_type "void"
+	nparams 1
+	  param out name "parameter" explicit_type "int"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 923377 "setParameter"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param in name "parameter" explicit_type "int"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 923505 "toString"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param out name "value" explicit_type "std::string"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 923633 "getYouBotMailboxMsg"
+	preserve_cpp_body_indent const private explicit_return_type "void"
+	nparams 1
+	  param out name "message" explicit_type "YouBotSlaveMailboxMsg"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 923761 "setYouBotMailboxMsg"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 1
+	  param in name "message" explicit_type "YouBotSlaveMailboxMsg"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 923889 "getName"
+	preserve_cpp_body_indent const private explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->name;};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 924017 "getType"
+	preserve_cpp_body_indent const private return_type class_ref 210929 // ParameterType
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->parameterType;};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      attribute 792049 "upperLimit"
+	private explicit_type "int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 792177 "lowerLimit"
+	private explicit_type "int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 792305 "value"
+	private explicit_type "int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 792433 "name"
+	private explicit_type "string"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 792561 "parameterType"
+	private type class_ref 210929 // ParameterType
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      classrelation 442609 // <generalisation>
+	relation 442609 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 442609 // <generalisation>
+	  b parent class_ref 258929 // YouBotGripperParameter
+      end
+    end
+
+    class 472561 "VelocitySetpoint"
+      visibility package 
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/// Acceleration parameter for velocity control and position control"
+      extra_member 249841 "friend class YouBotGripper;"
+	
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 249969 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      operation 925297 "VelocitySetpoint"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 925425 "~VelocitySetpoint"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 925553 "getParameter"
+	preserve_cpp_body_indent const public explicit_return_type "void"
+	nparams 1
+	  param out name "parameter" explicit_type "int"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 925681 "setParameter"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param in name "parameter" explicit_type "int"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 925809 "toString"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param out name "value" explicit_type "std::string"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 925937 "getYouBotMailboxMsg"
+	preserve_cpp_body_indent const private explicit_return_type "void"
+	nparams 1
+	  param out name "message" explicit_type "YouBotSlaveMailboxMsg"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 926065 "setYouBotMailboxMsg"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 1
+	  param in name "message" explicit_type "YouBotSlaveMailboxMsg"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 926193 "getName"
+	preserve_cpp_body_indent const private explicit_return_type "string"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->name;};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 926321 "getType"
+	preserve_cpp_body_indent const private return_type class_ref 210929 // ParameterType
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->parameterType;};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      attribute 793329 "upperLimit"
+	private explicit_type "int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 793457 "lowerLimit"
+	private explicit_type "int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 793585 "value"
+	private explicit_type "int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 793713 "name"
+	private explicit_type "string"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 793841 "parameterType"
+	private type class_ref 210929 // ParameterType
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      classrelation 442865 // <generalisation>
+	relation 442865 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 442865 // <generalisation>
+	  b parent class_ref 258929 // YouBotGripperParameter
+      end
+    end
+
     class 395249 "MaximumPositioningSpeed"
       visibility package 
       cpp_decl "///////////////////////////////////////////////////////////////////////////////
@@ -27291,9 +28788,19 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// The limit for acceleration (and deceleration). Changing this parameter requires re-calculation of the acceleration factor (no. 146) and the acceleration divisor (no. 137), which is done automatically."
-      extra_member 186865 "friend class YouBotJGripper;"
+      extra_member 186865 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 244593 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -27502,7 +29009,17 @@ ${inlines}
       comment "/// Acceleration parameter for velocity control and position control"
       extra_member 186993 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 244721 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -27712,7 +29229,17 @@ ${inlines}
 "
       extra_member 187121 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 244849 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -27922,7 +29449,18 @@ ${inlines}
 "
       extra_member 187249 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 244977 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;
+" ""
 	java ""
 	php ""
 	python ""
@@ -28133,7 +29671,18 @@ ${inlines}
 /// 2: velocity mode. The motor will run continuously and the speed will be changed with constant (maximum) acceleration, if the parameter target speed is changed. For special purposes, the soft mode (value 1) with exponential decrease of speed can be selected."
       extra_member 187377 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 245105 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;
+" ""
 	java ""
 	php ""
 	python ""
@@ -28350,7 +29899,18 @@ ${inlines}
 /// 8: 256 microsteps"
       extra_member 187505 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 245233 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;
+" ""
 	java ""
 	php ""
 	python ""
@@ -28559,7 +30119,18 @@ ${inlines}
       comment "/// The exponent of the scaling factor for the ramp generator- should be de/incremented carefully (in steps of one)."
       extra_member 187633 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 245361 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;
+" ""
 	java ""
 	php ""
 	python ""
@@ -28768,7 +30339,19 @@ ${inlines}
       comment "/// The exponent of the scaling factor for the pulse (step) generator   should be de/incremented carefully (in steps of one)."
       extra_member 187761 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 245489 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;
+
+" ""
 	java ""
 	php ""
 	python ""
@@ -28980,7 +30563,19 @@ ${inlines}
 "
       extra_member 187889 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 245617 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;
+
+" ""
 	java ""
 	php ""
 	python ""
@@ -29172,7 +30767,19 @@ ${inlines}
 "
       extra_member 188017 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 245745 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;
+
+" ""
 	java ""
 	php ""
 	python ""
@@ -29362,7 +30969,17 @@ ${inlines}
 "
       extra_member 188145 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 245873 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -29574,7 +31191,17 @@ ${inlines}
 "
       extra_member 188273 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 246001 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -29766,7 +31393,17 @@ ${inlines}
 "
       extra_member 188401 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 246129 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -29978,7 +31615,17 @@ ${inlines}
 ///  1... 12 positive hysteresis end setting"
       extra_member 188529 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 246257 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -30191,7 +31838,17 @@ ${inlines}
 "
       extra_member 188657 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 246385 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -30403,7 +32060,17 @@ ${inlines}
 /// 1   1/4 of CS"
       extra_member 188785 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 246513 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -30616,7 +32283,17 @@ ${inlines}
 /// 3: fast decrement"
       extra_member 188913 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 246641 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -30827,7 +32504,17 @@ ${inlines}
 /// Upper stallGuard2 threshold: (smartEnergy hysteresis start + smartEnergy hysteresis + 1) * 32"
       extra_member 189041 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 246769 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -31040,7 +32727,17 @@ ${inlines}
 "
       extra_member 189169 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 246897 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -31250,7 +32947,17 @@ ${inlines}
 "
       extra_member 189297 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 247025 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -31461,7 +33168,17 @@ ${inlines}
 /// 1   filtered mode"
       extra_member 189425 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 247153 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -31653,7 +33370,17 @@ ${inlines}
 /// -1... -64 higher sensitivity"
       extra_member 189553 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 247281 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -31865,7 +33592,17 @@ ${inlines}
 "
       extra_member 189681 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 247409 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -32075,7 +33812,17 @@ ${inlines}
 "
       extra_member 189809 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 247537 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -32287,7 +34034,17 @@ ${inlines}
 "
       extra_member 189937 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 247665 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -32482,7 +34239,17 @@ ${inlines}
 "
       extra_member 190065 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 247793 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -32696,7 +34463,17 @@ ${inlines}
 "
       extra_member 190193 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 247921 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -32909,7 +34686,17 @@ ${inlines}
 "
       extra_member 190321 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 248049 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -33118,7 +34905,17 @@ ${inlines}
       comment "/// Motor stop in case of stall."
       extra_member 190449 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 248177 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -33308,7 +35105,17 @@ ${inlines}
 "
       extra_member 190577 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 248305 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -33518,7 +35325,17 @@ ${inlines}
 "
       extra_member 190705 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 248433 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -33732,7 +35549,17 @@ ${inlines}
 "
       extra_member 190833 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 248561 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -33943,7 +35770,17 @@ ${inlines}
 "
       extra_member 190961 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 248689 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -34167,7 +36004,17 @@ ${inlines}
 /// (1: No step impulse occurred on the step input during the last 2^20 clock cycles)"
       extra_member 191089 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 248817 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""
@@ -34376,7 +36223,17 @@ ${inlines}
       comment "/// Standstill period before the current is changed down to standby current. The standard value is 200 (value equates 2000msec)."
       extra_member 191217 "friend class YouBotGripper;"
 	
-	cpp "friend class YouBotGripper;" ""
+	cpp "friend class YouBotGripper;
+" ""
+	java ""
+	php ""
+	python ""
+	idl ""
+      end
+
+      extra_member 248945 "friend class YouBotGripperBar"
+	
+	cpp "friend class YouBotGripperBar;" ""
 	java ""
 	php ""
 	python ""

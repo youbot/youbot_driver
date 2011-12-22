@@ -1,74 +1,12 @@
-/****************************************************************
- *
- * Copyright (c) 2011
- * All rights reserved.
- *
- * Hochschule Bonn-Rhein-Sieg
- * University of Applied Sciences
- * Computer Science Department
- *
- * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- *
- * Author:
- * Jan Paulus, Nico Hochgeschwender, Michael Reckhaus, Azamat Shakhimardanov
- * Supervised by:
- * Gerhard K. Kraetzschmar
- *
- * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- *
- * This sofware is published under a dual-license: GNU Lesser General Public 
- * License LGPL 2.1 and BSD license. The dual-license implies that users of this
- * code may choose which terms they prefer.
- *
- * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Hochschule Bonn-Rhein-Sieg nor the names of its
- *       contributors may be used to endorse or promote products derived from
- *       this software without specific prior written permission.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License LGPL as
- * published by the Free Software Foundation, either version 2.1 of the
- * License, or (at your option) any later version or the BSD license.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License LGPL and the BSD license for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License LGPL and BSD license along with this program.
- *
- ****************************************************************/
-#include "youbot/YouBotGripperBar.hpp"
-namespace youbot {
-
-YouBotGripperBar::YouBotGripperBar(const unsigned int barNo, const unsigned int jointNo, const std::string& configFilePath) {
-  // Bouml preserved body begin 000E0371
+class YouBotGripperBar
+!!!918385.cpp!!!	YouBotGripperBar(in barNo : uint, in jointNo : uint, in configFilePath : std::string = "../config/")
     this->jointNumber = jointNo;
     this->mailboxMsgRetries = 200;
     this->timeTillNextMailboxUpdate = 1; //ms
     this->barNo = barNo;
 
     ethercatMaster = &(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath));
-  // Bouml preserved body end 000E0371
-}
-
-YouBotGripperBar::~YouBotGripperBar() {
-  // Bouml preserved body begin 000E03F1
-  // Bouml preserved body end 000E03F1
-}
-
-void YouBotGripperBar::getConfigurationParameter(YouBotGripperParameter& parameter) {
-  // Bouml preserved body begin 000E05F1
+!!!919025.cpp!!!	getConfigurationParameter(out parameter : YouBotGripperParameter) : void
   
   if (parameter.getType() == MOTOR_CONTOLLER_PARAMETER) {
 
@@ -87,11 +25,7 @@ void YouBotGripperBar::getConfigurationParameter(YouBotGripperParameter& paramet
     }else{
       throw JointParameterException("Parameter " + parameter.getName() + " is not a motor controller parameter of the gripper");
     }
-  // Bouml preserved body end 000E05F1
-}
-
-void YouBotGripperBar::setConfigurationParameter(const YouBotGripperParameter& parameter) {
-  // Bouml preserved body begin 000E0671
+!!!919153.cpp!!!	setConfigurationParameter(in parameter : YouBotGripperParameter) : void
    if (parameter.getType() == MOTOR_CONTOLLER_PARAMETER) {
 
       YouBotSlaveMailboxMsg message;
@@ -107,20 +41,12 @@ void YouBotGripperBar::setConfigurationParameter(const YouBotGripperParameter& p
     }else{
       throw JointParameterException("Parameter " + parameter.getName() + " is not a motor controller parameter of the gripper");
     }
-  // Bouml preserved body end 000E0671
-}
-
-void YouBotGripperBar::getConfigurationParameter(YouBotSlaveMailboxMsg& parameter) {
-  // Bouml preserved body begin 000E0A71
+!!!920177.cpp!!!	getConfigurationParameter(inout parameter : YouBotSlaveMailboxMsg) : void
   if (!retrieveValueFromMotorContoller(parameter)) {
      throw JointParameterException("Unable to get parameter from the gripper");
    }
    this->parseMailboxStatusFlags(parameter);
-  // Bouml preserved body end 000E0A71
-}
-
-void YouBotGripperBar::setData(const GripperBarEncoterSetpoint& encoderSetpoint) {
-  // Bouml preserved body begin 000E0CF1
+!!!920817.cpp!!!	setData(in encoderSetpoint : GripperBarEncoterSetpoint) : void
     YouBotSlaveMailboxMsg message;
     message.stctOutput.moduleAddress = GRIPPER;
     message.stctOutput.commandNumber = MVP;
@@ -130,11 +56,7 @@ void YouBotGripperBar::setData(const GripperBarEncoterSetpoint& encoderSetpoint)
 
     setValueToMotorContoller(message);
     
-  // Bouml preserved body end 000E0CF1
-}
-
-void YouBotGripperBar::getData(GripperSensedVelocity& barVelocity) {
-  // Bouml preserved body begin 000E0DF1
+!!!921073.cpp!!!	getData(out barVelocity : GripperSensedVelocity) : void
    YouBotSlaveMailboxMsg message;
     message.stctOutput.moduleAddress = GRIPPER;
     message.stctOutput.commandNumber = GAP; 
@@ -149,11 +71,7 @@ void YouBotGripperBar::getData(GripperSensedVelocity& barVelocity) {
     barVelocity.barVelocity = message.stctInput.value;
 
     
-  // Bouml preserved body end 000E0DF1
-}
-
-void YouBotGripperBar::parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailboxMsg) {
-  // Bouml preserved body begin 000E0E71
+!!!921201.cpp!!!	parseMailboxStatusFlags(in mailboxMsg : YouBotSlaveMailboxMsg) : void
     std::stringstream errorMessageStream;
     errorMessageStream << "Joint " << this->jointNumber << ": ";
     std::string errorMessage;
@@ -186,11 +104,7 @@ void YouBotGripperBar::parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mail
     }
    
 
-  // Bouml preserved body end 000E0E71
-}
-
-bool YouBotGripperBar::setValueToMotorContoller(const YouBotSlaveMailboxMsg& mailboxMsg) {
-  // Bouml preserved body begin 000E0EF1
+!!!921329.cpp!!!	setValueToMotorContoller(in mailboxMsg : YouBotSlaveMailboxMsg) : bool
 
     YouBotSlaveMailboxMsg mailboxMsgBuffer;
     mailboxMsgBuffer = mailboxMsg;
@@ -230,11 +144,7 @@ bool YouBotGripperBar::setValueToMotorContoller(const YouBotSlaveMailboxMsg& mai
       return true;
     }
 
-  // Bouml preserved body end 000E0EF1
-}
-
-bool YouBotGripperBar::retrieveValueFromMotorContoller(YouBotSlaveMailboxMsg& message) {
-  // Bouml preserved body begin 000E0F71
+!!!921457.cpp!!!	retrieveValueFromMotorContoller(out message : YouBotSlaveMailboxMsg) : bool
 
     bool unvalid = true;
     unsigned int retry = 0;
@@ -275,8 +185,3 @@ bool YouBotGripperBar::retrieveValueFromMotorContoller(YouBotSlaveMailboxMsg& me
       return true;
     }
 
-  // Bouml preserved body end 000E0F71
-}
-
-
-} // namespace youbot

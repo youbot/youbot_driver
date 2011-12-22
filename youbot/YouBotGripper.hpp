@@ -128,6 +128,10 @@ class YouBotGripper : public OneDOFGripper {
 
     virtual void getData(GripperSensedBarSpacing& barSpacing);
 
+    void open();
+
+    bool closeUntilMaxForce();
+
     YouBotGripperBar& getGripperBar1();
 
     YouBotGripperBar& getGripperBar2();
@@ -153,8 +157,6 @@ class YouBotGripper : public OneDOFGripper {
     quantity<si::length> maxTravelDistance;
 
     quantity<si::length> barSpacingOffset;
-
-    quantity<si::length> lastGripperPosition;
 
     YouBotGripperBar* bar1;
 

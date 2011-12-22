@@ -1,0 +1,112 @@
+format 75
+
+activitynodecanvas 128113 activitynode_ref 128113 // initial_node
+  xyz 262 58 2000
+end
+activitynodecanvas 128241 activitynode_ref 128241 // activity_final
+  xyz 286 797 2000
+end
+activityactioncanvas 128753 activityaction_ref 128241 // activity action destroy YouBotBase Class
+  show_infonote default drawing_language default show_stereotype_properties default
+  show_opaque_action_definition default
+  xyzwh 243 671 2000 105 71
+end
+activityactioncanvas 129009 activityaction_ref 128369 // activity action configure youBot
+  show_infonote default drawing_language default show_stereotype_properties default
+  show_opaque_action_definition default
+  xyzwh 45 397 2000 101 61
+end
+activityactioncanvas 129393 activityaction_ref 128497 // activity action commutade youBot motors
+  show_infonote default drawing_language default show_stereotype_properties default
+  show_opaque_action_definition default
+  xyzwh 218 319 2000 125 73
+end
+activityactioncanvas 130033 activityaction_ref 128625 // activity action reset motor controller timeout
+  show_infonote default drawing_language default show_stereotype_properties default
+  show_opaque_action_definition default
+  xyzwh 536 303 2010 101 69
+end
+activityactioncanvas 130161 activityaction_ref 128753 // activity action instanciade YouBotBase Class
+  show_infonote default drawing_language default show_stereotype_properties default
+  show_opaque_action_definition default
+  xyzwh 217 153 2000 121 83
+end
+activitycanvas 130545 activity_ref 128625 // commutade youBot motors
+  show_infonote default drawing_language default show_stereotype_properties default
+  xyzwh 440 206 2005 347 303
+end
+activitynodecanvas 130673 activitynode_ref 128625 // initial_node
+  xyz 576 263 2010
+end
+activitynodecanvas 130929 activitynode_ref 128753 // fork
+  horizontal  xyzwh 153 274 2000 51 15
+end
+activityactioncanvas 131441 activityaction_ref 128881 // activity action set / get joint process data
+  show_infonote default drawing_language default show_stereotype_properties default
+  show_opaque_action_definition default
+  xyzwh 243 499 2000 101 61
+end
+activitynodecanvas 131953 activitynode_ref 128881 // activity_final
+  xyz 576 480 2010
+end
+activityactioncanvas 132209 activityaction_ref 129009 // activity action commutade youBot motors
+  show_infonote default drawing_language default show_stereotype_properties default
+  show_opaque_action_definition default
+  xyzwh 538 392 2015 100 69
+end
+flowcanvas 130801 flow_ref 128753 // <flow>
+  
+  from ref 130673 z 2011 to ref 130033
+  show_infonote default drawing_language default show_stereotype_properties default write_horizontally default
+end
+flowcanvas 131057 flow_ref 128881 // <flow>
+  
+  from ref 130161 z 2001 to ref 130929
+  show_infonote default drawing_language default show_stereotype_properties default write_horizontally default
+end
+flowcanvas 131185 flow_ref 129009 // <flow>
+  
+  from ref 130929 z 2001 to ref 129393
+  show_infonote default drawing_language default show_stereotype_properties default write_horizontally default
+end
+flowcanvas 131313 flow_ref 129137 // <flow>
+  
+  from ref 130929 z 2001 to ref 129009
+  show_infonote default drawing_language default show_stereotype_properties default write_horizontally default
+end
+flowcanvas 131569 flow_ref 129265 // <flow>
+  
+  from ref 129393 z 2001 to ref 131441
+  show_infonote default drawing_language default show_stereotype_properties default write_horizontally default
+end
+flowcanvas 131697 flow_ref 129393 // <flow>
+  
+  from ref 129009 z 2001 to ref 128753
+  show_infonote default drawing_language default show_stereotype_properties default write_horizontally default
+end
+flowcanvas 131825 flow_ref 129521 // <flow>
+  
+  from ref 131441 z 2001 to ref 128753
+  show_infonote default drawing_language default show_stereotype_properties default write_horizontally default
+end
+flowcanvas 132337 flow_ref 129649 // <flow>
+  
+  from ref 130033 z 2016 to ref 132209
+  show_infonote default drawing_language default show_stereotype_properties default write_horizontally default
+end
+flowcanvas 132465 flow_ref 129777 // <flow>
+  
+  from ref 132209 z 2016 to ref 131953
+  show_infonote default drawing_language default show_stereotype_properties default write_horizontally default
+end
+flowcanvas 132593 flow_ref 129905 // <flow>
+  
+  from ref 128113 z 2001 to ref 130161
+  show_infonote default drawing_language default show_stereotype_properties default write_horizontally default
+end
+flowcanvas 132721 flow_ref 130033 // <flow>
+  
+  from ref 128753 z 2001 to ref 128241
+  show_infonote default drawing_language default show_stereotype_properties default write_horizontally default
+end
+end
