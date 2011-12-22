@@ -660,7 +660,20 @@ void YouBotManipulator::initializeJoints() {
     configfile->readInto(maxenc, "Gripper", "MaxEncoderValue");
     maxEncoder.setParameter(maxenc);
     this->gripper->setConfigurationParameter(maxEncoder);
+    
+    int stallThreshold = 0;
+    configfile->readInto(stallThreshold, "Gripper", "StallGuard2Threshold");
+    StallGuard2Threshold threshold;
+    threshold.setParameter(stallThreshold);
+    this->gripper->getGripperBar1().setConfigurationParameter(threshold);
+    this->gripper->getGripperBar2().setConfigurationParameter(threshold);
 
+    bool stallGuardFilter = false;
+    configfile->readInto(stallGuardFilter, "Gripper", "StallGuard2FilterEnable");
+    StallGuard2FilterEnable filter;
+    filter.setParameter(stallGuardFilter);
+    this->gripper->getGripperBar1().setConfigurationParameter(filter);
+    this->gripper->getGripperBar2().setConfigurationParameter(filter);
 
     return;
   // Bouml preserved body end 00068071

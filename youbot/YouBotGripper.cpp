@@ -142,25 +142,8 @@ void YouBotGripper::setConfigurationParameter(const CalibrateGripper& parameter)
 
     if (parameter.value) {
       LOG(info) << "Calibrate Gripper";
-
-
-      StallGuard2Threshold threshold;
-      threshold.setParameter(43);
-
-      bar1->setConfigurationParameter(threshold);
-      bar2->setConfigurationParameter(threshold);
-
-      StallGuard2FilterEnable filter;
-      filter.setParameter(false);
-      bar1->setConfigurationParameter(filter);
-      bar2->setConfigurationParameter(filter);
-
-      StopOnStall stoponStall;
-      stoponStall.setParameter(false);
-      bar1->setConfigurationParameter(stoponStall);
-      bar2->setConfigurationParameter(stoponStall);
+ 
       YouBotSlaveMailboxMsg message;
-
 
       message.stctOutput.moduleAddress = GRIPPER;
       message.stctOutput.commandNumber = MVP;
@@ -175,6 +158,7 @@ void YouBotGripper::setConfigurationParameter(const CalibrateGripper& parameter)
       message.stctOutput.motorNumber = 1; //move bar 1
       setValueToMotorContoller(message);
 
+      SLEEP_MILLISEC(100);
       bar1->getConfigurationParameter(actualLoad);
       bar2->getConfigurationParameter(actualLoad);
 
@@ -349,24 +333,8 @@ void YouBotGripper::open() {
 
 bool YouBotGripper::closeUntilMaxForce() {
   // Bouml preserved body begin 000E3C71
-    StallGuard2Threshold threshold;
-    threshold.setParameter(43);
-
-    bar1->setConfigurationParameter(threshold);
-    bar2->setConfigurationParameter(threshold);
-
-    StallGuard2FilterEnable filter;
-    filter.setParameter(false);
-    bar1->setConfigurationParameter(filter);
-    bar2->setConfigurationParameter(filter);
-
-    StopOnStall stoponStall;
-    stoponStall.setParameter(false);
-    bar1->setConfigurationParameter(stoponStall);
-    bar2->setConfigurationParameter(stoponStall);
+  
     YouBotSlaveMailboxMsg message;
-
-
     message.stctOutput.moduleAddress = GRIPPER;
     message.stctOutput.commandNumber = MVP;
     message.stctOutput.typeNumber = 1; //move gripper relative
@@ -379,7 +347,8 @@ bool YouBotGripper::closeUntilMaxForce() {
 
     message.stctOutput.motorNumber = 1; //move bar 1
     setValueToMotorContoller(message);
-
+    
+    SLEEP_MILLISEC(100);
     bar1->getConfigurationParameter(actualLoad);
     bar2->getConfigurationParameter(actualLoad);
 
