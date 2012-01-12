@@ -85,6 +85,18 @@ class YouBotGripperBar {
 
     virtual ~YouBotGripperBar();
 
+    virtual void setConfigurationParameter(const MaxEncoderValue& parameter);
+
+    virtual void getConfigurationParameter(MaxEncoderValue& parameter);
+
+    virtual void getConfigurationParameter(MaxTravelDistance& parameter);
+
+    virtual void setConfigurationParameter(const MaxTravelDistance& parameter);
+
+    virtual void setConfigurationParameter(const BarSpacingOffset& parameter);
+
+    virtual void getConfigurationParameter(BarSpacingOffset& parameter);
+
     virtual void getConfigurationParameter(YouBotGripperParameter& parameter);
 
     virtual void setConfigurationParameter(const YouBotGripperParameter& parameter);
@@ -102,6 +114,12 @@ class YouBotGripperBar {
     bool setValueToMotorContoller(const YouBotSlaveMailboxMsg& mailboxMsg);
 
     bool retrieveValueFromMotorContoller(YouBotSlaveMailboxMsg& message);
+
+    quantity<si::length> maxTravelDistance;
+
+    unsigned int maxEncoderValue;
+
+    quantity<si::length> barSpacingOffset;
 
     EthercatMaster* ethercatMaster;
 

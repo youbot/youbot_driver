@@ -57,6 +57,9 @@ YouBotGripperBar::YouBotGripperBar(const unsigned int barNo, const unsigned int 
     this->mailboxMsgRetries = 200;
     this->timeTillNextMailboxUpdate = 1; //ms
     this->barNo = barNo;
+    this->maxTravelDistance = 0.0115 * meter;
+    this->maxEncoderValue = 67000;
+    this->barSpacingOffset = 0 * meter;
 
     ethercatMaster = &(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath));
   // Bouml preserved body end 000E0371
@@ -65,6 +68,42 @@ YouBotGripperBar::YouBotGripperBar(const unsigned int barNo, const unsigned int 
 YouBotGripperBar::~YouBotGripperBar() {
   // Bouml preserved body begin 000E03F1
   // Bouml preserved body end 000E03F1
+}
+
+void YouBotGripperBar::setConfigurationParameter(const MaxEncoderValue& parameter) {
+  // Bouml preserved body begin 00061E71
+    this->maxEncoderValue = parameter.value;
+  // Bouml preserved body end 00061E71
+}
+
+void YouBotGripperBar::getConfigurationParameter(MaxEncoderValue& parameter) {
+  // Bouml preserved body begin 000D7871
+    parameter.value = this->maxEncoderValue;
+  // Bouml preserved body end 000D7871
+}
+
+void YouBotGripperBar::getConfigurationParameter(MaxTravelDistance& parameter) {
+  // Bouml preserved body begin 000D77F1
+    parameter.value = this->maxTravelDistance;
+  // Bouml preserved body end 000D77F1
+}
+
+void YouBotGripperBar::setConfigurationParameter(const MaxTravelDistance& parameter) {
+  // Bouml preserved body begin 00061DF1
+    this->maxTravelDistance = parameter.value;
+  // Bouml preserved body end 00061DF1
+}
+
+void YouBotGripperBar::setConfigurationParameter(const BarSpacingOffset& parameter) {
+  // Bouml preserved body begin 00061871
+    this->barSpacingOffset = parameter.value;
+  // Bouml preserved body end 00061871
+}
+
+void YouBotGripperBar::getConfigurationParameter(BarSpacingOffset& parameter) {
+  // Bouml preserved body begin 000D7771
+    parameter.value = this->barSpacingOffset;
+  // Bouml preserved body end 000D7771
 }
 
 void YouBotGripperBar::getConfigurationParameter(YouBotGripperParameter& parameter) {

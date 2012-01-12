@@ -98,18 +98,6 @@ class YouBotGripper : public OneDOFGripper {
 
     virtual void setConfigurationParameter(const CalibrateGripper& parameter);
 
-    virtual void setConfigurationParameter(const BarSpacingOffset& parameter);
-
-    virtual void getConfigurationParameter(BarSpacingOffset& parameter);
-
-    virtual void setConfigurationParameter(const MaxTravelDistance& parameter);
-
-    virtual void getConfigurationParameter(MaxTravelDistance& parameter);
-
-    virtual void setConfigurationParameter(const MaxEncoderValue& parameter);
-
-    virtual void getConfigurationParameter(MaxEncoderValue& parameter);
-
     virtual void getConfigurationParameter(YouBotSlaveMailboxMsg& parameter);
 
 
@@ -151,12 +139,6 @@ class YouBotGripper : public OneDOFGripper {
     unsigned int mailboxMsgRetries;
 
     unsigned int jointNumber;
-
-    unsigned int maxEncoderValue;
-
-    quantity<si::length> maxTravelDistance;
-
-    quantity<si::length> barSpacingOffset;
 
     YouBotGripperBar* bar1;
 
