@@ -1,7 +1,7 @@
 youBot API
 ------------
 
-[API documentation](http://youbot.github.com/youbot_driver)
+[API documentation](http://janpaulus.github.com)
 
 The basic idea of the youBot API is to represent a robot system as a combination of decoupled functional sub-systems. That is, this API represents manipulator arm and base platform as the combination of several joints. At the same time each joint is defined as a combination of a motor and a gearbox.
 
@@ -108,7 +108,7 @@ You can find example programs in the [youbot_applications](https://github.com/yo
 
 Documentation
 ------------
-For more detailed information on class and methods please refer to the [API documentation](http://youbot.github.com/youbot_driver).
+For more detailed information on class and methods please refer to the [API documentation](http://janpaulus.github.com).
 
 To generate the documentation from the source code type: 
 
