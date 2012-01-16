@@ -342,10 +342,23 @@ void YouBotGripper::getData(GripperSensedBarSpacing& barSpacing) {
 
 void YouBotGripper::open() {
   // Bouml preserved body begin 000E3BF1
-    GripperBarSpacingSetPoint barSpacing;
-    barSpacing.barSpacing = 0.023 * meter;
+   
+    MaxEncoderValue maxEnc;
+    unsigned int bar1MaxEncoderValue = 0;
+    unsigned int bar2MaxEncoderValue = 0;
+  
+    bar1->getConfigurationParameter(maxEnc);
+    maxEnc.getParameter(bar1MaxEncoderValue);
+    bar2->getConfigurationParameter(maxEnc);
+    maxEnc.getParameter(bar2MaxEncoderValue);
+    
+    GripperBarEncoterSetpoint setpointBar1;
+    GripperBarEncoterSetpoint setpointBar2;
+    setpointBar1.barEncoder = bar1MaxEncoderValue;
+    setpointBar2.barEncoder = bar2MaxEncoderValue;
 
-    this->setData(barSpacing);
+    bar1->setData(setpointBar1);
+    bar2->setData(setpointBar2);
 
   // Bouml preserved body end 000E3BF1
 }
