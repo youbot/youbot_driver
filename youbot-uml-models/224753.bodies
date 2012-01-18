@@ -5,9 +5,7 @@ class YouBotGripper
     this->jointNumber = jointNo;
     this->mailboxMsgRetries = 200;
     this->timeTillNextMailboxUpdate = 1; //ms
-    this->maxTravelDistance = 0.023 * meter;
-    this->maxEncoderValue = 67000;
-    this->barSpacingOffset = 0 * meter;
+
     ethercatMaster = &(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath));
     bar1 = new YouBotGripperBar(0, jointNo, configFilePath);
     bar2 = new YouBotGripperBar(1, jointNo, configFilePath);
@@ -69,30 +67,20 @@ class YouBotGripper
 
     if (parameter.value) {
       LOG(info) << "Calibrate Gripper";
-
-
-      StallGuard2Threshold threshold;
-      threshold.setParameter(43);
-
-      bar1->setConfigurationParameter(threshold);
-      bar2->setConfigurationParameter(threshold);
-
-      StallGuard2FilterEnable filter;
-      filter.setParameter(false);
-      bar1->setConfigurationParameter(filter);
-      bar2->setConfigurationParameter(filter);
-
-      StopOnStall stoponStall;
-      stoponStall.setParameter(false);
-      bar1->setConfigurationParameter(stoponStall);
-      bar2->setConfigurationParameter(stoponStall);
+ 
       YouBotSlaveMailboxMsg message;
 
 
+
+      unsigned int maxenc = 0;
+      MaxEncoderValue maxencoder;
+      bar1->getConfigurationParameter(maxencoder);
+      maxencoder.getParameter(maxenc);
+      
       message.stctOutput.moduleAddress = GRIPPER;
       message.stctOutput.commandNumber = MVP;
       message.stctOutput.typeNumber = 1; //move gripper relative
-      message.stctOutput.value = this->maxEncoderValue;
+      message.stctOutput.value = maxenc;
 
       ActualLoadValue actualLoad;
 
@@ -102,6 +90,7 @@ class YouBotGripper
       message.stctOutput.motorNumber = 1; //move bar 1
       setValueToMotorContoller(message);
 
+      SLEEP_MILLISEC(100);
       bar1->getConfigurationParameter(actualLoad);
       bar2->getConfigurationParameter(actualLoad);
 
@@ -143,18 +132,6 @@ class YouBotGripper
 
     }
 
-!!!399473.cpp!!!	setConfigurationParameter(in parameter : BarSpacingOffset) : void
-    this->barSpacingOffset = parameter.value;
-!!!882545.cpp!!!	getConfigurationParameter(out parameter : BarSpacingOffset) : void
-    parameter.value = this->barSpacingOffset;
-!!!400881.cpp!!!	setConfigurationParameter(in parameter : MaxTravelDistance) : void
-    this->maxTravelDistance = parameter.value;
-!!!882673.cpp!!!	getConfigurationParameter(out parameter : MaxTravelDistance) : void
-    parameter.value = this->maxTravelDistance;
-!!!401009.cpp!!!	setConfigurationParameter(in parameter : MaxEncoderValue) : void
-    this->maxEncoderValue = parameter.value;
-!!!882801.cpp!!!	getConfigurationParameter(out parameter : MaxEncoderValue) : void
-    parameter.value = this->maxEncoderValue;
 !!!911729.cpp!!!	getConfigurationParameter(inout parameter : YouBotSlaveMailboxMsg) : void
     if (!retrieveValueFromMotorContoller(parameter)) {
       throw JointParameterException("Unable to get parameter from the gripper");
@@ -169,18 +146,46 @@ class YouBotGripper
 !!!295793.cpp!!!	setData(in data : OneDOFGripperData) : void
     LOG(info) << "Nothing to do";
 !!!391409.cpp!!!	setData(in barSpacing : GripperBarSpacingSetPoint) : void
+  
+    MaxEncoderValue maxEnc;
+    MaxTravelDistance maxTravel;
+    BarSpacingOffset barOffset;
+    quantity<si::length> bar1MaxTravelDistance;
+    unsigned int bar1MaxEncoderValue = 0;
+    quantity<si::length> bar1BarSpacingOffset;
+    quantity<si::length> bar2MaxTravelDistance;
+    unsigned int bar2MaxEncoderValue = 0;
+    quantity<si::length> bar2BarSpacingOffset;
+    
+    bar1->getConfigurationParameter(maxEnc);
+    maxEnc.getParameter(bar1MaxEncoderValue);
+    bar1->getConfigurationParameter(maxTravel);
+    maxTravel.getParameter(bar1MaxTravelDistance);
+    bar1->getConfigurationParameter(barOffset);
+    barOffset.getParameter(bar1BarSpacingOffset);
+    
+    bar2->getConfigurationParameter(maxEnc);
+    maxEnc.getParameter(bar2MaxEncoderValue);
+    bar2->getConfigurationParameter(maxTravel);
+    maxTravel.getParameter(bar2MaxTravelDistance);
+    bar2->getConfigurationParameter(barOffset);
+    barOffset.getParameter(bar2BarSpacingOffset);
+    
 
-    if (barSpacing.barSpacing > (maxTravelDistance + barSpacingOffset) || barSpacing.barSpacing < barSpacingOffset) {
+    if (barSpacing.barSpacing > (bar1MaxTravelDistance+bar2MaxTravelDistance+bar1BarSpacingOffset+bar2BarSpacingOffset) || barSpacing.barSpacing < bar1BarSpacingOffset+bar2BarSpacingOffset) {
       std::stringstream errorMessageStream;
-      errorMessageStream << "The bar spacing is not allowed to be less than 0 m or higher than " << (maxTravelDistance + barSpacingOffset);
+      errorMessageStream << "The bar spacing is not allowed to be less than "<< bar1BarSpacingOffset+bar2BarSpacingOffset <<" or higher than " << (bar1MaxTravelDistance+bar2MaxTravelDistance+bar1BarSpacingOffset+bar2BarSpacingOffset);
       throw std::out_of_range(errorMessageStream.str());
     }
 
+    quantity<si::length> setpoint;;
+    setpoint = (barSpacing.barSpacing - bar1BarSpacingOffset - bar2BarSpacingOffset)/2.0;
+    
     GripperBarEncoterSetpoint setpointBar1;
     GripperBarEncoterSetpoint setpointBar2;
 
-    setpointBar1.barEncoder = (barSpacing.barSpacing + barSpacingOffset) / maxTravelDistance * maxEncoderValue;
-    setpointBar2.barEncoder = (barSpacing.barSpacing + barSpacingOffset) / maxTravelDistance * maxEncoderValue;
+    setpointBar1.barEncoder = setpoint / bar1MaxTravelDistance * bar1MaxEncoderValue;
+    setpointBar2.barEncoder = setpoint / bar2MaxTravelDistance * bar2MaxEncoderValue;
 
 
     bar1->setData(setpointBar1);
@@ -193,51 +198,75 @@ class YouBotGripper
 
     ActualPosition actualPoseBar1;
     ActualPosition actualPoseBar2;
+    MaxEncoderValue maxEnc;
+    MaxTravelDistance maxTravel;
+    BarSpacingOffset barOffset;
+    quantity<si::length> bar1MaxTravelDistance;
+    unsigned int bar1MaxEncoderValue = 0;
+    quantity<si::length> bar1BarSpacingOffset;
+    quantity<si::length> bar2MaxTravelDistance;
+    unsigned int bar2MaxEncoderValue = 0;
+    quantity<si::length> bar2BarSpacingOffset;
+    
+    bar1->getConfigurationParameter(maxEnc);
+    maxEnc.getParameter(bar1MaxEncoderValue);
+    bar1->getConfigurationParameter(maxTravel);
+    maxTravel.getParameter(bar1MaxTravelDistance);
+    bar1->getConfigurationParameter(barOffset);
+    barOffset.getParameter(bar1BarSpacingOffset);
+    
+    bar2->getConfigurationParameter(maxEnc);
+    maxEnc.getParameter(bar2MaxEncoderValue);
+    bar2->getConfigurationParameter(maxTravel);
+    maxTravel.getParameter(bar2MaxTravelDistance);
+    bar2->getConfigurationParameter(barOffset);
+    barOffset.getParameter(bar2BarSpacingOffset);
 
     bar1->getConfigurationParameter(actualPoseBar1);
     bar2->getConfigurationParameter(actualPoseBar2);
     actualPoseBar1.getParameter(valueBar1);
     actualPoseBar2.getParameter(valueBar2);
 
-
     quantity<si::length> bar1Pose;
     quantity<si::length> bar2Pose;
-    bar1Pose = (((double) valueBar1 / maxEncoderValue) * (maxTravelDistance / 2.0)) + barSpacingOffset;
+    bar1Pose = (((double) valueBar1 / bar1MaxEncoderValue) * bar1MaxTravelDistance) + bar1BarSpacingOffset;
 
-    bar2Pose = (((double) valueBar2 / maxEncoderValue) * (maxTravelDistance / 2.0)) + barSpacingOffset;
+    bar2Pose = (((double) valueBar2 / bar2MaxEncoderValue) * bar2MaxTravelDistance) + bar2BarSpacingOffset;
 
     barSpacing.barSpacing = bar1Pose + bar2Pose;
 
 
 !!!932849.cpp!!!	open() : void
-    GripperBarSpacingSetPoint barSpacing;
-    barSpacing.barSpacing = 0.023 * meter;
+   
+    MaxEncoderValue maxEnc;
+    unsigned int bar1MaxEncoderValue = 0;
+    unsigned int bar2MaxEncoderValue = 0;
+  
+    bar1->getConfigurationParameter(maxEnc);
+    maxEnc.getParameter(bar1MaxEncoderValue);
+    bar2->getConfigurationParameter(maxEnc);
+    maxEnc.getParameter(bar2MaxEncoderValue);
+    
+    GripperBarEncoterSetpoint setpointBar1;
+    GripperBarEncoterSetpoint setpointBar2;
+    setpointBar1.barEncoder = bar1MaxEncoderValue;
+    setpointBar2.barEncoder = bar2MaxEncoderValue;
 
-    this->setData(barSpacing);
+    bar1->setData(setpointBar1);
+    bar2->setData(setpointBar2);
 
-!!!932977.cpp!!!	closeUntilMaxForce() : bool
-    StallGuard2Threshold threshold;
-    threshold.setParameter(43);
-
-    bar1->setConfigurationParameter(threshold);
-    bar2->setConfigurationParameter(threshold);
-
-    StallGuard2FilterEnable filter;
-    filter.setParameter(false);
-    bar1->setConfigurationParameter(filter);
-    bar2->setConfigurationParameter(filter);
-
-    StopOnStall stoponStall;
-    stoponStall.setParameter(false);
-    bar1->setConfigurationParameter(stoponStall);
-    bar2->setConfigurationParameter(stoponStall);
+!!!932977.cpp!!!	closeUntilMaxForce() : void
+  
+    unsigned int maxenc = 0;
+    MaxEncoderValue maxencoder;
+    bar1->getConfigurationParameter(maxencoder);
+    maxencoder.getParameter(maxenc);
+      
     YouBotSlaveMailboxMsg message;
-
-
     message.stctOutput.moduleAddress = GRIPPER;
     message.stctOutput.commandNumber = MVP;
     message.stctOutput.typeNumber = 1; //move gripper relative
-    message.stctOutput.value = this->maxEncoderValue;
+    message.stctOutput.value = maxenc;
 
     ActualLoadValue actualLoad;
 
@@ -246,7 +275,8 @@ class YouBotGripper
 
     message.stctOutput.motorNumber = 1; //move bar 1
     setValueToMotorContoller(message);
-
+    
+    SLEEP_MILLISEC(100);
     bar1->getConfigurationParameter(actualLoad);
     bar2->getConfigurationParameter(actualLoad);
 
@@ -279,7 +309,6 @@ class YouBotGripper
 
     message.stctOutput.motorNumber = 1; //move bar 1
     setValueToMotorContoller(message);
-
 !!!921585.cpp!!!	getGripperBar1() : YouBotGripperBar&
     if (bar1 == NULL)
       throw std::runtime_error("gripper bar 1 is missing");

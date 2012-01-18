@@ -72,6 +72,7 @@
 #else
   #include "youbot/EthercatMaster.hpp"
 #endif
+using namespace boost::posix_time;
 namespace youbot {
 
 

@@ -363,7 +363,7 @@ void YouBotGripper::open() {
   // Bouml preserved body end 000E3BF1
 }
 
-bool YouBotGripper::closeUntilMaxForce() {
+void YouBotGripper::closeUntilMaxForce() {
   // Bouml preserved body begin 000E3C71
   
     unsigned int maxenc = 0;
@@ -418,7 +418,6 @@ bool YouBotGripper::closeUntilMaxForce() {
 
     message.stctOutput.motorNumber = 1; //move bar 1
     setValueToMotorContoller(message);
-
   // Bouml preserved body end 000E3C71
 }
 

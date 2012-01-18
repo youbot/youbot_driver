@@ -3,6 +3,8 @@ class ClearMotorControllerTimeoutFlag
     this->name = "ClearMotorControllerTimeoutFlag";
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
     this->value = true;
+!!!654321.cpp!!!	getParameter() : bool
+  return this->value;
 !!!654577.cpp!!!	toString(out value : std::string) : void
   std::stringstream ss;
   ss << this->name << ": " << this->value;

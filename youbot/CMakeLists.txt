@@ -13,7 +13,6 @@ IF(USE_ETHERCAT_MASTER_WITH_THREAD)
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripper.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripperBar.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripperParameter.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/MotorProtection.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/DataTrace.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameter.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameterReadOnly.cpp
@@ -33,7 +32,6 @@ ELSE(USE_ETHERCAT_MASTER_WITH_THREAD)
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripper.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripperBar.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripperParameter.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/MotorProtection.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/DataTrace.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameter.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameterReadOnly.cpp
@@ -62,7 +60,6 @@ SET(YOUBOT_DRIVER_HEADERS
   YouBotSlaveMsg.hpp
   ProtocolDefinitions.hpp
   YouBotJointStorage.hpp
-  MotorProtection.hpp
   DataTrace.hpp
 ../base-kinematic/FourSwedishWheelOmniBaseKinematic.hpp
 ../base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.hpp

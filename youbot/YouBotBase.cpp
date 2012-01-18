@@ -61,7 +61,7 @@ YouBotBase::YouBotBase(const std::string name, const std::string configFilePath)
     string filename;
     filename = name;
     filename.append(".cfg");
-    configfile == NULL;
+
     configfile = new ConfigFile(filename, configFilePath);
     
     this->initializeJoints();
@@ -73,8 +73,7 @@ YouBotBase::YouBotBase(const std::string name, const std::string configFilePath)
 
 YouBotBase::~YouBotBase() {
   // Bouml preserved body begin 00067EF1
-    if (configfile != NULL)
-      delete configfile;
+     delete configfile;
   // Bouml preserved body end 00067EF1
 }
 

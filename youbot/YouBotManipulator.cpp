@@ -63,7 +63,6 @@ YouBotManipulator::YouBotManipulator(const std::string name, const std::string c
     filename.append(".cfg");
 
     this->gripper = NULL;
-    configfile == NULL;
     configfile = new ConfigFile(filename, configFilePath);
 
     this->initializeJoints();
@@ -73,9 +72,7 @@ YouBotManipulator::YouBotManipulator(const std::string name, const std::string c
 
 YouBotManipulator::~YouBotManipulator() {
   // Bouml preserved body begin 00067FF1
-    if (configfile != NULL)
-      delete configfile;
-    
+    delete configfile;
     delete gripper;
   // Bouml preserved body end 00067FF1
 }

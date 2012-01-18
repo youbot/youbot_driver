@@ -1,12 +1,7 @@
-window_sizes 1672 973 448 1218 890 0
-diagrams
-  active  activitydiagram_ref 194801 // ArmActivityDiagram
-    1226 895 100 4 0 0
-end
+window_sizes 1680 976 448 1226 895 0
 show_stereotypes
-selected operation_ref 932849 // open
+selected 
+  package_ref 161265 // youbot
 open
-  operation_ref 932977 // closeUntilMaxForce
-  attribute_ref 791153 // bar2
 end
 end

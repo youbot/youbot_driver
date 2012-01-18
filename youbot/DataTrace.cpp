@@ -285,7 +285,7 @@ void DataTrace::startTrace() {
     parametersBeginTraceFile << parameterString << std::endl;
     
     
-    for (int i = 0; i < parameterVector.size(); i++) {
+    for (unsigned int i = 0; i < parameterVector.size(); i++) {
       joint.getConfigurationParameter(*(parameterVector[i]));
       parameterVector[i]->toString(parameterString);
       //   std::cout << parameterString << std::endl;
@@ -346,7 +346,7 @@ void DataTrace::stopTrace() {
     //   std::cout << parameterString << std::endl;
     parametersEndTraceFile << parameterString << std::endl;
     
-    for (int i = 0; i < parameterVector.size(); i++) {
+    for (unsigned int i = 0; i < parameterVector.size(); i++) {
       joint.getConfigurationParameter(*(parameterVector[i]));
       parameterVector[i]->toString(parameterString);
       parametersEndTraceFile << parameterString << std::endl;

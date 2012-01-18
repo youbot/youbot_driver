@@ -80,6 +80,7 @@ FourSwedishWheelOmniBaseKinematicConfiguration & FourSwedishWheelOmniBaseKinemat
     this->lengthBetweenFrontAndRearWheels = source.lengthBetweenFrontAndRearWheels;
     this->lengthBetweenFrontWheels = source.lengthBetweenFrontWheels;
     this->wheelRadius = source.wheelRadius;
+    return *this;
   // Bouml preserved body end 0004C3F1
 }
 

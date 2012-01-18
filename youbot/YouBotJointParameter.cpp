@@ -2381,6 +2381,7 @@ ClearMotorControllerTimeoutFlag::~ClearMotorControllerTimeoutFlag() {
 
 bool ClearMotorControllerTimeoutFlag::getParameter() const {
   // Bouml preserved body begin 0009FBF1
+  return this->value;
   // Bouml preserved body end 0009FBF1
 }
 

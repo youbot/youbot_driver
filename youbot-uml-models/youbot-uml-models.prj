@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 210
+  revision 212
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -22772,16 +22772,6 @@ friend class YouBotGripperBar;" ""
 	idl_decl ""
       end
 
-      attribute 521329 "motorProtections"
-	private explicit_type "std::vector<MotorProtection>"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
       attribute 577265 "pendingMailboxMsgsReply"
 	private explicit_type "std::vector<bool>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -23647,211 +23637,6 @@ ${inlines}
       end
     end
 
-    class 328177 "MotorProtection"
-      visibility package 
-      cpp_decl "///////////////////////////////////////////////////////////////////////////////
-${description}
-///////////////////////////////////////////////////////////////////////////////
-${template}class ${name}${inherit} {
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      comment "/// Implements the i2t motor protection"
-      operation 554609 "MotorProtection"
-	preserve_cpp_body_indent public explicit_return_type ""
-	nparams 3
-	  param in name "maxContinuousCurrent" explicit_type "quantity<si::current>"
-	  param in name "thermalTimeConstantWinding" explicit_type "quantity<si::time>"
-	  param in name "thermalTimeConstantMotor" explicit_type "quantity<si::time>"
-	cpp_decl "    ${description}${inline}${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}${)}${volatile}${throw};
-"
-	cpp_def "${description}${inline}${class}::${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}${)}${volatile}${throw} {
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 554737 "~MotorProtection"
-	cpp_virtual public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
-"
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
-"
-	
-	
-	
-	
-      end
-
-      operation 547953 "isRMSCurrentOverLimit"
-	preserve_cpp_body_indent public explicit_return_type "bool"
-	nparams 2
-	  param in name "actualCurrent" explicit_type "quantity<si::current>"
-	  param in name "timestamp" explicit_type "ptime"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 548081 "createSafeMotorCommands"
-	preserve_cpp_body_indent public explicit_return_type "bool"
-	nparams 1
-	  param out name "MotorCommand" explicit_type "YouBotSlaveMsg"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      attribute 520305 "monitoredMeasurements"
-	private explicit_type "std::deque<CurrentWithTimeSlice>"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 520689 "maxWindowTime"
-	private explicit_type "quantity<si::time>"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 520817 "summedTime"
-	private explicit_type "quantity<si::time>"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 520945 "RMSCurrent"
-	private explicit_type "quantity<si::current>"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 521073 "allowedContinuousCurrent"
-	private explicit_type "quantity<si::current>"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 521201 "lastTimestamp"
-	private explicit_type "ptime"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 527857 "motorOverLimitStartTime"
-	private explicit_type "ptime"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 527985 "motorOverLimit"
-	private explicit_type "bool"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 528113 "coolingTimeAfterOverLimit"
-	private explicit_type "quantity<si::time>"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-    end
-
-    class 334705 "CurrentWithTimeSlice"
-      visibility package stereotype "struct"
-      cpp_decl "${description}${template}struct ${name}${inherit} {
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl "${comment}struct ${name} {
-${members}};
-"
-      explicit_switch_type ""
-      
-      comment "/// struct to represent current over time"
-      attribute 520433 "current"
-	public explicit_type "quantity<si::current>"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 520561 "timeSlice"
-	public explicit_type "quantity<si::time>"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-    end
-
     class 425713 "DataTrace"
       visibility package 
       cpp_decl "///////////////////////////////////////////////////////////////////////////////
@@ -24323,191 +24108,6 @@ ${inlines}
       end
     end
 
-    activity 128369 "BaseWorkSequence"
-      activitydiagram 194545 "ActivityDiagram"
-	package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations no shadow default
-	show_infonote default drawing_language default show_stereotype_properties default
-	size A4
-      end
-
-      activitynode 128113 initial_node ""
-	flow 129905 "<flow>"
-	  on activityaction_ref 128753 // activity action instanciade YouBotBase Class
-	end
-      end
-
-      activitynode 128241 activity_final ""
-      end
-
-      activityaction 128113 "instanciade YouBotBase Class"
-	opaque_action
-      end
-
-      activityaction 128241 "destroy YouBotBase class"
-	opaque_action
-	flow 130033 "<flow>"
-	  on activitynode_ref 128241 // activity_final
-	end
-      end
-
-      activityaction 128369 "configure youBot"
-	opaque_action
-	flow 129393 "<flow>"
-	  on activityaction_ref 128241 // activity action destroy YouBotBase class
-	end
-      end
-
-      activityaction 128497 "commutade youBot motors"
-	opaque_action
-	flow 129265 "<flow>"
-	  on activityaction_ref 128881 // activity action set / get joint process data
-	end
-      end
-
-      activityaction 128753 "instanciade YouBotBase Class"
-	opaque_action
-	flow 128881 "<flow>"
-	  on activitynode_ref 128753 // fork
-	end
-      end
-
-      activitynode 128753 fork ""
-	flow 129009 "<flow>"
-	  on activityaction_ref 128497 // activity action commutade youBot motors
-	end
-
-	flow 129137 "<flow>"
-	  on activityaction_ref 128369 // activity action configure youBot
-	end
-      end
-
-      activityaction 128881 "set / get joint process data"
-	opaque_action
-	flow 129521 "<flow>"
-	  on activityaction_ref 128241 // activity action destroy YouBotBase class
-	end
-      end
-    end
-
-    activity 128625 "commutade youBot motors"
-      activityaction 128625 "reset motor controller timeout"
-	opaque_action
-	flow 129649 "<flow>"
-	  on activityaction_ref 129009 // activity action commutade youBot motors
-	end
-      end
-
-      activitynode 128625 initial_node ""
-	flow 128753 "<flow>"
-	  on activityaction_ref 128625 // activity action reset motor controller timeout
-	end
-      end
-
-      activitynode 128881 activity_final ""
-      end
-
-      activityaction 129009 "commutade youBot motors"
-	opaque_action
-	flow 129777 "<flow>"
-	  on activitynode_ref 128881 // activity_final
-	end
-      end
-    end
-
-    activity 128753 "ArmWorkSequence"
-      activitydiagram 194801 "ArmActivityDiagram"
-	package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
-	show_infonote default drawing_language default show_stereotype_properties default
-	size A4
-      end
-
-      activityaction 129137 "destroy YouBotManipulator class"
-	opaque_action
-	flow 130929 "<flow>"
-	  on activitynode_ref 129137 // activity_final
-	end
-      end
-
-      activityaction 129265 "set / get joint process data"
-	opaque_action
-	flow 130673 "<flow>"
-	  on activityaction_ref 129137 // activity action destroy YouBotManipulator class
-	end
-      end
-
-      activityaction 129393 "commutade youBot motors"
-	opaque_action
-	flow 131057 "<flow>"
-	  on activityaction_ref 129777 // activity action calibrate manipulator
-	end
-      end
-
-      activityaction 129521 "configure youBot"
-	opaque_action
-	flow 130801 "<flow>"
-	  on activityaction_ref 129137 // activity action destroy YouBotManipulator class
-	end
-      end
-
-      activityaction 129649 "instanciade YouBotManipulator class"
-	opaque_action
-	flow 130289 "<flow>"
-	  on activityaction_ref 129393 // activity action commutade youBot motors
-	end
-
-	flow 130417 "<flow>"
-	  on activityaction_ref 129521 // activity action configure youBot
-	end
-      end
-
-      activitynode 129009 initial_node ""
-	flow 130161 "<flow>"
-	  on activityaction_ref 129649 // activity action instanciade YouBotManipulator class
-	end
-      end
-
-      activitynode 129137 activity_final ""
-      end
-
-      activityaction 129777 "calibrate manipulator"
-	opaque_action
-	flow 131185 "<flow>"
-	  on activityaction_ref 129265 // activity action set / get joint process data
-	end
-      end
-    end
-
-    activity 129009 "instanciade YouBotManipulator class"
-      activitynode 129265 initial_node ""
-	flow 131313 "<flow>"
-	  on activityaction_ref 129905 // activity action initialize EtherCAT
-	end
-      end
-
-      activityaction 129905 "initialize EtherCAT"
-	opaque_action
-	flow 131441 "<flow>"
-	  on activityaction_ref 130033 // activity action set EtherCAT slave to operation mode
-	end
-      end
-
-      activityaction 130033 "set EtherCAT slave to operation mode"
-	opaque_action
-	flow 131569 "<flow>"
-	  on activityaction_ref 130161 // activity action instanciade YouBotJoint classes
-	end
-      end
-
-      activityaction 130161 "instanciade YouBotJoint classes"
-	opaque_action
-	flow 131697 "<flow>"
-	  on activitynode_ref 129393 // activity_final
-	end
-      end
-
-      activitynode 129393 activity_final ""
-      end
-    end
   end
 
   classview 187121 "EthercatMasterWithoutThread"
@@ -25943,96 +25543,6 @@ ${inlines}
 	
       end
 
-      operation 399473 "setConfigurationParameter"
-	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
-	nparams 1
-	  param in name "parameter" type class_ref 259441 // BarSpacingOffset
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 882545 "getConfigurationParameter"
-	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
-	nparams 1
-	  param out name "parameter" type class_ref 259441 // BarSpacingOffset
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 400881 "setConfigurationParameter"
-	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
-	nparams 1
-	  param in name "parameter" type class_ref 265969 // MaxTravelDistance
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 882673 "getConfigurationParameter"
-	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
-	nparams 1
-	  param out name "parameter" type class_ref 265969 // MaxTravelDistance
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 401009 "setConfigurationParameter"
-	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
-	nparams 1
-	  param in name "parameter" type class_ref 266097 // MaxEncoderValue
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 882801 "getConfigurationParameter"
-	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
-	nparams 1
-	  param out name "parameter" type class_ref 266097 // MaxEncoderValue
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
       operation 911729 "getConfigurationParameter"
 	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 1
@@ -26153,7 +25663,7 @@ ${inlines}
       end
 
       operation 932977 "closeUntilMaxForce"
-	preserve_cpp_body_indent public explicit_return_type "bool"
+	preserve_cpp_body_indent public explicit_return_type "void"
 	nparams 0
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
@@ -26279,36 +25789,6 @@ ${inlines}
 
       attribute 386929 "jointNumber"
 	private explicit_type "uint"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 387953 "maxEncoderValue"
-	private explicit_type "uint"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 388081 "maxTravelDistance"
-	private explicit_type "quantity<si::length>"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 388209 "barSpacingOffset"
-	private explicit_type "quantity<si::length>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -26526,6 +26006,96 @@ ${inlines}
 	
       end
 
+      operation 401009 "setConfigurationParameter"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param in name "parameter" type class_ref 266097 // MaxEncoderValue
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 882801 "getConfigurationParameter"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "parameter" type class_ref 266097 // MaxEncoderValue
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 882673 "getConfigurationParameter"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "parameter" type class_ref 265969 // MaxTravelDistance
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 400881 "setConfigurationParameter"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param in name "parameter" type class_ref 265969 // MaxTravelDistance
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 399473 "setConfigurationParameter"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param in name "parameter" type class_ref 259441 // BarSpacingOffset
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 882545 "getConfigurationParameter"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "parameter" type class_ref 259441 // BarSpacingOffset
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
       operation 919025 "getConfigurationParameter"
 	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 1
@@ -26644,6 +26214,36 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
+      end
+
+      attribute 388081 "maxTravelDistance"
+	private explicit_type "quantity<si::length>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 387953 "maxEncoderValue"
+	private explicit_type "uint"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 388209 "barSpacingOffset"
+	private explicit_type "quantity<si::length>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
       end
 
       attribute 790001 "ethercatMaster"

@@ -1,0 +1,39 @@
+format 75
+
+pseudostatecanvas 128113 pseudostate_ref 128113 // initial
+   xyz 325 88 2000
+end
+pseudostatecanvas 128241 pseudostate_ref 128241 // final
+   xyz 388 543 2000
+end
+statecanvas 128369 state_ref 128241 // YouBotBase object running
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  xyzwh 237 198 2000 191 39
+end
+statecanvas 128625 state_ref 128369 // youBot  motors communated
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  xyzwh 231 322 2000 201 39
+end
+statecanvas 128881 state_ref 128497 // instantiate YouBotBase class
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  xyzwh 454 154 2000 287 259
+end
+statecanvas 129009 state_ref 128625 // initialize EtherCAT
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  xyzwh 495 216 2005 197 43
+end
+statecanvas 129137 state_ref 128753 // set EtherCAT slaves to operation mode
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  xyzwh 458 293 2005 263 41
+end
+transitioncanvas 128497 transition_ref 128113 // instantiate YouBotBase class
+  
+  from ref 128113 z 2001 label "instantiate YouBotBase class" xyz 245.5 143.5 3000 to ref 128369
+  write_horizontally default show_definition default drawing_language default
+end
+transitioncanvas 128753 transition_ref 128241 // doJointCommutation()
+  
+  from ref 128369 z 2001 label "doJointCommutation()" xyz 265.5 270 3000 to ref 128625
+  write_horizontally default show_definition default drawing_language default
+end
+end

@@ -118,7 +118,7 @@ class YouBotGripper : public OneDOFGripper {
 
     void open();
 
-    bool closeUntilMaxForce();
+    void closeUntilMaxForce();
 
     YouBotGripperBar& getGripperBar1();
 

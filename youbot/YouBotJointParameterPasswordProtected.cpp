@@ -1622,6 +1622,7 @@ ReversingEncoderDirection::~ReversingEncoderDirection() {
 bool ReversingEncoderDirection::getParameter(bool& parameter) const {
   // Bouml preserved body begin 000717F1
     parameter = this->value;
+    return this->value;
   // Bouml preserved body end 000717F1
 }
 

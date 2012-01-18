@@ -14,3 +14,4 @@ class FourSwedishWheelOmniBaseKinematicConfiguration
     this->lengthBetweenFrontAndRearWheels = source.lengthBetweenFrontAndRearWheels;
     this->lengthBetweenFrontWheels = source.lengthBetweenFrontWheels;
     this->wheelRadius = source.wheelRadius;
+    return *this;

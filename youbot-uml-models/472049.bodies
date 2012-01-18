@@ -4,8 +4,23 @@ class YouBotGripperBar
     this->mailboxMsgRetries = 200;
     this->timeTillNextMailboxUpdate = 1; //ms
     this->barNo = barNo;
+    this->maxTravelDistance = 0.0115 * meter;
+    this->maxEncoderValue = 67000;
+    this->barSpacingOffset = 0 * meter;
 
     ethercatMaster = &(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath));
+!!!401009.cpp!!!	setConfigurationParameter(in parameter : MaxEncoderValue) : void
+    this->maxEncoderValue = parameter.value;
+!!!882801.cpp!!!	getConfigurationParameter(out parameter : MaxEncoderValue) : void
+    parameter.value = this->maxEncoderValue;
+!!!882673.cpp!!!	getConfigurationParameter(out parameter : MaxTravelDistance) : void
+    parameter.value = this->maxTravelDistance;
+!!!400881.cpp!!!	setConfigurationParameter(in parameter : MaxTravelDistance) : void
+    this->maxTravelDistance = parameter.value;
+!!!399473.cpp!!!	setConfigurationParameter(in parameter : BarSpacingOffset) : void
+    this->barSpacingOffset = parameter.value;
+!!!882545.cpp!!!	getConfigurationParameter(out parameter : BarSpacingOffset) : void
+    parameter.value = this->barSpacingOffset;
 !!!919025.cpp!!!	getConfigurationParameter(out parameter : YouBotGripperParameter) : void
   
   if (parameter.getType() == MOTOR_CONTOLLER_PARAMETER) {

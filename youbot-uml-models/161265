@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 62
+  revision 63
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -140,14 +140,15 @@ ${description}
 #include <stdexcept>
 #include <iostream>
 #include <boost/thread.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 #include \"generic/Logger.hpp\"
 #include \"generic/Units.hpp\"
 #include \"generic/Time.hpp\"
 #include \"generic/Exceptions.hpp\"
 #include \"generic/ConfigFile.hpp\"
+#include \"youbot/ProtocolDefinitions.hpp\"
 #include \"youbot/YouBotSlaveMsg.hpp\"
 #include \"youbot/YouBotSlaveMailboxMsg.hpp\"
-#include \"youbot/MotorProtection.hpp\"
 
 extern \"C\"{
 #include <ethercattype.h>
@@ -1139,37 +1140,6 @@ ${namespace_end}"
  ****************************************************************/"
     end
 
-    artifact 235121 "MotorProtection"
-      stereotype "source"
-      cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
-#define ${NAMESPACE}_${NAME}_H
-
-${description}
-#include \"boost/date_time/posix_time/posix_time.hpp\"
-#include \"generic/Logger.hpp\"
-#include \"generic/Units.hpp\"
-#include \"generic/Time.hpp\"
-#include \"generic/Exceptions.hpp\"
-#include \"youbot/ProtocolDefinitions.hpp\"
-#include \"youbot/YouBotSlaveMsg.hpp\"
-
-using namespace boost::posix_time;
-${namespace_start}
-${definition}
-${namespace_end}
-#endif
-"
-      cpp_src "${description}
-#include \"youbot/MotorProtection.hpp\"
-${namespace_start}
-${members}
-${namespace_end}"
-      associated_classes
-	class_ref 334705 // CurrentWithTimeSlice
-	class_ref 328177 // MotorProtection
-      end
-    end
-
     artifact 248177 "DataTrace"
       stereotype "source"
       cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
@@ -1197,6 +1167,7 @@ ${description}
 #else
   #include \"youbot/EthercatMaster.hpp\"
 #endif
+using namespace boost::posix_time;
 ${namespace_start}
 
 enum DataTraceCntrollerMode {
@@ -1286,14 +1257,15 @@ ${description}
 #include <stdexcept>
 #include <iostream>
 #include <boost/thread.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 #include \"generic/Logger.hpp\"
 #include \"generic/Units.hpp\"
 #include \"generic/Time.hpp\"
 #include \"generic/Exceptions.hpp\"
 #include \"generic/ConfigFile.hpp\"
+#include \"youbot/ProtocolDefinitions.hpp\"
 #include \"youbot/YouBotSlaveMsg.hpp\"
 #include \"youbot/YouBotSlaveMailboxMsg.hpp\"
-#include \"youbot/MotorProtection.hpp\"
 
 extern \"C\"{
 #include <ethercattype.h>

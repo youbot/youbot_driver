@@ -7,7 +7,7 @@ class YouBotBase
     string filename;
     filename = name;
     filename.append(".cfg");
-    configfile == NULL;
+
     configfile = new ConfigFile(filename, configFilePath);
     
     this->initializeJoints();
@@ -15,8 +15,7 @@ class YouBotBase
     this->initializeKinematic();
 
 !!!425713.cpp!!!	~YouBotBase()
-    if (configfile != NULL)
-      delete configfile;
+     delete configfile;
 !!!567793.cpp!!!	doJointCommutation() : void
 
     InitializeJoint doInitialization;
