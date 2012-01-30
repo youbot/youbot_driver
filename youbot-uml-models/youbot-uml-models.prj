@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 212
+  revision 213
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -39,6 +39,7 @@ format 75
 
   mark_for_import
   
+  cpp_namespace "youbot"
   ncouples 12
   key "gxmi path" value ""
   key "gxmi gen views" value "no"
@@ -19780,7 +19781,7 @@ ${inlines}
       end
 
       operation 516977 "getType"
-	preserve_cpp_body_indent const private return_type class_ref 210929 // ParameterType
+	preserve_cpp_body_indent const private return_type class_ref 479217 // ParameterType
 	nparams 0
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->parameterType;};
 "
@@ -19788,6 +19789,7 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
+	comment "/// testt"
       end
 
       attribute 499697 "value"
@@ -24108,6 +24110,22 @@ ${inlines}
       end
     end
 
+    class 479217 "ParameterType"
+      visibility package 
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+    end
   end
 
   classview 187121 "EthercatMasterWithoutThread"

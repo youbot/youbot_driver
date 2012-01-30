@@ -395,7 +395,7 @@ void DataTrace::updateTrace(const JointRoundsPerMinuteSetpoint& setpoint) {
 void DataTrace::updateTrace(const JointCurrentSetpoint& setpoint) {
   // Bouml preserved body begin 000C91F1
     currentSetpoint = setpoint;
-    controllerMode = CURRENT_MODE;
+    controllerMode = CURRENT_CONTROL_MODE;
     this->update();
   // Bouml preserved body end 000C91F1
 }
@@ -403,7 +403,7 @@ void DataTrace::updateTrace(const JointCurrentSetpoint& setpoint) {
 void DataTrace::updateTrace(const JointTorqueSetpoint& setpoint) {
   // Bouml preserved body begin 000C9271
     torqueSetpoint = setpoint;
-    controllerMode = TORQUE_MODE;
+    controllerMode = TORQUE_CONTROL_MODE;
     this->update();
   // Bouml preserved body end 000C9271
 }
@@ -411,7 +411,7 @@ void DataTrace::updateTrace(const JointTorqueSetpoint& setpoint) {
 void DataTrace::updateTrace(const JointPWMSetpoint& setpoint) {
   // Bouml preserved body begin 000C92F1
     PWMSetpoint = setpoint;
-    controllerMode = PWM_MODE;
+    controllerMode = PWM_CONTROL_MODE;
     this->update();
   // Bouml preserved body end 000C92F1
 }
@@ -483,7 +483,7 @@ void DataTrace::update() {
         pwmSet << "NaN";
         torqueSet << "NaN";
         break;
-      case PWM_MODE:
+      case PWM_CONTROL_MODE:
         angleSet << "NaN";
         angleEncSet << "NaN";
         velSet << "NaN";
@@ -492,7 +492,7 @@ void DataTrace::update() {
         pwmSet << PWMSetpoint.pwm;
         torqueSet << "NaN";
         break;
-      case CURRENT_MODE:
+      case CURRENT_CONTROL_MODE:
         angleSet << "NaN";
         angleEncSet << "NaN";
         velSet << "NaN";
@@ -501,7 +501,7 @@ void DataTrace::update() {
         pwmSet << "NaN";
         torqueSet << "NaN";
         break;
-      case TORQUE_MODE:
+      case TORQUE_CONTROL_MODE:
         angleSet << "NaN";
         angleEncSet << "NaN";
         velSet << "NaN";

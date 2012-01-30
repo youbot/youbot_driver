@@ -79,7 +79,7 @@ friend class YouBotGripperBar;
 
     virtual void toString(std::string& value) = 0;
 
-    virtual ::ParameterType getType() const = 0;
+    virtual ParameterType getType() const = 0;
 
     virtual std::string getName() const = 0;
 
@@ -93,7 +93,7 @@ friend class YouBotGripperBar;
 
 
   private:
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -121,7 +121,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int controllerType;
 
@@ -129,7 +129,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -155,7 +155,7 @@ friend class YouBotGripperBar;
 
     virtual void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message);
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     std::string getName() const {return this->name;};
 
@@ -163,7 +163,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -189,7 +189,7 @@ friend class YouBotGripperBar;
 
     virtual void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message);
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     std::string getName() const {return this->name;};
 
@@ -197,7 +197,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -223,7 +223,7 @@ friend class YouBotGripperBar;
 
     virtual void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message);
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     std::string getName() const {return this->name;};
 
@@ -231,7 +231,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -257,7 +257,7 @@ friend class YouBotGripperBar;
 
     virtual void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message);
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     std::string getName() const {return this->name;};
 
@@ -265,7 +265,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -293,7 +293,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -303,7 +303,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -331,7 +331,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -341,7 +341,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -369,7 +369,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -379,7 +379,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -407,7 +407,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -417,7 +417,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -447,7 +447,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int upperLimit;
 
@@ -457,7 +457,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -486,7 +486,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int upperLimit;
 
@@ -496,7 +496,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -527,7 +527,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int upperLimit;
 
@@ -537,7 +537,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -568,7 +568,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -578,7 +578,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -609,13 +609,13 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     bool value;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -647,7 +647,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int upperLimit;
 
@@ -657,7 +657,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -690,13 +690,13 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     bool value;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -739,7 +739,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int upperLimit;
 
@@ -749,7 +749,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -782,7 +782,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int upperLimit;
 
@@ -792,7 +792,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -820,7 +820,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -830,7 +830,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -859,7 +859,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -869,7 +869,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -897,7 +897,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -907,7 +907,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -944,7 +944,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int upperLimit;
 
@@ -954,7 +954,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -982,7 +982,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int upperLimit;
 
@@ -992,7 +992,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1022,7 +1022,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int upperLimit;
 
@@ -1032,7 +1032,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1061,7 +1061,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int upperLimit;
 
@@ -1071,7 +1071,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1102,7 +1102,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int upperLimit;
 
@@ -1112,7 +1112,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1146,7 +1146,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int upperLimit;
 
@@ -1156,7 +1156,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1187,13 +1187,13 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     bool value;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1224,7 +1224,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int upperLimit;
 
@@ -1234,7 +1234,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1263,7 +1263,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int upperLimit;
 
@@ -1273,7 +1273,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1305,7 +1305,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int upperLimit;
 
@@ -1315,7 +1315,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1347,7 +1347,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int upperLimit;
 
@@ -1357,7 +1357,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1388,7 +1388,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int upperLimit;
 
@@ -1398,7 +1398,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1430,7 +1430,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int upperLimit;
 
@@ -1440,7 +1440,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1470,7 +1470,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int upperLimit;
 
@@ -1480,7 +1480,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1509,7 +1509,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int upperLimit;
 
@@ -1519,7 +1519,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1548,7 +1548,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int upperLimit;
 
@@ -1558,7 +1558,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1587,7 +1587,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int upperLimit;
 
@@ -1597,7 +1597,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1627,13 +1627,13 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     bool value;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1664,7 +1664,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -1674,7 +1674,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1704,7 +1704,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -1714,7 +1714,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1747,13 +1747,13 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     bool value;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1781,13 +1781,13 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     bool value;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1820,7 +1820,7 @@ friend class YouBotGripperBar;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int upperLimit;
 
@@ -1830,7 +1830,7 @@ friend class YouBotGripperBar;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 

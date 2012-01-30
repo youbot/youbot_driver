@@ -93,11 +93,11 @@ friend class YouBotJoint;
 
     virtual std::string getName() const = 0;
 
-    virtual ::ParameterType getType() const = 0;
+    virtual ParameterType getType() const = 0;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -122,11 +122,11 @@ friend class YouBotJoint;
 
     virtual std::string getName() const = 0;
 
-    virtual ::ParameterType getType() const = 0;
+    virtual ParameterType getType() const = 0;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -153,13 +153,13 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     std::string value;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -186,13 +186,13 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     bool value;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -219,13 +219,13 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     bool doCalibration;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
     CalibrationDirection calibrationDirection;
 
@@ -256,7 +256,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int controllerType;
 
@@ -264,7 +264,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -291,13 +291,13 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     double value;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -324,13 +324,13 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     unsigned int value;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -357,13 +357,13 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     bool value;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -390,7 +390,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int lowerLimit;
 
@@ -398,7 +398,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
     bool areLimitsActive;
 
@@ -427,7 +427,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     quantity<plane_angle> lowerLimit;
 
@@ -435,7 +435,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
     bool areLimitsActive;
 
@@ -464,13 +464,13 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     double value;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -497,7 +497,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     quantity<angular_velocity> upperLimit;
 
@@ -507,7 +507,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -534,7 +534,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     quantity<angular_acceleration> upperLimit;
 
@@ -544,7 +544,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -571,13 +571,13 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     bool value;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -604,7 +604,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     quantity<angular_velocity> upperLimit;
 
@@ -614,7 +614,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -642,7 +642,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     quantity<angular_velocity> upperLimit;
 
@@ -652,7 +652,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -679,7 +679,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     quantity<angular_velocity> upperLimit;
 
@@ -689,7 +689,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -716,7 +716,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -726,7 +726,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -753,7 +753,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -763,7 +763,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -790,7 +790,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -800,7 +800,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -827,7 +827,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -837,7 +837,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -864,7 +864,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -874,7 +874,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -901,7 +901,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -911,7 +911,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -938,7 +938,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -948,7 +948,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -975,7 +975,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -985,7 +985,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1012,7 +1012,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -1022,7 +1022,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1049,7 +1049,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -1059,7 +1059,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1086,7 +1086,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -1096,7 +1096,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1123,7 +1123,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -1133,7 +1133,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1160,7 +1160,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -1170,7 +1170,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1197,7 +1197,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -1207,7 +1207,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1234,7 +1234,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -1244,7 +1244,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1271,7 +1271,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -1281,7 +1281,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1308,7 +1308,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -1318,7 +1318,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1345,7 +1345,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -1355,7 +1355,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1382,7 +1382,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -1392,7 +1392,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1419,7 +1419,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -1429,7 +1429,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1456,7 +1456,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -1466,7 +1466,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1493,7 +1493,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -1503,7 +1503,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1530,7 +1530,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -1540,7 +1540,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1567,7 +1567,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -1577,7 +1577,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1604,7 +1604,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     quantity<angular_velocity> upperLimit;
 
@@ -1614,7 +1614,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1641,7 +1641,7 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     int upperLimit;
 
@@ -1651,7 +1651,7 @@ friend class YouBotJoint;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1678,13 +1678,13 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     bool value;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -1712,13 +1712,13 @@ friend class YouBotJoint;
 
     std::string getName() const {return this->name;};
 
-    ::ParameterType getType() const {return this->parameterType;};
+    ParameterType getType() const {return this->parameterType;};
 
     bool value;
 
     std::string name;
 
-    ::ParameterType parameterType;
+    ParameterType parameterType;
 
 };
 

@@ -65,7 +65,7 @@ using namespace boost::units::angle;
 
 //typedef boost::units::si::length meter;
 using boost::units::si::meters;
-
+namespace youbot {
 
 typedef boost::units::make_scaled_unit<si::length, boost::units::scale<10, boost::units::static_rational<-3> > >::type millimeter;
 typedef boost::units::make_scaled_unit<si::length, boost::units::scale<10, boost::units::static_rational<-2> > >::type centimeter;
@@ -74,6 +74,8 @@ BOOST_UNITS_STATIC_CONSTANT(centimeters, centimeter);
 
 typedef boost::units::make_scaled_unit<si::time, boost::units::scale<10, boost::units::static_rational<-3> > >::type millisecond;
 //BOOST_UNITS_STATIC_CONSTANT(millimeters, millimeter);
+
+} // namespace youbot
 
 #endif	/* YOUBOT_UNITS_HPP */
 

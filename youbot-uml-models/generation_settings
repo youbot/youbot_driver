@@ -2,7 +2,7 @@
   cpp_default_defs 
   cpp_h_extension "hpp" cpp_src_extension "cpp" java_extension "java" php_extension "php" python_extension "py" idl_extension "idl"
 
-  type_forms 20 // uml cpp java idl cpp_in cpp_out cpp_inout cpp_return
+  type_forms 21 // uml cpp java idl cpp_in cpp_out cpp_inout cpp_return
     "void" "void" "void" "void" "${type}" "${type}&" "${type}" "${type}"
     "any" "void*" "Object" "any" "const ${type}" "${type}" "${type}" "${type}"
     "bool" "bool" "boolean" "boolean" "const ${type}" "${type}&" "${type}&" "${type}"
@@ -23,6 +23,7 @@
     "unsigned int*" "unsigned int*" "int" "unsigned int*" "${type}" "${type}" "${type}" "${type}"
     "TMCLCommandNumber" "TMCLCommandNumber" "TMCLCommandNumber" "TMCLCommandNumber" "${type}" "${type} &" "${type} &" "${type}"
     "YouBotJoint*" "YouBotJoint*" "YouBotJoint*" "YouBotJoint*" "${type}" "${type}" "${type}" "${type}"
+    "ParameterType" "ParameterType" "ParameterType" "ParameterType" "${type}" "${type} &" "${type} &" "${type}"
   
   relations_stereotypes 5 // uml cpp java pythonidl
     "sequence" "vector" "Vector" "list" "sequence"

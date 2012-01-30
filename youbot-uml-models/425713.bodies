@@ -309,15 +309,15 @@ class DataTrace
     this->update();
 !!!823793.cpp!!!	updateTrace(in setpoint : JointCurrentSetpoint) : void
     currentSetpoint = setpoint;
-    controllerMode = CURRENT_MODE;
+    controllerMode = CURRENT_CONTROL_MODE;
     this->update();
 !!!823921.cpp!!!	updateTrace(in setpoint : JointTorqueSetpoint) : void
     torqueSetpoint = setpoint;
-    controllerMode = TORQUE_MODE;
+    controllerMode = TORQUE_CONTROL_MODE;
     this->update();
 !!!824049.cpp!!!	updateTrace(in setpoint : JointPWMSetpoint) : void
     PWMSetpoint = setpoint;
-    controllerMode = PWM_MODE;
+    controllerMode = PWM_CONTROL_MODE;
     this->update();
 !!!824177.cpp!!!	updateTrace(in setpoint : JointEncoderSetpoint) : void
     encoderSetpoint = setpoint;
@@ -377,7 +377,7 @@ class DataTrace
         pwmSet << "NaN";
         torqueSet << "NaN";
         break;
-      case PWM_MODE:
+      case PWM_CONTROL_MODE:
         angleSet << "NaN";
         angleEncSet << "NaN";
         velSet << "NaN";
@@ -386,7 +386,7 @@ class DataTrace
         pwmSet << PWMSetpoint.pwm;
         torqueSet << "NaN";
         break;
-      case CURRENT_MODE:
+      case CURRENT_CONTROL_MODE:
         angleSet << "NaN";
         angleEncSet << "NaN";
         velSet << "NaN";
@@ -395,7 +395,7 @@ class DataTrace
         pwmSet << "NaN";
         torqueSet << "NaN";
         break;
-      case TORQUE_MODE:
+      case TORQUE_CONTROL_MODE:
         angleSet << "NaN";
         angleEncSet << "NaN";
         velSet << "NaN";

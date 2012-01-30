@@ -81,9 +81,9 @@ enum DataTraceCntrollerMode {
     POSITION_CONTROL_ENC,
     VELOCITY_CONTROL_RAD_SEC,
     VELOCITY_CONTROL_RPM,
-    PWM_MODE,
-    CURRENT_MODE,
-    TORQUE_MODE
+    PWM_CONTROL_MODE,
+    CURRENT_CONTROL_MODE,
+    TORQUE_CONTROL_MODE
 };
 ///////////////////////////////////////////////////////////////////////////////
 

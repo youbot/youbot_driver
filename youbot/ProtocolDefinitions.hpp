@@ -52,6 +52,7 @@
 #ifndef PROTOCOLDEFINITIONS_HPP
 #define	PROTOCOLDEFINITIONS_HPP
 
+namespace youbot {
 
 //Opcodes of all TMCL commands that can be used in direct mode
 typedef enum TMCLCommandNumber {
@@ -178,6 +179,7 @@ enum GripperErrorFlags {
     STAND_STILL = 0x80
 };
 
+} // namespace youbot
 
 #endif	/* PROTOCOLDEFINITIONS_HPP */
 
