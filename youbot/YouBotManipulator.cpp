@@ -52,7 +52,7 @@
 namespace youbot {
 
 YouBotManipulator::YouBotManipulator(const std::string name, const std::string configFilePath)
-: ethercatMaster(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath)) {
+: ethercatMaster(EthercatMasterFactory::getInstance("youbot-ethercat.cfg", configFilePath)) {
   // Bouml preserved body begin 00067F71
 
     this->controllerType = 841;
@@ -121,10 +121,10 @@ void YouBotManipulator::doJointCommutation() {
       // check for the next 5 sec if the joints are commutated
       for (u = 1; u <= 5000; u++) {
         for (unsigned int i = 1; i <= ARMJOINTS; i++) {
-          #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+          if(!ethercatMaster.isThreadActive()){
             ethercatMaster.sendProcessData();
             ethercatMaster.receiveProcessData();
-          #endif
+          }
           this->getArmJoint(i).getStatus(statusFlags);
           if (statusFlags & INITIALIZED) {
             isCommutated[i - 1] = true;
@@ -243,10 +243,10 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
     for (unsigned int i = 0; i < ARMJOINTS; i++) {
       if (doCalibration[i] == true) {
         joints[i].setData(calibrationVel[i]);
-        #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+        if(!ethercatMaster.isThreadActive()){
           ethercatMaster.sendProcessData();
           ethercatMaster.receiveProcessData();
-        #endif
+        }
       } else {
         finished[i] = true;
       }
@@ -255,19 +255,19 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
     //monitor the current to find end stop 
     while (!(finished[0] && finished[1] && finished[2] && finished[3] && finished[4])) {
       for (unsigned int i = 0; i < ARMJOINTS; i++) {
-        #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+        if(!ethercatMaster.isThreadActive()){
           ethercatMaster.sendProcessData();
           ethercatMaster.receiveProcessData();
-        #endif
+        }
         joints[i].getData(sensedCurrent);
         //turn till a max current is reached
         if (abs(sensedCurrent.current) > abs(maxCurrent[i])) {
           //stop movement
           joints[i].setData(pwmStopMovement);
-          #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+          if(!ethercatMaster.isThreadActive()){
             ethercatMaster.sendProcessData();
             ethercatMaster.receiveProcessData();
-          #endif
+          }
           finished[i] = true;
         }
       }
@@ -281,10 +281,10 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
       if (doCalibration[i] == true) {
         //set encoder reference position
         joints[i].setEncoderToZero();
-        #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+        if(!ethercatMaster.isThreadActive()){
           ethercatMaster.sendProcessData();
           ethercatMaster.receiveProcessData();
-        #endif
+        }
         // set a flag in the user variable to remember that it is calibrated
         joints[i].setConfigurationParameter(IsCalibratedSetMessage);
         //     LOG(info) << "Calibration finished for joint: " << this->jointName;

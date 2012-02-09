@@ -1,11 +1,12 @@
-class EthercatMaster
-!!!858865.cpp!!!	EthercatMaster()
-
+class EthercatMasterWithoutThread
+!!!858865.cpp!!!	EthercatMasterWithoutThread(in configFile : std::string, in configFilePath : std::string)
 
     ethernetDevice = "eth0";
     mailboxTimeout = 4000; //micro sec
     ethercatTimeout = 500; //micro sec
     configfile = NULL;
+    this->configFileName = configFile;
+    this->configFilepath = configFilePath;
 
     //initialize to zero
     for (unsigned int i = 0; i < 4096; i++) {
@@ -19,28 +20,14 @@ class EthercatMaster
     configfile->readInto(ethercatTimeout, "EtherCAT", "EtherCATTimeout_[usec]");
     configfile->readInto(mailboxTimeout, "EtherCAT", "MailboxTimeout_[usec]");
 
+    this->initializeEthercat();
 
-
-!!!859121.cpp!!!	~EthercatMaster()
+!!!859121.cpp!!!	~EthercatMasterWithoutThread()
     this->closeEthercat();
     if (configfile != NULL)
       delete configfile;
-!!!859249.cpp!!!	getInstance(in configFile : string = "youbot-ethercat.cfg", in configFilePath : string = "../config/") : EthercatMaster&
-    if (!instance) {
-      configFileName = configFile;
-      configFilepath = configFilePath;
-      instance = new EthercatMaster();
-      instance->initializeEthercat();
-
-    }
-    return *instance;
-
-!!!859377.cpp!!!	destroy() : void
-    if (instance) {
-      delete instance;
-    }
-    instance = NULL;
-
+!!!945009.cpp!!!	isThreadActive() : bool
+  return false;
 !!!859505.cpp!!!	getNumberOfSlaves() : unsigned int
     return this->nrOfSlaves;
 !!!859633.cpp!!!	AutomaticSendOn(in enableAutomaticSend : bool) : void

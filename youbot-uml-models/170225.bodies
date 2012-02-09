@@ -7,7 +7,7 @@ class YouBotJoint
     this->storage.lowerLimit = 0;
     this->storage.upperLimit = 0;
     this->storage.areLimitsActive = false;
-    ethercatMaster = &(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath));
+    ethercatMaster = &(EthercatMasterFactory::getInstance("youbot-ethercat.cfg", configFilePath));
 !!!475761.cpp!!!	setConfigurationParameter(in parameter : JointParameter) : void
   throw std::runtime_error("Please use YouBotJointParameters");
 !!!380529.cpp!!!	getConfigurationParameter(out parameter : JointParameter) : void

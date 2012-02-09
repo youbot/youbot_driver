@@ -60,7 +60,7 @@ YouBotJoint::YouBotJoint(const unsigned int jointNo, const std::string& configFi
     this->storage.lowerLimit = 0;
     this->storage.upperLimit = 0;
     this->storage.areLimitsActive = false;
-    ethercatMaster = &(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath));
+    ethercatMaster = &(EthercatMasterFactory::getInstance("youbot-ethercat.cfg", configFilePath));
   // Bouml preserved body end 000412F1
 }
 

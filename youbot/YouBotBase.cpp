@@ -52,7 +52,7 @@
 namespace youbot {
 
 YouBotBase::YouBotBase(const std::string name, const std::string configFilePath)
-: ethercatMaster(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath)) {
+: ethercatMaster(EthercatMasterFactory::getInstance("youbot-ethercat.cfg", configFilePath)) {
   // Bouml preserved body begin 00067E71
 
     this->controllerType = 174;
@@ -91,10 +91,11 @@ void YouBotBase::doJointCommutation() {
     this->getBaseJoint(3).setConfigurationParameter(clearTimeoutFlag);
     this->getBaseJoint(4).setConfigurationParameter(clearTimeoutFlag);
 
-    #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
+
+    if(!ethercatMaster.isThreadActive()){
       ethercatMaster.sendProcessData();
       ethercatMaster.receiveProcessData();
-    #endif
+    }
 
     doInitialization.setParameter(false);
     this->getBaseJoint(1).getConfigurationParameter(doInitialization);
@@ -143,10 +144,10 @@ void YouBotBase::doJointCommutation() {
       // check for the next 5 sec if the joints are commutated
       for (u = 1; u <= 5000; u++) {
         for (unsigned int i = 1; i <= BASEJOINTS; i++) {
-          #ifdef ETHERCAT_MASTER_WITHOUT_THREAD
-            ethercatMaster.sendProcessData();
-            ethercatMaster.receiveProcessData();
-          #endif
+          if(!ethercatMaster.isThreadActive()){
+              ethercatMaster.sendProcessData();
+              ethercatMaster.receiveProcessData();
+          }
           this->getBaseJoint(i).getStatus(statusFlags);
           if (statusFlags & INITIALIZED) {
             isCommutated[i - 1] = true;

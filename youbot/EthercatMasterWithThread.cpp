@@ -58,14 +58,12 @@ extern "C" {
 #include "ethercatdc.h"
 #include "ethercatprint.h"
 }
-#include "youbot/EthercatMaster.hpp"
+#include "youbot/EthercatMasterWithThread.hpp"
 
 namespace youbot {
 
-EthercatMaster* EthercatMaster::instance = 0;
-EthercatMaster::EthercatMaster() {
+EthercatMasterWithThread::EthercatMasterWithThread(const std::string& configFile, const std::string& configFilePath) {
   // Bouml preserved body begin 00041171
-
 
     ethernetDevice = "eth0";
     timeTillNextEthercatUpdate = 1000; //usec
@@ -78,6 +76,8 @@ EthercatMaster::EthercatMaster() {
     newDataFlagTwo = false;
     this->automaticSendOn = true;
     this->automaticReceiveOn = true;
+    this->configFileName = configFile;
+    this->configFilepath = configFilePath;
     configfile = NULL;
 
     //initialize to zero
@@ -93,12 +93,14 @@ EthercatMaster::EthercatMaster() {
     configfile->readInto(ethercatTimeout, "EtherCAT", "EtherCATTimeout_[usec]");
     configfile->readInto(mailboxTimeout, "EtherCAT", "MailboxTimeout_[usec]");
     configfile->readInto(maxCommunicationErrors, "EtherCAT", "MaximumNumberOfEtherCATErrors");
+    
+    this->initializeEthercat();
 
 
   // Bouml preserved body end 00041171
 }
 
-EthercatMaster::~EthercatMaster() {
+EthercatMasterWithThread::~EthercatMasterWithThread() {
   // Bouml preserved body begin 000411F1
     stopThread = true;
     threads.join_all();
@@ -108,44 +110,20 @@ EthercatMaster::~EthercatMaster() {
   // Bouml preserved body end 000411F1
 }
 
-///creates a instance of the singleton EthercatMaster if there is none and returns a reference to it
-///@param configFile configuration file name incl. the extension
-///@param configFilePath the path where the configuration is located with a / at the end
-EthercatMaster& EthercatMaster::getInstance(const std::string configFile, const std::string configFilePath)
-{
-  // Bouml preserved body begin 00042F71
-    if (!instance) {
-      configFileName = configFile;
-      configFilepath = configFilePath;
-      instance = new EthercatMaster();
-      instance->initializeEthercat();
-
-    }
-    return *instance;
-
-  // Bouml preserved body end 00042F71
-}
-
-/// destroy the singleton instance by calling the destructor
-void EthercatMaster::destroy()
-{
-  // Bouml preserved body begin 00042FF1
-    if (instance) {
-      delete instance;
-    }
-    instance = NULL;
-
-  // Bouml preserved body end 00042FF1
+bool EthercatMasterWithThread::isThreadActive() {
+  // Bouml preserved body begin 000E6AF1
+  return true;
+  // Bouml preserved body end 000E6AF1
 }
 
 ///return the quantity of ethercat slave which have an input/output buffer
-unsigned int EthercatMaster::getNumberOfSlaves() const {
+unsigned int EthercatMasterWithThread::getNumberOfSlaves() const {
   // Bouml preserved body begin 00044A71
     return this->nrOfSlaves;
   // Bouml preserved body end 00044A71
 }
 
-void EthercatMaster::AutomaticSendOn(const bool enableAutomaticSend) {
+void EthercatMasterWithThread::AutomaticSendOn(const bool enableAutomaticSend) {
   // Bouml preserved body begin 000775F1
     this->automaticSendOn = enableAutomaticSend;
 
@@ -185,7 +163,7 @@ void EthercatMaster::AutomaticSendOn(const bool enableAutomaticSend) {
   // Bouml preserved body end 000775F1
 }
 
-void EthercatMaster::AutomaticReceiveOn(const bool enableAutomaticReceive) {
+void EthercatMasterWithThread::AutomaticReceiveOn(const bool enableAutomaticReceive) {
   // Bouml preserved body begin 0008FB71
     this->automaticReceiveOn = enableAutomaticReceive;
 
@@ -210,7 +188,7 @@ void EthercatMaster::AutomaticReceiveOn(const bool enableAutomaticReceive) {
 
 ///provides all ethercat slave informations from the SOEM driver
 ///@param ethercatSlaveInfos ethercat slave informations
-void EthercatMaster::getEthercatDiagnosticInformation(std::vector<ec_slavet>& ethercatSlaveInfos) {
+void EthercatMasterWithThread::getEthercatDiagnosticInformation(std::vector<ec_slavet>& ethercatSlaveInfos) {
   // Bouml preserved body begin 00061EF1
     ethercatSlaveInfos = this->ethercatSlaveInfo;
     for (unsigned int i = 0; i < ethercatSlaveInfos.size(); i++) {
@@ -220,8 +198,36 @@ void EthercatMaster::getEthercatDiagnosticInformation(std::vector<ec_slavet>& et
   // Bouml preserved body end 00061EF1
 }
 
+///sends ethercat messages to the motor controllers
+/// returns a true if everything it OK and returns false if something fail
+bool EthercatMasterWithThread::sendProcessData() {
+  // Bouml preserved body begin 000E68F1
+    throw std::runtime_error("When using the EthercatMaster with thread there is not need to send process data manual.");
+    return false;
+  // Bouml preserved body end 000E68F1
+}
+
+/// receives ethercat messages from the motor controllers
+/// returns a true if everything it OK and returns false if something fail
+bool EthercatMasterWithThread::receiveProcessData() {
+  // Bouml preserved body begin 000E6971
+    throw std::runtime_error("When using the EthercatMaster with thread there is not need to receive process data manual");
+    return false;
+  // Bouml preserved body end 000E6971
+}
+
+/// checks if an error has occurred in the soem driver
+/// returns a true if an error has occurred
+bool EthercatMasterWithThread::isErrorInSoemDriver() {
+  // Bouml preserved body begin 000E69F1
+   
+    return ec_iserror();
+
+  // Bouml preserved body end 000E69F1
+}
+
 ///establishes the ethercat connection
-void EthercatMaster::initializeEthercat() {
+void EthercatMasterWithThread::initializeEthercat() {
   // Bouml preserved body begin 000410F1
 
     /* initialise SOEM, bind socket to ifname */
@@ -365,7 +371,7 @@ void EthercatMaster::initializeEthercat() {
     }
 
     stopThread = false;
-    threads.create_thread(boost::bind(&EthercatMaster::updateSensorActorValues, this));
+    threads.create_thread(boost::bind(&EthercatMasterWithThread::updateSensorActorValues, this));
 
     SLEEP_MILLISEC(10); //needed to start up thread and EtherCAT communication
 
@@ -373,7 +379,7 @@ void EthercatMaster::initializeEthercat() {
   // Bouml preserved body end 000410F1
 }
 
-void EthercatMaster::setJointLimits(const int lowerJointLimit, const int upperJointLimit, const bool inverseMovement, const bool activateLimit, const unsigned int& jointNumber) {
+void EthercatMasterWithThread::setJointLimits(const int lowerJointLimit, const int upperJointLimit, const bool inverseMovement, const bool activateLimit, const unsigned int& jointNumber) {
   // Bouml preserved body begin 000C22F1
     upperLimit[jointNumber - 1] = upperJointLimit;
     lowerLimit[jointNumber - 1] = lowerJointLimit;
@@ -384,7 +390,7 @@ void EthercatMaster::setJointLimits(const int lowerJointLimit, const int upperJo
 }
 
 ///closes the ethercat connection
-bool EthercatMaster::closeEthercat() {
+bool EthercatMasterWithThread::closeEthercat() {
   // Bouml preserved body begin 00041271
 
 
@@ -404,7 +410,7 @@ bool EthercatMaster::closeEthercat() {
 ///stores a ethercat message to the buffer
 ///@param msgBuffer ethercat message
 ///@param jointNumber joint number of the sender joint
-void EthercatMaster::setMsgBuffer(const YouBotSlaveMsg& msgBuffer, const unsigned int jointNumber) {
+void EthercatMasterWithThread::setMsgBuffer(const YouBotSlaveMsg& msgBuffer, const unsigned int jointNumber) {
   // Bouml preserved body begin 000414F1
 
     if (this->automaticSendOn == true) {
@@ -439,7 +445,7 @@ void EthercatMaster::setMsgBuffer(const YouBotSlaveMsg& msgBuffer, const unsigne
 ///get a ethercat message form the buffer
 ///@param msgBuffer ethercat message
 ///@param jointNumber joint number of the receiver joint
-YouBotSlaveMsg EthercatMaster::getMsgBuffer(const unsigned int jointNumber) {
+YouBotSlaveMsg EthercatMasterWithThread::getMsgBuffer(const unsigned int jointNumber) {
   // Bouml preserved body begin 00041571
 
     static bool lastValueof_newDataFlagOne;
@@ -474,7 +480,7 @@ YouBotSlaveMsg EthercatMaster::getMsgBuffer(const unsigned int jointNumber) {
 ///stores a mailbox message in a buffer which will be sent to the motor controllers
 ///@param msgBuffer ethercat mailbox message
 ///@param jointNumber joint number of the sender joint
-void EthercatMaster::setMailboxMsgBuffer(const YouBotSlaveMailboxMsg& msgBuffer, const unsigned int jointNumber) {
+void EthercatMasterWithThread::setMailboxMsgBuffer(const YouBotSlaveMailboxMsg& msgBuffer, const unsigned int jointNumber) {
   // Bouml preserved body begin 00049D71
 
     if (newDataFlagOne == true) {
@@ -500,7 +506,7 @@ void EthercatMaster::setMailboxMsgBuffer(const YouBotSlaveMailboxMsg& msgBuffer,
 ///gets a mailbox message form the buffer which came form the motor controllers
 ///@param msgBuffer ethercat mailbox message
 ///@param jointNumber joint number of the receiver joint
-bool EthercatMaster::getMailboxMsgBuffer(YouBotSlaveMailboxMsg& mailboxMsg, const unsigned int jointNumber) {
+bool EthercatMasterWithThread::getMailboxMsgBuffer(YouBotSlaveMailboxMsg& mailboxMsg, const unsigned int jointNumber) {
   // Bouml preserved body begin 00049DF1
 
 
@@ -527,7 +533,7 @@ bool EthercatMaster::getMailboxMsgBuffer(YouBotSlaveMailboxMsg& mailboxMsg, cons
 
 ///sends the mailbox Messages which have been stored in the buffer
 ///@param mailboxMsg ethercat mailbox message
-bool EthercatMaster::sendMailboxMessage(const YouBotSlaveMailboxMsg& mailboxMsg) {
+bool EthercatMasterWithThread::sendMailboxMessage(const YouBotSlaveMailboxMsg& mailboxMsg) {
   // Bouml preserved body begin 00052F71
     //  LOG(trace) << "send mailbox message (buffer two) slave " << mailboxMsg.getSlaveNo();
     mailboxBufferSend[0] = mailboxMsg.stctOutput.moduleAddress;
@@ -548,7 +554,7 @@ bool EthercatMaster::sendMailboxMessage(const YouBotSlaveMailboxMsg& mailboxMsg)
 
 ///receives mailbox messages and stores them in the buffer
 ///@param mailboxMsg ethercat mailbox message
-bool EthercatMaster::receiveMailboxMessage(YouBotSlaveMailboxMsg& mailboxMsg) {
+bool EthercatMasterWithThread::receiveMailboxMessage(YouBotSlaveMailboxMsg& mailboxMsg) {
   // Bouml preserved body begin 00052FF1
     if (ec_mbxreceive(mailboxMsg.getSlaveNo(), &mailboxBufferReceive, mailboxTimeout)) {
       //    LOG(trace) << "received mailbox message (buffer two) slave " << mailboxMsg.getSlaveNo();
@@ -563,7 +569,7 @@ bool EthercatMaster::receiveMailboxMessage(YouBotSlaveMailboxMsg& mailboxMsg) {
   // Bouml preserved body end 00052FF1
 }
 
-void EthercatMaster::checkJointLimits() {
+void EthercatMasterWithThread::checkJointLimits() {
   // Bouml preserved body begin 000C3CF1
     SlaveMessageOutput* jointMsgOut;
     SlaveMessageInput* jointMsgIN;
@@ -639,7 +645,7 @@ void EthercatMaster::checkJointLimits() {
 
 ///sends and receives ethercat messages and mailbox messages to and from the motor controllers
 ///this method is executed in a separate thread
-void EthercatMaster::updateSensorActorValues() {
+void EthercatMasterWithThread::updateSensorActorValues() {
   // Bouml preserved body begin 0003F771
 
     long timeToWait = 0;
@@ -791,7 +797,7 @@ void EthercatMaster::updateSensorActorValues() {
   // Bouml preserved body end 0003F771
 }
 
-void EthercatMaster::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
+void EthercatMasterWithThread::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
   // Bouml preserved body begin 000A9E71
     std::stringstream errorMessageStream;
     errorMessageStream <<  " " ;
@@ -892,9 +898,9 @@ void EthercatMaster::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) 
   // Bouml preserved body end 000A9E71
 }
 
-std::string EthercatMaster::configFileName;
+std::string EthercatMasterWithThread::configFileName;
 
-std::string EthercatMaster::configFilepath;
+std::string EthercatMasterWithThread::configFilepath;
 
 
 } // namespace youbot

@@ -1,58 +1,25 @@
 format 75
 
-classcanvas 128113 class_ref 190577 // EthercatMaster
+classcanvas 128241 class_ref 439153 // EthercatMasterWithoutThread
+  draw_all_relations default hide_attributes yes hide_operations no hide_getset_operations no show_members_full_definition default show_members_visibility yes show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language c++ show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  xyz 121.5 679.5 2005
+end
+classcanvas 128369 class_ref 190577 // EthercatMasterWithThread
   draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
-  hidden_attributes
-    attribute_ref 297969 // instance
-    attribute_ref 289265 // ethernetDevice
-    attribute_ref 289393 // mailboxBuffer
-    attribute_ref 289521 // timeTillNextEthercatUpdate
-    attribute_ref 289905 // mutexDataOne
-    attribute_ref 297457 // mutexDataTwo
-    attribute_ref 290161 // threads
-    attribute_ref 290289 // stopThread
-    attribute_ref 290545 // firstBufferVector
-    attribute_ref 297329 // secondBufferVector
-    attribute_ref 472305 // automaticSendOffBufferVector
-    attribute_ref 554993 // automaticReceiveOffBufferVector
-    attribute_ref 290801 // nrOfSlaves
-    attribute_ref 297713 // newDataFlagOne
-    attribute_ref 297585 // newDataFlagTwo
-    attribute_ref 305521 // newOutputDataFlagOne
-    attribute_ref 305649 // newOutputDataFlagTwo
-    attribute_ref 305777 // ethercatOutputBufferVector
-    attribute_ref 305905 // ethercatInputBufferVector
-    attribute_ref 313841 // firstMailboxBufferVector
-    attribute_ref 313969 // secondMailboxBufferVector
-    attribute_ref 314097 // newMailboxDataFlagOne
-    attribute_ref 314225 // newMailboxDataFlagTwo
-    attribute_ref 314353 // mailboxBufferSend
-    attribute_ref 314481 // mailboxTimeout
-    attribute_ref 314609 // mailboxBufferReceive
-    attribute_ref 314737 // newMailboxInputDataFlagOne
-    attribute_ref 314865 // newMailboxInputDataFlagTwo
-    attribute_ref 329329 // configfile
-    attribute_ref 396401 // ethercatSlaveInfo
-    attribute_ref 452081 // IOmap_
-    attribute_ref 458609 // ethercatTimeout
-    attribute_ref 458737 // configFileName
-    attribute_ref 548337 // configFilepath
-    attribute_ref 465777 // automaticSendOn
-    attribute_ref 554865 // automaticReceiveOn
-    attribute_ref 521329 // motorProtections
-  hidden_operations
-    operation_ref 266609 // EthercatMaster
-    operation_ref 274161 // EthercatMaster
-    operation_ref 266737 // ~EthercatMaster
-    operation_ref 266481 // initializeEthercat
-    operation_ref 266865 // closeEthercat
-    operation_ref 267505 // setMsgBuffer
-    operation_ref 267633 // getMsgBuffer
-    operation_ref 302449 // setMailboxMsgBuffer
-    operation_ref 302577 // getMailboxMsgBuffer
-    operation_ref 339825 // sendMailboxMessage
-    operation_ref 339953 // receiveMailboxMessage
-    operation_ref 259953 // updateSensorActorValues
-  xyz 39 143 2000
+  xyz 1269 698 2000
+end
+classcanvas 128497 class_ref 492401 // EthercatMaster
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  xyz 615 162 2010
+end
+relationcanvas 128625 relation_ref 458353 // <generalisation>
+  from ref 128241 z 2011 to ref 128497
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 128753 relation_ref 458481 // <generalisation>
+  from ref 128369 z 2011 to ref 128497
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
 end
 end

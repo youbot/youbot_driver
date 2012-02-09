@@ -1,0 +1,136 @@
+class EthercatMaster
+!!!939505.cpp!!!	EthercatMaster()
+
+
+
+
+!!!939761.cpp!!!	~EthercatMaster()
+   
+!!!939889.cpp!!!	getInstance(in configFile : string = "youbot-ethercat.cfg", in configFilePath : string = "../config/") : EthercatMaster&
+    if (!instance) {
+//      configFileName = configFile;
+ //     configFilepath = configFilePath;
+      instance = new EthercatMasterWithThread();
+
+
+    }
+    return *instance;
+
+!!!940017.cpp!!!	destroy() : void
+    if (instance) {
+      delete instance;
+    }
+    instance = NULL;
+
+!!!940145.cpp!!!	getNumberOfSlaves() : unsigned int
+
+!!!940273.cpp!!!	AutomaticSendOn(in enableAutomaticSend : bool) : void
+   
+    return;
+!!!940401.cpp!!!	AutomaticReceiveOn(in enableAutomaticReceive : bool) : void
+
+    return;
+!!!940529.cpp!!!	getEthercatDiagnosticInformation(out ethercatSlaveInfos : std::vector<ec_slavet>) : void
+  
+!!!940785.cpp!!!	setJointLimits(in lowerJointLimit : int, in upperJointLimit : int, in inverseMovement : bool, in activateLimit : bool, in jointNumber : unsigned int) : void
+    upperLimit[jointNumber - 1] = upperJointLimit;
+    lowerLimit[jointNumber - 1] = lowerJointLimit;
+    limitActive[jointNumber - 1] = activateLimit;
+    inverseMovementDirection[jointNumber - 1] = inverseMovement;
+  
+!!!941041.cpp!!!	setMsgBuffer(in msgBuffer : YouBotSlaveMsg, in jointNumber : uint) : void
+
+    if (this->automaticSendOn == true) {
+      if (newDataFlagOne == true) {
+        {
+          boost::mutex::scoped_lock dataMutex1(mutexDataOne);
+          firstBufferVector[jointNumber - 1].stctOutput = msgBuffer.stctOutput;
+          newOutputDataFlagOne[jointNumber - 1] = true;
+          newOutputDataFlagTwo[jointNumber - 1] = false;
+        }
+      } else if (newDataFlagTwo == true) {
+        {
+          boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
+          secondBufferVector[jointNumber - 1].stctOutput = msgBuffer.stctOutput;
+          newOutputDataFlagOne[jointNumber - 1] = false;
+          newOutputDataFlagTwo[jointNumber - 1] = true;
+        }
+
+      } else {
+        return;
+      }
+    } else {
+      YouBotSlaveMsg localMsg;
+      localMsg.stctOutput = msgBuffer.stctOutput;
+      localMsg.jointNumber = jointNumber;
+      automaticSendOffBufferVector.push_back(localMsg);
+    }
+
+!!!941169.cpp!!!	getMsgBuffer(in jointNumber : uint) : YouBotSlaveMsg
+
+    static bool lastValueof_newDataFlagOne;
+    static bool lastValueof_newDataFlagTwo;
+    YouBotSlaveMsg returnMsg;
+
+    
+    if (this->automaticReceiveOn == true) {
+      if (newDataFlagOne == true && lastValueof_newDataFlagOne == false) {
+        {
+          boost::mutex::scoped_lock dataMutex1(mutexDataOne);
+          BufferForGetMsgBuffer = firstBufferVector;
+        }
+      } else if (newDataFlagTwo == true && lastValueof_newDataFlagTwo == false) {
+        {
+          boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
+          BufferForGetMsgBuffer = secondBufferVector;
+        }
+      } 
+      
+      returnMsg = BufferForGetMsgBuffer[jointNumber - 1];
+      lastValueof_newDataFlagOne = newDataFlagOne;
+      lastValueof_newDataFlagTwo = newDataFlagTwo;
+    } else {
+      returnMsg = this->automaticReceiveOffBufferVector[jointNumber - 1];
+    }
+
+    return returnMsg;
+!!!941297.cpp!!!	setMailboxMsgBuffer(in msgBuffer : YouBotSlaveMailboxMsg, in jointNumber : uint) : void
+
+    if (newDataFlagOne == true) {
+      {
+        boost::mutex::scoped_lock dataMutex1(mutexDataOne);
+        firstMailboxBufferVector[jointNumber - 1].stctOutput = msgBuffer.stctOutput;
+        newMailboxDataFlagOne[jointNumber - 1] = true;
+        newMailboxDataFlagTwo[jointNumber - 1] = false;
+      }
+    } else if (newDataFlagTwo == true) {
+      {
+        boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
+        secondMailboxBufferVector[jointNumber - 1].stctOutput = msgBuffer.stctOutput;
+        newMailboxDataFlagOne[jointNumber - 1] = false;
+        newMailboxDataFlagTwo[jointNumber - 1] = true;
+      }
+
+    }
+    return;
+!!!941425.cpp!!!	getMailboxMsgBuffer(out mailboxMsg : YouBotSlaveMailboxMsg, in jointNumber : uint) : bool
+
+
+    if (newMailboxInputDataFlagOne[jointNumber - 1] == true) {
+      {
+        boost::mutex::scoped_lock dataMutex1(mutexDataOne);
+        mailboxMsg.stctInput = firstMailboxBufferVector[jointNumber - 1].stctInput;
+     //   mailboxMsg.stctOutput = firstMailboxBufferVector[jointNumber - 1].stctOutput;
+        newMailboxInputDataFlagOne[jointNumber - 1] = false;
+      }
+      return true;
+    } else if (newMailboxInputDataFlagTwo[jointNumber - 1] == true) {
+      {
+        boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
+        mailboxMsg.stctInput = secondMailboxBufferVector[jointNumber - 1].stctInput;
+    //    mailboxMsg.stctOutput = secondMailboxBufferVector[jointNumber - 1].stctOutput;
+        newMailboxInputDataFlagTwo[jointNumber - 1] = false;
+      }
+      return true;
+    }
+    return false;

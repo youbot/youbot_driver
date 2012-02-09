@@ -58,13 +58,9 @@
 #include "generic/Time.hpp"
 #include "generic/Exceptions.hpp"
 #include "youbot/ProtocolDefinitions.hpp"
-
-#ifdef ETHERCAT_MASTER_WITHOUT_THREAD
-  #include "youbot/EthercatMasterWithoutThread.hpp"
-#else
-  #include "youbot/EthercatMaster.hpp"
-#endif
-
+#include "youbot/EthercatMasterFactory.hpp"
+#include "youbot/EthercatMasterWithThread.hpp"
+#include "youbot/EthercatMasterWithoutThread.hpp"
 #include "youbot/YouBotSlaveMsg.hpp"
 #include "youbot/YouBotSlaveMailboxMsg.hpp"
 #include "generic-gripper/Gripper.hpp"

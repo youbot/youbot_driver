@@ -61,7 +61,7 @@ YouBotGripperBar::YouBotGripperBar(const unsigned int barNo, const unsigned int 
     this->maxEncoderValue = 67000;
     this->barSpacingOffset = 0 * meter;
 
-    ethercatMaster = &(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath));
+    ethercatMaster = &(EthercatMasterFactory::getInstance("youbot-ethercat.cfg", configFilePath));
   // Bouml preserved body end 000E0371
 }
 

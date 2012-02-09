@@ -1,5 +1,5 @@
-#ifndef YOUBOT_ETHERCATMASTERWITHOUTTHREAD_H
-#define YOUBOT_ETHERCATMASTERWITHOUTTHREAD_H
+#ifndef YOUBOT_ETHERCATMASTERWITHTHREAD_H
+#define YOUBOT_ETHERCATMASTERWITHTHREAD_H
 
 /****************************************************************
  *
@@ -51,7 +51,6 @@
  * License LGPL and BSD license along with this program.
  *
  ****************************************************************/
-
 #include <vector>
 #include <sstream>
 #include <string>
@@ -81,15 +80,15 @@ namespace youbot {
 /// The Ethercat Master is managing the whole ethercat communication 
 /// It have to be a singleton in the system
 ///////////////////////////////////////////////////////////////////////////////
-class EthercatMasterWithoutThread : public EthercatMaster {
+class EthercatMasterWithThread : public EthercatMaster {
 friend class EthercatMasterFactory;
 friend class YouBotJoint;
 friend class YouBotGripper;
 friend class YouBotGripperBar;
   private:
-    EthercatMasterWithoutThread(const std::string& configFile, const std::string& configFilePath);
+    EthercatMasterWithThread(const std::string& configFile, const std::string& configFilePath);
 
-    ~EthercatMasterWithoutThread();
+    ~EthercatMasterWithThread();
 
 
   public:
@@ -158,13 +157,44 @@ friend class YouBotGripperBar;
 
     void checkJointLimits();
 
+    ///sends and receives ethercat messages and mailbox messages to and from the motor controllers
+    ///this method is executed in a separate thread
+    void updateSensorActorValues();
+
     void parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer);
 
     std::string ethernetDevice;
 
-    std::vector<YouBotSlaveMsg> processDataBuffer;
+    ec_mbxbuft mailboxBuffer;
+
+    //in microseconds
+    unsigned int timeTillNextEthercatUpdate;
+
+    boost::mutex mutexDataOne;
+
+    boost::mutex mutexDataTwo;
+
+    boost::thread_group threads;
+
+    volatile bool stopThread;
+
+    std::vector<YouBotSlaveMsg> firstBufferVector;
+
+    std::vector<YouBotSlaveMsg> secondBufferVector;
+
+    std::vector<YouBotSlaveMsg> automaticSendOffBufferVector;
+
+    std::vector<YouBotSlaveMsg> automaticReceiveOffBufferVector;
 
     unsigned int nrOfSlaves;
+
+    volatile bool newDataFlagOne;
+
+    volatile bool newDataFlagTwo;
+
+    std::vector<bool> newOutputDataFlagOne;
+
+    std::vector<bool> newOutputDataFlagTwo;
 
     std::vector<SlaveMessageOutput*> ethercatOutputBufferVector;
 
@@ -172,11 +202,21 @@ friend class YouBotGripperBar;
 
     std::vector<YouBotSlaveMailboxMsg> firstMailboxBufferVector;
 
+    std::vector<YouBotSlaveMailboxMsg> secondMailboxBufferVector;
+
+    std::vector<bool> newMailboxDataFlagOne;
+
+    std::vector<bool> newMailboxDataFlagTwo;
+
     ec_mbxbuft mailboxBufferSend;
 
     unsigned int mailboxTimeout;
 
     ec_mbxbuft mailboxBufferReceive;
+
+    std::vector<bool> newMailboxInputDataFlagOne;
+
+    std::vector<bool> newMailboxInputDataFlagTwo;
 
     ConfigFile* configfile;
 
@@ -190,6 +230,16 @@ friend class YouBotGripperBar;
 
     static std::string configFilepath;
 
+    bool automaticSendOn;
+
+    bool automaticReceiveOn;
+
+    std::vector<bool> pendingMailboxMsgsReply;
+
+    long int communicationErrors;
+
+    long int maxCommunicationErrors;
+
     std::vector<int> upperLimit;
 
     std::vector<int> lowerLimit;
@@ -199,6 +249,8 @@ friend class YouBotGripperBar;
     std::vector<bool> jointLimitReached;
 
     std::vector<bool> inverseMovementDirection;
+
+    std::vector<YouBotSlaveMsg> BufferForGetMsgBuffer;
 
 };
 

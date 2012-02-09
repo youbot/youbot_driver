@@ -1,6 +1,5 @@
-class EthercatMaster
-!!!266609.cpp!!!	EthercatMaster()
-
+class EthercatMasterWithThread
+!!!266609.cpp!!!	EthercatMasterWithThread(in configFile : std::string, in configFilePath : std::string)
 
     ethernetDevice = "eth0";
     timeTillNextEthercatUpdate = 1000; //usec
@@ -13,6 +12,8 @@ class EthercatMaster
     newDataFlagTwo = false;
     this->automaticSendOn = true;
     this->automaticReceiveOn = true;
+    this->configFileName = configFile;
+    this->configFilepath = configFilePath;
     configfile = NULL;
 
     //initialize to zero
@@ -28,30 +29,18 @@ class EthercatMaster
     configfile->readInto(ethercatTimeout, "EtherCAT", "EtherCATTimeout_[usec]");
     configfile->readInto(mailboxTimeout, "EtherCAT", "MailboxTimeout_[usec]");
     configfile->readInto(maxCommunicationErrors, "EtherCAT", "MaximumNumberOfEtherCATErrors");
+    
+    this->initializeEthercat();
 
 
-!!!266737.cpp!!!	~EthercatMaster()
+!!!266737.cpp!!!	~EthercatMasterWithThread()
     stopThread = true;
     threads.join_all();
     this->closeEthercat();
     if (configfile != NULL)
       delete configfile;
-!!!274289.cpp!!!	getInstance(in configFile : string = "youbot-ethercat.cfg", in configFilePath : string = "../config/") : EthercatMaster&
-    if (!instance) {
-      configFileName = configFile;
-      configFilepath = configFilePath;
-      instance = new EthercatMaster();
-      instance->initializeEthercat();
-
-    }
-    return *instance;
-
-!!!274417.cpp!!!	destroy() : void
-    if (instance) {
-      delete instance;
-    }
-    instance = NULL;
-
+!!!944881.cpp!!!	isThreadActive() : bool
+  return true;
 !!!281201.cpp!!!	getNumberOfSlaves() : unsigned int
     return this->nrOfSlaves;
 !!!488945.cpp!!!	AutomaticSendOn(in enableAutomaticSend : bool) : void
@@ -115,6 +104,16 @@ class EthercatMaster
       ethercatSlaveInfos[i].inputs = NULL;
       ethercatSlaveInfos[i].outputs = NULL;
     }
+!!!944369.cpp!!!	sendProcessData() : bool
+    throw std::runtime_error("When using the EthercatMaster with thread there is not need to send process data manual.");
+    return false;
+!!!944497.cpp!!!	receiveProcessData() : bool
+    throw std::runtime_error("When using the EthercatMaster with thread there is not need to receive process data manual");
+    return false;
+!!!944625.cpp!!!	isErrorInSoemDriver() : bool
+   
+    return ec_iserror();
+
 !!!266481.cpp!!!	initializeEthercat() : void
 
     /* initialise SOEM, bind socket to ifname */
@@ -258,7 +257,7 @@ class EthercatMaster
     }
 
     stopThread = false;
-    threads.create_thread(boost::bind(&EthercatMaster::updateSensorActorValues, this));
+    threads.create_thread(boost::bind(&EthercatMasterWithThread::updateSensorActorValues, this));
 
     SLEEP_MILLISEC(10); //needed to start up thread and EtherCAT communication
 

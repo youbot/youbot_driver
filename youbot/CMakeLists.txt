@@ -1,27 +1,8 @@
 
 
-
-IF(USE_ETHERCAT_MASTER_WITH_THREAD)
   SET(YOUBOT_DRIVER_SRC
-    ${CMAKE_HOME_DIRECTORY}/youbot/EthercatMaster.cpp
-    ${CMAKE_HOME_DIRECTORY}/generic/Logger.cpp
-    ${CMAKE_HOME_DIRECTORY}/generic/ConfigFile.cpp
-    ${CMAKE_HOME_DIRECTORY}/generic-joint/JointData.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJoint.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/YouBotBase.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/YouBotManipulator.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripper.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripperBar.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripperParameter.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/DataTrace.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameter.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameterReadOnly.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameterPasswordProtected.cpp
-    ${CMAKE_HOME_DIRECTORY}/base-kinematic/FourSwedishWheelOmniBaseKinematic.cpp
-    ${CMAKE_HOME_DIRECTORY}/base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.cpp
-  )
-ELSE(USE_ETHERCAT_MASTER_WITH_THREAD)
-  SET(YOUBOT_DRIVER_SRC
+    ${CMAKE_HOME_DIRECTORY}/youbot/EthercatMasterFactory.cpp
+    ${CMAKE_HOME_DIRECTORY}/youbot/EthercatMasterWithThread.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/EthercatMasterWithoutThread.cpp
     ${CMAKE_HOME_DIRECTORY}/generic/Logger.cpp
     ${CMAKE_HOME_DIRECTORY}/generic/ConfigFile.cpp
@@ -39,13 +20,12 @@ ELSE(USE_ETHERCAT_MASTER_WITH_THREAD)
     ${CMAKE_HOME_DIRECTORY}/base-kinematic/FourSwedishWheelOmniBaseKinematic.cpp
     ${CMAKE_HOME_DIRECTORY}/base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.cpp
   )
-ENDIF(USE_ETHERCAT_MASTER_WITH_THREAD)
-
-
 
 
 SET(YOUBOT_DRIVER_HEADERS
   EthercatMaster.hpp
+  EthercatMasterFactory.cpp
+  EthercatMasterWithThread.cpp
   EthercatMasterWithoutThread.hpp
   YouBotGripper.hpp
   YouBotGripperBar.hpp

@@ -67,11 +67,11 @@
 #include "generic/Exceptions.hpp"
 #include "youbot/YouBotJoint.hpp"
 #include "youbot/YouBotJointParameter.hpp"
-#ifdef ETHERCAT_MASTER_WITHOUT_THREAD
-  #include "youbot/EthercatMasterWithoutThread.hpp"
-#else
-  #include "youbot/EthercatMaster.hpp"
-#endif
+#include "youbot/EthercatMaster.hpp"
+#include "youbot/EthercatMasterFactory.hpp"
+#include "youbot/EthercatMasterWithThread.hpp"
+#include "youbot/EthercatMasterWithoutThread.hpp"
+
 using namespace boost::posix_time;
 namespace youbot {
 

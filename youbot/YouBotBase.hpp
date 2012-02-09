@@ -63,11 +63,10 @@
 #include "youbot/YouBotJointParameter.hpp"
 #include "base-kinematic/FourSwedishWheelOmniBaseKinematic.hpp"
 #include "base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.hpp"
-#ifdef ETHERCAT_MASTER_WITHOUT_THREAD
-  #include "youbot/EthercatMasterWithoutThread.hpp"
-#else
-  #include "youbot/EthercatMaster.hpp"
-#endif
+#include "youbot/EthercatMaster.hpp"
+#include "youbot/EthercatMasterFactory.hpp"
+#include "youbot/EthercatMasterWithThread.hpp"
+#include "youbot/EthercatMasterWithoutThread.hpp"
 namespace youbot {
 
 /// The number of base joints

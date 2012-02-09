@@ -1,5 +1,5 @@
-#ifndef YOUBOT_YOUBOTGRIPPER_H
-#define YOUBOT_YOUBOTGRIPPER_H
+#ifndef YOUBOT_ETHERCATMASTERFACTORY_H
+#define YOUBOT_ETHERCATMASTERFACTORY_H
 
 /****************************************************************
  *
@@ -52,94 +52,42 @@
  *
  ****************************************************************/
 #include <vector>
-#include <sstream>
-#include "generic/Logger.hpp"
-#include "generic/Units.hpp"
-#include "generic/Time.hpp"
-#include "generic/Exceptions.hpp"
-#include "youbot/ProtocolDefinitions.hpp"
+#include <string>
+#include <cstdio>
+#include <stdexcept>
+#include <iostream>
 #include "youbot/EthercatMaster.hpp"
-#include "youbot/EthercatMasterFactory.hpp"
-#include "youbot/EthercatMasterWithThread.hpp"
 #include "youbot/EthercatMasterWithoutThread.hpp"
-#include "youbot/YouBotSlaveMsg.hpp"
-#include "youbot/YouBotSlaveMailboxMsg.hpp"
-#include "generic-gripper/Gripper.hpp"
-#include "generic-gripper/GripperData.hpp"
-#include "generic-gripper/GripperParameter.hpp"
-#include "one-dof-gripper/OneDOFGripper.hpp"
-#include "one-dof-gripper/OneDOFGripperData.hpp"
-#include "youbot/YouBotGripperParameter.hpp"
-#include "youbot/YouBotGripperBar.hpp"
-
+#include "youbot/EthercatMasterWithThread.hpp"
 namespace youbot {
 
 ///////////////////////////////////////////////////////////////////////////////
-/// The youBot gripper with one degree of freedom
+/// The Ethercat Master interface
 ///////////////////////////////////////////////////////////////////////////////
-class YouBotGripper : public OneDOFGripper {
-  public:
-    YouBotGripper(const unsigned int jointNo, const std::string& configFilePath = "../config/");
-
-    virtual ~YouBotGripper();
-
-
-  protected:
-    virtual void getConfigurationParameter(GripperParameter& parameter);
-
-    virtual void setConfigurationParameter(const GripperParameter& parameter);
-
-
-  public:
-    virtual void getConfigurationParameter(GripperFirmwareVersion& parameter);
-
-    virtual void setConfigurationParameter(const CalibrateGripper& parameter);
-
-    virtual void getConfigurationParameter(YouBotSlaveMailboxMsg& parameter);
-
-
-  protected:
-    virtual void getData(const GripperData& data);
-
-    virtual void setData(const GripperData& data);
-
-    virtual void getData(OneDOFGripperData& data);
-
-    virtual void setData(const OneDOFGripperData& data);
-
-
-  public:
-    virtual void setData(const GripperBarSpacingSetPoint& barSpacing);
-
-    virtual void getData(GripperSensedBarSpacing& barSpacing);
-
-    void open();
-
-    void closeUntilMaxForce();
-
-    YouBotGripperBar& getGripperBar1();
-
-    YouBotGripperBar& getGripperBar2();
-
-
+class EthercatMasterFactory {
+friend class YouBotJoint;
+friend class YouBotGripper;
+friend class YouBotGripperBar;
   private:
-    void parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailboxMsg);
+    static EthercatMaster* instance;
 
-    bool setValueToMotorContoller(const YouBotSlaveMailboxMsg& mailboxMsg);
+    static EthercatMasterFactory* factoryInstance;
 
-    bool retrieveValueFromMotorContoller(YouBotSlaveMailboxMsg& message);
+    EthercatMasterFactory();
 
-    EthercatMaster* ethercatMaster;
+    EthercatMasterFactory(const EthercatMasterFactory& ) {};
 
-    unsigned int timeTillNextMailboxUpdate;
+    ~EthercatMasterFactory();
 
-    unsigned int mailboxMsgRetries;
 
-    unsigned int jointNumber;
+  public:
+    ///creates a instance of the singleton EthercatMaster if there is none and returns a reference to it
+    ///@param configFile configuration file name incl. the extension
+    ///@param configFilePath the path where the configuration is located with a / at the end
+    static EthercatMaster& getInstance(const std::string configFile = "youbot-ethercat.cfg", const std::string configFilePath = "../config/", const bool ethercatMasterWithThread = true);
 
-    YouBotGripperBar* bar1;
-
-    YouBotGripperBar* bar2;
+    /// destroy the singleton instance by calling the destructor
+    static void destroy();
 
 };
 

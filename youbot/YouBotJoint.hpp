@@ -67,12 +67,11 @@
 #include "youbot/YouBotJointParameterPasswordProtected.hpp"
 #include "youbot/YouBotSlaveMsg.hpp"
 #include "youbot/YouBotSlaveMailboxMsg.hpp"
+#include "youbot/EthercatMaster.hpp"
+#include "youbot/EthercatMasterFactory.hpp"
+#include "youbot/EthercatMasterWithThread.hpp"
+#include "youbot/EthercatMasterWithoutThread.hpp"
 
-#ifdef ETHERCAT_MASTER_WITHOUT_THREAD
-  #include "youbot/EthercatMasterWithoutThread.hpp"
-#else
-  #include "youbot/EthercatMaster.hpp"
-#endif
 
 namespace youbot {
 
