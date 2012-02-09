@@ -1,10 +1,12 @@
-window_sizes 1280 726 448 826 645 0
+window_sizes 1280 726 384 890 643 0
+diagrams
+  active  classdiagram_ref 141553 // JointData
+    890 643 100 2 58 594
+end
 show_stereotypes
-selected 
-  package_ref 129 // youbot-uml-models
+selected class_ref 170609 // JointTorqueSetpoint
 open
-  classview_ref 167537 // YouBotJointParameterReadOnly
-  classview_ref 160881 // YouBot
-  deploymentview_ref 161137 // Deployment
+  class_ref 485745 // JointComputedData
+  class_ref 485873 // JointComputedSetpoint
 end
 end

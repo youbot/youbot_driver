@@ -5,7 +5,7 @@
 
   </description>
   <author>Jan Paulus/jan.paulus@h-brs.de</author>
-  <license>BSD / LGPL</license>
+  <license>gnu-lgpl-v2.1 modified-bsd</license>
   <review status="unreviewed" notes=""/>
   <url>http://youbot.github.com/youbot_driver/</url>
 	<rosdep name="boost-all" />

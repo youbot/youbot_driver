@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 213
+  revision 215
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -1298,7 +1298,7 @@ ${inlines}
     package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
     show_infonote default drawing_language default show_stereotype_properties default
     classdiagram 141553 "JointData"
-      draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+      draw_all_relations no hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
       size A2
     end
 
@@ -1336,11 +1336,11 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// abstract data class for sensed / measured joint data"
-      classrelation 176113 // <realization>
-	relation 176113 -_-|>
+      classrelation 450161 // <generalisation>
+	relation 450161 ---|>
 	  a public
 	    cpp default "${type}"
-	    classrelation_ref 176113 // <realization>
+	    classrelation_ref 450161 // <generalisation>
 	  b parent class_ref 170353 // JointData
       end
     end
@@ -1360,7 +1360,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Sensed torque of the joint"
+      comment "/// This torque of the joint is computed from the actual current"
       attribute 252017 "torque"
 	public explicit_type "quantity<si::torque>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -1369,14 +1369,6 @@ ${inlines}
 	php_decl ""
 	python_decl ""
 	idl_decl ""
-      end
-
-      classrelation 168561 // <realization>
-	relation 168561 -_-|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 168561 // <realization>
-	  b parent class_ref 162289 // JointSensedData
       end
 
       operation 841329 "JointSensedTorque"
@@ -1407,6 +1399,14 @@ ${inlines}
 	preserve_python_body_indent 
 	
       end
+
+      classrelation 450033 // <generalisation>
+	relation 450033 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 450033 // <generalisation>
+	  b parent class_ref 485745 // JointComputedData
+      end
     end
 
     class 162801 "JointSensedVelocity"
@@ -1433,14 +1433,6 @@ ${inlines}
 	php_decl ""
 	python_decl ""
 	idl_decl ""
-      end
-
-      classrelation 168689 // <realization>
-	relation 168689 -_-|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 168689 // <realization>
-	  b parent class_ref 162289 // JointSensedData
       end
 
       operation 841457 "JointSensedVelocity"
@@ -1471,6 +1463,14 @@ ${inlines}
 	preserve_python_body_indent 
 	
       end
+
+      classrelation 451057 // <generalisation>
+	relation 451057 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 451057 // <generalisation>
+	  b parent class_ref 162289 // JointSensedData
+      end
     end
 
     class 162929 "JointSensedAngle"
@@ -1497,14 +1497,6 @@ ${inlines}
 	php_decl ""
 	python_decl ""
 	idl_decl ""
-      end
-
-      classrelation 168817 // <realization>
-	relation 168817 -_-|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 168817 // <realization>
-	  b parent class_ref 162289 // JointSensedData
       end
 
       operation 841585 "JointSensedAngle"
@@ -1535,6 +1527,14 @@ ${inlines}
 	preserve_python_body_indent 
 	
       end
+
+      classrelation 451185 // <generalisation>
+	relation 451185 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 451185 // <generalisation>
+	  b parent class_ref 162289 // JointSensedData
+      end
     end
 
     class 375281 "JointSensedEncoderTicks"
@@ -1561,14 +1561,6 @@ ${inlines}
 	php_decl ""
 	python_decl ""
 	idl_decl ""
-      end
-
-      classrelation 342641 // <realization>
-	relation 342641 -_-|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 342641 // <realization>
-	  b parent class_ref 162289 // JointSensedData
       end
 
       operation 841713 "JointSensedEncoderTicks"
@@ -1599,6 +1591,14 @@ ${inlines}
 	preserve_python_body_indent 
 	
       end
+
+      classrelation 451313 // <generalisation>
+	relation 451313 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 451313 // <generalisation>
+	  b parent class_ref 162289 // JointSensedData
+      end
     end
 
     class 381809 "JointSensedRoundsPerMinute"
@@ -1625,14 +1625,6 @@ ${inlines}
 	php_decl ""
 	python_decl ""
 	idl_decl ""
-      end
-
-      classrelation 349169 // <realization>
-	relation 349169 -_-|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 349169 // <realization>
-	  b parent class_ref 162289 // JointSensedData
       end
 
       operation 841841 "JointSensedRoundsPerMinute"
@@ -1663,6 +1655,14 @@ ${inlines}
 	preserve_python_body_indent 
 	
       end
+
+      classrelation 451441 // <generalisation>
+	relation 451441 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 451441 // <generalisation>
+	  b parent class_ref 162289 // JointSensedData
+      end
     end
 
     class 169841 "JointSensedCurrent"
@@ -1689,14 +1689,6 @@ ${inlines}
 	php_decl ""
 	python_decl ""
 	idl_decl ""
-      end
-
-      classrelation 175729 // <realization>
-	relation 175729 -_-|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 175729 // <realization>
-	  b parent class_ref 162289 // JointSensedData
       end
 
       operation 841969 "JointSensedCurrent"
@@ -1727,6 +1719,14 @@ ${inlines}
 	preserve_python_body_indent 
 	
       end
+
+      classrelation 450929 // <generalisation>
+	relation 450929 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 450929 // <generalisation>
+	  b parent class_ref 162289 // JointSensedData
+      end
     end
 
     class 432241 "JointSensedPWM"
@@ -1753,14 +1753,6 @@ ${inlines}
 	php_decl ""
 	python_decl ""
 	idl_decl ""
-      end
-
-      classrelation 393841 // <realization>
-	relation 393841 -_-|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 393841 // <realization>
-	  b parent class_ref 162289 // JointSensedData
       end
 
       operation 842097 "JointSensedPWM"
@@ -1791,6 +1783,14 @@ ${inlines}
 	preserve_python_body_indent 
 	
       end
+
+      classrelation 451569 // <generalisation>
+	relation 451569 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 451569 // <generalisation>
+	  b parent class_ref 162289 // JointSensedData
+      end
     end
 
     class 170481 "JointDataSetpoint"
@@ -1809,11 +1809,11 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// abstract data class for commanded joint data"
-      classrelation 176241 // <realization>
-	relation 176241 -_-|>
+      classrelation 450289 // <generalisation>
+	relation 450289 ---|>
 	  a public
 	    cpp default "${type}"
-	    classrelation_ref 176241 // <realization>
+	    classrelation_ref 450289 // <generalisation>
 	  b parent class_ref 170353 // JointData
       end
     end
@@ -1833,7 +1833,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Set-point torque of the joint"
+      comment "/// The torque set-point of the joint will be set by setting the computed current set-point"
       attribute 260721 "torque"
 	public explicit_type "quantity<si::torque>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -1842,14 +1842,6 @@ ${inlines}
 	php_decl ""
 	python_decl ""
 	idl_decl ""
-      end
-
-      classrelation 176497 // <realization>
-	relation 176497 -_-|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 176497 // <realization>
-	  b parent class_ref 170481 // JointDataSetpoint
       end
 
       operation 842353 "JointTorqueSetpoint"
@@ -1880,6 +1872,14 @@ ${inlines}
 	preserve_python_body_indent 
 	
       end
+
+      classrelation 449905 // <generalisation>
+	relation 449905 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 449905 // <generalisation>
+	  b parent class_ref 485873 // JointComputedSetpoint
+      end
     end
 
     class 170737 "JointVelocitySetpoint"
@@ -1906,14 +1906,6 @@ ${inlines}
 	php_decl ""
 	python_decl ""
 	idl_decl ""
-      end
-
-      classrelation 176753 // <realization>
-	relation 176753 -_-|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 176753 // <realization>
-	  b parent class_ref 170481 // JointDataSetpoint
       end
 
       operation 842481 "JointVelocitySetpoint"
@@ -1944,6 +1936,14 @@ ${inlines}
 	preserve_python_body_indent 
 	
       end
+
+      classrelation 450545 // <generalisation>
+	relation 450545 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 450545 // <generalisation>
+	  b parent class_ref 170481 // JointDataSetpoint
+      end
     end
 
     class 170865 "JointAngleSetpoint"
@@ -1970,14 +1970,6 @@ ${inlines}
 	php_decl ""
 	python_decl ""
 	idl_decl ""
-      end
-
-      classrelation 177009 // <realization>
-	relation 177009 -_-|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 177009 // <realization>
-	  b parent class_ref 170481 // JointDataSetpoint
       end
 
       operation 842609 "JointAngleSetpoint"
@@ -2008,6 +2000,14 @@ ${inlines}
 	preserve_python_body_indent 
 	
       end
+
+      classrelation 450801 // <generalisation>
+	relation 450801 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 450801 // <generalisation>
+	  b parent class_ref 170481 // JointDataSetpoint
+      end
     end
 
     class 170993 "JointCurrentSetpoint"
@@ -2034,14 +2034,6 @@ ${inlines}
 	php_decl ""
 	python_decl ""
 	idl_decl ""
-      end
-
-      classrelation 177265 // <realization>
-	relation 177265 -_-|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 177265 // <realization>
-	  b parent class_ref 170481 // JointDataSetpoint
       end
 
       operation 842737 "JointCurrentSetpoint"
@@ -2072,6 +2064,14 @@ ${inlines}
 	preserve_python_body_indent 
 	
       end
+
+      classrelation 450673 // <generalisation>
+	relation 450673 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 450673 // <generalisation>
+	  b parent class_ref 170481 // JointDataSetpoint
+      end
     end
 
     class 347889 "JointPWMSetpoint"
@@ -2098,14 +2098,6 @@ ${inlines}
 	php_decl ""
 	python_decl ""
 	idl_decl ""
-      end
-
-      classrelation 308977 // <realization>
-	relation 308977 -_-|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 308977 // <realization>
-	  b parent class_ref 170481 // JointDataSetpoint
       end
 
       operation 842865 "JointPWMSetpoint"
@@ -2136,6 +2128,14 @@ ${inlines}
 	preserve_python_body_indent 
 	
       end
+
+      classrelation 451697 // <generalisation>
+	relation 451697 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 451697 // <generalisation>
+	  b parent class_ref 170481 // JointDataSetpoint
+      end
     end
 
     class 381937 "JointRoundsPerMinuteSetpoint"
@@ -2162,14 +2162,6 @@ ${inlines}
 	php_decl ""
 	python_decl ""
 	idl_decl ""
-      end
-
-      classrelation 349297 // <realization>
-	relation 349297 -_-|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 349297 // <realization>
-	  b parent class_ref 170481 // JointDataSetpoint
       end
 
       operation 842993 "JointRoundsPerMinuteSetpoint"
@@ -2200,6 +2192,14 @@ ${inlines}
 	preserve_python_body_indent 
 	
       end
+
+      classrelation 451825 // <generalisation>
+	relation 451825 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 451825 // <generalisation>
+	  b parent class_ref 170481 // JointDataSetpoint
+      end
     end
 
     class 412657 "JointEncoderSetpoint"
@@ -2226,14 +2226,6 @@ ${inlines}
 	php_decl ""
 	python_decl ""
 	idl_decl ""
-      end
-
-      classrelation 380785 // <generalisation>
-	relation 380785 ---|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 380785 // <generalisation>
-	  b parent class_ref 170481 // JointDataSetpoint
       end
 
       operation 843121 "JointEncoderSetpoint"
@@ -2263,6 +2255,62 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
+      end
+
+      classrelation 450417 // <generalisation>
+	relation 450417 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 450417 // <generalisation>
+	  b parent class_ref 170481 // JointDataSetpoint
+      end
+    end
+
+    class 485745 "JointComputedData"
+      visibility package 
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 449649 // <generalisation>
+	relation 449649 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 449649 // <generalisation>
+	  b parent class_ref 162289 // JointSensedData
+      end
+    end
+
+    class 485873 "JointComputedSetpoint"
+      visibility package 
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 449777 // <generalisation>
+	relation 449777 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 449777 // <generalisation>
+	  b parent class_ref 170481 // JointDataSetpoint
       end
     end
   end
