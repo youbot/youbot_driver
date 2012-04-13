@@ -1,20 +1,24 @@
-window_sizes 1680 976 384 1290 893 0
+window_sizes 1680 976 384 1290 895 0
 diagrams
   active  classdiagram_ref 174321 // EthercatMaster
     1290 893 50 0 12 0
 end
 show_stereotypes
-selected operation_ref 944753 // isThreadActive
+selected class_ref 224753 // YouBotGripper
 open
+  class_ref 170225 // YouBotJoint
   classdiagram_ref 174321 // EthercatMaster
-  class_ref 492401 // EthercatMaster
+  class_ref 492529 // EthercatMaster
+  class_ref 492401 // EthercatMasterInterface
   operation_ref 944369 // sendProcessData
   operation_ref 944625 // isErrorInSoemDriver
   attribute_ref 472305 // automaticSendOffBufferVector
   operation_ref 945009 // isThreadActive
   operation_ref 860273 // closeEthercat
   operation_ref 861041 // receiveMailboxMessage
-  classview_ref 141169 // Gripper
-  deploymentview_ref 161137 // Deployment
+  class_ref 217457 // Gripper
+  class_ref 472049 // YouBotGripperBar
+  
+  package_ref 161265 // youbot
 end
 end

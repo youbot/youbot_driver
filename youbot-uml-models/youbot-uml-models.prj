@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 216
+  revision 217
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -1123,7 +1123,7 @@ ${inlines}
       end
 
       attribute 756081 "ethercatMaster"
-	private explicit_type "EthercatMaster*"
+	private explicit_type "EthercatMasterInterface*"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -22091,7 +22091,7 @@ ${inlines}
       size A0
     end
 
-    class 492529 "EthercatMasterFactory"
+    class 492529 "EthercatMaster"
       visibility package 
       cpp_decl "///////////////////////////////////////////////////////////////////////////////
 ${description}
@@ -22106,7 +22106,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// The Ethercat Master interface"
+      comment "/// The Ethercat Master factory"
       extra_member 256625 "friend"
 	
 	cpp "friend class YouBotJoint;
@@ -22119,7 +22119,7 @@ friend class YouBotGripperBar;" ""
       end
 
       attribute 806257 "instance"
-	private explicit_type "static EthercatMaster*"
+	private explicit_type "static EthercatMasterInterface*"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -22129,7 +22129,7 @@ friend class YouBotGripperBar;" ""
       end
 
       attribute 806385 "factoryInstance"
-	private explicit_type "static EthercatMasterFactory*"
+	private explicit_type "static EthercatMaster*"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -22138,7 +22138,7 @@ friend class YouBotGripperBar;" ""
 	idl_decl ""
       end
 
-      operation 942193 "EthercatMasterFactory"
+      operation 942193 "EthercatMaster"
 	preserve_cpp_body_indent private explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
@@ -22152,10 +22152,10 @@ friend class YouBotGripperBar;" ""
 	
       end
 
-      operation 942321 "EthercatMasterFactory"
+      operation 942321 "EthercatMaster"
 	preserve_cpp_body_indent private explicit_return_type ""
 	nparams 1
-	  param in name "" type class_ref 492529 // EthercatMasterFactory
+	  param in name "" type class_ref 492529 // EthercatMaster
 	cpp_decl "    ${description}${inline}${name}${(}const ${t0}& ${p0}${v0}${)}${volatile}${throw} {};
 "
 	preserve_java_body_indent 
@@ -22164,7 +22164,7 @@ friend class YouBotGripperBar;" ""
 	
       end
 
-      operation 942449 "~EthercatMasterFactory"
+      operation 942449 "~EthercatMaster"
 	preserve_cpp_body_indent private explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
@@ -22179,7 +22179,7 @@ friend class YouBotGripperBar;" ""
       end
 
       operation 942577 "getInstance"
-	class_operation preserve_cpp_body_indent public explicit_return_type "EthercatMaster&"
+	class_operation preserve_cpp_body_indent public explicit_return_type "EthercatMasterInterface&"
 	nparams 3
 	  param in name "configFile" explicit_type "string"
 	    defaultvalue "\"youbot-ethercat.cfg\""
@@ -22215,10 +22215,9 @@ friend class YouBotGripperBar;" ""
 	
 	comment "/// destroy the singleton instance by calling the destructor"
       end
-
     end
 
-    class 492401 "EthercatMaster"
+    class 492401 "EthercatMasterInterface"
       abstract visibility package 
       cpp_decl "///////////////////////////////////////////////////////////////////////////////
 ${description}
@@ -22236,7 +22235,7 @@ ${inlines}
       comment "/// The Ethercat Master interface"
       extra_member 256497 "friend"
 	
-	cpp "friend class EthercatMasterFactory;
+	cpp "friend class EthercatMaster;
 friend class YouBotJoint;
 friend class YouBotGripper;
 friend class YouBotGripperBar;" ""
@@ -22246,7 +22245,7 @@ friend class YouBotGripperBar;" ""
 	idl ""
       end
 
-      operation 939505 "EthercatMaster"
+      operation 939505 "EthercatMasterInterface"
 	abstract preserve_cpp_body_indent cpp_virtual protected explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw} {};
@@ -22257,7 +22256,7 @@ friend class YouBotGripperBar;" ""
 	
       end
 
-      operation 939761 "~EthercatMaster"
+      operation 939761 "~EthercatMasterInterface"
 	abstract preserve_cpp_body_indent cpp_virtual protected explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw} {};
@@ -22446,7 +22445,6 @@ friend class YouBotGripperBar;" ""
 ///@param msgBuffer ethercat mailbox message
 ///@param jointNumber joint number of the receiver joint"
       end
-
     end
 
     class 190577 "EthercatMasterWithThread"
@@ -22468,7 +22466,7 @@ ${inlines}
 /// It have to be a singleton in the system"
       extra_member 128881 "friend"
 	
-	cpp "friend class EthercatMasterFactory;
+	cpp "friend class EthercatMaster;
 friend class YouBotJoint;
 friend class YouBotGripper;
 friend class YouBotGripperBar;" ""
@@ -23282,7 +23280,7 @@ friend class YouBotGripperBar;" ""
 	  a public
 	    cpp default "${type}"
 	    classrelation_ref 458481 // <generalisation>
-	  b parent class_ref 492401 // EthercatMaster
+	  b parent class_ref 492401 // EthercatMasterInterface
       end
     end
 
@@ -23305,7 +23303,7 @@ ${inlines}
 /// It have to be a singleton in the system"
       extra_member 217585 "friend"
 	
-	cpp "friend class EthercatMasterFactory;
+	cpp "friend class EthercatMaster;
 friend class YouBotJoint;
 friend class YouBotGripper;
 friend class YouBotGripperBar;" ""
@@ -23862,7 +23860,7 @@ friend class YouBotGripperBar;" ""
 	  a public
 	    cpp default "${type}"
 	    classrelation_ref 458353 // <generalisation>
-	  b parent class_ref 492401 // EthercatMaster
+	  b parent class_ref 492401 // EthercatMasterInterface
       end
     end
 
@@ -23891,7 +23889,7 @@ ${inlines}
 	cpp_decl "    ${description}${inline}${name}${(}const ${t0} ${p0}${v0}, const ${t1} ${p1}${v1}${)}${volatile}${throw};
 "
 	cpp_def "${description}${inline}${class}::${name}${(}const ${t0} ${p0}, const ${t1} ${p1}${)}${volatile}${throw}
-: ethercatMaster(EthercatMasterFactory::getInstance(\"youbot-ethercat.cfg\", configFilePath)) {
+: ethercatMaster(EthercatMaster::getInstance(\"youbot-ethercat.cfg\", configFilePath)) {
   ${body}}
 "
 	preserve_java_body_indent 
@@ -24216,7 +24214,7 @@ ${inlines}
       end
 
       attribute 756209 "ethercatMaster"
-	private explicit_type "EthercatMaster&"
+	private explicit_type "EthercatMasterInterface&"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -24251,7 +24249,7 @@ ${inlines}
 	cpp_decl "    ${description}${inline}${name}${(}const ${t0} ${p0}${v0}, const ${t1} ${p1}${v1}${)}${volatile}${throw};
 "
 	cpp_def "${description}${inline}${class}::${name}${(}const ${t0} ${p0}, const ${t1} ${p1}${)}${volatile}${throw}
-: ethercatMaster(EthercatMasterFactory::getInstance(\"youbot-ethercat.cfg\", configFilePath)) {
+: ethercatMaster(EthercatMaster::getInstance(\"youbot-ethercat.cfg\", configFilePath)) {
   ${body}}
 "
 	preserve_java_body_indent 
@@ -24630,7 +24628,7 @@ ${inlines}
       end
 
       attribute 755953 "ethercatMaster"
-	private explicit_type "EthercatMaster&"
+	private explicit_type "EthercatMasterInterface&"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -26147,7 +26145,7 @@ ${inlines}
       end
 
       attribute 756337 "ethercatMaster"
-	private explicit_type "EthercatMaster*"
+	private explicit_type "EthercatMasterInterface*"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -26636,7 +26634,7 @@ ${inlines}
       end
 
       attribute 790001 "ethercatMaster"
-	private explicit_type "EthercatMaster*"
+	private explicit_type "EthercatMasterInterface*"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""

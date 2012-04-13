@@ -6,7 +6,7 @@ class YouBotGripper
     this->mailboxMsgRetries = 200;
     this->timeTillNextMailboxUpdate = 1; //ms
 
-    ethercatMaster = &(EthercatMasterFactory::getInstance("youbot-ethercat.cfg", configFilePath));
+    ethercatMaster = &(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath));
     bar1 = new YouBotGripperBar(0, jointNo, configFilePath);
     bar2 = new YouBotGripperBar(1, jointNo, configFilePath);
 !!!389233.cpp!!!	~YouBotGripper()

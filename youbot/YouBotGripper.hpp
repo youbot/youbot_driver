@@ -59,7 +59,7 @@
 #include "generic/Exceptions.hpp"
 #include "youbot/ProtocolDefinitions.hpp"
 #include "youbot/EthercatMaster.hpp"
-#include "youbot/EthercatMasterFactory.hpp"
+#include "youbot/EthercatMasterInterface.hpp"
 #include "youbot/EthercatMasterWithThread.hpp"
 #include "youbot/EthercatMasterWithoutThread.hpp"
 #include "youbot/YouBotSlaveMsg.hpp"
@@ -129,7 +129,7 @@ class YouBotGripper : public OneDOFGripper {
 
     bool retrieveValueFromMotorContoller(YouBotSlaveMailboxMsg& message);
 
-    EthercatMaster* ethercatMaster;
+    EthercatMasterInterface* ethercatMaster;
 
     unsigned int timeTillNextMailboxUpdate;
 

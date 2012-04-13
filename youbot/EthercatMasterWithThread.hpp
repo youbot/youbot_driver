@@ -80,8 +80,8 @@ namespace youbot {
 /// The Ethercat Master is managing the whole ethercat communication 
 /// It have to be a singleton in the system
 ///////////////////////////////////////////////////////////////////////////////
-class EthercatMasterWithThread : public EthercatMaster {
-friend class EthercatMasterFactory;
+class EthercatMasterWithThread : public EthercatMasterInterface {
+friend class EthercatMaster;
 friend class YouBotJoint;
 friend class YouBotGripper;
 friend class YouBotGripperBar;

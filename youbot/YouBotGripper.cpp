@@ -59,7 +59,7 @@ YouBotGripper::YouBotGripper(const unsigned int jointNo, const std::string& conf
     this->mailboxMsgRetries = 200;
     this->timeTillNextMailboxUpdate = 1; //ms
 
-    ethercatMaster = &(EthercatMasterFactory::getInstance("youbot-ethercat.cfg", configFilePath));
+    ethercatMaster = &(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath));
     bar1 = new YouBotGripperBar(0, jointNo, configFilePath);
     bar2 = new YouBotGripperBar(1, jointNo, configFilePath);
   // Bouml preserved body end 0005EFF1

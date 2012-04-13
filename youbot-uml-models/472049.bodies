@@ -8,7 +8,7 @@ class YouBotGripperBar
     this->maxEncoderValue = 67000;
     this->barSpacingOffset = 0 * meter;
 
-    ethercatMaster = &(EthercatMasterFactory::getInstance("youbot-ethercat.cfg", configFilePath));
+    ethercatMaster = &(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath));
 !!!401009.cpp!!!	setConfigurationParameter(in parameter : MaxEncoderValue) : void
     this->maxEncoderValue = parameter.value;
 !!!882801.cpp!!!	getConfigurationParameter(out parameter : MaxEncoderValue) : void

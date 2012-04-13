@@ -68,7 +68,7 @@
 #include "youbot/YouBotJoint.hpp"
 #include "youbot/YouBotJointParameter.hpp"
 #include "youbot/EthercatMaster.hpp"
-#include "youbot/EthercatMasterFactory.hpp"
+#include "youbot/EthercatMasterInterface.hpp"
 #include "youbot/EthercatMasterWithThread.hpp"
 #include "youbot/EthercatMasterWithoutThread.hpp"
 

@@ -62,7 +62,7 @@
 #include "youbot/YouBotGripper.hpp"
 #include "youbot/YouBotJoint.hpp"
 #include "youbot/EthercatMaster.hpp"
-#include "youbot/EthercatMasterFactory.hpp"
+#include "youbot/EthercatMasterInterface.hpp"
 #include "youbot/EthercatMasterWithThread.hpp"
 #include "youbot/EthercatMasterWithoutThread.hpp"
 namespace youbot {
@@ -148,7 +148,7 @@ class YouBotManipulator {
 
     double minFirmwareVersion;
 
-    EthercatMaster& ethercatMaster;
+    EthercatMasterInterface& ethercatMaster;
 
 };
 

@@ -52,7 +52,7 @@
 namespace youbot {
 
 YouBotBase::YouBotBase(const std::string name, const std::string configFilePath)
-: ethercatMaster(EthercatMasterFactory::getInstance("youbot-ethercat.cfg", configFilePath)) {
+: ethercatMaster(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath)) {
   // Bouml preserved body begin 00067E71
 
     this->controllerType = 174;

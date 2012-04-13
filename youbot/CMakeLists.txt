@@ -1,7 +1,7 @@
 
 
   SET(YOUBOT_DRIVER_SRC
-    ${CMAKE_HOME_DIRECTORY}/youbot/EthercatMasterFactory.cpp
+    ${CMAKE_HOME_DIRECTORY}/youbot/EthercatMaster.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/EthercatMasterWithThread.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/EthercatMasterWithoutThread.cpp
     ${CMAKE_HOME_DIRECTORY}/generic/Logger.cpp
@@ -24,7 +24,7 @@
 
 SET(YOUBOT_DRIVER_HEADERS
   EthercatMaster.hpp
-  EthercatMasterFactory.cpp
+  EthercatMasterInterface.cpp
   EthercatMasterWithThread.cpp
   EthercatMasterWithoutThread.hpp
   YouBotGripper.hpp

@@ -1,14 +1,14 @@
-class EthercatMasterFactory
-!!!942193.cpp!!!	EthercatMasterFactory()
+class EthercatMaster
+!!!942193.cpp!!!	EthercatMaster()
 
-!!!942577.cpp!!!	getInstance(in configFile : string = "youbot-ethercat.cfg", in configFilePath : string = "../config/", in ethercatMasterWithThread : bool = true) : EthercatMaster&
+!!!942577.cpp!!!	getInstance(in configFile : string = "youbot-ethercat.cfg", in configFilePath : string = "../config/", in ethercatMasterWithThread : bool = true) : EthercatMasterInterface&
     if (instance == NULL) {
       if(ethercatMasterWithThread){
         instance = new EthercatMasterWithThread(configFile, configFilePath);
-        factoryInstance = new EthercatMasterFactory();
+        factoryInstance = new EthercatMaster();
       }else{
         instance = new EthercatMasterWithoutThread(configFile, configFilePath);
-        factoryInstance = new EthercatMasterFactory();
+        factoryInstance = new EthercatMaster();
       }
     }
     return *instance;

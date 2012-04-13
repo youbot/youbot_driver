@@ -1,6 +1,3 @@
-#ifndef YOUBOT_ETHERCATMASTER_H
-#define YOUBOT_ETHERCATMASTER_H
-
 /****************************************************************
  *
  * Copyright (c) 2011
@@ -51,45 +48,52 @@
  * License LGPL and BSD license along with this program.
  *
  ****************************************************************/
-#include <vector>
-#include <string>
-#include <cstdio>
-#include <stdexcept>
-#include <iostream>
-#include "youbot/EthercatMasterInterface.hpp"
-#include "youbot/EthercatMasterWithoutThread.hpp"
-#include "youbot/EthercatMasterWithThread.hpp"
+#include "youbot/EthercatMaster.hpp"
+
 namespace youbot {
 
-///////////////////////////////////////////////////////////////////////////////
-/// The Ethercat Master factory
-///////////////////////////////////////////////////////////////////////////////
-class EthercatMaster {
-friend class YouBotJoint;
-friend class YouBotGripper;
-friend class YouBotGripperBar;
-  private:
-    static EthercatMasterInterface* instance;
+EthercatMasterInterface* EthercatMaster::instance = NULL;
+EthercatMaster* EthercatMaster::factoryInstance = NULL;
+EthercatMaster::EthercatMaster() {
+  // Bouml preserved body begin 000E6071
 
-    static EthercatMaster* factoryInstance;
+  // Bouml preserved body end 000E6071
+}
 
-    EthercatMaster();
+EthercatMaster::~EthercatMaster() {
+  // Bouml preserved body begin 000E6171
+  // Bouml preserved body end 000E6171
+}
 
-    EthercatMaster(const EthercatMaster& ) {};
+///creates a instance of the singleton EthercatMaster if there is none and returns a reference to it
+///@param configFile configuration file name incl. the extension
+///@param configFilePath the path where the configuration is located with a / at the end
+EthercatMasterInterface& EthercatMaster::getInstance(const std::string configFile, const std::string configFilePath, const bool ethercatMasterWithThread)
+{
+  // Bouml preserved body begin 000E61F1
+    if (instance == NULL) {
+      if(ethercatMasterWithThread){
+        instance = new EthercatMasterWithThread(configFile, configFilePath);
+        factoryInstance = new EthercatMaster();
+      }else{
+        instance = new EthercatMasterWithoutThread(configFile, configFilePath);
+        factoryInstance = new EthercatMaster();
+      }
+    }
+    return *instance;
+  // Bouml preserved body end 000E61F1
+}
 
-    ~EthercatMaster();
+/// destroy the singleton instance by calling the destructor
+void EthercatMaster::destroy()
+{
+  // Bouml preserved body begin 000E6271
+    delete instance;
+    delete factoryInstance;
+    factoryInstance = NULL;
+    instance = NULL;
+  // Bouml preserved body end 000E6271
+}
 
-
-  public:
-    ///creates a instance of the singleton EthercatMaster if there is none and returns a reference to it
-    ///@param configFile configuration file name incl. the extension
-    ///@param configFilePath the path where the configuration is located with a / at the end
-    static EthercatMasterInterface& getInstance(const std::string configFile = "youbot-ethercat.cfg", const std::string configFilePath = "../config/", const bool ethercatMasterWithThread = true);
-
-    /// destroy the singleton instance by calling the destructor
-    static void destroy();
-
-};
 
 } // namespace youbot
-#endif
