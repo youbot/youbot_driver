@@ -68,6 +68,7 @@ EthercatMaster::~EthercatMaster() {
 ///creates a instance of the singleton EthercatMaster if there is none and returns a reference to it
 ///@param configFile configuration file name incl. the extension
 ///@param configFilePath the path where the configuration is located with a / at the end
+///@param ethercatMasterWithThread set it to false if you want to deactivate the communication thread
 EthercatMasterInterface& EthercatMaster::getInstance(const std::string configFile, const std::string configFilePath, const bool ethercatMasterWithThread)
 {
   // Bouml preserved body begin 000E61F1

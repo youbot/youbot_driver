@@ -9,6 +9,8 @@ This figure shows the  rough
  architectural overview of the youBot API. The arrows are indicating the data flow. As depicted there is a separate communication thread to handle the EtherCAT communication. The data transfer between the user thread and the communication thread is done by a non blocking buffer. The default value for the cycle time of the communication thread is 1 ms. The threading is totally encapsulated in the youbot::EthercatMaster class. The youbot:YouBotJoint class uses the youbot::EthercatMaster class to send and receive information from the youBot.
 
 
-It is also possible to switch off the communication thread of the EtherCAT master. In this case the user has to call the youbot::EthercatMaster method sendAndReceiveProcessData() to trigger the process data communication. To deactivate the thread the parameter USE_ETHERCAT_MASTER_WITH_THREAD in the main CMakeList.txt file have to be set to OFF.
+It is also possible to switch off the communication thread of the EtherCAT master. In this case the user has to call the youbot::EthercatMasterInterface methods sendProcessData() and receiveProcessData() to trigger the process data communication. To deactivate the thread the user has to set the parameter "ethercatMasterWithThread" in the youbot::EthercatMaster::getInstance() method to false. This have to be done before creating a youbot::YouBotBase or youbot::YouBotManipulator object and before any other access to a youbot::EthercatMaster.
 
 */
+
+

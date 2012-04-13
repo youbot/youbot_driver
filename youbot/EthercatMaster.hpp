@@ -84,6 +84,7 @@ friend class YouBotGripperBar;
     ///creates a instance of the singleton EthercatMaster if there is none and returns a reference to it
     ///@param configFile configuration file name incl. the extension
     ///@param configFilePath the path where the configuration is located with a / at the end
+    ///@param ethercatMasterWithThread set it to false if you want to deactivate the communication thread
     static EthercatMasterInterface& getInstance(const std::string configFile = "youbot-ethercat.cfg", const std::string configFilePath = "../config/", const bool ethercatMasterWithThread = true);
 
     /// destroy the singleton instance by calling the destructor
