@@ -136,7 +136,7 @@ friend class YouBotGripperBar;
     ///get a ethercat message form the buffer
     ///@param msgBuffer ethercat message
     ///@param jointNumber joint number of the receiver joint
-    YouBotSlaveMsg getMsgBuffer(const unsigned int jointNumber);
+    void getMsgBuffer(const unsigned int jointNumber, YouBotSlaveMsg& returnMsg);
 
     ///stores a mailbox message in a buffer which will be sent to the motor controllers
     ///@param msgBuffer ethercat mailbox message

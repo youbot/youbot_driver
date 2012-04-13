@@ -372,12 +372,11 @@ void EthercatMasterWithoutThread::setMsgBuffer(const YouBotSlaveMsg& msgBuffer, 
 ///get a ethercat message form the buffer
 ///@param msgBuffer ethercat message
 ///@param jointNumber joint number of the receiver joint
-YouBotSlaveMsg EthercatMasterWithoutThread::getMsgBuffer(const unsigned int jointNumber) {
+void EthercatMasterWithoutThread::getMsgBuffer(const unsigned int jointNumber, YouBotSlaveMsg& returnMsg) {
   // Bouml preserved body begin 000D2171
-
-    YouBotSlaveMsg returnMsg;
+  
     returnMsg = processDataBuffer[jointNumber - 1];
-    return returnMsg;
+    
   // Bouml preserved body end 000D2171
 }
 

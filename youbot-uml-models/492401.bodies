@@ -1,27 +1,11 @@
-class EthercatMaster
-!!!939505.cpp!!!	EthercatMaster()
+class EthercatMasterInterface
+!!!939505.cpp!!!	EthercatMasterInterface()
 
 
 
 
-!!!939761.cpp!!!	~EthercatMaster()
+!!!939761.cpp!!!	~EthercatMasterInterface()
    
-!!!939889.cpp!!!	getInstance(in configFile : string = "youbot-ethercat.cfg", in configFilePath : string = "../config/") : EthercatMaster&
-    if (!instance) {
-//      configFileName = configFile;
- //     configFilepath = configFilePath;
-      instance = new EthercatMasterWithThread();
-
-
-    }
-    return *instance;
-
-!!!940017.cpp!!!	destroy() : void
-    if (instance) {
-      delete instance;
-    }
-    instance = NULL;
-
 !!!940145.cpp!!!	getNumberOfSlaves() : unsigned int
 
 !!!940273.cpp!!!	AutomaticSendOn(in enableAutomaticSend : bool) : void
@@ -66,34 +50,6 @@ class EthercatMaster
       automaticSendOffBufferVector.push_back(localMsg);
     }
 
-!!!941169.cpp!!!	getMsgBuffer(in jointNumber : uint) : YouBotSlaveMsg
-
-    static bool lastValueof_newDataFlagOne;
-    static bool lastValueof_newDataFlagTwo;
-    YouBotSlaveMsg returnMsg;
-
-    
-    if (this->automaticReceiveOn == true) {
-      if (newDataFlagOne == true && lastValueof_newDataFlagOne == false) {
-        {
-          boost::mutex::scoped_lock dataMutex1(mutexDataOne);
-          BufferForGetMsgBuffer = firstBufferVector;
-        }
-      } else if (newDataFlagTwo == true && lastValueof_newDataFlagTwo == false) {
-        {
-          boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
-          BufferForGetMsgBuffer = secondBufferVector;
-        }
-      } 
-      
-      returnMsg = BufferForGetMsgBuffer[jointNumber - 1];
-      lastValueof_newDataFlagOne = newDataFlagOne;
-      lastValueof_newDataFlagTwo = newDataFlagTwo;
-    } else {
-      returnMsg = this->automaticReceiveOffBufferVector[jointNumber - 1];
-    }
-
-    return returnMsg;
 !!!941297.cpp!!!	setMailboxMsgBuffer(in msgBuffer : YouBotSlaveMailboxMsg, in jointNumber : uint) : void
 
     if (newDataFlagOne == true) {

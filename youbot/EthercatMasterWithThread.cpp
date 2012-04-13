@@ -445,12 +445,11 @@ void EthercatMasterWithThread::setMsgBuffer(const YouBotSlaveMsg& msgBuffer, con
 ///get a ethercat message form the buffer
 ///@param msgBuffer ethercat message
 ///@param jointNumber joint number of the receiver joint
-YouBotSlaveMsg EthercatMasterWithThread::getMsgBuffer(const unsigned int jointNumber) {
+void EthercatMasterWithThread::getMsgBuffer(const unsigned int jointNumber, YouBotSlaveMsg& returnMsg) {
   // Bouml preserved body begin 00041571
 
     static bool lastValueof_newDataFlagOne;
     static bool lastValueof_newDataFlagTwo;
-    YouBotSlaveMsg returnMsg;
 
     
     if (this->automaticReceiveOn == true) {
@@ -473,7 +472,6 @@ YouBotSlaveMsg EthercatMasterWithThread::getMsgBuffer(const unsigned int jointNu
       returnMsg = this->automaticReceiveOffBufferVector[jointNumber - 1];
     }
 
-    return returnMsg;
   // Bouml preserved body end 00041571
 }
 

@@ -236,11 +236,10 @@ class EthercatMasterWithoutThread
 
     processDataBuffer[jointNumber - 1].stctOutput = msgBuffer.stctOutput;
 
-!!!860529.cpp!!!	getMsgBuffer(in jointNumber : uint) : YouBotSlaveMsg
-
-    YouBotSlaveMsg returnMsg;
+!!!860529.cpp!!!	getMsgBuffer(in jointNumber : uint, out returnMsg : YouBotSlaveMsg) : void
+  
     returnMsg = processDataBuffer[jointNumber - 1];
-    return returnMsg;
+    
 !!!860657.cpp!!!	setMailboxMsgBuffer(in msgBuffer : YouBotSlaveMailboxMsg, in jointNumber : uint) : void
   
     firstMailboxBufferVector[jointNumber - 1].stctOutput = msgBuffer.stctOutput;

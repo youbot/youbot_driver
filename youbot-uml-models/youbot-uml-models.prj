@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 217
+  revision 220
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -1184,6 +1184,26 @@ ${inlines}
 
       attribute 478833 "storage"
 	private type class_ref 303857 // YouBotJointStorage
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 812913 "messageBuffer"
+	private explicit_type "YouBotSlaveMsg"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 813041 "jointNameString"
+	private explicit_type "std::string"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -22198,7 +22218,8 @@ friend class YouBotGripperBar;" ""
 	
 	comment "///creates a instance of the singleton EthercatMaster if there is none and returns a reference to it
 ///@param configFile configuration file name incl. the extension
-///@param configFilePath the path where the configuration is located with a / at the end"
+///@param configFilePath the path where the configuration is located with a / at the end
+///@param ethercatMasterWithThread set it to false if you want to deactivate the communication thread"
       end
 
       operation 942705 "destroy"
@@ -22400,10 +22421,11 @@ friend class YouBotGripperBar;" ""
       end
 
       operation 941169 "getMsgBuffer"
-	abstract preserve_cpp_body_indent cpp_virtual private explicit_return_type "YouBotSlaveMsg"
-	nparams 1
+	abstract preserve_cpp_body_indent cpp_virtual private explicit_return_type "void"
+	nparams 2
 	  param in name "jointNumber" explicit_type "uint"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+	  param out name "returnMsg" explicit_type "YouBotSlaveMsg"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${v0}, ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract};
 "
 	preserve_java_body_indent 
 	preserve_php_body_indent 
@@ -22699,12 +22721,13 @@ friend class YouBotGripperBar;" ""
       end
 
       operation 267633 "getMsgBuffer"
-	preserve_cpp_body_indent private explicit_return_type "YouBotSlaveMsg"
-	nparams 1
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 2
 	  param in name "jointNumber" explicit_type "uint"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+	  param out name "returnMsg" explicit_type "YouBotSlaveMsg"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${v0}, ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}, ${t1}& ${p1}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
 "
 	preserve_java_body_indent 
@@ -23536,12 +23559,13 @@ friend class YouBotGripperBar;" ""
       end
 
       operation 860529 "getMsgBuffer"
-	preserve_cpp_body_indent private explicit_return_type "YouBotSlaveMsg"
-	nparams 1
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 2
 	  param in name "jointNumber" explicit_type "uint"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+	  param out name "returnMsg" explicit_type "YouBotSlaveMsg"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${v0}, ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}, ${t1}& ${p1}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
 "
 	preserve_java_body_indent 

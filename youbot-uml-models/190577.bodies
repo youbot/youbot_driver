@@ -309,11 +309,10 @@ class EthercatMasterWithThread
       automaticSendOffBufferVector.push_back(localMsg);
     }
 
-!!!267633.cpp!!!	getMsgBuffer(in jointNumber : uint) : YouBotSlaveMsg
+!!!267633.cpp!!!	getMsgBuffer(in jointNumber : uint, out returnMsg : YouBotSlaveMsg) : void
 
     static bool lastValueof_newDataFlagOne;
     static bool lastValueof_newDataFlagTwo;
-    YouBotSlaveMsg returnMsg;
 
     
     if (this->automaticReceiveOn == true) {
@@ -336,7 +335,6 @@ class EthercatMasterWithThread
       returnMsg = this->automaticReceiveOffBufferVector[jointNumber - 1];
     }
 
-    return returnMsg;
 !!!302449.cpp!!!	setMailboxMsgBuffer(in msgBuffer : YouBotSlaveMailboxMsg, in jointNumber : uint) : void
 
     if (newDataFlagOne == true) {

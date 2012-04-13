@@ -285,6 +285,10 @@ class YouBotJoint : public Joint {
 
     YouBotJointStorage storage;
 
+    YouBotSlaveMsg messageBuffer;
+
+    std::string jointNameString;
+
 };
 
 } // namespace youbot
