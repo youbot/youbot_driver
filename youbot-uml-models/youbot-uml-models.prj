@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 223
+  revision 224
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -25407,6 +25407,26 @@ ${inlines}
 
       attribute 819953 "ethercatMaster"
 	private explicit_type "EthercatMasterWithThread*"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 827249 "lastVelocity"
+	private explicit_type "quantity<si::angular_velocity>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 827377 "lastPosition"
+	private explicit_type "quantity<plane_angle>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""

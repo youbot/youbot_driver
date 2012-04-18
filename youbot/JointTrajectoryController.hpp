@@ -97,6 +97,10 @@ class JointTrajectoryController {
 
     EthercatMasterWithThread* ethercatMaster;
 
+    quantity<si::angular_velocity> lastVelocity;
+
+    quantity<plane_angle> lastPosition;
+
 };
 
 } // namespace youbot
