@@ -17,6 +17,7 @@
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameter.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameterReadOnly.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameterPasswordProtected.cpp
+    ${CMAKE_HOME_DIRECTORY}/youbot/JointTrajectoryController.cpp
     ${CMAKE_HOME_DIRECTORY}/base-kinematic/FourSwedishWheelOmniBaseKinematic.cpp
     ${CMAKE_HOME_DIRECTORY}/base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.cpp
   )
@@ -41,6 +42,7 @@ SET(YOUBOT_DRIVER_HEADERS
   ProtocolDefinitions.hpp
   YouBotJointStorage.hpp
   DataTrace.hpp
+  JointTrajectoryController.hpp
 ../base-kinematic/FourSwedishWheelOmniBaseKinematic.hpp
 ../base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.hpp
 ../base-kinematic/WheeledBaseKinematic.hpp

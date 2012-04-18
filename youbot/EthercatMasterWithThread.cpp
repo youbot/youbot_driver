@@ -226,6 +226,67 @@ bool EthercatMasterWithThread::isErrorInSoemDriver() {
   // Bouml preserved body end 000E69F1
 }
 
+void EthercatMasterWithThread::setTrajectoryVelocities(const std::list<int32>& targetVelocities, const unsigned int jointNumber) {
+  // Bouml preserved body begin 000EA1F1
+
+    if (trajectoryVelocitiesBuffer1InUse[jointNumber - 1] == false) {
+      {
+        boost::mutex::scoped_lock dataMutex1(trajectoryVelocitiesBuffer1Mutex);
+        this->trajectoryVelocitiesBuffer1[jointNumber - 1] = targetVelocities;
+
+      }
+    } else if (trajectoryVelocitiesBuffer2InUse[jointNumber - 1] == false) {
+      {
+        boost::mutex::scoped_lock dataMutex2(trajectoryVelocitiesBuffer2Mutex);
+        this->trajectoryVelocitiesBuffer2[jointNumber - 1] = targetVelocities;
+      }
+
+    } else {
+      LOG(error) << "Could not set the Trajectory!";
+    }
+  // Bouml preserved body end 000EA1F1
+}
+
+bool EthercatMasterWithThread::getNextTrajectoryVelocity(const unsigned int jointNumber, int32& velocity) {
+  // Bouml preserved body begin 000EA271
+    {
+      boost::mutex::scoped_lock dataMutex2(trajectoryVelocitiesBuffer2Mutex);
+      {
+      boost::mutex::scoped_lock dataMutex2(trajectoryVelocitiesBuffer1Mutex);
+
+      if (!trajectoryVelocitiesBuffer1[jointNumber].empty() && !trajectoryVelocitiesBuffer1InUse[jointNumber] && !trajectoryVelocitiesBuffer2InUse[jointNumber]) {
+        trajectoryVelocitiesBuffer1InUse[jointNumber] = true;
+      }
+
+      if (!trajectoryVelocitiesBuffer1[jointNumber].empty() && trajectoryVelocitiesBuffer1InUse[jointNumber]) {
+        velocity = (trajectoryVelocitiesBuffer1[jointNumber]).front();
+        (trajectoryVelocitiesBuffer1[jointNumber]).pop_front();
+      } else {
+        trajectoryVelocitiesBuffer1InUse[jointNumber] = false;
+      }
+      
+      if (!trajectoryVelocitiesBuffer2[jointNumber].empty() && !trajectoryVelocitiesBuffer1InUse[jointNumber] && !trajectoryVelocitiesBuffer2InUse[jointNumber]) {
+        trajectoryVelocitiesBuffer2InUse[jointNumber] = true;
+      }
+
+      if (!trajectoryVelocitiesBuffer2[jointNumber].empty() && trajectoryVelocitiesBuffer2InUse[jointNumber]) {
+        velocity = (trajectoryVelocitiesBuffer2[jointNumber]).front();
+        (trajectoryVelocitiesBuffer2[jointNumber]).pop_front();
+      } else {
+        trajectoryVelocitiesBuffer2InUse[jointNumber] = false;
+      }
+    }
+    }
+    
+    if(!trajectoryVelocitiesBuffer1InUse[jointNumber] && !trajectoryVelocitiesBuffer2InUse[jointNumber]){
+      return false;
+    }else{
+      return true;
+    }
+    
+  // Bouml preserved body end 000EA271
+}
+
 ///establishes the ethercat connection
 void EthercatMasterWithThread::initializeEthercat() {
   // Bouml preserved body begin 000410F1
@@ -320,6 +381,7 @@ void EthercatMasterWithThread::initializeEthercat() {
     std::string actualSlaveName;
     nrOfSlaves = 0;
     YouBotSlaveMsg emptySlaveMsg;
+    std::list<int32> dummylist;
 
     configfile->readInto(baseJointControllerName, "BaseJointControllerName");
     configfile->readInto(manipulatorJointControllerName, "ManipulatorJointControllerName");
@@ -351,6 +413,10 @@ void EthercatMasterWithThread::initializeEthercat() {
         newMailboxInputDataFlagOne.push_back(false);
         newMailboxInputDataFlagTwo.push_back(false);
         pendingMailboxMsgsReply.push_back(false);
+        trajectoryVelocitiesBuffer1InUse.push_back(false);
+        trajectoryVelocitiesBuffer2InUse.push_back(false);
+        trajectoryVelocitiesBuffer1.push_back(dummylist);
+        trajectoryVelocitiesBuffer2.push_back(dummylist);
         int i = 0;
         bool b = false;
         upperLimit.push_back(i);
@@ -649,9 +715,10 @@ void EthercatMasterWithThread::updateSensorActorValues() {
     long timeToWait = 0;
     boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
     boost::posix_time::time_duration pastTime;
- //   int counter = 0;
+  //  int counter = 0;
     boost::posix_time::time_duration realperiode;
     boost::posix_time::time_duration timeSum = startTime - startTime;
+    int32 trajectoryVelocity;
 
 
     while (!stopThread) {
@@ -665,14 +732,14 @@ void EthercatMasterWithThread::updateSensorActorValues() {
         boost::this_thread::sleep(boost::posix_time::microseconds(timeToWait));
       }
 
- //   realperiode = microsec_clock::local_time() - startTime;
+     // realperiode = boost::posix_time::microsec_clock::local_time() - startTime;
       startTime = boost::posix_time::microsec_clock::local_time();
 
 /*
       counter++;
       timeSum  = timeSum + realperiode;
 
-      if(counter == 100){
+      if(counter == 1000){
 
         double dtotaltime = (double)timeSum.total_microseconds()/counter;
         printf("TotalTime %7.0lf us\n", dtotaltime);
@@ -708,15 +775,17 @@ void EthercatMasterWithThread::updateSensorActorValues() {
       if (ec_iserror())
         LOG(warning) << "there is an error in the soem driver";
       
+      
 
       if (newDataFlagOne == false) {
         {
           boost::mutex::scoped_lock dataMutex1(mutexDataOne);
-          for (unsigned int i = 0; i < firstBufferVector.size(); i++) {
+          for (unsigned int i = 0; i < nrOfSlaves; i++) {
             
             //fill first output buffer (send data)
             if (newOutputDataFlagOne[i]) {
               *(ethercatOutputBufferVector[i]) = (firstBufferVector[i]).stctOutput;
+              newOutputDataFlagOne[i] = false;
             }
            
             //fill first input buffer (receive data)
@@ -747,11 +816,12 @@ void EthercatMasterWithThread::updateSensorActorValues() {
       } else if (newDataFlagTwo == false) {
         {
           boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
-          for (unsigned int i = 0; i < secondBufferVector.size(); i++) {
+          for (unsigned int i = 0; i < nrOfSlaves; i++) {
             
             //fill second output buffer (send data)
             if (newOutputDataFlagTwo[i]) {
               *(ethercatOutputBufferVector[i]) = (secondBufferVector[i]).stctOutput;
+              newOutputDataFlagTwo[i] = false;
             }
             //fill second input buffer (receive data)
             (secondBufferVector[i]).stctInput = *(ethercatInputBufferVector[i]);
@@ -776,6 +846,13 @@ void EthercatMasterWithThread::updateSensorActorValues() {
         }
         newDataFlagTwo = true;
         newDataFlagOne = false;
+      }
+      
+      for (unsigned int i = 0; i < nrOfSlaves; i++) {
+        if(this->getNextTrajectoryVelocity(i, trajectoryVelocity)){
+          (*(ethercatOutputBufferVector[i])).controllerMode = VELOCITY_CONTROL;
+          (*(ethercatOutputBufferVector[i])).value = trajectoryVelocity;
+        }
       }
 
       

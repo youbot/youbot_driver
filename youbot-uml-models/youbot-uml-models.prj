@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 220
+  revision 223
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -525,7 +525,7 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
-	comment "///this methode should be only used if you know what you are doing"
+	comment "///this method should be only used if you know what you are doing"
       end
 
       operation 695793 "getConfigurationParameter"
@@ -541,7 +541,7 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
-	comment "///this methode should be only used if you know what you are doing"
+	comment "///this method should be only used if you know what you are doing"
       end
 
       operation 890225 "getConfigurationParameter"
@@ -1050,6 +1050,20 @@ ${inlines}
 
       operation 418929 "stopJoint"
 	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 959217 "getJointNumber"
+	preserve_cpp_body_indent public explicit_return_type "unsigned int"
 	nparams 0
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
@@ -22652,6 +22666,38 @@ friend class YouBotGripperBar;" ""
 /// returns a true if an error has occurred"
       end
 
+      operation 958961 "setTrajectoryVelocities"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 2
+	  param in name "targetVelocities" explicit_type "std::list<int32>"
+	  param in name "jointNumber" explicit_type "uint"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 959089 "getNextTrajectoryVelocity"
+	preserve_cpp_body_indent private explicit_return_type "bool"
+	nparams 2
+	  param in name "jointNumber" explicit_type "uint"
+	  param out name "velocity" explicit_type "int32"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}, ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}, ${t1}& ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
       operation 266481 "initializeEthercat"
 	preserve_cpp_body_indent private explicit_return_type "void"
 	nparams 0
@@ -23304,6 +23350,66 @@ friend class YouBotGripperBar;" ""
 	    cpp default "${type}"
 	    classrelation_ref 458481 // <generalisation>
 	  b parent class_ref 492401 // EthercatMasterInterface
+      end
+
+      attribute 820081 "trajectoryVelocitiesBuffer1"
+	private explicit_type "std::vector< std::list<int32> >"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 820209 "trajectoryVelocitiesBuffer2"
+	private explicit_type "std::vector< std::list<int32> >"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 820337 "trajectoryVelocitiesBuffer1InUse"
+	private explicit_type "std::vector<bool>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 820465 "trajectoryVelocitiesBuffer2InUse"
+	private explicit_type "std::vector<bool>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 820593 "trajectoryVelocitiesBuffer1Mutex"
+	private explicit_type "boost::mutex"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 820721 "trajectoryVelocitiesBuffer2Mutex"
+	private explicit_type "boost::mutex"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
       end
     end
 
@@ -25148,6 +25254,166 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+    end
+
+    class 499057 "JointTrajectoryController"
+      visibility package 
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/// "
+      operation 958705 "JointTrajectoryController"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 1
+	  param inout name "joint" type class_ref 170225 // YouBotJoint
+	cpp_decl "    ${description}${inline}${name}${(}${t0}& ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${t0}& ${p0}${)}${volatile}${throw} 
+: joint(joint){
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 958833 "~JointTrajectoryController"
+	cpp_virtual public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 951537 "setTrajectory"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 3
+	  param in name "positions" explicit_type "std::vector< quantity<plane_angle> >"
+	  param in name "velocities" explicit_type "std::vector< quantity<angular_velocity> >"
+	  param in name "accelerations" explicit_type "std::vector< quantity<angular_acceleration> >"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}, const ${t1}& ${p1}, const ${t2}& ${p2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "/// calculates all trajectory values for the future and sets all the the ethercat master
+/// if the trajectory is still active the the values in the next buffer"
+      end
+
+      operation 951665 "stopTrajectory"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "/// Stops just the trajectory controller but not the joint movement"
+      end
+
+      operation 951793 "stopJointMovement"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "/// Stops the joint movement by decreasing the velocity until zero"
+      end
+
+      operation 952049 "isTrajectoryControllerActive"
+	preserve_cpp_body_indent public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "/// returns true if the trajectory controller is active"
+      end
+
+      operation 958577 "calculateVelocities"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 5
+	  param in name "position_delta" explicit_type "quantity<plane_angle>"
+	  param in name "velocity" explicit_type "quantity<angular_velocity>"
+	  param in name "velocity_current" explicit_type "quantity<angular_velocity>"
+	  param in name "acceleration" explicit_type "quantity<angular_acceleration>"
+	  param out name "targetVelocities" explicit_type "std::list<int32>"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}, const ${t3}& ${p3}, ${t4}& ${p4}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}, const ${t3}& ${p3}, ${t4}& ${p4}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      attribute 819569 "joint"
+	private explicit_type "YouBotJoint&"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 819697 "gearRatio"
+	private explicit_type "double"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 819953 "ethercatMaster"
+	private explicit_type "EthercatMasterWithThread*"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
     end
   end
 

@@ -127,10 +127,10 @@ class YouBotJoint : public Joint {
 
     virtual void getConfigurationParameter(FirmwareVersion& parameter);
 
-    ///this methode should be only used if you know what you are doing
+    ///this method should be only used if you know what you are doing
     virtual void setConfigurationParameter(const YouBotSlaveMailboxMsg& parameter);
 
-    ///this methode should be only used if you know what you are doing
+    ///this method should be only used if you know what you are doing
     virtual void getConfigurationParameter(YouBotSlaveMailboxMsg& parameter);
 
     virtual void getConfigurationParameter(TorqueConstant& parameter);
@@ -260,6 +260,8 @@ class YouBotJoint : public Joint {
     void noMoreAction();
 
     void stopJoint();
+
+    unsigned int getJointNumber();
 
 
   private:

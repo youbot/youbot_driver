@@ -615,6 +615,8 @@ class YouBotJoint
     messageBuffer.stctOutput.value = 0;
 
     ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
+!!!959217.cpp!!!	getJointNumber() : unsigned int
+  return this->jointNumber;
 !!!281329.cpp!!!	parseYouBotErrorFlags(in messageBuffer : YouBotSlaveMsg) : void
 
     if (messageBuffer.stctInput.errorFlags & OVER_CURRENT) {

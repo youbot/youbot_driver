@@ -1,17 +1,11 @@
-window_sizes 1272 723 384 882 640 0
-diagrams
-  active  classdiagram_ref 174321 // EthercatMaster
-    1290 893 50 0 12 0
-end
+window_sizes 1680 976 421 1253 895 0
 show_stereotypes
-selected attribute_ref 813041 // jointNameString
+selected classdiagram_ref 167793 // YouBot
 open
-  class_ref 170225 // YouBotJoint
+  classview_ref 134641 // Joint
+  classview_ref 154225 // JointData
   classdiagram_ref 174321 // EthercatMaster
-  class_ref 492401 // EthercatMasterInterface
-  class_ref 190577 // EthercatMasterWithThread
-  class_ref 439153 // EthercatMasterWithoutThread
-  
-  package_ref 161265 // youbot
+  operation_ref 958833 // ~JointTrajectoryController
+  deploymentview_ref 161137 // Deployment
 end
 end

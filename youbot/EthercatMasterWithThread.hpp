@@ -117,8 +117,12 @@ friend class YouBotGripperBar;
     /// returns a true if an error has occurred
     bool isErrorInSoemDriver();
 
+    void setTrajectoryVelocities(const std::list<int32>& targetVelocities, const unsigned int jointNumber);
+
 
   private:
+    bool getNextTrajectoryVelocity(const unsigned int jointNumber, int32& velocity);
+
     ///establishes the ethercat connection
     void initializeEthercat();
 
@@ -251,6 +255,18 @@ friend class YouBotGripperBar;
     std::vector<bool> inverseMovementDirection;
 
     std::vector<YouBotSlaveMsg> BufferForGetMsgBuffer;
+
+    std::vector< std::list<int32> > trajectoryVelocitiesBuffer1;
+
+    std::vector< std::list<int32> > trajectoryVelocitiesBuffer2;
+
+    std::vector<bool> trajectoryVelocitiesBuffer1InUse;
+
+    std::vector<bool> trajectoryVelocitiesBuffer2InUse;
+
+    boost::mutex trajectoryVelocitiesBuffer1Mutex;
+
+    boost::mutex trajectoryVelocitiesBuffer2Mutex;
 
 };
 

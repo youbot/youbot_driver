@@ -337,7 +337,7 @@ void YouBotJoint::getConfigurationParameter(FirmwareVersion& parameter) {
   // Bouml preserved body end 0009AA71
 }
 
-///this methode should be only used if you know what you are doing
+///this method should be only used if you know what you are doing
 void YouBotJoint::setConfigurationParameter(const YouBotSlaveMailboxMsg& parameter) {
   // Bouml preserved body begin 000A9D71
    if (!setValueToMotorContoller(parameter)) {
@@ -346,7 +346,7 @@ void YouBotJoint::setConfigurationParameter(const YouBotSlaveMailboxMsg& paramet
   // Bouml preserved body end 000A9D71
 }
 
-///this methode should be only used if you know what you are doing
+///this method should be only used if you know what you are doing
 void YouBotJoint::getConfigurationParameter(YouBotSlaveMailboxMsg& parameter) {
   // Bouml preserved body begin 000A9DF1
    if (!retrieveValueFromMotorContoller(parameter)) {
@@ -942,6 +942,12 @@ void YouBotJoint::stopJoint() {
 
     ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
   // Bouml preserved body end 00066471
+}
+
+unsigned int YouBotJoint::getJointNumber() {
+  // Bouml preserved body begin 000EA2F1
+  return this->jointNumber;
+  // Bouml preserved body end 000EA2F1
 }
 
 void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
