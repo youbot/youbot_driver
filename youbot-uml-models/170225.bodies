@@ -617,6 +617,139 @@ class YouBotJoint
     ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 !!!959217.cpp!!!	getJointNumber() : unsigned int
   return this->jointNumber;
+!!!951537.cpp!!!	setTrajectory(in positions : std::vector< quantity<plane_angle> >, in velocities : std::vector< quantity<angular_velocity> >, in accelerations : std::vector< quantity<angular_acceleration> >, out ouputTrajectory : std::list<int32>) : void
+  //check data
+  // vel != 0
+  // acc != 0
+  // position in limits
+  //if(velocity == 0 *radian_per_second)
+  //  return;
+
+
+  std::list<int32> targetPositions;
+  
+  for(unsigned int i = 0; i< positions.size(); i++) {
+    
+    
+    this->calculatePositions(positions[i], lastPosition, velocities[i], lastVelocity,  accelerations[i], targetPositions);
+    lastVelocity = velocities[i];
+    lastPosition = positions[i];
+  }
+  
+ 
+  this->trajectoryController.setTrajectoryPositions(targetPositions);
+  ouputTrajectory = targetPositions;
+  
+!!!958577.cpp!!!	calculatePositions(in position : quantity<plane_angle>, in position_current : quantity<plane_angle>, in velocity : quantity<angular_velocity>, in velocity_current : quantity<angular_velocity>, in acceleration : quantity<angular_acceleration>, out targetPositions : std::list<int32>) : void
+
+  //quantity<boost::units::si::time> totalTime;
+ // quantity<plane_angle> position_delta = position - position_current;
+ // quantity<angular_velocity> velocity_delta = velocity - velocity_current;
+ // totalTime = ((position - position_current)/velocity) + (velocity/(acceleration * 2.0)); //old
+  
+//  totalTime = (position_delta/velocity) + ((2.0*velocity*velocity_delta + (velocity_delta*velocity_delta))/(acceleration * 2.0 * velocity));
+  
+ // totalTime = (position_delta/velocity); //+ (velocity_delta/acceleration);
+  
+ // LOG(error) << "second part: " <<((2.0*velocity*velocity_delta + (velocity_delta*velocity_delta))/(acceleration * 2.0 * velocity));
+  
+ // totalTime = -velocity_current/acceleration + sqrt((velocity_current/acceleration * velocity_current/acceleration)+ (2.0*position_delta/acceleration));
+  
+ // quantity<boost::units::si::time> accelerationTime;
+ // accelerationTime = (velocity - velocity_current)/acceleration;
+ // totalTime = totalTime + (accelerationTime/2.0);
+  
+ // std::cout << "totalTime: " << totalTime << std::endl;
+ // std::cout << "accelerationTime: " << accelerationTime << std::endl;
+  
+ // int totalTimeMili = (int)round(totalTime.value() * 1000);
+ // int accelerationTimeMili = (int)round(accelerationTime.value() * 1000);
+  
+  quantity<plane_angle> targetposition; // radian
+  quantity<boost::units::si::time> timestep;
+  quantity<boost::units::si::time> timestep2;
+  quantity<plane_angle> targetpositionAfterAcc;
+  quantity<plane_angle> positionThreshold = 0.01*radian;
+  int u = 0;
+  
+  quantity<angular_velocity> velocity_calc;
+  
+  
+  
+  for(int i= 1; targetposition <= (position-positionThreshold) || targetposition >= (position+positionThreshold) ;i++){
+ //   if(i < accelerationTimeMili){
+      timestep = ((double)i/1000.0)* second;
+      targetposition = position_current + (velocity_current * timestep) + ((acceleration * timestep * timestep)/2.0);
+      velocity_calc = (acceleration * timestep) +velocity_current;
+      
+      if(acceleration >= (0 * radian_per_second/second)){
+        if(velocity_calc >= velocity){
+          if(u == 0){
+            u = i;
+            targetpositionAfterAcc = targetposition;
+          }
+          
+          timestep2 = ((double)(i-u)/1000.0)* second;
+          targetposition = targetpositionAfterAcc + (velocity  * timestep2);
+        }
+      }else{
+        if(velocity_calc <= velocity){
+          if(u == 0){
+            u = i;
+            targetpositionAfterAcc = targetposition;
+          }
+          
+          timestep2 = ((double)(i-u)/1000.0)* second;
+          targetposition = targetpositionAfterAcc + (velocity  * timestep2);
+        }
+      }
+  //    LOG(error) << " targetposition "<< targetposition << " velocity_calc "<< velocity_calc << " timestep "<< timestep;
+      
+     // LOG(error) << "targetVelocity ACC: " <<targetVelocity;
+   // }else{
+  //    targetposition = position;
+  //}
+    
+    
+    //////////////////////////////////////////////////
+    if (storage.gearRatio == 0) {
+      throw std::out_of_range("A Gear Ratio of zero is not allowed");
+    }
+    
+    if (storage.encoderTicksPerRound == 0) {
+      throw std::out_of_range("Zero Encoder Ticks per Round are not allowed");
+    }
+
+    if(storage.areLimitsActive){
+
+      quantity<plane_angle> lowLimit = ((double) this->storage.lowerLimit / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
+      quantity<plane_angle> upLimit = ((double) this->storage.upperLimit / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
+      
+      if (storage.inverseMovementDirection) {
+        upLimit = ((double) -(this->storage.lowerLimit) / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
+        lowLimit = ((double) -(this->storage.upperLimit) / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
+      }
+      
+
+      if (!((targetposition < upLimit) && (targetposition > lowLimit))) {
+        std::stringstream errorMessageStream;
+        errorMessageStream << "The setpoint angle is out of range. The valid range is between " << lowLimit << " and " << upLimit << " and it is: " << targetposition;
+        //    LOG(trace) << "abs_value: " << abs(data.angle) << " abslow " << abs(lowLimit) << " absupper " << abs(upLimit);
+        throw std::out_of_range(errorMessageStream.str());
+      }
+    }
+    int32 targetposition_enc;
+
+    targetposition_enc = (int32) round((targetposition.value() * ((double) storage.encoderTicksPerRound / (2.0 * M_PI))) / storage.gearRatio);
+
+
+    if (storage.inverseMovementDirection) {
+      targetposition_enc *= -1;
+    }
+    
+    targetPositions.push_back(targetposition_enc); 
+  }
+  
 !!!281329.cpp!!!	parseYouBotErrorFlags(in messageBuffer : YouBotSlaveMsg) : void
 
     if (messageBuffer.stctInput.errorFlags & OVER_CURRENT) {

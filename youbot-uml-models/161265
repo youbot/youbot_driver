@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 68
+  revision 69
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -59,6 +59,7 @@ ${description}
 #include \"youbot/EthercatMasterInterface.hpp\"
 #include \"youbot/EthercatMasterWithThread.hpp\"
 #include \"youbot/EthercatMasterWithoutThread.hpp\"
+#include \"youbot/JointTrajectoryController.hpp\"
 
 
 ${namespace_start}
@@ -1120,10 +1121,10 @@ ${description}
 #include \"generic/Exceptions.hpp\"
 #include \"youbot/YouBotJoint.hpp\"
 #include \"youbot/YouBotJointParameter.hpp\"
-#include \"youbot/EthercatMaster.hpp\"
-#include \"youbot/EthercatMasterInterface.hpp\"
-#include \"youbot/EthercatMasterWithThread.hpp\"
-#include \"youbot/EthercatMasterWithoutThread.hpp\"
+//#include \"youbot/EthercatMaster.hpp\"
+//#include \"youbot/EthercatMasterInterface.hpp\"
+//#include \"youbot/EthercatMasterWithThread.hpp\"
+//#include \"youbot/EthercatMasterWithoutThread.hpp\"
 
 using namespace boost::posix_time;
 ${namespace_start}
@@ -1330,6 +1331,7 @@ ${description}
 #include \"youbot/YouBotSlaveMsg.hpp\"
 #include \"youbot/YouBotSlaveMailboxMsg.hpp\"
 #include \"youbot/EthercatMaster.hpp\"
+#include \"youbot/JointTrajectoryController.hpp\"
 
 extern \"C\"{
 #include <ethercattype.h>
@@ -1509,7 +1511,6 @@ ${description}
 #include \"generic/Units.hpp\"
 #include \"generic/Time.hpp\"
 #include \"generic/Exceptions.hpp\"
-#include \"youbot/YouBotJoint.hpp\"
 #include \"youbot/YouBotJointParameter.hpp\"
 #include \"youbot/YouBotJointParameterPasswordProtected.hpp\"
 ${namespace_start}

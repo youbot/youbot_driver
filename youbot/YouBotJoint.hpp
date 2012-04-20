@@ -71,6 +71,7 @@
 #include "youbot/EthercatMasterInterface.hpp"
 #include "youbot/EthercatMasterWithThread.hpp"
 #include "youbot/EthercatMasterWithoutThread.hpp"
+#include "youbot/JointTrajectoryController.hpp"
 
 
 namespace youbot {
@@ -263,8 +264,17 @@ class YouBotJoint : public Joint {
 
     unsigned int getJointNumber();
 
+    /// calculates all trajectory values for the future and sets all the the ethercat master
+    /// if the trajectory is still active the the values in the next buffer
+    void setTrajectory(const std::vector< quantity<plane_angle> >& positions, const std::vector< quantity<angular_velocity> >& velocities, const std::vector< quantity<angular_acceleration> >& accelerations, std::list<int32>& ouputTrajectory);
+
+    /// Stops just the trajectory controller but not the joint movement
+    void stopTrajectory();
+
 
   private:
+    void calculatePositions(const quantity<plane_angle>& position, const quantity<plane_angle>& position_current, const quantity<angular_velocity>& velocity, const quantity<angular_velocity>& velocity_current, const quantity<angular_acceleration>& acceleration, std::list<int32>& targetPositions);
+
     void parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer);
 
     void parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailboxMsg);
@@ -273,6 +283,12 @@ class YouBotJoint : public Joint {
 
     bool setValueToMotorContoller(const YouBotSlaveMailboxMsg& mailboxMsg);
 
+
+  public:
+    JointTrajectoryController trajectoryController;
+
+
+  private:
     EthercatMasterInterface* ethercatMaster;
 
     std::string jointName;
@@ -290,6 +306,10 @@ class YouBotJoint : public Joint {
     YouBotSlaveMsg messageBuffer;
 
     std::string jointNameString;
+
+    quantity<si::angular_velocity> lastVelocity;
+
+    quantity<plane_angle> lastPosition;
 
 };
 

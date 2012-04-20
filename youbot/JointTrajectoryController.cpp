@@ -51,15 +51,14 @@
 #include "youbot/JointTrajectoryController.hpp"
 namespace youbot {
 
-JointTrajectoryController::JointTrajectoryController(YouBotJoint& joint) 
-: joint(joint){
+JointTrajectoryController::JointTrajectoryController() {
   // Bouml preserved body begin 000EA0F1
-  ethercatMaster = static_cast<EthercatMasterWithThread*>(&(EthercatMaster::getInstance()));
-          
-  GearRatio gearR;
-  joint.getConfigurationParameter(gearR);
-  gearR.getParameter(gearRatio);
-  
+    this->ISum = 0;
+    this->DDiff = 0;
+    this->PParameter = 10.0;
+    this->IParameter = 1;
+    this->DParameter = 0;
+    this->last_pose_diff = 0;
   // Bouml preserved body end 000EA0F1
 }
 
@@ -68,105 +67,100 @@ JointTrajectoryController::~JointTrajectoryController() {
   // Bouml preserved body end 000EA171
 }
 
-/// calculates all trajectory values for the future and sets all the the ethercat master
-/// if the trajectory is still active the the values in the next buffer
-void JointTrajectoryController::setTrajectory(const std::vector< quantity<plane_angle> >& positions, const std::vector< quantity<angular_velocity> >& velocities, const std::vector< quantity<angular_acceleration> >& accelerations) {
-  // Bouml preserved body begin 000E84F1
-  //check data
-  // vel != 0
-  // acc != 0
-  // position in limits
-  //if(velocity == 0 *radian_per_second)
-  //  return;
+void JointTrajectoryController::setTrajectoryPositions(const std::list<int32>& targetPositions) {
+  // Bouml preserved body begin 000EA1F1
 
-  quantity<plane_angle> position_delta;
-  quantity<si::angular_velocity> velocity_current;
-  std::list<int32> targetVelocities;
-  
-  for(unsigned int i = 0; i< positions.size(); i++) {
-    if(i == 0){
-      position_delta = positions[i] - lastPosition; 
-      velocity_current = lastVelocity;
-    }else{
-      position_delta = positions[i] - positions[i-1];
-      velocity_current = velocities[i-1];
-  }
-    LOG(error) << velocity_current;
-    
-    this->calculateVelocities(position_delta, velocities[i], velocity_current,  accelerations[i], targetVelocities);
-    lastVelocity = velocities[i];
-    lastPosition = positions[i];
-  }
-  
-  //DEBUG: just to stop the joint
-  targetVelocities.push_back(0);
-  
-  
-  unsigned int jointNumber = joint.getJointNumber();
-  
-  ethercatMaster->setTrajectoryVelocities(targetVelocities, jointNumber);
-  
-  // Bouml preserved body end 000E84F1
-}
+    if (trajectoryPositionsBuffer1InUse == false) {
+      {
+        boost::mutex::scoped_lock dataMutex1(trajectoryPositionsBuffer1Mutex);
+        this->trajectoryPositionsBuffer1 = targetPositions;
 
-/// Stops just the trajectory controller but not the joint movement
-void JointTrajectoryController::stopTrajectory() {
-  // Bouml preserved body begin 000E8571
-  // Bouml preserved body end 000E8571
-}
+      }
+    } else if (trajectoryPositionsBuffer2InUse == false) {
+      {
+        boost::mutex::scoped_lock dataMutex2(trajectoryPositionsBuffer2Mutex);
+        this->trajectoryPositionsBuffer2 = targetPositions;
+      }
 
-/// Stops the joint movement by decreasing the velocity until zero
-void JointTrajectoryController::stopJointMovement() {
-  // Bouml preserved body begin 000E85F1
-  // Bouml preserved body end 000E85F1
-}
-
-/// returns true if the trajectory controller is active
-bool JointTrajectoryController::isTrajectoryControllerActive() {
-  // Bouml preserved body begin 000E86F1
-  return false;
-  // Bouml preserved body end 000E86F1
-}
-
-void JointTrajectoryController::calculateVelocities(const quantity<plane_angle>& position_delta, const quantity<angular_velocity>& velocity, const quantity<angular_velocity>& velocity_current, const quantity<angular_acceleration>& acceleration, std::list<int32>& targetVelocities) {
-  // Bouml preserved body begin 000EA071
-
-  quantity<boost::units::si::time> totalTime;
-  totalTime = (position_delta/velocity); //+ (velocity/(acceleration * 2.0)); //old
-  
- // totalTime = (position_delta/velocity) + ((2.0*velocity*velocity_delta + (velocity_delta*velocity_delta))/(acceleration * 2.0 * velocity));
-  
- // totalTime = (position_delta/velocity) + (velocity_delta/acceleration);
-  
- // LOG(error) << "second part: " <<((2.0*velocity*velocity_delta + (velocity_delta*velocity_delta))/(acceleration * 2.0 * velocity));
-  
-  quantity<boost::units::si::time> accelerationTime;
-  accelerationTime = (velocity - velocity_current)/acceleration;
-  totalTime = totalTime + (accelerationTime/2.0);
-  
-  std::cout << "totalTime: " << totalTime << std::endl;
-  std::cout << "accelerationTime: " << accelerationTime << std::endl;
-  
-  int totalTimeMili = (int)round(totalTime.value() * 1000);
-  int accelerationTimeMili = (int)round(accelerationTime.value() * 1000);
-  int32 vel;
-  
-  double targetVelocity; // radian_per_seconds
-  
-  for(int i= 1; i<=totalTimeMili;i++){
-    if(i < accelerationTimeMili){
-      targetVelocity = velocity_current.value() + (acceleration.value()) * ((double)i/1000.0);
-     // LOG(error) << "targetVelocity ACC: " <<targetVelocity;
-    }else{
-      targetVelocity = velocity.value();
+    } else {
+      LOG(error) << "Could not set the Trajectory!";
     }
-    vel = (int32) round((targetVelocity / (gearRatio * 2.0 * M_PI)) * 60.0);
-   // LOG(error) << "targetVelocity: " <<vel;
-    targetVelocities.push_back(vel); //randiand per second in rpm
-    ///TODO check inverse movement direction parameter
-  }
-  // Bouml preserved body end 000EA071
+  // Bouml preserved body end 000EA1F1
 }
+
+bool JointTrajectoryController::updateTrajectoryController(const SlaveMessageInput& actual, SlaveMessageOutput& velocity) {
+  // Bouml preserved body begin 000EA271
+  int32 targetPosition;
+    {
+      boost::mutex::scoped_lock dataMutex2(trajectoryPositionsBuffer2Mutex);
+      {
+      boost::mutex::scoped_lock dataMutex2(trajectoryPositionsBuffer1Mutex);
+
+      if (!trajectoryPositionsBuffer1.empty() && !trajectoryPositionsBuffer1InUse && !trajectoryPositionsBuffer2InUse) {
+        trajectoryPositionsBuffer1InUse = true;
+      }
+
+      if (!trajectoryPositionsBuffer1.empty() && trajectoryPositionsBuffer1InUse) {
+        targetPosition = (trajectoryPositionsBuffer1).front();
+        (trajectoryPositionsBuffer1).pop_front();
+      } else {
+        trajectoryPositionsBuffer1InUse = false;
+      }
+      
+      if (!trajectoryPositionsBuffer2.empty() && !trajectoryPositionsBuffer1InUse && !trajectoryPositionsBuffer2InUse) {
+        trajectoryPositionsBuffer2InUse = true;
+      }
+
+      if (!trajectoryPositionsBuffer2.empty() && trajectoryPositionsBuffer2InUse) {
+        targetPosition = (trajectoryPositionsBuffer2).front();
+        (trajectoryPositionsBuffer2).pop_front();
+      } else {
+        trajectoryPositionsBuffer2InUse = false;
+      }
+    }
+    }
+    
+    if(!trajectoryPositionsBuffer1InUse && !trajectoryPositionsBuffer2InUse){
+      return false;
+    }
+      
+   
+  ///////////////////////// Controller
+  
+    int32 pose_diff;
+    pose_diff =  targetPosition - actual.actualPosition;
+    int32 pose_diff_clipping = 65535;
+    if(pose_diff > pose_diff_clipping)
+      pose_diff = pose_diff_clipping;
+    
+    if(pose_diff < -pose_diff_clipping)
+      pose_diff = -pose_diff_clipping;
+    
+    double ISum_clipping = 1000;
+    this->ISum = this->ISum + pose_diff;
+    
+    
+    if(ISum > ISum_clipping)
+      ISum = ISum_clipping;
+    
+    if(ISum < -ISum_clipping)
+      ISum = -ISum_clipping;
+      
+      
+    this->DDiff = this->last_pose_diff - pose_diff;
+    velocity.value = ((this->PParameter/256.0) * pose_diff) + ((this->IParameter/65536.0)* this->ISum) + ((this->DParameter/256.0) * this->DDiff);
+    this->last_pose_diff =  pose_diff;
+    
+    velocity.controllerMode = VELOCITY_CONTROL;
+  //  printf("pose_target: %10d  pose_diff: %10d   velout: %10d\n",targetPosition, pose_diff, velocity.value);
+    
+    return true;
+  // Bouml preserved body end 000EA271
+}
+
+boost::mutex JointTrajectoryController::trajectoryPositionsBuffer1Mutex;
+
+boost::mutex JointTrajectoryController::trajectoryPositionsBuffer2Mutex;
 
 
 } // namespace youbot

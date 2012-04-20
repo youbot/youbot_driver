@@ -60,7 +60,6 @@
 #include "generic/Units.hpp"
 #include "generic/Time.hpp"
 #include "generic/Exceptions.hpp"
-#include "youbot/YouBotJoint.hpp"
 #include "youbot/YouBotJointParameter.hpp"
 #include "youbot/YouBotJointParameterPasswordProtected.hpp"
 namespace youbot {
@@ -70,36 +69,39 @@ namespace youbot {
 ///////////////////////////////////////////////////////////////////////////////
 class JointTrajectoryController {
   public:
-    JointTrajectoryController(YouBotJoint& joint);
+    JointTrajectoryController();
 
     virtual ~JointTrajectoryController();
 
-    /// calculates all trajectory values for the future and sets all the the ethercat master
-    /// if the trajectory is still active the the values in the next buffer
-    void setTrajectory(const std::vector< quantity<plane_angle> >& positions, const std::vector< quantity<angular_velocity> >& velocities, const std::vector< quantity<angular_acceleration> >& accelerations);
+    void setTrajectoryPositions(const std::list<int32>& targetPositions);
 
-    /// Stops just the trajectory controller but not the joint movement
-    void stopTrajectory();
-
-    /// Stops the joint movement by decreasing the velocity until zero
-    void stopJointMovement();
-
-    /// returns true if the trajectory controller is active
-    bool isTrajectoryControllerActive();
+    bool updateTrajectoryController(const SlaveMessageInput& actual, SlaveMessageOutput& velocity);
 
 
   private:
-    void calculateVelocities(const quantity<plane_angle>& position_delta, const quantity<angular_velocity>& velocity, const quantity<angular_velocity>& velocity_current, const quantity<angular_acceleration>& acceleration, std::list<int32>& targetVelocities);
+    std::list<int32> trajectoryPositionsBuffer1;
 
-    YouBotJoint& joint;
+    std::list<int32> trajectoryPositionsBuffer2;
 
-    double gearRatio;
+    bool trajectoryPositionsBuffer1InUse;
 
-    EthercatMasterWithThread* ethercatMaster;
+    bool trajectoryPositionsBuffer2InUse;
 
-    quantity<si::angular_velocity> lastVelocity;
+    static boost::mutex trajectoryPositionsBuffer1Mutex;
 
-    quantity<plane_angle> lastPosition;
+    static boost::mutex trajectoryPositionsBuffer2Mutex;
+
+    double PParameter;
+
+    double IParameter;
+
+    double DParameter;
+
+    double ISum;
+
+    double DDiff;
+
+    int32 last_pose_diff;
 
 };
 

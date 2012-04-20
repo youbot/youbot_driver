@@ -67,10 +67,10 @@
 #include "generic/Exceptions.hpp"
 #include "youbot/YouBotJoint.hpp"
 #include "youbot/YouBotJointParameter.hpp"
-#include "youbot/EthercatMaster.hpp"
-#include "youbot/EthercatMasterInterface.hpp"
-#include "youbot/EthercatMasterWithThread.hpp"
-#include "youbot/EthercatMasterWithoutThread.hpp"
+//#include "youbot/EthercatMaster.hpp"
+//#include "youbot/EthercatMasterInterface.hpp"
+//#include "youbot/EthercatMasterWithThread.hpp"
+//#include "youbot/EthercatMasterWithoutThread.hpp"
 
 using namespace boost::posix_time;
 namespace youbot {

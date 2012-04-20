@@ -1,11 +1,13 @@
 window_sizes 1680 976 421 1253 895 0
 show_stereotypes
-selected attribute_ref 827377 // lastPosition
+selected operation_ref 958577 // calculatePositions
 open
-  classview_ref 134641 // Joint
+  operation_ref 951665 // stopTrajectory
+  attribute_ref 834033 // trajectoryController
+  attribute_ref 827249 // lastVelocity
+  attribute_ref 827377 // lastPosition
   classview_ref 154225 // JointData
   classdiagram_ref 174321 // EthercatMaster
-  operation_ref 958833 // ~JointTrajectoryController
   deploymentview_ref 161137 // Deployment
 end
 end
