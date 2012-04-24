@@ -73,6 +73,22 @@ class JointTrajectoryController {
 
     virtual ~JointTrajectoryController();
 
+    void getConfigurationParameter(PParameterTrajectoryControl& parameter);
+
+    void setConfigurationParameter(const PParameterTrajectoryControl& parameter);
+
+    void getConfigurationParameter(IParameterTrajectoryControl& parameter);
+
+    void setConfigurationParameter(const IParameterTrajectoryControl& parameter);
+
+    void getConfigurationParameter(DParameterTrajectoryControl& parameter);
+
+    void setConfigurationParameter(const DParameterTrajectoryControl& parameter);
+
+    void getConfigurationParameter(IClippingParameterTrajectoryControl& parameter);
+
+    void setConfigurationParameter(const IClippingParameterTrajectoryControl& parameter);
+
     void setTrajectoryPositions(const std::list<int32>& targetPositions);
 
     bool updateTrajectoryController(const SlaveMessageInput& actual, SlaveMessageOutput& velocity);
@@ -91,6 +107,8 @@ class JointTrajectoryController {
 
     static boost::mutex trajectoryPositionsBuffer2Mutex;
 
+    int32 last_pose_diff;
+
     double PParameter;
 
     double IParameter;
@@ -101,7 +119,9 @@ class JointTrajectoryController {
 
     double DDiff;
 
-    int32 last_pose_diff;
+    int32 pose_diff_clipping;
+
+    double ISum_clipping;
 
 };
 

@@ -59,12 +59,62 @@ JointTrajectoryController::JointTrajectoryController() {
     this->IParameter = 1;
     this->DParameter = 0;
     this->last_pose_diff = 0;
+    this->ISum_clipping = 1000;
+    this->pose_diff_clipping = 65535;
   // Bouml preserved body end 000EA0F1
 }
 
 JointTrajectoryController::~JointTrajectoryController() {
   // Bouml preserved body begin 000EA171
   // Bouml preserved body end 000EA171
+}
+
+void JointTrajectoryController::getConfigurationParameter(PParameterTrajectoryControl& parameter) {
+  // Bouml preserved body begin 000ED671
+  parameter.setParameter(this->PParameter);
+  // Bouml preserved body end 000ED671
+}
+
+void JointTrajectoryController::setConfigurationParameter(const PParameterTrajectoryControl& parameter) {
+  // Bouml preserved body begin 000ED6F1
+  parameter.getParameter(this->PParameter);
+  // Bouml preserved body end 000ED6F1
+}
+
+void JointTrajectoryController::getConfigurationParameter(IParameterTrajectoryControl& parameter) {
+  // Bouml preserved body begin 000EE971
+  parameter.setParameter(this->IParameter);
+  // Bouml preserved body end 000EE971
+}
+
+void JointTrajectoryController::setConfigurationParameter(const IParameterTrajectoryControl& parameter) {
+  // Bouml preserved body begin 000EEAF1
+  parameter.getParameter(this->IParameter);
+  // Bouml preserved body end 000EEAF1
+}
+
+void JointTrajectoryController::getConfigurationParameter(DParameterTrajectoryControl& parameter) {
+  // Bouml preserved body begin 000EE9F1
+  parameter.setParameter(this->DParameter);
+  // Bouml preserved body end 000EE9F1
+}
+
+void JointTrajectoryController::setConfigurationParameter(const DParameterTrajectoryControl& parameter) {
+  // Bouml preserved body begin 000EEB71
+  parameter.getParameter(this->DParameter);
+  // Bouml preserved body end 000EEB71
+}
+
+void JointTrajectoryController::getConfigurationParameter(IClippingParameterTrajectoryControl& parameter) {
+  // Bouml preserved body begin 000EEA71
+  parameter.setParameter(this->ISum_clipping);
+  // Bouml preserved body end 000EEA71
+}
+
+void JointTrajectoryController::setConfigurationParameter(const IClippingParameterTrajectoryControl& parameter) {
+  // Bouml preserved body begin 000EEBF1
+  parameter.getParameter(this->ISum_clipping);
+  // Bouml preserved body end 000EEBF1
 }
 
 void JointTrajectoryController::setTrajectoryPositions(const std::list<int32>& targetPositions) {
@@ -129,16 +179,15 @@ bool JointTrajectoryController::updateTrajectoryController(const SlaveMessageInp
   
     int32 pose_diff;
     pose_diff =  targetPosition - actual.actualPosition;
-    int32 pose_diff_clipping = 65535;
+
     if(pose_diff > pose_diff_clipping)
       pose_diff = pose_diff_clipping;
     
     if(pose_diff < -pose_diff_clipping)
       pose_diff = -pose_diff_clipping;
     
-    double ISum_clipping = 1000;
+
     this->ISum = this->ISum + pose_diff;
-    
     
     if(ISum > ISum_clipping)
       ISum = ISum_clipping;

@@ -987,31 +987,8 @@ void YouBotJoint::stopTrajectory() {
 
 void YouBotJoint::calculatePositions(const quantity<plane_angle>& position, const quantity<plane_angle>& position_current, const quantity<angular_velocity>& velocity, const quantity<angular_velocity>& velocity_current, const quantity<angular_acceleration>& acceleration, std::list<int32>& targetPositions) {
   // Bouml preserved body begin 000EA071
-
-  //quantity<boost::units::si::time> totalTime;
- // quantity<plane_angle> position_delta = position - position_current;
- // quantity<angular_velocity> velocity_delta = velocity - velocity_current;
- // totalTime = ((position - position_current)/velocity) + (velocity/(acceleration * 2.0)); //old
   
-//  totalTime = (position_delta/velocity) + ((2.0*velocity*velocity_delta + (velocity_delta*velocity_delta))/(acceleration * 2.0 * velocity));
-  
- // totalTime = (position_delta/velocity); //+ (velocity_delta/acceleration);
-  
- // LOG(error) << "second part: " <<((2.0*velocity*velocity_delta + (velocity_delta*velocity_delta))/(acceleration * 2.0 * velocity));
-  
- // totalTime = -velocity_current/acceleration + sqrt((velocity_current/acceleration * velocity_current/acceleration)+ (2.0*position_delta/acceleration));
-  
- // quantity<boost::units::si::time> accelerationTime;
- // accelerationTime = (velocity - velocity_current)/acceleration;
- // totalTime = totalTime + (accelerationTime/2.0);
-  
- // std::cout << "totalTime: " << totalTime << std::endl;
- // std::cout << "accelerationTime: " << accelerationTime << std::endl;
-  
- // int totalTimeMili = (int)round(totalTime.value() * 1000);
- // int accelerationTimeMili = (int)round(accelerationTime.value() * 1000);
-  
-  quantity<plane_angle> targetposition; // radian
+  quantity<plane_angle> targetposition;
   quantity<boost::units::si::time> timestep;
   quantity<boost::units::si::time> timestep2;
   quantity<plane_angle> targetpositionAfterAcc;
@@ -1023,7 +1000,6 @@ void YouBotJoint::calculatePositions(const quantity<plane_angle>& position, cons
   
   
   for(int i= 1; targetposition <= (position-positionThreshold) || targetposition >= (position+positionThreshold) ;i++){
- //   if(i < accelerationTimeMili){
       timestep = ((double)i/1000.0)* second;
       targetposition = position_current + (velocity_current * timestep) + ((acceleration * timestep * timestep)/2.0);
       velocity_calc = (acceleration * timestep) +velocity_current;
@@ -1049,12 +1025,7 @@ void YouBotJoint::calculatePositions(const quantity<plane_angle>& position, cons
           targetposition = targetpositionAfterAcc + (velocity  * timestep2);
         }
       }
-  //    LOG(error) << " targetposition "<< targetposition << " velocity_calc "<< velocity_calc << " timestep "<< timestep;
-      
-     // LOG(error) << "targetVelocity ACC: " <<targetVelocity;
-   // }else{
-  //    targetposition = position;
-  //}
+
     
     
     //////////////////////////////////////////////////

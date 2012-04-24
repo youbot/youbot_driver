@@ -2415,5 +2415,169 @@ void ClearMotorControllerTimeoutFlag::setYouBotMailboxMsg(const YouBotSlaveMailb
   // Bouml preserved body end 0009FDF1
 }
 
+PParameterTrajectoryControl::PParameterTrajectoryControl() {
+  // Bouml preserved body begin 000ED771
+    this->name = "PParameterTrajectoryControl";
+    this->lowerLimit = 0;
+    this->upperLimit = INT_MAX;
+    this->parameterType = API_PARAMETER;
+  // Bouml preserved body end 000ED771
+}
+
+PParameterTrajectoryControl::~PParameterTrajectoryControl() {
+  // Bouml preserved body begin 000ED7F1
+  // Bouml preserved body end 000ED7F1
+}
+
+void PParameterTrajectoryControl::getParameter(double& parameter) const {
+  // Bouml preserved body begin 000ED871
+    parameter = this->value;
+  // Bouml preserved body end 000ED871
+}
+
+void PParameterTrajectoryControl::setParameter(const double parameter) {
+  // Bouml preserved body begin 000ED8F1
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+  // Bouml preserved body end 000ED8F1
+}
+
+void PParameterTrajectoryControl::toString(std::string& value) {
+  // Bouml preserved body begin 000ED971
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 000ED971
+}
+
+IParameterTrajectoryControl::IParameterTrajectoryControl() {
+  // Bouml preserved body begin 000EDBF1
+    this->name = "IParameterTrajectoryControl";
+    this->lowerLimit = INT_MIN;
+    this->upperLimit = INT_MAX;
+    this->parameterType = API_PARAMETER;
+  // Bouml preserved body end 000EDBF1
+}
+
+IParameterTrajectoryControl::~IParameterTrajectoryControl() {
+  // Bouml preserved body begin 000EDC71
+  // Bouml preserved body end 000EDC71
+}
+
+void IParameterTrajectoryControl::getParameter(double& parameter) const {
+  // Bouml preserved body begin 000EDCF1
+    parameter = this->value;
+  // Bouml preserved body end 000EDCF1
+}
+
+void IParameterTrajectoryControl::setParameter(const double parameter) {
+  // Bouml preserved body begin 000EDD71
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+  // Bouml preserved body end 000EDD71
+}
+
+void IParameterTrajectoryControl::toString(std::string& value) {
+  // Bouml preserved body begin 000EDDF1
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 000EDDF1
+}
+
+DParameterTrajectoryControl::DParameterTrajectoryControl() {
+  // Bouml preserved body begin 000EE071
+    this->name = "DParameterTrajectoryControl";
+    this->lowerLimit = INT_MIN;
+    this->upperLimit = INT_MAX;
+    this->parameterType = API_PARAMETER;
+  // Bouml preserved body end 000EE071
+}
+
+DParameterTrajectoryControl::~DParameterTrajectoryControl() {
+  // Bouml preserved body begin 000EE0F1
+  // Bouml preserved body end 000EE0F1
+}
+
+void DParameterTrajectoryControl::getParameter(double& parameter) const {
+  // Bouml preserved body begin 000EE171
+    parameter = this->value;
+  // Bouml preserved body end 000EE171
+}
+
+void DParameterTrajectoryControl::setParameter(const double parameter) {
+  // Bouml preserved body begin 000EE1F1
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+  // Bouml preserved body end 000EE1F1
+}
+
+void DParameterTrajectoryControl::toString(std::string& value) {
+  // Bouml preserved body begin 000EE271
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 000EE271
+}
+
+IClippingParameterTrajectoryControl::IClippingParameterTrajectoryControl() {
+  // Bouml preserved body begin 000EE4F1
+    this->name = "IClippingParameterTrajectoryControl";
+    this->lowerLimit = INT_MIN;
+    this->upperLimit = INT_MAX;
+    this->parameterType = API_PARAMETER;
+  // Bouml preserved body end 000EE4F1
+}
+
+IClippingParameterTrajectoryControl::~IClippingParameterTrajectoryControl() {
+  // Bouml preserved body begin 000EE571
+  // Bouml preserved body end 000EE571
+}
+
+void IClippingParameterTrajectoryControl::getParameter(double& parameter) const {
+  // Bouml preserved body begin 000EE5F1
+    parameter = this->value;
+  // Bouml preserved body end 000EE5F1
+}
+
+void IClippingParameterTrajectoryControl::setParameter(const double parameter) {
+  // Bouml preserved body begin 000EE671
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+  // Bouml preserved body end 000EE671
+}
+
+void IClippingParameterTrajectoryControl::toString(std::string& value) {
+  // Bouml preserved body begin 000EE6F1
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 000EE6F1
+}
+
 
 } // namespace youbot

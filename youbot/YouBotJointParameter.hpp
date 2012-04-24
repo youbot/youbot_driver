@@ -1721,6 +1721,138 @@ friend class YouBotJoint;
     ParameterType parameterType;
 
 };
+///////////////////////////////////////////////////////////////////////////////
+/// P-Parameter of PID trajectory regulator
+///////////////////////////////////////////////////////////////////////////////
+class PParameterTrajectoryControl : public YouBotApiJointParameter {
+friend class YouBotJoint;
+  public:
+    PParameterTrajectoryControl();
+
+    virtual ~PParameterTrajectoryControl();
+
+    void getParameter(double& parameter) const;
+
+    void setParameter(const double parameter);
+
+    void toString(std::string& value);
+
+
+  private:
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    double upperLimit;
+
+    double lowerLimit;
+
+    double value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// I-Parameter of PID trajectory regulator 
+///////////////////////////////////////////////////////////////////////////////
+class IParameterTrajectoryControl : public YouBotApiJointParameter {
+friend class YouBotJoint;
+  public:
+    IParameterTrajectoryControl();
+
+    virtual ~IParameterTrajectoryControl();
+
+    void getParameter(double& parameter) const;
+
+    void setParameter(const double parameter);
+
+    void toString(std::string& value);
+
+
+  private:
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    double upperLimit;
+
+    double lowerLimit;
+
+    double value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// D-Parameter of PID trajectory regulator
+///////////////////////////////////////////////////////////////////////////////
+class DParameterTrajectoryControl : public YouBotApiJointParameter {
+friend class YouBotJoint;
+  public:
+    DParameterTrajectoryControl();
+
+    virtual ~DParameterTrajectoryControl();
+
+    void getParameter(double& parameter) const;
+
+    void setParameter(const double parameter);
+
+    void toString(std::string& value);
+
+
+  private:
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    double upperLimit;
+
+    double lowerLimit;
+
+    double value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// gives a limit for the I sum part of the trajectory regulator
+///////////////////////////////////////////////////////////////////////////////
+class IClippingParameterTrajectoryControl : public YouBotApiJointParameter {
+friend class YouBotJoint;
+  public:
+    IClippingParameterTrajectoryControl();
+
+    virtual ~IClippingParameterTrajectoryControl();
+
+    void getParameter(double& parameter) const;
+
+    void setParameter(const double parameter);
+
+    void toString(std::string& value);
+
+
+  private:
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    double upperLimit;
+
+    double lowerLimit;
+
+    double value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
 
 } // namespace youbot
 #endif
