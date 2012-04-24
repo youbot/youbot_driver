@@ -424,6 +424,49 @@ void DataTrace::updateTrace(const JointEncoderSetpoint& setpoint) {
   // Bouml preserved body end 000C9371
 }
 
+void DataTrace::updateTrace() {
+  // Bouml preserved body begin 000EEC71
+    YouBotSlaveMsg message;
+    joint.getData(message);
+    switch (message.stctOutput.controllerMode) {
+      case MOTOR_STOP:
+        controllerMode = NOT_DEFINED;
+        break;
+      case POSITION_CONTROL:
+        encoderSetpoint.encoderTicks = message.stctOutput.value;
+        controllerMode = POSITION_CONTROL_ENC;
+        break;
+      case VELOCITY_CONTROL:
+        roundsPerMinuteSetpoint.rpm = message.stctOutput.value;
+        controllerMode = VELOCITY_CONTROL_RPM;
+        break;
+      case NO_MORE_ACTION:
+        controllerMode = NOT_DEFINED;
+        break;
+      case SET_POSITION_TO_REFERENCE:
+        controllerMode = NOT_DEFINED;
+        break;
+      case PWM_MODE:
+        PWMSetpoint.pwm = message.stctOutput.value;
+        controllerMode = PWM_CONTROL_MODE;
+        break;
+      case CURRENT_MODE:
+        currentSetpoint.current = message.stctOutput.value* 1000 * ampere;
+        controllerMode = CURRENT_CONTROL_MODE;
+        break;
+      case INITIALIZE:
+        controllerMode = NOT_DEFINED;
+        break;
+      default:
+        controllerMode = NOT_DEFINED;
+        break;
+    };
+
+
+    this->update();
+  // Bouml preserved body end 000EEC71
+}
+
 unsigned long DataTrace::getTimeDurationMilliSec() {
   // Bouml preserved body begin 000DCFF1
   return timeDurationMicroSec;
@@ -509,6 +552,15 @@ void DataTrace::update() {
         currentSet << "NaN";
         pwmSet << "NaN";
         torqueSet << torqueSetpoint.torque.value();
+        break;
+      case NOT_DEFINED:
+        angleSet << "NaN";
+        angleEncSet << "NaN";
+        velSet << "NaN";
+        velRPMSet << "NaN";
+        currentSet << "NaN";
+        pwmSet << "NaN";
+        torqueSet << "NaN";
         break;
     };
 

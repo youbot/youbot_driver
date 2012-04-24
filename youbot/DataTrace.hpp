@@ -83,7 +83,8 @@ enum DataTraceCntrollerMode {
     VELOCITY_CONTROL_RPM,
     PWM_CONTROL_MODE,
     CURRENT_CONTROL_MODE,
-    TORQUE_CONTROL_MODE
+    TORQUE_CONTROL_MODE,
+    NOT_DEFINED
 };
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -113,6 +114,8 @@ class DataTrace {
     void updateTrace(const JointPWMSetpoint& setpoint);
 
     void updateTrace(const JointEncoderSetpoint& setpoint);
+
+    void updateTrace();
 
     unsigned long getTimeDurationMilliSec();
 
