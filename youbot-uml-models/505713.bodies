@@ -1,0 +1,21 @@
+class IParameterTrajectoryControl
+!!!973809.cpp!!!	IParameterTrajectoryControl()
+    this->name = "IParameterTrajectoryControl";
+    this->lowerLimit = INT_MIN;
+    this->upperLimit = INT_MAX;
+    this->parameterType = API_PARAMETER;
+!!!974065.cpp!!!	getParameter(out parameter : double) : void
+    parameter = this->value;
+!!!974193.cpp!!!	setParameter(in parameter : double) : void
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+!!!974321.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();

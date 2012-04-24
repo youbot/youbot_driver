@@ -2,10 +2,45 @@ class JointTrajectoryController
 !!!958705.cpp!!!	JointTrajectoryController()
     this->ISum = 0;
     this->DDiff = 0;
-    this->PParameter = 10.0;
-    this->IParameter = 1;
-    this->DParameter = 0;
+    this->PParameter = 20.0;
+    this->IParameter = 10;
+    this->DParameter = 50;
     this->last_pose_diff = 0;
+    this->ISum_clipping = 1000;
+    this->pose_diff_clipping = 65535;
+    this->isControllerActive = false;
+!!!972401.cpp!!!	getConfigurationParameter(out parameter : PParameterTrajectoryControl) : void
+  if(this->isControllerActive)
+    throw JointParameterException("The trajectory controller is running");
+  parameter.setParameter(this->PParameter);
+!!!972529.cpp!!!	setConfigurationParameter(in parameter : PParameterTrajectoryControl) : void
+  if(this->isControllerActive)
+    throw JointParameterException("The trajectory controller is running");
+  parameter.getParameter(this->PParameter);
+!!!977265.cpp!!!	getConfigurationParameter(out parameter : IParameterTrajectoryControl) : void
+  if(this->isControllerActive)
+    throw JointParameterException("The trajectory controller is running");
+  parameter.setParameter(this->IParameter);
+!!!977649.cpp!!!	setConfigurationParameter(in parameter : IParameterTrajectoryControl) : void
+  if(this->isControllerActive)
+    throw JointParameterException("The trajectory controller is running");
+  parameter.getParameter(this->IParameter);
+!!!977393.cpp!!!	getConfigurationParameter(out parameter : DParameterTrajectoryControl) : void
+  if(this->isControllerActive)
+    throw JointParameterException("The trajectory controller is running");
+  parameter.setParameter(this->DParameter);
+!!!977777.cpp!!!	setConfigurationParameter(in parameter : DParameterTrajectoryControl) : void
+  if(this->isControllerActive)
+    throw JointParameterException("The trajectory controller is running");
+  parameter.getParameter(this->DParameter);
+!!!977521.cpp!!!	getConfigurationParameter(out parameter : IClippingParameterTrajectoryControl) : void
+  if(this->isControllerActive)
+    throw JointParameterException("The trajectory controller is running");
+  parameter.setParameter(this->ISum_clipping);
+!!!977905.cpp!!!	setConfigurationParameter(in parameter : IClippingParameterTrajectoryControl) : void
+  if(this->isControllerActive)
+    throw JointParameterException("The trajectory controller is running");
+  parameter.getParameter(this->ISum_clipping);
 !!!958961.cpp!!!	setTrajectoryPositions(in targetPositions : std::list<int32>) : void
 
     if (trajectoryPositionsBuffer1InUse == false) {
@@ -23,8 +58,9 @@ class JointTrajectoryController
     } else {
       LOG(error) << "Could not set the Trajectory!";
     }
+!!!978161.cpp!!!	isTrajectoryControllerActive() : bool
+  return this->isControllerActive;
 !!!959089.cpp!!!	updateTrajectoryController(in actual : SlaveMessageInput, out velocity : SlaveMessageOutput) : bool
-  int32 targetPosition;
     {
       boost::mutex::scoped_lock dataMutex2(trajectoryPositionsBuffer2Mutex);
       {
@@ -35,7 +71,10 @@ class JointTrajectoryController
       }
 
       if (!trajectoryPositionsBuffer1.empty() && trajectoryPositionsBuffer1InUse) {
-        targetPosition = (trajectoryPositionsBuffer1).front();
+        {
+          boost::mutex::scoped_lock dataMutex(targetPositionMetex);
+          targetPosition = (trajectoryPositionsBuffer1).front();
+        }
         (trajectoryPositionsBuffer1).pop_front();
       } else {
         trajectoryPositionsBuffer1InUse = false;
@@ -46,7 +85,10 @@ class JointTrajectoryController
       }
 
       if (!trajectoryPositionsBuffer2.empty() && trajectoryPositionsBuffer2InUse) {
-        targetPosition = (trajectoryPositionsBuffer2).front();
+        {
+          boost::mutex::scoped_lock dataMutex(targetPositionMetex);
+          targetPosition = (trajectoryPositionsBuffer2).front();
+        }
         (trajectoryPositionsBuffer2).pop_front();
       } else {
         trajectoryPositionsBuffer2InUse = false;
@@ -55,6 +97,7 @@ class JointTrajectoryController
     }
     
     if(!trajectoryPositionsBuffer1InUse && !trajectoryPositionsBuffer2InUse){
+      this->isControllerActive = false;
       return false;
     }
       
@@ -63,16 +106,15 @@ class JointTrajectoryController
   
     int32 pose_diff;
     pose_diff =  targetPosition - actual.actualPosition;
-    int32 pose_diff_clipping = 65535;
+
     if(pose_diff > pose_diff_clipping)
       pose_diff = pose_diff_clipping;
     
     if(pose_diff < -pose_diff_clipping)
       pose_diff = -pose_diff_clipping;
     
-    double ISum_clipping = 1000;
+
     this->ISum = this->ISum + pose_diff;
-    
     
     if(ISum > ISum_clipping)
       ISum = ISum_clipping;
@@ -88,4 +130,10 @@ class JointTrajectoryController
     velocity.controllerMode = VELOCITY_CONTROL;
   //  printf("pose_target: %10d  pose_diff: %10d   velout: %10d\n",targetPosition, pose_diff, velocity.value);
     
+    this->isControllerActive = true;
     return true;
+!!!978289.cpp!!!	getCurrentTargetPosition(out position : JointEncoderSetpoint) : void
+  {
+      boost::mutex::scoped_lock dataMutex(targetPositionMetex);
+      position.encoderTicks = targetPosition;
+  }

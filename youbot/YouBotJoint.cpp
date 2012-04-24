@@ -711,16 +711,16 @@ void YouBotJoint::setData(const SlaveMessageOutput& data, SyncMode communication
   // Bouml preserved body end 000C5671
 }
 
-///gets the input part of a EtherCAT slave message, the sensor values
+///gets the input and ouput part of a EtherCAT slave message
 ///this methode should be only used if you know what you are doing
 ///@param data returns the sensor values by reference
-void YouBotJoint::getData(SlaveMessageInput& data) {
+void YouBotJoint::getData(YouBotSlaveMsg& data) {
   // Bouml preserved body begin 000C56F1
     //YouBotSlaveMsg messageBuffer;
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
 
-    data = messageBuffer.stctInput;
+    data = messageBuffer;
   // Bouml preserved body end 000C56F1
 }
 
@@ -952,30 +952,18 @@ unsigned int YouBotJoint::getJointNumber() {
 
 /// calculates all trajectory values for the future and sets all the the ethercat master
 /// if the trajectory is still active the the values in the next buffer
-void YouBotJoint::setTrajectory(const std::vector< quantity<plane_angle> >& positions, const std::vector< quantity<angular_velocity> >& velocities, const std::vector< quantity<angular_acceleration> >& accelerations, std::list<int32>& ouputTrajectory) {
+void YouBotJoint::setTrajectory(const std::vector< quantity<plane_angle> >& positions, const std::vector< quantity<angular_velocity> >& velocities, const std::vector< quantity<angular_acceleration> >& accelerations) {
   // Bouml preserved body begin 000E84F1
-  //check data
-  // vel != 0
-  // acc != 0
-  // position in limits
-  //if(velocity == 0 *radian_per_second)
-  //  return;
-
-
   std::list<int32> targetPositions;
   
   for(unsigned int i = 0; i< positions.size(); i++) {
-    
-    
     this->calculatePositions(positions[i], lastPosition, velocities[i], lastVelocity,  accelerations[i], targetPositions);
     lastVelocity = velocities[i];
     lastPosition = positions[i];
   }
   
- 
   this->trajectoryController.setTrajectoryPositions(targetPositions);
-  ouputTrajectory = targetPositions;
-  
+
   // Bouml preserved body end 000E84F1
 }
 

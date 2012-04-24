@@ -611,18 +611,33 @@ class EthercatMasterWithThread
         newDataFlagTwo = true;
         newDataFlagOne = false;
       }
-      
+
       for (unsigned int i = 0; i < nrOfSlaves; i++) {
-        if(this->trajectoryControllers[i] != NULL){
-          if(this->trajectoryControllers[i]->updateTrajectoryController(*(ethercatInputBufferVector[i]), trajectoryContollerOutput)){
+        if (this->trajectoryControllers[i] != NULL) {
+          if (this->trajectoryControllers[i]->updateTrajectoryController(*(ethercatInputBufferVector[i]), trajectoryContollerOutput)) {
             (*(ethercatOutputBufferVector[i])).controllerMode = trajectoryContollerOutput.controllerMode;
             (*(ethercatOutputBufferVector[i])).value = trajectoryContollerOutput.value;
-          }else{
+          } else {
             (*(ethercatOutputBufferVector[i])).controllerMode = VELOCITY_CONTROL;
             (*(ethercatOutputBufferVector[i])).value = 0.0;
           }
+
+          if (newDataFlagOne == true) {
+            {
+              boost::mutex::scoped_lock dataMutex1(mutexDataOne);
+              //fill first output buffer
+              (firstBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
+            }
+          } else if (newDataFlagTwo == true) {
+            {
+              boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
+              //fill second output buffer
+              (secondBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
+            }
+          }
         }
       }
+      
 
       
      // if(ethercatInputBufferVector[3]->actualCurrent >= 900 ){

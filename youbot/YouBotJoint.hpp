@@ -213,10 +213,10 @@ class YouBotJoint : public Joint {
     ///@param communicationMode at the moment only non blocking communication is implemented
     virtual void setData(const SlaveMessageOutput& data, SyncMode communicationMode = NON_BLOCKING);
 
-    ///gets the input part of a EtherCAT slave message, the sensor values
+    ///gets the input and ouput part of a EtherCAT slave message
     ///this methode should be only used if you know what you are doing
     ///@param data returns the sensor values by reference
-    virtual void getData(SlaveMessageInput& data);
+    virtual void getData(YouBotSlaveMsg& data);
 
     ///commands a torque to one joint
     ///@param data the to command torque
@@ -266,7 +266,7 @@ class YouBotJoint : public Joint {
 
     /// calculates all trajectory values for the future and sets all the the ethercat master
     /// if the trajectory is still active the the values in the next buffer
-    void setTrajectory(const std::vector< quantity<plane_angle> >& positions, const std::vector< quantity<angular_velocity> >& velocities, const std::vector< quantity<angular_acceleration> >& accelerations, std::list<int32>& ouputTrajectory);
+    void setTrajectory(const std::vector< quantity<plane_angle> >& positions, const std::vector< quantity<angular_velocity> >& velocities, const std::vector< quantity<angular_acceleration> >& accelerations);
 
     /// Stops just the trajectory controller but not the joint movement
     void stopTrajectory();

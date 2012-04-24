@@ -55,12 +55,13 @@ JointTrajectoryController::JointTrajectoryController() {
   // Bouml preserved body begin 000EA0F1
     this->ISum = 0;
     this->DDiff = 0;
-    this->PParameter = 10.0;
-    this->IParameter = 1;
-    this->DParameter = 0;
+    this->PParameter = 20.0;
+    this->IParameter = 10;
+    this->DParameter = 50;
     this->last_pose_diff = 0;
     this->ISum_clipping = 1000;
     this->pose_diff_clipping = 65535;
+    this->isControllerActive = false;
   // Bouml preserved body end 000EA0F1
 }
 
@@ -71,48 +72,64 @@ JointTrajectoryController::~JointTrajectoryController() {
 
 void JointTrajectoryController::getConfigurationParameter(PParameterTrajectoryControl& parameter) {
   // Bouml preserved body begin 000ED671
+  if(this->isControllerActive)
+    throw JointParameterException("The trajectory controller is running");
   parameter.setParameter(this->PParameter);
   // Bouml preserved body end 000ED671
 }
 
 void JointTrajectoryController::setConfigurationParameter(const PParameterTrajectoryControl& parameter) {
   // Bouml preserved body begin 000ED6F1
+  if(this->isControllerActive)
+    throw JointParameterException("The trajectory controller is running");
   parameter.getParameter(this->PParameter);
   // Bouml preserved body end 000ED6F1
 }
 
 void JointTrajectoryController::getConfigurationParameter(IParameterTrajectoryControl& parameter) {
   // Bouml preserved body begin 000EE971
+  if(this->isControllerActive)
+    throw JointParameterException("The trajectory controller is running");
   parameter.setParameter(this->IParameter);
   // Bouml preserved body end 000EE971
 }
 
 void JointTrajectoryController::setConfigurationParameter(const IParameterTrajectoryControl& parameter) {
   // Bouml preserved body begin 000EEAF1
+  if(this->isControllerActive)
+    throw JointParameterException("The trajectory controller is running");
   parameter.getParameter(this->IParameter);
   // Bouml preserved body end 000EEAF1
 }
 
 void JointTrajectoryController::getConfigurationParameter(DParameterTrajectoryControl& parameter) {
   // Bouml preserved body begin 000EE9F1
+  if(this->isControllerActive)
+    throw JointParameterException("The trajectory controller is running");
   parameter.setParameter(this->DParameter);
   // Bouml preserved body end 000EE9F1
 }
 
 void JointTrajectoryController::setConfigurationParameter(const DParameterTrajectoryControl& parameter) {
   // Bouml preserved body begin 000EEB71
+  if(this->isControllerActive)
+    throw JointParameterException("The trajectory controller is running");
   parameter.getParameter(this->DParameter);
   // Bouml preserved body end 000EEB71
 }
 
 void JointTrajectoryController::getConfigurationParameter(IClippingParameterTrajectoryControl& parameter) {
   // Bouml preserved body begin 000EEA71
+  if(this->isControllerActive)
+    throw JointParameterException("The trajectory controller is running");
   parameter.setParameter(this->ISum_clipping);
   // Bouml preserved body end 000EEA71
 }
 
 void JointTrajectoryController::setConfigurationParameter(const IClippingParameterTrajectoryControl& parameter) {
   // Bouml preserved body begin 000EEBF1
+  if(this->isControllerActive)
+    throw JointParameterException("The trajectory controller is running");
   parameter.getParameter(this->ISum_clipping);
   // Bouml preserved body end 000EEBF1
 }
@@ -138,9 +155,14 @@ void JointTrajectoryController::setTrajectoryPositions(const std::list<int32>& t
   // Bouml preserved body end 000EA1F1
 }
 
+bool JointTrajectoryController::isTrajectoryControllerActive() {
+  // Bouml preserved body begin 000EECF1
+  return this->isControllerActive;
+  // Bouml preserved body end 000EECF1
+}
+
 bool JointTrajectoryController::updateTrajectoryController(const SlaveMessageInput& actual, SlaveMessageOutput& velocity) {
   // Bouml preserved body begin 000EA271
-  int32 targetPosition;
     {
       boost::mutex::scoped_lock dataMutex2(trajectoryPositionsBuffer2Mutex);
       {
@@ -151,7 +173,10 @@ bool JointTrajectoryController::updateTrajectoryController(const SlaveMessageInp
       }
 
       if (!trajectoryPositionsBuffer1.empty() && trajectoryPositionsBuffer1InUse) {
-        targetPosition = (trajectoryPositionsBuffer1).front();
+        {
+          boost::mutex::scoped_lock dataMutex(targetPositionMetex);
+          targetPosition = (trajectoryPositionsBuffer1).front();
+        }
         (trajectoryPositionsBuffer1).pop_front();
       } else {
         trajectoryPositionsBuffer1InUse = false;
@@ -162,7 +187,10 @@ bool JointTrajectoryController::updateTrajectoryController(const SlaveMessageInp
       }
 
       if (!trajectoryPositionsBuffer2.empty() && trajectoryPositionsBuffer2InUse) {
-        targetPosition = (trajectoryPositionsBuffer2).front();
+        {
+          boost::mutex::scoped_lock dataMutex(targetPositionMetex);
+          targetPosition = (trajectoryPositionsBuffer2).front();
+        }
         (trajectoryPositionsBuffer2).pop_front();
       } else {
         trajectoryPositionsBuffer2InUse = false;
@@ -171,6 +199,7 @@ bool JointTrajectoryController::updateTrajectoryController(const SlaveMessageInp
     }
     
     if(!trajectoryPositionsBuffer1InUse && !trajectoryPositionsBuffer2InUse){
+      this->isControllerActive = false;
       return false;
     }
       
@@ -203,13 +232,25 @@ bool JointTrajectoryController::updateTrajectoryController(const SlaveMessageInp
     velocity.controllerMode = VELOCITY_CONTROL;
   //  printf("pose_target: %10d  pose_diff: %10d   velout: %10d\n",targetPosition, pose_diff, velocity.value);
     
+    this->isControllerActive = true;
     return true;
   // Bouml preserved body end 000EA271
+}
+
+void JointTrajectoryController::getCurrentTargetPosition(JointEncoderSetpoint& position) {
+  // Bouml preserved body begin 000EED71
+  {
+      boost::mutex::scoped_lock dataMutex(targetPositionMetex);
+      position.encoderTicks = targetPosition;
+  }
+  // Bouml preserved body end 000EED71
 }
 
 boost::mutex JointTrajectoryController::trajectoryPositionsBuffer1Mutex;
 
 boost::mutex JointTrajectoryController::trajectoryPositionsBuffer2Mutex;
+
+boost::mutex JointTrajectoryController::targetPositionMetex;
 
 
 } // namespace youbot

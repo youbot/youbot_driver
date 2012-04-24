@@ -1,0 +1,21 @@
+class IClippingParameterTrajectoryControl
+!!!976113.cpp!!!	IClippingParameterTrajectoryControl()
+    this->name = "IClippingParameterTrajectoryControl";
+    this->lowerLimit = INT_MIN;
+    this->upperLimit = INT_MAX;
+    this->parameterType = API_PARAMETER;
+!!!976369.cpp!!!	getParameter(out parameter : double) : void
+    parameter = this->value;
+!!!976497.cpp!!!	setParameter(in parameter : double) : void
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+!!!976625.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();

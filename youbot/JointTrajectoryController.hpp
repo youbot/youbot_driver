@@ -91,7 +91,11 @@ class JointTrajectoryController {
 
     void setTrajectoryPositions(const std::list<int32>& targetPositions);
 
+    bool isTrajectoryControllerActive();
+
     bool updateTrajectoryController(const SlaveMessageInput& actual, SlaveMessageOutput& velocity);
+
+    void getCurrentTargetPosition(JointEncoderSetpoint& position);
 
 
   private:
@@ -122,6 +126,12 @@ class JointTrajectoryController {
     int32 pose_diff_clipping;
 
     double ISum_clipping;
+
+    bool isControllerActive;
+
+    static boost::mutex targetPositionMetex;
+
+    int32 targetPosition;
 
 };
 

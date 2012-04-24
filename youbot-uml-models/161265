@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 69
+  revision 70
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -680,6 +680,10 @@ ${namespace_end}"
 	class_ref 310769 // PositionTargetReachedDistance
 	class_ref 362097 // ClearI2tExceededFlag
 	class_ref 361329 // ClearMotorControllerTimeoutFlag
+	class_ref 505585 // PParameterTrajectoryControl
+	class_ref 505713 // IParameterTrajectoryControl
+	class_ref 505841 // DParameterTrajectoryControl
+	class_ref 505969 // IClippingParameterTrajectoryControl
       end
       comment "/****************************************************************
  *
@@ -1136,7 +1140,8 @@ enum DataTraceCntrollerMode {
     VELOCITY_CONTROL_RPM,
     PWM_CONTROL_MODE,
     CURRENT_CONTROL_MODE,
-    TORQUE_CONTROL_MODE
+    TORQUE_CONTROL_MODE,
+    NOT_DEFINED
 };
 ${definition}
 ${namespace_end}
