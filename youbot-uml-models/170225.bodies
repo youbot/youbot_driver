@@ -629,7 +629,6 @@ class YouBotJoint
     lastPosition = currentpose.angle;
   }
   
-  LOG(debug) << "set trajectory  for joint: " << this->jointNumber << " size: " << positions.size();
   for(unsigned int i = 0; i< positions.size(); i++) {
     this->calculatePositions(positions[i], lastPosition, velocities[i], lastVelocity,  accelerations[i], targetPositions);
     lastVelocity = velocities[i];
@@ -680,7 +679,6 @@ class YouBotJoint
         }
       }
 
-    // LOG(debug) << "targetpose: " << targetposition;
     
     //////////////////////////////////////////////////
     if (storage.gearRatio == 0) {

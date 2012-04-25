@@ -105,6 +105,10 @@ class YouBotGripperBar {
 
 
   private:
+    YouBotGripperBar(const YouBotGripperBar & source);
+
+    YouBotGripperBar & operator=(const YouBotGripperBar & source);
+
     void parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailboxMsg);
 
     bool setValueToMotorContoller(const YouBotSlaveMailboxMsg& mailboxMsg);

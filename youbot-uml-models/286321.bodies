@@ -7,7 +7,7 @@ class YouBotManipulator
     string filename;
     filename = name;
     filename.append(".cfg");
-    useGripper = false;
+    useGripper = true;
     this->gripper = NULL;
     configfile = new ConfigFile(filename, configFilePath);
 
@@ -284,7 +284,10 @@ class YouBotManipulator
     }
     return *joints[armJointNumber - 1];
 !!!391665.cpp!!!	getArmGripper() : YouBotGripper&
-      return *gripper;
+		if(!useGripper){
+			throw std::runtime_error("The gripper is disabled!");
+		}
+    return *gripper;
 !!!589297.cpp!!!	setJointData(in JointData : std::vector<JointAngleSetpoint>) : void
     if (JointData.size() != ARMJOINTS)
       throw std::out_of_range("Wrong number of JointAngleSetpoints");
@@ -499,6 +502,9 @@ class YouBotManipulator
 
     }
 
+
+		configfile->readInto(useGripper, "Gripper", "EnableGripper");
+		
     if(useGripper){
     //Initializing Gripper
     // configfile.setSection("JointTopology");

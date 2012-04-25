@@ -135,6 +135,10 @@ class YouBotManipulator {
 
 
   private:
+    YouBotManipulator(const YouBotManipulator & source);
+
+    YouBotManipulator & operator=(const YouBotManipulator & source);
+
     bool areSame(const double A, const double B);
 
     void initializeJoints();

@@ -4,14 +4,10 @@ diagrams
     1253 895 100 1 0 0
 end
 show_stereotypes
-selected attribute_ref 844273 // targetPositionMutex
+selected classview_ref 160881 // YouBot
 open
-  operation_ref 815345 // getData
-  attribute_ref 834033 // trajectoryController
-  attribute_ref 827249 // lastVelocity
-  attribute_ref 827377 // lastPosition
-  classdiagram_ref 174321 // EthercatMaster
-  operation_ref 984945 // cancelCurrentTrajectory
-  deploymentview_ref 161137 // Deployment
+  classview_ref 134641 // Joint
+  
+  package_ref 161265 // youbot
 end
 end

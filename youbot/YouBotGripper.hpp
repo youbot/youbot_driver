@@ -123,6 +123,10 @@ class YouBotGripper : public OneDOFGripper {
 
 
   private:
+    YouBotGripper(const YouBotGripper & source);
+
+    YouBotGripper & operator=(const YouBotGripper & source);
+
     void parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailboxMsg);
 
     bool setValueToMotorContoller(const YouBotSlaveMailboxMsg& mailboxMsg);

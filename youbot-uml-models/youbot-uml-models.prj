@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 227
+  revision 228
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -25047,6 +25047,31 @@ ${inlines}
 ///@param data returns the actual joint torque by reference"
       end
 
+      operation 991985 "YouBotManipulator"
+	stereotype "copy"
+	preserve_cpp_body_indent private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 286321 // YouBotManipulator
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 992113 "operator="
+	preserve_cpp_body_indent private return_type class_ref 286321 // YouBotManipulator
+	nparams 1
+	  param in name "source" type class_ref 286321 // YouBotManipulator
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
       operation 688881 "areSame"
 	preserve_cpp_body_indent private explicit_return_type "bool"
 	nparams 2
@@ -25467,6 +25492,31 @@ ${inlines}
 ///@param data returns the actual joint torque by reference"
       end
 
+      operation 992241 "YouBotBase"
+	stereotype "copy"
+	preserve_cpp_body_indent private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 286193 // YouBotBase
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 992369 "operator="
+	preserve_cpp_body_indent private return_type class_ref 286193 // YouBotBase
+	nparams 1
+	  param in name "source" type class_ref 286193 // YouBotBase
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
       operation 682353 "areSame"
 	preserve_cpp_body_indent private explicit_return_type "bool"
 	nparams 2
@@ -25775,6 +25825,31 @@ ${inlines}
 "
 	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 993009 "DataTrace"
+	stereotype "copy"
+	preserve_cpp_body_indent private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 425713 // DataTrace
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 993137 "operator="
+	preserve_cpp_body_indent private return_type class_ref 425713 // DataTrace
+	nparams 1
+	  param in name "source" type class_ref 425713 // DataTrace
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
 "
 	preserve_java_body_indent 
 	preserve_php_body_indent 
@@ -27463,6 +27538,31 @@ ${inlines}
 	
       end
 
+      operation 992497 "YouBotGripper"
+	stereotype "copy"
+	preserve_cpp_body_indent private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 224753 // YouBotGripper
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 992625 "operator="
+	preserve_cpp_body_indent private return_type class_ref 224753 // YouBotGripper
+	nparams 1
+	  param in name "source" type class_ref 224753 // YouBotGripper
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
       operation 482417 "parseMailboxStatusFlags"
 	preserve_cpp_body_indent private explicit_return_type "void"
 	nparams 1
@@ -27923,6 +28023,31 @@ ${inlines}
 "
 	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 992753 "YouBotGripperBar"
+	stereotype "copy"
+	preserve_cpp_body_indent private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 472049 // YouBotGripperBar
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 992881 "operator="
+	preserve_cpp_body_indent private return_type class_ref 472049 // YouBotGripperBar
+	nparams 1
+	  param in name "source" type class_ref 472049 // YouBotGripperBar
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
 "
 	preserve_java_body_indent 
 	preserve_php_body_indent 

@@ -157,6 +157,10 @@ class YouBotBase {
 
 
   private:
+    YouBotBase(const YouBotBase & source);
+
+    YouBotBase & operator=(const YouBotBase & source);
+
     bool areSame(const double A, const double B);
 
     void initializeJoints();

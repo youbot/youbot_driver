@@ -121,6 +121,10 @@ class DataTrace {
 
 
   private:
+    DataTrace(const DataTrace & source);
+
+    DataTrace & operator=(const DataTrace & source);
+
     void update();
 
     YouBotJoint& joint;
