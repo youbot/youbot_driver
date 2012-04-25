@@ -150,9 +150,29 @@ void JointTrajectoryController::setTrajectoryPositions(const std::list<int32>& t
       }
 
     } else {
-      LOG(error) << "Could not set the Trajectory!";
+      LOG(error) << "Could not set the trajectory!";
     }
   // Bouml preserved body end 000EA1F1
+}
+
+void JointTrajectoryController::cancelCurrentTrajectory() {
+  // Bouml preserved body begin 000F0771
+   if (trajectoryPositionsBuffer1InUse == true) {
+      {
+        boost::mutex::scoped_lock dataMutex1(trajectoryPositionsBuffer1Mutex);
+        this->trajectoryPositionsBuffer1.clear();
+
+      }
+    } else if (trajectoryPositionsBuffer2InUse == true) {
+      {
+        boost::mutex::scoped_lock dataMutex2(trajectoryPositionsBuffer2Mutex);
+        this->trajectoryPositionsBuffer2.clear();
+      }
+
+    } else {
+      LOG(error) << "Could not cancel the trajectory!";
+    }
+  // Bouml preserved body end 000F0771
 }
 
 bool JointTrajectoryController::isTrajectoryControllerActive() {
@@ -174,7 +194,7 @@ bool JointTrajectoryController::updateTrajectoryController(const SlaveMessageInp
 
       if (!trajectoryPositionsBuffer1.empty() && trajectoryPositionsBuffer1InUse) {
         {
-          boost::mutex::scoped_lock dataMutex(targetPositionMetex);
+          boost::mutex::scoped_lock dataMutex(targetPositionMutex);
           targetPosition = (trajectoryPositionsBuffer1).front();
         }
         (trajectoryPositionsBuffer1).pop_front();
@@ -188,7 +208,7 @@ bool JointTrajectoryController::updateTrajectoryController(const SlaveMessageInp
 
       if (!trajectoryPositionsBuffer2.empty() && trajectoryPositionsBuffer2InUse) {
         {
-          boost::mutex::scoped_lock dataMutex(targetPositionMetex);
+          boost::mutex::scoped_lock dataMutex(targetPositionMutex);
           targetPosition = (trajectoryPositionsBuffer2).front();
         }
         (trajectoryPositionsBuffer2).pop_front();
@@ -240,17 +260,11 @@ bool JointTrajectoryController::updateTrajectoryController(const SlaveMessageInp
 void JointTrajectoryController::getCurrentTargetPosition(JointEncoderSetpoint& position) {
   // Bouml preserved body begin 000EED71
   {
-      boost::mutex::scoped_lock dataMutex(targetPositionMetex);
+      boost::mutex::scoped_lock dataMutex(targetPositionMutex);
       position.encoderTicks = targetPosition;
   }
   // Bouml preserved body end 000EED71
 }
-
-boost::mutex JointTrajectoryController::trajectoryPositionsBuffer1Mutex;
-
-boost::mutex JointTrajectoryController::trajectoryPositionsBuffer2Mutex;
-
-boost::mutex JointTrajectoryController::targetPositionMetex;
 
 
 } // namespace youbot

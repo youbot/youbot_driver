@@ -61,17 +61,23 @@ YouBotManipulator::YouBotManipulator(const std::string name, const std::string c
     string filename;
     filename = name;
     filename.append(".cfg");
-
+    useGripper = true;
     this->gripper = NULL;
     configfile = new ConfigFile(filename, configFilePath);
 
     this->initializeJoints();
+    
+
 
   // Bouml preserved body end 00067F71
 }
 
 YouBotManipulator::~YouBotManipulator() {
   // Bouml preserved body begin 00067FF1
+    EthercatMasterWithThread* ethercatMasterWithThread = static_cast<EthercatMasterWithThread*>(&(EthercatMaster::getInstance()));
+    for (unsigned int i = 0; i < ARMJOINTS; i++) {
+      ethercatMasterWithThread->deleteJointTrajectoryControllerRegistration(this->joints[i]->getJointNumber());
+    }
     delete configfile;
     delete gripper;
   // Bouml preserved body end 00067FF1
@@ -200,7 +206,7 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
       configfile->readInto(calib, jointName, "DoCalibration");
       doCalibration[i] = calib;
 
-      joints[i].getConfigurationParameter(IsCalibratedReadMessage);
+      joints[i]->getConfigurationParameter(IsCalibratedReadMessage);
       if (IsCalibratedReadMessage.stctInput.value == 1) {
         doCalibration[i] = false;
       }
@@ -214,7 +220,7 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
       std::string direction;
       configfile->readInto(direction, jointName, "CalibrationDirection");
       GearRatio gearRatio;
-      joints[i].getConfigurationParameter(gearRatio);
+      joints[i]->getConfigurationParameter(gearRatio);
       double gearratio = 1;
       gearRatio.getParameter(gearratio);
 
@@ -242,7 +248,7 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
     //move the joints slowly in calibration direction
     for (unsigned int i = 0; i < ARMJOINTS; i++) {
       if (doCalibration[i] == true) {
-        joints[i].setData(calibrationVel[i]);
+        joints[i]->setData(calibrationVel[i]);
         if(!ethercatMaster.isThreadActive()){
           ethercatMaster.sendProcessData();
           ethercatMaster.receiveProcessData();
@@ -259,11 +265,11 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
           ethercatMaster.sendProcessData();
           ethercatMaster.receiveProcessData();
         }
-        joints[i].getData(sensedCurrent);
+        joints[i]->getData(sensedCurrent);
         //turn till a max current is reached
         if (abs(sensedCurrent.current) > abs(maxCurrent[i])) {
           //stop movement
-          joints[i].setData(pwmStopMovement);
+          joints[i]->setData(pwmStopMovement);
           if(!ethercatMaster.isThreadActive()){
             ethercatMaster.sendProcessData();
             ethercatMaster.receiveProcessData();
@@ -280,13 +286,13 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
     for (unsigned int i = 0; i < ARMJOINTS; i++) {
       if (doCalibration[i] == true) {
         //set encoder reference position
-        joints[i].setEncoderToZero();
+        joints[i]->setEncoderToZero();
         if(!ethercatMaster.isThreadActive()){
           ethercatMaster.sendProcessData();
           ethercatMaster.receiveProcessData();
         }
         // set a flag in the user variable to remember that it is calibrated
-        joints[i].setConfigurationParameter(IsCalibratedSetMessage);
+        joints[i]->setConfigurationParameter(IsCalibratedSetMessage);
         //     LOG(info) << "Calibration finished for joint: " << this->jointName;
       }
     }
@@ -295,19 +301,19 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
 //    JointAngleSetpoint desiredJointAngle;
 //
 //    desiredJointAngle.angle = 2.56244 * radian;
-//    joints[0].setData(desiredJointAngle);
+//    joints[0]->setData(desiredJointAngle);
 //
 //    desiredJointAngle.angle = 1.04883 * radian;
-//    joints[1].setData(desiredJointAngle);
+//    joints[1]->setData(desiredJointAngle);
 //
 //    desiredJointAngle.angle = -2.43523 * radian;
-//    joints[2].setData(desiredJointAngle);
+//    joints[2]->setData(desiredJointAngle);
 //
 //    desiredJointAngle.angle = 1.73184 * radian;
-//    joints[3].setData(desiredJointAngle);
+//    joints[3]->setData(desiredJointAngle);
 //
 //    desiredJointAngle.angle = 1.73184 * radian;
-//    joints[4].setData(desiredJointAngle);
+//    joints[4]->setData(desiredJointAngle);
 //    LOG(info) << "unfold arm";
 //    SLEEP_MILLISEC(4000);
     //   }
@@ -325,7 +331,7 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
       minEncoderValue.encoderTicks = upperlimit;
 
       jLimits.setParameter(lowerlimit, upperlimit, true);
-      joints[i].setConfigurationParameter(jLimits);
+      joints[i]->setConfigurationParameter(jLimits);
     }
 
 
@@ -337,10 +343,12 @@ void YouBotManipulator::calibrateGripper() {
   // Bouml preserved body begin 000A9CF1
     // Calibrating Gripper
     bool doCalibration = true;
-    configfile->readInto(doCalibration, "Gripper", "DoCalibration");
-    CalibrateGripper calibrate;
-    calibrate.setParameter(doCalibration);
-    gripper->setConfigurationParameter(calibrate);
+    if(useGripper){
+      configfile->readInto(doCalibration, "Gripper", "DoCalibration");
+      CalibrateGripper calibrate;
+      calibrate.setParameter(doCalibration);
+      gripper->setConfigurationParameter(calibrate);
+    }
   // Bouml preserved body end 000A9CF1
 }
 
@@ -352,13 +360,16 @@ YouBotJoint& YouBotManipulator::getArmJoint(const unsigned int armJointNumber) {
     if (armJointNumber <= 0 || armJointNumber > ARMJOINTS) {
       throw std::out_of_range("Invalid Joint Number");
     }
-    return joints[armJointNumber - 1];
+    return *joints[armJointNumber - 1];
   // Bouml preserved body end 0004F7F1
 }
 
 YouBotGripper& YouBotManipulator::getArmGripper() {
   // Bouml preserved body begin 0005F9F1
-      return *gripper;
+		if(!useGripper){
+			throw std::runtime_error("The gripper is disabled!");
+		}
+    return *gripper;
   // Bouml preserved body end 0005F9F1
 }
 
@@ -371,11 +382,11 @@ void YouBotManipulator::setJointData(const std::vector<JointAngleSetpoint>& Join
       throw std::out_of_range("Wrong number of JointAngleSetpoints");
 
     ethercatMaster.AutomaticSendOn(false);
-    joints[0].setData(JointData[0], NON_BLOCKING);
-    joints[1].setData(JointData[1], NON_BLOCKING);
-    joints[2].setData(JointData[2], NON_BLOCKING);
-    joints[3].setData(JointData[3], NON_BLOCKING);
-    joints[4].setData(JointData[4], NON_BLOCKING);
+    joints[0]->setData(JointData[0], NON_BLOCKING);
+    joints[1]->setData(JointData[1], NON_BLOCKING);
+    joints[2]->setData(JointData[2], NON_BLOCKING);
+    joints[3]->setData(JointData[3], NON_BLOCKING);
+    joints[4]->setData(JointData[4], NON_BLOCKING);
     ethercatMaster.AutomaticSendOn(true);
 
   // Bouml preserved body end 0008FDF1
@@ -388,11 +399,11 @@ void YouBotManipulator::getJointData(std::vector<JointSensedAngle>& data) {
   // Bouml preserved body begin 0008FE71
     data.resize(ARMJOINTS);
     ethercatMaster.AutomaticReceiveOn(false);
-    joints[0].getData(data[0]);
-    joints[1].getData(data[1]);
-    joints[2].getData(data[2]);
-    joints[3].getData(data[3]);
-    joints[4].getData(data[4]);
+    joints[0]->getData(data[0]);
+    joints[1]->getData(data[1]);
+    joints[2]->getData(data[2]);
+    joints[3]->getData(data[3]);
+    joints[4]->getData(data[4]);
     ethercatMaster.AutomaticReceiveOn(true);
   // Bouml preserved body end 0008FE71
 }
@@ -406,11 +417,11 @@ void YouBotManipulator::setJointData(const std::vector<JointVelocitySetpoint>& J
       throw std::out_of_range("Wrong number of JointVelocitySetpoints");
 
     ethercatMaster.AutomaticSendOn(false);
-    joints[0].setData(JointData[0], NON_BLOCKING);
-    joints[1].setData(JointData[1], NON_BLOCKING);
-    joints[2].setData(JointData[2], NON_BLOCKING);
-    joints[3].setData(JointData[3], NON_BLOCKING);
-    joints[4].setData(JointData[4], NON_BLOCKING);
+    joints[0]->setData(JointData[0], NON_BLOCKING);
+    joints[1]->setData(JointData[1], NON_BLOCKING);
+    joints[2]->setData(JointData[2], NON_BLOCKING);
+    joints[3]->setData(JointData[3], NON_BLOCKING);
+    joints[4]->setData(JointData[4], NON_BLOCKING);
     ethercatMaster.AutomaticSendOn(true);
   // Bouml preserved body end 0008FEF1
 }
@@ -422,11 +433,11 @@ void YouBotManipulator::getJointData(std::vector<JointSensedVelocity>& data) {
   // Bouml preserved body begin 0008FF71
     data.resize(ARMJOINTS);
     ethercatMaster.AutomaticReceiveOn(false);
-    joints[0].getData(data[0]);
-    joints[1].getData(data[1]);
-    joints[2].getData(data[2]);
-    joints[3].getData(data[3]);
-    joints[4].getData(data[4]);
+    joints[0]->getData(data[0]);
+    joints[1]->getData(data[1]);
+    joints[2]->getData(data[2]);
+    joints[3]->getData(data[3]);
+    joints[4]->getData(data[4]);
     ethercatMaster.AutomaticReceiveOn(true);
   // Bouml preserved body end 0008FF71
 }
@@ -440,11 +451,11 @@ void YouBotManipulator::setJointData(const std::vector<JointCurrentSetpoint>& Jo
       throw std::out_of_range("Wrong number of JointCurrentSetpoint");
 
     ethercatMaster.AutomaticSendOn(false);
-    joints[0].setData(JointData[0], NON_BLOCKING);
-    joints[1].setData(JointData[1], NON_BLOCKING);
-    joints[2].setData(JointData[2], NON_BLOCKING);
-    joints[3].setData(JointData[3], NON_BLOCKING);
-    joints[4].setData(JointData[4], NON_BLOCKING);
+    joints[0]->setData(JointData[0], NON_BLOCKING);
+    joints[1]->setData(JointData[1], NON_BLOCKING);
+    joints[2]->setData(JointData[2], NON_BLOCKING);
+    joints[3]->setData(JointData[3], NON_BLOCKING);
+    joints[4]->setData(JointData[4], NON_BLOCKING);
     ethercatMaster.AutomaticSendOn(true);
   // Bouml preserved body end 000CDE71
 }
@@ -456,11 +467,11 @@ void YouBotManipulator::getJointData(std::vector<JointSensedCurrent>& data) {
   // Bouml preserved body begin 00090071
     data.resize(ARMJOINTS);
     ethercatMaster.AutomaticReceiveOn(false);
-    joints[0].getData(data[0]);
-    joints[1].getData(data[1]);
-    joints[2].getData(data[2]);
-    joints[3].getData(data[3]);
-    joints[4].getData(data[4]);
+    joints[0]->getData(data[0]);
+    joints[1]->getData(data[1]);
+    joints[2]->getData(data[2]);
+    joints[3]->getData(data[3]);
+    joints[4]->getData(data[4]);
     ethercatMaster.AutomaticReceiveOn(true);
   // Bouml preserved body end 00090071
 }
@@ -474,11 +485,11 @@ void YouBotManipulator::setJointData(const std::vector<JointTorqueSetpoint>& Joi
       throw std::out_of_range("Wrong number of JointTorqueSetpoint");
 
     ethercatMaster.AutomaticSendOn(false);
-    joints[0].setData(JointData[0], NON_BLOCKING);
-    joints[1].setData(JointData[1], NON_BLOCKING);
-    joints[2].setData(JointData[2], NON_BLOCKING);
-    joints[3].setData(JointData[3], NON_BLOCKING);
-    joints[4].setData(JointData[4], NON_BLOCKING);
+    joints[0]->setData(JointData[0], NON_BLOCKING);
+    joints[1]->setData(JointData[1], NON_BLOCKING);
+    joints[2]->setData(JointData[2], NON_BLOCKING);
+    joints[3]->setData(JointData[3], NON_BLOCKING);
+    joints[4]->setData(JointData[4], NON_BLOCKING);
     ethercatMaster.AutomaticSendOn(true);
   // Bouml preserved body end 000CDEF1
 }
@@ -490,11 +501,11 @@ void YouBotManipulator::getJointData(std::vector<JointSensedTorque>& data) {
   // Bouml preserved body begin 000CDF71
     data.resize(ARMJOINTS);
     ethercatMaster.AutomaticReceiveOn(false);
-    joints[0].getData(data[0]);
-    joints[1].getData(data[1]);
-    joints[2].getData(data[2]);
-    joints[3].getData(data[3]);
-    joints[4].getData(data[4]);
+    joints[0]->getData(data[0]);
+    joints[1]->getData(data[1]);
+    joints[2]->getData(data[2]);
+    joints[3]->getData(data[3]);
+    joints[4]->getData(data[4]);
     ethercatMaster.AutomaticReceiveOn(true);
   // Bouml preserved body end 000CDF71
 }
@@ -524,35 +535,40 @@ void YouBotManipulator::initializeJoints() {
     unsigned int slaveNumber = 0;
     configfile->readInto(slaveNumber, "JointTopology", "ManipulatorJoint1");
     if (slaveNumber <= noSlaves) {
-      joints.push_back(YouBotJoint(slaveNumber));
+      boost::shared_ptr<YouBotJoint> joints_ptr( new YouBotJoint(slaveNumber));
+      joints.push_back(joints_ptr);
     } else {
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
     configfile->readInto(slaveNumber, "JointTopology", "ManipulatorJoint2");
     if (slaveNumber <= noSlaves) {
-      joints.push_back(YouBotJoint(slaveNumber));
+      boost::shared_ptr<YouBotJoint> joints_ptr( new YouBotJoint(slaveNumber));
+      joints.push_back(joints_ptr);
     } else {
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
     configfile->readInto(slaveNumber, "JointTopology", "ManipulatorJoint3");
     if (slaveNumber <= noSlaves) {
-      joints.push_back(YouBotJoint(slaveNumber));
+      boost::shared_ptr<YouBotJoint> joints_ptr( new YouBotJoint(slaveNumber));
+      joints.push_back(joints_ptr);
     } else {
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
     configfile->readInto(slaveNumber, "JointTopology", "ManipulatorJoint4");
     if (slaveNumber <= noSlaves) {
-      joints.push_back(YouBotJoint(slaveNumber));
+      boost::shared_ptr<YouBotJoint> joints_ptr( new YouBotJoint(slaveNumber));
+      joints.push_back(joints_ptr);
     } else {
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
     configfile->readInto(slaveNumber, "JointTopology", "ManipulatorJoint5");
     if (slaveNumber <= noSlaves) {
-      joints.push_back(YouBotJoint(slaveNumber));
+      boost::shared_ptr<YouBotJoint> joints_ptr( new YouBotJoint(slaveNumber));
+      joints.push_back(joints_ptr);
     } else {
       throw std::out_of_range("The ethercat slave number is not available!");
     }
@@ -571,7 +587,7 @@ void YouBotManipulator::initializeJoints() {
     double gearRatio_denominator = 1;
     FirmwareVersion firmwareTypeVersion;
     TorqueConstant torqueConst;
-
+    EthercatMasterWithThread* ethercatMasterWithThread = static_cast<EthercatMasterWithThread*>(&(EthercatMaster::getInstance()));
 
 
     for (unsigned int i = 0; i < ARMJOINTS; i++) {
@@ -580,7 +596,7 @@ void YouBotManipulator::initializeJoints() {
       jointName = jointNameStream.str();
 
 
-      joints[i].getConfigurationParameter(firmwareTypeVersion);
+      joints[i]->getConfigurationParameter(firmwareTypeVersion);
       std::string version;
       int controllerType;
       double firmwareVersion;
@@ -621,15 +637,21 @@ void YouBotManipulator::initializeJoints() {
       configfile->readInto(invdir, jointName, "InverseMovementDirection");
       inverseDir.setParameter(invdir);
 
-      joints[i].setConfigurationParameter(jName);
-      joints[i].setConfigurationParameter(gearRatio);
-      joints[i].setConfigurationParameter(ticksPerRound);
-      joints[i].setConfigurationParameter(torqueConst);
-      joints[i].setConfigurationParameter(inverseDir);
+      joints[i]->setConfigurationParameter(jName);
+      joints[i]->setConfigurationParameter(gearRatio);
+      joints[i]->setConfigurationParameter(ticksPerRound);
+      joints[i]->setConfigurationParameter(torqueConst);
+      joints[i]->setConfigurationParameter(inverseDir);
+      
+      
+      ethercatMasterWithThread->registerJointTrajectoryController(&(joints[i]->trajectoryController), joints[i]->getJointNumber());
 
     }
 
 
+		configfile->readInto(useGripper, "Gripper", "EnableGripper");
+		
+    if(useGripper){
     //Initializing Gripper
     // configfile.setSection("JointTopology");
     configfile->readInto(slaveNumber, "JointTopology", "ManipulatorJoint5");
@@ -693,7 +715,7 @@ void YouBotManipulator::initializeJoints() {
     configfile->readInto(stallGuardFilter, "GripperBar2", "StallGuard2FilterEnable");
     filter.setParameter(stallGuardFilter);
     this->gripper->getGripperBar2().setConfigurationParameter(filter);
-    
+    }
     
 
     return;

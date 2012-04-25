@@ -87,6 +87,12 @@ class YouBotJoint : public Joint {
     ~YouBotJoint();
 
 
+  private:
+    YouBotJoint(const YouBotJoint & source);
+
+    YouBotJoint & operator=(const YouBotJoint & source);
+
+
   protected:
     virtual void setConfigurationParameter(const JointParameter& parameter);
 
@@ -265,11 +271,11 @@ class YouBotJoint : public Joint {
     unsigned int getJointNumber();
 
     /// calculates all trajectory values for the future and sets all the the ethercat master
-    /// if the trajectory is still active the the values in the next buffer
+    /// if the trajectory is still active the the values will be set in the next buffer
     void setTrajectory(const std::vector< quantity<plane_angle> >& positions, const std::vector< quantity<angular_velocity> >& velocities, const std::vector< quantity<angular_acceleration> >& accelerations);
 
     /// Stops just the trajectory controller but not the joint movement
-    void stopTrajectory();
+    void cancelTrajectory();
 
 
   private:

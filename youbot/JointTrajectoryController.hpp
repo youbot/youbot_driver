@@ -73,6 +73,14 @@ class JointTrajectoryController {
 
     virtual ~JointTrajectoryController();
 
+
+  private:
+    JointTrajectoryController(const JointTrajectoryController & source);
+
+    JointTrajectoryController & operator=(const JointTrajectoryController & source);
+
+
+  public:
     void getConfigurationParameter(PParameterTrajectoryControl& parameter);
 
     void setConfigurationParameter(const PParameterTrajectoryControl& parameter);
@@ -91,6 +99,8 @@ class JointTrajectoryController {
 
     void setTrajectoryPositions(const std::list<int32>& targetPositions);
 
+    void cancelCurrentTrajectory();
+
     bool isTrajectoryControllerActive();
 
     bool updateTrajectoryController(const SlaveMessageInput& actual, SlaveMessageOutput& velocity);
@@ -107,9 +117,9 @@ class JointTrajectoryController {
 
     bool trajectoryPositionsBuffer2InUse;
 
-    static boost::mutex trajectoryPositionsBuffer1Mutex;
+    boost::mutex trajectoryPositionsBuffer1Mutex;
 
-    static boost::mutex trajectoryPositionsBuffer2Mutex;
+    boost::mutex trajectoryPositionsBuffer2Mutex;
 
     int32 last_pose_diff;
 
@@ -129,7 +139,7 @@ class JointTrajectoryController {
 
     bool isControllerActive;
 
-    static boost::mutex targetPositionMetex;
+    boost::mutex targetPositionMutex;
 
     int32 targetPosition;
 

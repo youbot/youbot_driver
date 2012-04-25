@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 70
+  revision 71
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -876,6 +876,7 @@ ${description}
 #include \"youbot/EthercatMasterInterface.hpp\"
 #include \"youbot/EthercatMasterWithThread.hpp\"
 #include \"youbot/EthercatMasterWithoutThread.hpp\"
+#include <boost/shared_ptr.hpp>
 ${namespace_start}
 /// The number of manipulator joints
 #define ARMJOINTS 5
@@ -965,6 +966,7 @@ ${description}
 #include \"youbot/EthercatMasterInterface.hpp\"
 #include \"youbot/EthercatMasterWithThread.hpp\"
 #include \"youbot/EthercatMasterWithoutThread.hpp\"
+#include <boost/shared_ptr.hpp>
 ${namespace_start}
 /// The number of base joints
 #define BASEJOINTS 4

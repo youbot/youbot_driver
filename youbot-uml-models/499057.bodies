@@ -56,7 +56,23 @@ class JointTrajectoryController
       }
 
     } else {
-      LOG(error) << "Could not set the Trajectory!";
+      LOG(error) << "Could not set the trajectory!";
+    }
+!!!984945.cpp!!!	cancelCurrentTrajectory() : void
+   if (trajectoryPositionsBuffer1InUse == true) {
+      {
+        boost::mutex::scoped_lock dataMutex1(trajectoryPositionsBuffer1Mutex);
+        this->trajectoryPositionsBuffer1.clear();
+
+      }
+    } else if (trajectoryPositionsBuffer2InUse == true) {
+      {
+        boost::mutex::scoped_lock dataMutex2(trajectoryPositionsBuffer2Mutex);
+        this->trajectoryPositionsBuffer2.clear();
+      }
+
+    } else {
+      LOG(error) << "Could not cancel the trajectory!";
     }
 !!!978161.cpp!!!	isTrajectoryControllerActive() : bool
   return this->isControllerActive;
@@ -72,7 +88,7 @@ class JointTrajectoryController
 
       if (!trajectoryPositionsBuffer1.empty() && trajectoryPositionsBuffer1InUse) {
         {
-          boost::mutex::scoped_lock dataMutex(targetPositionMetex);
+          boost::mutex::scoped_lock dataMutex(targetPositionMutex);
           targetPosition = (trajectoryPositionsBuffer1).front();
         }
         (trajectoryPositionsBuffer1).pop_front();
@@ -86,7 +102,7 @@ class JointTrajectoryController
 
       if (!trajectoryPositionsBuffer2.empty() && trajectoryPositionsBuffer2InUse) {
         {
-          boost::mutex::scoped_lock dataMutex(targetPositionMetex);
+          boost::mutex::scoped_lock dataMutex(targetPositionMutex);
           targetPosition = (trajectoryPositionsBuffer2).front();
         }
         (trajectoryPositionsBuffer2).pop_front();
@@ -134,6 +150,6 @@ class JointTrajectoryController
     return true;
 !!!978289.cpp!!!	getCurrentTargetPosition(out position : JointEncoderSetpoint) : void
   {
-      boost::mutex::scoped_lock dataMutex(targetPositionMetex);
+      boost::mutex::scoped_lock dataMutex(targetPositionMutex);
       position.encoderTicks = targetPosition;
   }

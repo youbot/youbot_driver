@@ -67,6 +67,7 @@
 #include "youbot/EthercatMasterInterface.hpp"
 #include "youbot/EthercatMasterWithThread.hpp"
 #include "youbot/EthercatMasterWithoutThread.hpp"
+#include <boost/shared_ptr.hpp>
 namespace youbot {
 
 /// The number of base joints
@@ -164,7 +165,7 @@ class YouBotBase {
 
     ConfigFile* configfile;
 
-    std::vector<YouBotJoint> joints;
+    std::vector< boost::shared_ptr<YouBotJoint> > joints;
 
     int controllerType;
 

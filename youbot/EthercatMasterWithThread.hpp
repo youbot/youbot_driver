@@ -120,6 +120,8 @@ friend class YouBotGripperBar;
 
     void registerJointTrajectoryController(JointTrajectoryController* object, const unsigned int JointNumber);
 
+    void deleteJointTrajectoryControllerRegistration(const unsigned int JointNumber);
+
 
   private:
     ///establishes the ethercat connection
@@ -256,6 +258,8 @@ friend class YouBotGripperBar;
     std::vector<YouBotSlaveMsg> BufferForGetMsgBuffer;
 
     std::vector<JointTrajectoryController*> trajectoryControllers;
+
+    boost::mutex trajectoryControllerVectorMutex;
 
 };
 

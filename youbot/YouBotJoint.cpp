@@ -64,6 +64,7 @@ YouBotJoint::YouBotJoint(const unsigned int jointNo, const std::string& configFi
     jointNameStream << "Joint " << this->jointNumber << " ";
     jointNameString = jointNameStream.str();
     ethercatMaster = &(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath));
+    
   // Bouml preserved body end 000412F1
 }
 
@@ -951,10 +952,18 @@ unsigned int YouBotJoint::getJointNumber() {
 }
 
 /// calculates all trajectory values for the future and sets all the the ethercat master
-/// if the trajectory is still active the the values in the next buffer
+/// if the trajectory is still active the the values will be set in the next buffer
 void YouBotJoint::setTrajectory(const std::vector< quantity<plane_angle> >& positions, const std::vector< quantity<angular_velocity> >& velocities, const std::vector< quantity<angular_acceleration> >& accelerations) {
   // Bouml preserved body begin 000E84F1
   std::list<int32> targetPositions;
+  if(!this->trajectoryController.isTrajectoryControllerActive()){
+    JointSensedAngle currentpose;
+    JointSensedVelocity currentvel;
+    this->getData(currentpose);
+    this->getData(currentvel);
+    lastVelocity = currentvel.angularVelocity;
+    lastPosition = currentpose.angle;
+  }
   
   for(unsigned int i = 0; i< positions.size(); i++) {
     this->calculatePositions(positions[i], lastPosition, velocities[i], lastVelocity,  accelerations[i], targetPositions);
@@ -963,13 +972,14 @@ void YouBotJoint::setTrajectory(const std::vector< quantity<plane_angle> >& posi
   }
   
   this->trajectoryController.setTrajectoryPositions(targetPositions);
-
+  
   // Bouml preserved body end 000E84F1
 }
 
 /// Stops just the trajectory controller but not the joint movement
-void YouBotJoint::stopTrajectory() {
+void YouBotJoint::cancelTrajectory() {
   // Bouml preserved body begin 000E8571
+  this->trajectoryController.cancelCurrentTrajectory();
   // Bouml preserved body end 000E8571
 }
 
@@ -1014,7 +1024,6 @@ void YouBotJoint::calculatePositions(const quantity<plane_angle>& position, cons
         }
       }
 
-    
     
     //////////////////////////////////////////////////
     if (storage.gearRatio == 0) {

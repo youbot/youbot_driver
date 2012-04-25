@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 226
+  revision 227
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -214,7 +214,7 @@ ${inlines}
       end
 
       operation 267121 "~YouBotJoint"
-	public explicit_return_type ""
+	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
 "
@@ -224,6 +224,31 @@ ${inlines}
 	
 	
 	
+	
+      end
+
+      operation 985073 "YouBotJoint"
+	stereotype "copy"
+	preserve_cpp_body_indent private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 170225 // YouBotJoint
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 985201 "operator="
+	preserve_cpp_body_indent private return_type class_ref 170225 // YouBotJoint
+	nparams 1
+	  param in name "source" type class_ref 170225 // YouBotJoint
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
 	
       end
 
@@ -1095,7 +1120,7 @@ ${inlines}
 /// if the trajectory is still active the the values will be set in the next buffer"
       end
 
-      operation 951665 "stopTrajectory"
+      operation 951665 "cancelTrajectory"
 	preserve_cpp_body_indent public explicit_return_type "void"
 	nparams 0
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
@@ -23482,6 +23507,21 @@ friend class YouBotGripperBar;" ""
 	
       end
 
+      operation 984817 "deleteJointTrajectoryControllerRegistration"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param in name "JointNumber" explicit_type "uint"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
       operation 266481 "initializeEthercat"
 	preserve_cpp_body_indent private explicit_return_type "void"
 	nparams 0
@@ -24138,6 +24178,16 @@ friend class YouBotGripperBar;" ""
 
       attribute 833905 "trajectoryControllers"
 	private explicit_type "std::vector<JointTrajectoryController*>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 851057 "trajectoryControllerVectorMutex"
+	private explicit_type "boost::mutex"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -25038,7 +25088,7 @@ ${inlines}
       end
 
       attribute 419185 "joints"
-	private explicit_type "std::vector<YouBotJoint>"
+	private explicit_type "std::vector< boost::shared_ptr<YouBotJoint> >"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -25079,6 +25129,16 @@ ${inlines}
 
       attribute 756209 "ethercatMaster"
 	private explicit_type "EthercatMasterInterface&"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 850929 "useGripper"
+	private explicit_type "bool"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -25462,7 +25522,7 @@ ${inlines}
       end
 
       attribute 419057 "joints"
-	private explicit_type "std::vector<YouBotJoint>"
+	private explicit_type "std::vector< boost::shared_ptr<YouBotJoint> >"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -26048,6 +26108,31 @@ ${inlines}
 	
       end
 
+      operation 985329 "JointTrajectoryController"
+	stereotype "copy"
+	preserve_cpp_body_indent private explicit_return_type ""
+	nparams 1
+	  param in name "source" type class_ref 499057 // JointTrajectoryController
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0} & ${p0}${)}${volatile}${throw};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 985457 "operator="
+	preserve_cpp_body_indent private return_type class_ref 499057 // JointTrajectoryController
+	nparams 1
+	  param in name "source" type class_ref 499057 // JointTrajectoryController
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} & ${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
       operation 972401 "getConfigurationParameter"
 	preserve_cpp_body_indent public explicit_return_type "void"
 	nparams 1
@@ -26183,6 +26268,20 @@ ${inlines}
 	
       end
 
+      operation 984945 "cancelCurrentTrajectory"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
       operation 978161 "isTrajectoryControllerActive"
 	preserve_cpp_body_indent public explicit_return_type "bool"
 	nparams 0
@@ -26269,7 +26368,7 @@ ${inlines}
       end
 
       attribute 820593 "trajectoryPositionsBuffer1Mutex"
-	class_attribute private explicit_type "boost::mutex"
+	private explicit_type "boost::mutex"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -26279,7 +26378,7 @@ ${inlines}
       end
 
       attribute 820721 "trajectoryPositionsBuffer2Mutex"
-	class_attribute private explicit_type "boost::mutex"
+	private explicit_type "boost::mutex"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -26378,8 +26477,8 @@ ${inlines}
 	idl_decl ""
       end
 
-      attribute 844273 "targetPositionMetex"
-	class_attribute private explicit_type "boost::mutex"
+      attribute 844273 "targetPositionMutex"
+	private explicit_type "boost::mutex"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""

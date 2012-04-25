@@ -11,6 +11,7 @@ class YouBotJoint
     jointNameStream << "Joint " << this->jointNumber << " ";
     jointNameString = jointNameStream.str();
     ethercatMaster = &(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath));
+    
 !!!475761.cpp!!!	setConfigurationParameter(in parameter : JointParameter) : void
   throw std::runtime_error("Please use YouBotJointParameters");
 !!!380529.cpp!!!	getConfigurationParameter(out parameter : JointParameter) : void
@@ -619,7 +620,16 @@ class YouBotJoint
   return this->jointNumber;
 !!!951537.cpp!!!	setTrajectory(in positions : std::vector< quantity<plane_angle> >, in velocities : std::vector< quantity<angular_velocity> >, in accelerations : std::vector< quantity<angular_acceleration> >) : void
   std::list<int32> targetPositions;
+  if(!this->trajectoryController.isTrajectoryControllerActive()){
+    JointSensedAngle currentpose;
+    JointSensedVelocity currentvel;
+    this->getData(currentpose);
+    this->getData(currentvel);
+    lastVelocity = currentvel.angularVelocity;
+    lastPosition = currentpose.angle;
+  }
   
+  LOG(debug) << "set trajectory  for joint: " << this->jointNumber << " size: " << positions.size();
   for(unsigned int i = 0; i< positions.size(); i++) {
     this->calculatePositions(positions[i], lastPosition, velocities[i], lastVelocity,  accelerations[i], targetPositions);
     lastVelocity = velocities[i];
@@ -627,7 +637,9 @@ class YouBotJoint
   }
   
   this->trajectoryController.setTrajectoryPositions(targetPositions);
-
+  
+!!!951665.cpp!!!	cancelTrajectory() : void
+  this->trajectoryController.cancelCurrentTrajectory();
 !!!958577.cpp!!!	calculatePositions(in position : quantity<plane_angle>, in position_current : quantity<plane_angle>, in velocity : quantity<angular_velocity>, in velocity_current : quantity<angular_velocity>, in acceleration : quantity<angular_acceleration>, out targetPositions : std::list<int32>) : void
   
   quantity<plane_angle> targetposition;
@@ -668,7 +680,7 @@ class YouBotJoint
         }
       }
 
-    
+    // LOG(debug) << "targetpose: " << targetposition;
     
     //////////////////////////////////////////////////
     if (storage.gearRatio == 0) {

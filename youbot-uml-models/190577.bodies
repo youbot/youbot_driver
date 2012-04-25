@@ -115,7 +115,17 @@ class EthercatMasterWithThread
     return ec_iserror();
 
 !!!965873.cpp!!!	registerJointTrajectoryController(inout object : JointTrajectoryController*, in JointNumber : uint) : void
-  this->trajectoryControllers[JointNumber -1] = object;
+  {
+    boost::mutex::scoped_lock trajectoryControllerMutex(trajectoryControllerVectorMutex);
+    this->trajectoryControllers[JointNumber -1] = object;
+  }
+  LOG(debug) << "register joint trajectory controller for joint: " << JointNumber;
+!!!984817.cpp!!!	deleteJointTrajectoryControllerRegistration(in JointNumber : uint) : void
+  {
+    boost::mutex::scoped_lock trajectoryControllerMutex(trajectoryControllerVectorMutex);
+    this->trajectoryControllers[JointNumber -1] = NULL;
+  }
+  LOG(debug) << "delete joint trajectory controller registration for joint: " << JointNumber;
 !!!266481.cpp!!!	initializeEthercat() : void
 
     /* initialise SOEM, bind socket to ifname */
@@ -612,27 +622,31 @@ class EthercatMasterWithThread
         newDataFlagOne = false;
       }
 
-      for (unsigned int i = 0; i < nrOfSlaves; i++) {
-        if (this->trajectoryControllers[i] != NULL) {
-          if (this->trajectoryControllers[i]->updateTrajectoryController(*(ethercatInputBufferVector[i]), trajectoryContollerOutput)) {
-            (*(ethercatOutputBufferVector[i])).controllerMode = trajectoryContollerOutput.controllerMode;
-            (*(ethercatOutputBufferVector[i])).value = trajectoryContollerOutput.value;
-          } else {
-            (*(ethercatOutputBufferVector[i])).controllerMode = VELOCITY_CONTROL;
-            (*(ethercatOutputBufferVector[i])).value = 0.0;
-          }
-
-          if (newDataFlagOne == true) {
-            {
-              boost::mutex::scoped_lock dataMutex1(mutexDataOne);
-              //fill first output buffer
-              (firstBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
+      {
+        boost::mutex::scoped_lock trajectoryControllerMutex(trajectoryControllerVectorMutex);
+        for (unsigned int i = 0; i < nrOfSlaves; i++) {
+          if (this->trajectoryControllers[i] != NULL) {
+            if (this->trajectoryControllers[i]->updateTrajectoryController(*(ethercatInputBufferVector[i]), trajectoryContollerOutput)) {
+           //   printf("send vel slave: %d", i);
+              (*(ethercatOutputBufferVector[i])).controllerMode = trajectoryContollerOutput.controllerMode;
+              (*(ethercatOutputBufferVector[i])).value = trajectoryContollerOutput.value;
+            } else {
+              (*(ethercatOutputBufferVector[i])).controllerMode = VELOCITY_CONTROL;
+              (*(ethercatOutputBufferVector[i])).value = 0.0;
             }
-          } else if (newDataFlagTwo == true) {
-            {
-              boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
-              //fill second output buffer
-              (secondBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
+
+            if (newDataFlagOne == true) {
+              {
+                boost::mutex::scoped_lock dataMutex1(mutexDataOne);
+                //fill first output buffer
+                (firstBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
+              }
+            } else if (newDataFlagTwo == true) {
+              {
+                boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
+                //fill second output buffer
+                (secondBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
+              }
             }
           }
         }
