@@ -228,8 +228,13 @@ bool EthercatMasterWithThread::isErrorInSoemDriver() {
 
 void EthercatMasterWithThread::registerJointTrajectoryController(JointTrajectoryController* object, const unsigned int JointNumber) {
   // Bouml preserved body begin 000EBCF1
-  {
+	{
     boost::mutex::scoped_lock trajectoryControllerMutex(trajectoryControllerVectorMutex);
+		if(this->trajectoryControllers[JointNumber -1] != NULL)
+			throw std::runtime_error("A joint trajectory controller is already register for this joint!");
+		if((JointNumber -1) >= this->trajectoryControllers.size())
+			throw std::out_of_range("Invalid joint number");
+		
     this->trajectoryControllers[JointNumber -1] = object;
   }
   LOG(debug) << "register joint trajectory controller for joint: " << JointNumber;
@@ -240,6 +245,9 @@ void EthercatMasterWithThread::deleteJointTrajectoryControllerRegistration(const
   // Bouml preserved body begin 000F06F1
   {
     boost::mutex::scoped_lock trajectoryControllerMutex(trajectoryControllerVectorMutex);
+		if((JointNumber -1) >= this->trajectoryControllers.size())
+			throw std::out_of_range("Invalid joint number");
+		
     this->trajectoryControllers[JointNumber -1] = NULL;
   }
   LOG(debug) << "delete joint trajectory controller registration for joint: " << JointNumber;
@@ -803,35 +811,38 @@ void EthercatMasterWithThread::updateSensorActorValues() {
         newDataFlagOne = false;
       }
 
-      {
-        boost::mutex::scoped_lock trajectoryControllerMutex(trajectoryControllerVectorMutex);
-        for (unsigned int i = 0; i < nrOfSlaves; i++) {
-          if (this->trajectoryControllers[i] != NULL) {
-            if (this->trajectoryControllers[i]->updateTrajectoryController(*(ethercatInputBufferVector[i]), trajectoryContollerOutput)) {
-           //   printf("send vel slave: %d", i);
-              (*(ethercatOutputBufferVector[i])).controllerMode = trajectoryContollerOutput.controllerMode;
-              (*(ethercatOutputBufferVector[i])).value = trajectoryContollerOutput.value;
-            } else {
-              (*(ethercatOutputBufferVector[i])).controllerMode = VELOCITY_CONTROL;
-              (*(ethercatOutputBufferVector[i])).value = 0.0;
-            }
+			{
+				boost::mutex::scoped_lock trajectoryControllerMutex(trajectoryControllerVectorMutex);
+				for (unsigned int i = 0; i < nrOfSlaves; i++) {
+					if (this->trajectoryControllers[i] != NULL) {
+						if (this->trajectoryControllers[i]->updateTrajectoryController(*(ethercatInputBufferVector[i]), trajectoryContollerOutput)) {
+							//   printf("send vel slave: %d", i);
+							(*(ethercatOutputBufferVector[i])).controllerMode = trajectoryContollerOutput.controllerMode;
+							(*(ethercatOutputBufferVector[i])).value = trajectoryContollerOutput.value;
 
-            if (newDataFlagOne == true) {
-              {
-                boost::mutex::scoped_lock dataMutex1(mutexDataOne);
-                //fill first output buffer
-                (firstBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
-              }
-            } else if (newDataFlagTwo == true) {
-              {
-                boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
-                //fill second output buffer
-                (secondBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
-              }
-            }
-          }
-        }
-      }
+							/*
+							else {
+								(*(ethercatOutputBufferVector[i])).controllerMode = VELOCITY_CONTROL;
+								(*(ethercatOutputBufferVector[i])).value = 0.0;
+							}*/
+
+							if (newDataFlagOne == true) {
+								{
+									boost::mutex::scoped_lock dataMutex1(mutexDataOne);
+									//fill first output buffer
+									(firstBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
+								}
+							} else if (newDataFlagTwo == true) {
+								{
+									boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
+									//fill second output buffer
+									(secondBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
+								}
+							}
+						}
+					}
+				}
+			}
       
 
       

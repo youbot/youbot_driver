@@ -1,12 +1,13 @@
-window_sizes 1680 976 421 1253 895 0
+window_sizes 1672 973 421 1245 890 0
 diagrams
   active  classdiagram_ref 141681 // JointParameter
     1253 895 100 1 0 0
 end
 show_stereotypes
-selected classview_ref 160881 // YouBot
+selected operation_ref 978289 // getLastTargetPosition
 open
   classview_ref 134641 // Joint
+  class_ref 499057 // JointTrajectoryController
   
   package_ref 161265 // youbot
 end

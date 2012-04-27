@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 71
+  revision 72
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -1045,11 +1045,6 @@ ${definition}
 ${namespace_end}
 #endif
 "
-      cpp_src "${description}
-#include \"youbot/YouBotJointStorage.hpp\"
-${namespace_start}
-${members}
-${namespace_end}"
       associated_classes
 	class_ref 303857 // YouBotJointStorage
       end

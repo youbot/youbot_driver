@@ -994,6 +994,14 @@ void YouBotJoint::calculatePositions(const quantity<plane_angle>& position, cons
   int u = 0;
   
   quantity<angular_velocity> velocity_calc;
+	quantity<angular_velocity> zeroVel(0 * radian_per_second);
+  quantity<angular_acceleration> zeroAcc(0 * radian_per_second/second);
+	
+	if(position < position_current && (velocity >=zeroVel || acceleration >=zeroAcc))
+		 throw JointErrorException("Invalid trajectory");
+	
+	if(position > position_current && (velocity <=zeroVel || acceleration <=zeroAcc))
+		 throw JointErrorException("Invalid trajectory");
   
   
   

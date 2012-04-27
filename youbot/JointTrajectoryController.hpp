@@ -105,7 +105,7 @@ class JointTrajectoryController {
 
     bool updateTrajectoryController(const SlaveMessageInput& actual, SlaveMessageOutput& velocity);
 
-    void getCurrentTargetPosition(JointEncoderSetpoint& position);
+    void getLastTargetPosition(JointEncoderSetpoint& position);
 
 
   private:

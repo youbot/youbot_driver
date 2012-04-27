@@ -43,16 +43,18 @@ class JointTrajectoryController
   parameter.getParameter(this->ISum_clipping);
 !!!958961.cpp!!!	setTrajectoryPositions(in targetPositions : std::list<int32>) : void
 
+
     if (trajectoryPositionsBuffer1InUse == false) {
       {
         boost::mutex::scoped_lock dataMutex1(trajectoryPositionsBuffer1Mutex);
         this->trajectoryPositionsBuffer1 = targetPositions;
-
+				this->isControllerActive = true;
       }
     } else if (trajectoryPositionsBuffer2InUse == false) {
       {
         boost::mutex::scoped_lock dataMutex2(trajectoryPositionsBuffer2Mutex);
         this->trajectoryPositionsBuffer2 = targetPositions;
+				this->isControllerActive = true;
       }
 
     } else {
@@ -77,40 +79,41 @@ class JointTrajectoryController
 !!!978161.cpp!!!	isTrajectoryControllerActive() : bool
   return this->isControllerActive;
 !!!959089.cpp!!!	updateTrajectoryController(in actual : SlaveMessageInput, out velocity : SlaveMessageOutput) : bool
-    {
-      boost::mutex::scoped_lock dataMutex2(trajectoryPositionsBuffer2Mutex);
-      {
-      boost::mutex::scoped_lock dataMutex2(trajectoryPositionsBuffer1Mutex);
 
-      if (!trajectoryPositionsBuffer1.empty() && !trajectoryPositionsBuffer1InUse && !trajectoryPositionsBuffer2InUse) {
-        trajectoryPositionsBuffer1InUse = true;
-      }
+		{
+			boost::mutex::scoped_lock dataMutex2(trajectoryPositionsBuffer1Mutex);
 
-      if (!trajectoryPositionsBuffer1.empty() && trajectoryPositionsBuffer1InUse) {
-        {
-          boost::mutex::scoped_lock dataMutex(targetPositionMutex);
-          targetPosition = (trajectoryPositionsBuffer1).front();
-        }
-        (trajectoryPositionsBuffer1).pop_front();
-      } else {
-        trajectoryPositionsBuffer1InUse = false;
-      }
-      
-      if (!trajectoryPositionsBuffer2.empty() && !trajectoryPositionsBuffer1InUse && !trajectoryPositionsBuffer2InUse) {
-        trajectoryPositionsBuffer2InUse = true;
-      }
+			if (!trajectoryPositionsBuffer1.empty() && !trajectoryPositionsBuffer1InUse && !trajectoryPositionsBuffer2InUse) {
+				trajectoryPositionsBuffer1InUse = true;
+			}
 
-      if (!trajectoryPositionsBuffer2.empty() && trajectoryPositionsBuffer2InUse) {
-        {
-          boost::mutex::scoped_lock dataMutex(targetPositionMutex);
-          targetPosition = (trajectoryPositionsBuffer2).front();
-        }
-        (trajectoryPositionsBuffer2).pop_front();
-      } else {
-        trajectoryPositionsBuffer2InUse = false;
-      }
-    }
-    }
+			if (!trajectoryPositionsBuffer1.empty() && trajectoryPositionsBuffer1InUse) {
+				{
+					boost::mutex::scoped_lock dataMutex(targetPositionMutex);
+					targetPosition = (trajectoryPositionsBuffer1).front();
+				}
+				(trajectoryPositionsBuffer1).pop_front();
+			} else {
+				trajectoryPositionsBuffer1InUse = false;
+			}
+		}
+		{
+			boost::mutex::scoped_lock dataMutex2(trajectoryPositionsBuffer2Mutex);
+			if (!trajectoryPositionsBuffer2.empty() && !trajectoryPositionsBuffer1InUse && !trajectoryPositionsBuffer2InUse) {
+				trajectoryPositionsBuffer2InUse = true;
+			}
+
+			if (!trajectoryPositionsBuffer2.empty() && trajectoryPositionsBuffer2InUse) {
+				{
+					boost::mutex::scoped_lock dataMutex(targetPositionMutex);
+					targetPosition = (trajectoryPositionsBuffer2).front();
+				}
+				(trajectoryPositionsBuffer2).pop_front();
+			} else {
+				trajectoryPositionsBuffer2InUse = false;
+			}
+		}
+    
     
     if(!trajectoryPositionsBuffer1InUse && !trajectoryPositionsBuffer2InUse){
       this->isControllerActive = false;
@@ -121,7 +124,10 @@ class JointTrajectoryController
   ///////////////////////// Controller
   
     int32 pose_diff;
-    pose_diff =  targetPosition - actual.actualPosition;
+		{
+			boost::mutex::scoped_lock dataMutex(targetPositionMutex);
+			pose_diff =  targetPosition - actual.actualPosition;
+		}
 
     if(pose_diff > pose_diff_clipping)
       pose_diff = pose_diff_clipping;
@@ -148,7 +154,7 @@ class JointTrajectoryController
     
     this->isControllerActive = true;
     return true;
-!!!978289.cpp!!!	getCurrentTargetPosition(out position : JointEncoderSetpoint) : void
+!!!978289.cpp!!!	getLastTargetPosition(out position : JointEncoderSetpoint) : void
   {
       boost::mutex::scoped_lock dataMutex(targetPositionMutex);
       position.encoderTicks = targetPosition;

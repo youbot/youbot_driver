@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 228
+  revision 230
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -26387,7 +26387,7 @@ ${inlines}
 	
       end
 
-      operation 978289 "getCurrentTargetPosition"
+      operation 978289 "getLastTargetPosition"
 	preserve_cpp_body_indent public explicit_return_type "void"
 	nparams 1
 	  param out name "position" type class_ref 412657 // JointEncoderSetpoint
