@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 230
+  revision 231
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -23522,6 +23522,20 @@ friend class YouBotGripperBar;" ""
 	
       end
 
+      operation 999921 "getNumberOfThreadCyclesPerSecond"
+	preserve_cpp_body_indent public explicit_return_type "uint"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
       operation 266481 "initializeEthercat"
 	preserve_cpp_body_indent private explicit_return_type "void"
 	nparams 0
@@ -25171,6 +25185,16 @@ ${inlines}
 	python_decl ""
 	idl_decl ""
       end
+
+      attribute 857713 "ethercatMasterWithThread"
+	private explicit_type "EthercatMasterWithThread*"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
     end
 
     class 286193 "YouBotBase"
@@ -26402,6 +26426,35 @@ ${inlines}
 	
       end
 
+      operation 999665 "getControllerUpdatesPerSecond"
+	preserve_cpp_body_indent public explicit_return_type "uint"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 999793 "setControllerUpdatesPerSecond"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param in name "updates" explicit_type "uint"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
       attribute 820081 "trajectoryPositionsBuffer1"
 	private explicit_type "std::list<int32>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -26564,6 +26617,16 @@ ${inlines}
 
       attribute 844401 "targetPosition"
 	private explicit_type "int32"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 857585 "controllerUpdatesPerSecond"
+	private explicit_type "uint"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""

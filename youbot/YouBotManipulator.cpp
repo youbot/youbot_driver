@@ -64,6 +64,12 @@ YouBotManipulator::YouBotManipulator(const std::string name, const std::string c
     useGripper = true;
     this->gripper = NULL;
     configfile = new ConfigFile(filename, configFilePath);
+		
+		if(ethercatMaster.isThreadActive()){
+			ethercatMasterWithThread = static_cast<EthercatMasterWithThread*>(&(EthercatMaster::getInstance()));
+		}else{
+			ethercatMasterWithThread = NULL;
+		}
 
     this->initializeJoints();
     
@@ -74,10 +80,11 @@ YouBotManipulator::YouBotManipulator(const std::string name, const std::string c
 
 YouBotManipulator::~YouBotManipulator() {
   // Bouml preserved body begin 00067FF1
-    EthercatMasterWithThread* ethercatMasterWithThread = static_cast<EthercatMasterWithThread*>(&(EthercatMaster::getInstance()));
-    for (unsigned int i = 0; i < ARMJOINTS; i++) {
-      ethercatMasterWithThread->deleteJointTrajectoryControllerRegistration(this->joints[i]->getJointNumber());
-    }
+		if(ethercatMaster.isThreadActive()){
+			for (unsigned int i = 0; i < ARMJOINTS; i++) {
+				ethercatMasterWithThread->deleteJointTrajectoryControllerRegistration(this->joints[i]->getJointNumber());
+			}
+		}
     delete configfile;
     delete gripper;
   // Bouml preserved body end 00067FF1
@@ -587,7 +594,6 @@ void YouBotManipulator::initializeJoints() {
     double gearRatio_denominator = 1;
     FirmwareVersion firmwareTypeVersion;
     TorqueConstant torqueConst;
-    EthercatMasterWithThread* ethercatMasterWithThread = static_cast<EthercatMasterWithThread*>(&(EthercatMaster::getInstance()));
 
 
     for (unsigned int i = 0; i < ARMJOINTS; i++) {
@@ -643,9 +649,11 @@ void YouBotManipulator::initializeJoints() {
       joints[i]->setConfigurationParameter(torqueConst);
       joints[i]->setConfigurationParameter(inverseDir);
       
-      
-      ethercatMasterWithThread->registerJointTrajectoryController(&(joints[i]->trajectoryController), joints[i]->getJointNumber());
-
+      if(ethercatMaster.isThreadActive()){
+				unsigned int numberOfThreadCyclesPerSecond = ethercatMasterWithThread->getNumberOfThreadCyclesPerSecond();
+				joints[i]->trajectoryController.setControllerUpdatesPerSecond(numberOfThreadCyclesPerSecond);
+				ethercatMasterWithThread->registerJointTrajectoryController(&(joints[i]->trajectoryController), joints[i]->getJointNumber());
+			}
     }
 
 

@@ -134,6 +134,9 @@ class EthercatMasterWithThread
     this->trajectoryControllers[JointNumber -1] = NULL;
   }
   LOG(debug) << "delete joint trajectory controller registration for joint: " << JointNumber;
+!!!999921.cpp!!!	getNumberOfThreadCyclesPerSecond() : uint
+	
+	return static_cast<unsigned int>(1.0/((double)timeTillNextEthercatUpdate /1000/1000));
 !!!266481.cpp!!!	initializeEthercat() : void
 
     /* initialise SOEM, bind socket to ifname */

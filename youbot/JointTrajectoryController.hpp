@@ -107,6 +107,10 @@ class JointTrajectoryController {
 
     void getLastTargetPosition(JointEncoderSetpoint& position);
 
+    unsigned int getControllerUpdatesPerSecond();
+
+    void setControllerUpdatesPerSecond(const unsigned int updates);
+
 
   private:
     std::list<int32> trajectoryPositionsBuffer1;
@@ -142,6 +146,8 @@ class JointTrajectoryController {
     boost::mutex targetPositionMutex;
 
     int32 targetPosition;
+
+    unsigned int controllerUpdatesPerSecond;
 
 };
 

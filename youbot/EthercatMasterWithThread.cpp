@@ -254,6 +254,13 @@ void EthercatMasterWithThread::deleteJointTrajectoryControllerRegistration(const
   // Bouml preserved body end 000F06F1
 }
 
+unsigned int EthercatMasterWithThread::getNumberOfThreadCyclesPerSecond() {
+  // Bouml preserved body begin 000F41F1
+	
+	return static_cast<unsigned int>(1.0/((double)timeTillNextEthercatUpdate /1000/1000));
+  // Bouml preserved body end 000F41F1
+}
+
 ///establishes the ethercat connection
 void EthercatMasterWithThread::initializeEthercat() {
   // Bouml preserved body begin 000410F1

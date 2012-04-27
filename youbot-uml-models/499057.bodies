@@ -9,6 +9,10 @@ class JointTrajectoryController
     this->ISum_clipping = 1000;
     this->pose_diff_clipping = 65535;
     this->isControllerActive = false;
+		this->controllerUpdatesPerSecond = 1000;
+		this->targetPosition = 0;
+		this->trajectoryPositionsBuffer1InUse = false;
+		this->trajectoryPositionsBuffer2InUse = false;
 !!!972401.cpp!!!	getConfigurationParameter(out parameter : PParameterTrajectoryControl) : void
   if(this->isControllerActive)
     throw JointParameterException("The trajectory controller is running");
@@ -43,23 +47,33 @@ class JointTrajectoryController
   parameter.getParameter(this->ISum_clipping);
 !!!958961.cpp!!!	setTrajectoryPositions(in targetPositions : std::list<int32>) : void
 
+		int buffer1size = 0;
+		int buffer2size = 0;
+		{
+			boost::mutex::scoped_lock dataMutex1(trajectoryPositionsBuffer1Mutex);
+			buffer1size = this->trajectoryPositionsBuffer1.size();
+		}
+		{
+			boost::mutex::scoped_lock dataMutex2(trajectoryPositionsBuffer2Mutex);
+			buffer2size = this->trajectoryPositionsBuffer1.size();
+		}
 
-    if (trajectoryPositionsBuffer1InUse == false) {
-      {
-        boost::mutex::scoped_lock dataMutex1(trajectoryPositionsBuffer1Mutex);
-        this->trajectoryPositionsBuffer1 = targetPositions;
+		if (trajectoryPositionsBuffer1InUse == false && buffer1size == 0) {
+			{
+				boost::mutex::scoped_lock dataMutex1(trajectoryPositionsBuffer1Mutex);
+				this->trajectoryPositionsBuffer1 = targetPositions;
 				this->isControllerActive = true;
-      }
-    } else if (trajectoryPositionsBuffer2InUse == false) {
-      {
-        boost::mutex::scoped_lock dataMutex2(trajectoryPositionsBuffer2Mutex);
-        this->trajectoryPositionsBuffer2 = targetPositions;
+			}
+		} else if (trajectoryPositionsBuffer2InUse == false && buffer2size == 0) {
+			{
+				boost::mutex::scoped_lock dataMutex2(trajectoryPositionsBuffer2Mutex);
+				this->trajectoryPositionsBuffer2 = targetPositions;
 				this->isControllerActive = true;
-      }
+			}
 
-    } else {
-      LOG(error) << "Could not set the trajectory!";
-    }
+		} else {
+			LOG(error) << "Could not set the trajectory!";
+		}
 !!!984945.cpp!!!	cancelCurrentTrajectory() : void
    if (trajectoryPositionsBuffer1InUse == true) {
       {
@@ -159,3 +173,7 @@ class JointTrajectoryController
       boost::mutex::scoped_lock dataMutex(targetPositionMutex);
       position.encoderTicks = targetPosition;
   }
+!!!999665.cpp!!!	getControllerUpdatesPerSecond() : uint
+	return this->controllerUpdatesPerSecond;
+!!!999793.cpp!!!	setControllerUpdatesPerSecond(in updates : uint) : void
+	this->controllerUpdatesPerSecond = updates;

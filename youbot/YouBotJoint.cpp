@@ -986,16 +986,21 @@ void YouBotJoint::cancelTrajectory() {
 void YouBotJoint::calculatePositions(const quantity<plane_angle>& position, const quantity<plane_angle>& position_current, const quantity<angular_velocity>& velocity, const quantity<angular_velocity>& velocity_current, const quantity<angular_acceleration>& acceleration, std::list<int32>& targetPositions) {
   // Bouml preserved body begin 000EA071
   
-  quantity<plane_angle> targetposition;
-  quantity<boost::units::si::time> timestep;
-  quantity<boost::units::si::time> timestep2;
-  quantity<plane_angle> targetpositionAfterAcc;
+  quantity<plane_angle> targetposition(0 *radian);
+  quantity<boost::units::si::time> timestep(0*second);
+  quantity<boost::units::si::time> timestep2(0*second);
+  quantity<plane_angle> targetpositionAfterAcc(0 *radian);
   quantity<plane_angle> positionThreshold = 0.01*radian;
   int u = 0;
+	int steps_per_second = 1000;
+	steps_per_second = this->trajectoryController.getControllerUpdatesPerSecond();
   
   quantity<angular_velocity> velocity_calc;
 	quantity<angular_velocity> zeroVel(0 * radian_per_second);
   quantity<angular_acceleration> zeroAcc(0 * radian_per_second/second);
+	
+	if(steps_per_second == 0)
+		 throw JointErrorException("Invalid controller updates per second");
 	
 	if(position < position_current && (velocity >=zeroVel || acceleration >=zeroAcc))
 		 throw JointErrorException("Invalid trajectory");
@@ -1004,9 +1009,8 @@ void YouBotJoint::calculatePositions(const quantity<plane_angle>& position, cons
 		 throw JointErrorException("Invalid trajectory");
   
   
-  
   for(int i= 1; targetposition <= (position-positionThreshold) || targetposition >= (position+positionThreshold) ;i++){
-      timestep = ((double)i/1000.0)* second;
+      timestep = ((double)i/steps_per_second)* second;
       targetposition = position_current + (velocity_current * timestep) + ((acceleration * timestep * timestep)/2.0);
       velocity_calc = (acceleration * timestep) +velocity_current;
       
@@ -1017,7 +1021,7 @@ void YouBotJoint::calculatePositions(const quantity<plane_angle>& position, cons
             targetpositionAfterAcc = targetposition;
           }
           
-          timestep2 = ((double)(i-u)/1000.0)* second;
+          timestep2 = ((double)(i-u)/steps_per_second)* second;
           targetposition = targetpositionAfterAcc + (velocity  * timestep2);
         }
       }else{
@@ -1027,7 +1031,7 @@ void YouBotJoint::calculatePositions(const quantity<plane_angle>& position, cons
             targetpositionAfterAcc = targetposition;
           }
           
-          timestep2 = ((double)(i-u)/1000.0)* second;
+          timestep2 = ((double)(i-u)/steps_per_second)* second;
           targetposition = targetpositionAfterAcc + (velocity  * timestep2);
         }
       }

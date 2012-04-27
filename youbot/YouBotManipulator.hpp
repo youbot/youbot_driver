@@ -157,6 +157,8 @@ class YouBotManipulator {
 
     bool useGripper;
 
+    EthercatMasterWithThread* ethercatMasterWithThread;
+
 };
 
 } // namespace youbot

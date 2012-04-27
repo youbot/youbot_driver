@@ -62,6 +62,10 @@ JointTrajectoryController::JointTrajectoryController() {
     this->ISum_clipping = 1000;
     this->pose_diff_clipping = 65535;
     this->isControllerActive = false;
+		this->controllerUpdatesPerSecond = 1000;
+		this->targetPosition = 0;
+		this->trajectoryPositionsBuffer1InUse = false;
+		this->trajectoryPositionsBuffer2InUse = false;
   // Bouml preserved body end 000EA0F1
 }
 
@@ -137,23 +141,33 @@ void JointTrajectoryController::setConfigurationParameter(const IClippingParamet
 void JointTrajectoryController::setTrajectoryPositions(const std::list<int32>& targetPositions) {
   // Bouml preserved body begin 000EA1F1
 
+		int buffer1size = 0;
+		int buffer2size = 0;
+		{
+			boost::mutex::scoped_lock dataMutex1(trajectoryPositionsBuffer1Mutex);
+			buffer1size = this->trajectoryPositionsBuffer1.size();
+		}
+		{
+			boost::mutex::scoped_lock dataMutex2(trajectoryPositionsBuffer2Mutex);
+			buffer2size = this->trajectoryPositionsBuffer1.size();
+		}
 
-    if (trajectoryPositionsBuffer1InUse == false) {
-      {
-        boost::mutex::scoped_lock dataMutex1(trajectoryPositionsBuffer1Mutex);
-        this->trajectoryPositionsBuffer1 = targetPositions;
+		if (trajectoryPositionsBuffer1InUse == false && buffer1size == 0) {
+			{
+				boost::mutex::scoped_lock dataMutex1(trajectoryPositionsBuffer1Mutex);
+				this->trajectoryPositionsBuffer1 = targetPositions;
 				this->isControllerActive = true;
-      }
-    } else if (trajectoryPositionsBuffer2InUse == false) {
-      {
-        boost::mutex::scoped_lock dataMutex2(trajectoryPositionsBuffer2Mutex);
-        this->trajectoryPositionsBuffer2 = targetPositions;
+			}
+		} else if (trajectoryPositionsBuffer2InUse == false && buffer2size == 0) {
+			{
+				boost::mutex::scoped_lock dataMutex2(trajectoryPositionsBuffer2Mutex);
+				this->trajectoryPositionsBuffer2 = targetPositions;
 				this->isControllerActive = true;
-      }
+			}
 
-    } else {
-      LOG(error) << "Could not set the trajectory!";
-    }
+		} else {
+			LOG(error) << "Could not set the trajectory!";
+		}
   // Bouml preserved body end 000EA1F1
 }
 
@@ -270,6 +284,18 @@ void JointTrajectoryController::getLastTargetPosition(JointEncoderSetpoint& posi
       position.encoderTicks = targetPosition;
   }
   // Bouml preserved body end 000EED71
+}
+
+unsigned int JointTrajectoryController::getControllerUpdatesPerSecond() {
+  // Bouml preserved body begin 000F40F1
+	return this->controllerUpdatesPerSecond;
+  // Bouml preserved body end 000F40F1
+}
+
+void JointTrajectoryController::setControllerUpdatesPerSecond(const unsigned int updates) {
+  // Bouml preserved body begin 000F4171
+	this->controllerUpdatesPerSecond = updates;
+  // Bouml preserved body end 000F4171
 }
 
 

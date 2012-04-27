@@ -122,6 +122,8 @@ friend class YouBotGripperBar;
 
     void deleteJointTrajectoryControllerRegistration(const unsigned int JointNumber);
 
+    unsigned int getNumberOfThreadCyclesPerSecond();
+
 
   private:
     ///establishes the ethercat connection
