@@ -1,13 +1,11 @@
 <package>
-  <description brief="youbot_driver">
-
+  <description brief="youBot driver">
      Drivers for the KUKA youBot robot
-
   </description>
   <author>Jan Paulus/jan.paulus@h-brs.de</author>
   <license>gnu-lgpl-v2.1 modified-bsd</license>
   <review status="unreviewed" notes=""/>
-  <url>http://youbot.github.com/youbot_driver/</url>
+  <url>https://github.com/youbot/youbot_driver</url>
 	<rosdep name="boost-all" />
   <depend package="soem"/>
 </package>
