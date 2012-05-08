@@ -97,6 +97,7 @@ For more detailed information on class and methods please refer to the [API docu
 To generate the documentation from the source code type: 
 
     sudo apt-get install doxygen
+    cd build
     make doc 
 
 
