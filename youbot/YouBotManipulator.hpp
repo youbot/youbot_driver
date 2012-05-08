@@ -65,7 +65,8 @@
 #include "youbot/EthercatMasterInterface.hpp"
 #include "youbot/EthercatMasterWithThread.hpp"
 #include "youbot/EthercatMasterWithoutThread.hpp"
-#include <boost/shared_ptr.hpp>
+#include <boost/ptr_container/ptr_vector.hpp>
+#include <boost/scoped_ptr.hpp>
 namespace youbot {
 
 /// The number of manipulator joints
@@ -143,11 +144,11 @@ class YouBotManipulator {
 
     void initializeJoints();
 
-    ConfigFile* configfile;
+    boost::scoped_ptr<ConfigFile> configfile;
 
-    std::vector< boost::shared_ptr<YouBotJoint> > joints;
+    boost::ptr_vector<YouBotJoint> joints;
 
-    YouBotGripper* gripper;
+    boost::scoped_ptr<YouBotGripper> gripper;
 
     int controllerType;
 

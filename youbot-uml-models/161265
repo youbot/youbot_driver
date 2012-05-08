@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 72
+  revision 74
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -226,6 +226,7 @@ ${description}
 #include \"one-dof-gripper/OneDOFGripperData.hpp\"
 #include \"youbot/YouBotGripperParameter.hpp\"
 #include \"youbot/YouBotGripperBar.hpp\"
+#include <boost/scoped_ptr.hpp>
 
 ${namespace_start}
 ${definition}
@@ -876,7 +877,8 @@ ${description}
 #include \"youbot/EthercatMasterInterface.hpp\"
 #include \"youbot/EthercatMasterWithThread.hpp\"
 #include \"youbot/EthercatMasterWithoutThread.hpp\"
-#include <boost/shared_ptr.hpp>
+#include <boost/ptr_container/ptr_vector.hpp>
+#include <boost/scoped_ptr.hpp>
 ${namespace_start}
 /// The number of manipulator joints
 #define ARMJOINTS 5
@@ -966,7 +968,8 @@ ${description}
 #include \"youbot/EthercatMasterInterface.hpp\"
 #include \"youbot/EthercatMasterWithThread.hpp\"
 #include \"youbot/EthercatMasterWithoutThread.hpp\"
-#include <boost/shared_ptr.hpp>
+#include <boost/ptr_container/ptr_vector.hpp>
+#include <boost/scoped_ptr.hpp>
 ${namespace_start}
 /// The number of base joints
 #define BASEJOINTS 4

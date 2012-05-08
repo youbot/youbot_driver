@@ -71,6 +71,7 @@
 #include "one-dof-gripper/OneDOFGripperData.hpp"
 #include "youbot/YouBotGripperParameter.hpp"
 #include "youbot/YouBotGripperBar.hpp"
+#include <boost/scoped_ptr.hpp>
 
 namespace youbot {
 
@@ -141,9 +142,9 @@ class YouBotGripper : public OneDOFGripper {
 
     unsigned int jointNumber;
 
-    YouBotGripperBar* bar1;
+    boost::scoped_ptr<YouBotGripperBar> bar1;
 
-    YouBotGripperBar* bar2;
+    boost::scoped_ptr<YouBotGripperBar> bar2;
 
 };
 

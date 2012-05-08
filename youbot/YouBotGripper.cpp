@@ -53,24 +53,18 @@ namespace youbot {
 
 YouBotGripper::YouBotGripper(const unsigned int jointNo, const std::string& configFilePath) {
   // Bouml preserved body begin 0005EFF1
-    bar1 = NULL;
-    bar2 = NULL;
     this->jointNumber = jointNo;
     this->mailboxMsgRetries = 200;
     this->timeTillNextMailboxUpdate = 1; //ms
 
     ethercatMaster = &(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath));
-    bar1 = new YouBotGripperBar(0, jointNo, configFilePath);
-    bar2 = new YouBotGripperBar(1, jointNo, configFilePath);
+    bar1.reset(new YouBotGripperBar(0, jointNo, configFilePath));
+    bar2.reset(new YouBotGripperBar(1, jointNo, configFilePath));
   // Bouml preserved body end 0005EFF1
 }
 
 YouBotGripper::~YouBotGripper() {
   // Bouml preserved body begin 0005F071
-    delete bar1;
-    delete bar2;
-    bar1 = NULL;
-    bar2 = NULL;
   // Bouml preserved body end 0005F071
 }
 

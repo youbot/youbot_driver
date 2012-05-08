@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 232
+  revision 233
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -25255,7 +25255,7 @@ ${inlines}
       end
 
       attribute 418929 "configfile"
-	private explicit_type "ConfigFile*"
+	private explicit_type "boost::scoped_ptr<ConfigFile>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -25265,7 +25265,7 @@ ${inlines}
       end
 
       attribute 419185 "joints"
-	private explicit_type "std::vector< boost::shared_ptr<YouBotJoint> >"
+	private explicit_type "boost::ptr_vector<YouBotJoint>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -25275,7 +25275,7 @@ ${inlines}
       end
 
       attribute 387825 "gripper"
-	private explicit_type "YouBotGripper*"
+	private explicit_type "boost::scoped_ptr<YouBotGripper>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -25724,7 +25724,7 @@ ${inlines}
       end
 
       attribute 418801 "configfile"
-	private explicit_type "ConfigFile*"
+	private explicit_type "boost::scoped_ptr<ConfigFile>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -25734,7 +25734,7 @@ ${inlines}
       end
 
       attribute 419057 "joints"
-	private explicit_type "std::vector< boost::shared_ptr<YouBotJoint> >"
+	private explicit_type "boost::ptr_vector<YouBotJoint>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -27858,7 +27858,7 @@ ${inlines}
       end
 
       attribute 791025 "bar1"
-	private explicit_type "YouBotGripperBar*"
+	private explicit_type "boost::scoped_ptr<YouBotGripperBar>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -27868,7 +27868,7 @@ ${inlines}
       end
 
       attribute 791153 "bar2"
-	private explicit_type "YouBotGripperBar*"
+	private explicit_type "boost::scoped_ptr<YouBotGripperBar>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""

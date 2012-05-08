@@ -67,7 +67,8 @@
 #include "youbot/EthercatMasterInterface.hpp"
 #include "youbot/EthercatMasterWithThread.hpp"
 #include "youbot/EthercatMasterWithoutThread.hpp"
-#include <boost/shared_ptr.hpp>
+#include <boost/ptr_container/ptr_vector.hpp>
+#include <boost/scoped_ptr.hpp>
 namespace youbot {
 
 /// The number of base joints
@@ -167,9 +168,9 @@ class YouBotBase {
 
     void initializeKinematic();
 
-    ConfigFile* configfile;
+    boost::scoped_ptr<ConfigFile> configfile;
 
-    std::vector< boost::shared_ptr<YouBotJoint> > joints;
+    boost::ptr_vector<YouBotJoint> joints;
 
     int controllerType;
 

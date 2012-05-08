@@ -1,19 +1,12 @@
 class YouBotGripper
 !!!389105.cpp!!!	YouBotGripper(in jointNo : uint, in configFilePath : std::string = "../config/")
-    bar1 = NULL;
-    bar2 = NULL;
     this->jointNumber = jointNo;
     this->mailboxMsgRetries = 200;
     this->timeTillNextMailboxUpdate = 1; //ms
 
     ethercatMaster = &(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath));
-    bar1 = new YouBotGripperBar(0, jointNo, configFilePath);
-    bar2 = new YouBotGripperBar(1, jointNo, configFilePath);
-!!!389233.cpp!!!	~YouBotGripper()
-    delete bar1;
-    delete bar2;
-    bar1 = NULL;
-    bar2 = NULL;
+    bar1.reset(new YouBotGripperBar(0, jointNo, configFilePath));
+    bar2.reset(new YouBotGripperBar(1, jointNo, configFilePath));
 !!!392177.cpp!!!	getConfigurationParameter(out parameter : GripperParameter) : void
     throw std::runtime_error("Please use YouBotGripperParameter");
 !!!391793.cpp!!!	setConfigurationParameter(in parameter : GripperParameter) : void
