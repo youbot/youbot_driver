@@ -7,6 +7,7 @@
     ${CMAKE_HOME_DIRECTORY}/generic/Logger.cpp
     ${CMAKE_HOME_DIRECTORY}/generic/ConfigFile.cpp
     ${CMAKE_HOME_DIRECTORY}/generic-joint/JointData.cpp
+    ${CMAKE_HOME_DIRECTORY}/generic-joint/JointTrajectory.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJoint.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotBase.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotManipulator.cpp
@@ -59,6 +60,7 @@ SET(YOUBOT_DRIVER_HEADERS
 
 ../generic-joint/Joint.hpp
 ../generic-joint/JointData.hpp
+../generic-joint/JointTrajectory.hpp
 ../generic-joint/JointParameter.hpp
 
 ../one-dof-gripper/OneDOFGripper.hpp
