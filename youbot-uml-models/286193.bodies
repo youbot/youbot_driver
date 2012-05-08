@@ -8,14 +8,12 @@ class YouBotBase
     filename = name;
     filename.append(".cfg");
 
-    configfile = new ConfigFile(filename, configFilePath);
+    configfile.reset(new ConfigFile(filename, configFilePath));
     
     this->initializeJoints();
 
     this->initializeKinematic();
 
-!!!425713.cpp!!!	~YouBotBase()
-     delete configfile;
 !!!567793.cpp!!!	doJointCommutation() : void
 
     InitializeJoint doInitialization;
@@ -116,7 +114,7 @@ class YouBotBase
     if (baseJointNumber <= 0 || baseJointNumber > BASEJOINTS) {
       throw std::out_of_range("Invalid Joint Number");
     }
-    return *joints[baseJointNumber - 1];
+    return joints[baseJointNumber - 1];
 !!!333041.cpp!!!	getBasePosition(out longitudinalPosition : quantity<si::length>, out transversalPosition : quantity<si::length>, out orientation : quantity<plane_angle>) : void
 
     std::vector<quantity<plane_angle> > wheelPositions;
@@ -124,13 +122,13 @@ class YouBotBase
     JointSensedAngle sensedPos;
     wheelPositions.assign(BASEJOINTS, dummy);
 
-    joints[0]->getData(sensedPos);
+    joints[0].getData(sensedPos);
     wheelPositions[0] = sensedPos.angle;
-    joints[1]->getData(sensedPos);
+    joints[1].getData(sensedPos);
     wheelPositions[1] = sensedPos.angle;
-    joints[2]->getData(sensedPos);
+    joints[2].getData(sensedPos);
     wheelPositions[2] = sensedPos.angle;
-    joints[3]->getData(sensedPos);
+    joints[3].getData(sensedPos);
     wheelPositions[3] = sensedPos.angle;
 
     youBotBaseKinematic.wheelPositionsToCartesianPosition(wheelPositions, longitudinalPosition, transversalPosition, orientation);
@@ -147,28 +145,28 @@ class YouBotBase
     if (wheelPositions.size() < BASEJOINTS)
       throw std::out_of_range("To less wheel velocities");
     
-    joints[0]->setEncoderToZero();
-    joints[1]->setEncoderToZero();
-    joints[2]->setEncoderToZero();
-    joints[3]->setEncoderToZero();
+    joints[0].setEncoderToZero();
+    joints[1].setEncoderToZero();
+    joints[2].setEncoderToZero();
+    joints[3].setEncoderToZero();
     SLEEP_MILLISEC(10);
 
     ethercatMaster.AutomaticSendOn(false);
-    joints[0]->getData(sensedPos);
+    joints[0].getData(sensedPos);
     setpointPos.angle = sensedPos.angle + wheelPositions[0];
-    joints[0]->setData(setpointPos, NON_BLOCKING);
+    joints[0].setData(setpointPos, NON_BLOCKING);
     
-    joints[1]->getData(sensedPos);
+    joints[1].getData(sensedPos);
     setpointPos.angle = sensedPos.angle + wheelPositions[1];
-    joints[1]->setData(setpointPos, NON_BLOCKING);
+    joints[1].setData(setpointPos, NON_BLOCKING);
     
-    joints[2]->getData(sensedPos);
+    joints[2].getData(sensedPos);
     setpointPos.angle = sensedPos.angle + wheelPositions[2];
-    joints[2]->setData(setpointPos, NON_BLOCKING);
+    joints[2].setData(setpointPos, NON_BLOCKING);
     
-    joints[3]->getData(sensedPos);
+    joints[3].getData(sensedPos);
     setpointPos.angle = sensedPos.angle + wheelPositions[3];
-    joints[3]->setData(setpointPos, NON_BLOCKING);
+    joints[3].setData(setpointPos, NON_BLOCKING);
     ethercatMaster.AutomaticSendOn(true);
 
 !!!332401.cpp!!!	getBaseVelocity(out longitudinalVelocity : quantity<si::velocity>, out transversalVelocity : quantity<si::velocity>, out angularVelocity : quantity<si::angular_velocity>) : void
@@ -178,13 +176,13 @@ class YouBotBase
     JointSensedVelocity sensedVel;
     wheelVelocities.assign(BASEJOINTS, dummy);
 
-    joints[0]->getData(sensedVel);
+    joints[0].getData(sensedVel);
     wheelVelocities[0] = sensedVel.angularVelocity;
-    joints[1]->getData(sensedVel);
+    joints[1].getData(sensedVel);
     wheelVelocities[1] = sensedVel.angularVelocity;
-    joints[2]->getData(sensedVel);
+    joints[2].getData(sensedVel);
     wheelVelocities[2] = sensedVel.angularVelocity;
-    joints[3]->getData(sensedVel);
+    joints[3].getData(sensedVel);
     wheelVelocities[3] = sensedVel.angularVelocity;
 
     youBotBaseKinematic.wheelVelocitiesToCartesianVelocity(wheelVelocities, longitudinalVelocity, transversalVelocity, angularVelocity);
@@ -201,86 +199,86 @@ class YouBotBase
 
     ethercatMaster.AutomaticSendOn(false);
     setVel.angularVelocity = wheelVelocities[0];
-    joints[0]->setData(setVel, NON_BLOCKING);
+    joints[0].setData(setVel, NON_BLOCKING);
     setVel.angularVelocity = wheelVelocities[1];
-    joints[1]->setData(setVel, NON_BLOCKING);
+    joints[1].setData(setVel, NON_BLOCKING);
     setVel.angularVelocity = wheelVelocities[2];
-    joints[2]->setData(setVel, NON_BLOCKING);
+    joints[2].setData(setVel, NON_BLOCKING);
     setVel.angularVelocity = wheelVelocities[3];
-    joints[3]->setData(setVel, NON_BLOCKING);
+    joints[3].setData(setVel, NON_BLOCKING);
     ethercatMaster.AutomaticSendOn(true);
 !!!588273.cpp!!!	setJointData(in JointData : std::vector<JointAngleSetpoint>) : void
     if (JointData.size() != BASEJOINTS)
       throw std::out_of_range("Wrong number of JointAngleSetpoints");
 
     ethercatMaster.AutomaticSendOn(false);
-    joints[0]->setData(JointData[0], NON_BLOCKING);
-    joints[1]->setData(JointData[1], NON_BLOCKING);
-    joints[2]->setData(JointData[2], NON_BLOCKING);
-    joints[3]->setData(JointData[3], NON_BLOCKING);
+    joints[0].setData(JointData[0], NON_BLOCKING);
+    joints[1].setData(JointData[1], NON_BLOCKING);
+    joints[2].setData(JointData[2], NON_BLOCKING);
+    joints[3].setData(JointData[3], NON_BLOCKING);
     ethercatMaster.AutomaticSendOn(true);
 
 !!!588785.cpp!!!	getJointData(out data : std::vector<JointSensedAngle>) : void
     data.resize(BASEJOINTS);
     ethercatMaster.AutomaticReceiveOn(false);
-    joints[0]->getData(data[0]);
-    joints[1]->getData(data[1]);
-    joints[2]->getData(data[2]);
-    joints[3]->getData(data[3]);
+    joints[0].getData(data[0]);
+    joints[1].getData(data[1]);
+    joints[2].getData(data[2]);
+    joints[3].getData(data[3]);
     ethercatMaster.AutomaticReceiveOn(true);
 !!!588401.cpp!!!	setJointData(in JointData : std::vector<JointVelocitySetpoint>) : void
     if (JointData.size() != BASEJOINTS)
       throw std::out_of_range("Wrong number of JointVelocitySetpoints");
 
     ethercatMaster.AutomaticSendOn(false);
-    joints[0]->setData(JointData[0], NON_BLOCKING);
-    joints[1]->setData(JointData[1], NON_BLOCKING);
-    joints[2]->setData(JointData[2], NON_BLOCKING);
-    joints[3]->setData(JointData[3], NON_BLOCKING);
+    joints[0].setData(JointData[0], NON_BLOCKING);
+    joints[1].setData(JointData[1], NON_BLOCKING);
+    joints[2].setData(JointData[2], NON_BLOCKING);
+    joints[3].setData(JointData[3], NON_BLOCKING);
     ethercatMaster.AutomaticSendOn(true);
 !!!588913.cpp!!!	getJointData(out data : std::vector<JointSensedVelocity>) : void
     data.resize(BASEJOINTS);
     ethercatMaster.AutomaticReceiveOn(false);
-    joints[0]->getData(data[0]);
-    joints[1]->getData(data[1]);
-    joints[2]->getData(data[2]);
-    joints[3]->getData(data[3]);
+    joints[0].getData(data[0]);
+    joints[1].getData(data[1]);
+    joints[2].getData(data[2]);
+    joints[3].getData(data[3]);
     ethercatMaster.AutomaticReceiveOn(true);
 !!!843761.cpp!!!	setJointData(in JointData : std::vector<JointCurrentSetpoint>) : void
     if (JointData.size() != BASEJOINTS)
       throw std::out_of_range("Wrong number of JointCurrentSetpoint");
 
     ethercatMaster.AutomaticSendOn(false);
-    joints[0]->setData(JointData[0], NON_BLOCKING);
-    joints[1]->setData(JointData[1], NON_BLOCKING);
-    joints[2]->setData(JointData[2], NON_BLOCKING);
-    joints[3]->setData(JointData[3], NON_BLOCKING);
+    joints[0].setData(JointData[0], NON_BLOCKING);
+    joints[1].setData(JointData[1], NON_BLOCKING);
+    joints[2].setData(JointData[2], NON_BLOCKING);
+    joints[3].setData(JointData[3], NON_BLOCKING);
     ethercatMaster.AutomaticSendOn(true);
 !!!589169.cpp!!!	getJointData(out data : std::vector<JointSensedCurrent>) : void
     data.resize(BASEJOINTS);
     ethercatMaster.AutomaticReceiveOn(false);
-    joints[0]->getData(data[0]);
-    joints[1]->getData(data[1]);
-    joints[2]->getData(data[2]);
-    joints[3]->getData(data[3]);
+    joints[0].getData(data[0]);
+    joints[1].getData(data[1]);
+    joints[2].getData(data[2]);
+    joints[3].getData(data[3]);
     ethercatMaster.AutomaticReceiveOn(true);
 !!!843889.cpp!!!	setJointData(in JointData : std::vector<JointTorqueSetpoint>) : void
     if (JointData.size() != BASEJOINTS)
       throw std::out_of_range("Wrong number of JointTorqueSetpoint");
 
     ethercatMaster.AutomaticSendOn(false);
-    joints[0]->setData(JointData[0], NON_BLOCKING);
-    joints[1]->setData(JointData[1], NON_BLOCKING);
-    joints[2]->setData(JointData[2], NON_BLOCKING);
-    joints[3]->setData(JointData[3], NON_BLOCKING);
+    joints[0].setData(JointData[0], NON_BLOCKING);
+    joints[1].setData(JointData[1], NON_BLOCKING);
+    joints[2].setData(JointData[2], NON_BLOCKING);
+    joints[3].setData(JointData[3], NON_BLOCKING);
     ethercatMaster.AutomaticSendOn(true);
 !!!844017.cpp!!!	getJointData(out data : std::vector<JointSensedTorque>) : void
     data.resize(BASEJOINTS);
     ethercatMaster.AutomaticReceiveOn(false);
-    joints[0]->getData(data[0]);
-    joints[1]->getData(data[1]);
-    joints[2]->getData(data[2]);
-    joints[3]->getData(data[3]);
+    joints[0].getData(data[0]);
+    joints[1].getData(data[1]);
+    joints[2].getData(data[2]);
+    joints[3].getData(data[3]);
     ethercatMaster.AutomaticReceiveOn(true);
 !!!682353.cpp!!!	areSame(in A : double, in B : double) : bool
     return std::fabs(A - B) < 0.0001;
@@ -303,32 +301,28 @@ class YouBotBase
     unsigned int slaveNumber = 0;
     configfile->readInto(slaveNumber, "JointTopology", "BaseLeftFront");
     if (slaveNumber <= noSlaves) {
-      boost::shared_ptr<YouBotJoint> joints_ptr( new YouBotJoint(slaveNumber));
-      joints.push_back(joints_ptr);
+      joints.push_back(new YouBotJoint(slaveNumber));
     } else {
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
     configfile->readInto(slaveNumber, "JointTopology", "BaseRightFront");
     if (slaveNumber <= noSlaves) {
-      boost::shared_ptr<YouBotJoint> joints_ptr( new YouBotJoint(slaveNumber));
-      joints.push_back(joints_ptr);
+      joints.push_back(new YouBotJoint(slaveNumber));
     } else {
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
     configfile->readInto(slaveNumber, "JointTopology", "BaseLeftBack");
     if (slaveNumber <= noSlaves) {
-      boost::shared_ptr<YouBotJoint> joints_ptr( new YouBotJoint(slaveNumber));
-      joints.push_back(joints_ptr);
+      joints.push_back(new YouBotJoint(slaveNumber));
     } else {
       throw std::out_of_range("The ethercat slave number is not available!");
     }
 
     configfile->readInto(slaveNumber, "JointTopology", "BaseRightBack");
     if (slaveNumber <= noSlaves) {
-      boost::shared_ptr<YouBotJoint> joints_ptr( new YouBotJoint(slaveNumber));
-      joints.push_back(joints_ptr);
+      joints.push_back(new YouBotJoint(slaveNumber));
     } else {
       throw std::out_of_range("The ethercat slave number is not available!");
     }
@@ -353,7 +347,7 @@ class YouBotBase
       jointName = jointNameStream.str();
       //  configfile.setSection(jointName.c_str());
 
-      joints[i]->getConfigurationParameter(firmwareTypeVersion);
+      joints[i].getConfigurationParameter(firmwareTypeVersion);
       std::string version;
       int controllerType;
       double firmwareVersion;
@@ -395,18 +389,18 @@ class YouBotBase
       configfile->readInto(invdir, jointName, "InverseMovementDirection");
       inverseDir.setParameter(invdir);
 
-      joints[i]->setConfigurationParameter(jName);
-      joints[i]->setConfigurationParameter(gearRatio);
-      joints[i]->setConfigurationParameter(ticksPerRound);
-      joints[i]->setConfigurationParameter(torqueConst);
-      joints[i]->setConfigurationParameter(inverseDir);
+      joints[i].setConfigurationParameter(jName);
+      joints[i].setConfigurationParameter(gearRatio);
+      joints[i].setConfigurationParameter(ticksPerRound);
+      joints[i].setConfigurationParameter(torqueConst);
+      joints[i].setConfigurationParameter(inverseDir);
    
       long upperlimit = 0, lowerlimit = 0;
       configfile->readInto(lowerlimit, jointName, "LowerLimit_[encoderTicks]");
       configfile->readInto(upperlimit, jointName, "UpperLimit_[encoderTicks]");
 
       jLimits.setParameter(lowerlimit, upperlimit, false);
-      joints[i]->setConfigurationParameter(jLimits);
+      joints[i].setConfigurationParameter(jLimits);
     }
 
     return;

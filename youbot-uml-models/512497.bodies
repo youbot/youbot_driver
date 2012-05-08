@@ -1,0 +1,14 @@
+class JointTrajectory
+!!!1006449.cpp!!!	setTrajectoryPoint(in position : quantity<plane_angle>, in velocity : quantity<angular_velocity>, in acceleration : quantity<angular_acceleration>, in time : quantity<si::time>) : void
+	this->positions.push_back(position);
+	this->velocities.push_back(velocity);
+	this->accelerations.push_back(acceleration);
+	this->time.push_back(time);
+!!!1006577.cpp!!!	getPositions() : const std::vector< quantity<plane_angle> >&
+	return this->positions;
+!!!1006705.cpp!!!	getVelocities() : const std::vector< quantity<angular_velocity> >&
+	return this->velocities;
+!!!1006833.cpp!!!	getAccelerations() : const std::vector< quantity<angular_acceleration> >&
+	return this->accelerations;
+!!!1006961.cpp!!!	getTimes() : const std::vector<quantity<si::time> >&
+	return this->time;
