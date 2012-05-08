@@ -8,7 +8,7 @@
   <url>https://github.com/youbot/youbot_driver</url>
 	<rosdep name="boost-all" />
   <export>
-     <cpp cflags="-I${prefix}/" lflags="-L${prefix}/lib/ -lYouBotDriver -lsoem" />
+     <cpp cflags="-I${prefix}/ -I${prefix}/soem/src" lflags="-L${prefix}/lib/ -lYouBotDriver -lsoem" />
   </export>
 </package>
 
