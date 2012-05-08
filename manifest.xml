@@ -7,7 +7,6 @@
   <review status="unreviewed" notes=""/>
   <url>https://github.com/youbot/youbot_driver</url>
 	<rosdep name="boost-all" />
-  <depend package="soem"/>
 </package>
 
 

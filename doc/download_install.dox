@@ -10,31 +10,25 @@
 
 These libraries are required by the youBot API: 
 
-- Simple Open EtherCAT master http://soem.berlios.de
+- Simple Open EtherCAT master http://soem.berlios.de (included in the driver)
 - Boost C++ Libraries http://www.boost.org
 
-You can fetch, compile and install these library by hand or you can use robotpkg a software packaging tool to do this automatically. 
-
-\section instrobopkg Installation with robotpkg:
-If you want to use robotpkg please visit https://github.com/youbot/youbot_packages/wiki for more details.
-
-\section rosmake Installation with rosmake:
+\section rosmakeinstall Installation with rosmake:
 Install a minimal installation of ROS. (see ros.org)
 
 Clone the youBot API sources:
 @code
     git clone git://github.com/youbot/youbot_driver.git
 @endcode
-Clone additional ros packages which include the SOEM (Simple Open EtherCAT master):
-@code
-    git clone git://github.com/janpaulus/brics-external-packages-ros.git
-@endcode
-Add both repository folders to the ROS_PACKAGE_PATH environment variable.
+
+Add the repository folder to the ROS_PACKAGE_PATH environment variable.
 
 Compile the youbot driver by typing:
 @code
     rosmake youbot_driver --rosdep-install
 @endcode
+
+
 \section maninstal Manual installation:
 First, make sure that you have the gnu-make software available on your system (version 3.81 or later required), as well as a working C compiler chain.
 
@@ -54,11 +48,7 @@ To download the youBot API sources type:
     git clone git://github.com/youbot/youbot_driver.git
 @endcode
 
-Download the Simple Open EtherCAT master (SOEM) software from the website http://soem.berlios.de
-
-Before you compile the SOEM software you have to apply two patches, which can be downloaded here: https://github.com/youbot/youbot_driver/wiki/SOEMpatches.tar.gz
-
-After you have compiled and installed the SOEM you also have to install boost.
+Install boost.
 
 @code
     sudo apt-get install libboost-all-dev
