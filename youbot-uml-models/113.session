@@ -1,14 +1,10 @@
-window_sizes 1680 976 421 1253 895 0
-diagrams
-  active  classdiagram_ref 141681 // JointParameter
-    1253 895 100 1 0 0
-end
+window_sizes 1272 723 421 845 640 0
 show_stereotypes
-selected attribute_ref 290161 // threads
+selected attribute_ref 387825 // gripper
 open
-  classview_ref 134641 // Joint
-  attribute_ref 290161 // threads
-  
-  package_ref 161265 // youbot
+  class_ref 286321 // YouBotManipulator
+  class_ref 286193 // YouBotBase
+  classview_ref 141169 // Gripper
+  deploymentview_ref 161137 // Deployment
 end
 end
