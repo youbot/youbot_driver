@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 233
+  revision 235
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -23365,6 +23365,17 @@ friend class YouBotGripperBar;" ""
 /// returns a true if an error has occurred"
       end
 
+      operation 1013489 "isEtherCATConnectionEstablished"
+	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
       operation 940785 "setJointLimits"
 	abstract preserve_cpp_body_indent cpp_virtual private explicit_return_type "void"
 	nparams 5
@@ -23662,6 +23673,20 @@ friend class YouBotGripperBar;" ""
 
       operation 999921 "getNumberOfThreadCyclesPerSecond"
 	preserve_cpp_body_indent public explicit_return_type "uint"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 1013617 "isEtherCATConnectionEstablished"
+	preserve_cpp_body_indent public explicit_return_type "bool"
 	nparams 0
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
@@ -24347,6 +24372,16 @@ friend class YouBotGripperBar;" ""
 	python_decl ""
 	idl_decl ""
       end
+
+      attribute 871153 "ethercatConnectionEstablished"
+	private explicit_type "bool"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
     end
 
     class 439153 "EthercatMasterWithoutThread"
@@ -24530,6 +24565,20 @@ friend class YouBotGripperBar;" ""
 	
 	comment "/// checks if an error has occurred in the soem driver
 /// returns a true if an error has occurred"
+      end
+
+      operation 1013745 "isEtherCATConnectionEstablished"
+	preserve_cpp_body_indent public explicit_return_type "bool"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
       end
 
       operation 860017 "initializeEthercat"
@@ -24927,6 +24976,16 @@ friend class YouBotGripperBar;" ""
 	    cpp default "${type}"
 	    classrelation_ref 458353 // <generalisation>
 	  b parent class_ref 492401 // EthercatMasterInterface
+      end
+
+      attribute 871281 "ethercatConnectionEstablished"
+	private explicit_type "bool"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
       end
     end
 

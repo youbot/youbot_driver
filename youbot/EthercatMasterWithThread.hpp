@@ -124,6 +124,8 @@ friend class YouBotGripperBar;
 
     unsigned int getNumberOfThreadCyclesPerSecond();
 
+    bool isEtherCATConnectionEstablished();
+
 
   private:
     ///establishes the ethercat connection
@@ -262,6 +264,8 @@ friend class YouBotGripperBar;
     std::vector<JointTrajectoryController*> trajectoryControllers;
 
     boost::mutex trajectoryControllerVectorMutex;
+
+    bool ethercatConnectionEstablished;
 
 };
 

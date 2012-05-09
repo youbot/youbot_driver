@@ -138,6 +138,25 @@ namespace youbot {
             return msg.c_str();
         };
     };
+		/// EtherCAT Connection Error
+   class EtherCATConnectionException : public std::runtime_error {
+        string msg;
+
+    public:
+        // Takes a character string describing the error.
+        explicit EtherCATConnectionException(const string& message) throw ()
+            :std::runtime_error(message) {
+            msg = message;
+        };
+
+        virtual ~EtherCATConnectionException() throw () {
+        };
+
+        // Returns a C-style character string describing the general cause of the current error
+        virtual const char* what() const throw () {
+            return msg.c_str();
+        };
+    };
 
 
 

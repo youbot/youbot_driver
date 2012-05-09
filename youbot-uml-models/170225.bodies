@@ -248,6 +248,10 @@ class YouBotJoint
     LOG(info) << "Nothing to do";
 !!!246257.cpp!!!	setData(in data : JointAngleSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
 
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
@@ -290,6 +294,10 @@ class YouBotJoint
     ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 !!!795505.cpp!!!	setData(in data : JointEncoderSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
 
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
@@ -314,6 +322,10 @@ class YouBotJoint
      ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 !!!253169.cpp!!!	getData(out data : JointSensedAngle) : void
     //YouBotSlaveMsg messageBuffer;
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+	
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
 
@@ -330,7 +342,10 @@ class YouBotJoint
       data.angle = -data.angle;
     }
 !!!246641.cpp!!!	setData(in data : JointVelocitySetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
-  
+    if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
@@ -349,6 +364,10 @@ class YouBotJoint
     //  LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.value << " rad_sec " << data.angularVelocity;
     ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 !!!253297.cpp!!!	getData(out data : JointSensedVelocity) : void
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
@@ -364,6 +383,10 @@ class YouBotJoint
       data.angularVelocity *= -1;
     }
 !!!715889.cpp!!!	getData(out data : JointSensedRoundsPerMinute) : void
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
@@ -374,6 +397,10 @@ class YouBotJoint
       data.rpm *= -1;
     }
 !!!716017.cpp!!!	setData(in data : JointRoundsPerMinuteSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
@@ -387,6 +414,10 @@ class YouBotJoint
 
     ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 !!!253425.cpp!!!	getData(out data : JointSensedCurrent) : void
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
@@ -398,6 +429,10 @@ class YouBotJoint
       data.current *= -1;
     }
 !!!611825.cpp!!!	setData(in data : JointCurrentSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
@@ -410,6 +445,10 @@ class YouBotJoint
     }
     ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 !!!831473.cpp!!!	getData(out data : JointSensedPWM) : void
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
@@ -421,6 +460,10 @@ class YouBotJoint
     }
     
 !!!611953.cpp!!!	setData(in data : JointPWMSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
@@ -433,6 +476,10 @@ class YouBotJoint
     }
     ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 !!!702449.cpp!!!	getData(out data : JointSensedEncoderTicks) : void
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
@@ -446,6 +493,10 @@ class YouBotJoint
 
 !!!808561.cpp!!!	setData(in data : SlaveMessageOutput, in communicationMode : SyncMode = NON_BLOCKING) : void
     //YouBotSlaveMsg messageBuffer;
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
     
@@ -454,11 +505,19 @@ class YouBotJoint
     ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 !!!808689.cpp!!!	getData(out data : YouBotSlaveMsg) : void
     //YouBotSlaveMsg messageBuffer;
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
 
     data = messageBuffer;
 !!!815217.cpp!!!	setData(in data : JointTorqueSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     JointCurrentSetpoint currentSetpoint;
     
     if (this->storage.torqueConstant == 0) {
@@ -468,6 +527,10 @@ class YouBotJoint
     currentSetpoint.current = ((data.torque.value()*this->storage.gearRatio)/this->storage.torqueConstant) * ampere;
     this->setData(currentSetpoint);
 !!!815345.cpp!!!	getData(out data : JointSensedTorque) : void
+	if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+	}
+	
   JointSensedCurrent sensedCurrent;
   this->getData(sensedCurrent);
   
@@ -597,6 +660,9 @@ class YouBotJoint
   
   statusFlags = messageBuffer.stctInput.errorFlags;
 !!!716145.cpp!!!	setEncoderToZero() : void
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
 
     //YouBotSlaveMsg messageBuffer;
     messageBuffer.stctOutput.controllerMode = SET_POSITION_TO_REFERENCE;
@@ -605,12 +671,20 @@ class YouBotJoint
     ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 
 !!!419057.cpp!!!	noMoreAction() : void
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     messageBuffer.stctOutput.controllerMode = NO_MORE_ACTION;
     messageBuffer.stctOutput.value = 0;
 
     ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
 !!!418929.cpp!!!	stopJoint() : void
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     messageBuffer.stctOutput.controllerMode = MOTOR_STOP;
     messageBuffer.stctOutput.value = 0;

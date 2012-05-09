@@ -426,6 +426,10 @@ void YouBotJoint::getData(JointData& data) {
 void YouBotJoint::setData(const JointAngleSetpoint& data, SyncMode communicationMode) {
   // Bouml preserved body begin 0003C1F1
 
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
@@ -475,6 +479,10 @@ void YouBotJoint::setData(const JointAngleSetpoint& data, SyncMode communication
 void YouBotJoint::setData(const JointEncoderSetpoint& data, SyncMode communicationMode) {
   // Bouml preserved body begin 000C2371
 
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
@@ -505,6 +513,10 @@ void YouBotJoint::setData(const JointEncoderSetpoint& data, SyncMode communicati
 void YouBotJoint::getData(JointSensedAngle& data) {
   // Bouml preserved body begin 0003DCF1
     //YouBotSlaveMsg messageBuffer;
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+	
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
 
@@ -528,7 +540,10 @@ void YouBotJoint::getData(JointSensedAngle& data) {
 ///@param communicationMode at the moment only non blocking communication is implemented
 void YouBotJoint::setData(const JointVelocitySetpoint& data, SyncMode communicationMode) {
   // Bouml preserved body begin 0003C371
-  
+    if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
@@ -553,6 +568,10 @@ void YouBotJoint::setData(const JointVelocitySetpoint& data, SyncMode communicat
 ///@param data returns the velocity by reference
 void YouBotJoint::getData(JointSensedVelocity& data) {
   // Bouml preserved body begin 0003DD71
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
@@ -574,6 +593,10 @@ void YouBotJoint::getData(JointSensedVelocity& data) {
 ///@param data returns the velocity by reference
 void YouBotJoint::getData(JointSensedRoundsPerMinute& data) {
   // Bouml preserved body begin 000AEC71
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
@@ -591,6 +614,10 @@ void YouBotJoint::getData(JointSensedRoundsPerMinute& data) {
 ///@param communicationMode at the moment only non blocking communication is implemented
 void YouBotJoint::setData(const JointRoundsPerMinuteSetpoint& data, SyncMode communicationMode) {
   // Bouml preserved body begin 000AECF1
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
@@ -610,6 +637,10 @@ void YouBotJoint::setData(const JointRoundsPerMinuteSetpoint& data, SyncMode com
 ///@param data returns the actual motor current by reference
 void YouBotJoint::getData(JointSensedCurrent& data) {
   // Bouml preserved body begin 0003DDF1
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
@@ -628,6 +659,10 @@ void YouBotJoint::getData(JointSensedCurrent& data) {
 ///@param communicationMode at the moment only non blocking communication is implemented
 void YouBotJoint::setData(const JointCurrentSetpoint& data, SyncMode communicationMode) {
   // Bouml preserved body begin 000955F1
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
@@ -646,6 +681,10 @@ void YouBotJoint::setData(const JointCurrentSetpoint& data, SyncMode communicati
 ///@param data returns the PWM value by reference
 void YouBotJoint::getData(JointSensedPWM& data) {
   // Bouml preserved body begin 000CAFF1
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
@@ -664,6 +703,10 @@ void YouBotJoint::getData(JointSensedPWM& data) {
 ///@param communicationMode at the moment only non blocking communication is implemented
 void YouBotJoint::setData(const JointPWMSetpoint& data, SyncMode communicationMode) {
   // Bouml preserved body begin 00095671
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
@@ -682,6 +725,10 @@ void YouBotJoint::setData(const JointPWMSetpoint& data, SyncMode communicationMo
 ///@param data returns the ticks by reference
 void YouBotJoint::getData(JointSensedEncoderTicks& data) {
   // Bouml preserved body begin 000AB7F1
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
@@ -703,6 +750,10 @@ void YouBotJoint::getData(JointSensedEncoderTicks& data) {
 void YouBotJoint::setData(const SlaveMessageOutput& data, SyncMode communicationMode) {
   // Bouml preserved body begin 000C5671
     //YouBotSlaveMsg messageBuffer;
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
     
@@ -718,6 +769,10 @@ void YouBotJoint::setData(const SlaveMessageOutput& data, SyncMode communication
 void YouBotJoint::getData(YouBotSlaveMsg& data) {
   // Bouml preserved body begin 000C56F1
     //YouBotSlaveMsg messageBuffer;
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
 
@@ -730,6 +785,10 @@ void YouBotJoint::getData(YouBotSlaveMsg& data) {
 ///@param communicationMode at the moment only non blocking communication is implemented
 void YouBotJoint::setData(const JointTorqueSetpoint& data, SyncMode communicationMode) {
   // Bouml preserved body begin 000C7071
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     JointCurrentSetpoint currentSetpoint;
     
     if (this->storage.torqueConstant == 0) {
@@ -745,6 +804,10 @@ void YouBotJoint::setData(const JointTorqueSetpoint& data, SyncMode communicatio
 ///@param data returns the actual motor torque by reference
 void YouBotJoint::getData(JointSensedTorque& data) {
   // Bouml preserved body begin 000C70F1
+	if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+	}
+	
   JointSensedCurrent sensedCurrent;
   this->getData(sensedCurrent);
   
@@ -915,6 +978,9 @@ void YouBotJoint::getStatus(unsigned int& statusFlags) {
 /// set the encoder values of the joint to zero. This postion will be the new reference.
 void YouBotJoint::setEncoderToZero() {
   // Bouml preserved body begin 000AED71
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
 
     //YouBotSlaveMsg messageBuffer;
     messageBuffer.stctOutput.controllerMode = SET_POSITION_TO_REFERENCE;
@@ -927,6 +993,10 @@ void YouBotJoint::setEncoderToZero() {
 
 void YouBotJoint::noMoreAction() {
   // Bouml preserved body begin 000664F1
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     messageBuffer.stctOutput.controllerMode = NO_MORE_ACTION;
     messageBuffer.stctOutput.value = 0;
@@ -937,6 +1007,10 @@ void YouBotJoint::noMoreAction() {
 
 void YouBotJoint::stopJoint() {
   // Bouml preserved body begin 00066471
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
     //YouBotSlaveMsg messageBuffer;
     messageBuffer.stctOutput.controllerMode = MOTOR_STOP;
     messageBuffer.stctOutput.value = 0;

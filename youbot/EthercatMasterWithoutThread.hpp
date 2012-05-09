@@ -118,6 +118,8 @@ friend class YouBotGripperBar;
     /// returns a true if an error has occurred
     bool isErrorInSoemDriver();
 
+    bool isEtherCATConnectionEstablished();
+
 
   private:
     ///establishes the ethercat connection
@@ -199,6 +201,8 @@ friend class YouBotGripperBar;
     std::vector<bool> jointLimitReached;
 
     std::vector<bool> inverseMovementDirection;
+
+    bool ethercatConnectionEstablished;
 
 };
 

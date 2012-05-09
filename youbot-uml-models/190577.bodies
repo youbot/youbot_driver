@@ -1,6 +1,7 @@
 class EthercatMasterWithThread
 !!!266609.cpp!!!	EthercatMasterWithThread(in configFile : std::string, in configFilePath : std::string)
 
+	  this->ethercatConnectionEstablished = false;
     ethernetDevice = "eth0";
     timeTillNextEthercatUpdate = 1000; //usec
     mailboxTimeout = 4000; //micro sec
@@ -137,6 +138,8 @@ class EthercatMasterWithThread
 !!!999921.cpp!!!	getNumberOfThreadCyclesPerSecond() : uint
 	
 	return static_cast<unsigned int>(1.0/((double)timeTillNextEthercatUpdate /1000/1000));
+!!!1013617.cpp!!!	isEtherCATConnectionEstablished() : bool
+	return this->ethercatConnectionEstablished;
 !!!266481.cpp!!!	initializeEthercat() : void
 
     /* initialise SOEM, bind socket to ifname */
@@ -285,6 +288,7 @@ class EthercatMasterWithThread
 
     SLEEP_MILLISEC(10); //needed to start up thread and EtherCAT communication
 
+		this->ethercatConnectionEstablished = true;
     return;
 !!!795377.cpp!!!	setJointLimits(in lowerJointLimit : int, in upperJointLimit : int, in inverseMovement : bool, in activateLimit : bool, in jointNumber : unsigned int) : void
     upperLimit[jointNumber - 1] = upperJointLimit;
@@ -294,7 +298,7 @@ class EthercatMasterWithThread
   
 !!!266865.cpp!!!	closeEthercat() : bool
 
-
+	  this->ethercatConnectionEstablished = false;
    // Request safe operational state for all slaves
     ec_slave[0].state = EC_STATE_SAFE_OP;
 

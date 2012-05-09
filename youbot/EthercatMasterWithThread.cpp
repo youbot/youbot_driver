@@ -65,6 +65,7 @@ namespace youbot {
 EthercatMasterWithThread::EthercatMasterWithThread(const std::string& configFile, const std::string& configFilePath) {
   // Bouml preserved body begin 00041171
 
+	  this->ethercatConnectionEstablished = false;
     ethernetDevice = "eth0";
     timeTillNextEthercatUpdate = 1000; //usec
     mailboxTimeout = 4000; //micro sec
@@ -261,6 +262,12 @@ unsigned int EthercatMasterWithThread::getNumberOfThreadCyclesPerSecond() {
   // Bouml preserved body end 000F41F1
 }
 
+bool EthercatMasterWithThread::isEtherCATConnectionEstablished() {
+  // Bouml preserved body begin 000F7771
+	return this->ethercatConnectionEstablished;
+  // Bouml preserved body end 000F7771
+}
+
 ///establishes the ethercat connection
 void EthercatMasterWithThread::initializeEthercat() {
   // Bouml preserved body begin 000410F1
@@ -411,6 +418,7 @@ void EthercatMasterWithThread::initializeEthercat() {
 
     SLEEP_MILLISEC(10); //needed to start up thread and EtherCAT communication
 
+		this->ethercatConnectionEstablished = true;
     return;
   // Bouml preserved body end 000410F1
 }
@@ -429,7 +437,7 @@ void EthercatMasterWithThread::setJointLimits(const int lowerJointLimit, const i
 bool EthercatMasterWithThread::closeEthercat() {
   // Bouml preserved body begin 00041271
 
-
+	  this->ethercatConnectionEstablished = false;
    // Request safe operational state for all slaves
     ec_slave[0].state = EC_STATE_SAFE_OP;
 

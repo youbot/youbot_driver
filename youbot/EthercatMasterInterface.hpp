@@ -100,6 +100,8 @@ friend class YouBotGripperBar;
     /// returns a true if an error has occurred
     virtual bool isErrorInSoemDriver() = 0;
 
+    virtual bool isEtherCATConnectionEstablished() = 0;
+
 
   private:
     virtual void setJointLimits(const int lowerJointLimit, const int upperJointLimit, const bool inverseMovement, const bool activateLimit, const unsigned int& jointNumber) = 0;

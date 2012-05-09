@@ -1,6 +1,7 @@
 class EthercatMasterWithoutThread
 !!!858865.cpp!!!	EthercatMasterWithoutThread(in configFile : std::string, in configFilePath : std::string)
 
+		this->ethercatConnectionEstablished = false;
     ethernetDevice = "eth0";
     mailboxTimeout = 4000; //micro sec
     ethercatTimeout = 500; //micro sec
@@ -75,6 +76,8 @@ class EthercatMasterWithoutThread
    
     return ec_iserror();
 
+!!!1013745.cpp!!!	isEtherCATConnectionEstablished() : bool
+	return this->ethercatConnectionEstablished;
 !!!860017.cpp!!!	initializeEthercat() : void
 
     /* initialise SOEM, bind socket to ifname */
@@ -206,6 +209,7 @@ class EthercatMasterWithoutThread
 
     if (nrOfSlaves > 0) {
       LOG(info) << nrOfSlaves << " EtherCAT slaves found";
+			this->ethercatConnectionEstablished = true;
     } else {
       throw std::runtime_error("No EtherCAT slave could be found");
       return;
@@ -221,7 +225,7 @@ class EthercatMasterWithoutThread
 
 !!!860273.cpp!!!	closeEthercat() : bool
 
-
+		this->ethercatConnectionEstablished = false;
     // Request safe operational state for all slaves
     ec_slave[0].state = EC_STATE_SAFE_OP;
 
