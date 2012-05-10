@@ -51,6 +51,26 @@
 #include "youbot/YouBotJointParameter.hpp"
 namespace youbot {
 
+YouBotApiJointParameter::YouBotApiJointParameter() {
+  // Bouml preserved body begin 000D91F1
+  // Bouml preserved body end 000D91F1
+}
+
+YouBotApiJointParameter::~YouBotApiJointParameter() {
+  // Bouml preserved body begin 000D9271
+  // Bouml preserved body end 000D9271
+}
+
+YouBotJointParameter::YouBotJointParameter() {
+  // Bouml preserved body begin 0005BB71
+  // Bouml preserved body end 0005BB71
+}
+
+YouBotJointParameter::~YouBotJointParameter() {
+  // Bouml preserved body begin 0005BBF1
+  // Bouml preserved body end 0005BBF1
+}
+
 JointName::JointName() {
   // Bouml preserved body begin 0005C0F1
     this->name = "JointName";

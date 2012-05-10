@@ -191,6 +191,37 @@ void YouBotGripperBar::getData(GripperSensedVelocity& barVelocity) {
   // Bouml preserved body end 000E0DF1
 }
 
+void YouBotGripperBar::getData(GripperSensedBarPosition& barPosition) {
+  // Bouml preserved body begin 000F9171
+    int valueBar = 0;
+    ActualPosition actualPoseBar;
+    this->getConfigurationParameter(actualPoseBar);
+    actualPoseBar.getParameter(valueBar);
+
+    barPosition.barPosition = (((double) valueBar / this->maxEncoderValue) * this->maxTravelDistance) + this->barSpacingOffset;
+
+  // Bouml preserved body end 000F9171
+}
+
+void YouBotGripperBar::setData(GripperBarPositionSetPoint& barPosition) {
+  // Bouml preserved body begin 000F91F1
+
+    if (barPosition.barPosition > (this->maxTravelDistance + this->barSpacingOffset) || barPosition.barPosition < this->barSpacingOffset) {
+      std::stringstream errorMessageStream;
+      errorMessageStream << "The bar position is not allowed to be less than "<< this->barSpacingOffset <<" or higher than " << (this->maxTravelDistance + this->barSpacingOffset) << ". You set " << barPosition.barPosition;
+      throw std::out_of_range(errorMessageStream.str());
+    }
+
+    quantity<si::length> setpoint;;
+    setpoint = (barPosition.barPosition - this->barSpacingOffset);
+    
+    GripperBarEncoterSetpoint setpointBar;
+    setpointBar.barEncoder = setpoint / this->maxTravelDistance * this->maxEncoderValue;
+    this->setData(setpointBar);
+
+  // Bouml preserved body end 000F91F1
+}
+
 void YouBotGripperBar::parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailboxMsg) {
   // Bouml preserved body begin 000E0E71
     std::stringstream errorMessageStream;

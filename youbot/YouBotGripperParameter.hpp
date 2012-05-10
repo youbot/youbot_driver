@@ -70,19 +70,21 @@ namespace youbot {
 class YouBotGripperParameter : public GripperParameter {
 friend class YouBotGripper;
 friend class YouBotGripperBar;
-  public:
+  protected:
     YouBotGripperParameter();
 
+
+  public:
     virtual ~YouBotGripperParameter();
 
     virtual void toString(std::string& value) = 0;
 
+
+  protected:
     virtual ParameterType getType() const = 0;
 
     virtual std::string getName() const = 0;
 
-
-  protected:
     virtual void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const = 0;
 
     virtual void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) = 0;

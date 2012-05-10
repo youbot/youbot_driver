@@ -51,6 +51,16 @@
 #include "youbot/YouBotGripperParameter.hpp"
 namespace youbot {
 
+YouBotGripperParameter::YouBotGripperParameter() {
+  // Bouml preserved body begin 0005F0F1
+  // Bouml preserved body end 0005F0F1
+}
+
+YouBotGripperParameter::~YouBotGripperParameter() {
+  // Bouml preserved body begin 0005F171
+  // Bouml preserved body end 0005F171
+}
+
 GripperFirmwareVersion::GripperFirmwareVersion() {
   // Bouml preserved body begin 000BEAF1
     this->name = "FirmwareVersion";

@@ -103,6 +103,10 @@ class YouBotGripperBar {
 
     virtual void getData(GripperSensedVelocity& barVelocity);
 
+    virtual void getData(GripperSensedBarPosition& barPosition);
+
+    virtual void setData(GripperBarPositionSetPoint& barPosition);
+
 
   private:
     YouBotGripperBar(const YouBotGripperBar & source);

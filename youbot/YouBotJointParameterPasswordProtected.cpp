@@ -51,6 +51,16 @@
 #include "youbot/YouBotJointParameterPasswordProtected.hpp"
 namespace youbot {
 
+YouBotJointParameterPasswordProtected::YouBotJointParameterPasswordProtected() {
+  // Bouml preserved body begin 000A4CF1
+  // Bouml preserved body end 000A4CF1
+}
+
+YouBotJointParameterPasswordProtected::~YouBotJointParameterPasswordProtected() {
+  // Bouml preserved body begin 000A4D71
+  // Bouml preserved body end 000A4D71
+}
+
 ActivateOvervoltageProtection::ActivateOvervoltageProtection() {
   // Bouml preserved body begin 00083371
     this->name = "ActivateOvervoltageProtection";

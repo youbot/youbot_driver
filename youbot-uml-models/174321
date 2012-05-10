@@ -1,6 +1,6 @@
 format 75
 "one-dof-gripper" // one-dof-gripper
-  revision 7
+  revision 8
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -122,6 +122,8 @@ ${namespace_end}
 	class_ref 465393 // GripperSensedBarSpacing
 	class_ref 465521 // GripperSensedVelocity
 	class_ref 472689 // GripperBarEncoterSetpoint
+	class_ref 519153 // GripperBarPositionSetPoint
+	class_ref 519025 // GripperSensedBarPosition
       end
       comment "/****************************************************************
  *

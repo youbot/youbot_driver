@@ -86,6 +86,29 @@ class YouBotGripperBar
     barVelocity.barVelocity = message.stctInput.value;
 
     
+!!!1020273.cpp!!!	getData(out barPosition : GripperSensedBarPosition) : void
+    int valueBar = 0;
+    ActualPosition actualPoseBar;
+    this->getConfigurationParameter(actualPoseBar);
+    actualPoseBar.getParameter(valueBar);
+
+    barPosition.barPosition = (((double) valueBar / this->maxEncoderValue) * this->maxTravelDistance) + this->barSpacingOffset;
+
+!!!1020401.cpp!!!	setData(out barPosition : GripperBarPositionSetPoint) : void
+
+    if (barPosition.barPosition > (this->maxTravelDistance + this->barSpacingOffset) || barPosition.barPosition < this->barSpacingOffset) {
+      std::stringstream errorMessageStream;
+      errorMessageStream << "The bar position is not allowed to be less than "<< this->barSpacingOffset <<" or higher than " << (this->maxTravelDistance + this->barSpacingOffset) << ". You set " << barPosition.barPosition;
+      throw std::out_of_range(errorMessageStream.str());
+    }
+
+    quantity<si::length> setpoint;;
+    setpoint = (barPosition.barPosition - this->barSpacingOffset);
+    
+    GripperBarEncoterSetpoint setpointBar;
+    setpointBar.barEncoder = setpoint / this->maxTravelDistance * this->maxEncoderValue;
+    this->setData(setpointBar);
+
 !!!921201.cpp!!!	parseMailboxStatusFlags(in mailboxMsg : YouBotSlaveMailboxMsg) : void
     std::stringstream errorMessageStream;
     errorMessageStream << "Joint " << this->jointNumber << ": ";

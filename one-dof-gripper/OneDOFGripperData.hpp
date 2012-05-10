@@ -92,6 +92,22 @@ class GripperBarEncoterSetpoint : public OneDOFGripperData {
     int barEncoder;
 
 };
+///////////////////////////////////////////////////////////////////////////////
+/// The bar position for a one gripper bar
+///////////////////////////////////////////////////////////////////////////////
+class GripperBarPositionSetPoint : public OneDOFGripperData {
+  public:
+    quantity<si::length> barPosition;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// The sensed bar position for a one gripper bar
+///////////////////////////////////////////////////////////////////////////////
+class GripperSensedBarPosition : public OneDOFGripperData {
+  public:
+    quantity<si::length> barPosition;
+
+};
 
 } // namespace youbot
 #endif

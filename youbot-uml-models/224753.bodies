@@ -139,95 +139,23 @@ class YouBotGripper
 !!!295793.cpp!!!	setData(in data : OneDOFGripperData) : void
     LOG(info) << "Nothing to do";
 !!!391409.cpp!!!	setData(in barSpacing : GripperBarSpacingSetPoint) : void
-  
-    MaxEncoderValue maxEnc;
-    MaxTravelDistance maxTravel;
-    BarSpacingOffset barOffset;
-    quantity<si::length> bar1MaxTravelDistance;
-    unsigned int bar1MaxEncoderValue = 0;
-    quantity<si::length> bar1BarSpacingOffset;
-    quantity<si::length> bar2MaxTravelDistance;
-    unsigned int bar2MaxEncoderValue = 0;
-    quantity<si::length> bar2BarSpacingOffset;
     
-    bar1->getConfigurationParameter(maxEnc);
-    maxEnc.getParameter(bar1MaxEncoderValue);
-    bar1->getConfigurationParameter(maxTravel);
-    maxTravel.getParameter(bar1MaxTravelDistance);
-    bar1->getConfigurationParameter(barOffset);
-    barOffset.getParameter(bar1BarSpacingOffset);
-    
-    bar2->getConfigurationParameter(maxEnc);
-    maxEnc.getParameter(bar2MaxEncoderValue);
-    bar2->getConfigurationParameter(maxTravel);
-    maxTravel.getParameter(bar2MaxTravelDistance);
-    bar2->getConfigurationParameter(barOffset);
-    barOffset.getParameter(bar2BarSpacingOffset);
-    
-
-    if (barSpacing.barSpacing > (bar1MaxTravelDistance+bar2MaxTravelDistance+bar1BarSpacingOffset+bar2BarSpacingOffset) || barSpacing.barSpacing < bar1BarSpacingOffset+bar2BarSpacingOffset) {
-      std::stringstream errorMessageStream;
-      errorMessageStream << "The bar spacing is not allowed to be less than "<< bar1BarSpacingOffset+bar2BarSpacingOffset <<" or higher than " << (bar1MaxTravelDistance+bar2MaxTravelDistance+bar1BarSpacingOffset+bar2BarSpacingOffset);
-      throw std::out_of_range(errorMessageStream.str());
-    }
-
-    quantity<si::length> setpoint;;
-    setpoint = (barSpacing.barSpacing - bar1BarSpacingOffset - bar2BarSpacingOffset)/2.0;
-    
-    GripperBarEncoterSetpoint setpointBar1;
-    GripperBarEncoterSetpoint setpointBar2;
-
-    setpointBar1.barEncoder = setpoint / bar1MaxTravelDistance * bar1MaxEncoderValue;
-    setpointBar2.barEncoder = setpoint / bar2MaxTravelDistance * bar2MaxEncoderValue;
-
+    GripperBarPositionSetPoint setpointBar1;
+    GripperBarPositionSetPoint setpointBar2;
+		
+		setpointBar1.barPosition = barSpacing.barSpacing/2.0;
+		setpointBar2.barPosition = barSpacing.barSpacing/2.0;
 
     bar1->setData(setpointBar1);
     bar2->setData(setpointBar2);
 
 !!!391537.cpp!!!	getData(out barSpacing : GripperSensedBarSpacing) : void
-
-    int valueBar1 = 0;
-    int valueBar2 = 0;
-
-    ActualPosition actualPoseBar1;
-    ActualPosition actualPoseBar2;
-    MaxEncoderValue maxEnc;
-    MaxTravelDistance maxTravel;
-    BarSpacingOffset barOffset;
-    quantity<si::length> bar1MaxTravelDistance;
-    unsigned int bar1MaxEncoderValue = 0;
-    quantity<si::length> bar1BarSpacingOffset;
-    quantity<si::length> bar2MaxTravelDistance;
-    unsigned int bar2MaxEncoderValue = 0;
-    quantity<si::length> bar2BarSpacingOffset;
-    
-    bar1->getConfigurationParameter(maxEnc);
-    maxEnc.getParameter(bar1MaxEncoderValue);
-    bar1->getConfigurationParameter(maxTravel);
-    maxTravel.getParameter(bar1MaxTravelDistance);
-    bar1->getConfigurationParameter(barOffset);
-    barOffset.getParameter(bar1BarSpacingOffset);
-    
-    bar2->getConfigurationParameter(maxEnc);
-    maxEnc.getParameter(bar2MaxEncoderValue);
-    bar2->getConfigurationParameter(maxTravel);
-    maxTravel.getParameter(bar2MaxTravelDistance);
-    bar2->getConfigurationParameter(barOffset);
-    barOffset.getParameter(bar2BarSpacingOffset);
-
-    bar1->getConfigurationParameter(actualPoseBar1);
-    bar2->getConfigurationParameter(actualPoseBar2);
-    actualPoseBar1.getParameter(valueBar1);
-    actualPoseBar2.getParameter(valueBar2);
-
-    quantity<si::length> bar1Pose;
-    quantity<si::length> bar2Pose;
-    bar1Pose = (((double) valueBar1 / bar1MaxEncoderValue) * bar1MaxTravelDistance) + bar1BarSpacingOffset;
-
-    bar2Pose = (((double) valueBar2 / bar2MaxEncoderValue) * bar2MaxTravelDistance) + bar2BarSpacingOffset;
-
-    barSpacing.barSpacing = bar1Pose + bar2Pose;
-
+		GripperSensedBarPosition bar1Position;
+		GripperSensedBarPosition bar2Position;
+		bar1->getData(bar1Position);
+		bar2->getData(bar2Position);
+		
+    barSpacing.barSpacing = bar1Position.barPosition + bar2Position.barPosition;
 
 !!!932849.cpp!!!	open() : void
    

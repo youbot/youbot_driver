@@ -2774,9 +2774,12 @@ ${inlines}
       end
 
       operation 375665 "YouBotJointParameter"
-	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
+	preserve_cpp_body_indent cpp_virtual protected explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
 "
 	preserve_java_body_indent 
 	preserve_php_body_indent 
@@ -2785,9 +2788,12 @@ ${inlines}
       end
 
       operation 375793 "~YouBotJointParameter"
-	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
 "
 	preserve_java_body_indent 
 	preserve_php_body_indent 
@@ -2903,9 +2909,12 @@ ${inlines}
       end
 
       operation 889329 "YouBotApiJointParameter"
-	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
+	preserve_cpp_body_indent cpp_virtual protected explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
 "
 	preserve_java_body_indent 
 	preserve_php_body_indent 
@@ -2914,9 +2923,12 @@ ${inlines}
       end
 
       operation 889457 "~YouBotApiJointParameter"
-	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
 "
 	preserve_java_body_indent 
 	preserve_php_body_indent 
@@ -12888,9 +12900,12 @@ ${inlines}
       end
 
       operation 675057 "YouBotJointParameterPasswordProtected"
-	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
+	preserve_cpp_body_indent cpp_virtual protected explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
 "
 	preserve_java_body_indent 
 	preserve_php_body_indent 
@@ -12899,9 +12914,12 @@ ${inlines}
       end
 
       operation 675185 "~YouBotJointParameterPasswordProtected"
-	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
 "
 	preserve_java_body_indent 
 	preserve_php_body_indent 
@@ -20559,9 +20577,12 @@ ${inlines}
       end
 
       operation 458225 "YouBotJointParameterReadOnly"
-	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
+	preserve_cpp_body_indent cpp_virtual protected explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
 "
 	preserve_java_body_indent 
 	preserve_php_body_indent 
@@ -20570,9 +20591,12 @@ ${inlines}
       end
 
       operation 458353 "~YouBotJointParameterReadOnly"
-	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
 "
 	preserve_java_body_indent 
 	preserve_php_body_indent 
@@ -27971,6 +27995,76 @@ ${inlines}
       end
     end
 
+    class 519025 "GripperSensedBarPosition"
+      visibility package 
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/// The sensed bar position for a one gripper bar"
+      classrelation 478961 // <generalisation>
+	relation 478961 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 478961 // <generalisation>
+	  b parent class_ref 218097 // OneDOFGripperData
+      end
+
+      attribute 877809 "barPosition"
+	public explicit_type "quantity<si::length>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+    end
+
+    class 519153 "GripperBarPositionSetPoint"
+      visibility package 
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/// The bar position for a one gripper bar"
+      classrelation 479089 // <generalisation>
+	relation 479089 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 479089 // <generalisation>
+	  b parent class_ref 218097 // OneDOFGripperData
+      end
+
+      attribute 877937 "barPosition"
+	public explicit_type "quantity<si::length>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+    end
+
     class 465521 "GripperSensedVelocity"
       visibility package 
       cpp_decl "///////////////////////////////////////////////////////////////////////////////
@@ -28254,6 +28348,36 @@ ${inlines}
 	
       end
 
+      operation 1020273 "getData"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "barPosition" type class_ref 519025 // GripperSensedBarPosition
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 1020401 "setData"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "barPosition" type class_ref 519153 // GripperBarPositionSetPoint
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
       operation 992753 "YouBotGripperBar"
 	stereotype "copy"
 	preserve_cpp_body_indent private explicit_return_type ""
@@ -28483,7 +28607,7 @@ ${inlines}
       end
 
       operation 389361 "YouBotGripperParameter"
-	preserve_cpp_body_indent protected explicit_return_type ""
+	preserve_cpp_body_indent cpp_virtual protected explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
 "
@@ -28497,16 +28621,16 @@ ${inlines}
       end
 
       operation 389489 "~YouBotGripperParameter"
-	cpp_virtual public explicit_return_type ""
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
 "
 	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
   ${body}}
 "
-	
-	
-	
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
 	
       end
 
@@ -28523,7 +28647,7 @@ ${inlines}
       end
 
       operation 772977 "getType"
-	abstract preserve_cpp_body_indent const cpp_virtual public return_type class_ref 210929 // ParameterType
+	abstract preserve_cpp_body_indent const cpp_virtual protected return_type class_ref 479217 // ParameterType
 	nparams 0
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
@@ -28534,7 +28658,7 @@ ${inlines}
       end
 
       operation 389873 "getName"
-	abstract preserve_cpp_body_indent const cpp_virtual public explicit_return_type "string"
+	abstract preserve_cpp_body_indent const cpp_virtual protected explicit_return_type "string"
 	nparams 0
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "

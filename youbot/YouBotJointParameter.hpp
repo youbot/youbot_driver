@@ -76,9 +76,11 @@ enum CalibrationDirection {
 ///////////////////////////////////////////////////////////////////////////////
 class YouBotApiJointParameter : public JointParameter {
 friend class YouBotJoint;
-  public:
+  protected:
     YouBotApiJointParameter();
 
+
+  public:
     virtual ~YouBotApiJointParameter();
 
     virtual void toString(std::string& value) = 0;
@@ -103,9 +105,11 @@ friend class YouBotJoint;
 ///////////////////////////////////////////////////////////////////////////////
 class YouBotJointParameter : public YouBotJointParameterReadOnly {
 friend class YouBotJoint;
-  public:
+  protected:
     YouBotJointParameter();
 
+
+  public:
     virtual ~YouBotJointParameter();
 
     virtual void toString(std::string& value) = 0;
