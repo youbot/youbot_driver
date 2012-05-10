@@ -71,14 +71,12 @@ namespace youbot {
 ///////////////////////////////////////////////////////////////////////////////
 class YouBotJointParameterPasswordProtected : public YouBotJointParameter {
 friend class YouBotJoint;
-  protected:
+  public:
     YouBotJointParameterPasswordProtected();
 
-
-  public:
     virtual ~YouBotJointParameterPasswordProtected();
 
-    virtual void toString(std::string& value);
+    virtual void toString(std::string& value) = 0;
 
 
   protected:

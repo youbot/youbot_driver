@@ -69,14 +69,12 @@ namespace youbot {
 ///////////////////////////////////////////////////////////////////////////////
 class YouBotJointParameterReadOnly : public JointParameter {
 friend class YouBotJoint;
-  protected:
+  public:
     YouBotJointParameterReadOnly();
 
-
-  public:
     virtual ~YouBotJointParameterReadOnly();
 
-    virtual void toString(std::string& value);
+    virtual void toString(std::string& value) = 0;
 
 
   protected:

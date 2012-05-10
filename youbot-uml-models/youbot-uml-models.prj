@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 235
+  revision 236
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -2774,12 +2774,9 @@ ${inlines}
       end
 
       operation 375665 "YouBotJointParameter"
-	preserve_cpp_body_indent protected explicit_return_type ""
+	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
-"
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
 "
 	preserve_java_body_indent 
 	preserve_php_body_indent 
@@ -2788,27 +2785,21 @@ ${inlines}
       end
 
       operation 375793 "~YouBotJointParameter"
-	cpp_virtual public explicit_return_type ""
+	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
 "
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
-"
-	
-	
-	
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
 	
       end
 
       operation 639985 "toString"
-	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param out name "value" explicit_type "std::string"
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
 "
 	preserve_java_body_indent 
 	preserve_php_body_indent 
@@ -2912,12 +2903,9 @@ ${inlines}
       end
 
       operation 889329 "YouBotApiJointParameter"
-	preserve_cpp_body_indent protected explicit_return_type ""
+	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
-"
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
 "
 	preserve_java_body_indent 
 	preserve_php_body_indent 
@@ -2926,27 +2914,21 @@ ${inlines}
       end
 
       operation 889457 "~YouBotApiJointParameter"
-	cpp_virtual public explicit_return_type ""
+	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
 "
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
-"
-	
-	
-	
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
 	
       end
 
       operation 889585 "toString"
-	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param out name "value" explicit_type "std::string"
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
 "
 	preserve_java_body_indent 
 	preserve_php_body_indent 
@@ -12906,12 +12888,9 @@ ${inlines}
       end
 
       operation 675057 "YouBotJointParameterPasswordProtected"
-	preserve_cpp_body_indent protected explicit_return_type ""
+	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
-"
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
 "
 	preserve_java_body_indent 
 	preserve_php_body_indent 
@@ -12920,27 +12899,21 @@ ${inlines}
       end
 
       operation 675185 "~YouBotJointParameterPasswordProtected"
-	cpp_virtual public explicit_return_type ""
+	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
 "
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
-"
-	
-	
-	
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
 	
       end
 
       operation 675313 "toString"
-	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param out name "value" explicit_type "std::string"
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
 "
 	preserve_java_body_indent 
 	preserve_php_body_indent 
@@ -20586,12 +20559,9 @@ ${inlines}
       end
 
       operation 458225 "YouBotJointParameterReadOnly"
-	preserve_cpp_body_indent protected explicit_return_type ""
+	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
-"
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
 "
 	preserve_java_body_indent 
 	preserve_php_body_indent 
@@ -20600,27 +20570,21 @@ ${inlines}
       end
 
       operation 458353 "~YouBotJointParameterReadOnly"
-	cpp_virtual public explicit_return_type ""
+	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
 "
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
-"
-	
-	
-	
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
 	
       end
 
       operation 650225 "toString"
-	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param out name "value" explicit_type "std::string"
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
 "
 	preserve_java_body_indent 
 	preserve_php_body_indent 

@@ -51,21 +51,6 @@
 #include "youbot/YouBotJointParameterReadOnly.hpp"
 namespace youbot {
 
-YouBotJointParameterReadOnly::YouBotJointParameterReadOnly() {
-  // Bouml preserved body begin 0006FDF1
-  // Bouml preserved body end 0006FDF1
-}
-
-YouBotJointParameterReadOnly::~YouBotJointParameterReadOnly() {
-  // Bouml preserved body begin 0006FE71
-  // Bouml preserved body end 0006FE71
-}
-
-void YouBotJointParameterReadOnly::toString(std::string& value) {
-  // Bouml preserved body begin 0009EBF1
-  // Bouml preserved body end 0009EBF1
-}
-
 ActualMotorVoltage::ActualMotorVoltage() {
   // Bouml preserved body begin 0007E071
     this->name = "ActualMotorVoltage";

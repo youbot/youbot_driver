@@ -51,36 +51,6 @@
 #include "youbot/YouBotJointParameter.hpp"
 namespace youbot {
 
-YouBotApiJointParameter::YouBotApiJointParameter() {
-  // Bouml preserved body begin 000D91F1
-  // Bouml preserved body end 000D91F1
-}
-
-YouBotApiJointParameter::~YouBotApiJointParameter() {
-  // Bouml preserved body begin 000D9271
-  // Bouml preserved body end 000D9271
-}
-
-void YouBotApiJointParameter::toString(std::string& value) {
-  // Bouml preserved body begin 000D92F1
-  // Bouml preserved body end 000D92F1
-}
-
-YouBotJointParameter::YouBotJointParameter() {
-  // Bouml preserved body begin 0005BB71
-  // Bouml preserved body end 0005BB71
-}
-
-YouBotJointParameter::~YouBotJointParameter() {
-  // Bouml preserved body begin 0005BBF1
-  // Bouml preserved body end 0005BBF1
-}
-
-void YouBotJointParameter::toString(std::string& value) {
-  // Bouml preserved body begin 0009C3F1
-  // Bouml preserved body end 0009C3F1
-}
-
 JointName::JointName() {
   // Bouml preserved body begin 0005C0F1
     this->name = "JointName";
