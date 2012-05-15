@@ -16,12 +16,6 @@ class EthercatMasterInterface
     return;
 !!!940529.cpp!!!	getEthercatDiagnosticInformation(out ethercatSlaveInfos : std::vector<ec_slavet>) : void
   
-!!!940785.cpp!!!	setJointLimits(in lowerJointLimit : int, in upperJointLimit : int, in inverseMovement : bool, in activateLimit : bool, in jointNumber : unsigned int) : void
-    upperLimit[jointNumber - 1] = upperJointLimit;
-    lowerLimit[jointNumber - 1] = lowerJointLimit;
-    limitActive[jointNumber - 1] = activateLimit;
-    inverseMovementDirection[jointNumber - 1] = inverseMovement;
-  
 !!!941041.cpp!!!	setMsgBuffer(in msgBuffer : YouBotSlaveMsg, in jointNumber : uint) : void
 
     if (this->automaticSendOn == true) {

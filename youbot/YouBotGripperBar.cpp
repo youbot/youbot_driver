@@ -158,7 +158,7 @@ void YouBotGripperBar::getConfigurationParameter(YouBotSlaveMailboxMsg& paramete
   // Bouml preserved body end 000E0A71
 }
 
-void YouBotGripperBar::setData(const GripperBarEncoterSetpoint& encoderSetpoint) {
+void YouBotGripperBar::setData(const GripperBarEncoderSetpoint& encoderSetpoint) {
   // Bouml preserved body begin 000E0CF1
     YouBotSlaveMailboxMsg message;
     message.stctOutput.moduleAddress = GRIPPER;
@@ -215,7 +215,7 @@ void YouBotGripperBar::setData(GripperBarPositionSetPoint& barPosition) {
     quantity<si::length> setpoint;;
     setpoint = (barPosition.barPosition - this->barSpacingOffset);
     
-    GripperBarEncoterSetpoint setpointBar;
+    GripperBarEncoderSetpoint setpointBar;
     setpointBar.barEncoder = setpoint / this->maxTravelDistance * this->maxEncoderValue;
     this->setData(setpointBar);
 

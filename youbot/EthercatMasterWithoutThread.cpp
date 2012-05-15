@@ -194,6 +194,12 @@ bool EthercatMasterWithoutThread::isEtherCATConnectionEstablished() {
   // Bouml preserved body end 000F77F1
 }
 
+void EthercatMasterWithoutThread::registerJointLimitMonitor(JointLimitMonitor* object, const unsigned int JointNumber) {
+  // Bouml preserved body begin 000FB0F1
+
+  // Bouml preserved body end 000FB0F1
+}
+
 ///establishes the ethercat connection
 void EthercatMasterWithoutThread::initializeEthercat() {
   // Bouml preserved body begin 000D1F71
@@ -304,22 +310,11 @@ void EthercatMasterWithoutThread::initializeEthercat() {
       actualSlaveName = ec_slave[cnt].name;
       if ((actualSlaveName == baseJointControllerName || actualSlaveName == manipulatorJointControllerName) && ec_slave[cnt].Obits > 0 && ec_slave[cnt].Ibits > 0) {
         nrOfSlaves++;
-        //   joints.push_back(YouBotJoint(nrOfSlaves));
-
         processDataBuffer.push_back(emptySlaveMsg);
         ethercatOutputBufferVector.push_back((SlaveMessageOutput*) (ec_slave[cnt].outputs));
         ethercatInputBufferVector.push_back((SlaveMessageInput*) (ec_slave[cnt].inputs));
         YouBotSlaveMailboxMsg emptyMailboxSlaveMsg(cnt);
         firstMailboxBufferVector.push_back(emptyMailboxSlaveMsg);
-        int i = 0;
-        bool b = false;
-        upperLimit.push_back(i);
-        lowerLimit.push_back(i);
-        limitActive.push_back(b);
-        jointLimitReached.push_back(b);
-        inverseMovementDirection.push_back(b);
-
-
       }
     }
 
@@ -336,16 +331,6 @@ void EthercatMasterWithoutThread::initializeEthercat() {
 
     return;
   // Bouml preserved body end 000D1F71
-}
-
-void EthercatMasterWithoutThread::setJointLimits(const int lowerJointLimit, const int upperJointLimit, const bool inverseMovement, const bool activateLimit, const unsigned int& jointNumber) {
-  // Bouml preserved body begin 000D1FF1
-    upperLimit[jointNumber - 1] = upperJointLimit;
-    lowerLimit[jointNumber - 1] = lowerJointLimit;
-    limitActive[jointNumber - 1] = activateLimit;
-    inverseMovementDirection[jointNumber - 1] = inverseMovement;
-
-  // Bouml preserved body end 000D1FF1
 }
 
 ///closes the ethercat connection
@@ -445,80 +430,6 @@ bool EthercatMasterWithoutThread::receiveMailboxMessage(YouBotSlaveMailboxMsg& m
     }
     return false;
   // Bouml preserved body end 000D2371
-}
-
-void EthercatMasterWithoutThread::checkJointLimits() {
-  // Bouml preserved body begin 000D23F1
-    SlaveMessageOutput* jointMsgOut;
-    SlaveMessageInput* jointMsgIN;
-
-    for (unsigned int jointNo = 0; jointNo < processDataBuffer.size(); jointNo++) {
-      jointMsgOut = ethercatOutputBufferVector[jointNo];
-      jointMsgIN = ethercatInputBufferVector[jointNo];
-
-      //check if for joint limits
-      bool limitReached = false;
-      bool reachedUpperLimit = false;
-      bool reachedLowerLimit = false;
-
-      if (limitActive[jointNo]) {
-
-        if (jointMsgIN->actualPosition > upperLimit[jointNo]) {
-          reachedUpperLimit = true;
-        }
-        if (jointMsgIN->actualPosition < lowerLimit[jointNo]) {
-          reachedLowerLimit = true;
-        }
-
-        if (reachedUpperLimit || reachedLowerLimit) {
-
-          limitReached = true;
-
-          switch (jointMsgOut->controllerMode) {
-            case POSITION_CONTROL:
-              if (!(jointMsgOut->value < upperLimit[jointNo] && jointMsgOut->value > lowerLimit[jointNo])) {
-                limitReached = true;
-              } else {
-                limitReached = false;
-              }
-              break;
-            case VELOCITY_CONTROL:
-            case PWM_MODE:
-            case CURRENT_MODE:
-              if ((jointMsgOut->value >= 0 && reachedUpperLimit) || (jointMsgOut->value <= 0 && reachedLowerLimit)) {
-                limitReached = true;
-              } else {
-                limitReached = false;
-              }
-              break;
-            default:
-              limitReached = true;
-              break;
-
-          }
-        }
-
-        if (limitReached == true) {
-
-          jointMsgOut->controllerMode = PWM_MODE;
-          jointMsgOut->value = 0;
-          //    LOG(info) << "limit reached Joint " << jointNo + 1;
-
-          if (jointLimitReached[jointNo] == false) {
-            LOG(error) << "Joint " << jointNo + 1 << " exceeded the joint limit! Upper limit: " << upperLimit[jointNo] << " lower limit: " << lowerLimit[jointNo] << " position: " << jointMsgIN->actualPosition;
-            //       throw std::runtime_error(ss.str());
-            jointLimitReached[jointNo] = true;
-          }
-        } else {
-          if (jointLimitReached[jointNo] == true) {
-            LOG(info) << "Joint " << jointNo + 1 << " is not in the limit any more";
-          }
-          jointLimitReached[jointNo] = false;
-
-        }
-      }
-    }
-  // Bouml preserved body end 000D23F1
 }
 
 void EthercatMasterWithoutThread::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {

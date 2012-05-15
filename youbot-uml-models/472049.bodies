@@ -61,7 +61,7 @@ class YouBotGripperBar
      throw JointParameterException("Unable to get parameter from the gripper");
    }
    this->parseMailboxStatusFlags(parameter);
-!!!920817.cpp!!!	setData(in encoderSetpoint : GripperBarEncoterSetpoint) : void
+!!!920817.cpp!!!	setData(in encoderSetpoint : GripperBarEncoderSetpoint) : void
     YouBotSlaveMailboxMsg message;
     message.stctOutput.moduleAddress = GRIPPER;
     message.stctOutput.commandNumber = MVP;
@@ -105,7 +105,7 @@ class YouBotGripperBar
     quantity<si::length> setpoint;;
     setpoint = (barPosition.barPosition - this->barSpacingOffset);
     
-    GripperBarEncoterSetpoint setpointBar;
+    GripperBarEncoderSetpoint setpointBar;
     setpointBar.barEncoder = setpoint / this->maxTravelDistance * this->maxEncoderValue;
     this->setData(setpointBar);
 

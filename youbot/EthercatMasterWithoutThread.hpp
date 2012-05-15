@@ -69,6 +69,7 @@
 #include "youbot/YouBotSlaveMsg.hpp"
 #include "youbot/YouBotSlaveMailboxMsg.hpp"
 #include "youbot/EthercatMaster.hpp"
+#include "youbot/JointLimitMonitor.hpp"
 
 extern "C"{
 #include <ethercattype.h>
@@ -120,12 +121,12 @@ friend class YouBotGripperBar;
 
     bool isEtherCATConnectionEstablished();
 
+    void registerJointLimitMonitor(JointLimitMonitor* object, const unsigned int JointNumber);
+
 
   private:
     ///establishes the ethercat connection
     void initializeEthercat();
-
-    void setJointLimits(const int lowerJointLimit, const int upperJointLimit, const bool inverseMovement, const bool activateLimit, const unsigned int& jointNumber);
 
     ///closes the ethercat connection
     bool closeEthercat();
@@ -158,8 +159,6 @@ friend class YouBotGripperBar;
     ///@param mailboxMsg ethercat mailbox message
     bool receiveMailboxMessage(YouBotSlaveMailboxMsg& mailboxMsg);
 
-    void checkJointLimits();
-
     void parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer);
 
     std::string ethernetDevice;
@@ -191,16 +190,6 @@ friend class YouBotGripperBar;
     static std::string configFileName;
 
     static std::string configFilepath;
-
-    std::vector<int> upperLimit;
-
-    std::vector<int> lowerLimit;
-
-    std::vector<bool> limitActive;
-
-    std::vector<bool> jointLimitReached;
-
-    std::vector<bool> inverseMovementDirection;
 
     bool ethercatConnectionEstablished;
 

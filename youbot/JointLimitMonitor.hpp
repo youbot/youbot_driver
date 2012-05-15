@@ -1,5 +1,5 @@
-#ifndef YOUBOT_ONEDOFGRIPPERDATA_H
-#define YOUBOT_ONEDOFGRIPPERDATA_H
+#ifndef YOUBOT_JOINTLIMITMONITOR_H
+#define YOUBOT_JOINTLIMITMONITOR_H
 
 /****************************************************************
  *
@@ -51,61 +51,59 @@
  * License LGPL and BSD license along with this program.
  *
  ****************************************************************/
+
+#include <vector>
+#include <sstream>
+#include <cmath>
+#include <boost/thread.hpp>
+#include "generic/Logger.hpp"
 #include "generic/Units.hpp"
-#include "generic-gripper/GripperData.hpp"
+#include "generic/Time.hpp"
+#include "generic/Exceptions.hpp"
+#include "youbot/ProtocolDefinitions.hpp"
+#include "youbot/YouBotJointStorage.hpp"
+#include "youbot/YouBotSlaveMsg.hpp"
+
 namespace youbot {
 
 ///////////////////////////////////////////////////////////////////////////////
-/// abstract class of data for gripper with one degree of freedom
-///////////////////////////////////////////////////////////////////////////////
-class OneDOFGripperData : public GripperData {
-};
-///////////////////////////////////////////////////////////////////////////////
-/// Setpoint length of the bar spacing for a one DOF gripper
-///////////////////////////////////////////////////////////////////////////////
-class GripperBarSpacingSetPoint : public OneDOFGripperData {
-  public:
-    quantity<si::length> barSpacing;
 
-};
 ///////////////////////////////////////////////////////////////////////////////
-/// The sensed bar spacing for a one DOF gripper
-///////////////////////////////////////////////////////////////////////////////
-class GripperSensedBarSpacing : public OneDOFGripperData {
+class JointLimitMonitor {
   public:
-    quantity<si::length> barSpacing;
+    JointLimitMonitor(const YouBotJointStorage& jointParameters, const quantity<angular_acceleration>& jointAcceleration);
 
-};
-///////////////////////////////////////////////////////////////////////////////
-/// The sensed bar velocity for a one DOF gripper
-///////////////////////////////////////////////////////////////////////////////
-class GripperSensedVelocity : public OneDOFGripperData {
-  public:
-    long barVelocity;
+    virtual ~JointLimitMonitor();
 
-};
-///////////////////////////////////////////////////////////////////////////////
-/// The encoder setpoint for one bar
-///////////////////////////////////////////////////////////////////////////////
-class GripperBarEncoderSetpoint : public OneDOFGripperData {
-  public:
-    int barEncoder;
+    JointLimitMonitor(const JointLimitMonitor & source);
 
-};
-///////////////////////////////////////////////////////////////////////////////
-/// The bar position for a one gripper bar
-///////////////////////////////////////////////////////////////////////////////
-class GripperBarPositionSetPoint : public OneDOFGripperData {
-  public:
-    quantity<si::length> barPosition;
+    JointLimitMonitor & operator=(const JointLimitMonitor & source);
 
-};
-///////////////////////////////////////////////////////////////////////////////
-/// The sensed bar position for a one gripper bar
-///////////////////////////////////////////////////////////////////////////////
-class GripperSensedBarPosition : public OneDOFGripperData {
-  public:
-    quantity<si::length> barPosition;
+    void checkLimitsPositionControl(const quantity<plane_angle>& setpoint);
+
+    void checkLimitsEncoderPosition(const signed int& setpoint);
+
+    void checkLimitsProcessData(const SlaveMessageInput& messageInput, SlaveMessageOutput& messageOutput);
+
+
+  private:
+    double calculateDamping(const int actualPosition);
+
+    YouBotJointStorage storage;
+
+    double acceleration;
+
+    int bevorLowerLimit;
+
+    int bevorUpperLimit;
+
+    int brakingDistance;
+
+    double actualVelocityRPS;
+
+    bool isbraking;
+
+    int velocityWhenReachedLimit;
 
 };
 

@@ -274,8 +274,8 @@ void YouBotGripper::open() {
     bar2->getConfigurationParameter(maxEnc);
     maxEnc.getParameter(bar2MaxEncoderValue);
     
-    GripperBarEncoterSetpoint setpointBar1;
-    GripperBarEncoterSetpoint setpointBar2;
+    GripperBarEncoderSetpoint setpointBar1;
+    GripperBarEncoderSetpoint setpointBar2;
     setpointBar1.barEncoder = bar1MaxEncoderValue;
     setpointBar2.barEncoder = bar2MaxEncoderValue;
 

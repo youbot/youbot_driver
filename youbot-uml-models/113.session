@@ -1,13 +1,13 @@
-window_sizes 1280 726 421 853 645 0
+window_sizes 1680 976 421 1253 895 0
 show_stereotypes
-selected operation_ref 389489 // ~YouBotGripperParameter
+selected operation_ref 1026929 // JointLimitMonitor
 open
-  classview_ref 167537 // YouBotJointParameterReadOnly
-  class_ref 258929 // YouBotGripperParameter
-  
-  package_ref 154737 // generic-joint
+  operation_ref 1034993 // checkLimitsProcessData
+  operation_ref 1028081 // calculateDamping
+  class_ref 492401 // EthercatMasterInterface
+  attribute_ref 305905 // ethercatInputBufferVector
+  attribute_ref 885233 // jointLimitMonitorVectorMutex
+  class_ref 439153 // EthercatMasterWithoutThread
   deploymentview_ref 161137 // Deployment
-  deploymentview_ref 167665 // Deployment
-  deploymentview_ref 174193 // Deployment
 end
 end

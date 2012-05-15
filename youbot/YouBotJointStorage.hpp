@@ -60,6 +60,12 @@ class YouBotJointStorage {
   public:
     unsigned int encoderTicksPerRound;
 
+    std::string jointName;
+
+    unsigned int jointNumber;
+
+    std::string jointNumberStr;
+
     double gearRatio;
 
     bool inverseMovementDirection;
@@ -71,6 +77,10 @@ class YouBotJointStorage {
     bool areLimitsActive;
 
     double torqueConstant;
+
+    long bevorUpperLimit;
+
+    long bevorLowerLimit;
 
 };
 

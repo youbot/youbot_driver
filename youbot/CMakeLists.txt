@@ -9,6 +9,7 @@
     ${CMAKE_HOME_DIRECTORY}/generic-joint/JointData.cpp
     ${CMAKE_HOME_DIRECTORY}/generic-joint/JointTrajectory.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJoint.cpp
+    ${CMAKE_HOME_DIRECTORY}/youbot/JointLimitMonitor.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotBase.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotManipulator.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripper.cpp
@@ -35,6 +36,7 @@ SET(YOUBOT_DRIVER_HEADERS
   YouBotBase.hpp
   YouBotManipulator.hpp
   YouBotJoint.hpp
+  JointLimitMonitor.hpp
   YouBotJointParameterReadOnly.hpp
 	YouBotJointParameterPasswordProtected.hpp
   YouBotJointParameter.hpp

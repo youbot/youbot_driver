@@ -53,7 +53,7 @@ namespace youbot {
 
 YouBotJoint::YouBotJoint(const unsigned int jointNo, const std::string& configFilePath) {
   // Bouml preserved body begin 000412F1
-    this->jointNumber = jointNo;
+    this->storage.jointNumber = jointNo;
     timeTillNextMailboxUpdate = 1; //ms
     mailboxMsgRetries = 100;
     this->storage.inverseMovementDirection = false;
@@ -61,8 +61,8 @@ YouBotJoint::YouBotJoint(const unsigned int jointNo, const std::string& configFi
     this->storage.upperLimit = 0;
     this->storage.areLimitsActive = false;
     std::stringstream jointNameStream;
-    jointNameStream << "Joint " << this->jointNumber << " ";
-    jointNameString = jointNameStream.str();
+    jointNameStream << "Joint " << this->storage.jointNumber << " ";
+    this->storage.jointNumberStr = jointNameStream.str();
     ethercatMaster = &(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath));
     
   // Bouml preserved body end 000412F1
@@ -97,7 +97,7 @@ void YouBotJoint::getConfigurationParameter(YouBotJointParameterReadOnly& parame
       if (retrieveValueFromMotorContoller(message)) {
         parameter.setYouBotMailboxMsg(message, storage);
       } else {
-        throw JointParameterException("Unable to get parameter: " + parameter.getName() + " from joint: " + this->jointName);
+        throw JointParameterException("Unable to get parameter: " + parameter.getName() + " from joint: " + this->storage.jointName);
       }
     }else{
       throw JointParameterException("Parameter " + parameter.getName() + " is not a motor controller parameter of a joint");
@@ -116,7 +116,7 @@ void YouBotJoint::getConfigurationParameter(YouBotJointParameter& parameter) {
       if (retrieveValueFromMotorContoller(message)) {
         parameter.setYouBotMailboxMsg(message, storage);
       } else {
-        throw JointParameterException("Unable to get parameter: " + parameter.getName() + " from joint: " + this->jointName);
+        throw JointParameterException("Unable to get parameter: " + parameter.getName() + " from joint: " + this->storage.jointName);
       }
     }else{
       throw JointParameterException("Parameter " + parameter.getName() + " is not a motor controller parameter of a joint");
@@ -133,7 +133,7 @@ void YouBotJoint::setConfigurationParameter(const YouBotJointParameter& paramete
 
       message.parameterName = parameter.getName();
       if (!setValueToMotorContoller(message)) {
-        throw JointParameterException("Unable to set parameter: " + parameter.getName() + " to joint: " + this->jointName);
+        throw JointParameterException("Unable to set parameter: " + parameter.getName() + " to joint: " + this->storage.jointName);
       }
     }else{
       throw JointParameterException("Parameter " + parameter.getName() + " is not a motor controller parameter of a joint");
@@ -143,13 +143,13 @@ void YouBotJoint::setConfigurationParameter(const YouBotJointParameter& paramete
 
 void YouBotJoint::getConfigurationParameter(JointName& parameter) {
   // Bouml preserved body begin 000740F1
-    parameter.value = this->jointName;
+    parameter.value = this->storage.jointName;
   // Bouml preserved body end 000740F1
 }
 
 void YouBotJoint::setConfigurationParameter(const JointName& parameter) {
   // Bouml preserved body begin 0005CDF1
-    this->jointName = parameter.value;
+    this->storage.jointName = parameter.value;
   // Bouml preserved body end 0005CDF1
 }
 
@@ -186,7 +186,7 @@ void YouBotJoint::setConfigurationParameter(const EncoderTicksPerRound& paramete
 void YouBotJoint::setConfigurationParameter(const CalibrateJoint& parameter) {
   // Bouml preserved body begin 000623F1
     if (parameter.doCalibration) {
-      LOG(info) << "Calibrate Joint: " << this->jointName;
+      LOG(info) << "Calibrate Joint: " << this->storage.jointName;
 
       int calibrationVel = 0; //rpm
       //YouBotSlaveMsg messageBuffer;
@@ -196,7 +196,7 @@ void YouBotJoint::setConfigurationParameter(const CalibrateJoint& parameter) {
       } else if (parameter.calibrationDirection == NEGATIV) {
         calibrationVel = -1.0 / storage.gearRatio;
       } else {
-        throw std::runtime_error("No calibration direction for joint: " + this->jointName);
+        throw std::runtime_error("No calibration direction for joint: " + this->storage.jointName);
       }
 
       if (this->storage.inverseMovementDirection == true) {
@@ -207,7 +207,7 @@ void YouBotJoint::setConfigurationParameter(const CalibrateJoint& parameter) {
 
       messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
       messageBuffer.stctOutput.value = calibrationVel;
-      ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
+      ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
 
       sensedCurrent.current = 0;
       //turn till a max current is reached
@@ -220,22 +220,22 @@ void YouBotJoint::setConfigurationParameter(const CalibrateJoint& parameter) {
       messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
       messageBuffer.stctOutput.value = 0;
       //   LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.value << " rad_sec " << data.angularVelocity;
-      ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
+      ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
 
       //set encoder reference position
       SLEEP_MILLISEC(500);
       messageBuffer.stctOutput.controllerMode = SET_POSITION_TO_REFERENCE;
       messageBuffer.stctOutput.value = 0;
-      ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
+      ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
 
       //switch to position controll
       SLEEP_MILLISEC(100);
       messageBuffer.stctOutput.controllerMode = POSITION_CONTROL;
       messageBuffer.stctOutput.value = 0;
       //   LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.value << " rad_sec " << data.angularVelocity;
-      ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
+      ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
 
-      //     LOG(info) << "Calibration finished for joint: " << this->jointName;
+      //     LOG(info) << "Calibration finished for joint: " << this->storage.jointName;
     }
 
   // Bouml preserved body end 000623F1
@@ -259,7 +259,20 @@ void YouBotJoint::setConfigurationParameter(const JointLimits& parameter) {
     this->storage.lowerLimit = parameter.lowerLimit;
     this->storage.upperLimit = parameter.upperLimit;
     this->storage.areLimitsActive = parameter.areLimitsActive;
-    ethercatMaster->setJointLimits(parameter.lowerLimit, parameter.upperLimit, storage.inverseMovementDirection, parameter.areLimitsActive, this->jointNumber);
+		MotorAcceleration acc;
+		quantity<angular_acceleration> accValue;
+		
+
+		
+		if(this->storage.areLimitsActive){
+			this->getConfigurationParameter(acc);
+		  acc.getParameter(accValue);
+			this->limitMonitor.reset(new JointLimitMonitor(this->storage, accValue));
+			ethercatMaster->registerJointLimitMonitor(this->limitMonitor.get(), this->storage.jointNumber);
+		}else{
+			this->limitMonitor.reset(NULL);
+		}
+   //ethercatMaster->setJointLimits(parameter.lowerLimit, parameter.upperLimit, storage.inverseMovementDirection, parameter.areLimitsActive, this->storage.jointNumber);
 
   // Bouml preserved body end 000D4371
 }
@@ -285,7 +298,7 @@ void YouBotJoint::setConfigurationParameter(const InitializeJoint& parameter) {
       messageBuffer.stctOutput.controllerMode = INITIALIZE;
       messageBuffer.stctOutput.value = 0;
 
-      ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
+      ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
     }
   // Bouml preserved body end 000973F1
 }
@@ -299,12 +312,12 @@ void YouBotJoint::getConfigurationParameter(FirmwareVersion& parameter) {
     bool unvalid = true;
     unsigned int retry = 0;
 
-    ethercatMaster->setMailboxMsgBuffer(message, this->jointNumber);
+    ethercatMaster->setMailboxMsgBuffer(message, this->storage.jointNumber);
 
     SLEEP_MILLISEC(timeTillNextMailboxUpdate);
 
     do {
-      if( ethercatMaster->getMailboxMsgBuffer(message, this->jointNumber) ) {
+      if( ethercatMaster->getMailboxMsgBuffer(message, this->storage.jointNumber) ) {
         unvalid = false;
       } else {
         SLEEP_MILLISEC(timeTillNextMailboxUpdate);
@@ -314,7 +327,7 @@ void YouBotJoint::getConfigurationParameter(FirmwareVersion& parameter) {
 
     if (unvalid) {
       this->parseMailboxStatusFlags(message);
-      throw std::runtime_error("Unable to get firmware version for joint: " + this->jointName);
+      throw std::runtime_error("Unable to get firmware version for joint: " + this->storage.jointName);
       return;
     } 
     
@@ -342,7 +355,7 @@ void YouBotJoint::getConfigurationParameter(FirmwareVersion& parameter) {
 void YouBotJoint::setConfigurationParameter(const YouBotSlaveMailboxMsg& parameter) {
   // Bouml preserved body begin 000A9D71
    if (!setValueToMotorContoller(parameter)) {
-     throw JointParameterException("Unable to set parameter at joint: " + this->jointName);
+     throw JointParameterException("Unable to set parameter at joint: " + this->storage.jointName);
    }
   // Bouml preserved body end 000A9D71
 }
@@ -351,7 +364,7 @@ void YouBotJoint::setConfigurationParameter(const YouBotSlaveMailboxMsg& paramet
 void YouBotJoint::getConfigurationParameter(YouBotSlaveMailboxMsg& parameter) {
   // Bouml preserved body begin 000A9DF1
    if (!retrieveValueFromMotorContoller(parameter)) {
-     throw JointParameterException("Unable to get parameter from joint: " + this->jointName);
+     throw JointParameterException("Unable to get parameter from joint: " + this->storage.jointName);
    }
    this->parseMailboxStatusFlags(parameter);
   // Bouml preserved body end 000A9DF1
@@ -381,7 +394,7 @@ void YouBotJoint::storeConfigurationParameterPermanent(const YouBotJointParamete
       parameter.getYouBotMailboxMsg(message, STAP, storage);
 
       if (!setValueToMotorContoller(message)) {
-        throw JointParameterException("Unable to store parameter: " + parameter.getName() + " to joint: " + this->jointName);
+        throw JointParameterException("Unable to store parameter: " + parameter.getName() + " to joint: " + this->storage.jointName);
       }
     }else{
       throw JointParameterException("Parameter " + parameter.getName() + " is not a motor controller parameter of a joint");
@@ -398,7 +411,7 @@ void YouBotJoint::restoreConfigurationParameter(YouBotJointParameter& parameter)
       parameter.getYouBotMailboxMsg(message, RSAP, storage);
 
       if (!setValueToMotorContoller(message)) {
-        throw JointParameterException("Unable to restore parameter: " + parameter.getName() + " at joint: " + this->jointName);
+        throw JointParameterException("Unable to restore parameter: " + parameter.getName() + " at joint: " + this->storage.jointName);
       }
 
       this->getConfigurationParameter(parameter);
@@ -431,7 +444,7 @@ void YouBotJoint::setData(const JointAngleSetpoint& data, SyncMode communication
 		}
 		
     //YouBotSlaveMsg messageBuffer;
-    ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
+    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
     
     if (storage.gearRatio == 0) {
@@ -442,7 +455,10 @@ void YouBotJoint::setData(const JointAngleSetpoint& data, SyncMode communication
       throw std::out_of_range("Zero Encoder Ticks per Round are not allowed");
     }
 
-    if(storage.areLimitsActive){
+		if (this->limitMonitor != 0)
+		 this->limitMonitor->checkLimitsPositionControl(data.angle);
+    /*
+		if(storage.areLimitsActive){
 
       quantity<plane_angle> lowLimit = ((double) this->storage.lowerLimit / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
       quantity<plane_angle> upLimit = ((double) this->storage.upperLimit / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
@@ -460,7 +476,7 @@ void YouBotJoint::setData(const JointAngleSetpoint& data, SyncMode communication
         throw std::out_of_range(errorMessageStream.str());
       }
     }
-
+    */
     messageBuffer.stctOutput.controllerMode = POSITION_CONTROL;
     messageBuffer.stctOutput.value = (int32) round((data.angle.value() * ((double) storage.encoderTicksPerRound / (2.0 * M_PI))) / storage.gearRatio);
 
@@ -468,8 +484,8 @@ void YouBotJoint::setData(const JointAngleSetpoint& data, SyncMode communication
     if (storage.inverseMovementDirection) {
       messageBuffer.stctOutput.value *= -1;
     }
-    //   LOG(trace) << "value: " << data.angle << " gear " << gearRatio << " encoderperRound " << encoderTicksPerRound << " encPos " << messageBuffer.stctOutput.value << " joint " << this->jointNumber;
-    ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
+    //   LOG(trace) << "value: " << data.angle << " gear " << gearRatio << " encoderperRound " << encoderTicksPerRound << " encPos " << messageBuffer.stctOutput.value << " joint " << this->storage.jointNumber;
+    ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
   // Bouml preserved body end 0003C1F1
 }
 
@@ -484,9 +500,13 @@ void YouBotJoint::setData(const JointEncoderSetpoint& data, SyncMode communicati
 		}
 		
     //YouBotSlaveMsg messageBuffer;
-    ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
+    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
+		
+		if (this->limitMonitor != 0)
+		 this->limitMonitor->checkLimitsEncoderPosition(data.encoderTicks);
   
+		/*
     if(storage.areLimitsActive){
 
       if (!((data.encoderTicks < this->storage.upperLimit) && (data.encoderTicks > this->storage.lowerLimit))) {
@@ -496,7 +516,7 @@ void YouBotJoint::setData(const JointEncoderSetpoint& data, SyncMode communicati
         throw std::out_of_range(errorMessageStream.str());
       }
     }
-
+	*/
     messageBuffer.stctOutput.controllerMode = POSITION_CONTROL;
     messageBuffer.stctOutput.value = data.encoderTicks;
     
@@ -504,7 +524,7 @@ void YouBotJoint::setData(const JointEncoderSetpoint& data, SyncMode communicati
       messageBuffer.stctOutput.value *= -1;
     }
     
-     ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
+     ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
   // Bouml preserved body end 000C2371
 }
 
@@ -517,7 +537,7 @@ void YouBotJoint::getData(JointSensedAngle& data) {
 			throw EtherCATConnectionException("No EtherCAT connection");
 		}
 	
-    ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
+    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
 
     if (storage.gearRatio == 0) {
@@ -545,7 +565,7 @@ void YouBotJoint::setData(const JointVelocitySetpoint& data, SyncMode communicat
 		}
 		
     //YouBotSlaveMsg messageBuffer;
-    ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
+    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
   
     messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
@@ -560,7 +580,7 @@ void YouBotJoint::setData(const JointVelocitySetpoint& data, SyncMode communicat
     }
 
     //  LOG(trace) << "vel [rpm] " << messageBuffer.stctOutput.value << " rad_sec " << data.angularVelocity;
-    ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
+    ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
   // Bouml preserved body end 0003C371
 }
 
@@ -573,7 +593,7 @@ void YouBotJoint::getData(JointSensedVelocity& data) {
 		}
 		
     //YouBotSlaveMsg messageBuffer;
-    ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
+    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
 
     if (storage.gearRatio == 0) {
@@ -598,7 +618,7 @@ void YouBotJoint::getData(JointSensedRoundsPerMinute& data) {
 		}
 		
     //YouBotSlaveMsg messageBuffer;
-    ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
+    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
 
     data.rpm = messageBuffer.stctInput.actualVelocity;
@@ -619,7 +639,7 @@ void YouBotJoint::setData(const JointRoundsPerMinuteSetpoint& data, SyncMode com
 		}
 		
     //YouBotSlaveMsg messageBuffer;
-    ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
+    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
     
     messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
@@ -629,7 +649,7 @@ void YouBotJoint::setData(const JointRoundsPerMinuteSetpoint& data, SyncMode com
       messageBuffer.stctOutput.value *= -1;
     }
 
-    ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
+    ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
   // Bouml preserved body end 000AECF1
 }
 
@@ -642,7 +662,7 @@ void YouBotJoint::getData(JointSensedCurrent& data) {
 		}
 		
     //YouBotSlaveMsg messageBuffer;
-    ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
+    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
     //convert mili ampere to ampere
     double current = messageBuffer.stctInput.actualCurrent;
@@ -664,7 +684,7 @@ void YouBotJoint::setData(const JointCurrentSetpoint& data, SyncMode communicati
 		}
 		
     //YouBotSlaveMsg messageBuffer;
-    ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
+    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
     
     messageBuffer.stctOutput.controllerMode = CURRENT_MODE;
@@ -673,7 +693,7 @@ void YouBotJoint::setData(const JointCurrentSetpoint& data, SyncMode communicati
     if (storage.inverseMovementDirection) {
       messageBuffer.stctOutput.value *= -1;
     }
-    ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
+    ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
   // Bouml preserved body end 000955F1
 }
 
@@ -686,7 +706,7 @@ void YouBotJoint::getData(JointSensedPWM& data) {
 		}
 		
     //YouBotSlaveMsg messageBuffer;
-    ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
+    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
 
     data.pwm = messageBuffer.stctInput.actualPWM;
@@ -708,7 +728,7 @@ void YouBotJoint::setData(const JointPWMSetpoint& data, SyncMode communicationMo
 		}
 		
     //YouBotSlaveMsg messageBuffer;
-    ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
+    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
     
     messageBuffer.stctOutput.controllerMode = PWM_MODE;
@@ -717,7 +737,7 @@ void YouBotJoint::setData(const JointPWMSetpoint& data, SyncMode communicationMo
     if (storage.inverseMovementDirection) {
       messageBuffer.stctOutput.value *= -1;
     }
-    ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
+    ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
   // Bouml preserved body end 00095671
 }
 
@@ -730,7 +750,7 @@ void YouBotJoint::getData(JointSensedEncoderTicks& data) {
 		}
 		
     //YouBotSlaveMsg messageBuffer;
-    ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
+    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
 
     //  LOG(trace) << "enc: " << messageBuffer.stctInput.actualPosition;
@@ -754,12 +774,12 @@ void YouBotJoint::setData(const SlaveMessageOutput& data, SyncMode communication
 			throw EtherCATConnectionException("No EtherCAT connection");
 		}
 		
-    ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
+    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
     
     messageBuffer.stctOutput = data;
   
-    ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
+    ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
   // Bouml preserved body end 000C5671
 }
 
@@ -773,7 +793,7 @@ void YouBotJoint::getData(YouBotSlaveMsg& data) {
 			throw EtherCATConnectionException("No EtherCAT connection");
 		}
 		
-    ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
+    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
     this->parseYouBotErrorFlags(messageBuffer);
 
     data = messageBuffer;
@@ -822,7 +842,7 @@ void YouBotJoint::getUserVariable(const unsigned int index, int& data) {
   // Bouml preserved body begin 000AD171
   
   if(index == 0 || index > 55){
-    throw JointParameterException("User variable index is out of range use 1-55 at: " + this->jointName);
+    throw JointParameterException("User variable index is out of range use 1-55 at: " + this->storage.jointName);
   }
   //56 is the last userdata at bank 2
     YouBotSlaveMailboxMsg message;
@@ -833,7 +853,7 @@ void YouBotJoint::getUserVariable(const unsigned int index, int& data) {
     message.stctOutput.value = 0;
     
    if (!retrieveValueFromMotorContoller(message)) {
-     throw JointParameterException("Unable to get parameter from joint: " + this->jointName);
+     throw JointParameterException("Unable to get parameter from joint: " + this->storage.jointName);
    }
    this->parseMailboxStatusFlags(message);
    
@@ -845,7 +865,7 @@ void YouBotJoint::setUserVariable(const unsigned int index, const int data) {
   // Bouml preserved body begin 000AD1F1
   
   if(index == 0 || index > 55){
-    throw JointParameterException("User variable index is out of range use 1-55 at: " + this->jointName);
+    throw JointParameterException("User variable index is out of range use 1-55 at: " + this->storage.jointName);
   }
   //56 is the last userdata at bank 2
     YouBotSlaveMailboxMsg message;
@@ -856,7 +876,7 @@ void YouBotJoint::setUserVariable(const unsigned int index, const int data) {
     message.stctOutput.value = data;
     
   if (!setValueToMotorContoller(message)) {
-     throw JointParameterException("Unable to set parameter at joint: " + this->jointName);
+     throw JointParameterException("Unable to set parameter at joint: " + this->storage.jointName);
    }
     this->parseMailboxStatusFlags(message);
   // Bouml preserved body end 000AD1F1
@@ -866,81 +886,81 @@ void YouBotJoint::setUserVariable(const unsigned int index, const int data) {
 void YouBotJoint::getStatus(std::vector<std::string>& statusMessages) {
   // Bouml preserved body begin 000AD271
   //YouBotSlaveMsg messageBuffer;
-  ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
+  ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
   
   
   
 
     if (messageBuffer.stctInput.errorFlags & OVER_CURRENT) {
-      statusMessages.push_back(jointNameString + "got over current");
+      statusMessages.push_back(this->storage.jointName + "got over current");
     }
 
     if (messageBuffer.stctInput.errorFlags & UNDER_VOLTAGE) {
-      statusMessages.push_back(jointNameString + "got under voltage");
+      statusMessages.push_back(this->storage.jointName + "got under voltage");
     }
 
     if (messageBuffer.stctInput.errorFlags & OVER_VOLTAGE) {
-      statusMessages.push_back(jointNameString + "got over voltage");
+      statusMessages.push_back(this->storage.jointName + "got over voltage");
     }
 
     if (messageBuffer.stctInput.errorFlags & OVER_TEMPERATURE) {
-      statusMessages.push_back(jointNameString + "got over temperature");
+      statusMessages.push_back(this->storage.jointName + "got over temperature");
     }
 
     if (messageBuffer.stctInput.errorFlags & MOTOR_HALTED) {
-      statusMessages.push_back(jointNameString + "is halted");
+      statusMessages.push_back(this->storage.jointName + "is halted");
     }
 
     if (messageBuffer.stctInput.errorFlags & HALL_SENSOR_ERROR) {
-      statusMessages.push_back(jointNameString + "got hall sensor problem");
+      statusMessages.push_back(this->storage.jointName + "got hall sensor problem");
     }
 
 //    if (messageBuffer.stctInput.errorFlags & ENCODER_ERROR) {
-//      statusMessages.push_back(jointNameString + "got encoder problem");
+//      statusMessages.push_back(this->storage.jointName + "got encoder problem");
 //    }
 //
 //     if (messageBuffer.stctInput.errorFlags & INITIALIZATION_ERROR) {
-//      statusMessages.push_back(jointNameString + "got inizialization problem");
+//      statusMessages.push_back(this->storage.jointName + "got inizialization problem");
 //    }
 
     if (messageBuffer.stctInput.errorFlags & PWM_MODE_ACTIVE) {
-      statusMessages.push_back(jointNameString + "has PWM mode active");
+      statusMessages.push_back(this->storage.jointName + "has PWM mode active");
     }
 
     if (messageBuffer.stctInput.errorFlags & VELOCITY_MODE) {
-      statusMessages.push_back(jointNameString + "has velocity mode active");
+      statusMessages.push_back(this->storage.jointName + "has velocity mode active");
     }
 
     if (messageBuffer.stctInput.errorFlags & POSITION_MODE) {
-      statusMessages.push_back(jointNameString + "has position mode active");
+      statusMessages.push_back(this->storage.jointName + "has position mode active");
     }
 
     if (messageBuffer.stctInput.errorFlags & TORQUE_MODE) {
-      statusMessages.push_back(jointNameString + "has torque mode active");
+      statusMessages.push_back(this->storage.jointName + "has torque mode active");
     }
 
 //    if (messageBuffer.stctInput.errorFlags & EMERGENCY_STOP) {
-//      statusMessages.push_back(jointNameString + "has emergency stop active");
+//      statusMessages.push_back(this->storage.jointName + "has emergency stop active");
 //    }
 //
 //    if (messageBuffer.stctInput.errorFlags & FREERUNNING) {
-//      statusMessages.push_back(jointNameString + "has freerunning active");
+//      statusMessages.push_back(this->storage.jointName + "has freerunning active");
 //    }
 
     if (messageBuffer.stctInput.errorFlags & POSITION_REACHED) {
-      statusMessages.push_back(jointNameString + "has position reached");
+      statusMessages.push_back(this->storage.jointName + "has position reached");
     }
 
     if (messageBuffer.stctInput.errorFlags & INITIALIZED) {
-      statusMessages.push_back(jointNameString + "is initialized");
+      statusMessages.push_back(this->storage.jointName + "is initialized");
     }
 
     if (messageBuffer.stctInput.errorFlags & TIMEOUT) {
-      statusMessages.push_back(jointNameString + "has a timeout");
+      statusMessages.push_back(this->storage.jointName + "has a timeout");
     }
 
     if (messageBuffer.stctInput.errorFlags & I2T_EXCEEDED) {
-      statusMessages.push_back(jointNameString + "exceeded I2t");
+      statusMessages.push_back(this->storage.jointName + "exceeded I2t");
     }
   
   
@@ -969,7 +989,7 @@ void YouBotJoint::getStatus(std::vector<std::string>& statusMessages) {
 void YouBotJoint::getStatus(unsigned int& statusFlags) {
   // Bouml preserved body begin 000AD2F1
   //YouBotSlaveMsg messageBuffer;
-  ethercatMaster->getMsgBuffer(this->jointNumber, messageBuffer);
+  ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
   
   statusFlags = messageBuffer.stctInput.errorFlags;
   // Bouml preserved body end 000AD2F1
@@ -982,11 +1002,22 @@ void YouBotJoint::setEncoderToZero() {
 			throw EtherCATConnectionException("No EtherCAT connection");
 		}
 
-    //YouBotSlaveMsg messageBuffer;
-    messageBuffer.stctOutput.controllerMode = SET_POSITION_TO_REFERENCE;
-    messageBuffer.stctOutput.value = 0;
+		YouBotSlaveMailboxMsg message;
+		message.stctOutput.commandNumber = SAP;
+		message.stctOutput.moduleAddress = DRIVE;
+		message.stctOutput.typeNumber = 1; //actual Position
+		message.stctOutput.value = 0;
 
-    ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
+		if (!setValueToMotorContoller(message)) {
+			throw JointParameterException("Unable to set the encoders to zero at joint: " + this->storage.jointName);
+		}
+
+		//YouBotSlaveMsg messageBuffer;
+		// messageBuffer.stctOutput.controllerMode = SET_POSITION_TO_REFERENCE;
+		// messageBuffer.stctOutput.value = 0;
+
+		//ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
+
 
   // Bouml preserved body end 000AED71
 }
@@ -1001,7 +1032,7 @@ void YouBotJoint::noMoreAction() {
     messageBuffer.stctOutput.controllerMode = NO_MORE_ACTION;
     messageBuffer.stctOutput.value = 0;
 
-    ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
+    ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
   // Bouml preserved body end 000664F1
 }
 
@@ -1015,13 +1046,13 @@ void YouBotJoint::stopJoint() {
     messageBuffer.stctOutput.controllerMode = MOTOR_STOP;
     messageBuffer.stctOutput.value = 0;
 
-    ethercatMaster->setMsgBuffer(messageBuffer, this->jointNumber);
+    ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
   // Bouml preserved body end 00066471
 }
 
 unsigned int YouBotJoint::getJointNumber() {
   // Bouml preserved body begin 000EA2F1
-  return this->jointNumber;
+  return this->storage.jointNumber;
   // Bouml preserved body end 000EA2F1
 }
 
@@ -1157,93 +1188,93 @@ void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
   // Bouml preserved body begin 00044AF1
 
     if (messageBuffer.stctInput.errorFlags & OVER_CURRENT) {
-      LOG(warning) << jointNameString << "over current";
-      //    throw JointErrorException(jointNameString + "got over current");
+      LOG(warning) << this->storage.jointName << "over current";
+      //    throw JointErrorException(this->storage.jointName + "got over current");
     }
 
     if (messageBuffer.stctInput.errorFlags & UNDER_VOLTAGE) {
-      LOG(warning) << jointNameString << "under voltage";
-      //    throw JointErrorException(jointNameString + "got under voltage");
+      LOG(warning) << this->storage.jointName << "under voltage";
+      //    throw JointErrorException(this->storage.jointName + "got under voltage");
     }
 
     if (messageBuffer.stctInput.errorFlags & OVER_VOLTAGE) {
-      LOG(warning) << jointNameString << "over voltage";
-      //   throw JointErrorException(jointNameString + "got over voltage");
+      LOG(warning) << this->storage.jointName << "over voltage";
+      //   throw JointErrorException(this->storage.jointName + "got over voltage");
     }
 
     if (messageBuffer.stctInput.errorFlags & OVER_TEMPERATURE) {
-      LOG(warning) << jointNameString << "over temperature";
-      //   throw JointErrorException(jointNameString + "got over temperature");
+      LOG(warning) << this->storage.jointName << "over temperature";
+      //   throw JointErrorException(this->storage.jointName + "got over temperature");
     }
 
     if (messageBuffer.stctInput.errorFlags & MOTOR_HALTED) {
-      //   LOG(info) << jointNameString << "is halted";
-      //   throw JointErrorException(jointNameString + "is halted");
+      //   LOG(info) << this->storage.jointName << "is halted";
+      //   throw JointErrorException(this->storage.jointName + "is halted");
     }
 
     if (messageBuffer.stctInput.errorFlags & HALL_SENSOR_ERROR) {
-      LOG(warning) << jointNameString << "hall sensor problem";
-      //   throw JointErrorException(jointNameString + "got hall sensor problem");
+      LOG(warning) << this->storage.jointName << "hall sensor problem";
+      //   throw JointErrorException(this->storage.jointName + "got hall sensor problem");
     }
 
 //    if (messageBuffer.stctInput.errorFlags & ENCODER_ERROR) {
-//      LOG(warning) << jointNameString << "encoder problem";
-//      //   throw JointErrorException(jointNameString + "got encoder problem");
+//      LOG(warning) << this->storage.jointName << "encoder problem";
+//      //   throw JointErrorException(this->storage.jointName + "got encoder problem");
 //    }
 //
 //     if (messageBuffer.stctInput.errorFlags & INITIALIZATION_ERROR) {
-//      LOG(warning) << jointNameString << "initialization problem";
-//      //   throw JointErrorException(jointNameString + "got motor winding problem");
+//      LOG(warning) << this->storage.jointName << "initialization problem";
+//      //   throw JointErrorException(this->storage.jointName + "got motor winding problem");
 //    }
 
     if (messageBuffer.stctInput.errorFlags & PWM_MODE_ACTIVE) {
-   //   LOG(info) << jointNameString << "has PWM mode active";
-      //   throw JointErrorException(jointNameString + "the cycle time is violated");
+   //   LOG(info) << this->storage.jointName << "has PWM mode active";
+      //   throw JointErrorException(this->storage.jointName + "the cycle time is violated");
     }
 
     if (messageBuffer.stctInput.errorFlags & VELOCITY_MODE) {
-   //   LOG(info) << jointNameString << "has velocity mode active";
-      //   throw JointErrorException(jointNameString + "need to initialize the sinus commutation");
+   //   LOG(info) << this->storage.jointName << "has velocity mode active";
+      //   throw JointErrorException(this->storage.jointName + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & POSITION_MODE) {
-   //   LOG(info) << jointNameString << "has position mode active";
-      //   throw JointErrorException(jointNameString + "need to initialize the sinus commutation");
+   //   LOG(info) << this->storage.jointName << "has position mode active";
+      //   throw JointErrorException(this->storage.jointName + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & TORQUE_MODE) {
-   //   LOG(info) << jointNameString << "has torque mode active";
-      //   throw JointErrorException(jointNameString + "need to initialize the sinus commutation");
+   //   LOG(info) << this->storage.jointName << "has torque mode active";
+      //   throw JointErrorException(this->storage.jointName + "need to initialize the sinus commutation");
     }
 
 //    if (messageBuffer.stctInput.errorFlags & EMERGENCY_STOP) {
-//      LOG(info) << jointNameString << "emergency stop active";
-//      //   throw JointErrorException(jointNameString + "need to initialize the sinus commutation");
+//      LOG(info) << this->storage.jointName << "emergency stop active";
+//      //   throw JointErrorException(this->storage.jointName + "need to initialize the sinus commutation");
 //    }
 //
 //    if (messageBuffer.stctInput.errorFlags & FREERUNNING) {
-//   //   LOG(info) << jointNameString << "has freerunning active";
-//      //   throw JointErrorException(jointNameString + "need to initialize the sinus commutation");
+//   //   LOG(info) << this->storage.jointName << "has freerunning active";
+//      //   throw JointErrorException(this->storage.jointName + "need to initialize the sinus commutation");
 //    }
 
     if (messageBuffer.stctInput.errorFlags & POSITION_REACHED) {
-  //    LOG(info) << jointNameString << "has position reached";
-      //   throw JointErrorException(jointNameString + "need to initialize the sinus commutation");
+  //    LOG(info) << this->storage.jointName << "has position reached";
+      //   throw JointErrorException(this->storage.jointName + "need to initialize the sinus commutation");
     }
 
     if (!(messageBuffer.stctInput.errorFlags & INITIALIZED)) {
-      LOG(warning) << jointNameString << "not initialized";
-      //   throw JointErrorException(jointNameString + "need to initialize the sinus commutation");
+      LOG(warning) << this->storage.jointName << "not initialized";
+      //   throw JointErrorException(this->storage.jointName + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & TIMEOUT) {
-      LOG(warning) << jointNameString << "exceeded timeout";
-      //   throw JointErrorException(jointNameString + "need to initialize the sinus commutation");
+      LOG(warning) << this->storage.jointName << "exceeded timeout";
+      //   throw JointErrorException(this->storage.jointName + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & I2T_EXCEEDED) {
-      LOG(warning) << jointNameString << "exceeded I2t";
-      //   throw JointErrorException(jointNameString + "need to initialize the sinus commutation");
+      LOG(warning) << this->storage.jointName << "exceeded I2t";
+      //   throw JointErrorException(this->storage.jointName + "need to initialize the sinus commutation");
     }
 
   // Bouml preserved body end 00044AF1
@@ -1256,28 +1287,28 @@ void YouBotJoint::parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailboxMs
       case NO_ERROR:
         break;
       case INVALID_COMMAND:
-        LOG(error) << jointNameString << "Parameter name: " << mailboxMsg.parameterName << "; Command no: " << mailboxMsg.stctOutput.commandNumber << " is an invalid command!" ;
-      //    throw JointParameterException(jointNameString + "invalid command");
+        LOG(error) << this->storage.jointName << "Parameter name: " << mailboxMsg.parameterName << "; Command no: " << mailboxMsg.stctOutput.commandNumber << " is an invalid command!" ;
+      //    throw JointParameterException(this->storage.jointName + "invalid command");
         break;
       case WRONG_TYPE:
-        LOG(error) << jointNameString << "Parameter name: " << mailboxMsg.parameterName << " has a wrong type!";
-      //    throw JointParameterException(jointNameString + "wrong type");
+        LOG(error) << this->storage.jointName << "Parameter name: " << mailboxMsg.parameterName << " has a wrong type!";
+      //    throw JointParameterException(this->storage.jointName + "wrong type");
         break;
       case INVALID_VALUE:
-        LOG(error) << jointNameString << "Parameter name: " << mailboxMsg.parameterName << " Value: " << mailboxMsg.stctOutput.value << " is a invalid value!";
-      //    throw JointParameterException(jointNameString + "invalid value");
+        LOG(error) << this->storage.jointName << "Parameter name: " << mailboxMsg.parameterName << " Value: " << mailboxMsg.stctOutput.value << " is a invalid value!";
+      //    throw JointParameterException(this->storage.jointName + "invalid value");
         break;
       case CONFIGURATION_EEPROM_LOCKED:
-        LOG(error) << jointNameString << "Parameter name: " << mailboxMsg.parameterName << " - Configuration EEPROM locked";
-      //    throw JointParameterException(jointNameString + "configuration EEPROM locked");
+        LOG(error) << this->storage.jointName << "Parameter name: " << mailboxMsg.parameterName << " - Configuration EEPROM locked";
+      //    throw JointParameterException(this->storage.jointName + "configuration EEPROM locked");
         break;
       case COMMAND_NOT_AVAILABLE:
-        LOG(error) << jointNameString << "Parameter name: " << mailboxMsg.parameterName << " - Command is not available!";
-      //    throw JointParameterException(jointNameString + "command not available");
+        LOG(error) << this->storage.jointName << "Parameter name: " << mailboxMsg.parameterName << " - Command is not available!";
+      //    throw JointParameterException(this->storage.jointName + "command not available");
         break;
       case REPLY_WRITE_PROTECTED:
-        LOG(error) << jointNameString << "Parameter name: " << mailboxMsg.parameterName << " - Permissions denied!";
-      //    throw JointParameterException(jointNameString + "command not available");
+        LOG(error) << this->storage.jointName << "Parameter name: " << mailboxMsg.parameterName << " - Permissions denied!";
+      //    throw JointParameterException(this->storage.jointName + "command not available");
         break;
     }
    
@@ -1291,12 +1322,12 @@ bool YouBotJoint::retrieveValueFromMotorContoller(YouBotSlaveMailboxMsg& message
     bool unvalid = true;
     unsigned int retry = 0;
 
-    ethercatMaster->setMailboxMsgBuffer(message, this->jointNumber);
+    ethercatMaster->setMailboxMsgBuffer(message, this->storage.jointNumber);
 
     SLEEP_MILLISEC(timeTillNextMailboxUpdate);
 
     do {
-      ethercatMaster->getMailboxMsgBuffer(message, this->jointNumber);
+      ethercatMaster->getMailboxMsgBuffer(message, this->storage.jointNumber);
     /*     LOG(trace) << "CommandNumber " << (int) message.stctInput.commandNumber
                  << " moduleAddress " << (int) message.stctInput.moduleAddress
                  << " replyAddress " << (int) message.stctInput.replyAddress
@@ -1330,12 +1361,12 @@ bool YouBotJoint::setValueToMotorContoller(const YouBotSlaveMailboxMsg& mailboxM
     bool unvalid = true;
     unsigned int retry = 0;
 
-    ethercatMaster->setMailboxMsgBuffer(mailboxMsgBuffer, this->jointNumber);
+    ethercatMaster->setMailboxMsgBuffer(mailboxMsgBuffer, this->storage.jointNumber);
 
     SLEEP_MILLISEC(timeTillNextMailboxUpdate);
 
     do {
-      ethercatMaster->getMailboxMsgBuffer(mailboxMsgBuffer, this->jointNumber);
+      ethercatMaster->getMailboxMsgBuffer(mailboxMsgBuffer, this->storage.jointNumber);
       /*    LOG(trace) << "CommandNumber " << (int) mailboxMsgBuffer.stctInput.commandNumber
                   << " moduleAddress " << (int) mailboxMsgBuffer.stctInput.moduleAddress
                   << " replyAddress " << (int) mailboxMsgBuffer.stctInput.replyAddress

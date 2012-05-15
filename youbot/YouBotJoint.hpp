@@ -55,6 +55,7 @@
 #include <sstream>
 #include <cmath>
 #include <boost/thread.hpp>
+#include <boost/scoped_ptr.hpp>
 #include "generic/Logger.hpp"
 #include "generic/Units.hpp"
 #include "generic/Time.hpp"
@@ -72,7 +73,7 @@
 #include "youbot/EthercatMasterWithThread.hpp"
 #include "youbot/EthercatMasterWithoutThread.hpp"
 #include "youbot/JointTrajectoryController.hpp"
-
+#include "youbot/JointLimitMonitor.hpp"
 
 namespace youbot {
 
@@ -297,10 +298,6 @@ class YouBotJoint : public Joint {
   private:
     EthercatMasterInterface* ethercatMaster;
 
-    std::string jointName;
-
-    unsigned int jointNumber;
-
     bool positionReferenceToZero;
 
     unsigned int timeTillNextMailboxUpdate;
@@ -311,11 +308,11 @@ class YouBotJoint : public Joint {
 
     YouBotSlaveMsg messageBuffer;
 
-    std::string jointNameString;
-
     quantity<si::angular_velocity> lastVelocity;
 
     quantity<plane_angle> lastPosition;
+
+    boost::scoped_ptr<JointLimitMonitor> limitMonitor;
 
 };
 

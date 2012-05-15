@@ -99,7 +99,7 @@ class YouBotGripperBar {
 
     virtual void getConfigurationParameter(YouBotSlaveMailboxMsg& parameter);
 
-    virtual void setData(const GripperBarEncoterSetpoint& encoderSetpoint);
+    virtual void setData(const GripperBarEncoderSetpoint& encoderSetpoint);
 
     virtual void getData(GripperSensedVelocity& barVelocity);
 

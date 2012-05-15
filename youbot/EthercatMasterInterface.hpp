@@ -53,6 +53,7 @@
  ****************************************************************/
 #include "youbot/YouBotSlaveMsg.hpp"
 #include "youbot/YouBotSlaveMailboxMsg.hpp"
+#include "youbot/JointLimitMonitor.hpp"
 extern "C"{
 #include <ethercattype.h>
 #include <ethercatmain.h>
@@ -102,10 +103,10 @@ friend class YouBotGripperBar;
 
     virtual bool isEtherCATConnectionEstablished() = 0;
 
+    virtual void registerJointLimitMonitor(JointLimitMonitor* object, const unsigned int JointNumber) = 0;
+
 
   private:
-    virtual void setJointLimits(const int lowerJointLimit, const int upperJointLimit, const bool inverseMovement, const bool activateLimit, const unsigned int& jointNumber) = 0;
-
     ///stores a ethercat message to the buffer
     ///@param msgBuffer ethercat message
     ///@param jointNumber joint number of the sender joint
