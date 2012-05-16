@@ -649,29 +649,7 @@ void EthercatMasterWithThread::updateSensorActorValues() {
       }
 */
 
-      //check if for joint limits
-		  for (unsigned int jointNo = 0; jointNo < firstBufferVector.size(); jointNo++) {
-				if(jointLimitMonitors[jointNo] != NULL)
-					this->jointLimitMonitors[jointNo]->checkLimitsProcessData(*(ethercatInputBufferVector[jointNo]), *(ethercatOutputBufferVector[jointNo]));
-			}
-
-			
-			//just for data Trace
-			for (unsigned int i = 0; i < nrOfSlaves; i++) {
-				if (newDataFlagOne == true) {
-					{
-						boost::mutex::scoped_lock dataMutex1(mutexDataOne);
-						//fill first output buffer
-						(firstBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
-					}
-				} else if (newDataFlagTwo == true) {
-					{
-						boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
-						//fill second output buffer
-						(secondBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
-					}
-				}
-			}
+      
 
       
       //send and receive data from ethercat
@@ -715,6 +693,12 @@ void EthercatMasterWithThread::updateSensorActorValues() {
             (firstBufferVector[i]).stctInput = *(ethercatInputBufferVector[i]);
             
               
+						// Limit checker
+						if(jointLimitMonitors[i] != NULL){
+							this->jointLimitMonitors[i]->checkLimitsProcessData(*(ethercatInputBufferVector[i]), *(ethercatOutputBufferVector[i]));
+						//copy back changed velocity for limit checker
+							(firstBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
+						}
            // this->parseYouBotErrorFlags(secondBufferVector[i]);
 
             //send mailbox messages from first buffer
@@ -749,6 +733,14 @@ void EthercatMasterWithThread::updateSensorActorValues() {
             //fill second input buffer (receive data)
             (secondBufferVector[i]).stctInput = *(ethercatInputBufferVector[i]);
             
+						// Limit checker
+						if(jointLimitMonitors[i] != NULL){
+							this->jointLimitMonitors[i]->checkLimitsProcessData(*(ethercatInputBufferVector[i]), *(ethercatOutputBufferVector[i]));
+						
+							//copy back changed velocity for limit checker
+							(secondBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
+						}
+
            // this->parseYouBotErrorFlags(secondBufferVector[i]);
 
             //send mailbox messages from second buffer
@@ -789,7 +781,32 @@ void EthercatMasterWithThread::updateSensorActorValues() {
 					}
 				}
 			}
-      
+			
+			/*
+			//check if for joint limits
+		  for (unsigned int jointNo = 0; jointNo < firstBufferVector.size(); jointNo++) {
+				if(jointLimitMonitors[jointNo] != NULL)
+					this->jointLimitMonitors[jointNo]->checkLimitsProcessData(*(ethercatInputBufferVector[jointNo]), *(ethercatOutputBufferVector[jointNo]));
+			}
+
+			
+			//just for data Trace
+			for (unsigned int i = 0; i < nrOfSlaves; i++) {
+				if (newDataFlagOne == true) {
+					{
+						boost::mutex::scoped_lock dataMutex1(mutexDataOne);
+						//fill first output buffer
+						(firstBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
+					}
+				} else if (newDataFlagTwo == true) {
+					{
+						boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
+						//fill second output buffer
+						(secondBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
+					}
+				}
+			}
+      */
 
       
      // if(ethercatInputBufferVector[3]->actualCurrent >= 900 ){

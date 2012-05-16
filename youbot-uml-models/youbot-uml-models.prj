@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 239
+  revision 240
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -1579,6 +1579,36 @@ ${inlines}
 	preserve_cpp_body_indent private explicit_return_type "double"
 	nparams 1
 	  param in name "actualPosition" explicit_type "int"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 1041521 "calculateBrakingDistance"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 1
+	  param in name "messageInput" explicit_type "SlaveMessageInput"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 1041649 "calculateBrakingVelocity"
+	preserve_cpp_body_indent private explicit_return_type "int"
+	nparams 1
+	  param in name "actualPosition" explicit_type "int"
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
@@ -1662,6 +1692,26 @@ ${inlines}
 
       attribute 898929 "velocityWhenReachedLimit"
 	private explicit_type "int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 905457 "distanceToLimit"
+	private explicit_type "double"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 905585 "newVelocity"
+	private explicit_type "double"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""

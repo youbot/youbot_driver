@@ -1,7 +1,7 @@
 class JointLimitMonitor
 !!!1026929.cpp!!!	JointLimitMonitor(in jointParameters : YouBotJointStorage, in jointAcceleration : quantity<angular_acceleration>)
 	this->storage = jointParameters;
-	this->acceleration = jointAcceleration.value();  // rad/s^2
+	this->acceleration = jointAcceleration.value()-2;  // rad/s^2
 	brakingDistance = 0;
 	isbraking = false;
 	velocityWhenReachedLimit = 0;
@@ -49,32 +49,33 @@ class JointLimitMonitor
 !!!1034993.cpp!!!	checkLimitsProcessData(in messageInput : SlaveMessageInput, out messageOutput : SlaveMessageOutput) : void
 		switch (messageOutput.controllerMode) {
 			case POSITION_CONTROL:
-
 				break;
 			case VELOCITY_CONTROL:
 				if(isbraking == false){
-					actualVelocityRPS = (((double)messageInput.actualVelocity / 60.0) *storage.gearRatio* 2.0 * M_PI); // radian_per_second;
-
-				  brakingDistance= abs((((actualVelocityRPS * actualVelocityRPS)/(2.0*acceleration)) * ((double) storage.encoderTicksPerRound / (2.0 * M_PI))) / storage.gearRatio);
-					
-					bevorLowerLimit = storage.lowerLimit + brakingDistance;
-					bevorUpperLimit = storage.upperLimit - brakingDistance;
-					velocityWhenReachedLimit = messageInput.actualVelocity;
+					calculateBrakingDistance(messageInput);
 				}
 					
 				if( (messageInput.actualPosition < bevorLowerLimit && !(messageOutput.value > 0)) || (messageInput.actualPosition > bevorUpperLimit && !(messageOutput.value < 0))) {
-					messageOutput.value = velocityWhenReachedLimit * this->calculateDamping(messageInput.actualPosition);
-					if(isbraking == false){
-						LOG(error) << "actualVelocityRPS " <<actualVelocityRPS << " brakingDistance "<< brakingDistance;
-					}
+				//	messageOutput.value = velocityWhenReachedLimit * this->calculateDamping(messageInput.actualPosition);
+					messageOutput.value = this->calculateBrakingVelocity(messageInput.actualPosition);
 					isbraking = true;
-					
 				}else{
 					isbraking = false;
 				}
 
 				break;
 			case CURRENT_MODE:
+				if(isbraking == false){
+					calculateBrakingDistance(messageInput);
+				}
+					
+				if( (messageInput.actualPosition < bevorLowerLimit && !(messageOutput.value > 0)) || (messageInput.actualPosition > bevorUpperLimit && !(messageOutput.value < 0))) {
+					messageOutput.value = this->calculateBrakingVelocity(messageInput.actualPosition);
+					messageOutput.controllerMode = VELOCITY_CONTROL;
+					isbraking = true;
+				}else{
+					isbraking = false;
+				}
 
 				break;
 			default:
@@ -97,4 +98,31 @@ class JointLimitMonitor
 		return abs(((double)(storage.upperLimit - actualPosition))/(storage.upperLimit - bevorUpperLimit));
 	}
 	return 0.0;
+	
+!!!1041521.cpp!!!	calculateBrakingDistance(in messageInput : SlaveMessageInput) : void
+		actualVelocityRPS = (((double) messageInput.actualVelocity / 60.0) * storage.gearRatio * 2.0 * M_PI); // radian_per_second;
+
+		brakingDistance = abs((((actualVelocityRPS * actualVelocityRPS) / (2.0 * acceleration)) * ((double) storage.encoderTicksPerRound / (2.0 * M_PI))) / storage.gearRatio);
+
+		bevorLowerLimit = storage.lowerLimit + brakingDistance;
+		bevorUpperLimit = storage.upperLimit - brakingDistance;
+		velocityWhenReachedLimit = messageInput.actualVelocity;
+!!!1041649.cpp!!!	calculateBrakingVelocity(in actualPosition : int) : int
+	if(actualPosition <= storage.lowerLimit){
+		return 0;
+	}
+	if(actualPosition >= storage.upperLimit){
+		return 0;
+	}
+	if(actualPosition < bevorLowerLimit){
+		distanceToLimit = ((double) (actualPosition - storage.lowerLimit) / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI);
+		newVelocity =  -sqrt(2.0*acceleration* distanceToLimit);
+		return round((newVelocity / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
+	}
+	if(actualPosition > bevorUpperLimit){
+		distanceToLimit = ((double) (storage.upperLimit - actualPosition) / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI);
+		newVelocity =  sqrt(2.0*acceleration* distanceToLimit);
+		return round((newVelocity / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
+	}
+	return 0;
 	

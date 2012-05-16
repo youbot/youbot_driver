@@ -89,6 +89,10 @@ class JointLimitMonitor {
   private:
     double calculateDamping(const int actualPosition);
 
+    void calculateBrakingDistance(const SlaveMessageInput& messageInput);
+
+    int calculateBrakingVelocity(const int actualPosition);
+
     YouBotJointStorage storage;
 
     double acceleration;
@@ -104,6 +108,10 @@ class JointLimitMonitor {
     bool isbraking;
 
     int velocityWhenReachedLimit;
+
+    double distanceToLimit;
+
+    double newVelocity;
 
 };
 

@@ -127,32 +127,33 @@ void JointLimitMonitor::checkLimitsProcessData(const SlaveMessageInput& messageI
   // Bouml preserved body begin 000FCAF1
 		switch (messageOutput.controllerMode) {
 			case POSITION_CONTROL:
-
 				break;
 			case VELOCITY_CONTROL:
 				if(isbraking == false){
-					actualVelocityRPS = (((double)messageInput.actualVelocity / 60.0) *storage.gearRatio* 2.0 * M_PI); // radian_per_second;
-
-				  brakingDistance= abs((((actualVelocityRPS * actualVelocityRPS)/(2.0*acceleration)) * ((double) storage.encoderTicksPerRound / (2.0 * M_PI))) / storage.gearRatio);
-					
-					bevorLowerLimit = storage.lowerLimit + brakingDistance;
-					bevorUpperLimit = storage.upperLimit - brakingDistance;
-					velocityWhenReachedLimit = messageInput.actualVelocity;
+					calculateBrakingDistance(messageInput);
 				}
 					
 				if( (messageInput.actualPosition < bevorLowerLimit && !(messageOutput.value > 0)) || (messageInput.actualPosition > bevorUpperLimit && !(messageOutput.value < 0))) {
-					messageOutput.value = velocityWhenReachedLimit * this->calculateDamping(messageInput.actualPosition);
-					if(isbraking == false){
-						LOG(error) << "actualVelocityRPS " <<actualVelocityRPS << " brakingDistance "<< brakingDistance;
-					}
+				//	messageOutput.value = velocityWhenReachedLimit * this->calculateDamping(messageInput.actualPosition);
+					messageOutput.value = this->calculateBrakingVelocity(messageInput.actualPosition);
 					isbraking = true;
-					
 				}else{
 					isbraking = false;
 				}
 
 				break;
 			case CURRENT_MODE:
+				if(isbraking == false){
+					calculateBrakingDistance(messageInput);
+				}
+					
+				if( (messageInput.actualPosition < bevorLowerLimit && !(messageOutput.value > 0)) || (messageInput.actualPosition > bevorUpperLimit && !(messageOutput.value < 0))) {
+					messageOutput.value = this->calculateBrakingVelocity(messageInput.actualPosition);
+					messageOutput.controllerMode = VELOCITY_CONTROL;
+					isbraking = true;
+				}else{
+					isbraking = false;
+				}
 
 				break;
 			default:
@@ -181,6 +182,41 @@ double JointLimitMonitor::calculateDamping(const int actualPosition) {
 	return 0.0;
 	
   // Bouml preserved body end 000FAFF1
+}
+
+void JointLimitMonitor::calculateBrakingDistance(const SlaveMessageInput& messageInput) {
+  // Bouml preserved body begin 000FE471
+		actualVelocityRPS = (((double) messageInput.actualVelocity / 60.0) * storage.gearRatio * 2.0 * M_PI); // radian_per_second;
+
+		brakingDistance = abs((((actualVelocityRPS * actualVelocityRPS) / (2.0 * acceleration)) * ((double) storage.encoderTicksPerRound / (2.0 * M_PI))) / storage.gearRatio);
+
+		bevorLowerLimit = storage.lowerLimit + brakingDistance;
+		bevorUpperLimit = storage.upperLimit - brakingDistance;
+		velocityWhenReachedLimit = messageInput.actualVelocity;
+  // Bouml preserved body end 000FE471
+}
+
+int JointLimitMonitor::calculateBrakingVelocity(const int actualPosition) {
+  // Bouml preserved body begin 000FE4F1
+	if(actualPosition <= storage.lowerLimit){
+		return 0;
+	}
+	if(actualPosition >= storage.upperLimit){
+		return 0;
+	}
+	if(actualPosition < bevorLowerLimit){
+		distanceToLimit = ((double) (actualPosition - storage.lowerLimit) / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI);
+		newVelocity =  -sqrt(2.0*acceleration* distanceToLimit);
+		return round((newVelocity / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
+	}
+	if(actualPosition > bevorUpperLimit){
+		distanceToLimit = ((double) (storage.upperLimit - actualPosition) / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI);
+		newVelocity =  sqrt(2.0*acceleration* distanceToLimit);
+		return round((newVelocity / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
+	}
+	return 0;
+	
+  // Bouml preserved body end 000FE4F1
 }
 
 

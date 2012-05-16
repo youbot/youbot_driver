@@ -602,75 +602,75 @@ class YouBotJoint
   
 
     if (messageBuffer.stctInput.errorFlags & OVER_CURRENT) {
-      statusMessages.push_back(this->storage.jointName + "got over current");
+      statusMessages.push_back(this->storage.jointName + " got over current");
     }
 
     if (messageBuffer.stctInput.errorFlags & UNDER_VOLTAGE) {
-      statusMessages.push_back(this->storage.jointName + "got under voltage");
+      statusMessages.push_back(this->storage.jointName + " got under voltage");
     }
 
     if (messageBuffer.stctInput.errorFlags & OVER_VOLTAGE) {
-      statusMessages.push_back(this->storage.jointName + "got over voltage");
+      statusMessages.push_back(this->storage.jointName + " got over voltage");
     }
 
     if (messageBuffer.stctInput.errorFlags & OVER_TEMPERATURE) {
-      statusMessages.push_back(this->storage.jointName + "got over temperature");
+      statusMessages.push_back(this->storage.jointName + " got over temperature");
     }
 
     if (messageBuffer.stctInput.errorFlags & MOTOR_HALTED) {
-      statusMessages.push_back(this->storage.jointName + "is halted");
+      statusMessages.push_back(this->storage.jointName + " is halted");
     }
 
     if (messageBuffer.stctInput.errorFlags & HALL_SENSOR_ERROR) {
-      statusMessages.push_back(this->storage.jointName + "got hall sensor problem");
+      statusMessages.push_back(this->storage.jointName + " got hall sensor problem");
     }
 
 //    if (messageBuffer.stctInput.errorFlags & ENCODER_ERROR) {
-//      statusMessages.push_back(this->storage.jointName + "got encoder problem");
+//      statusMessages.push_back(this->storage.jointName + " got encoder problem");
 //    }
 //
 //     if (messageBuffer.stctInput.errorFlags & INITIALIZATION_ERROR) {
-//      statusMessages.push_back(this->storage.jointName + "got inizialization problem");
+//      statusMessages.push_back(this->storage.jointName + " got inizialization problem");
 //    }
 
     if (messageBuffer.stctInput.errorFlags & PWM_MODE_ACTIVE) {
-      statusMessages.push_back(this->storage.jointName + "has PWM mode active");
+      statusMessages.push_back(this->storage.jointName + " has PWM mode active");
     }
 
     if (messageBuffer.stctInput.errorFlags & VELOCITY_MODE) {
-      statusMessages.push_back(this->storage.jointName + "has velocity mode active");
+      statusMessages.push_back(this->storage.jointName + " has velocity mode active");
     }
 
     if (messageBuffer.stctInput.errorFlags & POSITION_MODE) {
-      statusMessages.push_back(this->storage.jointName + "has position mode active");
+      statusMessages.push_back(this->storage.jointName + " has position mode active");
     }
 
     if (messageBuffer.stctInput.errorFlags & TORQUE_MODE) {
-      statusMessages.push_back(this->storage.jointName + "has torque mode active");
+      statusMessages.push_back(this->storage.jointName + " has torque mode active");
     }
 
 //    if (messageBuffer.stctInput.errorFlags & EMERGENCY_STOP) {
-//      statusMessages.push_back(this->storage.jointName + "has emergency stop active");
+//      statusMessages.push_back(this->storage.jointName + " has emergency stop active");
 //    }
 //
 //    if (messageBuffer.stctInput.errorFlags & FREERUNNING) {
-//      statusMessages.push_back(this->storage.jointName + "has freerunning active");
+//      statusMessages.push_back(this->storage.jointName + " has freerunning active");
 //    }
 
     if (messageBuffer.stctInput.errorFlags & POSITION_REACHED) {
-      statusMessages.push_back(this->storage.jointName + "has position reached");
+      statusMessages.push_back(this->storage.jointName + " has position reached");
     }
 
     if (messageBuffer.stctInput.errorFlags & INITIALIZED) {
-      statusMessages.push_back(this->storage.jointName + "is initialized");
+      statusMessages.push_back(this->storage.jointName + " is initialized");
     }
 
     if (messageBuffer.stctInput.errorFlags & TIMEOUT) {
-      statusMessages.push_back(this->storage.jointName + "has a timeout");
+      statusMessages.push_back(this->storage.jointName + " has a timeout");
     }
 
     if (messageBuffer.stctInput.errorFlags & I2T_EXCEEDED) {
-      statusMessages.push_back(this->storage.jointName + "exceeded I2t");
+      statusMessages.push_back(this->storage.jointName + " exceeded I2t");
     }
   
   
