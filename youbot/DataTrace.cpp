@@ -451,7 +451,7 @@ void DataTrace::updateTrace() {
         controllerMode = PWM_CONTROL_MODE;
         break;
       case CURRENT_MODE:
-        currentSetpoint.current = message.stctOutput.value* 1000 * ampere;
+        currentSetpoint.current = (double)message.stctOutput.value /1000.0 * ampere;
         controllerMode = CURRENT_CONTROL_MODE;
         break;
       case INITIALIZE:
