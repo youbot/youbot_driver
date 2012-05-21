@@ -22,13 +22,8 @@ Installation
 
 These libraries are required by the youBot API: 
 
-* [Simple Open EtherCAT master](http://soem.berlios.de)
+* [Simple Open EtherCAT master](http://soem.berlios.de) (included in the driver)
 * [Boost C++ Libraries](http://www.boost.org)
-
-You can fetch, compile and install these library by hand or you can use robotpkg a software packaging tool to do this automatically. 
-
-### Installation with robotpkg:
-If you want to use robotpkg please visit this [site](https://github.com/youbot/youbot_packages/wiki) for more details.
 
 
 ### Installation with rosmake:
@@ -38,11 +33,7 @@ Clone the youBot API sources:
     
     git clone git://github.com/youbot/youbot_driver.git
 
-Clone additional ros packages which include the SOEM (Simple Open EtherCAT master):
-
-    git clone git://github.com/janpaulus/brics-external-packages-ros.git
-
-Add both repository folders to the ROS_PACKAGE_PATH environment variable.
+Add the repository folder to the ROS_PACKAGE_PATH environment variable.
 
 Compile the youbot driver by typing:
 
@@ -64,11 +55,7 @@ To download the youBot API sources type:
 
     git clone git://github.com/youbot/youbot_driver.git
 
-Download the Simple Open EtherCAT master (SOEM) software from the [website](http://soem.berlios.de)
-
-Before you compile the SOEM software you have to apply two patches, which can be downloaded [here](https://github.com/youbot/youbot_driver/wiki/SOEMpatches.tar.gz).
-
-After you have compiled and installed the SOEM you also have to install boost.
+Install boost.
 
     sudo apt-get install libboost-all-dev
 
@@ -81,9 +68,6 @@ Now you should be able to compile the youBot API.
     make
 
 The library will be generated in the folder ~/youbot_driver/lib.
-
-
-If you do not want to do these steps manually, please use robotpkg.
 
 
 Usage
@@ -113,6 +97,7 @@ For more detailed information on class and methods please refer to the [API docu
 To generate the documentation from the source code type: 
 
     sudo apt-get install doxygen
+    cd build
     make doc 
 
 

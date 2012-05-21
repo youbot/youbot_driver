@@ -96,9 +96,11 @@ ADD_LIBRARY(YouBotDriver
   ${YOUBOT_DRIVER_SRC}
 )
 
+TARGET_LINK_LIBRARIES(YouBotDriver soem)
+
 ADD_LIBRARY(YouBotDriverShared SHARED)
 SET_TARGET_PROPERTIES(YouBotDriverShared PROPERTIES OUTPUT_NAME "YouBotDriver")
-TARGET_LINK_LIBRARIES(YouBotDriverShared -Wl,-whole-archive YouBotDriver -Wl,-no-whole-archive)
+TARGET_LINK_LIBRARIES(YouBotDriverShared -Wl,-whole-archive YouBotDriver soem -Wl,-no-whole-archive)
 
 
 MACRO(INSTALL_HEADERS_WITH_DIRECTORY HEADER_LIST)
