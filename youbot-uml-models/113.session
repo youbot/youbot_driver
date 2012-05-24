@@ -1,13 +1,7 @@
-window_sizes 1280 726 421 853 645 0
+window_sizes 1272 723 421 845 640 0
 show_stereotypes
-selected operation_ref 389489 // ~YouBotGripperParameter
+selected operation_ref 695537 // calibrateGripper
 open
-  classview_ref 167537 // YouBotJointParameterReadOnly
-  class_ref 258929 // YouBotGripperParameter
-  
-  package_ref 154737 // generic-joint
-  deploymentview_ref 161137 // Deployment
-  deploymentview_ref 167665 // Deployment
-  deploymentview_ref 174193 // Deployment
+  class_ref 286321 // YouBotManipulator
 end
 end

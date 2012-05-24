@@ -132,12 +132,38 @@ void YouBotGripper::getConfigurationParameter(GripperFirmwareVersion& parameter)
 void YouBotGripper::setConfigurationParameter(const CalibrateGripper& parameter) {
   // Bouml preserved body begin 00048271
 
-    if (parameter.value) {
+		char index = 16; // Parameter 0 to 15 of bank 2 are password protected
+		YouBotSlaveMailboxMsg IsCalibratedReadMessage;
+		IsCalibratedReadMessage.stctOutput.moduleAddress = GRIPPER;
+		IsCalibratedReadMessage.stctOutput.commandNumber = GGP;
+		IsCalibratedReadMessage.stctOutput.typeNumber = index;
+		IsCalibratedReadMessage.stctOutput.motorNumber = USER_VARIABLE_BANK;
+		IsCalibratedReadMessage.stctOutput.value = 0;
+		IsCalibratedReadMessage.stctInput.value = 0;
+
+		YouBotSlaveMailboxMsg IsCalibratedSetMessage;
+		IsCalibratedSetMessage.stctOutput.moduleAddress = GRIPPER;
+		IsCalibratedSetMessage.stctOutput.commandNumber = SGP;
+		IsCalibratedSetMessage.stctOutput.typeNumber = index;
+		IsCalibratedSetMessage.stctOutput.motorNumber = USER_VARIABLE_BANK;
+		IsCalibratedSetMessage.stctOutput.value = 1;
+		
+
+		bool doCalibration = true;
+		if (parameter.value == false) {
+			if (!retrieveValueFromMotorContoller(IsCalibratedReadMessage)) {
+				IsCalibratedReadMessage.stctInput.value = 0;
+			}
+			
+      if (IsCalibratedReadMessage.stctInput.value == 1) {
+        doCalibration = false;
+      }
+		}
+			
+		if(doCalibration){
       LOG(info) << "Calibrate Gripper";
  
       YouBotSlaveMailboxMsg message;
-
-
 
       unsigned int maxenc = 0;
       MaxEncoderValue maxencoder;
@@ -196,8 +222,10 @@ void YouBotGripper::setConfigurationParameter(const CalibrateGripper& parameter)
       actualPose.setParameter(0);
       bar1->setConfigurationParameter(actualPose);
       bar2->setConfigurationParameter(actualPose);
-
-    }
+			
+			 // set a flag in the user variable to remember that it is calibrated
+      this->setValueToMotorContoller(IsCalibratedSetMessage);
+		}
 
   // Bouml preserved body end 00048271
 }

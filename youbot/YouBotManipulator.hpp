@@ -86,7 +86,7 @@ class YouBotManipulator {
     ///calibrate the reference position of the arm joints
     void calibrateManipulator(const bool forceCalibration = false);
 
-    void calibrateGripper();
+    void calibrateGripper(const bool forceCalibration = false);
 
     ///return a joint form the arm1
     ///@param armJointNumber 1-5 for the arm1 joints

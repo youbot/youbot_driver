@@ -844,8 +844,8 @@ void YouBotJoint::getUserVariable(const unsigned int index, int& data) {
 void YouBotJoint::setUserVariable(const unsigned int index, const int data) {
   // Bouml preserved body begin 000AD1F1
   
-  if(index == 0 || index > 55){
-    throw JointParameterException("User variable index is out of range use 1-55 at: " + this->jointName);
+  if(index < 17 || index > 55){
+    throw JointParameterException("User variable index is out of range use 17-55 at: " + this->jointName);
   }
   //56 is the last userdata at bank 2
     YouBotSlaveMailboxMsg message;
