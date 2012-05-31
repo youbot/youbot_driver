@@ -1,19 +1,23 @@
-#include "YouBotBaseTest.hpp"
+#include "YouBotBaseTestWithoutThread.hpp"
 
 using namespace youbot;
 
-YouBotBaseTest::YouBotBaseTest() {
-
-	EthercatMaster::getInstance("youbot-ethercat.cfg", "../config/", true);
-
+YouBotBaseTestWithoutThread::YouBotBaseTestWithoutThread() {
+	
 
 }
 
-YouBotBaseTest::~YouBotBaseTest() {
-
+YouBotBaseTestWithoutThread::~YouBotBaseTestWithoutThread() {
 }
 
-void YouBotBaseTest::setUp() {
+void YouBotBaseTestWithoutThread::setUp() {
+
+	ethercatMaster = &EthercatMaster::getInstance("youbot-ethercat.cfg", "../config/", false);
+	if(ethercatMaster->isThreadActive()){
+		LOG(error) << "Thread Active";
+		EthercatMaster::destroy();
+		ethercatMaster = &EthercatMaster::getInstance("youbot-ethercat.cfg", "../config/", false);
+	}
 	Logger::logginLevel = trace;
 	jointNO = 4;
 	stepStartTime = 1000;
@@ -24,20 +28,23 @@ void YouBotBaseTest::setUp() {
 	setAngle.angle = 0 * radian;
 	setVel.angularVelocity = 0 * radian_per_second;
 	currentSetpoint.current = 0 * ampere;
-
 }
 
-void YouBotBaseTest::tearDown() {
-//	EthercatMaster::destroy();
+void YouBotBaseTestWithoutThread::tearDown() {
+
+	//EthercatMaster::destroy();
 }
 
-void YouBotBaseTest::youBotBaseTest_PositionMode() {
-
+void YouBotBaseTestWithoutThread::YouBotBaseTestWithoutThread_PositionMode() {
 	LOG(info) <<__func__<< "\n";
 	YouBotBase myBase("youbot-base");
 	myBase.doJointCommutation();
 	DataTrace myTrace(myBase.getBaseJoint(jointNO), __func__, true);
 	myBase.getBaseJoint(jointNO).setEncoderToZero();
+	if (!ethercatMaster->isThreadActive()) {
+		ethercatMaster->sendProcessData();
+		ethercatMaster->receiveProcessData();
+	}
 	myTrace.startTrace();
 	
 	startTime = myTrace.getTimeDurationMilliSec();
@@ -56,6 +63,10 @@ void YouBotBaseTest::youBotBaseTest_PositionMode() {
 		}
 
 		myBase.getBaseJoint(jointNO).setData(setAngle);
+		if (!ethercatMaster->isThreadActive()) {
+			ethercatMaster->sendProcessData();
+			ethercatMaster->receiveProcessData();
+		}
 		myTrace.updateTrace(setAngle);
 
 		SLEEP_MICROSEC(updateCycle);
@@ -64,12 +75,16 @@ void YouBotBaseTest::youBotBaseTest_PositionMode() {
 	myTrace.plotTrace();
 }
 
-void YouBotBaseTest::youBotBaseTest_VelocityMode() {
+void YouBotBaseTestWithoutThread::YouBotBaseTestWithoutThread_VelocityMode() {
 	LOG(info) <<__func__<< "\n";
 	YouBotBase myBase("youbot-base");
 	myBase.doJointCommutation();
 	DataTrace myTrace(myBase.getBaseJoint(jointNO), __func__, true);
 	myBase.getBaseJoint(jointNO).setEncoderToZero();
+	if (!ethercatMaster->isThreadActive()) {
+		ethercatMaster->sendProcessData();
+		ethercatMaster->receiveProcessData();
+	}
 	myTrace.startTrace();
 	
 	startTime = myTrace.getTimeDurationMilliSec();
@@ -88,6 +103,10 @@ void YouBotBaseTest::youBotBaseTest_VelocityMode() {
 		}
 
 		myBase.getBaseJoint(jointNO).setData(setVel);
+		if (!ethercatMaster->isThreadActive()) {
+			ethercatMaster->sendProcessData();
+			ethercatMaster->receiveProcessData();
+		}
 		myTrace.updateTrace(setVel);
 
 		SLEEP_MICROSEC(updateCycle);
@@ -96,12 +115,16 @@ void YouBotBaseTest::youBotBaseTest_VelocityMode() {
 	myTrace.plotTrace();
 }
 
-void YouBotBaseTest::youBotBaseTest_CurrentMode() {
+void YouBotBaseTestWithoutThread::YouBotBaseTestWithoutThread_CurrentMode() {
 	LOG(info) <<__func__<< "\n";
 	YouBotBase myBase("youbot-base");
 	myBase.doJointCommutation();
 	DataTrace myTrace(myBase.getBaseJoint(jointNO), __func__, true);
 	myBase.getBaseJoint(jointNO).setEncoderToZero();
+	if (!ethercatMaster->isThreadActive()) {
+		ethercatMaster->sendProcessData();
+		ethercatMaster->receiveProcessData();
+	}
 	myTrace.startTrace();
 	
 	startTime = myTrace.getTimeDurationMilliSec();
@@ -120,6 +143,10 @@ void YouBotBaseTest::youBotBaseTest_CurrentMode() {
 		}
 
 		myBase.getBaseJoint(jointNO).setData(currentSetpoint);
+		if (!ethercatMaster->isThreadActive()) {
+			ethercatMaster->sendProcessData();
+			ethercatMaster->receiveProcessData();
+		}
 		myTrace.updateTrace(currentSetpoint);
 
 		SLEEP_MICROSEC(updateCycle);

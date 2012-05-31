@@ -91,7 +91,7 @@ enum DataTraceCntrollerMode {
 ///////////////////////////////////////////////////////////////////////////////
 class DataTrace {
   public:
-    DataTrace(YouBotJoint& youBotJoint, const std::string Name);
+    DataTrace(YouBotJoint& youBotJoint, const std::string Name, const bool overwriteFiles = false);
 
     virtual ~DataTrace();
 

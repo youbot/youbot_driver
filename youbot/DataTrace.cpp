@@ -51,7 +51,7 @@
 #include "youbot/DataTrace.hpp"
 namespace youbot {
 
-DataTrace::DataTrace(YouBotJoint& youBotJoint, const std::string Name):joint(youBotJoint) {
+DataTrace::DataTrace(YouBotJoint& youBotJoint, const std::string Name, const bool overwriteFiles):joint(youBotJoint) {
   // Bouml preserved body begin 000C8F71
 
     roundsPerMinuteSetpoint.rpm = 0;
@@ -62,15 +62,18 @@ DataTrace::DataTrace(YouBotJoint& youBotJoint, const std::string Name):joint(you
       this->path = Name;
       this->path.append("/");
     }
-    
+    char input = 0;
+		
     if(boost::filesystem::exists((path+"jointDataTrace").c_str())){
-      std::cout << "Do you want to overwrite the existing files? [n/y]" << std::endl; 
+			while(input != 'y' && input != 'n' && overwriteFiles == false){
+				std::cout << "Do you want to overwrite the existing files? [n/y]" << std::endl; 
 
-      char input = getchar();
-      
-      if(input!= 'y'){
-        throw std::runtime_error("Will not overwrite files!");
-      }
+				input = getchar();
+
+				if(input == 'n'){
+					throw std::runtime_error("Will not overwrite files!");
+				}
+			}
 
     }else{
       boost::filesystem::path rootPath (this->path);
@@ -363,7 +366,7 @@ void DataTrace::plotTrace() {
   
     std::string executeString = "cd ";
     executeString.append(path);
-    executeString.append("; gnuplot ../../gnuplotconfig");
+    executeString.append("; gnuplot ../../gnuplotconfig > /dev/null 2>&1");
     std::system(executeString.c_str());
   // Bouml preserved body end 000C9571
 }

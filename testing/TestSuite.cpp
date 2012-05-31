@@ -1,18 +1,18 @@
 #include "YouBotBaseTest.hpp"
-
+#include "YouBotBaseTestWithoutThread.hpp"
 #include <cppunit/CompilerOutputter.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION( YouBotBaseTest );
+CPPUNIT_TEST_SUITE_REGISTRATION( YouBotBaseTestWithoutThread );
 
 int main(int argc, char* argv[]) {
   CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
   CppUnit::TextUi::TestRunner runner;
   runner.addTest( suite );
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
+  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(), std::cerr ) );
   /** let the test run */
   bool wasSucessful = runner.run();
   
