@@ -399,10 +399,9 @@ class YouBotBase
       configfile->readInto(lowerlimit, jointName, "LowerLimit_[encoderTicks]");
       configfile->readInto(upperlimit, jointName, "UpperLimit_[encoderTicks]");
 
-      jLimits.setParameter(lowerlimit, upperlimit, true);
-      
+      jLimits.setParameter(lowerlimit, upperlimit, false);
+      joints[i].setConfigurationParameter(jLimits);
     }
-		joints[3].setConfigurationParameter(jLimits);
 
     return;
 !!!318961.cpp!!!	initializeKinematic() : void

@@ -1,7 +1,7 @@
 class JointLimitMonitor
 !!!1026929.cpp!!!	JointLimitMonitor(in jointParameters : YouBotJointStorage, in jointAcceleration : quantity<angular_acceleration>)
 	this->storage = jointParameters;
-	this->acceleration = jointAcceleration.value()-2;  // rad/s^2
+	this->acceleration = jointAcceleration.value();  // rad/s^2
 	brakingDistance = 0;
 	isbraking = false;
 	velocityWhenReachedLimit = 0;

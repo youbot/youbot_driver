@@ -580,7 +580,7 @@ class YouBotJoint
 !!!709105.cpp!!!	setUserVariable(in index : uint, in data : int) : void
   
   if(index < 17 || index > 55){
-    throw JointParameterException("User variable index is out of range use 17-55 at: " + this->jointName);
+    throw JointParameterException("User variable index is out of range use 17-55 at: " + this->storage.jointName);
   }
   //56 is the last userdata at bank 2
     YouBotSlaveMailboxMsg message;
