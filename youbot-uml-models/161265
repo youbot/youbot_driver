@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 74
+  revision 75
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -1442,8 +1442,7 @@ ${namespace_end}
 #include \"youbot/EthercatMaster.hpp\"
 
 ${namespace_start}
-EthercatMasterInterface* EthercatMaster::instance = NULL;
-EthercatMaster* EthercatMaster::factoryInstance = NULL;
+EthercatMasterInterface* EthercatMaster::instance = 0;
 ${members}
 ${namespace_end}"
       associated_classes

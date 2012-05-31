@@ -1,7 +1,8 @@
-window_sizes 1272 723 421 845 640 0
+window_sizes 1680 976 421 1253 895 0
 show_stereotypes
-selected operation_ref 695537 // calibrateGripper
+selected operation_ref 942449 // ~EthercatMaster
 open
-  class_ref 286321 // YouBotManipulator
+  class_ref 492529 // EthercatMaster
+  deploymentview_ref 161137 // Deployment
 end
 end
