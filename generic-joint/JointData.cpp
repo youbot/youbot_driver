@@ -220,5 +220,17 @@ JointEncoderSetpoint::JointEncoderSetpoint(const signed int& value) {
   // Bouml preserved body end 000D0171
 }
 
+JointRampGeneratorVelocity::JointRampGeneratorVelocity() {
+  // Bouml preserved body begin 00100171
+  this->angularVelocity = 0 * radian_per_second;
+  // Bouml preserved body end 00100171
+}
+
+JointRampGeneratorVelocity::JointRampGeneratorVelocity(const quantity<si::angular_velocity>& value) {
+  // Bouml preserved body begin 001001F1
+  this->angularVelocity = value;
+  // Bouml preserved body end 001001F1
+}
+
 
 } // namespace youbot

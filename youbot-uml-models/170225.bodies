@@ -165,8 +165,8 @@ class YouBotJoint
 !!!619505.cpp!!!	setConfigurationParameter(in parameter : InitializeJoint) : void
     if (parameter.value) {
       //YouBotSlaveMsg messageBuffer;
-      messageBuffer.stctOutput.controllerMode = INITIALIZE;
-      messageBuffer.stctOutput.value = 0;
+      messageBuffer.stctOutput.controllerMode = CURRENT_MODE;
+      messageBuffer.stctOutput.value = 1;
 
       ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
     }
@@ -464,37 +464,6 @@ class YouBotJoint
       messageBuffer.stctOutput.value *= -1;
     }
     ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
-!!!831473.cpp!!!	getData(out data : JointSensedPWM) : void
-		if(!ethercatMaster->isEtherCATConnectionEstablished()){
-			throw EtherCATConnectionException("No EtherCAT connection");
-		}
-		
-    //YouBotSlaveMsg messageBuffer;
-    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
-    this->parseYouBotErrorFlags(messageBuffer);
-
-    data.pwm = messageBuffer.stctInput.actualPWM;
-    
-    if (storage.inverseMovementDirection) {
-      data.pwm *= -1;
-    }
-    
-!!!611953.cpp!!!	setData(in data : JointPWMSetpoint, in communicationMode : SyncMode = NON_BLOCKING) : void
-		if(!ethercatMaster->isEtherCATConnectionEstablished()){
-			throw EtherCATConnectionException("No EtherCAT connection");
-		}
-		
-    //YouBotSlaveMsg messageBuffer;
-    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
-    this->parseYouBotErrorFlags(messageBuffer);
-    
-    messageBuffer.stctOutput.controllerMode = PWM_MODE;
-    messageBuffer.stctOutput.value = data.pwm;
-    
-    if (storage.inverseMovementDirection) {
-      messageBuffer.stctOutput.value *= -1;
-    }
-    ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
 !!!702449.cpp!!!	getData(out data : JointSensedEncoderTicks) : void
 		if(!ethercatMaster->isEtherCATConnectionEstablished()){
 			throw EtherCATConnectionException("No EtherCAT connection");
@@ -558,6 +527,80 @@ class YouBotJoint
     throw std::out_of_range("A Gear Ratio of 0 is not allowed");
   }
   data.torque = ((sensedCurrent.current.value() * this->storage.torqueConstant) / this->storage.gearRatio) * newton_meter;
+!!!1049201.cpp!!!	getData(out data : JointAngleSetpoint) : void
+    //YouBotSlaveMsg messageBuffer;
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+	
+    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
+    this->parseYouBotErrorFlags(messageBuffer);
+
+    if (storage.gearRatio == 0) {
+      throw std::out_of_range("A Gear Ratio of zero is not allowed");
+    }
+    if (storage.encoderTicksPerRound == 0) {
+      throw std::out_of_range("Zero Encoder Ticks per Round are not allowed");
+    }
+    //  LOG(trace) << "enc: " << messageBuffer.stctInput.actualPosition;
+    data.angle = ((double) messageBuffer.stctInput.targetPosition / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
+
+    if (storage.inverseMovementDirection) {
+      data.angle = -data.angle;
+    }
+!!!1049329.cpp!!!	getData(out data : JointVelocitySetpoint) : void
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
+    //YouBotSlaveMsg messageBuffer;
+    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
+    this->parseYouBotErrorFlags(messageBuffer);
+
+    if (storage.gearRatio == 0) {
+      throw std::out_of_range("A Gear Ratio of 0 is not allowed");
+    }
+    double motorRPM = messageBuffer.stctInput.targetVelocity;
+    //convert RPM of the motor to radian per second of the wheel/joint
+    data.angularVelocity = ((motorRPM / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
+    
+    if (storage.inverseMovementDirection) {
+      data.angularVelocity *= -1;
+    }
+!!!1049457.cpp!!!	getData(out data : JointCurrentSetpoint) : void
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
+    //YouBotSlaveMsg messageBuffer;
+    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
+    this->parseYouBotErrorFlags(messageBuffer);
+    //convert mili ampere to ampere
+    double current = messageBuffer.stctInput.targetCurrent;
+    data.current =  current / 1000.0 * ampere;
+    
+    if (storage.inverseMovementDirection) {
+      data.current *= -1;
+    }
+!!!1049585.cpp!!!	getData(out data : JointRampGeneratorVelocity) : void
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
+    //YouBotSlaveMsg messageBuffer;
+    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
+    this->parseYouBotErrorFlags(messageBuffer);
+
+    if (storage.gearRatio == 0) {
+      throw std::out_of_range("A Gear Ratio of 0 is not allowed");
+    }
+    double motorRPM = messageBuffer.stctInput.rampGeneratorVelocity;
+    //convert RPM of the motor to radian per second of the wheel/joint
+    data.angularVelocity = ((motorRPM / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
+    
+    if (storage.inverseMovementDirection) {
+      data.angularVelocity *= -1;
+    }
 !!!708977.cpp!!!	getUserVariable(in index : uint, out data : int) : void
   
   if(index == 0 || index > 55){

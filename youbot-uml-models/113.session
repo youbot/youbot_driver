@@ -1,8 +1,15 @@
-window_sizes 1672 973 421 1245 890 0
+window_sizes 1680 976 421 1253 893 0
+diagrams
+  active  classdiagram_ref 141553 // JointData
+    1253 893 100 2 0 0
+end
 show_stereotypes
-selected class_ref 425713 // DataTrace
+selected operation_ref 978033 // updateTrace
 open
-  classview_ref 160881 // YouBot
+  classview_ref 134641 // Joint
+  classview_ref 154225 // JointData
+  class_ref 425713 // DataTrace
+  deploymentview_ref 154609 // Deployment
   deploymentview_ref 161137 // Deployment
 end
 end

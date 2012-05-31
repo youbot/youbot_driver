@@ -1,0 +1,5 @@
+class JointRampGeneratorVelocity
+!!!1048945.cpp!!!	JointRampGeneratorVelocity()
+  this->angularVelocity = 0 * radian_per_second;
+!!!1049073.cpp!!!	JointRampGeneratorVelocity(in value : quantity<si::angular_velocity>)
+  this->angularVelocity = value;

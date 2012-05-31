@@ -119,7 +119,7 @@ void DataTrace::startTrace() {
             << " " << "RPM setpoint"
             << " " << "current setpoint [A]"
             << " " << "torque setpoint [Nm]"
-            << " " << "PWM setpoint"
+            << " " << "ramp generator setpoint [rad/s]"
             << " " << "encoder setpoint"
 
             << " " << "sensed angle [rad]"
@@ -411,14 +411,6 @@ void DataTrace::updateTrace(const JointTorqueSetpoint& setpoint) {
   // Bouml preserved body end 000C9271
 }
 
-void DataTrace::updateTrace(const JointPWMSetpoint& setpoint) {
-  // Bouml preserved body begin 000C92F1
-    PWMSetpoint = setpoint;
-    controllerMode = PWM_CONTROL_MODE;
-    this->update();
-  // Bouml preserved body end 000C92F1
-}
-
 void DataTrace::updateTrace(const JointEncoderSetpoint& setpoint) {
   // Bouml preserved body begin 000C9371
     encoderSetpoint = setpoint;
@@ -449,16 +441,9 @@ void DataTrace::updateTrace() {
       case SET_POSITION_TO_REFERENCE:
         controllerMode = NOT_DEFINED;
         break;
-      case PWM_MODE:
-        PWMSetpoint.pwm = message.stctOutput.value;
-        controllerMode = PWM_CONTROL_MODE;
-        break;
       case CURRENT_MODE:
         currentSetpoint.current = (double)message.stctOutput.value /1000.0 * ampere;
         controllerMode = CURRENT_CONTROL_MODE;
-        break;
-      case INITIALIZE:
-        controllerMode = NOT_DEFINED;
         break;
       default:
         controllerMode = NOT_DEFINED;
@@ -481,7 +466,6 @@ void DataTrace::update() {
     timeDuration = microsec_clock::local_time() - traceStartTime;
     timeDurationMicroSec = timeDuration.total_milliseconds();
     unsigned int statusFlags;
-
     joint.getStatus(statusFlags);
     joint.getData(sensedAngle);
     joint.getData(sensedEncoderTicks);
@@ -489,25 +473,29 @@ void DataTrace::update() {
     joint.getData(sensedRoundsPerMinute);
     joint.getData(sensedCurrent);
     joint.getData(sensedTorque);
-    joint.getData(actualPWM);
+		joint.getData(targetAngle);
+		joint.getData(targetVelocity);
+		joint.getData(targetCurrent);
+		joint.getData(rampGenSetpoint);
+		
     std::stringstream angleSet, angleEncSet, velSet, velRPMSet, currentSet, pwmSet, torqueSet;
 
     switch (controllerMode) {
       case POSITION_CONTROL_RAD:
         angleSet << angleSetpoint.angle.value();
         angleEncSet << "NaN";
-        velSet << "NaN";
+        velSet << targetVelocity.angularVelocity.value();
         velRPMSet << "NaN";
-        currentSet << "NaN";
+        currentSet << targetCurrent.current.value();
         pwmSet << "NaN";
         torqueSet << "NaN";
         break;
       case POSITION_CONTROL_ENC:
         angleSet << "NaN";
         angleEncSet << encoderSetpoint.encoderTicks;
-        velSet << "NaN";
+        velSet << targetVelocity.angularVelocity.value();
         velRPMSet << "NaN";
-        currentSet << "NaN";
+        currentSet << targetCurrent.current.value();
         pwmSet << "NaN";
         torqueSet << "NaN";
         break;
@@ -516,7 +504,7 @@ void DataTrace::update() {
         angleEncSet << "NaN";
         velSet << velocitySetpoint.angularVelocity.value();
         velRPMSet << "NaN";
-        currentSet << "NaN";
+        currentSet << targetCurrent.current.value();
         pwmSet << "NaN";
         torqueSet << "NaN";
         break;
@@ -525,17 +513,8 @@ void DataTrace::update() {
         angleEncSet << "NaN";
         velSet << "NaN";
         velRPMSet << roundsPerMinuteSetpoint.rpm;
-        currentSet << "NaN";
+        currentSet << targetCurrent.current.value();
         pwmSet << "NaN";
-        torqueSet << "NaN";
-        break;
-      case PWM_CONTROL_MODE:
-        angleSet << "NaN";
-        angleEncSet << "NaN";
-        velSet << "NaN";
-        velRPMSet << "NaN";
-        currentSet << "NaN";
-        pwmSet << PWMSetpoint.pwm;
         torqueSet << "NaN";
         break;
       case CURRENT_CONTROL_MODE:

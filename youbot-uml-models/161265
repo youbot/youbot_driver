@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 76
+  revision 77
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -1140,7 +1140,6 @@ enum DataTraceCntrollerMode {
     POSITION_CONTROL_ENC,
     VELOCITY_CONTROL_RAD_SEC,
     VELOCITY_CONTROL_RPM,
-    PWM_CONTROL_MODE,
     CURRENT_CONTROL_MODE,
     TORQUE_CONTROL_MODE,
     NOT_DEFINED

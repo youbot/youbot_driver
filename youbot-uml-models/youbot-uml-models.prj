@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 242
+  revision 243
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -832,43 +832,6 @@ ${inlines}
 ///@param communicationMode at the moment only non blocking communication is implemented"
       end
 
-      operation 831473 "getData"
-	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
-	nparams 1
-	  param out name "data" type class_ref 432241 // JointSensedPWM
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-	comment "///gets the actual PWM value of one joint
-///@param data returns the PWM value by reference"
-      end
-
-      operation 611953 "setData"
-	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
-	nparams 2
-	  param in name "data" type class_ref 347889 // JointPWMSetpoint
-	  param in name "communicationMode" type class_ref 162417 // SyncMode
-	    defaultvalue "NON_BLOCKING"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-	comment "///commands a pulse-width modulation to one joint
-///@param data the to command pulse-width modulation
-///@param communicationMode at the moment only non blocking communication is implemented"
-      end
-
       operation 702449 "getData"
 	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 1
@@ -960,6 +923,74 @@ ${inlines}
 	
 	comment "///gets the motor torque of one joint which have been calculated from the current
 ///@param data returns the actual motor torque by reference"
+      end
+
+      operation 1049201 "getData"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "data" type class_ref 170865 // JointAngleSetpoint
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///gets the target or setpoint position of one joint 
+///@param data returns the angle by reference"
+      end
+
+      operation 1049329 "getData"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "data" type class_ref 170737 // JointVelocitySetpoint
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///gets the target or setpoint velocity of one joint
+///@param data returns the velocity by reference"
+      end
+
+      operation 1049457 "getData"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "data" type class_ref 170993 // JointCurrentSetpoint
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///gets the motor current target or setpoint of one joint
+///@param data returns the motor current by reference"
+      end
+
+      operation 1049585 "getData"
+	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
+	nparams 1
+	  param out name "data" type class_ref 532721 // JointRampGeneratorVelocity
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///gets the ramp generator velocity of one joint
+///@param data returns the velocity by reference"
       end
 
       operation 708977 "getUserVariable"
@@ -2890,6 +2921,94 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
+      end
+    end
+
+    class 532209 "JointControllerComputedData"
+      visibility package 
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 485617 // <generalisation>
+	relation 485617 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 485617 // <generalisation>
+	  b parent class_ref 162289 // JointSensedData
+      end
+    end
+
+    class 532721 "JointRampGeneratorVelocity"
+      visibility package 
+      cpp_decl "///////////////////////////////////////////////////////////////////////////////
+${description}
+///////////////////////////////////////////////////////////////////////////////
+${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/// Sensed velocity of the joint"
+      attribute 912497 "angularVelocity"
+	public explicit_type "quantity<si::angular_velocity>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      operation 1048945 "JointRampGeneratorVelocity"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 0
+	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
+  ${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 1049073 "JointRampGeneratorVelocity"
+	preserve_cpp_body_indent public explicit_return_type ""
+	nparams 1
+	  param in name "value" explicit_type "quantity<si::angular_velocity>"
+	cpp_decl "    ${description}${inline}${name}${(}const ${t0}& ${p0}${)}${volatile}${throw};
+"
+	cpp_def "${description}${inline}${class}::${name}${(}const ${t0}& ${p0}${)}${volatile}${throw} {
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      classrelation 486513 // <generalisation>
+	relation 486513 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 486513 // <generalisation>
+	  b parent class_ref 532209 // JointControllerComputedData
       end
     end
   end
@@ -26152,21 +26271,6 @@ ${inlines}
 	
       end
 
-      operation 824049 "updateTrace"
-	preserve_cpp_body_indent public explicit_return_type "void"
-	nparams 1
-	  param in name "setpoint" type class_ref 347889 // JointPWMSetpoint
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
       operation 824177 "updateTrace"
 	preserve_cpp_body_indent public explicit_return_type "void"
 	nparams 1
@@ -26491,6 +26595,46 @@ ${inlines}
 
       attribute 776817 "path"
 	private explicit_type "string"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 912625 "rampGenSetpoint"
+	private type class_ref 532721 // JointRampGeneratorVelocity
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 912753 "targetCurrent"
+	private type class_ref 170993 // JointCurrentSetpoint
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 912881 "targetVelocity"
+	private type class_ref 170737 // JointVelocitySetpoint
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 913009 "targetAngle"
+	private type class_ref 170865 // JointAngleSetpoint
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""

@@ -1,0 +1,5 @@
+class JointTargetCurrent
+!!!1048433.cpp!!!	JointTargetCurrent()
+  this->current = 0 * ampere;
+!!!1048561.cpp!!!	JointTargetCurrent(in value : quantity<si::current>)
+  this->current = value;

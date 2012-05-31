@@ -1,0 +1,5 @@
+class JointTargetVelocity
+!!!1048177.cpp!!!	JointTargetVelocity()
+  this->angularVelocity = 0 * radian_per_second;
+!!!1048305.cpp!!!	JointTargetVelocity(in value : quantity<si::angular_velocity>)
+  this->angularVelocity = value;

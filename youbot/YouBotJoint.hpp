@@ -201,15 +201,6 @@ class YouBotJoint : public Joint {
     ///@param communicationMode at the moment only non blocking communication is implemented
     virtual void setData(const JointCurrentSetpoint& data, SyncMode communicationMode = NON_BLOCKING);
 
-    ///gets the actual PWM value of one joint
-    ///@param data returns the PWM value by reference
-    virtual void getData(JointSensedPWM& data);
-
-    ///commands a pulse-width modulation to one joint
-    ///@param data the to command pulse-width modulation
-    ///@param communicationMode at the moment only non blocking communication is implemented
-    virtual void setData(const JointPWMSetpoint& data, SyncMode communicationMode = NON_BLOCKING);
-
     ///gets the encoder ticks of one joint
     ///@param data returns the ticks by reference
     virtual void getData(JointSensedEncoderTicks& data);
@@ -233,6 +224,22 @@ class YouBotJoint : public Joint {
     ///gets the motor torque of one joint which have been calculated from the current
     ///@param data returns the actual motor torque by reference
     virtual void getData(JointSensedTorque& data);
+
+    ///gets the target or setpoint position of one joint 
+    ///@param data returns the angle by reference
+    virtual void getData(JointAngleSetpoint& data);
+
+    ///gets the target or setpoint velocity of one joint
+    ///@param data returns the velocity by reference
+    virtual void getData(JointVelocitySetpoint& data);
+
+    ///gets the motor current target or setpoint of one joint
+    ///@param data returns the motor current by reference
+    virtual void getData(JointCurrentSetpoint& data);
+
+    ///gets the ramp generator velocity of one joint
+    ///@param data returns the velocity by reference
+    virtual void getData(JointRampGeneratorVelocity& data);
 
     void getUserVariable(const unsigned int index, int& data);
 

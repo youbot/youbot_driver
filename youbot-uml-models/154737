@@ -1,6 +1,6 @@
 format 75
 "generic-joint" // generic-joint
-  revision 22
+  revision 23
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -144,6 +144,8 @@ ${namespace_end}"
 	class_ref 170609 // JointTorqueSetpoint
 	class_ref 347889 // JointPWMSetpoint
 	class_ref 412657 // JointEncoderSetpoint
+	class_ref 532209 // JointControllerComputedData
+	class_ref 532721 // JointRampGeneratorVelocity
       end
       comment "/****************************************************************
  *

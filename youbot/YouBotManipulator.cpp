@@ -243,10 +243,6 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
     std::vector<bool> finished;
     finished.assign(ARMJOINTS, false);
     JointSensedCurrent sensedCurrent;
-    JointRoundsPerMinuteSetpoint stopMovement;
-    stopMovement.rpm = 0;
-    JointPWMSetpoint pwmStopMovement;
-    pwmStopMovement.pwm = 0;
 
 
     //move the joints slowly in calibration direction
@@ -273,7 +269,7 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
         //turn till a max current is reached
         if (abs(sensedCurrent.current) > abs(maxCurrent[i])) {
           //stop movement
-          joints[i].setData(pwmStopMovement);
+          joints[i].noMoreAction();
           if(!ethercatMaster.isThreadActive()){
             ethercatMaster.sendProcessData();
             ethercatMaster.receiveProcessData();

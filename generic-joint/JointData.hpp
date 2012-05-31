@@ -248,6 +248,23 @@ class JointEncoderSetpoint : public JointDataSetpoint {
     JointEncoderSetpoint(const signed int& value);
 
 };
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+class JointControllerComputedData : public JointSensedData {
+};
+///////////////////////////////////////////////////////////////////////////////
+/// Sensed velocity of the joint
+///////////////////////////////////////////////////////////////////////////////
+class JointRampGeneratorVelocity : public JointControllerComputedData {
+  public:
+    quantity<si::angular_velocity> angularVelocity;
+
+    JointRampGeneratorVelocity();
+
+    JointRampGeneratorVelocity(const quantity<si::angular_velocity>& value);
+
+};
 
 } // namespace youbot
 #endif

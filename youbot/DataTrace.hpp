@@ -81,7 +81,6 @@ enum DataTraceCntrollerMode {
     POSITION_CONTROL_ENC,
     VELOCITY_CONTROL_RAD_SEC,
     VELOCITY_CONTROL_RPM,
-    PWM_CONTROL_MODE,
     CURRENT_CONTROL_MODE,
     TORQUE_CONTROL_MODE,
     NOT_DEFINED
@@ -110,8 +109,6 @@ class DataTrace {
     void updateTrace(const JointCurrentSetpoint& setpoint);
 
     void updateTrace(const JointTorqueSetpoint& setpoint);
-
-    void updateTrace(const JointPWMSetpoint& setpoint);
 
     void updateTrace(const JointEncoderSetpoint& setpoint);
 
@@ -176,6 +173,14 @@ class DataTrace {
     std::string name;
 
     std::string path;
+
+    JointRampGeneratorVelocity rampGenSetpoint;
+
+    JointCurrentSetpoint targetCurrent;
+
+    JointVelocitySetpoint targetVelocity;
+
+    JointAngleSetpoint targetAngle;
 
 };
 

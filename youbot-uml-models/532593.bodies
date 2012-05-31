@@ -1,0 +1,5 @@
+class JointTargetAngle
+!!!1048689.cpp!!!	JointTargetAngle()
+  this->angle = 0 * radian;
+!!!1048817.cpp!!!	JointTargetAngle(in value : quantity<plane_angle>)
+  this->angle = value;
