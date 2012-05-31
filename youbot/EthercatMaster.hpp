@@ -71,13 +71,11 @@ friend class YouBotGripperBar;
   private:
     static EthercatMasterInterface* instance;
 
-    static EthercatMaster* factoryInstance;
-
-    EthercatMaster();
+    EthercatMaster(){};
 
     EthercatMaster(const EthercatMaster& ) {};
 
-    ~EthercatMaster();
+    ~EthercatMaster(){};
 
 
   public:

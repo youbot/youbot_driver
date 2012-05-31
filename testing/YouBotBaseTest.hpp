@@ -4,30 +4,45 @@
 #include <cppunit/TestCase.h>
 #include <cppunit/extensions/HelperMacros.h>
 
+#include <iostream>
+#include <vector>
+#include <signal.h>
 #include "youbot/YouBotBase.hpp"
+#include "youbot/YouBotManipulator.hpp"
+#include "youbot/DataTrace.hpp"
 
-class YouBotBaseTest : public CppUnit::TestFixture
-{
-   CPPUNIT_TEST_SUITE    ( YouBotBaseTest                                   );
-   CPPUNIT_TEST          ( youBotBaseTest_GetBaseJoint                      );
-   CPPUNIT_TEST          ( youBotBaseTest_GetAndSetBaseVelocity             );
-   CPPUNIT_TEST          ( youBotBaseTest_FourSwedishWheelOmniBaseKinematic );
-   CPPUNIT_TEST_SUITE_END(                                                  );
-   
-   public:
-      YouBotBaseTest( );
-      virtual ~YouBotBaseTest( );
+using namespace youbot;
 
-      void setUp   ( );
-      void tearDown( );
+class YouBotBaseTest : public CppUnit::TestFixture {
+	CPPUNIT_TEST_SUITE(YouBotBaseTest);
+	CPPUNIT_TEST(youBotBaseTest_PositionMode);
+	CPPUNIT_TEST(youBotBaseTest_VelocityMode);
+	CPPUNIT_TEST(youBotBaseTest_CurrentMode);
+	CPPUNIT_TEST_SUITE_END();
 
-      void youBotBaseTest_GetBaseJoint                     ( );
-      void youBotBaseTest_GetAndSetBaseVelocity            ( );
-      void youBotBaseTest_FourSwedishWheelOmniBaseKinematic( );
-   
-   private:
-//      youbot::YouBotBase* myYouBotBase;
-//      void operator =( const YouBotBaseTest &copy );
+public:
+	YouBotBaseTest();
+	virtual ~YouBotBaseTest();
+
+	void setUp();
+	void tearDown();
+
+
+	void youBotBaseTest_PositionMode();
+	void youBotBaseTest_VelocityMode();
+	void youBotBaseTest_CurrentMode();
+
+private:
+	unsigned int jointNO;
+	unsigned int stepStartTime;
+	unsigned int durationNull;
+	unsigned int overallTime;
+	unsigned int startTime;
+	unsigned int updateCycle;
+	JointAngleSetpoint setAngle;
+	JointVelocitySetpoint setVel;
+	JointCurrentSetpoint currentSetpoint;
+
 };
 
 #endif //YOU_BOT_BASE_TEST_H

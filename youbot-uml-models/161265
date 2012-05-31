@@ -1446,8 +1446,7 @@ ${namespace_end}
 #include \"youbot/EthercatMaster.hpp\"
 
 ${namespace_start}
-EthercatMasterInterface* EthercatMaster::instance = NULL;
-EthercatMaster* EthercatMaster::factoryInstance = NULL;
+EthercatMasterInterface* EthercatMaster::instance = 0;
 ${members}
 ${namespace_end}"
       associated_classes

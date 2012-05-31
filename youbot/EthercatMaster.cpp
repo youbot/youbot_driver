@@ -52,19 +52,7 @@
 
 namespace youbot {
 
-EthercatMasterInterface* EthercatMaster::instance = NULL;
-EthercatMaster* EthercatMaster::factoryInstance = NULL;
-EthercatMaster::EthercatMaster() {
-  // Bouml preserved body begin 000E6071
-
-  // Bouml preserved body end 000E6071
-}
-
-EthercatMaster::~EthercatMaster() {
-  // Bouml preserved body begin 000E6171
-  // Bouml preserved body end 000E6171
-}
-
+EthercatMasterInterface* EthercatMaster::instance = 0;
 ///creates a instance of the singleton EthercatMaster if there is none and returns a reference to it
 ///@param configFile configuration file name incl. the extension
 ///@param configFilePath the path where the configuration is located with a / at the end
@@ -72,13 +60,11 @@ EthercatMaster::~EthercatMaster() {
 EthercatMasterInterface& EthercatMaster::getInstance(const std::string configFile, const std::string configFilePath, const bool ethercatMasterWithThread)
 {
   // Bouml preserved body begin 000E61F1
-    if (instance == NULL) {
+    if (instance == 0) {
       if(ethercatMasterWithThread){
         instance = new EthercatMasterWithThread(configFile, configFilePath);
-        factoryInstance = new EthercatMaster();
       }else{
         instance = new EthercatMasterWithoutThread(configFile, configFilePath);
-        factoryInstance = new EthercatMaster();
       }
     }
     return *instance;
@@ -89,10 +75,10 @@ EthercatMasterInterface& EthercatMaster::getInstance(const std::string configFil
 void EthercatMaster::destroy()
 {
   // Bouml preserved body begin 000E6271
-    delete instance;
-    delete factoryInstance;
-    factoryInstance = NULL;
-    instance = NULL;
+		if(instance != 0){
+			delete instance;
+			instance = 0;
+		}
   // Bouml preserved body end 000E6271
 }
 

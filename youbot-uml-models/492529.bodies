@@ -2,18 +2,16 @@ class EthercatMaster
 !!!942193.cpp!!!	EthercatMaster()
 
 !!!942577.cpp!!!	getInstance(in configFile : string = "youbot-ethercat.cfg", in configFilePath : string = "../config/", in ethercatMasterWithThread : bool = true) : EthercatMasterInterface&
-    if (instance == NULL) {
+    if (instance == 0) {
       if(ethercatMasterWithThread){
         instance = new EthercatMasterWithThread(configFile, configFilePath);
-        factoryInstance = new EthercatMaster();
       }else{
         instance = new EthercatMasterWithoutThread(configFile, configFilePath);
-        factoryInstance = new EthercatMaster();
       }
     }
     return *instance;
 !!!942705.cpp!!!	destroy() : void
-    delete instance;
-    delete factoryInstance;
-    factoryInstance = NULL;
-    instance = NULL;
+		if(instance != 0){
+			delete instance;
+			instance = 0;
+		}

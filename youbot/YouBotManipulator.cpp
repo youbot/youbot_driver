@@ -301,27 +301,6 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
       }
     }
 
-    //  if(doCalibration[0] && doCalibration[1] && doCalibration[2] && doCalibration[3] && doCalibration[4] ){
-//    JointAngleSetpoint desiredJointAngle;
-//
-//    desiredJointAngle.angle = 2.56244 * radian;
-//    joints[0].setData(desiredJointAngle);
-//
-//    desiredJointAngle.angle = 1.04883 * radian;
-//    joints[1].setData(desiredJointAngle);
-//
-//    desiredJointAngle.angle = -2.43523 * radian;
-//    joints[2].setData(desiredJointAngle);
-//
-//    desiredJointAngle.angle = 1.73184 * radian;
-//    joints[3].setData(desiredJointAngle);
-//
-//    desiredJointAngle.angle = 1.73184 * radian;
-//    joints[4].setData(desiredJointAngle);
-//    LOG(info) << "unfold arm";
-//    SLEEP_MILLISEC(4000);
-    //   }
-
     //setting joint Limits
     JointLimits jLimits;
     for (unsigned int i = 0; i < ARMJOINTS; i++) {
@@ -343,14 +322,14 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
   // Bouml preserved body end 000A9C71
 }
 
-void YouBotManipulator::calibrateGripper() {
+void YouBotManipulator::calibrateGripper(const bool forceCalibration) {
   // Bouml preserved body begin 000A9CF1
     // Calibrating Gripper
     bool doCalibration = true;
-    if(useGripper){
-      configfile->readInto(doCalibration, "Gripper", "DoCalibration");
+		configfile->readInto(doCalibration, "Gripper", "DoCalibration");
+    if(useGripper && doCalibration){
       CalibrateGripper calibrate;
-      calibrate.setParameter(doCalibration);
+      calibrate.setParameter(forceCalibration);
       gripper->setConfigurationParameter(calibrate);
     }
   // Bouml preserved body end 000A9CF1
