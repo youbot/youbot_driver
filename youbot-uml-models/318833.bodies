@@ -56,10 +56,10 @@ class ErrorAndStatus
       //   throw JointErrorException(errorMessage + "got hall sensor problem");
     }
 
-    if (value & PWM_MODE_ACTIVE) {
-      LOG(info) << errorMessage << "PWM mode active";
+//    if (value & PWM_MODE_ACTIVE) {
+//      LOG(info) << errorMessage << "PWM mode active";
       //   throw JointErrorException(errorMessage + "the cycle time is violated");
-    }
+//    }
 
     if (value & VELOCITY_MODE) {
       LOG(info) << errorMessage << "velocity mode active";

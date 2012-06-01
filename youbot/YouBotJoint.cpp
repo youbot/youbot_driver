@@ -295,10 +295,11 @@ void YouBotJoint::setConfigurationParameter(const InitializeJoint& parameter) {
   // Bouml preserved body begin 000973F1
     if (parameter.value) {
       //YouBotSlaveMsg messageBuffer;
-      messageBuffer.stctOutput.controllerMode = CURRENT_MODE;
-      messageBuffer.stctOutput.value = 1;
+      messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
+      messageBuffer.stctOutput.value = 10; //for commutation
 
       ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
+			
     }
   // Bouml preserved body end 000973F1
 }
@@ -977,9 +978,9 @@ void YouBotJoint::getStatus(std::vector<std::string>& statusMessages) {
 //      statusMessages.push_back(this->storage.jointName + " got inizialization problem");
 //    }
 
-    if (messageBuffer.stctInput.errorFlags & PWM_MODE_ACTIVE) {
-      statusMessages.push_back(this->storage.jointName + " has PWM mode active");
-    }
+//    if (messageBuffer.stctInput.errorFlags & PWM_MODE_ACTIVE) {
+//      statusMessages.push_back(this->storage.jointName + " has PWM mode active");
+//    }
 
     if (messageBuffer.stctInput.errorFlags & VELOCITY_MODE) {
       statusMessages.push_back(this->storage.jointName + " has velocity mode active");
@@ -1242,62 +1243,62 @@ void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
   // Bouml preserved body begin 00044AF1
 
     if (messageBuffer.stctInput.errorFlags & OVER_CURRENT) {
-      LOG(warning) << this->storage.jointName << "over current";
+      LOG(warning) << this->storage.jointName << " over current";
       //    throw JointErrorException(this->storage.jointName + "got over current");
     }
 
     if (messageBuffer.stctInput.errorFlags & UNDER_VOLTAGE) {
-      LOG(warning) << this->storage.jointName << "under voltage";
+      LOG(warning) << this->storage.jointName << " under voltage";
       //    throw JointErrorException(this->storage.jointName + "got under voltage");
     }
 
     if (messageBuffer.stctInput.errorFlags & OVER_VOLTAGE) {
-      LOG(warning) << this->storage.jointName << "over voltage";
+      LOG(warning) << this->storage.jointName << " over voltage";
       //   throw JointErrorException(this->storage.jointName + "got over voltage");
     }
 
     if (messageBuffer.stctInput.errorFlags & OVER_TEMPERATURE) {
-      LOG(warning) << this->storage.jointName << "over temperature";
+      LOG(warning) << this->storage.jointName << " over temperature";
       //   throw JointErrorException(this->storage.jointName + "got over temperature");
     }
 
     if (messageBuffer.stctInput.errorFlags & MOTOR_HALTED) {
-      //   LOG(info) << this->storage.jointName << "is halted";
+      //   LOG(info) << this->storage.jointName << " is halted";
       //   throw JointErrorException(this->storage.jointName + "is halted");
     }
 
     if (messageBuffer.stctInput.errorFlags & HALL_SENSOR_ERROR) {
-      LOG(warning) << this->storage.jointName << "hall sensor problem";
+      LOG(warning) << this->storage.jointName << " hall sensor problem";
       //   throw JointErrorException(this->storage.jointName + "got hall sensor problem");
     }
 
 //    if (messageBuffer.stctInput.errorFlags & ENCODER_ERROR) {
-//      LOG(warning) << this->storage.jointName << "encoder problem";
+//      LOG(warning) << this->storage.jointName << " encoder problem";
 //      //   throw JointErrorException(this->storage.jointName + "got encoder problem");
 //    }
 //
 //     if (messageBuffer.stctInput.errorFlags & INITIALIZATION_ERROR) {
-//      LOG(warning) << this->storage.jointName << "initialization problem";
+//      LOG(warning) << this->storage.jointName << " initialization problem";
 //      //   throw JointErrorException(this->storage.jointName + "got motor winding problem");
 //    }
 
-    if (messageBuffer.stctInput.errorFlags & PWM_MODE_ACTIVE) {
-   //   LOG(info) << this->storage.jointName << "has PWM mode active";
+//    if (messageBuffer.stctInput.errorFlags & PWM_MODE_ACTIVE) {
+   //   LOG(info) << this->storage.jointName << " has PWM mode active";
       //   throw JointErrorException(this->storage.jointName + "the cycle time is violated");
-    }
+//    }
 
     if (messageBuffer.stctInput.errorFlags & VELOCITY_MODE) {
-   //   LOG(info) << this->storage.jointName << "has velocity mode active";
+   //   LOG(info) << this->storage.jointName << " has velocity mode active";
       //   throw JointErrorException(this->storage.jointName + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & POSITION_MODE) {
-   //   LOG(info) << this->storage.jointName << "has position mode active";
+   //   LOG(info) << this->storage.jointName << " has position mode active";
       //   throw JointErrorException(this->storage.jointName + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & TORQUE_MODE) {
-   //   LOG(info) << this->storage.jointName << "has torque mode active";
+   //   LOG(info) << this->storage.jointName << " has torque mode active";
       //   throw JointErrorException(this->storage.jointName + "need to initialize the sinus commutation");
     }
 
@@ -1317,17 +1318,17 @@ void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
     }
 
     if (!(messageBuffer.stctInput.errorFlags & INITIALIZED)) {
-      LOG(warning) << this->storage.jointName << "not initialized";
+      LOG(warning) << this->storage.jointName << " not initialized";
       //   throw JointErrorException(this->storage.jointName + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & TIMEOUT) {
-      LOG(warning) << this->storage.jointName << "exceeded timeout";
+      LOG(warning) << this->storage.jointName << " exceeded timeout";
       //   throw JointErrorException(this->storage.jointName + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & I2T_EXCEEDED) {
-      LOG(warning) << this->storage.jointName << "exceeded I2t";
+      LOG(warning) << this->storage.jointName << " exceeded I2t";
       //   throw JointErrorException(this->storage.jointName + "need to initialize the sinus commutation");
     }
 

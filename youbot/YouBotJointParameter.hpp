@@ -656,43 +656,6 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// Switching threshold for position control between the first and second set of parameters. If the velocity threshold is set to zero, the parameter set 2 is used all the time.
-///////////////////////////////////////////////////////////////////////////////
-class CurrentControlSwitchingThreshold : public YouBotJointParameter {
-friend class YouBotJoint;
-  public:
-    CurrentControlSwitchingThreshold();
-
-    virtual ~CurrentControlSwitchingThreshold();
-
-    void getParameter(quantity<angular_velocity>& parameter) const;
-
-    void setParameter(const quantity<angular_velocity>& parameter);
-
-    void toString(std::string& value);
-
-
-  private:
-    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
-
-    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
-
-    std::string getName() const {return this->name;};
-
-    ParameterType getType() const {return this->parameterType;};
-
-    quantity<angular_velocity> upperLimit;
-
-    quantity<angular_velocity> lowerLimit;
-
-    quantity<angular_velocity> value;
-
-    std::string name;
-
-    ParameterType parameterType;
-
-};
-///////////////////////////////////////////////////////////////////////////////
 /// P-Parameter of PID position regulator (first position parameter set)
 ///////////////////////////////////////////////////////////////////////////////
 class PParameterFirstParametersPositionControl : public YouBotJointParameter {
@@ -960,154 +923,6 @@ friend class YouBotJoint;
     IClippingParameterFirstParametersSpeedControl();
 
     virtual ~IClippingParameterFirstParametersSpeedControl();
-
-    void getParameter(int& parameter) const;
-
-    void setParameter(const int parameter);
-
-    void toString(std::string& value);
-
-
-  private:
-    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
-
-    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
-
-    std::string getName() const {return this->name;};
-
-    ParameterType getType() const {return this->parameterType;};
-
-    int upperLimit;
-
-    int lowerLimit;
-
-    int value;
-
-    std::string name;
-
-    ParameterType parameterType;
-
-};
-///////////////////////////////////////////////////////////////////////////////
-/// P-Parameter of PID current regulator. This PID parameter set is used at lower velocity. (first current parameter set)
-///////////////////////////////////////////////////////////////////////////////
-class PParameterFirstParametersCurrentControl : public YouBotJointParameter {
-friend class YouBotJoint;
-  public:
-    PParameterFirstParametersCurrentControl();
-
-    virtual ~PParameterFirstParametersCurrentControl();
-
-    void getParameter(int& parameter) const;
-
-    void setParameter(const int parameter);
-
-    void toString(std::string& value);
-
-
-  private:
-    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
-
-    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
-
-    std::string getName() const {return this->name;};
-
-    ParameterType getType() const {return this->parameterType;};
-
-    int upperLimit;
-
-    int lowerLimit;
-
-    int value;
-
-    std::string name;
-
-    ParameterType parameterType;
-
-};
-///////////////////////////////////////////////////////////////////////////////
-/// I-Parameter of PID current regulator. This PID parameter set is used at lower velocity. (first current parameter set)
-///////////////////////////////////////////////////////////////////////////////
-class IParameterFirstParametersCurrentControl : public YouBotJointParameter {
-friend class YouBotJoint;
-  public:
-    IParameterFirstParametersCurrentControl();
-
-    virtual ~IParameterFirstParametersCurrentControl();
-
-    void getParameter(int& parameter) const;
-
-    void setParameter(const int parameter);
-
-    void toString(std::string& value);
-
-
-  private:
-    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
-
-    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
-
-    std::string getName() const {return this->name;};
-
-    ParameterType getType() const {return this->parameterType;};
-
-    int upperLimit;
-
-    int lowerLimit;
-
-    int value;
-
-    std::string name;
-
-    ParameterType parameterType;
-
-};
-///////////////////////////////////////////////////////////////////////////////
-/// D-Parameter of PID current regulator. This PID parameter set is used at lower velocity. (first current parameter set)
-///////////////////////////////////////////////////////////////////////////////
-class DParameterFirstParametersCurrentControl : public YouBotJointParameter {
-friend class YouBotJoint;
-  public:
-    DParameterFirstParametersCurrentControl();
-
-    virtual ~DParameterFirstParametersCurrentControl();
-
-    void getParameter(int& parameter) const;
-
-    void setParameter(const int parameter);
-
-    void toString(std::string& value);
-
-
-  private:
-    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
-
-    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
-
-    std::string getName() const {return this->name;};
-
-    ParameterType getType() const {return this->parameterType;};
-
-    int upperLimit;
-
-    int lowerLimit;
-
-    int value;
-
-    std::string name;
-
-    ParameterType parameterType;
-
-};
-///////////////////////////////////////////////////////////////////////////////
-/// I-Clipping Parameter of PID current regulator. This PID parameter set is used at lower velocity. (first current parameter set)
-///////////////////////////////////////////////////////////////////////////////
-class IClippingParameterFirstParametersCurrentControl : public YouBotJointParameter {
-friend class YouBotJoint;
-  public:
-    IClippingParameterFirstParametersCurrentControl();
-
-    virtual ~IClippingParameterFirstParametersCurrentControl();
 
     void getParameter(int& parameter) const;
 
@@ -1433,14 +1248,14 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// P-Parameter of PID current regulator. This PID parameter set is used at higher velocity. (second current parameter set)
+/// P-Parameter of PID current regulator.
 ///////////////////////////////////////////////////////////////////////////////
-class PParameterSecondParametersCurrentControl : public YouBotJointParameter {
+class PParameterCurrentControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
-    PParameterSecondParametersCurrentControl();
+    PParameterCurrentControl();
 
-    virtual ~PParameterSecondParametersCurrentControl();
+    virtual ~PParameterCurrentControl();
 
     void getParameter(int& parameter) const;
 
@@ -1470,14 +1285,14 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// I-Parameter of PID current regulator. This PID parameter set is used at higher velocity. (second current parameter set)
+/// I-Parameter of PID current regulator.
 ///////////////////////////////////////////////////////////////////////////////
-class IParameterSecondParametersCurrentControl : public YouBotJointParameter {
+class IParameterCurrentControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
-    IParameterSecondParametersCurrentControl();
+    IParameterCurrentControl();
 
-    virtual ~IParameterSecondParametersCurrentControl();
+    virtual ~IParameterCurrentControl();
 
     void getParameter(int& parameter) const;
 
@@ -1507,14 +1322,14 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// D-Parameter of PID current regulator. This PID parameter set is used at higher velocity. (second current parameter set)
+/// D-Parameter of PID current regulator.
 ///////////////////////////////////////////////////////////////////////////////
-class DParameterSecondParametersCurrentControl : public YouBotJointParameter {
+class DParameterCurrentControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
-    DParameterSecondParametersCurrentControl();
+    DParameterCurrentControl();
 
-    virtual ~DParameterSecondParametersCurrentControl();
+    virtual ~DParameterCurrentControl();
 
     void getParameter(int& parameter) const;
 
@@ -1544,14 +1359,14 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// I-Clipping Parameter of PID current regulator. This PID parameter set is used at higher velocity. (second current parameter set)
+/// I-Clipping Parameter of PID current regulator. 
 ///////////////////////////////////////////////////////////////////////////////
-class IClippingParameterSecondParametersCurrentControl : public YouBotJointParameter {
+class IClippingParameterCurrentControl : public YouBotJointParameter {
 friend class YouBotJoint;
   public:
-    IClippingParameterSecondParametersCurrentControl();
+    IClippingParameterCurrentControl();
 
-    virtual ~IClippingParameterSecondParametersCurrentControl();
+    virtual ~IClippingParameterCurrentControl();
 
     void getParameter(int& parameter) const;
 

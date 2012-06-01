@@ -139,6 +139,8 @@ void YouBotBase::doJointCommutation() {
       std::vector<bool> isCommutated;
       isCommutated.assign(BASEJOINTS, false);
       unsigned int u = 0;
+			JointCurrentSetpoint zerocurrent;
+			zerocurrent.current = 0.0 * ampere;
 
       // check for the next 5 sec if the joints are commutated
       for (u = 1; u <= 5000; u++) {
@@ -150,6 +152,11 @@ void YouBotBase::doJointCommutation() {
           this->getBaseJoint(i).getStatus(statusFlags);
           if (statusFlags & INITIALIZED) {
             isCommutated[i - 1] = true;
+						this->getBaseJoint(i).setData(zerocurrent);
+						if(!ethercatMaster.isThreadActive()){
+              ethercatMaster.sendProcessData();
+              ethercatMaster.receiveProcessData();
+						}
           }
         }
         if (isCommutated[0] && isCommutated[1] && isCommutated[2] && isCommutated[3]) {
