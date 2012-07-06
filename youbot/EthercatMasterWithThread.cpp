@@ -62,10 +62,10 @@ extern "C" {
 
 namespace youbot {
 
-EthercatMasterWithThread::EthercatMasterWithThread(const std::string& configFile, const std::string& configFilePath) {
-  // Bouml preserved body begin 00041171
+  EthercatMasterWithThread::EthercatMasterWithThread(const std::string& configFile, const std::string& configFilePath) {
+    // Bouml preserved body begin 00041171
 
-	  this->ethercatConnectionEstablished = false;
+    this->ethercatConnectionEstablished = false;
     ethernetDevice = "eth0";
     timeTillNextEthercatUpdate = 1000; //usec
     mailboxTimeout = 4000; //micro sec
@@ -73,8 +73,6 @@ EthercatMasterWithThread::EthercatMasterWithThread(const std::string& configFile
     communicationErrors = 0;
     maxCommunicationErrors = 100;
     stopThread = false;
-    newDataFlagOne = false;
-    newDataFlagTwo = false;
     this->automaticSendOn = true;
     this->automaticReceiveOn = true;
     this->configFileName = configFile;
@@ -94,198 +92,182 @@ EthercatMasterWithThread::EthercatMasterWithThread(const std::string& configFile
     configfile->readInto(ethercatTimeout, "EtherCAT", "EtherCATTimeout_[usec]");
     configfile->readInto(mailboxTimeout, "EtherCAT", "MailboxTimeout_[usec]");
     configfile->readInto(maxCommunicationErrors, "EtherCAT", "MaximumNumberOfEtherCATErrors");
-    
+
     this->initializeEthercat();
 
 
-  // Bouml preserved body end 00041171
-}
+    // Bouml preserved body end 00041171
+  }
 
-EthercatMasterWithThread::~EthercatMasterWithThread() {
-  // Bouml preserved body begin 000411F1
+  EthercatMasterWithThread::~EthercatMasterWithThread() {
+    // Bouml preserved body begin 000411F1
     stopThread = true;
     threads.join_all();
     this->closeEthercat();
     if (configfile != NULL)
       delete configfile;
-  // Bouml preserved body end 000411F1
-}
+    // Bouml preserved body end 000411F1
+  }
 
-bool EthercatMasterWithThread::isThreadActive() {
-  // Bouml preserved body begin 000E6AF1
-  return true;
-  // Bouml preserved body end 000E6AF1
-}
+  bool EthercatMasterWithThread::isThreadActive() {
+    // Bouml preserved body begin 000E6AF1
+    return true;
+    // Bouml preserved body end 000E6AF1
+  }
 
-///return the quantity of ethercat slave which have an input/output buffer
-unsigned int EthercatMasterWithThread::getNumberOfSlaves() const {
-  // Bouml preserved body begin 00044A71
+  ///return the quantity of ethercat slave which have an input/output buffer
+
+  unsigned int EthercatMasterWithThread::getNumberOfSlaves() const {
+    // Bouml preserved body begin 00044A71
     return this->nrOfSlaves;
-  // Bouml preserved body end 00044A71
-}
+    // Bouml preserved body end 00044A71
+  }
 
-void EthercatMasterWithThread::AutomaticSendOn(const bool enableAutomaticSend) {
-  // Bouml preserved body begin 000775F1
+  void EthercatMasterWithThread::AutomaticSendOn(const bool enableAutomaticSend) {
+    // Bouml preserved body begin 000775F1
     this->automaticSendOn = enableAutomaticSend;
-
 
     if (this->automaticSendOn == true) {
       unsigned int slaveNo = 0;
 
-      if (newDataFlagOne == true) {
-        {
-          boost::mutex::scoped_lock dataMutex1(mutexDataOne);
-          for (unsigned int i = 0; i < automaticSendOffBufferVector.size(); i++) {
-            slaveNo = automaticSendOffBufferVector[i].jointNumber - 1;
-            firstBufferVector[slaveNo].stctOutput = automaticSendOffBufferVector[i].stctOutput;
-            newOutputDataFlagOne[slaveNo] = true;
-            newOutputDataFlagTwo[slaveNo] = false;
-          }
-        }
-        automaticSendOffBufferVector.clear();
-      } else if (newDataFlagTwo == true) {
-        {
-          boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
-          for (unsigned int i = 0; i < automaticSendOffBufferVector.size(); i++) {
-            slaveNo = automaticSendOffBufferVector[i].jointNumber - 1;
-            secondBufferVector[slaveNo].stctOutput = automaticSendOffBufferVector[i].stctOutput;
-            newOutputDataFlagOne[slaveNo] = false;
-            newOutputDataFlagTwo[slaveNo] = true;
-          }
-        }
-        automaticSendOffBufferVector.clear();
-      } else {
-        return;
+      for (unsigned int i = 0; i < automaticSendOffBufferVector.size(); i++) {
+        slaveNo = automaticSendOffBufferVector[i].jointNumber - 1;
+        slaveMessages[slaveNo].stctInput.Set(automaticSendOffBufferVector[i].stctInput);
+        slaveMessages[slaveNo].stctOutput.Set(automaticSendOffBufferVector[i].stctOutput);
+        slaveMessages[slaveNo].jointNumber.Set(automaticSendOffBufferVector[i].jointNumber);
       }
 
+      automaticSendOffBufferVector.clear();
+    } else {
+      return;
     }
-
     return;
-  // Bouml preserved body end 000775F1
-}
+    // Bouml preserved body end 000775F1
+  }
 
-void EthercatMasterWithThread::AutomaticReceiveOn(const bool enableAutomaticReceive) {
-  // Bouml preserved body begin 0008FB71
+  void EthercatMasterWithThread::AutomaticReceiveOn(const bool enableAutomaticReceive) {
+    // Bouml preserved body begin 0008FB71
     this->automaticReceiveOn = enableAutomaticReceive;
 
 
     if (this->automaticReceiveOn == false) {
-      if (newDataFlagOne == true) {
-        {
-          boost::mutex::scoped_lock dataMutex1(mutexDataOne);
-          this->automaticReceiveOffBufferVector = firstBufferVector;
-        }
-      } else if (newDataFlagTwo == true) {
-        {
-          boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
-          this->automaticReceiveOffBufferVector = firstBufferVector;
-        }
+      automaticSendOffBufferVector.reserve(slaveMessages.size());
+
+      for (unsigned int i = 0; i < slaveMessages.size(); i++) {
+        slaveMessages[i].stctInput.Get(automaticSendOffBufferVector[i].stctInput);
+        slaveMessages[i].stctOutput.Get(automaticSendOffBufferVector[i].stctOutput);
+        slaveMessages[i].jointNumber.Get(automaticSendOffBufferVector[i].jointNumber);
       }
     }
 
     return;
-  // Bouml preserved body end 0008FB71
-}
+    // Bouml preserved body end 0008FB71
+  }
 
-///provides all ethercat slave informations from the SOEM driver
-///@param ethercatSlaveInfos ethercat slave informations
-void EthercatMasterWithThread::getEthercatDiagnosticInformation(std::vector<ec_slavet>& ethercatSlaveInfos) {
-  // Bouml preserved body begin 00061EF1
+  ///provides all ethercat slave informations from the SOEM driver
+  ///@param ethercatSlaveInfos ethercat slave informations
+
+  void EthercatMasterWithThread::getEthercatDiagnosticInformation(std::vector<ec_slavet>& ethercatSlaveInfos) {
+    // Bouml preserved body begin 00061EF1
     ethercatSlaveInfos = this->ethercatSlaveInfo;
     for (unsigned int i = 0; i < ethercatSlaveInfos.size(); i++) {
       ethercatSlaveInfos[i].inputs = NULL;
       ethercatSlaveInfos[i].outputs = NULL;
     }
-  // Bouml preserved body end 00061EF1
-}
+    // Bouml preserved body end 00061EF1
+  }
 
-///sends ethercat messages to the motor controllers
-/// returns a true if everything it OK and returns false if something fail
-bool EthercatMasterWithThread::sendProcessData() {
-  // Bouml preserved body begin 000E68F1
+  ///sends ethercat messages to the motor controllers
+  /// returns a true if everything it OK and returns false if something fail
+
+  bool EthercatMasterWithThread::sendProcessData() {
+    // Bouml preserved body begin 000E68F1
     throw std::runtime_error("When using the EthercatMaster with thread there is not need to send process data manual.");
     return false;
-  // Bouml preserved body end 000E68F1
-}
+    // Bouml preserved body end 000E68F1
+  }
 
-/// receives ethercat messages from the motor controllers
-/// returns a true if everything it OK and returns false if something fail
-bool EthercatMasterWithThread::receiveProcessData() {
-  // Bouml preserved body begin 000E6971
+  /// receives ethercat messages from the motor controllers
+  /// returns a true if everything it OK and returns false if something fail
+
+  bool EthercatMasterWithThread::receiveProcessData() {
+    // Bouml preserved body begin 000E6971
     throw std::runtime_error("When using the EthercatMaster with thread there is not need to receive process data manual");
     return false;
-  // Bouml preserved body end 000E6971
-}
+    // Bouml preserved body end 000E6971
+  }
 
-/// checks if an error has occurred in the soem driver
-/// returns a true if an error has occurred
-bool EthercatMasterWithThread::isErrorInSoemDriver() {
-  // Bouml preserved body begin 000E69F1
-   
+  /// checks if an error has occurred in the soem driver
+  /// returns a true if an error has occurred
+
+  bool EthercatMasterWithThread::isErrorInSoemDriver() {
+    // Bouml preserved body begin 000E69F1
+
     return ec_iserror();
 
-  // Bouml preserved body end 000E69F1
-}
-
-void EthercatMasterWithThread::registerJointTrajectoryController(JointTrajectoryController* object, const unsigned int JointNumber) {
-  // Bouml preserved body begin 000EBCF1
-	{
-    boost::mutex::scoped_lock trajectoryControllerMutex(trajectoryControllerVectorMutex);
-		if(this->trajectoryControllers[JointNumber -1] != NULL)
-			throw std::runtime_error("A joint trajectory controller is already register for this joint!");
-		if((JointNumber -1) >= this->trajectoryControllers.size())
-			throw std::out_of_range("Invalid joint number");
-		
-    this->trajectoryControllers[JointNumber -1] = object;
+    // Bouml preserved body end 000E69F1
   }
-  LOG(debug) << "register joint trajectory controller for joint: " << JointNumber;
-  // Bouml preserved body end 000EBCF1
-}
 
-void EthercatMasterWithThread::deleteJointTrajectoryControllerRegistration(const unsigned int JointNumber) {
-  // Bouml preserved body begin 000F06F1
-  {
-    boost::mutex::scoped_lock trajectoryControllerMutex(trajectoryControllerVectorMutex);
-		if((JointNumber -1) >= this->trajectoryControllers.size())
-			throw std::out_of_range("Invalid joint number");
-		
-    this->trajectoryControllers[JointNumber -1] = NULL;
+  void EthercatMasterWithThread::registerJointTrajectoryController(JointTrajectoryController* object, const unsigned int JointNumber) {
+    // Bouml preserved body begin 000EBCF1
+    {
+      boost::mutex::scoped_lock trajectoryControllerMutex(trajectoryControllerVectorMutex);
+      if (this->trajectoryControllers[JointNumber - 1] != NULL)
+        throw std::runtime_error("A joint trajectory controller is already register for this joint!");
+      if ((JointNumber - 1) >= this->trajectoryControllers.size())
+        throw std::out_of_range("Invalid joint number");
+
+      this->trajectoryControllers[JointNumber - 1] = object;
+    }
+    LOG(debug) << "register joint trajectory controller for joint: " << JointNumber;
+    // Bouml preserved body end 000EBCF1
   }
-  LOG(debug) << "delete joint trajectory controller registration for joint: " << JointNumber;
-  // Bouml preserved body end 000F06F1
-}
 
-unsigned int EthercatMasterWithThread::getNumberOfThreadCyclesPerSecond() {
-  // Bouml preserved body begin 000F41F1
-	
-	return static_cast<unsigned int>(1.0/((double)timeTillNextEthercatUpdate /1000/1000));
-  // Bouml preserved body end 000F41F1
-}
+  void EthercatMasterWithThread::deleteJointTrajectoryControllerRegistration(const unsigned int JointNumber) {
+    // Bouml preserved body begin 000F06F1
+    {
+      boost::mutex::scoped_lock trajectoryControllerMutex(trajectoryControllerVectorMutex);
+      if ((JointNumber - 1) >= this->trajectoryControllers.size())
+        throw std::out_of_range("Invalid joint number");
 
-bool EthercatMasterWithThread::isEtherCATConnectionEstablished() {
-  // Bouml preserved body begin 000F7771
-	return this->ethercatConnectionEstablished;
-  // Bouml preserved body end 000F7771
-}
-
-void EthercatMasterWithThread::registerJointLimitMonitor(JointLimitMonitor* object, const unsigned int JointNumber) {
-  // Bouml preserved body begin 000FB071
-	{
-    boost::mutex::scoped_lock limitMonitorMutex(jointLimitMonitorVectorMutex);
-		if(this->jointLimitMonitors[JointNumber -1] != NULL)
-			throw std::runtime_error("A joint limit monitor is already register for this joint!");
-		if((JointNumber -1) >= this->jointLimitMonitors.size())
-			throw std::out_of_range("Invalid joint number");
-		
-    this->jointLimitMonitors[JointNumber -1] = object;
+      this->trajectoryControllers[JointNumber - 1] = NULL;
+    }
+    LOG(debug) << "delete joint trajectory controller registration for joint: " << JointNumber;
+    // Bouml preserved body end 000F06F1
   }
-  LOG(debug) << "register a joint limit monitor for joint: " << JointNumber;
-  // Bouml preserved body end 000FB071
-}
 
-///establishes the ethercat connection
-void EthercatMasterWithThread::initializeEthercat() {
-  // Bouml preserved body begin 000410F1
+  unsigned int EthercatMasterWithThread::getNumberOfThreadCyclesPerSecond() {
+    // Bouml preserved body begin 000F41F1
+
+    return static_cast<unsigned int> (1.0 / ((double) timeTillNextEthercatUpdate / 1000 / 1000));
+    // Bouml preserved body end 000F41F1
+  }
+
+  bool EthercatMasterWithThread::isEtherCATConnectionEstablished() {
+    // Bouml preserved body begin 000F7771
+    return this->ethercatConnectionEstablished;
+    // Bouml preserved body end 000F7771
+  }
+
+  void EthercatMasterWithThread::registerJointLimitMonitor(JointLimitMonitor* object, const unsigned int JointNumber) {
+    // Bouml preserved body begin 000FB071
+    {
+      boost::mutex::scoped_lock limitMonitorMutex(jointLimitMonitorVectorMutex);
+      if (this->jointLimitMonitors[JointNumber - 1] != NULL)
+        throw std::runtime_error("A joint limit monitor is already register for this joint!");
+      if ((JointNumber - 1) >= this->jointLimitMonitors.size())
+        throw std::out_of_range("Invalid joint number");
+
+      this->jointLimitMonitors[JointNumber - 1] = object;
+    }
+    LOG(debug) << "register a joint limit monitor for joint: " << JointNumber;
+    // Bouml preserved body end 000FB071
+  }
+
+  ///establishes the ethercat connection
+
+  void EthercatMasterWithThread::initializeEthercat() {
+    // Bouml preserved body begin 000410F1
 
     /* initialise SOEM, bind socket to ifname */
     if (ec_init(ethernetDevice.c_str())) {
@@ -377,6 +359,7 @@ void EthercatMasterWithThread::initializeEthercat() {
     std::string actualSlaveName;
     nrOfSlaves = 0;
     YouBotSlaveMsg emptySlaveMsg;
+    YouBotSlaveMsgThreadSafe emptySlaveMsgThreadSafe;
 
     configfile->readInto(baseJointControllerName, "BaseJointControllerName");
     configfile->readInto(manipulatorJointControllerName, "ManipulatorJointControllerName");
@@ -392,29 +375,21 @@ void EthercatMasterWithThread::initializeEthercat() {
       actualSlaveName = ec_slave[cnt].name;
       if ((actualSlaveName == baseJointControllerName || actualSlaveName == manipulatorJointControllerName) && ec_slave[cnt].Obits > 0 && ec_slave[cnt].Ibits > 0) {
         nrOfSlaves++;
-        firstBufferVector.push_back(emptySlaveMsg);
-        secondBufferVector.push_back(emptySlaveMsg);
         ethercatOutputBufferVector.push_back((SlaveMessageOutput*) (ec_slave[cnt].outputs));
         ethercatInputBufferVector.push_back((SlaveMessageInput*) (ec_slave[cnt].inputs));
-        YouBotSlaveMailboxMsg emptyMailboxSlaveMsg(cnt);
-        firstMailboxBufferVector.push_back(emptyMailboxSlaveMsg);
-        secondMailboxBufferVector.push_back(emptyMailboxSlaveMsg);
-        newOutputDataFlagOne.push_back(false);
-        newOutputDataFlagTwo.push_back(false);
-        newMailboxDataFlagOne.push_back(false);
-        newMailboxDataFlagTwo.push_back(false);
-        newMailboxInputDataFlagOne.push_back(false);
-        newMailboxInputDataFlagTwo.push_back(false);
+        YouBotSlaveMailboxMsgThreadSafe emptyMailboxSlaveMsg(cnt);
+        mailboxMessages.push_back(emptyMailboxSlaveMsg);
         pendingMailboxMsgsReply.push_back(false);
         trajectoryControllers.push_back(NULL);
-				jointLimitMonitors.push_back(NULL);
+        jointLimitMonitors.push_back(NULL);
+        slaveMessages.push_back(emptySlaveMsgThreadSafe);
+        outstandingMailboxMsgFlag.push_back(false);
+        newInputMailboxMsgFlag.push_back(false);
       }
-
     }
- 
 
     if (nrOfSlaves > 0) {
-      LOG(info) << nrOfSlaves << " EtherCAT slaves found" ;
+      LOG(info) << nrOfSlaves << " EtherCAT slaves found";
     } else {
       throw std::runtime_error("No EtherCAT slave could be found");
       return;
@@ -425,17 +400,18 @@ void EthercatMasterWithThread::initializeEthercat() {
 
     SLEEP_MILLISEC(10); //needed to start up thread and EtherCAT communication
 
-		this->ethercatConnectionEstablished = true;
+    this->ethercatConnectionEstablished = true;
     return;
-  // Bouml preserved body end 000410F1
-}
+    // Bouml preserved body end 000410F1
+  }
 
-///closes the ethercat connection
-bool EthercatMasterWithThread::closeEthercat() {
-  // Bouml preserved body begin 00041271
+  ///closes the ethercat connection
 
-	  this->ethercatConnectionEstablished = false;
-   // Request safe operational state for all slaves
+  bool EthercatMasterWithThread::closeEthercat() {
+    // Bouml preserved body begin 00041271
+
+    this->ethercatConnectionEstablished = false;
+    // Request safe operational state for all slaves
     ec_slave[0].state = EC_STATE_SAFE_OP;
 
     /* request SAFE_OP state for all slaves */
@@ -445,135 +421,80 @@ bool EthercatMasterWithThread::closeEthercat() {
     ec_close();
 
     return true;
-  // Bouml preserved body end 00041271
-}
+    // Bouml preserved body end 00041271
+  }
 
-///stores a ethercat message to the buffer
-///@param msgBuffer ethercat message
-///@param jointNumber joint number of the sender joint
-void EthercatMasterWithThread::setMsgBuffer(const YouBotSlaveMsg& msgBuffer, const unsigned int jointNumber) {
-  // Bouml preserved body begin 000414F1
+  ///stores a ethercat message to the buffer
+  ///@param msgBuffer ethercat message
+  ///@param jointNumber joint number of the sender joint
+
+  void EthercatMasterWithThread::setMsgBuffer(const YouBotSlaveMsg& msgBuffer, const unsigned int jointNumber) {
+    // Bouml preserved body begin 000414F1
 
     if (this->automaticSendOn == true) {
-      if (newDataFlagOne == true) {
-        {
-          boost::mutex::scoped_lock dataMutex1(mutexDataOne);
-          firstBufferVector[jointNumber - 1].stctOutput = msgBuffer.stctOutput;
-          newOutputDataFlagOne[jointNumber - 1] = true;
-          newOutputDataFlagTwo[jointNumber - 1] = false;
-        }
-      } else if (newDataFlagTwo == true) {
-        {
-          boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
-          secondBufferVector[jointNumber - 1].stctOutput = msgBuffer.stctOutput;
-          newOutputDataFlagOne[jointNumber - 1] = false;
-          newOutputDataFlagTwo[jointNumber - 1] = true;
-        }
-
-      } else {
-        return;
-      }
+      slaveMessages[jointNumber - 1].stctOutput.Set(msgBuffer.stctOutput);
     } else {
+      //TODO check if it works
       YouBotSlaveMsg localMsg;
       localMsg.stctOutput = msgBuffer.stctOutput;
       localMsg.jointNumber = jointNumber;
       automaticSendOffBufferVector.push_back(localMsg);
     }
 
-  // Bouml preserved body end 000414F1
-}
+    // Bouml preserved body end 000414F1
+  }
 
-///get a ethercat message form the buffer
-///@param msgBuffer ethercat message
-///@param jointNumber joint number of the receiver joint
-void EthercatMasterWithThread::getMsgBuffer(const unsigned int jointNumber, YouBotSlaveMsg& returnMsg) {
-  // Bouml preserved body begin 00041571
+  ///get a ethercat message form the buffer
+  ///@param msgBuffer ethercat message
+  ///@param jointNumber joint number of the receiver joint
 
-    static bool lastValueof_newDataFlagOne;
-    static bool lastValueof_newDataFlagTwo;
+  void EthercatMasterWithThread::getMsgBuffer(const unsigned int jointNumber, YouBotSlaveMsg& returnMsg) {
+    // Bouml preserved body begin 00041571
 
-    
     if (this->automaticReceiveOn == true) {
-      if (newDataFlagOne == true && lastValueof_newDataFlagOne == false) {
-        {
-          boost::mutex::scoped_lock dataMutex1(mutexDataOne);
-          BufferForGetMsgBuffer = firstBufferVector;
-        }
-      } else if (newDataFlagTwo == true && lastValueof_newDataFlagTwo == false) {
-        {
-          boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
-          BufferForGetMsgBuffer = secondBufferVector;
-        }
-      } 
-      
-      returnMsg = BufferForGetMsgBuffer[jointNumber - 1];
-      lastValueof_newDataFlagOne = newDataFlagOne;
-      lastValueof_newDataFlagTwo = newDataFlagTwo;
+      slaveMessages[jointNumber - 1].stctInput.Get(returnMsg.stctInput);
+      slaveMessages[jointNumber - 1].stctOutput.Get(returnMsg.stctOutput);
+      slaveMessages[jointNumber - 1].jointNumber.Get(returnMsg.jointNumber);
     } else {
+      //TODO check if it works
       returnMsg = this->automaticReceiveOffBufferVector[jointNumber - 1];
     }
 
-  // Bouml preserved body end 00041571
-}
+    // Bouml preserved body end 00041571
+  }
 
-///stores a mailbox message in a buffer which will be sent to the motor controllers
-///@param msgBuffer ethercat mailbox message
-///@param jointNumber joint number of the sender joint
-void EthercatMasterWithThread::setMailboxMsgBuffer(const YouBotSlaveMailboxMsg& msgBuffer, const unsigned int jointNumber) {
-  // Bouml preserved body begin 00049D71
+  ///stores a mailbox message in a buffer which will be sent to the motor controllers
+  ///@param msgBuffer ethercat mailbox message
+  ///@param jointNumber joint number of the sender joint
 
-    if (newDataFlagOne == true) {
-      {
-        boost::mutex::scoped_lock dataMutex1(mutexDataOne);
-        firstMailboxBufferVector[jointNumber - 1].stctOutput = msgBuffer.stctOutput;
-        newMailboxDataFlagOne[jointNumber - 1] = true;
-        newMailboxDataFlagTwo[jointNumber - 1] = false;
-      }
-    } else if (newDataFlagTwo == true) {
-      {
-        boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
-        secondMailboxBufferVector[jointNumber - 1].stctOutput = msgBuffer.stctOutput;
-        newMailboxDataFlagOne[jointNumber - 1] = false;
-        newMailboxDataFlagTwo[jointNumber - 1] = true;
-      }
-
-    }
+  void EthercatMasterWithThread::setMailboxMsgBuffer(const YouBotSlaveMailboxMsg& msgBuffer, const unsigned int jointNumber) {
+    // Bouml preserved body begin 00049D71
+    this->mailboxMessages[jointNumber - 1].stctOutput.Set(msgBuffer.stctOutput);
+    outstandingMailboxMsgFlag[jointNumber - 1] = true;
     return;
-  // Bouml preserved body end 00049D71
-}
+    // Bouml preserved body end 00049D71
+  }
 
-///gets a mailbox message form the buffer which came form the motor controllers
-///@param msgBuffer ethercat mailbox message
-///@param jointNumber joint number of the receiver joint
-bool EthercatMasterWithThread::getMailboxMsgBuffer(YouBotSlaveMailboxMsg& mailboxMsg, const unsigned int jointNumber) {
-  // Bouml preserved body begin 00049DF1
+  ///gets a mailbox message form the buffer which came form the motor controllers
+  ///@param msgBuffer ethercat mailbox message
+  ///@param jointNumber joint number of the receiver joint
 
-
-    if (newMailboxInputDataFlagOne[jointNumber - 1] == true) {
-      {
-        boost::mutex::scoped_lock dataMutex1(mutexDataOne);
-        mailboxMsg.stctInput = firstMailboxBufferVector[jointNumber - 1].stctInput;
-     //   mailboxMsg.stctOutput = firstMailboxBufferVector[jointNumber - 1].stctOutput;
-        newMailboxInputDataFlagOne[jointNumber - 1] = false;
-      }
-      return true;
-    } else if (newMailboxInputDataFlagTwo[jointNumber - 1] == true) {
-      {
-        boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
-        mailboxMsg.stctInput = secondMailboxBufferVector[jointNumber - 1].stctInput;
-    //    mailboxMsg.stctOutput = secondMailboxBufferVector[jointNumber - 1].stctOutput;
-        newMailboxInputDataFlagTwo[jointNumber - 1] = false;
-      }
+  bool EthercatMasterWithThread::getMailboxMsgBuffer(YouBotSlaveMailboxMsg& mailboxMsg, const unsigned int jointNumber) {
+    // Bouml preserved body begin 00049DF1
+    if (newInputMailboxMsgFlag[jointNumber - 1] == true) {
+      this->mailboxMessages[jointNumber - 1].stctInput.Get(mailboxMsg.stctInput);
+      newInputMailboxMsgFlag[jointNumber - 1] = false;
       return true;
     }
     return false;
-  // Bouml preserved body end 00049DF1
-}
+    // Bouml preserved body end 00049DF1
+  }
 
-///sends the mailbox Messages which have been stored in the buffer
-///@param mailboxMsg ethercat mailbox message
-bool EthercatMasterWithThread::sendMailboxMessage(const YouBotSlaveMailboxMsg& mailboxMsg) {
-  // Bouml preserved body begin 00052F71
+  ///sends the mailbox Messages which have been stored in the buffer
+  ///@param mailboxMsg ethercat mailbox message
+
+  bool EthercatMasterWithThread::sendMailboxMessage(const YouBotSlaveMailboxMsg& mailboxMsg) {
+    // Bouml preserved body begin 00052F71
     //  LOG(trace) << "send mailbox message (buffer two) slave " << mailboxMsg.getSlaveNo();
     mailboxBufferSend[0] = mailboxMsg.stctOutput.moduleAddress;
     mailboxBufferSend[1] = mailboxMsg.stctOutput.commandNumber;
@@ -583,19 +504,20 @@ bool EthercatMasterWithThread::sendMailboxMessage(const YouBotSlaveMailboxMsg& m
     mailboxBufferSend[5] = mailboxMsg.stctOutput.value >> 16;
     mailboxBufferSend[6] = mailboxMsg.stctOutput.value >> 8;
     mailboxBufferSend[7] = mailboxMsg.stctOutput.value & 0xff;
-    if (ec_mbxsend(mailboxMsg.getSlaveNo(), &mailboxBufferSend, mailboxTimeout)) {
+    if (ec_mbxsend(mailboxMsg.slaveNumber, &mailboxBufferSend, mailboxTimeout)) {
       return true;
     } else {
       return false;
     }
-  // Bouml preserved body end 00052F71
-}
+    // Bouml preserved body end 00052F71
+  }
 
-///receives mailbox messages and stores them in the buffer
-///@param mailboxMsg ethercat mailbox message
-bool EthercatMasterWithThread::receiveMailboxMessage(YouBotSlaveMailboxMsg& mailboxMsg) {
-  // Bouml preserved body begin 00052FF1
-    if (ec_mbxreceive(mailboxMsg.getSlaveNo(), &mailboxBufferReceive, mailboxTimeout)) {
+  ///receives mailbox messages and stores them in the buffer
+  ///@param mailboxMsg ethercat mailbox message
+
+  bool EthercatMasterWithThread::receiveMailboxMessage(YouBotSlaveMailboxMsg& mailboxMsg) {
+    // Bouml preserved body begin 00052FF1
+    if (ec_mbxreceive(mailboxMsg.slaveNumber, &mailboxBufferReceive, mailboxTimeout)) {
       //    LOG(trace) << "received mailbox message (buffer two) slave " << mailboxMsg.getSlaveNo();
       mailboxMsg.stctInput.replyAddress = (int) mailboxBufferReceive[0];
       mailboxMsg.stctInput.moduleAddress = (int) mailboxBufferReceive[1];
@@ -605,230 +527,183 @@ bool EthercatMasterWithThread::receiveMailboxMessage(YouBotSlaveMailboxMsg& mail
       return true;
     }
     return false;
-  // Bouml preserved body end 00052FF1
-}
+    // Bouml preserved body end 00052FF1
+  }
 
-///sends and receives ethercat messages and mailbox messages to and from the motor controllers
-///this method is executed in a separate thread
-void EthercatMasterWithThread::updateSensorActorValues() {
-  // Bouml preserved body begin 0003F771
+  ///sends and receives ethercat messages and mailbox messages to and from the motor controllers
+  ///this method is executed in a separate thread
+
+  void EthercatMasterWithThread::updateSensorActorValues() {
+    // Bouml preserved body begin 0003F771
 
     long timeToWait = 0;
     boost::posix_time::ptime startTime = boost::posix_time::microsec_clock::local_time();
     boost::posix_time::time_duration pastTime;
-  //  int counter = 0;
+    //  int counter = 0;
     boost::posix_time::time_duration realperiode;
     boost::posix_time::time_duration timeSum = startTime - startTime;
     SlaveMessageOutput trajectoryContollerOutput;
+    YouBotSlaveMailboxMsg tempMsg;
 
 
     while (!stopThread) {
 
       pastTime = boost::posix_time::microsec_clock::local_time() - startTime;
       timeToWait = timeTillNextEthercatUpdate - pastTime.total_microseconds() - 100;
-      
-      if(timeToWait < 0 || timeToWait > (int)timeTillNextEthercatUpdate){
-    //    printf("Missed communication period of %d  microseconds it have been %d microseconds \n",timeTillNextEthercatUpdate, (int)pastTime.total_microseconds()+ 100);
-      }else{
+
+      if (timeToWait < 0 || timeToWait > (int) timeTillNextEthercatUpdate) {
+        //    printf("Missed communication period of %d  microseconds it have been %d microseconds \n",timeTillNextEthercatUpdate, (int)pastTime.total_microseconds()+ 100);
+      } else {
         boost::this_thread::sleep(boost::posix_time::microseconds(timeToWait));
       }
 
-     // realperiode = boost::posix_time::microsec_clock::local_time() - startTime;
+      // realperiode = boost::posix_time::microsec_clock::local_time() - startTime;
       startTime = boost::posix_time::microsec_clock::local_time();
 
-/*
-      counter++;
-      timeSum  = timeSum + realperiode;
+      /*
+            counter++;
+            timeSum  = timeSum + realperiode;
 
-      if(counter == 1000){
+            if(counter == 1000){
 
-        double dtotaltime = (double)timeSum.total_microseconds()/counter;
-        printf("TotalTime %7.0lf us\n", dtotaltime);
-        counter = 0;
-        timeSum = startTime - startTime;
-      }
-*/
+              double dtotaltime = (double)timeSum.total_microseconds()/counter;
+              printf("TotalTime %7.0lf us\n", dtotaltime);
+              counter = 0;
+              timeSum = startTime - startTime;
+            }
+       */
 
-      
 
-      
+
+
       //send and receive data from ethercat
       if (ec_send_processdata() == 0) {
         LOG(warning) << "Sending process data failed";
       }
 
       if (ec_receive_processdata(this->ethercatTimeout) == 0) {
-        if(communicationErrors == 0){
+        if (communicationErrors == 0) {
           LOG(warning) << "Receiving data failed";
         }
         communicationErrors++;
-      }else{
+      } else {
         communicationErrors = 0;
       }
-      
-      if(communicationErrors > maxCommunicationErrors){
+
+      if (communicationErrors > maxCommunicationErrors) {
         LOG(error) << "Lost EtherCAT connection";
         this->closeEthercat();
         stopThread = true;
         break;
       }
-      
+
       if (ec_iserror())
         LOG(warning) << "there is an error in the soem driver";
-      
-      
 
-      if (newDataFlagOne == false) {
-        {
-          boost::mutex::scoped_lock dataMutex1(mutexDataOne);
-          for (unsigned int i = 0; i < nrOfSlaves; i++) {
-            
-            //fill first output buffer (send data)
-            if (newOutputDataFlagOne[i]) {
-              *(ethercatOutputBufferVector[i]) = (firstBufferVector[i]).stctOutput;
-              newOutputDataFlagOne[i] = false;
-            }
-           
-            //fill first input buffer (receive data)
-            (firstBufferVector[i]).stctInput = *(ethercatInputBufferVector[i]);
-            
-              
-						// Limit checker
-						if(jointLimitMonitors[i] != NULL){
-							this->jointLimitMonitors[i]->checkLimitsProcessData(*(ethercatInputBufferVector[i]), *(ethercatOutputBufferVector[i]));
-						//copy back changed velocity for limit checker
-							(firstBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
-						}
-           // this->parseYouBotErrorFlags(secondBufferVector[i]);
 
-            //send mailbox messages from first buffer
-            if (newMailboxDataFlagOne[i]) {
-              sendMailboxMessage(firstMailboxBufferVector[i]);
-              newMailboxDataFlagOne[i] = false;
-              pendingMailboxMsgsReply[i] = true;
-            }
-            
-            //receive mailbox messages to first buffer
-            if(pendingMailboxMsgsReply[i]){
-              if (receiveMailboxMessage(firstMailboxBufferVector[i])) {
-                newMailboxInputDataFlagOne[i] = true;
-                pendingMailboxMsgsReply[i] = false;
-              }
-            }
+      for (unsigned int i = 0; i < nrOfSlaves; i++) {
+
+        //send data
+        slaveMessages[i].stctOutput.Get(*(ethercatOutputBufferVector[i]));
+
+        //receive data
+        slaveMessages[i].stctInput.Set(*(ethercatInputBufferVector[i]));
+
+
+        // Limit checker
+        if (jointLimitMonitors[i] != NULL) {
+          this->jointLimitMonitors[i]->checkLimitsProcessData(*(ethercatInputBufferVector[i]), *(ethercatOutputBufferVector[i]));
+          //copy back changed velocity for limit checker
+          slaveMessages[i].stctOutput.Get(*(ethercatOutputBufferVector[i]));
+        }
+        // this->parseYouBotErrorFlags(secondBufferVector[i]);
+
+        //send mailbox messages from first buffer
+        if (outstandingMailboxMsgFlag[i]) { 
+          this->mailboxMessages[i].stctOutput.Get(tempMsg.stctOutput);
+          this->mailboxMessages[i].slaveNumber.Get(tempMsg.slaveNumber);
+          sendMailboxMessage(tempMsg);
+          outstandingMailboxMsgFlag[i] = false;
+          pendingMailboxMsgsReply[i] = true;
+        }
+
+        //receive mailbox messages to first buffer
+        if (pendingMailboxMsgsReply[i]) {
+          this->mailboxMessages[i].slaveNumber.Get(tempMsg.slaveNumber);
+          if (receiveMailboxMessage(tempMsg)) {
+            this->mailboxMessages[i].stctInput.Set(tempMsg.stctInput);
+            newInputMailboxMsgFlag[i] = true;
+            pendingMailboxMsgsReply[i] = false;
           }
         }
-        newDataFlagOne = true;
-        newDataFlagTwo = false;
-
-      } else if (newDataFlagTwo == false) {
-        {
-          boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
-          for (unsigned int i = 0; i < nrOfSlaves; i++) {
-            
-            //fill second output buffer (send data)
-            if (newOutputDataFlagTwo[i]) {
-              *(ethercatOutputBufferVector[i]) = (secondBufferVector[i]).stctOutput;
-              newOutputDataFlagTwo[i] = false;
-            }
-            //fill second input buffer (receive data)
-            (secondBufferVector[i]).stctInput = *(ethercatInputBufferVector[i]);
-            
-						// Limit checker
-						if(jointLimitMonitors[i] != NULL){
-							this->jointLimitMonitors[i]->checkLimitsProcessData(*(ethercatInputBufferVector[i]), *(ethercatOutputBufferVector[i]));
-						
-							//copy back changed velocity for limit checker
-							(secondBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
-						}
-
-           // this->parseYouBotErrorFlags(secondBufferVector[i]);
-
-            //send mailbox messages from second buffer
-            if (newMailboxDataFlagTwo[i]) {
-              sendMailboxMessage(secondMailboxBufferVector[i]);
-              newMailboxDataFlagTwo[i] = false;
-              pendingMailboxMsgsReply[i] = true;
-            }
-             
-            //receive mailbox messages to second buffer
-            if(pendingMailboxMsgsReply[i]){
-              if (receiveMailboxMessage(secondMailboxBufferVector[i])) {
-                newMailboxInputDataFlagTwo[i] = true;
-                pendingMailboxMsgsReply[i] = false;
-              }
-            }
-          }
-        }
-        newDataFlagTwo = true;
-        newDataFlagOne = false;
       }
 
-			{
-				boost::mutex::scoped_lock trajectoryControllerMutex(trajectoryControllerVectorMutex);
-				for (unsigned int i = 0; i < nrOfSlaves; i++) {
-					if (this->trajectoryControllers[i] != NULL) {
-						if (this->trajectoryControllers[i]->updateTrajectoryController(*(ethercatInputBufferVector[i]), trajectoryContollerOutput)) {
-							//   printf("send vel slave: %d", i);
-							(*(ethercatOutputBufferVector[i])).controllerMode = trajectoryContollerOutput.controllerMode;
-							(*(ethercatOutputBufferVector[i])).value = trajectoryContollerOutput.value;
+      {
+        boost::mutex::scoped_lock trajectoryControllerMutex(trajectoryControllerVectorMutex);
+        for (unsigned int i = 0; i < nrOfSlaves; i++) {
+          if (this->trajectoryControllers[i] != NULL) {
+            if (this->trajectoryControllers[i]->updateTrajectoryController(*(ethercatInputBufferVector[i]), trajectoryContollerOutput)) {
+              //   printf("send vel slave: %d", i);
+              (*(ethercatOutputBufferVector[i])).controllerMode = trajectoryContollerOutput.controllerMode;
+              (*(ethercatOutputBufferVector[i])).value = trajectoryContollerOutput.value;
 
-							/*
-							else {
-								(*(ethercatOutputBufferVector[i])).controllerMode = VELOCITY_CONTROL;
-								(*(ethercatOutputBufferVector[i])).value = 0.0;
-							}*/
-						}
-					}
-				}
-			}
+              /*
+              else {
+                (*(ethercatOutputBufferVector[i])).controllerMode = VELOCITY_CONTROL;
+                (*(ethercatOutputBufferVector[i])).value = 0.0;
+              }*/
+            }
+          }
+        }
+      }
+
+      /*
+      //check if for joint limits
+      for (unsigned int jointNo = 0; jointNo < firstBufferVector.size(); jointNo++) {
+        if(jointLimitMonitors[jointNo] != NULL)
+          this->jointLimitMonitors[jointNo]->checkLimitsProcessData(*(ethercatInputBufferVector[jointNo]), *(ethercatOutputBufferVector[jointNo]));
+      }
+
 			
-			/*
-			//check if for joint limits
-		  for (unsigned int jointNo = 0; jointNo < firstBufferVector.size(); jointNo++) {
-				if(jointLimitMonitors[jointNo] != NULL)
-					this->jointLimitMonitors[jointNo]->checkLimitsProcessData(*(ethercatInputBufferVector[jointNo]), *(ethercatOutputBufferVector[jointNo]));
-			}
+      //just for data Trace
+      for (unsigned int i = 0; i < nrOfSlaves; i++) {
+        if (newDataFlagOne == true) {
+          {
+            boost::mutex::scoped_lock dataMutex1(mutexDataOne);
+            //fill first output buffer
+            (firstBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
+          }
+        } else if (newDataFlagTwo == true) {
+          {
+            boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
+            //fill second output buffer
+            (secondBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
+          }
+        }
+      }
+       */
 
-			
-			//just for data Trace
-			for (unsigned int i = 0; i < nrOfSlaves; i++) {
-				if (newDataFlagOne == true) {
-					{
-						boost::mutex::scoped_lock dataMutex1(mutexDataOne);
-						//fill first output buffer
-						(firstBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
-					}
-				} else if (newDataFlagTwo == true) {
-					{
-						boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
-						//fill second output buffer
-						(secondBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
-					}
-				}
-			}
-      */
 
-      
-     // if(ethercatInputBufferVector[3]->actualCurrent >= 900 ){
-     //   printf("joint 3 encoder: %d current %d \n", ethercatInputBufferVector[3]->actualPosition, ethercatInputBufferVector[3]->actualCurrent);
-     // }
+      // if(ethercatInputBufferVector[3]->actualCurrent >= 900 ){
+      //   printf("joint 3 encoder: %d current %d \n", ethercatInputBufferVector[3]->actualPosition, ethercatInputBufferVector[3]->actualCurrent);
+      // }
       // int cnt = 7;
       //  printf("activeports:%i DCrtA:%i DCrtB:%d DCrtC:%d DCrtD:%d\n", (int)ec_slave[cnt].activeports, ec_slave[cnt].DCrtA, ec_slave[cnt].DCrtB, ec_slave[cnt].DCrtC, ec_slave[cnt].DCrtD);
       //  printf("next DC slave:%i previous DC slave:%i DC cyle time in ns:%d DC shift:%d DC sync activation:%d\n", ec_slave[cnt].DCnext, ec_slave[cnt].DCprevious, ec_slave[cnt].DCcycle, ec_slave[cnt].DCshift, ec_slave[cnt].DCactive);
 
-//      for (unsigned int i = 0; i < motorProtections.size(); i++) {
-//        if (motorProtections[i].createSafeMotorCommands(stopMotorCommand)) {
-//          *(ethercatOutputBufferVector[i]) = stopMotorCommand.stctOutput;
-//        }
-//      }
+      //      for (unsigned int i = 0; i < motorProtections.size(); i++) {
+      //        if (motorProtections[i].createSafeMotorCommands(stopMotorCommand)) {
+      //          *(ethercatOutputBufferVector[i]) = stopMotorCommand.stctOutput;
+      //        }
+      //      }
     }
-  // Bouml preserved body end 0003F771
-}
+    // Bouml preserved body end 0003F771
+  }
 
-void EthercatMasterWithThread::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
-  // Bouml preserved body begin 000A9E71
+  void EthercatMasterWithThread::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
+    // Bouml preserved body begin 000A9E71
     std::stringstream errorMessageStream;
-    errorMessageStream <<  " " ;
+    errorMessageStream << " ";
     std::string errorMessage;
     errorMessage = errorMessageStream.str();
 
@@ -863,53 +738,53 @@ void EthercatMasterWithThread::parseYouBotErrorFlags(const YouBotSlaveMsg& messa
       //   throw JointErrorException(errorMessage + "got hall sensor problem");
     }
 
-//    if (messageBuffer.stctInput.errorFlags & ENCODER_ERROR) {
-//      LOG(error) << errorMessage << "got encoder problem";
-//      //   throw JointErrorException(errorMessage + "got encoder problem");
-//    }
-//
-//     if (messageBuffer.stctInput.errorFlags & INITIALIZATION_ERROR) {
-//      LOG(error) << errorMessage << "got inizialization problem";
-//      //   throw JointErrorException(errorMessage + "got motor winding problem");
-//    }
+    //    if (messageBuffer.stctInput.errorFlags & ENCODER_ERROR) {
+    //      LOG(error) << errorMessage << "got encoder problem";
+    //      //   throw JointErrorException(errorMessage + "got encoder problem");
+    //    }
+    //
+    //     if (messageBuffer.stctInput.errorFlags & INITIALIZATION_ERROR) {
+    //      LOG(error) << errorMessage << "got inizialization problem";
+    //      //   throw JointErrorException(errorMessage + "got motor winding problem");
+    //    }
 
     if (messageBuffer.stctInput.errorFlags & PWM_MODE_ACTIVE) {
-    //  LOG(error) << errorMessage << "has PWM mode active";
+      //  LOG(error) << errorMessage << "has PWM mode active";
       //   throw JointErrorException(errorMessage + "the cycle time is violated");
     }
 
     if (messageBuffer.stctInput.errorFlags & VELOCITY_MODE) {
-   //   LOG(info) << errorMessage << "has velocity mode active";
+      //   LOG(info) << errorMessage << "has velocity mode active";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & POSITION_MODE) {
-   //   LOG(info) << errorMessage << "has position mode active";
+      //   LOG(info) << errorMessage << "has position mode active";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & TORQUE_MODE) {
-   //   LOG(info) << errorMessage << "has torque mode active";
+      //   LOG(info) << errorMessage << "has torque mode active";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
-//    if (messageBuffer.stctInput.errorFlags & EMERGENCY_STOP) {
-//      LOG(info) << errorMessage << "has emergency stop active";
-//      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
-//    }
-//
-//    if (messageBuffer.stctInput.errorFlags & FREERUNNING) {
-//   //   LOG(info) << errorMessage << "has freerunning active";
-//      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
-//    }
+    //    if (messageBuffer.stctInput.errorFlags & EMERGENCY_STOP) {
+    //      LOG(info) << errorMessage << "has emergency stop active";
+    //      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+    //    }
+    //
+    //    if (messageBuffer.stctInput.errorFlags & FREERUNNING) {
+    //   //   LOG(info) << errorMessage << "has freerunning active";
+    //      //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
+    //    }
 
     if (messageBuffer.stctInput.errorFlags & POSITION_REACHED) {
-  //    LOG(info) << errorMessage << "has position reached";
+      //    LOG(info) << errorMessage << "has position reached";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
     if (messageBuffer.stctInput.errorFlags & INITIALIZED) {
-    //  LOG(info) << errorMessage << "is initialized";
+      //  LOG(info) << errorMessage << "is initialized";
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
@@ -923,12 +798,12 @@ void EthercatMasterWithThread::parseYouBotErrorFlags(const YouBotSlaveMsg& messa
       //   throw JointErrorException(errorMessage + "need to initialize the sinus commutation");
     }
 
-  // Bouml preserved body end 000A9E71
-}
+    // Bouml preserved body end 000A9E71
+  }
 
-std::string EthercatMasterWithThread::configFileName;
+  std::string EthercatMasterWithThread::configFileName;
 
-std::string EthercatMasterWithThread::configFilepath;
+  std::string EthercatMasterWithThread::configFilepath;
 
 
 } // namespace youbot

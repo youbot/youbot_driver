@@ -52,6 +52,7 @@
 #ifndef _YOUBOT_SLAVE_MESSAGE_H
 #define	_YOUBOT_SLAVE_MESSAGE_H
 
+#include "generic/dataobjectlockfree/DataObjectLockFree.hpp"
 #include <ethercattype.h>
 #include <string>
 #include <time.h>
@@ -63,6 +64,7 @@ namespace youbot {
 	struct SlaveMessageOutput {
 		int32 value;
 		uint8 controllerMode;
+    SlaveMessageOutput():value(0),controllerMode(0) { };
 	} __attribute__((__packed__));
 
 
@@ -74,6 +76,7 @@ namespace youbot {
 		int32 actualVelocity;   // rpm motor axis
 		uint32 errorFlags;
 		int32 actualPWM;
+    SlaveMessageInput():actualPosition(0),actualCurrent(0),actualVelocity(0),errorFlags(0),actualPWM(0) { };
 	} __attribute__((__packed__));
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -90,13 +93,6 @@ namespace youbot {
 		// Constructor
 
 		YouBotSlaveMsg() {
-			stctOutput.controllerMode = 0;
-			stctOutput.value = 0;
-			stctInput.actualCurrent = 0;
-			stctInput.actualPosition = 0;
-			stctInput.actualVelocity = 0;
-			stctInput.actualPWM = 0;
-			stctInput.errorFlags = 0;
 			jointNumber = 0;
 		}
 
@@ -123,6 +119,63 @@ namespace youbot {
 			return *this;
 		}
  * */
+	};
+  
+  ///////////////////////////////////////////////////////////////////////////////
+	/// EtherCat message of the youBot EtherCat slaves which is thread safe
+  ///////////////////////////////////////////////////////////////////////////////
+	class YouBotSlaveMsgThreadSafe {
+	public:
+
+
+		DataObjectLockFree<SlaveMessageOutput> stctOutput;
+		DataObjectLockFree<SlaveMessageInput> stctInput;
+		DataObjectLockFree<unsigned int> jointNumber;
+
+		// Constructor
+		YouBotSlaveMsgThreadSafe() {
+			jointNumber.Set(0);
+		}
+
+    
+		// Copy-Constructor
+		YouBotSlaveMsgThreadSafe(const YouBotSlaveMsgThreadSafe &copy) {
+      SlaveMessageOutput tempOutput;
+      SlaveMessageInput tempInput;
+      unsigned int tempjointNo;
+      
+      copy.stctOutput.Get(tempOutput);
+			stctOutput.Set(tempOutput);
+      
+      copy.stctInput.Get(tempInput);
+			stctInput.Set(tempInput);
+              
+      copy.jointNumber.Get(tempjointNo);
+			jointNumber.Set(tempjointNo);
+		}
+
+		// Destructor
+		~YouBotSlaveMsgThreadSafe() {
+		}
+
+		// assignment operator
+		YouBotSlaveMsgThreadSafe & operator=(const YouBotSlaveMsgThreadSafe &copy) {
+			SlaveMessageOutput tempOutput;
+      SlaveMessageInput tempInput;
+      unsigned int tempjointNo;
+      
+      copy.stctOutput.Get(tempOutput);
+			stctOutput.Set(tempOutput);
+      
+      copy.stctInput.Get(tempInput);
+			stctInput.Set(tempInput);
+              
+      copy.jointNumber.Get(tempjointNo);
+			jointNumber.Set(tempjointNo);
+
+			return *this;
+		}
+ 
 	};
 
 } // namespace youbot

@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 242
+  revision 244
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -24163,6 +24163,17 @@ friend class YouBotGripperBar;" ""
 	idl_decl ""
       end
 
+      attribute 452081 "IOmap_"
+	private explicit_type "char"
+	multiplicity "4096"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${multiplicity}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
       attribute 289393 "mailboxBuffer"
 	private explicit_type "ec_mbxbuft"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -24173,139 +24184,8 @@ friend class YouBotGripperBar;" ""
 	idl_decl ""
       end
 
-      attribute 289521 "timeTillNextEthercatUpdate"
-	private explicit_type "unsigned int"
-	cpp_visibility private cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	comment "//in microseconds"
-      end
-
-      attribute 289905 "mutexDataOne"
-	private explicit_type "boost::mutex"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 297457 "mutexDataTwo"
-	private explicit_type "boost::mutex"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 290161 "threads"
-	private explicit_type "boost::thread_group"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 290289 "stopThread"
-	private explicit_type "volatile bool"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 290545 "firstBufferVector"
-	private explicit_type "std::vector<YouBotSlaveMsg>"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 297329 "secondBufferVector"
-	private explicit_type "std::vector<YouBotSlaveMsg>"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 472305 "automaticSendOffBufferVector"
-	private explicit_type "std::vector<YouBotSlaveMsg>"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 554993 "automaticReceiveOffBufferVector"
-	private explicit_type "std::vector<YouBotSlaveMsg>"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
       attribute 290801 "nrOfSlaves"
 	private explicit_type "unsigned int"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 297713 "newDataFlagOne"
-	private explicit_type "volatile bool"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 297585 "newDataFlagTwo"
-	private explicit_type "volatile bool"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 305521 "newOutputDataFlagOne"
-	private explicit_type "std::vector<bool>"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 305649 "newOutputDataFlagTwo"
-	private explicit_type "std::vector<bool>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -24334,98 +24214,8 @@ friend class YouBotGripperBar;" ""
 	idl_decl ""
       end
 
-      attribute 313841 "firstMailboxBufferVector"
-	private explicit_type "std::vector<YouBotSlaveMailboxMsg>"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 313969 "secondMailboxBufferVector"
-	private explicit_type "std::vector<YouBotSlaveMailboxMsg>"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 314097 "newMailboxDataFlagOne"
-	private explicit_type "std::vector<bool>"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 314225 "newMailboxDataFlagTwo"
-	private explicit_type "std::vector<bool>"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 314353 "mailboxBufferSend"
-	private explicit_type "ec_mbxbuft"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 314481 "mailboxTimeout"
-	private explicit_type "uint"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 314609 "mailboxBufferReceive"
-	private explicit_type "ec_mbxbuft"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 314737 "newMailboxInputDataFlagOne"
-	private explicit_type "std::vector<bool>"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 314865 "newMailboxInputDataFlagTwo"
-	private explicit_type "std::vector<bool>"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 329329 "configfile"
-	private explicit_type "ConfigFile*"
+      attribute 912113 "slaveMessages"
+	private explicit_type "std::vector<YouBotSlaveMsgThreadSafe>"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -24444,10 +24234,9 @@ friend class YouBotGripperBar;" ""
 	idl_decl ""
       end
 
-      attribute 452081 "IOmap_"
-	private explicit_type "char"
-	multiplicity "4096"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${multiplicity}${value};
+      attribute 458609 "ethercatTimeout"
+	private explicit_type "uint"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
 	php_decl ""
@@ -24455,8 +24244,129 @@ friend class YouBotGripperBar;" ""
 	idl_decl ""
       end
 
-      attribute 458609 "ethercatTimeout"
+      attribute 289521 "timeTillNextEthercatUpdate"
+	private explicit_type "unsigned int"
+	cpp_visibility private cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	comment "//in microseconds"
+      end
+
+      attribute 290161 "threads"
+	private explicit_type "boost::thread_group"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 290289 "stopThread"
+	private explicit_type "volatile bool"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 314353 "mailboxBufferSend"
+	private explicit_type "ec_mbxbuft"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 314609 "mailboxBufferReceive"
+	private explicit_type "ec_mbxbuft"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 472305 "automaticSendOffBufferVector"
+	private explicit_type "std::vector<YouBotSlaveMsg>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 554993 "automaticReceiveOffBufferVector"
+	private explicit_type "std::vector<YouBotSlaveMsg>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 313841 "mailboxMessages"
+	private explicit_type "std::vector<YouBotSlaveMailboxMsgThreadSafe>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 314481 "mailboxTimeout"
 	private explicit_type "uint"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 314097 "newInputMailboxMsgFlag"
+	private explicit_type "std::vector<bool>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 314737 "outstandingMailboxMsgFlag"
+	private explicit_type "std::vector<bool>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 577265 "pendingMailboxMsgsReply"
+	private explicit_type "std::vector<bool>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 329329 "configfile"
+	private explicit_type "ConfigFile*"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -24505,8 +24415,8 @@ friend class YouBotGripperBar;" ""
 	idl_decl ""
       end
 
-      attribute 577265 "pendingMailboxMsgsReply"
-	private explicit_type "std::vector<bool>"
+      attribute 871153 "ethercatConnectionEstablished"
+	private explicit_type "bool"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -24535,16 +24445,6 @@ friend class YouBotGripperBar;" ""
 	idl_decl ""
       end
 
-      attribute 730225 "BufferForGetMsgBuffer"
-	private explicit_type "std::vector<YouBotSlaveMsg>"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
       classrelation 458481 // <generalisation>
 	relation 458481 ---|>
 	  a public
@@ -24565,16 +24465,6 @@ friend class YouBotGripperBar;" ""
 
       attribute 851057 "trajectoryControllerVectorMutex"
 	private explicit_type "boost::mutex"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 871153 "ethercatConnectionEstablished"
-	private explicit_type "bool"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""

@@ -59,6 +59,7 @@
 #include <iostream>
 #include <boost/thread.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include "generic/dataobjectlockfree/DataObjectLockFree.hpp"
 #include "generic/Logger.hpp"
 #include "generic/Units.hpp"
 #include "generic/Time.hpp"
@@ -173,66 +174,48 @@ friend class YouBotGripperBar;
 
     std::string ethernetDevice;
 
+    char IOmap_[4096];
+
     ec_mbxbuft mailboxBuffer;
 
-    //in microseconds
-    unsigned int timeTillNextEthercatUpdate;
-
-    boost::mutex mutexDataOne;
-
-    boost::mutex mutexDataTwo;
-
-    boost::thread_group threads;
-
-    volatile bool stopThread;
-
-    std::vector<YouBotSlaveMsg> firstBufferVector;
-
-    std::vector<YouBotSlaveMsg> secondBufferVector;
-
-    std::vector<YouBotSlaveMsg> automaticSendOffBufferVector;
-
-    std::vector<YouBotSlaveMsg> automaticReceiveOffBufferVector;
-
     unsigned int nrOfSlaves;
-
-    volatile bool newDataFlagOne;
-
-    volatile bool newDataFlagTwo;
-
-    std::vector<bool> newOutputDataFlagOne;
-
-    std::vector<bool> newOutputDataFlagTwo;
 
     std::vector<SlaveMessageOutput*> ethercatOutputBufferVector;
 
     std::vector<SlaveMessageInput*> ethercatInputBufferVector;
 
-    std::vector<YouBotSlaveMailboxMsg> firstMailboxBufferVector;
-
-    std::vector<YouBotSlaveMailboxMsg> secondMailboxBufferVector;
-
-    std::vector<bool> newMailboxDataFlagOne;
-
-    std::vector<bool> newMailboxDataFlagTwo;
-
-    ec_mbxbuft mailboxBufferSend;
-
-    unsigned int mailboxTimeout;
-
-    ec_mbxbuft mailboxBufferReceive;
-
-    std::vector<bool> newMailboxInputDataFlagOne;
-
-    std::vector<bool> newMailboxInputDataFlagTwo;
-
-    ConfigFile* configfile;
+    std::vector<YouBotSlaveMsgThreadSafe> slaveMessages;
 
     std::vector<ec_slavet> ethercatSlaveInfo;
 
-    char IOmap_[4096];
-
     unsigned int ethercatTimeout;
+
+    //in microseconds
+    unsigned int timeTillNextEthercatUpdate;
+
+    boost::thread_group threads;
+
+    volatile bool stopThread;
+
+    ec_mbxbuft mailboxBufferSend;
+
+    ec_mbxbuft mailboxBufferReceive;
+
+    std::vector<YouBotSlaveMsg> automaticSendOffBufferVector;
+
+    std::vector<YouBotSlaveMsg> automaticReceiveOffBufferVector;
+
+    std::vector<YouBotSlaveMailboxMsgThreadSafe> mailboxMessages;
+
+    unsigned int mailboxTimeout;
+
+    std::vector<bool> newInputMailboxMsgFlag;
+
+    std::vector<bool> outstandingMailboxMsgFlag;
+
+    std::vector<bool> pendingMailboxMsgsReply;
+
+    ConfigFile* configfile;
 
     static std::string configFileName;
 
@@ -242,19 +225,15 @@ friend class YouBotGripperBar;
 
     bool automaticReceiveOn;
 
-    std::vector<bool> pendingMailboxMsgsReply;
+    bool ethercatConnectionEstablished;
 
     long int communicationErrors;
 
     long int maxCommunicationErrors;
 
-    std::vector<YouBotSlaveMsg> BufferForGetMsgBuffer;
-
     std::vector<JointTrajectoryController*> trajectoryControllers;
 
     boost::mutex trajectoryControllerVectorMutex;
-
-    bool ethercatConnectionEstablished;
 
     std::vector<JointLimitMonitor*> jointLimitMonitors;
 

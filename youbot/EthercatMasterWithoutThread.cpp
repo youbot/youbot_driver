@@ -408,7 +408,7 @@ bool EthercatMasterWithoutThread::sendMailboxMessage(const YouBotSlaveMailboxMsg
     mailboxBufferSend[5] = mailboxMsg.stctOutput.value >> 16;
     mailboxBufferSend[6] = mailboxMsg.stctOutput.value >> 8;
     mailboxBufferSend[7] = mailboxMsg.stctOutput.value & 0xff;
-    if (ec_mbxsend(mailboxMsg.getSlaveNo(), &mailboxBufferSend, mailboxTimeout)) {
+    if (ec_mbxsend(mailboxMsg.slaveNumber, &mailboxBufferSend, mailboxTimeout)) {
       return true;
     } else {
       return false;
@@ -420,7 +420,7 @@ bool EthercatMasterWithoutThread::sendMailboxMessage(const YouBotSlaveMailboxMsg
 ///@param mailboxMsg ethercat mailbox message
 bool EthercatMasterWithoutThread::receiveMailboxMessage(YouBotSlaveMailboxMsg& mailboxMsg) {
   // Bouml preserved body begin 000D2371
-    if (ec_mbxreceive(mailboxMsg.getSlaveNo(), &mailboxBufferReceive, mailboxTimeout)) {
+    if (ec_mbxreceive(mailboxMsg.slaveNumber, &mailboxBufferReceive, mailboxTimeout)) {
       mailboxMsg.stctInput.replyAddress = (int) mailboxBufferReceive[0];
       mailboxMsg.stctInput.moduleAddress = (int) mailboxBufferReceive[1];
       mailboxMsg.stctInput.status = (int) mailboxBufferReceive[2];

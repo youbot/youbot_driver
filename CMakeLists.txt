@@ -48,7 +48,7 @@ include(UseDoxygen)
 
 
 add_subdirectory(youbot)
-#add_subdirectory(testing)
+add_subdirectory(testing)
 
 
 #ADD_EXECUTABLE(YouBot_test

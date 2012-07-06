@@ -56,6 +56,17 @@ SET(YOUBOT_DRIVER_HEADERS
 ../generic/Units.hpp
 ../generic/ConfigFile.hpp
 
+../generic/dataobjectlockfree/DataObjectLockFree.hpp
+../generic/dataobjectlockfree/target.hpp
+../generic/dataobjectlockfree/os/oro_arch.h
+../generic/dataobjectlockfree/os/oro_gcc/oro_arch.h
+../generic/dataobjectlockfree/os/oro_i386/oro_arch.h
+../generic/dataobjectlockfree/os/oro_msvc/oro_arch.h
+../generic/dataobjectlockfree//os/oro_powerpc/oro_arch.h  
+../generic/dataobjectlockfree/os/oro_powerpc/oro_atomic.h  
+../generic/dataobjectlockfree/os/oro_powerpc/oro_system.h
+../generic/dataobjectlockfree/os/oro_x86_64/oro_arch.h
+
 ../generic-gripper/Gripper.hpp
 ../generic-gripper/GripperData.hpp
 ../generic-gripper/GripperParameter.hpp
