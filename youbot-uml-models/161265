@@ -1316,6 +1316,7 @@ ${description}
 #include <iostream>
 #include <boost/thread.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include \"generic/dataobjectlockfree/DataObjectLockFree.hpp\"
 #include \"generic/Logger.hpp\"
 #include \"generic/Units.hpp\"
 #include \"generic/Time.hpp\"
