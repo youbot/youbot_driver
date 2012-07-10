@@ -1263,7 +1263,7 @@ void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
     }
 
     if (!(messageBuffer.stctInput.errorFlags & INITIALIZED)) {
-  //    LOG(warning) << this->storage.jointName << " initialized";
+      LOG(warning) << this->storage.jointName << " initialized";
       //   throw JointErrorException(this->storage.jointName + "need to initialize the sinus commutation");
     }
 
