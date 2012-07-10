@@ -1,11 +1,10 @@
-window_sizes 1280 726 421 853 645 0
+window_sizes 1680 976 421 1253 895 0
 show_stereotypes
-selected attribute_ref 912113 // slaveMessages
+selected attribute_ref 885105 // jointLimitMonitors
 open
   attribute_ref 290801 // nrOfSlaves
   attribute_ref 305777 // ethercatOutputBufferVector
   attribute_ref 305905 // ethercatInputBufferVector
-  attribute_ref 912113 // slaveMessages
   attribute_ref 396401 // ethercatSlaveInfo
   attribute_ref 458609 // ethercatTimeout
   attribute_ref 314353 // mailboxBufferSend
