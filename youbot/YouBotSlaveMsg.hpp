@@ -97,20 +97,20 @@ namespace youbot {
 		}
 
 		// Copy-Constructor
-/*
+
 		YouBotSlaveMsg(const YouBotSlaveMsg &copy) {
 			stctOutput = copy.stctOutput;
 			stctInput = copy.stctInput;
 			jointNumber = copy.jointNumber;
 		}
-*/
+
 		// Destructor
 
 		~YouBotSlaveMsg() {
 		}
 
 		// assignment operator
-/*
+
 		YouBotSlaveMsg & operator=(const YouBotSlaveMsg &copy) {
 			stctOutput = copy.stctOutput;
 			stctInput = copy.stctInput;
@@ -118,7 +118,6 @@ namespace youbot {
 
 			return *this;
 		}
- * */
 	};
   
   ///////////////////////////////////////////////////////////////////////////////
