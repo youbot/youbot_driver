@@ -943,17 +943,17 @@ class YouBotJoint
     }
 
 //    if (messageBuffer.stctInput.errorFlags & EMERGENCY_STOP) {
-//      LOG(info) << this->storage.jointName << "emergency stop active";
+//      LOG(info) << this->storage.jointName << " emergency stop active";
 //      //   throw JointErrorException(this->storage.jointName + "need to initialize the sinus commutation");
 //    }
 //
 //    if (messageBuffer.stctInput.errorFlags & FREERUNNING) {
-//   //   LOG(info) << this->storage.jointName << "has freerunning active";
+//   //   LOG(info) << this->storage.jointName << " has freerunning active";
 //      //   throw JointErrorException(this->storage.jointName + "need to initialize the sinus commutation");
 //    }
 
     if (messageBuffer.stctInput.errorFlags & POSITION_REACHED) {
-  //    LOG(info) << this->storage.jointName << "has position reached";
+  //    LOG(info) << this->storage.jointName << " has position reached";
       //   throw JointErrorException(this->storage.jointName + "need to initialize the sinus commutation");
     }
 

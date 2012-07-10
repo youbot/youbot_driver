@@ -1,0 +1,14 @@
+/*!
+
+@page troubleshooting Troubleshooting
+
+\section trouble1 If you can not connect to the EtherCAT slave or you see a message like "No slaves found!". Try the following:
+
+- Improve the irq response through the NIC/NAPI/Socket layer (eg. eth0):
+	@code
+	ethtool -C eth0 rx-usecs 0 rx-frames 1 tx-usecs 0 tx-frames 1
+	@endcode
+
+- Set manually a IP address to your ethernet adapter (eg. eth0). Sometimes Ubuntu disables the ethernet adapter if no IP address is set.
+
+*/

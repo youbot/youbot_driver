@@ -32,7 +32,7 @@ void YouBotBaseTestWithoutThread::setUp() {
 
 void YouBotBaseTestWithoutThread::tearDown() {
 
-	//EthercatMaster::destroy();
+	EthercatMaster::destroy();
 }
 
 void YouBotBaseTestWithoutThread::YouBotBaseTestWithoutThread_PositionMode() {

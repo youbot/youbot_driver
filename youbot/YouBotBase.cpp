@@ -207,6 +207,7 @@ void YouBotBase::getBasePosition(quantity<si::length>& longitudinalPosition, qua
     JointSensedAngle sensedPos;
     wheelPositions.assign(BASEJOINTS, dummy);
 
+    ethercatMaster.AutomaticReceiveOn(false);
     joints[0].getData(sensedPos);
     wheelPositions[0] = sensedPos.angle;
     joints[1].getData(sensedPos);
@@ -215,6 +216,7 @@ void YouBotBase::getBasePosition(quantity<si::length>& longitudinalPosition, qua
     wheelPositions[2] = sensedPos.angle;
     joints[3].getData(sensedPos);
     wheelPositions[3] = sensedPos.angle;
+    ethercatMaster.AutomaticReceiveOn(true);
 
     youBotBaseKinematic.wheelPositionsToCartesianPosition(wheelPositions, longitudinalPosition, transversalPosition, orientation);
   // Bouml preserved body end 000514F1
@@ -277,6 +279,7 @@ void YouBotBase::getBaseVelocity(quantity<si::velocity>& longitudinalVelocity, q
     JointSensedVelocity sensedVel;
     wheelVelocities.assign(BASEJOINTS, dummy);
 
+    ethercatMaster.AutomaticReceiveOn(false);
     joints[0].getData(sensedVel);
     wheelVelocities[0] = sensedVel.angularVelocity;
     joints[1].getData(sensedVel);
@@ -285,6 +288,7 @@ void YouBotBase::getBaseVelocity(quantity<si::velocity>& longitudinalVelocity, q
     wheelVelocities[2] = sensedVel.angularVelocity;
     joints[3].getData(sensedVel);
     wheelVelocities[3] = sensedVel.angularVelocity;
+    ethercatMaster.AutomaticReceiveOn(true);
 
     youBotBaseKinematic.wheelVelocitiesToCartesianVelocity(wheelVelocities, longitudinalVelocity, transversalVelocity, angularVelocity);
 

@@ -151,12 +151,12 @@ namespace youbot {
 
 
     if (this->automaticReceiveOn == false) {
-      automaticSendOffBufferVector.reserve(slaveMessages.size());
+      
 
       for (unsigned int i = 0; i < slaveMessages.size(); i++) {
-        slaveMessages[i].stctInput.Get(automaticSendOffBufferVector[i].stctInput);
-        slaveMessages[i].stctOutput.Get(automaticSendOffBufferVector[i].stctOutput);
-        slaveMessages[i].jointNumber.Get(automaticSendOffBufferVector[i].jointNumber);
+        slaveMessages[i].stctInput.Get(automaticReceiveOffBufferVector[i].stctInput);
+        slaveMessages[i].stctOutput.Get(automaticReceiveOffBufferVector[i].stctOutput);
+        slaveMessages[i].jointNumber.Get(automaticReceiveOffBufferVector[i].jointNumber);
       }
     }
 
@@ -387,6 +387,7 @@ namespace youbot {
         newInputMailboxMsgFlag.push_back(false);
       }
     }
+    automaticReceiveOffBufferVector.reserve(slaveMessages.size());
 
     if (nrOfSlaves > 0) {
       LOG(info) << nrOfSlaves << " EtherCAT slaves found";
@@ -434,8 +435,8 @@ namespace youbot {
     if (this->automaticSendOn == true) {
       slaveMessages[jointNumber - 1].stctOutput.Set(msgBuffer.stctOutput);
     } else {
-      //TODO check if it works
       YouBotSlaveMsg localMsg;
+      localMsg.stctInput = msgBuffer.stctInput;
       localMsg.stctOutput = msgBuffer.stctOutput;
       localMsg.jointNumber = jointNumber;
       automaticSendOffBufferVector.push_back(localMsg);
@@ -456,7 +457,6 @@ namespace youbot {
       slaveMessages[jointNumber - 1].stctOutput.Get(returnMsg.stctOutput);
       slaveMessages[jointNumber - 1].jointNumber.Get(returnMsg.jointNumber);
     } else {
-      //TODO check if it works
       returnMsg = this->automaticReceiveOffBufferVector[jointNumber - 1];
     }
 
@@ -604,10 +604,12 @@ namespace youbot {
       for (unsigned int i = 0; i < nrOfSlaves; i++) {
 
         //send data
-        slaveMessages[i].stctOutput.Get(*(ethercatOutputBufferVector[i]));
+        if(automaticSendOn == true)
+          slaveMessages[i].stctOutput.Get(*(ethercatOutputBufferVector[i]));
 
         //receive data
-        slaveMessages[i].stctInput.Set(*(ethercatInputBufferVector[i]));
+        if(automaticReceiveOn == true)
+          slaveMessages[i].stctInput.Set(*(ethercatInputBufferVector[i]));
 
 
         // Limit checker
@@ -646,56 +648,10 @@ namespace youbot {
               //   printf("send vel slave: %d", i);
               (*(ethercatOutputBufferVector[i])).controllerMode = trajectoryContollerOutput.controllerMode;
               (*(ethercatOutputBufferVector[i])).value = trajectoryContollerOutput.value;
-
-              /*
-              else {
-                (*(ethercatOutputBufferVector[i])).controllerMode = VELOCITY_CONTROL;
-                (*(ethercatOutputBufferVector[i])).value = 0.0;
-              }*/
             }
           }
         }
       }
-
-      /*
-      //check if for joint limits
-      for (unsigned int jointNo = 0; jointNo < firstBufferVector.size(); jointNo++) {
-        if(jointLimitMonitors[jointNo] != NULL)
-          this->jointLimitMonitors[jointNo]->checkLimitsProcessData(*(ethercatInputBufferVector[jointNo]), *(ethercatOutputBufferVector[jointNo]));
-      }
-
-			
-      //just for data Trace
-      for (unsigned int i = 0; i < nrOfSlaves; i++) {
-        if (newDataFlagOne == true) {
-          {
-            boost::mutex::scoped_lock dataMutex1(mutexDataOne);
-            //fill first output buffer
-            (firstBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
-          }
-        } else if (newDataFlagTwo == true) {
-          {
-            boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
-            //fill second output buffer
-            (secondBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
-          }
-        }
-      }
-       */
-
-
-      // if(ethercatInputBufferVector[3]->actualCurrent >= 900 ){
-      //   printf("joint 3 encoder: %d current %d \n", ethercatInputBufferVector[3]->actualPosition, ethercatInputBufferVector[3]->actualCurrent);
-      // }
-      // int cnt = 7;
-      //  printf("activeports:%i DCrtA:%i DCrtB:%d DCrtC:%d DCrtD:%d\n", (int)ec_slave[cnt].activeports, ec_slave[cnt].DCrtA, ec_slave[cnt].DCrtB, ec_slave[cnt].DCrtC, ec_slave[cnt].DCrtD);
-      //  printf("next DC slave:%i previous DC slave:%i DC cyle time in ns:%d DC shift:%d DC sync activation:%d\n", ec_slave[cnt].DCnext, ec_slave[cnt].DCprevious, ec_slave[cnt].DCcycle, ec_slave[cnt].DCshift, ec_slave[cnt].DCactive);
-
-      //      for (unsigned int i = 0; i < motorProtections.size(); i++) {
-      //        if (motorProtections[i].createSafeMotorCommands(stopMotorCommand)) {
-      //          *(ethercatOutputBufferVector[i]) = stopMotorCommand.stctOutput;
-      //        }
-      //      }
     }
     // Bouml preserved body end 0003F771
   }
