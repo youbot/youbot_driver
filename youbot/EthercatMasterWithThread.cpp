@@ -151,12 +151,12 @@ namespace youbot {
 
 
     if (this->automaticReceiveOn == false) {
-      automaticSendOffBufferVector.reserve(slaveMessages.size());
+      automaticReceiveOffBufferVector.reserve(slaveMessages.size());
 
       for (unsigned int i = 0; i < slaveMessages.size(); i++) {
-        slaveMessages[i].stctInput.Get(automaticSendOffBufferVector[i].stctInput);
-        slaveMessages[i].stctOutput.Get(automaticSendOffBufferVector[i].stctOutput);
-        slaveMessages[i].jointNumber.Get(automaticSendOffBufferVector[i].jointNumber);
+        slaveMessages[i].stctInput.Get(automaticReceiveOffBufferVector[i].stctInput);
+        slaveMessages[i].stctOutput.Get(automaticReceiveOffBufferVector[i].stctOutput);
+        slaveMessages[i].jointNumber.Get(automaticReceiveOffBufferVector[i].jointNumber);
       }
     }
 
@@ -434,8 +434,8 @@ namespace youbot {
     if (this->automaticSendOn == true) {
       slaveMessages[jointNumber - 1].stctOutput.Set(msgBuffer.stctOutput);
     } else {
-      //TODO check if it works
       YouBotSlaveMsg localMsg;
+      localMsg.stctInput = msgBuffer.stctInput;
       localMsg.stctOutput = msgBuffer.stctOutput;
       localMsg.jointNumber = jointNumber;
       automaticSendOffBufferVector.push_back(localMsg);
@@ -456,7 +456,6 @@ namespace youbot {
       slaveMessages[jointNumber - 1].stctOutput.Get(returnMsg.stctOutput);
       slaveMessages[jointNumber - 1].jointNumber.Get(returnMsg.jointNumber);
     } else {
-      //TODO check if it works
       returnMsg = this->automaticReceiveOffBufferVector[jointNumber - 1];
     }
 
