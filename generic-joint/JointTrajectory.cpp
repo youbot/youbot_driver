@@ -51,38 +51,5 @@
 #include "generic-joint/JointTrajectory.hpp"
 namespace youbot {
 
-void JointTrajectory::setTrajectoryPoint(const quantity<plane_angle>& position, const quantity<angular_velocity>& velocity, const quantity<angular_acceleration>& acceleration, const quantity<si::time>& time) {
-  // Bouml preserved body begin 000F5B71
-	this->positions.push_back(position);
-	this->velocities.push_back(velocity);
-	this->accelerations.push_back(acceleration);
-	this->time.push_back(time);
-  // Bouml preserved body end 000F5B71
-}
-
-const std::vector< quantity<plane_angle> >& JointTrajectory::getPositions() {
-  // Bouml preserved body begin 000F5BF1
-	return this->positions;
-  // Bouml preserved body end 000F5BF1
-}
-
-const std::vector< quantity<angular_velocity> >& JointTrajectory::getVelocities() {
-  // Bouml preserved body begin 000F5C71
-	return this->velocities;
-  // Bouml preserved body end 000F5C71
-}
-
-const std::vector< quantity<angular_acceleration> >& JointTrajectory::getAccelerations() {
-  // Bouml preserved body begin 000F5CF1
-	return this->accelerations;
-  // Bouml preserved body end 000F5CF1
-}
-
-const std::vector<quantity<si::time> >& JointTrajectory::getTimes() {
-  // Bouml preserved body begin 000F5D71
-	return this->time;
-  // Bouml preserved body end 000F5D71
-}
-
 
 } // namespace youbot

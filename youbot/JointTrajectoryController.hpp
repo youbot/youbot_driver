@@ -60,9 +60,31 @@
 #include "generic/Units.hpp"
 #include "generic/Time.hpp"
 #include "generic/Exceptions.hpp"
+#include "generic/PidController.hpp"
+#include "generic-joint/JointTrajectory.hpp"
 #include "youbot/YouBotJointParameter.hpp"
 #include "youbot/YouBotJointParameterPasswordProtected.hpp"
+#include "generic/dataobjectlockfree/DataObjectLockFree.hpp"
+
 namespace youbot {
+
+
+
+
+// coef[0] + coef[1]*t + ... + coef[5]*t^5
+struct Spline
+{
+  std::vector<double> coef;
+
+  Spline() : coef(6, 0.0) {}
+};
+
+struct Segment
+ {
+  boost::posix_time::ptime start_time;
+  boost::posix_time::time_duration duration;
+  Spline spline;
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 /// 
@@ -81,23 +103,11 @@ class JointTrajectoryController {
 
 
   public:
-    void getConfigurationParameter(PParameterTrajectoryControl& parameter);
+    void getConfigurationParameter(double& PParameter, double& IParameter, double& DParameter, double& IClippingMax, double& IClippingMin);
 
-    void setConfigurationParameter(const PParameterTrajectoryControl& parameter);
+    void setConfigurationParameter(const double PParameter, const double IParameter, const double DParameter, const double IClippingMax, const double IClippingMin);
 
-    void getConfigurationParameter(IParameterTrajectoryControl& parameter);
-
-    void setConfigurationParameter(const IParameterTrajectoryControl& parameter);
-
-    void getConfigurationParameter(DParameterTrajectoryControl& parameter);
-
-    void setConfigurationParameter(const DParameterTrajectoryControl& parameter);
-
-    void getConfigurationParameter(IClippingParameterTrajectoryControl& parameter);
-
-    void setConfigurationParameter(const IClippingParameterTrajectoryControl& parameter);
-
-    void setTrajectoryPositions(const std::list<int32>& targetPositions);
+    void setTrajectory(const JointTrajectory& input_traj);
 
     void cancelCurrentTrajectory();
 
@@ -107,47 +117,35 @@ class JointTrajectoryController {
 
     void getLastTargetPosition(JointEncoderSetpoint& position);
 
-    unsigned int getControllerUpdatesPerSecond();
-
-    void setControllerUpdatesPerSecond(const unsigned int updates);
-
 
   private:
-    std::list<int32> trajectoryPositionsBuffer1;
+    void getQuinticSplineCoefficients(const double start_pos, const double start_vel, const double start_acc, const double end_pos, const double end_vel, const double end_acc, const double time, std::vector<double>& coefficients);
 
-    std::list<int32> trajectoryPositionsBuffer2;
+    void sampleQuinticSpline(const std::vector<double>& coefficients, const double time, double& position, double& velocity, double& acceleration);
 
-    bool trajectoryPositionsBuffer1InUse;
+    void getCubicSplineCoefficients(const double start_pos, const double start_vel, const double end_pos, const double end_vel, const double time, std::vector<double>& coefficients);
 
-    bool trajectoryPositionsBuffer2InUse;
+    void generatePowers(const int n, const double x, double* powers);
 
-    boost::mutex trajectoryPositionsBuffer1Mutex;
-
-    boost::mutex trajectoryPositionsBuffer2Mutex;
-
-    int32 last_pose_diff;
-
-    double PParameter;
-
-    double IParameter;
-
-    double DParameter;
-
-    double ISum;
-
-    double DDiff;
-
-    int32 pose_diff_clipping;
-
-    double ISum_clipping;
+    void sampleSplineWithTimeBounds(const std::vector<double>& coefficients, const double duration, const double time, double& position, double& velocity, double& acceleration);
 
     bool isControllerActive;
 
-    boost::mutex targetPositionMutex;
+    PidController pid;
 
-    int32 targetPosition;
+    boost::posix_time::ptime time;
 
-    unsigned int controllerUpdatesPerSecond;
+    boost::posix_time::ptime last_time;
+
+    typedef std::vector<Segment> SpecifiedTrajectory;
+
+    DataObjectLockFree< boost::shared_ptr<const SpecifiedTrajectory> > current_trajectory_box_;
+
+    double targetPosition;
+
+    double targetVelocity;
+
+    double targetAcceleration;
 
 };
 

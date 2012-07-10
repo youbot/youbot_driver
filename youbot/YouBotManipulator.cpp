@@ -621,7 +621,7 @@ void YouBotManipulator::initializeJoints() {
       
       if(ethercatMaster.isThreadActive()){
 				unsigned int numberOfThreadCyclesPerSecond = ethercatMasterWithThread->getNumberOfThreadCyclesPerSecond();
-				joints[i].trajectoryController.setControllerUpdatesPerSecond(numberOfThreadCyclesPerSecond);
+		//		joints[i].trajectoryController.setControllerUpdatesPerSecond(numberOfThreadCyclesPerSecond);
 				ethercatMasterWithThread->registerJointTrajectoryController(&(joints[i].trajectoryController), joints[i].getJointNumber());
 			}
     }

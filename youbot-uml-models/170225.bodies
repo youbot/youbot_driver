@@ -723,119 +723,6 @@ class YouBotJoint
     ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
 !!!959217.cpp!!!	getJointNumber() : unsigned int
   return this->storage.jointNumber;
-!!!951537.cpp!!!	setTrajectory(in positions : std::vector< quantity<plane_angle> >, in velocities : std::vector< quantity<angular_velocity> >, in accelerations : std::vector< quantity<angular_acceleration> >) : void
-  std::list<int32> targetPositions;
-  if(!this->trajectoryController.isTrajectoryControllerActive()){
-    JointSensedAngle currentpose;
-    JointSensedVelocity currentvel;
-    this->getData(currentpose);
-    this->getData(currentvel);
-    lastVelocity = currentvel.angularVelocity;
-    lastPosition = currentpose.angle;
-  }
-  
-  for(unsigned int i = 0; i< positions.size(); i++) {
-    this->calculatePositions(positions[i], lastPosition, velocities[i], lastVelocity,  accelerations[i], targetPositions);
-    lastVelocity = velocities[i];
-    lastPosition = positions[i];
-  }
-  
-  this->trajectoryController.setTrajectoryPositions(targetPositions);
-  
-!!!951665.cpp!!!	cancelTrajectory() : void
-  this->trajectoryController.cancelCurrentTrajectory();
-!!!958577.cpp!!!	calculatePositions(in position : quantity<plane_angle>, in position_current : quantity<plane_angle>, in velocity : quantity<angular_velocity>, in velocity_current : quantity<angular_velocity>, in acceleration : quantity<angular_acceleration>, out targetPositions : std::list<int32>) : void
-  
-  quantity<plane_angle> targetposition(0 *radian);
-  quantity<boost::units::si::time> timestep(0*second);
-  quantity<boost::units::si::time> timestep2(0*second);
-  quantity<plane_angle> targetpositionAfterAcc(0 *radian);
-  quantity<plane_angle> positionThreshold = 0.01*radian;
-  int u = 0;
-	int steps_per_second = 1000;
-	steps_per_second = this->trajectoryController.getControllerUpdatesPerSecond();
-  
-  quantity<angular_velocity> velocity_calc;
-	quantity<angular_velocity> zeroVel(0 * radian_per_second);
-  quantity<angular_acceleration> zeroAcc(0 * radian_per_second/second);
-	
-	if(steps_per_second == 0)
-		 throw JointErrorException("Invalid controller updates per second");
-	
-	if(position < position_current && (velocity >=zeroVel || acceleration >=zeroAcc))
-		 throw JointErrorException("Invalid trajectory");
-	
-	if(position > position_current && (velocity <=zeroVel || acceleration <=zeroAcc))
-		 throw JointErrorException("Invalid trajectory");
-  
-  
-  for(int i= 1; targetposition <= (position-positionThreshold) || targetposition >= (position+positionThreshold) ;i++){
-      timestep = ((double)i/steps_per_second)* second;
-      targetposition = position_current + (velocity_current * timestep) + ((acceleration * timestep * timestep)/2.0);
-      velocity_calc = (acceleration * timestep) +velocity_current;
-      
-      if(acceleration >= (0 * radian_per_second/second)){
-        if(velocity_calc >= velocity){
-          if(u == 0){
-            u = i;
-            targetpositionAfterAcc = targetposition;
-          }
-          
-          timestep2 = ((double)(i-u)/steps_per_second)* second;
-          targetposition = targetpositionAfterAcc + (velocity  * timestep2);
-        }
-      }else{
-        if(velocity_calc <= velocity){
-          if(u == 0){
-            u = i;
-            targetpositionAfterAcc = targetposition;
-          }
-          
-          timestep2 = ((double)(i-u)/steps_per_second)* second;
-          targetposition = targetpositionAfterAcc + (velocity  * timestep2);
-        }
-      }
-
-    
-    //////////////////////////////////////////////////
-    if (storage.gearRatio == 0) {
-      throw std::out_of_range("A Gear Ratio of zero is not allowed");
-    }
-    
-    if (storage.encoderTicksPerRound == 0) {
-      throw std::out_of_range("Zero Encoder Ticks per Round are not allowed");
-    }
-
-    if(storage.areLimitsActive){
-
-      quantity<plane_angle> lowLimit = ((double) this->storage.lowerLimit / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
-      quantity<plane_angle> upLimit = ((double) this->storage.upperLimit / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
-      
-      if (storage.inverseMovementDirection) {
-        upLimit = ((double) -(this->storage.lowerLimit) / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
-        lowLimit = ((double) -(this->storage.upperLimit) / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
-      }
-      
-
-      if (!((targetposition < upLimit) && (targetposition > lowLimit))) {
-        std::stringstream errorMessageStream;
-        errorMessageStream << "The setpoint angle is out of range. The valid range is between " << lowLimit << " and " << upLimit << " and it is: " << targetposition;
-        //    LOG(trace) << "abs_value: " << abs(data.angle) << " abslow " << abs(lowLimit) << " absupper " << abs(upLimit);
-        throw std::out_of_range(errorMessageStream.str());
-      }
-    }
-    int32 targetposition_enc;
-
-    targetposition_enc = (int32) round((targetposition.value() * ((double) storage.encoderTicksPerRound / (2.0 * M_PI))) / storage.gearRatio);
-
-
-    if (storage.inverseMovementDirection) {
-      targetposition_enc *= -1;
-    }
-    
-    targetPositions.push_back(targetposition_enc); 
-  }
-  
 !!!281329.cpp!!!	parseYouBotErrorFlags(in messageBuffer : YouBotSlaveMsg) : void
 
     if (messageBuffer.stctInput.errorFlags & OVER_CURRENT) {
@@ -914,7 +801,7 @@ class YouBotJoint
     }
 
     if (!(messageBuffer.stctInput.errorFlags & INITIALIZED)) {
-  //    LOG(warning) << this->storage.jointName << " initialized";
+      LOG(warning) << this->storage.jointName << " initialized";
       //   throw JointErrorException(this->storage.jointName + "need to initialize the sinus commutation");
     }
 

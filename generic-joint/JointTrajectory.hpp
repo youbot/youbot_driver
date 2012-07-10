@@ -52,33 +52,25 @@
  *
  ****************************************************************/
 #include "generic/Units.hpp"
+#include "generic/Time.hpp"
 #include "generic-joint/JointData.hpp"
 namespace youbot {
 
+struct TrajectorySegment
+{
+  quantity<plane_angle> positions;
+  quantity<angular_velocity> velocities;
+  quantity<angular_acceleration> accelerations;
+  boost::posix_time::time_duration time_from_start;
+};
 ///////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////
-class JointTrajectory : public JointDataSetpoint {
-  private:
-    std::vector< quantity<plane_angle> > positions;
-
-    std::vector< quantity<angular_velocity> > velocities;
-
-    std::vector< quantity<angular_acceleration> > accelerations;
-
-    std::vector< quantity<si::time> > time;
-
-
+class JointTrajectory {
   public:
-    void setTrajectoryPoint(const quantity<plane_angle>& position, const quantity<angular_velocity>& velocity, const quantity<angular_acceleration>& acceleration, const quantity<si::time>& time);
+    std::vector< TrajectorySegment > segments;
 
-    const std::vector< quantity<plane_angle> >& getPositions();
-
-    const std::vector< quantity<angular_velocity> >& getVelocities();
-
-    const std::vector< quantity<angular_acceleration> >& getAccelerations();
-
-    const std::vector<quantity<si::time> >& getTimes();
+    boost::posix_time::ptime start_time;
 
 };
 

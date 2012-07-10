@@ -271,17 +271,8 @@ class YouBotJoint : public Joint {
 
     unsigned int getJointNumber();
 
-    /// calculates all trajectory values for the future and sets all the the ethercat master
-    /// if the trajectory is still active the the values will be set in the next buffer
-    void setTrajectory(const std::vector< quantity<plane_angle> >& positions, const std::vector< quantity<angular_velocity> >& velocities, const std::vector< quantity<angular_acceleration> >& accelerations);
-
-    /// Stops just the trajectory controller but not the joint movement
-    void cancelTrajectory();
-
 
   private:
-    void calculatePositions(const quantity<plane_angle>& position, const quantity<plane_angle>& position_current, const quantity<angular_velocity>& velocity, const quantity<angular_velocity>& velocity_current, const quantity<angular_acceleration>& acceleration, std::list<int32>& targetPositions);
-
     void parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer);
 
     void parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailboxMsg);

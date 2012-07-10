@@ -6,6 +6,7 @@
     ${CMAKE_HOME_DIRECTORY}/youbot/EthercatMasterWithoutThread.cpp
     ${CMAKE_HOME_DIRECTORY}/generic/Logger.cpp
     ${CMAKE_HOME_DIRECTORY}/generic/ConfigFile.cpp
+    ${CMAKE_HOME_DIRECTORY}/generic/PidController.cpp
     ${CMAKE_HOME_DIRECTORY}/generic-joint/JointData.cpp
     ${CMAKE_HOME_DIRECTORY}/generic-joint/JointTrajectory.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJoint.cpp
@@ -55,6 +56,7 @@ SET(YOUBOT_DRIVER_HEADERS
 ../generic/Time.hpp
 ../generic/Units.hpp
 ../generic/ConfigFile.hpp
+../generic/PidController.hpp
 
 ../generic/dataobjectlockfree/DataObjectLockFree.hpp
 ../generic/dataobjectlockfree/target.hpp
