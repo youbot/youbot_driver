@@ -1,6 +1,7 @@
 #include "YouBotBaseTest.hpp"
 #include "YouBotBaseTestWithoutThread.hpp"
 #include "YouBotBaseKinematicsTest.hpp"
+#include "YouBotArmTest.hpp"
 #include <cppunit/CompilerOutputter.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
@@ -9,16 +10,15 @@
 CPPUNIT_TEST_SUITE_REGISTRATION( YouBotBaseTest );
 CPPUNIT_TEST_SUITE_REGISTRATION( YouBotBaseTestWithoutThread );
 CPPUNIT_TEST_SUITE_REGISTRATION( YouBotBaseKinematicsTest );
+CPPUNIT_TEST_SUITE_REGISTRATION( YouBotArmTest );
 
 int main(int argc, char* argv[]) {
-  std::cout << "Attention! All wheels of the youBot will move during the test. \nThe youBot should not stand on the ground and the wheels should be in the air!" << std::endl;
+  std::cout << "Attention! All wheels of the youBot will move during the test. \nThe youBot should NOT stand on the ground and the wheels should be in the air! \nAlso the arm will move please be carefull!" << std::endl;
   char input = 0;
 
   while (input != 'y' && input != 'n') {
     std::cout << "Are all wheels off the ground? [n/y]" << std::endl;
-
     input = getchar();
-
     if (input == 'n') {
       return 0;
     }
