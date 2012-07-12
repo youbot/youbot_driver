@@ -168,7 +168,7 @@ int main(int argc, char* argv[]) {
       std::cout << "invalid arguments e.g: \n./displayipaddress eth1 wlan0" << std::endl;
       return 0;
     }
-    int fd = open_port("/dev/ttyacm0");
+    int fd = open_port("/dev/ttyACM0");
     configure_port(fd);
 
     std::string lanip;
