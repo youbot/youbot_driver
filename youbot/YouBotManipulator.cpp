@@ -56,6 +56,7 @@ YouBotManipulator::YouBotManipulator(const std::string name, const std::string c
   // Bouml preserved body begin 00067F71
 
     this->controllerType = 841;
+    this->alternativeControllerType = 1610;
     this->minFirmwareVersion = 1.43;
 
     string filename;
@@ -584,9 +585,9 @@ void YouBotManipulator::initializeJoints() {
 
       LOG(info) << name << "\t Controller Type: " << controllerType << "  Firmware version: " << firmwareVersion;
 
-      if (this->controllerType != controllerType) {
+      if (this->controllerType != controllerType && alternativeControllerType != controllerType) {
         std::stringstream ss;
-        ss << "The youBot manipulator motor controller have to be of type: " << this->controllerType;
+        ss << "The youBot manipulator motor controller have to be of type: " << this->controllerType << " or " << alternativeControllerType;
         throw std::runtime_error(ss.str().c_str());
       }
 

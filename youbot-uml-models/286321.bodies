@@ -2,6 +2,7 @@ class YouBotManipulator
 !!!425841.cpp!!!	YouBotManipulator(in name : string, in configFilePath : string = "../config/")
 
     this->controllerType = 841;
+    this->alternativeControllerType = 1610;
     this->minFirmwareVersion = 1.43;
 
     string filename;
@@ -438,9 +439,9 @@ class YouBotManipulator
 
       LOG(info) << name << "\t Controller Type: " << controllerType << "  Firmware version: " << firmwareVersion;
 
-      if (this->controllerType != controllerType) {
+      if (this->controllerType != controllerType && alternativeControllerType != controllerType) {
         std::stringstream ss;
-        ss << "The youBot manipulator motor controller have to be of type: " << this->controllerType;
+        ss << "The youBot manipulator motor controller have to be of type: " << this->controllerType << " or " << alternativeControllerType;
         throw std::runtime_error(ss.str().c_str());
       }
 

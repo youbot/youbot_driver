@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 245
+  revision 246
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -25430,6 +25430,16 @@ ${inlines}
 
       attribute 857713 "ethercatMasterWithThread"
 	private explicit_type "EthercatMasterWithThread*"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 918641 "alternativeControllerType"
+	private explicit_type "int"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
