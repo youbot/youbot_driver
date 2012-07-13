@@ -274,7 +274,7 @@ void EthercatMasterWithThread::initializeEthercat() {
         /* wait for all slaves to reach Pre OP state */
         /*ec_statecheck(0, EC_STATE_PRE_OP,  EC_TIMEOUTSTATE);
         if (ec_slave[0].state != EC_STATE_PRE_OP ){
-        printf("Not all slaves reached pre operational state.\n");
+        LOG(debug) << "Not all slaves reached pre operational state.";
         ec_readstate();
         //If not all slaves operational find out which one
           for(int i = 1; i<=ec_slavecount ; i++){
@@ -362,9 +362,9 @@ void EthercatMasterWithThread::initializeEthercat() {
 
     //reserve memory for all slave with a input/output buffer
     for (int cnt = 1; cnt <= ec_slavecount; cnt++) {
-           printf("Slave:%d Name:%s Output size:%3dbits Input size:%3dbits State:%2d delay:%d.%d\n",
-                   cnt, ec_slave[cnt].name, ec_slave[cnt].Obits, ec_slave[cnt].Ibits,
-                   ec_slave[cnt].state, (int) ec_slave[cnt].pdelay, ec_slave[cnt].hasdc);
+           LOG(trace) << "Slave: " << cnt  << " Name: " << ec_slave[cnt].name  << " Output size: " << ec_slave[cnt].Obits
+                   << "bits Input size: " << ec_slave[cnt].Ibits << "bits State: " << ec_slave[cnt].state  
+                   << " delay: " << ec_slave[cnt].pdelay; //<< " has dclock: " << (bool)ec_slave[cnt].hasdc;
 
       ethercatSlaveInfo.push_back(ec_slave[cnt]);
 

@@ -1,17 +1,6 @@
-window_sizes 1680 976 421 1253 895 0
+window_sizes 1680 976 421 1253 893 0
 show_stereotypes
-selected attribute_ref 885105 // jointLimitMonitors
+selected classview_ref 160881 // YouBot
 open
-  attribute_ref 290801 // nrOfSlaves
-  attribute_ref 305777 // ethercatOutputBufferVector
-  attribute_ref 305905 // ethercatInputBufferVector
-  attribute_ref 396401 // ethercatSlaveInfo
-  attribute_ref 458609 // ethercatTimeout
-  attribute_ref 314353 // mailboxBufferSend
-  attribute_ref 314609 // mailboxBufferReceive
-  attribute_ref 314097 // newInputMailboxMsgFlag
-  attribute_ref 577265 // pendingMailboxMsgsReply
-  attribute_ref 871153 // ethercatConnectionEstablished
-  deploymentview_ref 161137 // Deployment
 end
 end
