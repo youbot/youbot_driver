@@ -398,6 +398,54 @@ void PositionSetpoint::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message)
   // Bouml preserved body end 000E1CF1
 }
 
+TargetPositionReached::TargetPositionReached() {
+  // Bouml preserved body begin 000FFE71
+    this->name = "TargetPositionReached";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 000FFE71
+}
+
+TargetPositionReached::~TargetPositionReached() {
+  // Bouml preserved body begin 000FFEF1
+  // Bouml preserved body end 000FFEF1
+}
+
+void TargetPositionReached::getParameter(bool& parameter) const {
+  // Bouml preserved body begin 000FFF71
+    parameter = this->value;
+  // Bouml preserved body end 000FFF71
+}
+
+void TargetPositionReached::setParameter(const bool parameter) {
+  // Bouml preserved body begin 000FFFF1
+    this->value = parameter;
+  // Bouml preserved body end 000FFFF1
+}
+
+void TargetPositionReached::toString(std::string& value) {
+  // Bouml preserved body begin 00100071
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 00100071
+}
+
+void TargetPositionReached::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
+  // Bouml preserved body begin 001000F1
+    message.stctOutput.typeNumber = 8;
+    if(value)
+      message.stctOutput.value = 1;
+    else
+      message.stctOutput.value = 0;
+  // Bouml preserved body end 001000F1
+}
+
+void TargetPositionReached::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
+  // Bouml preserved body begin 00100171
+    this->value = message.stctInput.value;
+  // Bouml preserved body end 00100171
+}
+
 ActualVelocity::ActualVelocity() {
   // Bouml preserved body begin 000E1571
     this->name = "ActualVelocity";

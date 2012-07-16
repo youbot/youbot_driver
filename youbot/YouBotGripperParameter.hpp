@@ -345,6 +345,40 @@ friend class YouBotGripperBar;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
+/// Indicates that the actual position equals the target position. 
+///////////////////////////////////////////////////////////////////////////////
+class TargetPositionReached : public YouBotGripperParameter {
+friend class YouBotGripper;
+friend class YouBotGripperBar;
+  public:
+    TargetPositionReached();
+
+    virtual ~TargetPositionReached();
+
+    void getParameter(bool& parameter) const;
+
+    void setParameter(const bool parameter);
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    bool value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
 /// Acceleration parameter for velocity control and position control
 ///////////////////////////////////////////////////////////////////////////////
 class ActualVelocity : public YouBotGripperParameter {
