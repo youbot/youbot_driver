@@ -12,13 +12,14 @@ YouBotBaseTestWithoutThread::~YouBotBaseTestWithoutThread() {
 
 void YouBotBaseTestWithoutThread::setUp() {
 
+  Logger::logginLevel = trace;
 	ethercatMaster = &EthercatMaster::getInstance("youbot-ethercat.cfg", "../config/", false);
 	if(ethercatMaster->isThreadActive()){
 		LOG(error) << "Thread Active";
 		EthercatMaster::destroy();
 		ethercatMaster = &EthercatMaster::getInstance("youbot-ethercat.cfg", "../config/", false);
 	}
-	Logger::logginLevel = trace;
+	
 	jointNO = 4;
 	stepStartTime = 1000;
 	durationNull = 1000;

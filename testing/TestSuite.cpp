@@ -25,6 +25,7 @@ int main(int argc, char* argv[]) {
       return 0;
     }
   }
+  Logger::logginLevel = trace;
   
   CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
   CppUnit::TextUi::TestRunner runner;
