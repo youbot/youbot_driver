@@ -2,6 +2,7 @@
 #include "YouBotBaseTestWithoutThread.hpp"
 #include "YouBotBaseKinematicsTest.hpp"
 #include "YouBotArmTest.hpp"
+#include "YouBotGripperTest.hpp"
 #include <cppunit/CompilerOutputter.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
@@ -11,6 +12,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( YouBotBaseTest );
 CPPUNIT_TEST_SUITE_REGISTRATION( YouBotBaseTestWithoutThread );
 CPPUNIT_TEST_SUITE_REGISTRATION( YouBotBaseKinematicsTest );
 CPPUNIT_TEST_SUITE_REGISTRATION( YouBotArmTest );
+CPPUNIT_TEST_SUITE_REGISTRATION( YouBotGripperTest );
 
 int main(int argc, char* argv[]) {
   std::cout << "Attention! All wheels of the youBot will move during the test. \nThe youBot should NOT stand on the ground and the wheels should be in the air! \nAlso the arm will move please be carefull!" << std::endl;

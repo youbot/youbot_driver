@@ -62,7 +62,7 @@ void YouBotBaseKinematicsTest::youBotBaseKinematicsTest() {
   }
 
   startTime = myTrace[0].getTimeDurationMilliSec();
-  overallTime = startTime + step6;
+  overallTime = startTime + step6 +10;
 
   while (myTrace[0].getTimeDurationMilliSec() < overallTime) {
     if (myTrace[0].getTimeDurationMilliSec() > startTime + step1) {
@@ -102,6 +102,12 @@ void YouBotBaseKinematicsTest::youBotBaseKinematicsTest() {
       longitudinalVelocity = 0.1 * meter_per_second;
       transversalVelocity = 0.1 * meter_per_second;
       angularVelocity = 0.0 * radian_per_second;
+    }
+    
+    if (myTrace[0].getTimeDurationMilliSec() > startTime + step6) {
+      longitudinalVelocity = 0 * meter_per_second;
+      transversalVelocity = 0 * meter_per_second;
+      angularVelocity = 0 * radian_per_second;
     }
 
     myBase.setBaseVelocity(longitudinalVelocity, transversalVelocity, angularVelocity);
