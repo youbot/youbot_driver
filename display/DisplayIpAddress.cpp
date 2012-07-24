@@ -15,6 +15,7 @@
 #include <ifaddrs.h>
 #include <netinet/in.h> 
 #include <arpa/inet.h>
+#include <cstdlib>
 
 enum displayline {
   line2 = 0x02,
@@ -24,7 +25,7 @@ enum displayline {
 enum voltagesource {
   battery1 = 0x04,
   battery2 = 0x05,
-  powersupply = 0x0B
+  powersupply = 0x0c
 };
 
 int open_port(std::string port) {
@@ -74,11 +75,11 @@ int configure_port(int fd) // configure the port
 
 }
 
-int setText(int fd, displayline line, std::string text) {
+bool setText(int fd, displayline line, std::string text) {
   const int size = 18;
   if (text.size() > size - 2) {
     printf("The text is to long!\n");
-    return 0;
+    return false;
   }
 
   unsigned char send_bytes[size];
@@ -90,7 +91,7 @@ int setText(int fd, displayline line, std::string text) {
     else
       send_bytes[i + 1] = ' ';
   }
-  send_bytes[size - 1] = 0x00;
+  send_bytes[size - 1] = 0x0D; //trailing \CR
 
   write(fd, send_bytes, size); //Send data
   printf("[");
@@ -99,40 +100,27 @@ int setText(int fd, displayline line, std::string text) {
   }
   printf("]\n");
 
-  return 0;
+  return true;
 }
 
+//return the voltage in [Volt]
 double getVoltage(int fd, voltagesource source) {
-  const int size = 1;
+  unsigned char send_bytes[1];
+  send_bytes[0] = source;
 
-  //Create byte array
-  unsigned char send_bytes[size];
+  write(fd, send_bytes, 1); //Send data
 
-  send_bytes[0] = 0x0D;
-  send_bytes[1] = '\r';
-  // send_bytes[2] = '\n';
-
-  write(fd, send_bytes, size); //Send data
-  printf("[");
-  for (int i = 0; i < size; i++) {
-    printf("%d", send_bytes[i]);
-  }
-  printf("]\n");
-
-  const int readsize = 1;
+  const int readsize = 20; 
   char read_bytes[readsize] = {0};
 
   int nobytesread = 0;
   nobytesread = read(fd, read_bytes, readsize);
+  read_bytes[nobytesread-1] = 0;  //delete the last tow character \CR+\LF
+  read_bytes[nobytesread-2] = 0;
 
-  printf("read %d \n", nobytesread);
-  printf("[");
-  for (int i = 0; i < readsize; i++) {
-    printf("%d", read_bytes[i]);
-  }
-  printf("]\n");
+  std::string value(read_bytes);
 
-  return 0;
+  return (double)atoi(value.c_str())/1000;
 }
 
 void getIPAdress(std::string lanname, std::string wlanname, std::string& lanip, std::string& wlanip) {
@@ -178,8 +166,10 @@ int main(int argc, char* argv[]) {
       sleep(2);
       getIPAdress(argv[1], argv[2], lanip, wlanip);
       setText(fd, line2, lanip);
-      sleep(1);
       setText(fd, line3, wlanip);
+   //   std::cout << "Bat1: " << getVoltage(fd, battery1) << std::endl;
+   //   std::cout << "Bat2: " << getVoltage(fd, battery2) << std::endl;
+   //   std::cout << "powersupply: " << getVoltage(fd, powersupply) << std::endl;
     }
 
     close(fd);
