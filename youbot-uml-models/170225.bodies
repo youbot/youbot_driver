@@ -528,7 +528,7 @@ class YouBotJoint
     throw std::out_of_range("A Gear Ratio of 0 is not allowed");
   }
   data.torque = ((sensedCurrent.current.value() * this->storage.torqueConstant) / this->storage.gearRatio) * newton_meter;
-!!!1049201.cpp!!!	getData(out data : JointAngleSetpoint) : void
+!!!1064689.cpp!!!	getData(out data : JointAngleSetpoint) : void
     //YouBotSlaveMsg messageBuffer;
 		if(!ethercatMaster->isEtherCATConnectionEstablished()){
 			throw EtherCATConnectionException("No EtherCAT connection");

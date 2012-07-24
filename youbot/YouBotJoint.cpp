@@ -798,7 +798,7 @@ void YouBotJoint::getData(JointSensedTorque& data) {
 ///gets the target or setpoint position of one joint 
 ///@param data returns the angle by reference
 void YouBotJoint::getData(JointAngleSetpoint& data) {
-  // Bouml preserved body begin 00100271
+  // Bouml preserved body begin 00103EF1
     //YouBotSlaveMsg messageBuffer;
 		if(!ethercatMaster->isEtherCATConnectionEstablished()){
 			throw EtherCATConnectionException("No EtherCAT connection");
@@ -819,7 +819,7 @@ void YouBotJoint::getData(JointAngleSetpoint& data) {
     if (storage.inverseMovementDirection) {
       data.angle = -data.angle;
     }
-  // Bouml preserved body end 00100271
+  // Bouml preserved body end 00103EF1
 }
 
 ///gets the target or setpoint velocity of one joint

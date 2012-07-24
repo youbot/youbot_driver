@@ -221,15 +221,15 @@ JointEncoderSetpoint::JointEncoderSetpoint(const signed int& value) {
 }
 
 JointRampGeneratorVelocity::JointRampGeneratorVelocity() {
-  // Bouml preserved body begin 00100171
+  // Bouml preserved body begin 00103DF1
   this->angularVelocity = 0 * radian_per_second;
-  // Bouml preserved body end 00100171
+  // Bouml preserved body end 00103DF1
 }
 
 JointRampGeneratorVelocity::JointRampGeneratorVelocity(const quantity<si::angular_velocity>& value) {
-  // Bouml preserved body begin 001001F1
+  // Bouml preserved body begin 00103E71
   this->angularVelocity = value;
-  // Bouml preserved body end 001001F1
+  // Bouml preserved body end 00103E71
 }
 
 
