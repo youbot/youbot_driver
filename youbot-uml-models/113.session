@@ -1,16 +1,8 @@
 window_sizes 1680 976 421 1253 895 0
-diagrams
-  active  classdiagram_ref 141553 // JointData
-    1253 893 100 2 0 0
-end
 show_stereotypes
-selected class_ref 321137 // InitSineDelay
+selected class_ref 286193 // YouBotBase
 open
-  classview_ref 134641 // Joint
-  classview_ref 154353 // JointParameter
-  classview_ref 174065 // YouBotJointParameterPasswordProtected
-  classview_ref 167537 // YouBotJointParameterReadOnly
-  deploymentview_ref 154609 // Deployment
+  classview_ref 160881 // YouBot
   deploymentview_ref 161137 // Deployment
 end
 end

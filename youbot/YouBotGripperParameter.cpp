@@ -87,7 +87,7 @@ void GripperFirmwareVersion::setParameter(const int controllerType, const double
   // Bouml preserved body end 000BEC71
 }
 
-void GripperFirmwareVersion::toString(std::string& value) {
+void GripperFirmwareVersion::toString(std::string& value) const {
   // Bouml preserved body begin 000BECF1
   std::stringstream ss;
   ss << this->name << ": " << this->controllerType << " Version: " << this->firmwareVersion;
@@ -134,7 +134,7 @@ void CalibrateGripper::setParameter(const bool parameter) {
   // Bouml preserved body end 0005F571
 }
 
-void CalibrateGripper::toString(std::string& value) {
+void CalibrateGripper::toString(std::string& value) const {
   // Bouml preserved body begin 0009F171
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -179,7 +179,7 @@ void BarSpacingOffset::setParameter(const quantity<si::length>& parameter) {
   // Bouml preserved body end 0005FDF1
 }
 
-void BarSpacingOffset::toString(std::string& value) {
+void BarSpacingOffset::toString(std::string& value) const {
   // Bouml preserved body begin 0009F1F1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -221,7 +221,7 @@ void MaxEncoderValue::setParameter(const unsigned int parameter) {
   // Bouml preserved body end 00061CF1
 }
 
-void MaxEncoderValue::toString(std::string& value) {
+void MaxEncoderValue::toString(std::string& value) const {
   // Bouml preserved body begin 0009F0F1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -266,7 +266,7 @@ void MaxTravelDistance::setParameter(const quantity<si::length>& parameter) {
   // Bouml preserved body end 00061A71
 }
 
-void MaxTravelDistance::toString(std::string& value) {
+void MaxTravelDistance::toString(std::string& value) const {
   // Bouml preserved body begin 0009F071
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -317,7 +317,7 @@ void ActualPosition::setParameter(const int parameter) {
   // Bouml preserved body end 000E1271
 }
 
-void ActualPosition::toString(std::string& value) {
+void ActualPosition::toString(std::string& value) const {
   // Bouml preserved body begin 000E12F1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -373,7 +373,7 @@ void PositionSetpoint::setParameter(const int parameter) {
   // Bouml preserved body end 000E1B71
 }
 
-void PositionSetpoint::toString(std::string& value) {
+void PositionSetpoint::toString(std::string& value) const {
   // Bouml preserved body begin 000E1BF1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -396,6 +396,54 @@ void PositionSetpoint::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message)
     this->value = this->value * -1;
 
   // Bouml preserved body end 000E1CF1
+}
+
+TargetPositionReached::TargetPositionReached() {
+  // Bouml preserved body begin 000FFE71
+    this->name = "TargetPositionReached";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 000FFE71
+}
+
+TargetPositionReached::~TargetPositionReached() {
+  // Bouml preserved body begin 000FFEF1
+  // Bouml preserved body end 000FFEF1
+}
+
+void TargetPositionReached::getParameter(bool& parameter) const {
+  // Bouml preserved body begin 000FFF71
+    parameter = this->value;
+  // Bouml preserved body end 000FFF71
+}
+
+void TargetPositionReached::setParameter(const bool parameter) {
+  // Bouml preserved body begin 000FFFF1
+    this->value = parameter;
+  // Bouml preserved body end 000FFFF1
+}
+
+void TargetPositionReached::toString(std::string& value) const {
+  // Bouml preserved body begin 00100071
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 00100071
+}
+
+void TargetPositionReached::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
+  // Bouml preserved body begin 001000F1
+    message.stctOutput.typeNumber = 8;
+    if(value)
+      message.stctOutput.value = 1;
+    else
+      message.stctOutput.value = 0;
+  // Bouml preserved body end 001000F1
+}
+
+void TargetPositionReached::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
+  // Bouml preserved body begin 00100171
+    this->value = message.stctInput.value;
+  // Bouml preserved body end 00100171
 }
 
 ActualVelocity::ActualVelocity() {
@@ -431,7 +479,7 @@ void ActualVelocity::setParameter(const int parameter) {
   // Bouml preserved body end 000E16F1
 }
 
-void ActualVelocity::toString(std::string& value) {
+void ActualVelocity::toString(std::string& value) const {
   // Bouml preserved body begin 000E1771
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -488,7 +536,7 @@ void VelocitySetpoint::setParameter(const int parameter) {
   // Bouml preserved body end 000E1FF1
 }
 
-void VelocitySetpoint::toString(std::string& value) {
+void VelocitySetpoint::toString(std::string& value) const {
   // Bouml preserved body begin 000E2071
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -544,7 +592,7 @@ void ActualLoadValue::setParameter(const unsigned int& parameter) {
   // Bouml preserved body end 000BBF71
 }
 
-void ActualLoadValue::toString(std::string& value) {
+void ActualLoadValue::toString(std::string& value) const {
   // Bouml preserved body begin 000BBFF1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -600,7 +648,7 @@ void ChopperBlankTime::setParameter(const unsigned int& parameter) {
   // Bouml preserved body end 000B5C71
 }
 
-void ChopperBlankTime::toString(std::string& value) {
+void ChopperBlankTime::toString(std::string& value) const {
   // Bouml preserved body begin 000B5CF1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -656,7 +704,7 @@ void ChopperHysteresisDecrement::setParameter(const unsigned int& parameter) {
   // Bouml preserved body end 000B6571
 }
 
-void ChopperHysteresisDecrement::toString(std::string& value) {
+void ChopperHysteresisDecrement::toString(std::string& value) const {
   // Bouml preserved body begin 000B65F1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -714,7 +762,7 @@ void ChopperHysteresisEnd::setParameter(const int parameter) {
   // Bouml preserved body end 000B69F1
 }
 
-void ChopperHysteresisEnd::toString(std::string& value) {
+void ChopperHysteresisEnd::toString(std::string& value) const {
   // Bouml preserved body begin 000B6A71
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -764,7 +812,7 @@ void ChopperMode::setParameter(const bool parameter) {
   // Bouml preserved body end 000B60F1
 }
 
-void ChopperMode::toString(std::string& value) {
+void ChopperMode::toString(std::string& value) const {
   // Bouml preserved body begin 000B6171
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -825,7 +873,7 @@ void ChopperOffTime::setParameter(const unsigned int& parameter) {
   // Bouml preserved body end 000B6E71
 }
 
-void ChopperOffTime::toString(std::string& value) {
+void ChopperOffTime::toString(std::string& value) const {
   // Bouml preserved body begin 000B6EF1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -875,7 +923,7 @@ void DoubleStepEnable::setParameter(const bool parameter) {
   // Bouml preserved body end 000B57F1
 }
 
-void DoubleStepEnable::toString(std::string& value) {
+void DoubleStepEnable::toString(std::string& value) const {
   // Bouml preserved body begin 000B5871
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -926,7 +974,7 @@ void ErrorFlags::setParameter(const unsigned int& parameter) {
   // Bouml preserved body end 000BC3F1
 }
 
-void ErrorFlags::toString(std::string& value) {
+void ErrorFlags::toString(std::string& value) const {
   // Bouml preserved body begin 000BC471
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -983,7 +1031,7 @@ void Freewheeling::setParameter(const unsigned int& parameter) {
   // Bouml preserved body end 000BBAF1
 }
 
-void Freewheeling::toString(std::string& value) {
+void Freewheeling::toString(std::string& value) const {
   // Bouml preserved body begin 000BBB71
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -1042,7 +1090,7 @@ void MaximumAcceleration::setParameter(const int parameter) {
   // Bouml preserved body end 000B33F1
 }
 
-void MaximumAcceleration::toString(std::string& value) {
+void MaximumAcceleration::toString(std::string& value) const {
   // Bouml preserved body begin 000B3471
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -1101,7 +1149,7 @@ void MaximumCurrent::setParameter(const int parameter) {
   // Bouml preserved body end 000B3871
 }
 
-void MaximumCurrent::toString(std::string& value) {
+void MaximumCurrent::toString(std::string& value) const {
   // Bouml preserved body begin 000B38F1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -1160,7 +1208,7 @@ void MaximumPositioningSpeed::setParameter(const int parameter) {
   // Bouml preserved body end 000B2F71
 }
 
-void MaximumPositioningSpeed::toString(std::string& value) {
+void MaximumPositioningSpeed::toString(std::string& value) const {
   // Bouml preserved body begin 000B2FF1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -1218,7 +1266,7 @@ void MicrostepResolution::setParameter(const unsigned int& parameter) {
   // Bouml preserved body end 000B45F1
 }
 
-void MicrostepResolution::toString(std::string& value) {
+void MicrostepResolution::toString(std::string& value) const {
   // Bouml preserved body begin 000B4671
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -1277,7 +1325,7 @@ void PowerDownDelay::setParameter(const unsigned int& parameter) {
   // Bouml preserved body end 000BC871
 }
 
-void PowerDownDelay::toString(std::string& value) {
+void PowerDownDelay::toString(std::string& value) const {
   // Bouml preserved body begin 000BC8F1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -1336,7 +1384,7 @@ void PulseDivisor::setParameter(const unsigned int& parameter) {
   // Bouml preserved body end 000B4EF1
 }
 
-void PulseDivisor::toString(std::string& value) {
+void PulseDivisor::toString(std::string& value) const {
   // Bouml preserved body begin 000B4F71
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -1395,7 +1443,7 @@ void RampDivisor::setParameter(const unsigned int& parameter) {
   // Bouml preserved body end 000B4A71
 }
 
-void RampDivisor::toString(std::string& value) {
+void RampDivisor::toString(std::string& value) const {
   // Bouml preserved body begin 000B4AF1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -1454,7 +1502,7 @@ void RampMode::setParameter(const unsigned int& parameter) {
   // Bouml preserved body end 000B4171
 }
 
-void RampMode::toString(std::string& value) {
+void RampMode::toString(std::string& value) const {
   // Bouml preserved body begin 000B41F1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -1513,7 +1561,7 @@ void ShortDetectionTimer::setParameter(const unsigned int& parameter) {
   // Bouml preserved body end 000B9FF1
 }
 
-void ShortDetectionTimer::toString(std::string& value) {
+void ShortDetectionTimer::toString(std::string& value) const {
   // Bouml preserved body begin 000BA071
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -1563,7 +1611,7 @@ void ShortProtectionDisable::setParameter(const bool parameter) {
   // Bouml preserved body end 000B9B71
 }
 
-void ShortProtectionDisable::toString(std::string& value) {
+void ShortProtectionDisable::toString(std::string& value) const {
   // Bouml preserved body begin 000B9BF1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -1622,7 +1670,7 @@ void SlopeControlHighSide::setParameter(const unsigned int& parameter) {
   // Bouml preserved body end 000B9271
 }
 
-void SlopeControlHighSide::toString(std::string& value) {
+void SlopeControlHighSide::toString(std::string& value) const {
   // Bouml preserved body begin 000B92F1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -1681,7 +1729,7 @@ void SlopeControlLowSide::setParameter(const unsigned int& parameter) {
   // Bouml preserved body end 000B96F1
 }
 
-void SlopeControlLowSide::toString(std::string& value) {
+void SlopeControlLowSide::toString(std::string& value) const {
   // Bouml preserved body begin 000B9771
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -1740,7 +1788,7 @@ void SmartEnergyActualCurrent::setParameter(const unsigned int& parameter) {
   // Bouml preserved body end 000BA8F1
 }
 
-void SmartEnergyActualCurrent::toString(std::string& value) {
+void SmartEnergyActualCurrent::toString(std::string& value) const {
   // Bouml preserved body begin 000BA971
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -1799,7 +1847,7 @@ void SmartEnergyCurrentDownStep::setParameter(const unsigned int& parameter) {
   // Bouml preserved body end 000B7771
 }
 
-void SmartEnergyCurrentDownStep::toString(std::string& value) {
+void SmartEnergyCurrentDownStep::toString(std::string& value) const {
   // Bouml preserved body begin 000B77F1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -1858,7 +1906,7 @@ void SmartEnergyCurrentMinimum::setParameter(const unsigned int& parameter) {
   // Bouml preserved body end 000B72F1
 }
 
-void SmartEnergyCurrentMinimum::toString(std::string& value) {
+void SmartEnergyCurrentMinimum::toString(std::string& value) const {
   // Bouml preserved body begin 000B7371
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -1917,7 +1965,7 @@ void SmartEnergyCurrentUpStep::setParameter(const unsigned int& parameter) {
   // Bouml preserved body end 000B8071
 }
 
-void SmartEnergyCurrentUpStep::toString(std::string& value) {
+void SmartEnergyCurrentUpStep::toString(std::string& value) const {
   // Bouml preserved body begin 000B80F1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -1976,7 +2024,7 @@ void SmartEnergyHysteresis::setParameter(const unsigned int& parameter) {
   // Bouml preserved body end 000B7BF1
 }
 
-void SmartEnergyHysteresis::toString(std::string& value) {
+void SmartEnergyHysteresis::toString(std::string& value) const {
   // Bouml preserved body begin 000B7C71
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -2035,7 +2083,7 @@ void SmartEnergyHysteresisStart::setParameter(const unsigned int& parameter) {
   // Bouml preserved body end 000B84F1
 }
 
-void SmartEnergyHysteresisStart::toString(std::string& value) {
+void SmartEnergyHysteresisStart::toString(std::string& value) const {
   // Bouml preserved body begin 000B8571
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -2094,7 +2142,7 @@ void SmartEnergySlowRunCurrent::setParameter(const unsigned int& parameter) {
   // Bouml preserved body end 000BB671
 }
 
-void SmartEnergySlowRunCurrent::toString(std::string& value) {
+void SmartEnergySlowRunCurrent::toString(std::string& value) const {
   // Bouml preserved body begin 000BB6F1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -2153,7 +2201,7 @@ void SmartEnergyThresholdSpeed::setParameter(const unsigned int& parameter) {
   // Bouml preserved body end 000BB1F1
 }
 
-void SmartEnergyThresholdSpeed::toString(std::string& value) {
+void SmartEnergyThresholdSpeed::toString(std::string& value) const {
   // Bouml preserved body begin 000BB271
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -2203,7 +2251,7 @@ void StallGuard2FilterEnable::setParameter(const bool parameter) {
   // Bouml preserved body end 000B8971
 }
 
-void StallGuard2FilterEnable::toString(std::string& value) {
+void StallGuard2FilterEnable::toString(std::string& value) const {
   // Bouml preserved body begin 000B89F1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -2262,7 +2310,7 @@ void StallGuard2Threshold::setParameter(const int parameter) {
   // Bouml preserved body end 000B8DF1
 }
 
-void StallGuard2Threshold::toString(std::string& value) {
+void StallGuard2Threshold::toString(std::string& value) const {
   // Bouml preserved body begin 000B8E71
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -2317,7 +2365,7 @@ void StandbyCurrent::setParameter(const int parameter) {
   // Bouml preserved body end 000B3CF1
 }
 
-void StandbyCurrent::toString(std::string& value) {
+void StandbyCurrent::toString(std::string& value) const {
   // Bouml preserved body begin 000B3D71
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -2367,7 +2415,7 @@ void StepInterpolationEnable::setParameter(const bool parameter) {
   // Bouml preserved body end 000B5371
 }
 
-void StepInterpolationEnable::toString(std::string& value) {
+void StepInterpolationEnable::toString(std::string& value) const {
   // Bouml preserved body begin 000B53F1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -2417,7 +2465,7 @@ void StopOnStall::setParameter(const bool parameter) {
   // Bouml preserved body end 000BAD71
 }
 
-void StopOnStall::toString(std::string& value) {
+void StopOnStall::toString(std::string& value) const {
   // Bouml preserved body begin 000BADF1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -2479,7 +2527,7 @@ void Vsense::setParameter(const unsigned int& parameter) {
   // Bouml preserved body end 000BA471
 }
 
-void Vsense::toString(std::string& value) {
+void Vsense::toString(std::string& value) const {
   // Bouml preserved body begin 000BA4F1
   std::stringstream ss;
   ss << this->name << ": " << this->value;

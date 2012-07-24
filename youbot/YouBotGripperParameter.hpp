@@ -77,7 +77,7 @@ friend class YouBotGripperBar;
   public:
     virtual ~YouBotGripperParameter();
 
-    virtual void toString(std::string& value) = 0;
+    virtual void toString(std::string& value) const = 0;
 
 
   protected:
@@ -111,7 +111,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const int controllerType, const double firmwareVersion);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -147,7 +147,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const bool parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -181,7 +181,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const quantity<si::length>& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -215,7 +215,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -249,7 +249,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const quantity<si::length>& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -283,7 +283,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const int parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -321,7 +321,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const int parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -345,6 +345,40 @@ friend class YouBotGripperBar;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
+/// Indicates that the actual position equals the target position. 
+///////////////////////////////////////////////////////////////////////////////
+class TargetPositionReached : public YouBotGripperParameter {
+friend class YouBotGripper;
+friend class YouBotGripperBar;
+  public:
+    TargetPositionReached();
+
+    virtual ~TargetPositionReached();
+
+    void getParameter(bool& parameter) const;
+
+    void setParameter(const bool parameter);
+
+    void toString(std::string& value) const;
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    bool value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
 /// Acceleration parameter for velocity control and position control
 ///////////////////////////////////////////////////////////////////////////////
 class ActualVelocity : public YouBotGripperParameter {
@@ -359,7 +393,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const int parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -397,7 +431,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const int parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -437,7 +471,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -476,7 +510,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -517,7 +551,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -558,7 +592,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const int parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -599,7 +633,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const bool parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -637,7 +671,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -680,7 +714,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const bool parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -729,7 +763,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -772,7 +806,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -810,7 +844,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const int parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -849,7 +883,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const int parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -887,7 +921,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const int parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -934,7 +968,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -972,7 +1006,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -1012,7 +1046,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -1051,7 +1085,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -1092,7 +1126,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -1136,7 +1170,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -1177,7 +1211,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const bool parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -1214,7 +1248,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -1253,7 +1287,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -1295,7 +1329,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -1337,7 +1371,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -1378,7 +1412,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -1420,7 +1454,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -1460,7 +1494,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -1499,7 +1533,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -1538,7 +1572,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -1577,7 +1611,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -1617,7 +1651,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const bool parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -1654,7 +1688,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const int parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -1694,7 +1728,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const int parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -1737,7 +1771,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const bool parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -1771,7 +1805,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const bool parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:
@@ -1810,7 +1844,7 @@ friend class YouBotGripperBar;
 
     void setParameter(const unsigned int& parameter);
 
-    void toString(std::string& value);
+    void toString(std::string& value) const;
 
 
   private:

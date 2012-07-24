@@ -76,13 +76,13 @@ void YouBotGripperBar::setConfigurationParameter(const MaxEncoderValue& paramete
   // Bouml preserved body end 00061E71
 }
 
-void YouBotGripperBar::getConfigurationParameter(MaxEncoderValue& parameter) {
+void YouBotGripperBar::getConfigurationParameter(MaxEncoderValue& parameter) const {
   // Bouml preserved body begin 000D7871
     parameter.value = this->maxEncoderValue;
   // Bouml preserved body end 000D7871
 }
 
-void YouBotGripperBar::getConfigurationParameter(MaxTravelDistance& parameter) {
+void YouBotGripperBar::getConfigurationParameter(MaxTravelDistance& parameter) const {
   // Bouml preserved body begin 000D77F1
     parameter.value = this->maxTravelDistance;
   // Bouml preserved body end 000D77F1
@@ -100,13 +100,13 @@ void YouBotGripperBar::setConfigurationParameter(const BarSpacingOffset& paramet
   // Bouml preserved body end 00061871
 }
 
-void YouBotGripperBar::getConfigurationParameter(BarSpacingOffset& parameter) {
+void YouBotGripperBar::getConfigurationParameter(BarSpacingOffset& parameter) const {
   // Bouml preserved body begin 000D7771
     parameter.value = this->barSpacingOffset;
   // Bouml preserved body end 000D7771
 }
 
-void YouBotGripperBar::getConfigurationParameter(YouBotGripperParameter& parameter) {
+void YouBotGripperBar::getConfigurationParameter(YouBotGripperParameter& parameter) const {
   // Bouml preserved body begin 000E05F1
   
   if (parameter.getType() == MOTOR_CONTOLLER_PARAMETER) {
@@ -149,7 +149,7 @@ void YouBotGripperBar::setConfigurationParameter(const YouBotGripperParameter& p
   // Bouml preserved body end 000E0671
 }
 
-void YouBotGripperBar::getConfigurationParameter(YouBotSlaveMailboxMsg& parameter) {
+void YouBotGripperBar::getConfigurationParameter(YouBotSlaveMailboxMsg& parameter) const {
   // Bouml preserved body begin 000E0A71
   if (!retrieveValueFromMotorContoller(parameter)) {
      throw JointParameterException("Unable to get parameter from the gripper");
@@ -172,7 +172,7 @@ void YouBotGripperBar::setData(const GripperBarEncoderSetpoint& encoderSetpoint)
   // Bouml preserved body end 000E0CF1
 }
 
-void YouBotGripperBar::getData(GripperSensedVelocity& barVelocity) {
+void YouBotGripperBar::getData(GripperSensedVelocity& barVelocity) const {
   // Bouml preserved body begin 000E0DF1
    YouBotSlaveMailboxMsg message;
     message.stctOutput.moduleAddress = GRIPPER;
@@ -191,7 +191,7 @@ void YouBotGripperBar::getData(GripperSensedVelocity& barVelocity) {
   // Bouml preserved body end 000E0DF1
 }
 
-void YouBotGripperBar::getData(GripperSensedBarPosition& barPosition) {
+void YouBotGripperBar::getData(GripperSensedBarPosition& barPosition) const {
   // Bouml preserved body begin 000F9171
     int valueBar = 0;
     ActualPosition actualPoseBar;
@@ -222,7 +222,39 @@ void YouBotGripperBar::setData(GripperBarPositionSetPoint& barPosition) {
   // Bouml preserved body end 000F91F1
 }
 
-void YouBotGripperBar::parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailboxMsg) {
+void YouBotGripperBar::parseGripperErrorFlags(const unsigned int& errosFlags) {
+  // Bouml preserved body begin 00103CF1
+    if (errosFlags & STALL_GUARD_STATUS) {
+  //    LOG(warning) << "Gripper " << "stallguard2 threshold reached";
+    }
+    if (errosFlags & GRIPPER_OVER_TEMPERATURE) {
+      LOG(error) << "Gripper " << "over temperature";
+    }
+    if (errosFlags & PRE_WARNING_OVER_TEMPERATURE) {
+      LOG(warning) << "Gripper " << "pre warning over temperature";
+    }
+    if (errosFlags & SHORT_TO_GROUND_A) {
+      LOG(error) << "Gripper " << "short to ground A";
+    }
+    if (errosFlags & SHORT_TO_GROUND_B) {
+      LOG(error) << "Gripper " << "short to ground B";
+    }
+    if (errosFlags & OPEN_LOAD_A) {
+      LOG(warning) << "Gripper " << "open load A";
+    }
+    if (errosFlags & OPEN_LOAD_B) {
+      LOG(warning) << "Gripper " << "open load B";
+    }
+    if (errosFlags & STAND_STILL) {
+ //     LOG(info) << "Gripper " << "stand still";
+    }
+    if ( !(errosFlags & STAND_STILL) && (errosFlags & STALL_GUARD_STATUS) ) {
+      LOG(info) << "Gripper " << "motor stall";
+    }
+  // Bouml preserved body end 00103CF1
+}
+
+void YouBotGripperBar::parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailboxMsg) const {
   // Bouml preserved body begin 000E0E71
     std::stringstream errorMessageStream;
     errorMessageStream << "Joint " << this->jointNumber << ": ";
@@ -259,7 +291,7 @@ void YouBotGripperBar::parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mail
   // Bouml preserved body end 000E0E71
 }
 
-bool YouBotGripperBar::setValueToMotorContoller(const YouBotSlaveMailboxMsg& mailboxMsg) {
+bool YouBotGripperBar::setValueToMotorContoller(const YouBotSlaveMailboxMsg& mailboxMsg) const {
   // Bouml preserved body begin 000E0EF1
 
     YouBotSlaveMailboxMsg mailboxMsgBuffer;
@@ -303,7 +335,7 @@ bool YouBotGripperBar::setValueToMotorContoller(const YouBotSlaveMailboxMsg& mai
   // Bouml preserved body end 000E0EF1
 }
 
-bool YouBotGripperBar::retrieveValueFromMotorContoller(YouBotSlaveMailboxMsg& message) {
+bool YouBotGripperBar::retrieveValueFromMotorContoller(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000E0F71
 
     bool unvalid = true;

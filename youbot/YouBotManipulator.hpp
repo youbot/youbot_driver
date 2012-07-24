@@ -160,6 +160,8 @@ class YouBotManipulator {
 
     EthercatMasterWithThread* ethercatMasterWithThread;
 
+    int alternativeControllerType;
+
 };
 
 } // namespace youbot

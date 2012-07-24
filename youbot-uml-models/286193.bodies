@@ -2,7 +2,8 @@ class YouBotBase
 !!!425585.cpp!!!	YouBotBase(in name : string, in configFilePath : string = "../config/")
 
     this->controllerType = 174;
-    this->minFirmwareVersion = 1.43;
+    this->alternativeControllerType = 1632;
+    this->minFirmwareVersion = 1.48;
 
     string filename;
     filename = name;
@@ -129,6 +130,7 @@ class YouBotBase
     JointSensedAngle sensedPos;
     wheelPositions.assign(BASEJOINTS, dummy);
 
+    ethercatMaster.AutomaticReceiveOn(false);
     joints[0].getData(sensedPos);
     wheelPositions[0] = sensedPos.angle;
     joints[1].getData(sensedPos);
@@ -137,6 +139,7 @@ class YouBotBase
     wheelPositions[2] = sensedPos.angle;
     joints[3].getData(sensedPos);
     wheelPositions[3] = sensedPos.angle;
+    ethercatMaster.AutomaticReceiveOn(true);
 
     youBotBaseKinematic.wheelPositionsToCartesianPosition(wheelPositions, longitudinalPosition, transversalPosition, orientation);
 !!!788849.cpp!!!	setBasePosition(in longitudinalPosition : quantity<si::length>, in transversalPosition : quantity<si::length>, in orientation : quantity<plane_angle>) : void
@@ -183,6 +186,7 @@ class YouBotBase
     JointSensedVelocity sensedVel;
     wheelVelocities.assign(BASEJOINTS, dummy);
 
+    ethercatMaster.AutomaticReceiveOn(false);
     joints[0].getData(sensedVel);
     wheelVelocities[0] = sensedVel.angularVelocity;
     joints[1].getData(sensedVel);
@@ -191,6 +195,7 @@ class YouBotBase
     wheelVelocities[2] = sensedVel.angularVelocity;
     joints[3].getData(sensedVel);
     wheelVelocities[3] = sensedVel.angularVelocity;
+    ethercatMaster.AutomaticReceiveOn(true);
 
     youBotBaseKinematic.wheelVelocitiesToCartesianVelocity(wheelVelocities, longitudinalVelocity, transversalVelocity, angularVelocity);
 
@@ -366,9 +371,9 @@ class YouBotBase
 
       LOG(info) << name << "\t Controller Type: " << controllerType << "  Firmware version: " << firmwareVersion;
 
-      if (this->controllerType != controllerType) {
+      if (this->controllerType != controllerType && alternativeControllerType != controllerType) {
         std::stringstream ss;
-        ss << "The youBot base motor controller have to be of type: " << this->controllerType;
+        ss << "The youBot base motor controller have to be of type: " << this->controllerType << " or " << alternativeControllerType;
         throw std::runtime_error(ss.str().c_str());
       }
 

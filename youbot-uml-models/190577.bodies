@@ -65,12 +65,12 @@ class EthercatMasterWithThread
 
 
     if (this->automaticReceiveOn == false) {
-      automaticSendOffBufferVector.reserve(slaveMessages.size());
+      
 
       for (unsigned int i = 0; i < slaveMessages.size(); i++) {
-        slaveMessages[i].stctInput.Get(automaticSendOffBufferVector[i].stctInput);
-        slaveMessages[i].stctOutput.Get(automaticSendOffBufferVector[i].stctOutput);
-        slaveMessages[i].jointNumber.Get(automaticSendOffBufferVector[i].jointNumber);
+        slaveMessages[i].stctInput.Get(automaticReceiveOffBufferVector[i].stctInput);
+        slaveMessages[i].stctOutput.Get(automaticReceiveOffBufferVector[i].stctOutput);
+        slaveMessages[i].jointNumber.Get(automaticReceiveOffBufferVector[i].jointNumber);
       }
     }
 
@@ -140,7 +140,7 @@ class EthercatMasterWithThread
         /* wait for all slaves to reach Pre OP state */
         /*ec_statecheck(0, EC_STATE_PRE_OP,  EC_TIMEOUTSTATE);
         if (ec_slave[0].state != EC_STATE_PRE_OP ){
-        printf("Not all slaves reached pre operational state.\n");
+        LOG(debug) << "Not all slaves reached pre operational state.";
         ec_readstate();
         //If not all slaves operational find out which one
           for(int i = 1; i<=ec_slavecount ; i++){
@@ -215,25 +215,31 @@ class EthercatMasterWithThread
 
 
     std::string baseJointControllerName = "TMCM-174";
+    std::string baseJointControllerNameAlternative = "TMCM-1632";
     std::string manipulatorJointControllerName = "TMCM-174";
+    std::string ManipulatorJointControllerNameAlternative = "TMCM-1610";
     std::string actualSlaveName;
     nrOfSlaves = 0;
     YouBotSlaveMsg emptySlaveMsg;
     YouBotSlaveMsgThreadSafe emptySlaveMsgThreadSafe;
 
     configfile->readInto(baseJointControllerName, "BaseJointControllerName");
+    configfile->readInto(baseJointControllerNameAlternative, "BaseJointControllerNameAlternative");
     configfile->readInto(manipulatorJointControllerName, "ManipulatorJointControllerName");
+    configfile->readInto(ManipulatorJointControllerNameAlternative, "ManipulatorJointControllerNameAlternative");
 
     //reserve memory for all slave with a input/output buffer
     for (int cnt = 1; cnt <= ec_slavecount; cnt++) {
-      //     printf("Slave:%d Name:%s Output size:%3dbits Input size:%3dbits State:%2d delay:%d.%d\n",
-      //             cnt, ec_slave[cnt].name, ec_slave[cnt].Obits, ec_slave[cnt].Ibits,
-      //             ec_slave[cnt].state, (int) ec_slave[cnt].pdelay, ec_slave[cnt].hasdc);
+           LOG(trace) << "Slave: " << cnt  << " Name: " << ec_slave[cnt].name  << " Output size: " << ec_slave[cnt].Obits
+                   << "bits Input size: " << ec_slave[cnt].Ibits << "bits State: " << ec_slave[cnt].state  
+                   << " delay: " << ec_slave[cnt].pdelay; //<< " has dclock: " << (bool)ec_slave[cnt].hasdc;
 
       ethercatSlaveInfo.push_back(ec_slave[cnt]);
 
       actualSlaveName = ec_slave[cnt].name;
-      if ((actualSlaveName == baseJointControllerName || actualSlaveName == manipulatorJointControllerName) && ec_slave[cnt].Obits > 0 && ec_slave[cnt].Ibits > 0) {
+      if ((actualSlaveName == baseJointControllerName || actualSlaveName == baseJointControllerNameAlternative || 
+              actualSlaveName == manipulatorJointControllerName || actualSlaveName == ManipulatorJointControllerNameAlternative
+              ) && ec_slave[cnt].Obits > 0 && ec_slave[cnt].Ibits > 0) {
         nrOfSlaves++;
         ethercatOutputBufferVector.push_back((SlaveMessageOutput*) (ec_slave[cnt].outputs));
         ethercatInputBufferVector.push_back((SlaveMessageInput*) (ec_slave[cnt].inputs));
@@ -247,6 +253,7 @@ class EthercatMasterWithThread
         newInputMailboxMsgFlag.push_back(false);
       }
     }
+    automaticReceiveOffBufferVector.reserve(slaveMessages.size());
 
     if (nrOfSlaves > 0) {
       LOG(info) << nrOfSlaves << " EtherCAT slaves found";
@@ -280,8 +287,8 @@ class EthercatMasterWithThread
     if (this->automaticSendOn == true) {
       slaveMessages[jointNumber - 1].stctOutput.Set(msgBuffer.stctOutput);
     } else {
-      //TODO check if it works
       YouBotSlaveMsg localMsg;
+      localMsg.stctInput = msgBuffer.stctInput;
       localMsg.stctOutput = msgBuffer.stctOutput;
       localMsg.jointNumber = jointNumber;
       automaticSendOffBufferVector.push_back(localMsg);
@@ -294,7 +301,6 @@ class EthercatMasterWithThread
       slaveMessages[jointNumber - 1].stctOutput.Get(returnMsg.stctOutput);
       slaveMessages[jointNumber - 1].jointNumber.Get(returnMsg.jointNumber);
     } else {
-      //TODO check if it works
       returnMsg = this->automaticReceiveOffBufferVector[jointNumber - 1];
     }
 
@@ -405,10 +411,12 @@ class EthercatMasterWithThread
       for (unsigned int i = 0; i < nrOfSlaves; i++) {
 
         //send data
-        slaveMessages[i].stctOutput.Get(*(ethercatOutputBufferVector[i]));
+        if(automaticSendOn == true)
+          slaveMessages[i].stctOutput.Get(*(ethercatOutputBufferVector[i]));
 
         //receive data
-        slaveMessages[i].stctInput.Set(*(ethercatInputBufferVector[i]));
+        if(automaticReceiveOn == true)
+          slaveMessages[i].stctInput.Set(*(ethercatInputBufferVector[i]));
 
 
         // Limit checker
@@ -447,56 +455,10 @@ class EthercatMasterWithThread
               //   printf("send vel slave: %d", i);
               (*(ethercatOutputBufferVector[i])).controllerMode = trajectoryContollerOutput.controllerMode;
               (*(ethercatOutputBufferVector[i])).value = trajectoryContollerOutput.value;
-
-              /*
-              else {
-                (*(ethercatOutputBufferVector[i])).controllerMode = VELOCITY_CONTROL;
-                (*(ethercatOutputBufferVector[i])).value = 0.0;
-              }*/
             }
           }
         }
       }
-
-      /*
-      //check if for joint limits
-      for (unsigned int jointNo = 0; jointNo < firstBufferVector.size(); jointNo++) {
-        if(jointLimitMonitors[jointNo] != NULL)
-          this->jointLimitMonitors[jointNo]->checkLimitsProcessData(*(ethercatInputBufferVector[jointNo]), *(ethercatOutputBufferVector[jointNo]));
-      }
-
-			
-      //just for data Trace
-      for (unsigned int i = 0; i < nrOfSlaves; i++) {
-        if (newDataFlagOne == true) {
-          {
-            boost::mutex::scoped_lock dataMutex1(mutexDataOne);
-            //fill first output buffer
-            (firstBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
-          }
-        } else if (newDataFlagTwo == true) {
-          {
-            boost::mutex::scoped_lock dataMutex2(mutexDataTwo);
-            //fill second output buffer
-            (secondBufferVector[i]).stctOutput = *(ethercatOutputBufferVector[i]);
-          }
-        }
-      }
-       */
-
-
-      // if(ethercatInputBufferVector[3]->actualCurrent >= 900 ){
-      //   printf("joint 3 encoder: %d current %d \n", ethercatInputBufferVector[3]->actualPosition, ethercatInputBufferVector[3]->actualCurrent);
-      // }
-      // int cnt = 7;
-      //  printf("activeports:%i DCrtA:%i DCrtB:%d DCrtC:%d DCrtD:%d\n", (int)ec_slave[cnt].activeports, ec_slave[cnt].DCrtA, ec_slave[cnt].DCrtB, ec_slave[cnt].DCrtC, ec_slave[cnt].DCrtD);
-      //  printf("next DC slave:%i previous DC slave:%i DC cyle time in ns:%d DC shift:%d DC sync activation:%d\n", ec_slave[cnt].DCnext, ec_slave[cnt].DCprevious, ec_slave[cnt].DCcycle, ec_slave[cnt].DCshift, ec_slave[cnt].DCactive);
-
-      //      for (unsigned int i = 0; i < motorProtections.size(); i++) {
-      //        if (motorProtections[i].createSafeMotorCommands(stopMotorCommand)) {
-      //          *(ethercatOutputBufferVector[i]) = stopMotorCommand.stctOutput;
-      //        }
-      //      }
     }
 !!!695921.cpp!!!	parseYouBotErrorFlags(in messageBuffer : YouBotSlaveMsg) : void
     std::stringstream errorMessageStream;

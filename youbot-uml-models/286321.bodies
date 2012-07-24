@@ -2,7 +2,8 @@ class YouBotManipulator
 !!!425841.cpp!!!	YouBotManipulator(in name : string, in configFilePath : string = "../config/")
 
     this->controllerType = 841;
-    this->minFirmwareVersion = 1.43;
+    this->alternativeControllerType = 1610;
+    this->minFirmwareVersion = 1.48;
 
     string filename;
     filename = name;
@@ -434,9 +435,9 @@ class YouBotManipulator
 
       LOG(info) << name << "\t Controller Type: " << controllerType << "  Firmware version: " << firmwareVersion;
 
-      if (this->controllerType != controllerType) {
+      if (this->controllerType != controllerType && alternativeControllerType != controllerType) {
         std::stringstream ss;
-        ss << "The youBot manipulator motor controller have to be of type: " << this->controllerType;
+        ss << "The youBot manipulator motor controller have to be of type: " << this->controllerType << " or " << alternativeControllerType;
         throw std::runtime_error(ss.str().c_str());
       }
 
@@ -469,11 +470,14 @@ class YouBotManipulator
       joints[i].setConfigurationParameter(torqueConst);
       joints[i].setConfigurationParameter(inverseDir);
       
+      //Joint Trajectory Controller
+      /*
       if(ethercatMaster.isThreadActive()){
 				unsigned int numberOfThreadCyclesPerSecond = ethercatMasterWithThread->getNumberOfThreadCyclesPerSecond();
 				joints[i].trajectoryController.setControllerUpdatesPerSecond(numberOfThreadCyclesPerSecond);
 				ethercatMasterWithThread->registerJointTrajectoryController(&(joints[i].trajectoryController), joints[i].getJointNumber());
 			}
+      */
     }
 
 

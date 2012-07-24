@@ -1,9 +1,5 @@
-#ifndef YOUBOT_ONEDOFGRIPPER_H
-#define YOUBOT_ONEDOFGRIPPER_H
-#include "generic-gripper/Gripper.hpp"
-#include "generic-gripper/GripperData.hpp"
-#include "generic-gripper/GripperParameter.hpp"
-#include "one-dof-gripper/OneDOFGripperData.hpp"
+#ifndef YOUBOT_GRIPPERDATATRACE_H
+#define YOUBOT_GRIPPERDATATRACE_H
 
 /****************************************************************
  *
@@ -55,20 +51,101 @@
  * License LGPL and BSD license along with this program.
  *
  ****************************************************************/
+
+#include <vector>
+#include <sstream>
+#include <string>
+#include <cstdio>
+#include <stdexcept>
+#include <iostream>
+#include <stdlib.h>
+#include "boost/date_time/gregorian/gregorian.hpp"
+#include "boost/filesystem.hpp"
+#include "generic/Logger.hpp"
+#include "generic/Units.hpp"
+#include "generic/Time.hpp"
+#include "generic/ConfigFile.hpp"
+#include "generic/Exceptions.hpp"
+#include "youbot/YouBotGripper.hpp"
+#include "youbot/YouBotGripperBar.hpp"
+#include "youbot/YouBotGripperParameter.hpp"
+
+using namespace boost::posix_time;
+
 namespace youbot {
 
 ///////////////////////////////////////////////////////////////////////////////
-/// abstract gripper with one degree of freedom
+
 ///////////////////////////////////////////////////////////////////////////////
-class OneDOFGripper : public Gripper {
+class GripperDataTrace {
   public:
-    virtual void setConfigurationParameter(const GripperParameter& parameter) = 0;
+    GripperDataTrace(YouBotGripperBar& youBotGripperBar, const std::string Name, const bool overwriteFiles = false);
 
-    virtual void getConfigurationParameter(GripperParameter& parameter) const = 0;
+    virtual ~GripperDataTrace();
 
-    virtual void setData(const OneDOFGripperData& data) = 0;
+    void startTrace(const std::string parameterName, const std::string unit);
 
-    virtual void getData(OneDOFGripperData& data) const = 0;
+    void stopTrace();
+
+    void plotTrace();
+
+    void updateTrace(const double parameterValue);
+
+    unsigned long getTimeDurationMilliSec();
+
+
+  private:
+    GripperDataTrace(const GripperDataTrace & source);
+
+    GripperDataTrace & operator=(const GripperDataTrace & source);
+
+    YouBotGripperBar& gripperBar;
+
+    JointSensedAngle sensedAngle;
+
+    JointSensedEncoderTicks sensedEncoderTicks;
+
+    JointSensedVelocity sensedVelocity;
+
+    JointSensedRoundsPerMinute sensedRoundsPerMinute;
+
+    JointSensedCurrent sensedCurrent;
+
+    JointSensedTorque sensedTorque;
+
+    std::fstream file;
+
+    JointAngleSetpoint angleSetpoint;
+
+    JointVelocitySetpoint velocitySetpoint;
+
+    JointRoundsPerMinuteSetpoint roundsPerMinuteSetpoint;
+
+    JointCurrentSetpoint currentSetpoint;
+
+    JointTorqueSetpoint torqueSetpoint;
+
+    JointPWMSetpoint PWMSetpoint;
+
+    JointEncoderSetpoint encoderSetpoint;
+
+    std::fstream parametersBeginTraceFile;
+
+    std::fstream parametersEndTraceFile;
+
+    ptime traceStartTime;
+
+    time_duration timeDuration;
+
+    unsigned long timeDurationMicroSec;
+
+    JointSensedPWM actualPWM;
+
+    std::vector<YouBotGripperParameter*> parameterVector;
+
+    std::string name;
+
+    std::string path;
 
 };
 

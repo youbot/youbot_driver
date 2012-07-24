@@ -109,6 +109,34 @@ class YouBotGripperBar
     setpointBar.barEncoder = setpoint / this->maxTravelDistance * this->maxEncoderValue;
     this->setData(setpointBar);
 
+!!!1064177.cpp!!!	parseGripperErrorFlags(in errosFlags : unsigned int) : void
+    if (errosFlags & STALL_GUARD_STATUS) {
+  //    LOG(warning) << "Gripper " << "stallguard2 threshold reached";
+    }
+    if (errosFlags & GRIPPER_OVER_TEMPERATURE) {
+      LOG(error) << "Gripper " << "over temperature";
+    }
+    if (errosFlags & PRE_WARNING_OVER_TEMPERATURE) {
+      LOG(warning) << "Gripper " << "pre warning over temperature";
+    }
+    if (errosFlags & SHORT_TO_GROUND_A) {
+      LOG(error) << "Gripper " << "short to ground A";
+    }
+    if (errosFlags & SHORT_TO_GROUND_B) {
+      LOG(error) << "Gripper " << "short to ground B";
+    }
+    if (errosFlags & OPEN_LOAD_A) {
+      LOG(warning) << "Gripper " << "open load A";
+    }
+    if (errosFlags & OPEN_LOAD_B) {
+      LOG(warning) << "Gripper " << "open load B";
+    }
+    if (errosFlags & STAND_STILL) {
+ //     LOG(info) << "Gripper " << "stand still";
+    }
+    if ( !(errosFlags & STAND_STILL) && (errosFlags & STALL_GUARD_STATUS) ) {
+      LOG(info) << "Gripper " << "motor stall";
+    }
 !!!921201.cpp!!!	parseMailboxStatusFlags(in mailboxMsg : YouBotSlaveMailboxMsg) : void
     std::stringstream errorMessageStream;
     errorMessageStream << "Joint " << this->jointNumber << ": ";
