@@ -64,11 +64,11 @@ class OneDOFGripper : public Gripper {
   public:
     virtual void setConfigurationParameter(const GripperParameter& parameter) = 0;
 
-    virtual void getConfigurationParameter(GripperParameter& parameter) = 0;
+    virtual void getConfigurationParameter(GripperParameter& parameter) const = 0;
 
     virtual void setData(const OneDOFGripperData& data) = 0;
 
-    virtual void getData(OneDOFGripperData& data) = 0;
+    virtual void getData(OneDOFGripperData& data) const = 0;
 
 };
 

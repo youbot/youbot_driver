@@ -86,25 +86,25 @@ class YouBotGripper : public OneDOFGripper {
 
 
   protected:
-    virtual void getConfigurationParameter(GripperParameter& parameter);
+    virtual void getConfigurationParameter(GripperParameter& parameter) const;
 
     virtual void setConfigurationParameter(const GripperParameter& parameter);
 
 
   public:
-    virtual void getConfigurationParameter(GripperFirmwareVersion& parameter);
+    virtual void getConfigurationParameter(GripperFirmwareVersion& parameter) const;
 
     virtual void setConfigurationParameter(const CalibrateGripper& parameter);
 
-    virtual void getConfigurationParameter(YouBotSlaveMailboxMsg& parameter);
+    virtual void getConfigurationParameter(YouBotSlaveMailboxMsg& parameter) const;
 
 
   protected:
-    virtual void getData(const GripperData& data);
+    virtual void getData(const GripperData& data) const;
 
     virtual void setData(const GripperData& data);
 
-    virtual void getData(OneDOFGripperData& data);
+    virtual void getData(OneDOFGripperData& data) const;
 
     virtual void setData(const OneDOFGripperData& data);
 
@@ -112,11 +112,11 @@ class YouBotGripper : public OneDOFGripper {
   public:
     virtual void setData(const GripperBarSpacingSetPoint& barSpacing);
 
-    virtual void getData(GripperSensedBarSpacing& barSpacing);
+    virtual void getData(GripperSensedBarSpacing& barSpacing) const;
 
     void open();
 
-    void closeUntilMaxForce();
+    void close();
 
     YouBotGripperBar& getGripperBar1();
 
@@ -128,11 +128,11 @@ class YouBotGripper : public OneDOFGripper {
 
     YouBotGripper & operator=(const YouBotGripper & source);
 
-    void parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailboxMsg);
+    void parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailboxMsg) const;
 
-    bool setValueToMotorContoller(const YouBotSlaveMailboxMsg& mailboxMsg);
+    bool setValueToMotorContoller(const YouBotSlaveMailboxMsg& mailboxMsg) const;
 
-    bool retrieveValueFromMotorContoller(YouBotSlaveMailboxMsg& message);
+    bool retrieveValueFromMotorContoller(YouBotSlaveMailboxMsg& message) const;
 
     EthercatMasterInterface* ethercatMaster;
 

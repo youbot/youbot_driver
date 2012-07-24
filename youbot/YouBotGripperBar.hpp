@@ -83,29 +83,31 @@ class YouBotGripperBar {
 
     virtual void setConfigurationParameter(const MaxEncoderValue& parameter);
 
-    virtual void getConfigurationParameter(MaxEncoderValue& parameter);
+    virtual void getConfigurationParameter(MaxEncoderValue& parameter) const;
 
-    virtual void getConfigurationParameter(MaxTravelDistance& parameter);
+    virtual void getConfigurationParameter(MaxTravelDistance& parameter) const;
 
     virtual void setConfigurationParameter(const MaxTravelDistance& parameter);
 
     virtual void setConfigurationParameter(const BarSpacingOffset& parameter);
 
-    virtual void getConfigurationParameter(BarSpacingOffset& parameter);
+    virtual void getConfigurationParameter(BarSpacingOffset& parameter) const;
 
-    virtual void getConfigurationParameter(YouBotGripperParameter& parameter);
+    virtual void getConfigurationParameter(YouBotGripperParameter& parameter) const;
 
     virtual void setConfigurationParameter(const YouBotGripperParameter& parameter);
 
-    virtual void getConfigurationParameter(YouBotSlaveMailboxMsg& parameter);
+    virtual void getConfigurationParameter(YouBotSlaveMailboxMsg& parameter) const;
 
     virtual void setData(const GripperBarEncoderSetpoint& encoderSetpoint);
 
-    virtual void getData(GripperSensedVelocity& barVelocity);
+    virtual void getData(GripperSensedVelocity& barVelocity) const;
 
-    virtual void getData(GripperSensedBarPosition& barPosition);
+    virtual void getData(GripperSensedBarPosition& barPosition) const;
 
     virtual void setData(GripperBarPositionSetPoint& barPosition);
+
+    void parseGripperErrorFlags(const unsigned int& errosFlags);
 
 
   private:
@@ -113,11 +115,11 @@ class YouBotGripperBar {
 
     YouBotGripperBar & operator=(const YouBotGripperBar & source);
 
-    void parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailboxMsg);
+    void parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailboxMsg) const;
 
-    bool setValueToMotorContoller(const YouBotSlaveMailboxMsg& mailboxMsg);
+    bool setValueToMotorContoller(const YouBotSlaveMailboxMsg& mailboxMsg) const;
 
-    bool retrieveValueFromMotorContoller(YouBotSlaveMailboxMsg& message);
+    bool retrieveValueFromMotorContoller(YouBotSlaveMailboxMsg& message) const;
 
     quantity<si::length> maxTravelDistance;
 
