@@ -1,0 +1,20 @@
+set terminal postscript eps enhanced color solid 
+set terminal postscript landscape
+set output "|ps2pdf - gripperDataPlot.pdf"
+#set output "|epstopdf --filter > gripperDataPlot.pdf"
+
+set datafile missing "NaN"
+#show datafile missing
+
+set pointsize 0.5
+
+set title "actual load"
+set ylabel "load"
+set xlabel "time [milliseconds]"
+set grid
+set offsets 0, 0, 0.1, 0.1
+plot "gripperDataTrace" using 1:2 title 'load' with lines linewidth 2
+
+
+
+

@@ -16,6 +16,7 @@
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripperBar.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripperParameter.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/DataTrace.cpp
+    ${CMAKE_HOME_DIRECTORY}/youbot/GripperDataTrace.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameter.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameterReadOnly.cpp
     ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameterPasswordProtected.cpp
@@ -45,6 +46,7 @@ SET(YOUBOT_DRIVER_HEADERS
   ProtocolDefinitions.hpp
   YouBotJointStorage.hpp
   DataTrace.hpp
+  GripperDataTrace.hpp
   JointTrajectoryController.hpp
 ../base-kinematic/FourSwedishWheelOmniBaseKinematic.hpp
 ../base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.hpp
