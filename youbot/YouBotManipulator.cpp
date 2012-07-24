@@ -270,7 +270,9 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
         //turn till a max current is reached
         if (abs(sensedCurrent.current) > abs(maxCurrent[i])) {
           //stop movement
-          joints[i].noMoreAction();
+          youbot::JointCurrentSetpoint currentStopMovement;
+          currentStopMovement.current = 0 * ampere;
+          joints[i].setData(currentStopMovement);
           if(!ethercatMaster.isThreadActive()){
             ethercatMaster.sendProcessData();
             ethercatMaster.receiveProcessData();

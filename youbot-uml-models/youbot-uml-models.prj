@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 250
+  revision 252
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -925,7 +925,7 @@ ${inlines}
 ///@param data returns the actual motor torque by reference"
       end
 
-      operation 1049201 "getData"
+      operation 1064689 "getData"
 	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
 	nparams 1
 	  param out name "data" type class_ref 170865 // JointAngleSetpoint
@@ -2924,7 +2924,7 @@ ${inlines}
       end
     end
 
-    class 532209 "JointControllerComputedData"
+    class 538865 "JointControllerComputedData"
       visibility package 
       cpp_decl "///////////////////////////////////////////////////////////////////////////////
 ${description}
@@ -2939,11 +2939,11 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      classrelation 485617 // <generalisation>
-	relation 485617 ---|>
+      classrelation 493041 // <generalisation>
+	relation 493041 ---|>
 	  a public
 	    cpp default "${type}"
-	    classrelation_ref 485617 // <generalisation>
+	    classrelation_ref 493041 // <generalisation>
 	  b parent class_ref 162289 // JointSensedData
       end
     end
@@ -2974,7 +2974,7 @@ ${inlines}
 	idl_decl ""
       end
 
-      operation 1048945 "JointRampGeneratorVelocity"
+      operation 1064433 "JointRampGeneratorVelocity"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
@@ -2988,7 +2988,7 @@ ${inlines}
 	
       end
 
-      operation 1049073 "JointRampGeneratorVelocity"
+      operation 1064561 "JointRampGeneratorVelocity"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 1
 	  param in name "value" explicit_type "quantity<si::angular_velocity>"
@@ -3008,7 +3008,7 @@ ${inlines}
 	  a public
 	    cpp default "${type}"
 	    classrelation_ref 486513 // <generalisation>
-	  b parent class_ref 532209 // JointControllerComputedData
+	  b parent class_ref 538865 // JointControllerComputedData
       end
     end
   end
@@ -28275,11 +28275,11 @@ ${inlines}
 	idl_decl ""
       end
 
-      classrelation 485617 // <generalisation>
-	relation 485617 ---|>
+      classrelation 499569 // <generalisation>
+	relation 499569 ---|>
 	  a public
 	    cpp default "${type}"
-	    classrelation_ref 485617 // <generalisation>
+	    classrelation_ref 499569 // <generalisation>
 	  b parent class_ref 258929 // YouBotGripperParameter
       end
     end

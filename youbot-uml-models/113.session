@@ -1,8 +1,13 @@
-window_sizes 1680 976 421 1253 895 0
+window_sizes 1672 973 421 1245 890 0
+diagrams
+  active  classdiagram_ref 141553 // JointData
+    996 712 100 2 0 0
+end
 show_stereotypes
-selected class_ref 286193 // YouBotBase
+selected class_ref 532209 // TargetPositionReached
 open
-  classview_ref 160881 // YouBot
-  deploymentview_ref 161137 // Deployment
+  classview_ref 154225 // JointData
+  class_ref 472433 // PositionSetpoint
+  class_ref 532209 // TargetPositionReached
 end
 end

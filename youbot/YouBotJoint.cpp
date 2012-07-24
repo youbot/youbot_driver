@@ -295,10 +295,14 @@ void YouBotJoint::setConfigurationParameter(const InitializeJoint& parameter) {
   // Bouml preserved body begin 000973F1
     if (parameter.value) {
       //YouBotSlaveMsg messageBuffer;
+      SineInitializationVelocity vel;
+      this->getConfigurationParameter(vel);
+
       messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
-      messageBuffer.stctOutput.value = 10; //for commutation
+      messageBuffer.stctOutput.value = vel.value;
 
       ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
+      SLEEP_MILLISEC(10);
 			
     }
   // Bouml preserved body end 000973F1
@@ -798,7 +802,7 @@ void YouBotJoint::getData(JointSensedTorque& data) {
 ///gets the target or setpoint position of one joint 
 ///@param data returns the angle by reference
 void YouBotJoint::getData(JointAngleSetpoint& data) {
-  // Bouml preserved body begin 00100271
+  // Bouml preserved body begin 00103EF1
     //YouBotSlaveMsg messageBuffer;
 		if(!ethercatMaster->isEtherCATConnectionEstablished()){
 			throw EtherCATConnectionException("No EtherCAT connection");
@@ -819,7 +823,7 @@ void YouBotJoint::getData(JointAngleSetpoint& data) {
     if (storage.inverseMovementDirection) {
       data.angle = -data.angle;
     }
-  // Bouml preserved body end 00100271
+  // Bouml preserved body end 00103EF1
 }
 
 ///gets the target or setpoint velocity of one joint

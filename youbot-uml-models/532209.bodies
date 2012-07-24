@@ -18,3 +18,26 @@ class TargetPositionReached
       message.stctOutput.value = 0;
 !!!1048945.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
     this->value = message.stctInput.value;
+!!!1049073.cpp!!!	getName() : string
+  this->angularVelocity = value;
+!!!1049201.cpp!!!	getType() : ParameterType
+    //YouBotSlaveMsg messageBuffer;
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+	
+    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
+    this->parseYouBotErrorFlags(messageBuffer);
+
+    if (storage.gearRatio == 0) {
+      throw std::out_of_range("A Gear Ratio of zero is not allowed");
+    }
+    if (storage.encoderTicksPerRound == 0) {
+      throw std::out_of_range("Zero Encoder Ticks per Round are not allowed");
+    }
+    //  LOG(trace) << "enc: " << messageBuffer.stctInput.actualPosition;
+    data.angle = ((double) messageBuffer.stctInput.targetPosition / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
+
+    if (storage.inverseMovementDirection) {
+      data.angle = -data.angle;
+    }
