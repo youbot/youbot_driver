@@ -57,7 +57,7 @@ YouBotManipulator::YouBotManipulator(const std::string name, const std::string c
 
     this->controllerType = 841;
     this->alternativeControllerType = 1610;
-    this->minFirmwareVersion = 1.43;
+    this->minFirmwareVersion = 1.48;
 
     string filename;
     filename = name;
@@ -620,11 +620,14 @@ void YouBotManipulator::initializeJoints() {
       joints[i].setConfigurationParameter(torqueConst);
       joints[i].setConfigurationParameter(inverseDir);
       
+      //Joint Trajectory Controller
+      /*
       if(ethercatMaster.isThreadActive()){
 				unsigned int numberOfThreadCyclesPerSecond = ethercatMasterWithThread->getNumberOfThreadCyclesPerSecond();
 				joints[i].trajectoryController.setControllerUpdatesPerSecond(numberOfThreadCyclesPerSecond);
 				ethercatMasterWithThread->registerJointTrajectoryController(&(joints[i].trajectoryController), joints[i].getJointNumber());
 			}
+      */
     }
 
 

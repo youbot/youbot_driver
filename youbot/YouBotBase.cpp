@@ -56,7 +56,8 @@ YouBotBase::YouBotBase(const std::string name, const std::string configFilePath)
   // Bouml preserved body begin 00067E71
 
     this->controllerType = 174;
-    this->minFirmwareVersion = 1.43;
+    this->alternativeControllerType = 1632;
+    this->minFirmwareVersion = 1.48;
 
     string filename;
     filename = name;
@@ -529,9 +530,9 @@ void YouBotBase::initializeJoints() {
 
       LOG(info) << name << "\t Controller Type: " << controllerType << "  Firmware version: " << firmwareVersion;
 
-      if (this->controllerType != controllerType) {
+      if (this->controllerType != controllerType && alternativeControllerType != controllerType) {
         std::stringstream ss;
-        ss << "The youBot base motor controller have to be of type: " << this->controllerType;
+        ss << "The youBot base motor controller have to be of type: " << this->controllerType << " or " << alternativeControllerType;
         throw std::runtime_error(ss.str().c_str());
       }
 

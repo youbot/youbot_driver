@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 249
+  revision 250
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -25867,6 +25867,16 @@ ${inlines}
 	idl_decl ""
       end
 
+      attribute 941553 "alternativeControllerType"
+	private explicit_type "int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
       attribute 609137 "minFirmwareVersion"
 	private explicit_type "double"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -28378,7 +28388,6 @@ ${inlines}
 	python_decl ""
 	idl_decl ""
       end
-
     end
 
     class 472049 "YouBotGripperBar"

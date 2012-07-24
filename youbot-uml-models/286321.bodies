@@ -3,7 +3,7 @@ class YouBotManipulator
 
     this->controllerType = 841;
     this->alternativeControllerType = 1610;
-    this->minFirmwareVersion = 1.43;
+    this->minFirmwareVersion = 1.48;
 
     string filename;
     filename = name;
@@ -474,11 +474,14 @@ class YouBotManipulator
       joints[i].setConfigurationParameter(torqueConst);
       joints[i].setConfigurationParameter(inverseDir);
       
+      //Joint Trajectory Controller
+      /*
       if(ethercatMaster.isThreadActive()){
 				unsigned int numberOfThreadCyclesPerSecond = ethercatMasterWithThread->getNumberOfThreadCyclesPerSecond();
 				joints[i].trajectoryController.setControllerUpdatesPerSecond(numberOfThreadCyclesPerSecond);
 				ethercatMasterWithThread->registerJointTrajectoryController(&(joints[i].trajectoryController), joints[i].getJointNumber());
 			}
+      */
     }
 
 

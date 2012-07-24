@@ -174,6 +174,8 @@ class YouBotBase {
 
     int controllerType;
 
+    int alternativeControllerType;
+
     double minFirmwareVersion;
 
     EthercatMasterInterface& ethercatMaster;
