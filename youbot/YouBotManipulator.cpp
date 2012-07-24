@@ -56,7 +56,8 @@ YouBotManipulator::YouBotManipulator(const std::string name, const std::string c
   // Bouml preserved body begin 00067F71
 
     this->controllerType = 841;
-    this->minFirmwareVersion = 1.43;
+    this->alternativeControllerType = 1610;
+    this->minFirmwareVersion = 1.48;
 
     string filename;
     filename = name;
@@ -584,9 +585,9 @@ void YouBotManipulator::initializeJoints() {
 
       LOG(info) << name << "\t Controller Type: " << controllerType << "  Firmware version: " << firmwareVersion;
 
-      if (this->controllerType != controllerType) {
+      if (this->controllerType != controllerType && alternativeControllerType != controllerType) {
         std::stringstream ss;
-        ss << "The youBot manipulator motor controller have to be of type: " << this->controllerType;
+        ss << "The youBot manipulator motor controller have to be of type: " << this->controllerType << " or " << alternativeControllerType;
         throw std::runtime_error(ss.str().c_str());
       }
 
@@ -619,11 +620,14 @@ void YouBotManipulator::initializeJoints() {
       joints[i].setConfigurationParameter(torqueConst);
       joints[i].setConfigurationParameter(inverseDir);
       
+      //Joint Trajectory Controller
+      /*
       if(ethercatMaster.isThreadActive()){
 				unsigned int numberOfThreadCyclesPerSecond = ethercatMasterWithThread->getNumberOfThreadCyclesPerSecond();
 		//		joints[i].trajectoryController.setControllerUpdatesPerSecond(numberOfThreadCyclesPerSecond);
 				ethercatMasterWithThread->registerJointTrajectoryController(&(joints[i].trajectoryController), joints[i].getJointNumber());
 			}
+      */
     }
 
 

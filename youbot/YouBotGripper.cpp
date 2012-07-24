@@ -60,6 +60,7 @@ YouBotGripper::YouBotGripper(const unsigned int jointNo, const std::string& conf
     ethercatMaster = &(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath));
     bar1.reset(new YouBotGripperBar(0, jointNo, configFilePath));
     bar2.reset(new YouBotGripperBar(1, jointNo, configFilePath));
+
   // Bouml preserved body end 0005EFF1
 }
 
@@ -68,7 +69,7 @@ YouBotGripper::~YouBotGripper() {
   // Bouml preserved body end 0005F071
 }
 
-void YouBotGripper::getConfigurationParameter(GripperParameter& parameter) {
+void YouBotGripper::getConfigurationParameter(GripperParameter& parameter) const {
   // Bouml preserved body begin 0005FBF1
     throw std::runtime_error("Please use YouBotGripperParameter");
   // Bouml preserved body end 0005FBF1
@@ -80,7 +81,7 @@ void YouBotGripper::setConfigurationParameter(const GripperParameter& parameter)
   // Bouml preserved body end 0005FA71
 }
 
-void YouBotGripper::getConfigurationParameter(GripperFirmwareVersion& parameter) {
+void YouBotGripper::getConfigurationParameter(GripperFirmwareVersion& parameter) const {
   // Bouml preserved body begin 000BEF71
 
     YouBotSlaveMailboxMsg message;
@@ -169,54 +170,65 @@ void YouBotGripper::setConfigurationParameter(const CalibrateGripper& parameter)
       MaxEncoderValue maxencoder;
       bar1->getConfigurationParameter(maxencoder);
       maxencoder.getParameter(maxenc);
-      
+
+      message.stctOutput.moduleAddress = GRIPPER;
+      message.stctOutput.commandNumber = MVP;
+      message.stctOutput.typeNumber = 1; //move gripper relative
+      message.stctOutput.value = -maxenc;
+      message.stctOutput.motorNumber = 0; //move bar 0
+      setValueToMotorContoller(message);
+      message.stctOutput.motorNumber = 1; //move bar 1
+      setValueToMotorContoller(message);
+
+      //open gripper
+      TargetPositionReached bar1TargetReched;
+      TargetPositionReached bar2TargetReched;
+      bool targetReachedBar1 = false;
+      bool targetReachedBar2 = false;
+
+      for (int i = 0; i < 40; i++) {
+        bar1->getConfigurationParameter(bar1TargetReched);
+        bar1TargetReched.getParameter(targetReachedBar1);
+        bar2->getConfigurationParameter(bar2TargetReched);
+        bar2TargetReched.getParameter(targetReachedBar2);
+        if (targetReachedBar1 && targetReachedBar2){
+          break;
+        }
+      }
+
+      //close gripper
       message.stctOutput.moduleAddress = GRIPPER;
       message.stctOutput.commandNumber = MVP;
       message.stctOutput.typeNumber = 1; //move gripper relative
       message.stctOutput.value = maxenc;
-
-      ActualLoadValue actualLoad;
-
       message.stctOutput.motorNumber = 0; //move bar 0
       setValueToMotorContoller(message);
-
       message.stctOutput.motorNumber = 1; //move bar 1
       setValueToMotorContoller(message);
-
-      SLEEP_MILLISEC(100);
-      bar1->getConfigurationParameter(actualLoad);
-      bar2->getConfigurationParameter(actualLoad);
-
-
-      unsigned int loadbar1 = 1000;
-      unsigned int loadbar2 = 1000;
-      std::string parameterString;
+      
+      targetReachedBar1 = false;
+      targetReachedBar2 = false;
 
       for (int i = 0; i < 40; i++) {
-        bar1->getConfigurationParameter(actualLoad);
-        actualLoad.getParameter(loadbar1);
-        bar2->getConfigurationParameter(actualLoad);
-        actualLoad.getParameter(loadbar2);
-        if (loadbar1 < 400 || loadbar2 < 400)
+        bar1->getConfigurationParameter(bar1TargetReched);
+        bar1TargetReched.getParameter(targetReachedBar1);
+        bar2->getConfigurationParameter(bar2TargetReched);
+        bar2TargetReched.getParameter(targetReachedBar2);
+        if (targetReachedBar1 && targetReachedBar2)
           break;
-        //   actualLoad.toString(parameterString);
-        //   std::cout << parameterString << std::endl;
-        SLEEP_MILLISEC(10);
       }
-
-      //     SLEEP_MILLISEC(4000); //wait until the gripper is closed
-
+      
       //stop Gripper motor
+      /*
       message.stctOutput.moduleAddress = GRIPPER;
       message.stctOutput.commandNumber = MST;
-
       message.stctOutput.value = 0;
       message.stctOutput.motorNumber = 0; //move bar 0
       setValueToMotorContoller(message);
-
       message.stctOutput.motorNumber = 1; //move bar 1
       setValueToMotorContoller(message);
-
+*/
+      
       // set pose to zero as reference
       ActualPosition actualPose;
       actualPose.setParameter(0);
@@ -230,7 +242,7 @@ void YouBotGripper::setConfigurationParameter(const CalibrateGripper& parameter)
   // Bouml preserved body end 00048271
 }
 
-void YouBotGripper::getConfigurationParameter(YouBotSlaveMailboxMsg& parameter) {
+void YouBotGripper::getConfigurationParameter(YouBotSlaveMailboxMsg& parameter) const {
   // Bouml preserved body begin 000DE971
     if (!retrieveValueFromMotorContoller(parameter)) {
       throw JointParameterException("Unable to get parameter from the gripper");
@@ -239,7 +251,7 @@ void YouBotGripper::getConfigurationParameter(YouBotSlaveMailboxMsg& parameter) 
   // Bouml preserved body end 000DE971
 }
 
-void YouBotGripper::getData(const GripperData& data) {
+void YouBotGripper::getData(const GripperData& data) const {
   // Bouml preserved body begin 0005FB71
     LOG(info) << "Nothing to do";
   // Bouml preserved body end 0005FB71
@@ -251,7 +263,7 @@ void YouBotGripper::setData(const GripperData& data) {
   // Bouml preserved body end 0005FAF1
 }
 
-void YouBotGripper::getData(OneDOFGripperData& data) {
+void YouBotGripper::getData(OneDOFGripperData& data) const {
   // Bouml preserved body begin 000483F1
     LOG(info) << "Nothing to do";
   // Bouml preserved body end 000483F1
@@ -278,7 +290,7 @@ void YouBotGripper::setData(const GripperBarSpacingSetPoint& barSpacing) {
   // Bouml preserved body end 0005F8F1
 }
 
-void YouBotGripper::getData(GripperSensedBarSpacing& barSpacing) {
+void YouBotGripper::getData(GripperSensedBarSpacing& barSpacing) const {
   // Bouml preserved body begin 0005F971
 		GripperSensedBarPosition bar1Position;
 		GripperSensedBarPosition bar2Position;
@@ -313,62 +325,16 @@ void YouBotGripper::open() {
   // Bouml preserved body end 000E3BF1
 }
 
-void YouBotGripper::closeUntilMaxForce() {
-  // Bouml preserved body begin 000E3C71
-  
-    unsigned int maxenc = 0;
-    MaxEncoderValue maxencoder;
-    bar1->getConfigurationParameter(maxencoder);
-    maxencoder.getParameter(maxenc);
-      
-    YouBotSlaveMailboxMsg message;
-    message.stctOutput.moduleAddress = GRIPPER;
-    message.stctOutput.commandNumber = MVP;
-    message.stctOutput.typeNumber = 1; //move gripper relative
-    message.stctOutput.value = maxenc;
+void YouBotGripper::close() {
+  // Bouml preserved body begin 00103D71
+    GripperBarEncoderSetpoint setpointBar1;
+    GripperBarEncoderSetpoint setpointBar2;
+    setpointBar1.barEncoder = 0;
+    setpointBar2.barEncoder = 0;
 
-    ActualLoadValue actualLoad;
-
-    message.stctOutput.motorNumber = 0; //move bar 0
-    setValueToMotorContoller(message);
-
-    message.stctOutput.motorNumber = 1; //move bar 1
-    setValueToMotorContoller(message);
-    
-    SLEEP_MILLISEC(100);
-    bar1->getConfigurationParameter(actualLoad);
-    bar2->getConfigurationParameter(actualLoad);
-
-
-    unsigned int loadbar1 = 1000;
-    unsigned int loadbar2 = 1000;
-    std::string parameterString;
-
-    for (int i = 0; i < 40; i++) {
-      bar1->getConfigurationParameter(actualLoad);
-      actualLoad.getParameter(loadbar1);
-      bar2->getConfigurationParameter(actualLoad);
-      actualLoad.getParameter(loadbar2);
-      if (loadbar1 < 400 || loadbar2 < 400)
-        break;
-      //   actualLoad.toString(parameterString);
-      //   std::cout << parameterString << std::endl;
-      SLEEP_MILLISEC(10);
-    }
-
-    //     SLEEP_MILLISEC(4000); //wait until the gripper is closed
-
-    //stop Gripper motor
-    message.stctOutput.moduleAddress = GRIPPER;
-    message.stctOutput.commandNumber = MST;
-
-    message.stctOutput.value = 0;
-    message.stctOutput.motorNumber = 0; //move bar 0
-    setValueToMotorContoller(message);
-
-    message.stctOutput.motorNumber = 1; //move bar 1
-    setValueToMotorContoller(message);
-  // Bouml preserved body end 000E3C71
+    bar1->setData(setpointBar1);
+    bar2->setData(setpointBar2);
+  // Bouml preserved body end 00103D71
 }
 
 YouBotGripperBar& YouBotGripper::getGripperBar1() {
@@ -389,7 +355,7 @@ YouBotGripperBar& YouBotGripper::getGripperBar2() {
   // Bouml preserved body end 000E1071
 }
 
-void YouBotGripper::parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailboxMsg) {
+void YouBotGripper::parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailboxMsg) const {
   // Bouml preserved body begin 00075C71
     std::stringstream errorMessageStream;
     errorMessageStream << "Joint " << this->jointNumber << ": ";
@@ -426,7 +392,7 @@ void YouBotGripper::parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailbox
   // Bouml preserved body end 00075C71
 }
 
-bool YouBotGripper::setValueToMotorContoller(const YouBotSlaveMailboxMsg& mailboxMsg) {
+bool YouBotGripper::setValueToMotorContoller(const YouBotSlaveMailboxMsg& mailboxMsg) const {
   // Bouml preserved body begin 0005EF71
 
     YouBotSlaveMailboxMsg mailboxMsgBuffer;
@@ -470,7 +436,7 @@ bool YouBotGripper::setValueToMotorContoller(const YouBotSlaveMailboxMsg& mailbo
   // Bouml preserved body end 0005EF71
 }
 
-bool YouBotGripper::retrieveValueFromMotorContoller(YouBotSlaveMailboxMsg& message) {
+bool YouBotGripper::retrieveValueFromMotorContoller(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 0005EEF1
 
     bool unvalid = true;

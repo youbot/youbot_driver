@@ -49,7 +49,7 @@ void YouBotBaseTest::youBotBaseTest_PositionMode() {
 		}
 		if (myTrace.getTimeDurationMilliSec() > startTime + durationNull
 						&& myTrace.getTimeDurationMilliSec() < startTime + durationNull + stepStartTime) {
-			setAngle.angle = 2 * radian;
+			setAngle.angle = 1 * radian;
 		}
 		if (myTrace.getTimeDurationMilliSec() > startTime + durationNull + stepStartTime) {
 			setAngle.angle = 0 * radian;
@@ -81,7 +81,7 @@ void YouBotBaseTest::youBotBaseTest_VelocityMode() {
 		}
 		if (myTrace.getTimeDurationMilliSec() > startTime + durationNull
 						&& myTrace.getTimeDurationMilliSec() < startTime + durationNull + stepStartTime) {
-			setVel.angularVelocity = 2 * radian_per_second;
+			setVel.angularVelocity = 1 * radian_per_second;
 		}
 		if (myTrace.getTimeDurationMilliSec() > startTime + durationNull + stepStartTime) {
 			setVel.angularVelocity = 0 * radian_per_second;
@@ -113,7 +113,7 @@ void YouBotBaseTest::youBotBaseTest_CurrentMode() {
 		}
 		if (myTrace.getTimeDurationMilliSec() > startTime + durationNull
 						&& myTrace.getTimeDurationMilliSec() < startTime + durationNull + stepStartTime) {
-			currentSetpoint.current = 0.5 * ampere;
+			currentSetpoint.current = 0.3 * ampere;
 		}
 		if (myTrace.getTimeDurationMilliSec() > startTime + durationNull + stepStartTime) {
 			currentSetpoint.current = 0 * ampere;

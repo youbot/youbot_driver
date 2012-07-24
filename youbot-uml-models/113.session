@@ -1,7 +1,7 @@
-window_sizes 1672 973 421 1245 890 0
+window_sizes 1680 976 421 1253 895 0
 show_stereotypes
+selected class_ref 286193 // YouBotBase
 open
-  class_ref 170225 // YouBotJoint
   classview_ref 160881 // YouBot
   deploymentview_ref 161137 // Deployment
 end
