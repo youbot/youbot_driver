@@ -14,6 +14,9 @@
 
 using namespace youbot;
 
+///////////////////////////////////////////////////////////////////////////////
+/// A unit test for the base kinematics
+///////////////////////////////////////////////////////////////////////////////
 class YouBotBaseKinematicsTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST_SUITE(YouBotBaseKinematicsTest);
 	CPPUNIT_TEST(youBotBaseKinematicsTest);

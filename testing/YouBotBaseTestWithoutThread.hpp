@@ -13,6 +13,9 @@
 
 using namespace youbot;
 
+///////////////////////////////////////////////////////////////////////////////
+/// A unit test for one youbot joint communicating without a thread
+///////////////////////////////////////////////////////////////////////////////
 class YouBotBaseTestWithoutThread : public CppUnit::TestFixture {
 	CPPUNIT_TEST_SUITE(YouBotBaseTestWithoutThread);
 	CPPUNIT_TEST(YouBotBaseTestWithoutThread_PositionMode);
