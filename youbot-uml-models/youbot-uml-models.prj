@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 250
+  revision 251
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -1468,6 +1468,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// It monitors the joint position and will decelerate and stop the joint if it is close the limits"
       operation 1026929 "JointLimitMonitor"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 2
@@ -2722,6 +2723,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// abstract data class for computed joint data"
       classrelation 449649 // <generalisation>
 	relation 449649 ---|>
 	  a public
@@ -2746,6 +2748,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// abstract data class for computed joint data setpoints"
       classrelation 449777 // <generalisation>
 	relation 449777 ---|>
 	  a public
@@ -2770,6 +2773,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// Joint Trajectory representation"
       classrelation 472433 // <generalisation>
 	relation 472433 ---|>
 	  a public
@@ -25913,6 +25917,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// Creates a trace of all process data and reads all configuration parameter from one joint"
       operation 823153 "DataTrace"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 3
@@ -27431,6 +27436,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// Creates a trace of one parameter of the gripper"
       operation 1055729 "GripperDataTrace"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 3

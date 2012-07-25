@@ -1,8 +1,10 @@
 window_sizes 1680 976 421 1253 895 0
 show_stereotypes
-selected class_ref 286193 // YouBotBase
+selected class_ref 525681 // JointLimitMonitor
 open
+  classview_ref 134641 // Joint
+  class_ref 162289 // JointSensedData
+  class_ref 412657 // JointEncoderSetpoint
   classview_ref 160881 // YouBot
-  deploymentview_ref 161137 // Deployment
 end
 end
