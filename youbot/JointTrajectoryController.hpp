@@ -115,7 +115,13 @@ class JointTrajectoryController {
 
     bool updateTrajectoryController(const SlaveMessageInput& actual, SlaveMessageOutput& velocity);
 
-    void getLastTargetPosition(JointEncoderSetpoint& position);
+    void getLastTargetPosition(JointAngleSetpoint& position);
+    
+    void getLastTargetVelocity(JointVelocitySetpoint& velocity);
+    
+    void setGearRatio(const double& ratio) {this->gearRatio = ratio;};
+    
+    void setEncoderTicksPerRound(const int& encoderTicks) {this->encoderTicksPerRound = encoderTicks;};
 
 
   private:
@@ -146,6 +152,16 @@ class JointTrajectoryController {
     double targetVelocity;
 
     double targetAcceleration;
+    
+    int encoderTicksPerRound;
+    
+    double gearRatio;
+    
+    double pose_error;
+    
+    double velocity_error;
+    
+    double velsetpoint;
 
 };
 
