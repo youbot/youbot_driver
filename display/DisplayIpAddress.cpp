@@ -152,11 +152,11 @@ void getIPAdress(std::string lanname, std::string wlanname, std::string& lanip, 
 
 int main(int argc, char* argv[]) {
   try {
-    if (argc != 3) {
-      std::cout << "invalid arguments e.g: \n./displayipaddress eth1 wlan0" << std::endl;
+    if (argc != 4) {
+      std::cout << "invalid arguments \n ./displayipaddress 'serial port' 'ethernet' 'wlan' \n./displayipaddress /dev/ttyACM0 eth1 wlan0" << std::endl;
       return 0;
     }
-    int fd = open_port("/dev/ttyACM0");
+    int fd = open_port(argv[1]);
     configure_port(fd);
 
     std::string lanip;
@@ -164,7 +164,7 @@ int main(int argc, char* argv[]) {
 
     while (true) {
       sleep(2);
-      getIPAdress(argv[1], argv[2], lanip, wlanip);
+      getIPAdress(argv[2], argv[3], lanip, wlanip);
       setText(fd, line2, lanip);
       setText(fd, line3, wlanip);
    //   std::cout << "Bat1: " << getVoltage(fd, battery1) << std::endl;
