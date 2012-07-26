@@ -608,7 +608,7 @@ void EthercatMasterWithThread::updateSensorActorValues() {
         if (jointLimitMonitors[i] != NULL) {
           this->jointLimitMonitors[i]->checkLimitsProcessData(*(ethercatInputBufferVector[i]), *(ethercatOutputBufferVector[i]));
           //copy back changed velocity for limit checker
-          slaveMessages[i].stctOutput.Get(*(ethercatOutputBufferVector[i]));
+          slaveMessages[i].stctOutput.Set(*(ethercatOutputBufferVector[i]));
         }
         // this->parseYouBotErrorFlags(secondBufferVector[i]);
 
@@ -640,6 +640,8 @@ void EthercatMasterWithThread::updateSensorActorValues() {
               //   printf("send vel slave: %d", i);
               (*(ethercatOutputBufferVector[i])).controllerMode = trajectoryContollerOutput.controllerMode;
               (*(ethercatOutputBufferVector[i])).value = trajectoryContollerOutput.value;
+              //copy back
+              slaveMessages[i].stctOutput.Set(*(ethercatOutputBufferVector[i]));
             }
           }
         }
