@@ -65,6 +65,12 @@ YouBotBase::YouBotBase(const std::string name, const std::string configFilePath)
 
     configfile.reset(new ConfigFile(filename, configFilePath));
     
+    if(ethercatMaster.isThreadActive()){
+			ethercatMasterWithThread = static_cast<EthercatMasterWithThread*>(&(EthercatMaster::getInstance()));
+		}else{
+			ethercatMasterWithThread = NULL;
+		}
+    
     this->initializeJoints();
 
     this->initializeKinematic();
@@ -74,6 +80,11 @@ YouBotBase::YouBotBase(const std::string name, const std::string configFilePath)
 
 YouBotBase::~YouBotBase() {
   // Bouml preserved body begin 00067EF1
+  if(ethercatMaster.isThreadActive()){
+			for (unsigned int i = 0; i < BASEJOINTS; i++) {
+				ethercatMasterWithThread->deleteJointTrajectoryControllerRegistration(this->joints[i].getJointNumber());
+			}
+		}
   // Bouml preserved body end 00067EF1
 }
 
@@ -508,6 +519,7 @@ void YouBotBase::initializeJoints() {
     FirmwareVersion firmwareTypeVersion;
     TorqueConstant torqueConst;
 
+    double trajectory_p=0, trajectory_i=0, trajectory_d=0, trajectory_imax=0, trajectory_imin=0;
     double gearRatio_numerator = 0;
     double gearRatio_denominator = 1;
     JointLimits jLimits;
@@ -572,6 +584,19 @@ void YouBotBase::initializeJoints() {
 
       jLimits.setParameter(lowerlimit, upperlimit, false);
       joints[i].setConfigurationParameter(jLimits);
+      
+      //Joint Trajectory Controller
+      if(ethercatMaster.isThreadActive()){
+        configfile->readInto(trajectory_p, jointName, "trajectory_controller_P");
+        configfile->readInto(trajectory_i, jointName, "trajectory_controller_I");
+        configfile->readInto(trajectory_d, jointName, "trajectory_controller_D");
+        configfile->readInto(trajectory_imax, jointName, "trajectory_controller_I_max");
+        configfile->readInto(trajectory_imin, jointName, "trajectory_controller_I_min");
+        joints[i].trajectoryController.setConfigurationParameter(trajectory_p, trajectory_i, trajectory_d, trajectory_imax, trajectory_imin);
+        joints[i].trajectoryController.setEncoderTicksPerRound(ticks);
+        joints[i].trajectoryController.setGearRatio(gearRatio_numerator / gearRatio_denominator);
+				ethercatMasterWithThread->registerJointTrajectoryController(&(joints[i].trajectoryController), joints[i].getJointNumber());
+			}
     }
 
     return;

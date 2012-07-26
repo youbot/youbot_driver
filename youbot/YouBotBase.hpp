@@ -180,6 +180,8 @@ class YouBotBase {
 
     EthercatMasterInterface& ethercatMaster;
 
+    EthercatMasterWithThread* ethercatMasterWithThread;
+
 };
 
 } // namespace youbot
