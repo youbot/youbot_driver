@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 250
+  revision 252
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -2698,144 +2698,6 @@ ${inlines}
 	    cpp default "${type}"
 	    classrelation_ref 449777 // <generalisation>
 	  b parent class_ref 170481 // JointDataSetpoint
-      end
-    end
-
-    class 512497 "JointTrajectory"
-      visibility package 
-      cpp_decl "///////////////////////////////////////////////////////////////////////////////
-${description}
-///////////////////////////////////////////////////////////////////////////////
-${template}class ${name}${inherit} {
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      classrelation 472433 // <generalisation>
-	relation 472433 ---|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 472433 // <generalisation>
-	  b parent class_ref 170481 // JointDataSetpoint
-      end
-
-      attribute 864241 "positions"
-	private explicit_type "std::vector< quantity<plane_angle> >"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 864369 "velocities"
-	private explicit_type "std::vector< quantity<angular_velocity> >"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 864497 "accelerations"
-	private explicit_type "std::vector< quantity<angular_acceleration> >"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 864625 "time"
-	private explicit_type "std::vector< quantity<si::time> >"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      operation 1006449 "setTrajectoryPoint"
-	preserve_cpp_body_indent public explicit_return_type "void"
-	nparams 4
-	  param in name "position" explicit_type "quantity<plane_angle>"
-	  param in name "velocity" explicit_type "quantity<angular_velocity>"
-	  param in name "acceleration" explicit_type "quantity<angular_acceleration>"
-	  param in name "time" explicit_type "quantity<si::time>"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}, const ${t3}& ${p3}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, const ${t1}& ${p1}, const ${t2}& ${p2}, const ${t3}& ${p3}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 1006577 "getPositions"
-	preserve_cpp_body_indent public explicit_return_type "const std::vector< quantity<plane_angle> >&"
-	nparams 0
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 1006705 "getVelocities"
-	preserve_cpp_body_indent public explicit_return_type "const std::vector< quantity<angular_velocity> >&"
-	nparams 0
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 1006833 "getAccelerations"
-	preserve_cpp_body_indent public explicit_return_type "const std::vector< quantity<angular_acceleration> >&"
-	nparams 0
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 1006961 "getTimes"
-	preserve_cpp_body_indent public explicit_return_type "const std::vector<quantity<si::time> >&"
-	nparams 0
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
       end
     end
   end
@@ -25835,6 +25697,16 @@ ${inlines}
 
       attribute 755953 "ethercatMaster"
 	private explicit_type "EthercatMasterInterface&"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 948081 "ethercatMasterWithThread"
+	private explicit_type "EthercatMasterWithThread*"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""

@@ -565,6 +565,7 @@ void YouBotManipulator::initializeJoints() {
     double gearRatio_denominator = 1;
     FirmwareVersion firmwareTypeVersion;
     TorqueConstant torqueConst;
+    double trajectory_p=0, trajectory_i=0, trajectory_d=0, trajectory_imax=0, trajectory_imin=0;
 
 
     for (unsigned int i = 0; i < ARMJOINTS; i++) {
@@ -621,13 +622,15 @@ void YouBotManipulator::initializeJoints() {
       joints[i].setConfigurationParameter(inverseDir);
       
       //Joint Trajectory Controller
-      /*
       if(ethercatMaster.isThreadActive()){
-				unsigned int numberOfThreadCyclesPerSecond = ethercatMasterWithThread->getNumberOfThreadCyclesPerSecond();
-		//		joints[i].trajectoryController.setControllerUpdatesPerSecond(numberOfThreadCyclesPerSecond);
+				configfile->readInto(trajectory_p, jointName, "trajectory_controller_P");
+        configfile->readInto(trajectory_i, jointName, "trajectory_controller_I");
+        configfile->readInto(trajectory_d, jointName, "trajectory_controller_D");
+        configfile->readInto(trajectory_imax, jointName, "trajectory_controller_I_max");
+        configfile->readInto(trajectory_imin, jointName, "trajectory_controller_I_min");
+        joints[i].trajectoryController.setConfigurationParameter(trajectory_p, trajectory_i, trajectory_d, trajectory_imax, trajectory_imin);
 				ethercatMasterWithThread->registerJointTrajectoryController(&(joints[i].trajectoryController), joints[i].getJointNumber());
 			}
-      */
     }
 
 
