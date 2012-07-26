@@ -33,7 +33,7 @@
  *********************************************************************/
 
 // Original version: Melonee Wise <mwise@willowgarage.com>
-
+#include <cstdio>
 #include "generic/PidController.hpp"
 
 namespace youbot {
@@ -46,6 +46,7 @@ PidController::PidController(double P, double I, double D, double I1, double I2)
   d_error_ = 0.0;
   i_error_ = 0.0;
   cmd_ = 0.0;
+  last_i_error = 0.0;
 }
 
 PidController::~PidController()
@@ -95,15 +96,19 @@ double PidController::updatePid(double error, boost::posix_time::time_duration d
 {
   double p_term, d_term, i_term;
   p_error_ = error; //this is pError = pState-pTarget
+  double deltatime = (double)dt.total_microseconds()/1000.0/1000.0;
+  
 
-  if (dt.fractional_seconds() == 0.0 || isnan(error) || isinf(error))
+  if (deltatime == 0.0 || isnan(error) || isinf(error))
     return 0.0;
 
   // Calculate proportional contribution to command
   p_term = p_gain_ * p_error_;
 
   // Calculate the integral error
-  i_error_ = i_error_ + dt.fractional_seconds() * p_error_;
+  
+  i_error_ = last_i_error + deltatime * p_error_;
+  last_i_error = deltatime * p_error_;
 
   //Calculate integral contribution to command
   i_term = i_gain_ * i_error_;
@@ -121,14 +126,16 @@ double PidController::updatePid(double error, boost::posix_time::time_duration d
   }
 
   // Calculate the derivative error
-  if (dt.fractional_seconds() != 0)
+  if (deltatime != 0)
   {
-    d_error_ = (p_error_ - p_error_last_) / dt.fractional_seconds();
+    d_error_ = (p_error_ - p_error_last_) / deltatime;
     p_error_last_ = p_error_;
   }
   // Calculate derivative contribution to command
   d_term = d_gain_ * d_error_;
   cmd_ = -p_term - i_term - d_term;
+  
+ // printf(" p_error_ %lf  i_error_ %lf  p_term %lf i_term %lf  dt %lf out %lf\n", p_error_, i_error_, p_term, i_term, deltatime, cmd_);
 
   return cmd_;
 }
@@ -139,8 +146,9 @@ double PidController::updatePid(double error, double error_dot, boost::posix_tim
   double p_term, d_term, i_term;
   p_error_ = error; //this is pError = pState-pTarget
   d_error_ = error_dot;
+  double deltatime = (double)dt.total_microseconds()/1000.0;
 
-  if (dt.fractional_seconds() == 0.0 || isnan(error) || isinf(error) || isnan(error_dot) || isinf(error_dot))
+  if (deltatime == 0.0 || isnan(error) || isinf(error) || isnan(error_dot) || isinf(error_dot))
     return 0.0;
 
 
@@ -148,7 +156,11 @@ double PidController::updatePid(double error, double error_dot, boost::posix_tim
   p_term = p_gain_ * p_error_;
 
   // Calculate the integral error
-  i_error_ = i_error_ + dt.fractional_seconds() * p_error_;
+  i_error_ = last_i_error + deltatime * p_error_;
+  last_i_error = deltatime * p_error_;
+  
+ // i_error_ = i_error_ + deltatime * p_error_;
+ //   printf("i_error_ %lf dt.fractional_seconds() %lf\n", i_error_, deltatime);
 
   //Calculate integral contribution to command
   i_term = i_gain_ * i_error_;

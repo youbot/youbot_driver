@@ -212,6 +212,7 @@ private:
   double i_max_;   /**< Maximum allowable integral term. */
   double i_min_;   /**< Minimum allowable integral term. */
   double cmd_;     /**< Command to send. */
+  double last_i_error;
 };
 
 }
