@@ -241,21 +241,21 @@ namespace youbot {
     LOG(debug) << "The new trajectory has " << new_traj.size() << " segments";
     this->isControllerActive = true;
 
-
   }
 
   void JointTrajectoryController::cancelCurrentTrajectory() {
-
-
-    LOG(error) << "Could not cancel the trajectory!";
-
-
+    // Creates a dummy trajectory
+    boost::shared_ptr<SpecifiedTrajectory> traj_ptr(new SpecifiedTrajectory(1));
+    SpecifiedTrajectory &traj = *traj_ptr;
+    traj[0].start_time = boost::posix_time::microsec_clock::local_time();
+    traj[0].duration = boost::posix_time::microseconds(0);
+    //traj[0].splines.coef[0] = 0.0;
+    current_trajectory_box_.Set(traj_ptr);
+    LOG(trace) << "Trajectory has been canceled";
   }
 
   bool JointTrajectoryController::isTrajectoryControllerActive() {
-
     return this->isControllerActive;
-
   }
 
   bool JointTrajectoryController::updateTrajectoryController(const SlaveMessageInput& actual, SlaveMessageOutput& velocity) {
