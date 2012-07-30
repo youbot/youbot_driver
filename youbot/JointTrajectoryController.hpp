@@ -162,6 +162,9 @@ class JointTrajectoryController {
     double velocity_error;
     
     double velsetpoint;
+    
+    double time_till_seg_start;
+    double duration;
 
 };
 

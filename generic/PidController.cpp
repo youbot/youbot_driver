@@ -96,7 +96,7 @@ double PidController::updatePid(double error, boost::posix_time::time_duration d
 {
   double p_term, d_term, i_term;
   p_error_ = error; //this is pError = pState-pTarget
-  double deltatime = (double)dt.total_microseconds()/1000.0/1000.0;
+  double deltatime = (double)dt.total_microseconds()/1000.0; //in milli seconds
   
 
   if (deltatime == 0.0 || isnan(error) || isinf(error))
@@ -146,7 +146,7 @@ double PidController::updatePid(double error, double error_dot, boost::posix_tim
   double p_term, d_term, i_term;
   p_error_ = error; //this is pError = pState-pTarget
   d_error_ = error_dot;
-  double deltatime = (double)dt.total_microseconds()/1000.0;
+  double deltatime = (double)dt.total_microseconds()/1000.0;  //in milli seconds
 
   if (deltatime == 0.0 || isnan(error) || isinf(error) || isnan(error_dot) || isinf(error_dot))
     return 0.0;

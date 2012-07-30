@@ -53,7 +53,7 @@ namespace youbot {
 
   JointTrajectoryController::JointTrajectoryController() {
 
-    this->pid.initPid(80.0, 0.01, 0, 1000, -1000);
+    this->pid.initPid(80.0, 1, 0, 1000, -1000);
     time = boost::posix_time::microsec_clock::local_time();
     last_time = boost::posix_time::microsec_clock::local_time();
 
@@ -66,7 +66,7 @@ namespace youbot {
     boost::shared_ptr<SpecifiedTrajectory> traj_ptr(new SpecifiedTrajectory(1));
     SpecifiedTrajectory &traj = *traj_ptr;
     traj[0].start_time = boost::posix_time::microsec_clock::local_time();
-    traj[0].duration = boost::posix_time::seconds(0);
+    traj[0].duration = boost::posix_time::microseconds(0);
     //traj[0].splines.coef[0] = 0.0;
     current_trajectory_box_.Set(traj_ptr);
 
@@ -152,8 +152,8 @@ namespace youbot {
 
     LOG(debug) << "Initial conditions for new set of splines:";
 
-    sampleSplineWithTimeBounds(last.spline.coef, last.duration.fractional_seconds(),
-            last.start_time.time_of_day().fractional_seconds(),
+    sampleSplineWithTimeBounds(last.spline.coef, last.duration.total_microseconds(),
+            last.start_time.time_of_day().total_microseconds(),
             prev_positions, prev_velocities, prev_accelerations);
     //  ROS_DEBUG("    %.2lf, %.2lf, %.2lf  (%s)", prev_positions[i], prev_velocities[i],
     //            prev_accelerations[i], joints_[i]->joint_->name.c_str());
@@ -192,7 +192,7 @@ namespace youbot {
       getQuinticSplineCoefficients(
               prev_positions, prev_velocities, prev_accelerations,
               positions, velocities, accelerations,
-              durations[i].fractional_seconds(),
+              durations[i].total_microseconds(),
               seg.spline.coef);
       /*
     }
@@ -260,8 +260,6 @@ namespace youbot {
 
   bool JointTrajectoryController::updateTrajectoryController(const SlaveMessageInput& actual, SlaveMessageOutput& velocity) {
 
-
-
     time = boost::posix_time::microsec_clock::local_time();
     boost::posix_time::time_duration dt = time - last_time;
     last_time = time;
@@ -273,16 +271,14 @@ namespace youbot {
       //   LOG(error) << "The current trajectory can never be null";
       return false;
     }
-
-
+    
     // Only because this is what the code originally looked like.
     const SpecifiedTrajectory &traj = *traj_ptr;
 
 
     // Determines which segment of the trajectory to use.  (Not particularly realtime friendly).
     int seg = -1;
-    while (seg + 1 < (int) traj.size() &&
-            traj[seg + 1].start_time < time) {
+    while (seg + 1 < (int) traj.size() && traj[seg + 1].start_time < time) {
       ++seg;
     }
 
@@ -293,36 +289,31 @@ namespace youbot {
         LOG(error) << "No earlier segments.";
       return false;
     }
+    if(seg == (int) traj.size()-1 && traj[seg].start_time  < time){
+      LOG(trace) << "trajectory finished.";
+      this->isControllerActive = false;
+      return false;
+    }
 
     // ------ Trajectory Sampling
-    double duration = (double)traj[seg].duration.total_microseconds()/1000.0/1000.0;
-    double time_till_seg_start = (double)(time - traj[seg].start_time).total_microseconds()/1000.0/1000.0;
+    duration = (double)traj[seg].duration.total_microseconds()/1000.0/1000.0; //convert to seconds
+    time_till_seg_start = (double)(time - traj[seg].start_time).total_microseconds()/1000.0/1000.0;
 
- //   printf("duration %lf  time %lf\n", duration, time_till_seg_start);
     sampleSplineWithTimeBounds(traj[seg].spline.coef, duration, time_till_seg_start, targetPosition, targetVelocity, targetAcceleration);
 
-
     // ------ Trajectory Following
-
     pose_error = (((double) actual.actualPosition / encoderTicksPerRound) * gearRatio * (2.0 * M_PI)) - targetPosition;
-
     velocity_error = (((double)actual.actualVelocity/ 60.0) * gearRatio * 2.0 * M_PI) - targetVelocity ;
 
-
-    //  velocity.value = pid.updatePid(error, actual.actualVelocity - targetVelocity, dt);
- //   if (targetVelocity != 0) {
-  //    velsetpoint = pid.updatePid(pose_error, velocity_error, dt);
-  //  } else {
+    if (targetVelocity != 0) {
+      velsetpoint = pid.updatePid(pose_error, velocity_error, dt);
+    } else {
       velsetpoint = pid.updatePid(pose_error, dt);
-  //  }
-  //  printf("velocity_error %lf\n", velocity_error);
+    }
 
     velocity.value = (int32) round((velsetpoint / (gearRatio * 2.0 * M_PI)) * 60.0);
-    //   printf("error %lf new value %d\n", error, velocity.value);
 
     velocity.controllerMode = VELOCITY_CONTROL;
-
-
     return true;
 
   }
