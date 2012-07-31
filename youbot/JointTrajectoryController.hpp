@@ -122,6 +122,8 @@ class JointTrajectoryController {
     void setGearRatio(const double& ratio) {this->gearRatio = ratio;};
     
     void setEncoderTicksPerRound(const int& encoderTicks) {this->encoderTicksPerRound = encoderTicks;};
+    
+    void setInverseMovementDirection(const bool invDirection) {this->inverseDirection = invDirection;};
 
 
   private:
@@ -157,6 +159,8 @@ class JointTrajectoryController {
     
     double gearRatio;
     
+    bool inverseDirection;
+    
     double pose_error;
     
     double velocity_error;
@@ -165,6 +169,8 @@ class JointTrajectoryController {
     
     double time_till_seg_start;
     double duration;
+    double actualpose;
+    double actualvel;
 
 };
 

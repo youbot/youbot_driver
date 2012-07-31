@@ -629,7 +629,10 @@ void YouBotManipulator::initializeJoints() {
         configfile->readInto(trajectory_imax, jointName, "trajectory_controller_I_max");
         configfile->readInto(trajectory_imin, jointName, "trajectory_controller_I_min");
         joints[i].trajectoryController.setConfigurationParameter(trajectory_p, trajectory_i, trajectory_d, trajectory_imax, trajectory_imin);
-				ethercatMasterWithThread->registerJointTrajectoryController(&(joints[i].trajectoryController), joints[i].getJointNumber());
+				joints[i].trajectoryController.setEncoderTicksPerRound(ticks);
+        joints[i].trajectoryController.setGearRatio(gearRatio_numerator / gearRatio_denominator);
+        joints[i].trajectoryController.setInverseMovementDirection(invdir);
+        ethercatMasterWithThread->registerJointTrajectoryController(&(joints[i].trajectoryController), joints[i].getJointNumber());
 			}
     }
 

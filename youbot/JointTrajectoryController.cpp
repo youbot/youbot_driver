@@ -61,6 +61,11 @@ namespace youbot {
     this->targetPosition = 0;
     this->targetVelocity = 0;
     this->targetAcceleration = 0;
+    this->encoderTicksPerRound = 1;
+    this->gearRatio = 1;
+    this->inverseDirection = false;
+    actualpose = 0;
+    actualvel = 0;
 
     // Creates a dummy trajectory
     boost::shared_ptr<SpecifiedTrajectory> traj_ptr(new SpecifiedTrajectory(1));
@@ -289,10 +294,12 @@ namespace youbot {
         LOG(error) << "No earlier segments.";
       return false;
     }
-    if(seg == (int) traj.size()-1 && traj[seg].start_time  < time){
+    if(seg == (int) traj.size()-1 && (traj[seg].start_time + traj[seg].duration)  < time){
       LOG(trace) << "trajectory finished.";
       this->isControllerActive = false;
-      return false;
+      velocity.value = 0;
+      velocity.controllerMode = VELOCITY_CONTROL;
+      return true;
     }
 
     // ------ Trajectory Sampling
@@ -301,9 +308,17 @@ namespace youbot {
 
     sampleSplineWithTimeBounds(traj[seg].spline.coef, duration, time_till_seg_start, targetPosition, targetVelocity, targetAcceleration);
 
+
+    if(inverseDirection){
+      actualpose = -actual.actualPosition;
+      actualvel = -actual.actualVelocity;
+    }else{
+      actualpose = actual.actualPosition;
+      actualvel = actual.actualVelocity;
+    }
     // ------ Trajectory Following
-    pose_error = (((double) actual.actualPosition / encoderTicksPerRound) * gearRatio * (2.0 * M_PI)) - targetPosition;
-    velocity_error = (((double)actual.actualVelocity/ 60.0) * gearRatio * 2.0 * M_PI) - targetVelocity ;
+    pose_error = ((actualpose / encoderTicksPerRound) * gearRatio * (2.0 * M_PI)) - targetPosition;
+    velocity_error = ((actualvel/ 60.0) * gearRatio * 2.0 * M_PI) - targetVelocity ;
 
     if (targetVelocity != 0) {
       velsetpoint = pid.updatePid(pose_error, velocity_error, dt);
@@ -314,6 +329,11 @@ namespace youbot {
     velocity.value = (int32) round((velsetpoint / (gearRatio * 2.0 * M_PI)) * 60.0);
 
     velocity.controllerMode = VELOCITY_CONTROL;
+    
+    if(inverseDirection){
+      velocity.value = -velocity.value;
+    }
+    
     return true;
 
   }
