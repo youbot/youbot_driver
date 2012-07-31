@@ -152,8 +152,8 @@ namespace youbot {
 
     LOG(debug) << "Initial conditions for new set of splines:";
 
-    sampleSplineWithTimeBounds(last.spline.coef, last.duration.total_microseconds(),
-            last.start_time.time_of_day().total_microseconds(),
+    sampleSplineWithTimeBounds(last.spline.coef, (double)last.duration.total_microseconds()/1000.0/1000.0,
+            (double)last.start_time.time_of_day().total_microseconds()/1000.0/1000.0,
             prev_positions, prev_velocities, prev_accelerations);
     //  ROS_DEBUG("    %.2lf, %.2lf, %.2lf  (%s)", prev_positions[i], prev_velocities[i],
     //            prev_accelerations[i], joints_[i]->joint_->name.c_str());
@@ -192,7 +192,7 @@ namespace youbot {
       getQuinticSplineCoefficients(
               prev_positions, prev_velocities, prev_accelerations,
               positions, velocities, accelerations,
-              durations[i].total_microseconds(),
+              (double)durations[i].total_microseconds()/1000.0/1000.0,
               seg.spline.coef);
       /*
     }
