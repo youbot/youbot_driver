@@ -57,6 +57,17 @@ DataTrace::DataTrace(YouBotJoint& youBotJoint, const std::string Name, const boo
     roundsPerMinuteSetpoint.rpm = 0;
     PWMSetpoint.pwm = 0;
     encoderSetpoint.encoderTicks = 0;
+    
+    InverseMovementDirection invertDirectionParameter;
+    joint.getConfigurationParameter(invertDirectionParameter);
+    bool inverted = false;
+    invertDirectionParameter.getParameter(inverted);
+    if(inverted){
+      invertDirection = -1;
+    }else{
+      invertDirection = 1;
+    }
+    
     this->name = Name;
     if(Name != ""){
       this->path = Name;
@@ -436,11 +447,11 @@ void DataTrace::updateTrace() {
         controllerMode = NOT_DEFINED;
         break;
       case POSITION_CONTROL:
-        encoderSetpoint.encoderTicks = message.stctOutput.value;
+        encoderSetpoint.encoderTicks = message.stctOutput.value * invertDirection;
         controllerMode = POSITION_CONTROL_ENC;
         break;
       case VELOCITY_CONTROL:
-        roundsPerMinuteSetpoint.rpm = message.stctOutput.value;
+        roundsPerMinuteSetpoint.rpm = message.stctOutput.value * invertDirection;
         controllerMode = VELOCITY_CONTROL_RPM;
         break;
       case NO_MORE_ACTION:
@@ -450,11 +461,11 @@ void DataTrace::updateTrace() {
         controllerMode = NOT_DEFINED;
         break;
       case PWM_MODE:
-        PWMSetpoint.pwm = message.stctOutput.value;
+        PWMSetpoint.pwm = message.stctOutput.value * invertDirection;
         controllerMode = PWM_CONTROL_MODE;
         break;
       case CURRENT_MODE:
-        currentSetpoint.current = (double)message.stctOutput.value /1000.0 * ampere;
+        currentSetpoint.current = (double)message.stctOutput.value /1000.0  * invertDirection* ampere;
         controllerMode = CURRENT_CONTROL_MODE;
         break;
       case INITIALIZE:

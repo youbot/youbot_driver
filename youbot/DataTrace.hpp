@@ -177,6 +177,8 @@ class DataTrace {
 
     std::string path;
 
+    int invertDirection;
+
 };
 
 } // namespace youbot
