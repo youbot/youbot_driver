@@ -740,65 +740,6 @@ void SpeedControlSwitchingThreshold::setYouBotMailboxMsg(const YouBotSlaveMailbo
   // Bouml preserved body end 0006A471
 }
 
-CurrentControlSwitchingThreshold::CurrentControlSwitchingThreshold() {
-  // Bouml preserved body begin 00081371
-    this->name = "CurrentControlSwitchingThreshold";
-    this->lowerLimit = INT_MIN * radian_per_second;
-    this->upperLimit = INT_MAX * radian_per_second;
-    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-  // Bouml preserved body end 00081371
-}
-
-CurrentControlSwitchingThreshold::~CurrentControlSwitchingThreshold() {
-  // Bouml preserved body begin 000813F1
-  // Bouml preserved body end 000813F1
-}
-
-void CurrentControlSwitchingThreshold::getParameter(quantity<angular_velocity>& parameter) const {
-  // Bouml preserved body begin 00081471
-    parameter = this->value;
-  // Bouml preserved body end 00081471
-}
-
-void CurrentControlSwitchingThreshold::setParameter(const quantity<angular_velocity>& parameter) {
-  // Bouml preserved body begin 000814F1
-    if (this->lowerLimit > parameter) {
-      throw std::out_of_range("The parameter exceeds the lower limit");
-    }
-    if (this->upperLimit < parameter) {
-      throw std::out_of_range("The parameter exceeds the upper limit");
-    }
-
-    this->value = parameter;
-  // Bouml preserved body end 000814F1
-}
-
-void CurrentControlSwitchingThreshold::toString(std::string& value) {
-  // Bouml preserved body begin 0009DC71
-  std::stringstream ss;
-  ss << this->name << ": " << this->value;
-  value  = ss.str();
-  // Bouml preserved body end 0009DC71
-}
-
-void CurrentControlSwitchingThreshold::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
-  // Bouml preserved body begin 00081571
-
-    message.stctOutput.commandNumber = msgType;
-    message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 176; //CurrentControlSwitchingThreshold
-    message.stctOutput.value = (int32) round((value.value() / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
-
-  // Bouml preserved body end 00081571
-}
-
-void CurrentControlSwitchingThreshold::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
-  // Bouml preserved body begin 000815F1
-    double motorRPM = (int32)message.stctInput.value;
-    this->value =  ((motorRPM / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
-  // Bouml preserved body end 000815F1
-}
-
 PParameterFirstParametersPositionControl::PParameterFirstParametersPositionControl() {
   // Bouml preserved body begin 0005C9F1
     this->name = "PParameterFirstParametersPositionControl";
@@ -1261,238 +1202,6 @@ void IClippingParameterFirstParametersSpeedControl::setYouBotMailboxMsg(const Yo
   // Bouml preserved body begin 0006C471
     this->value = (int32)message.stctInput.value; 
   // Bouml preserved body end 0006C471
-}
-
-PParameterFirstParametersCurrentControl::PParameterFirstParametersCurrentControl() {
-  // Bouml preserved body begin 0007F371
-    this->name = "PParameterFirstParametersCurrentControl";
-    this->lowerLimit = INT_MIN;
-    this->upperLimit = INT_MAX;
-    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-  // Bouml preserved body end 0007F371
-}
-
-PParameterFirstParametersCurrentControl::~PParameterFirstParametersCurrentControl() {
-  // Bouml preserved body begin 0007F3F1
-  // Bouml preserved body end 0007F3F1
-}
-
-void PParameterFirstParametersCurrentControl::getParameter(int& parameter) const {
-  // Bouml preserved body begin 0007F471
-    parameter = this->value;
-  // Bouml preserved body end 0007F471
-}
-
-void PParameterFirstParametersCurrentControl::setParameter(const int parameter) {
-  // Bouml preserved body begin 0007F4F1
-    if (this->lowerLimit > parameter) {
-      throw std::out_of_range("The parameter exceeds the lower limit");
-    }
-    if (this->upperLimit < parameter) {
-      throw std::out_of_range("The parameter exceeds the upper limit");
-    }
-
-    this->value = parameter;
-  // Bouml preserved body end 0007F4F1
-}
-
-void PParameterFirstParametersCurrentControl::toString(std::string& value) {
-  // Bouml preserved body begin 0009D871
-  std::stringstream ss;
-  ss << this->name << ": " << this->value;
-  value  = ss.str();
-  // Bouml preserved body end 0009D871
-}
-
-void PParameterFirstParametersCurrentControl::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
-  // Bouml preserved body begin 0007F571
-
-    message.stctOutput.commandNumber = msgType;
-    message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 168; //PParameterFirstParametersCurrentControl
-    message.stctOutput.value = value; 
-
-  // Bouml preserved body end 0007F571
-}
-
-void PParameterFirstParametersCurrentControl::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
-  // Bouml preserved body begin 0007F5F1
-    this->value = (int32)message.stctInput.value; 
-  // Bouml preserved body end 0007F5F1
-}
-
-IParameterFirstParametersCurrentControl::IParameterFirstParametersCurrentControl() {
-  // Bouml preserved body begin 0007F771
-    this->name = "IParameterFirstParametersCurrentControl";
-    this->lowerLimit = INT_MIN;
-    this->upperLimit = INT_MAX;
-    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-  // Bouml preserved body end 0007F771
-}
-
-IParameterFirstParametersCurrentControl::~IParameterFirstParametersCurrentControl() {
-  // Bouml preserved body begin 0007F7F1
-  // Bouml preserved body end 0007F7F1
-}
-
-void IParameterFirstParametersCurrentControl::getParameter(int& parameter) const {
-  // Bouml preserved body begin 0007F871
-    parameter = this->value;
-  // Bouml preserved body end 0007F871
-}
-
-void IParameterFirstParametersCurrentControl::setParameter(const int parameter) {
-  // Bouml preserved body begin 0007F8F1
-    if (this->lowerLimit > parameter) {
-      throw std::out_of_range("The parameter exceeds the lower limit");
-    }
-    if (this->upperLimit < parameter) {
-      throw std::out_of_range("The parameter exceeds the upper limit");
-    }
-
-    this->value = parameter;
-  // Bouml preserved body end 0007F8F1
-}
-
-void IParameterFirstParametersCurrentControl::toString(std::string& value) {
-  // Bouml preserved body begin 0009D8F1
-  std::stringstream ss;
-  ss << this->name << ": " << this->value;
-  value  = ss.str();
-  // Bouml preserved body end 0009D8F1
-}
-
-void IParameterFirstParametersCurrentControl::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
-  // Bouml preserved body begin 0007F971
-
-    message.stctOutput.commandNumber = msgType;
-    message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 169; //IParameterFirstParametersCurrentControl
-    message.stctOutput.value = value;
-
-  // Bouml preserved body end 0007F971
-}
-
-void IParameterFirstParametersCurrentControl::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
-  // Bouml preserved body begin 0007F9F1
-    this->value = (int32)message.stctInput.value;
-  // Bouml preserved body end 0007F9F1
-}
-
-DParameterFirstParametersCurrentControl::DParameterFirstParametersCurrentControl() {
-  // Bouml preserved body begin 0007FB71
-    this->name = "DParameterFirstParametersCurrentControl";
-    this->lowerLimit = INT_MIN;
-    this->upperLimit = INT_MAX;
-    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-  // Bouml preserved body end 0007FB71
-}
-
-DParameterFirstParametersCurrentControl::~DParameterFirstParametersCurrentControl() {
-  // Bouml preserved body begin 0007FBF1
-  // Bouml preserved body end 0007FBF1
-}
-
-void DParameterFirstParametersCurrentControl::getParameter(int& parameter) const {
-  // Bouml preserved body begin 0007FC71
-    parameter = this->value;
-  // Bouml preserved body end 0007FC71
-}
-
-void DParameterFirstParametersCurrentControl::setParameter(const int parameter) {
-  // Bouml preserved body begin 0007FCF1
-    if (this->lowerLimit > parameter) {
-      throw std::out_of_range("The parameter exceeds the lower limit");
-    }
-    if (this->upperLimit < parameter) {
-      throw std::out_of_range("The parameter exceeds the upper limit");
-    }
-
-    this->value = parameter;
-  // Bouml preserved body end 0007FCF1
-}
-
-void DParameterFirstParametersCurrentControl::toString(std::string& value) {
-  // Bouml preserved body begin 0009D971
-  std::stringstream ss;
-  ss << this->name << ": " << this->value;
-  value  = ss.str();
-  // Bouml preserved body end 0009D971
-}
-
-void DParameterFirstParametersCurrentControl::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
-  // Bouml preserved body begin 0007FD71
-
-    message.stctOutput.commandNumber = msgType;
-    message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 170; //DParameterFirstParametersCurrentControl
-    message.stctOutput.value = value;
-
-  // Bouml preserved body end 0007FD71
-}
-
-void DParameterFirstParametersCurrentControl::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
-  // Bouml preserved body begin 0007FDF1
-    this->value = (int32)message.stctInput.value;
-  // Bouml preserved body end 0007FDF1
-}
-
-IClippingParameterFirstParametersCurrentControl::IClippingParameterFirstParametersCurrentControl() {
-  // Bouml preserved body begin 0007FF71
-    this->name = "IClippingParameterFirstParametersCurrentControl";
-    this->lowerLimit = INT_MIN;
-    this->upperLimit = INT_MAX;
-    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-  // Bouml preserved body end 0007FF71
-}
-
-IClippingParameterFirstParametersCurrentControl::~IClippingParameterFirstParametersCurrentControl() {
-  // Bouml preserved body begin 0007FFF1
-  // Bouml preserved body end 0007FFF1
-}
-
-void IClippingParameterFirstParametersCurrentControl::getParameter(int& parameter) const {
-  // Bouml preserved body begin 00080071
-    parameter = this->value;
-  // Bouml preserved body end 00080071
-}
-
-void IClippingParameterFirstParametersCurrentControl::setParameter(const int parameter) {
-  // Bouml preserved body begin 000800F1
-    if (this->lowerLimit > parameter) {
-      throw std::out_of_range("The parameter exceeds the lower limit");
-    }
-    if (this->upperLimit < parameter) {
-      throw std::out_of_range("The parameter exceeds the upper limit");
-    }
-
-    this->value = parameter;
-  // Bouml preserved body end 000800F1
-}
-
-void IClippingParameterFirstParametersCurrentControl::toString(std::string& value) {
-  // Bouml preserved body begin 0009D9F1
-  std::stringstream ss;
-  ss << this->name << ": " << this->value;
-  value  = ss.str();
-  // Bouml preserved body end 0009D9F1
-}
-
-void IClippingParameterFirstParametersCurrentControl::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
-  // Bouml preserved body begin 00080171
-
-    message.stctOutput.commandNumber = msgType;
-    message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 171; //IClippingParameterFirstParametersCurrentControl
-    message.stctOutput.value = value;
-
-  // Bouml preserved body end 00080171
-}
-
-void IClippingParameterFirstParametersCurrentControl::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
-  // Bouml preserved body begin 000801F1
-    this->value = (int32)message.stctInput.value;
-  // Bouml preserved body end 000801F1
 }
 
 PParameterSecondParametersPositionControl::PParameterSecondParametersPositionControl() {
@@ -1959,7 +1668,7 @@ void IClippingParameterSecondParametersSpeedControl::setYouBotMailboxMsg(const Y
   // Bouml preserved body end 0006EC71
 }
 
-PParameterSecondParametersCurrentControl::PParameterSecondParametersCurrentControl() {
+PParameterCurrentControl::PParameterCurrentControl() {
   // Bouml preserved body begin 00080371
     this->name = "PParameterSecondParametersCurrentControl";
     this->lowerLimit = INT_MIN;
@@ -1968,18 +1677,18 @@ PParameterSecondParametersCurrentControl::PParameterSecondParametersCurrentContr
   // Bouml preserved body end 00080371
 }
 
-PParameterSecondParametersCurrentControl::~PParameterSecondParametersCurrentControl() {
+PParameterCurrentControl::~PParameterCurrentControl() {
   // Bouml preserved body begin 000803F1
   // Bouml preserved body end 000803F1
 }
 
-void PParameterSecondParametersCurrentControl::getParameter(int& parameter) const {
+void PParameterCurrentControl::getParameter(int& parameter) const {
   // Bouml preserved body begin 00080471
     parameter = this->value;
   // Bouml preserved body end 00080471
 }
 
-void PParameterSecondParametersCurrentControl::setParameter(const int parameter) {
+void PParameterCurrentControl::setParameter(const int parameter) {
   // Bouml preserved body begin 000804F1
     if (this->lowerLimit > parameter) {
       throw std::out_of_range("The parameter exceeds the lower limit");
@@ -1992,7 +1701,7 @@ void PParameterSecondParametersCurrentControl::setParameter(const int parameter)
   // Bouml preserved body end 000804F1
 }
 
-void PParameterSecondParametersCurrentControl::toString(std::string& value) {
+void PParameterCurrentControl::toString(std::string& value) {
   // Bouml preserved body begin 0009DA71
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -2000,7 +1709,7 @@ void PParameterSecondParametersCurrentControl::toString(std::string& value) {
   // Bouml preserved body end 0009DA71
 }
 
-void PParameterSecondParametersCurrentControl::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
+void PParameterCurrentControl::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
   // Bouml preserved body begin 00080571
 
     message.stctOutput.commandNumber = msgType;
@@ -2011,13 +1720,13 @@ void PParameterSecondParametersCurrentControl::getYouBotMailboxMsg(YouBotSlaveMa
   // Bouml preserved body end 00080571
 }
 
-void PParameterSecondParametersCurrentControl::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
+void PParameterCurrentControl::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 000805F1
     this->value = (int32)message.stctInput.value;
   // Bouml preserved body end 000805F1
 }
 
-IParameterSecondParametersCurrentControl::IParameterSecondParametersCurrentControl() {
+IParameterCurrentControl::IParameterCurrentControl() {
   // Bouml preserved body begin 00080771
     this->name = "IParameterSecondParametersCurrentControl";
     this->lowerLimit = INT_MIN;
@@ -2026,18 +1735,18 @@ IParameterSecondParametersCurrentControl::IParameterSecondParametersCurrentContr
   // Bouml preserved body end 00080771
 }
 
-IParameterSecondParametersCurrentControl::~IParameterSecondParametersCurrentControl() {
+IParameterCurrentControl::~IParameterCurrentControl() {
   // Bouml preserved body begin 000807F1
   // Bouml preserved body end 000807F1
 }
 
-void IParameterSecondParametersCurrentControl::getParameter(int& parameter) const {
+void IParameterCurrentControl::getParameter(int& parameter) const {
   // Bouml preserved body begin 00080871
     parameter = this->value;
   // Bouml preserved body end 00080871
 }
 
-void IParameterSecondParametersCurrentControl::setParameter(const int parameter) {
+void IParameterCurrentControl::setParameter(const int parameter) {
   // Bouml preserved body begin 000808F1
     if (this->lowerLimit > parameter) {
       throw std::out_of_range("The parameter exceeds the lower limit");
@@ -2050,7 +1759,7 @@ void IParameterSecondParametersCurrentControl::setParameter(const int parameter)
   // Bouml preserved body end 000808F1
 }
 
-void IParameterSecondParametersCurrentControl::toString(std::string& value) {
+void IParameterCurrentControl::toString(std::string& value) {
   // Bouml preserved body begin 0009DAF1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -2058,7 +1767,7 @@ void IParameterSecondParametersCurrentControl::toString(std::string& value) {
   // Bouml preserved body end 0009DAF1
 }
 
-void IParameterSecondParametersCurrentControl::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
+void IParameterCurrentControl::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
   // Bouml preserved body begin 00080971
 
     message.stctOutput.commandNumber = msgType;
@@ -2069,13 +1778,13 @@ void IParameterSecondParametersCurrentControl::getYouBotMailboxMsg(YouBotSlaveMa
   // Bouml preserved body end 00080971
 }
 
-void IParameterSecondParametersCurrentControl::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
+void IParameterCurrentControl::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 000809F1
     this->value = (int32)message.stctInput.value;
   // Bouml preserved body end 000809F1
 }
 
-DParameterSecondParametersCurrentControl::DParameterSecondParametersCurrentControl() {
+DParameterCurrentControl::DParameterCurrentControl() {
   // Bouml preserved body begin 00080B71
     this->name = "DParameterSecondParametersCurrentControl";
     this->lowerLimit = INT_MIN;
@@ -2084,18 +1793,18 @@ DParameterSecondParametersCurrentControl::DParameterSecondParametersCurrentContr
   // Bouml preserved body end 00080B71
 }
 
-DParameterSecondParametersCurrentControl::~DParameterSecondParametersCurrentControl() {
+DParameterCurrentControl::~DParameterCurrentControl() {
   // Bouml preserved body begin 00080BF1
   // Bouml preserved body end 00080BF1
 }
 
-void DParameterSecondParametersCurrentControl::getParameter(int& parameter) const {
+void DParameterCurrentControl::getParameter(int& parameter) const {
   // Bouml preserved body begin 00080C71
     parameter = this->value;
   // Bouml preserved body end 00080C71
 }
 
-void DParameterSecondParametersCurrentControl::setParameter(const int parameter) {
+void DParameterCurrentControl::setParameter(const int parameter) {
   // Bouml preserved body begin 00080CF1
     if (this->lowerLimit > parameter) {
       throw std::out_of_range("The parameter exceeds the lower limit");
@@ -2108,7 +1817,7 @@ void DParameterSecondParametersCurrentControl::setParameter(const int parameter)
   // Bouml preserved body end 00080CF1
 }
 
-void DParameterSecondParametersCurrentControl::toString(std::string& value) {
+void DParameterCurrentControl::toString(std::string& value) {
   // Bouml preserved body begin 0009DB71
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -2116,7 +1825,7 @@ void DParameterSecondParametersCurrentControl::toString(std::string& value) {
   // Bouml preserved body end 0009DB71
 }
 
-void DParameterSecondParametersCurrentControl::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
+void DParameterCurrentControl::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
   // Bouml preserved body begin 00080D71
 
     message.stctOutput.commandNumber = msgType;
@@ -2127,13 +1836,13 @@ void DParameterSecondParametersCurrentControl::getYouBotMailboxMsg(YouBotSlaveMa
   // Bouml preserved body end 00080D71
 }
 
-void DParameterSecondParametersCurrentControl::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
+void DParameterCurrentControl::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 00080DF1
     this->value = (int32)message.stctInput.value;
   // Bouml preserved body end 00080DF1
 }
 
-IClippingParameterSecondParametersCurrentControl::IClippingParameterSecondParametersCurrentControl() {
+IClippingParameterCurrentControl::IClippingParameterCurrentControl() {
   // Bouml preserved body begin 00080F71
     this->name = "IClippingParameterSecondParametersCurrentControl";
     this->lowerLimit = INT_MIN;
@@ -2142,18 +1851,18 @@ IClippingParameterSecondParametersCurrentControl::IClippingParameterSecondParame
   // Bouml preserved body end 00080F71
 }
 
-IClippingParameterSecondParametersCurrentControl::~IClippingParameterSecondParametersCurrentControl() {
+IClippingParameterCurrentControl::~IClippingParameterCurrentControl() {
   // Bouml preserved body begin 00080FF1
   // Bouml preserved body end 00080FF1
 }
 
-void IClippingParameterSecondParametersCurrentControl::getParameter(int& parameter) const {
+void IClippingParameterCurrentControl::getParameter(int& parameter) const {
   // Bouml preserved body begin 00081071
     parameter = this->value;
   // Bouml preserved body end 00081071
 }
 
-void IClippingParameterSecondParametersCurrentControl::setParameter(const int parameter) {
+void IClippingParameterCurrentControl::setParameter(const int parameter) {
   // Bouml preserved body begin 000810F1
     if (this->lowerLimit > parameter) {
       throw std::out_of_range("The parameter exceeds the lower limit");
@@ -2166,7 +1875,7 @@ void IClippingParameterSecondParametersCurrentControl::setParameter(const int pa
   // Bouml preserved body end 000810F1
 }
 
-void IClippingParameterSecondParametersCurrentControl::toString(std::string& value) {
+void IClippingParameterCurrentControl::toString(std::string& value) {
   // Bouml preserved body begin 0009DBF1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
@@ -2174,7 +1883,7 @@ void IClippingParameterSecondParametersCurrentControl::toString(std::string& val
   // Bouml preserved body end 0009DBF1
 }
 
-void IClippingParameterSecondParametersCurrentControl::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
+void IClippingParameterCurrentControl::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
   // Bouml preserved body begin 00081171
 
     message.stctOutput.commandNumber = msgType;
@@ -2185,7 +1894,7 @@ void IClippingParameterSecondParametersCurrentControl::getYouBotMailboxMsg(YouBo
   // Bouml preserved body end 00081171
 }
 
-void IClippingParameterSecondParametersCurrentControl::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
+void IClippingParameterCurrentControl::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 000811F1
     this->value = (int32)message.stctInput.value;
   // Bouml preserved body end 000811F1

@@ -130,7 +130,7 @@ void DataTrace::startTrace() {
             << " " << "RPM setpoint"
             << " " << "current setpoint [A]"
             << " " << "torque setpoint [Nm]"
-            << " " << "PWM setpoint"
+            << " " << "ramp generator setpoint [rad/s]"
             << " " << "encoder setpoint"
 
             << " " << "sensed angle [rad]"
@@ -162,7 +162,6 @@ void DataTrace::startTrace() {
 
 
     parameterVector.push_back(new ActualMotorVoltage);
-    parameterVector.push_back(new ActualPWMDutyCycle);
     //   parameterVector.push_back(new ErrorAndStatus);
     parameterVector.push_back(new I2tSum);
     parameterVector.push_back(new PositionError);
@@ -171,36 +170,31 @@ void DataTrace::startTrace() {
     parameterVector.push_back(new VelocityError);
     parameterVector.push_back(new VelocityErrorSum);
     //   parameterVector.push_back(new CalibrateJoint);
-    parameterVector.push_back(new CurrentControlSwitchingThreshold);
-    parameterVector.push_back(new DParameterFirstParametersCurrentControl);
     parameterVector.push_back(new DParameterFirstParametersPositionControl);
     parameterVector.push_back(new DParameterFirstParametersSpeedControl);
-    parameterVector.push_back(new DParameterSecondParametersCurrentControl);
+    parameterVector.push_back(new DParameterCurrentControl);
     parameterVector.push_back(new DParameterSecondParametersPositionControl);
     parameterVector.push_back(new DParameterSecondParametersSpeedControl);
 
-    parameterVector.push_back(new IClippingParameterFirstParametersCurrentControl);
     parameterVector.push_back(new IClippingParameterFirstParametersPositionControl);
     parameterVector.push_back(new IClippingParameterFirstParametersSpeedControl);
-    parameterVector.push_back(new IClippingParameterSecondParametersCurrentControl);
+    parameterVector.push_back(new IClippingParameterCurrentControl);
     parameterVector.push_back(new IClippingParameterSecondParametersPositionControl);
     parameterVector.push_back(new IClippingParameterSecondParametersSpeedControl);
     //    parameterVector.push_back(new InitializeJoint);
     
-    parameterVector.push_back(new IParameterFirstParametersCurrentControl);
     parameterVector.push_back(new IParameterFirstParametersPositionControl);
     parameterVector.push_back(new IParameterFirstParametersSpeedControl);
-    parameterVector.push_back(new IParameterSecondParametersCurrentControl);
+    parameterVector.push_back(new IParameterCurrentControl);
     parameterVector.push_back(new IParameterSecondParametersPositionControl);
     parameterVector.push_back(new IParameterSecondParametersSpeedControl);
 
     parameterVector.push_back(new MaximumPositioningVelocity);
     parameterVector.push_back(new MotorAcceleration);
     parameterVector.push_back(new PositionControlSwitchingThreshold);
-    parameterVector.push_back(new PParameterFirstParametersCurrentControl);
     parameterVector.push_back(new PParameterFirstParametersPositionControl);
     parameterVector.push_back(new PParameterFirstParametersSpeedControl);
-    parameterVector.push_back(new PParameterSecondParametersCurrentControl);
+    parameterVector.push_back(new PParameterCurrentControl);
     parameterVector.push_back(new PParameterSecondParametersPositionControl);
     parameterVector.push_back(new PParameterSecondParametersSpeedControl);
     parameterVector.push_back(new RampGeneratorSpeedAndPositionControl);
@@ -212,8 +206,6 @@ void DataTrace::startTrace() {
     parameterVector.push_back(new BEMFConstant);
     //   parameterVector.push_back(new ClearI2tExceededFlag);
     //   parameterVector.push_back(new ClearMotorControllerTimeoutFlag);
-    parameterVector.push_back(new CommutationCompensationClockwise);
-    parameterVector.push_back(new CommutationCompensationCounterClockwise);
     parameterVector.push_back(new CommutationMode);
     parameterVector.push_back(new CommutationMotorCurrent);
     parameterVector.push_back(new CurrentControlLoopDelay);
@@ -233,15 +225,10 @@ void DataTrace::startTrace() {
     parameterVector.push_back(new OperationalTime);
     parameterVector.push_back(new PIDControlTime);
     parameterVector.push_back(new PositionTargetReachedDistance);
-    parameterVector.push_back(new PWMHysteresis);
-    parameterVector.push_back(new PWMLimit);
-    parameterVector.push_back(new PWMSchemeBlockCommutation);
-    //   parameterVector.push_back(new ReinitializationSinusoidalCommutation);
     parameterVector.push_back(new ReversingEncoderDirection);
     parameterVector.push_back(new SetEncoderCounterZeroAtNextNChannel);
     parameterVector.push_back(new SetEncoderCounterZeroAtNextSwitch);
     parameterVector.push_back(new SetEncoderCounterZeroOnlyOnce);
-    parameterVector.push_back(new SineCompensationFactor);
     parameterVector.push_back(new SineInitializationVelocity);
     parameterVector.push_back(new StopSwitchPolarity);
     parameterVector.push_back(new ThermalWindingTimeConstant);
@@ -422,14 +409,6 @@ void DataTrace::updateTrace(const JointTorqueSetpoint& setpoint) {
   // Bouml preserved body end 000C9271
 }
 
-void DataTrace::updateTrace(const JointPWMSetpoint& setpoint) {
-  // Bouml preserved body begin 000C92F1
-    PWMSetpoint = setpoint;
-    controllerMode = PWM_CONTROL_MODE;
-    this->update();
-  // Bouml preserved body end 000C92F1
-}
-
 void DataTrace::updateTrace(const JointEncoderSetpoint& setpoint) {
   // Bouml preserved body begin 000C9371
     encoderSetpoint = setpoint;
@@ -460,16 +439,9 @@ void DataTrace::updateTrace() {
       case SET_POSITION_TO_REFERENCE:
         controllerMode = NOT_DEFINED;
         break;
-      case PWM_MODE:
-        PWMSetpoint.pwm = message.stctOutput.value * invertDirection;
-        controllerMode = PWM_CONTROL_MODE;
-        break;
       case CURRENT_MODE:
         currentSetpoint.current = (double)message.stctOutput.value /1000.0  * invertDirection* ampere;
         controllerMode = CURRENT_CONTROL_MODE;
-        break;
-      case INITIALIZE:
-        controllerMode = NOT_DEFINED;
         break;
       default:
         controllerMode = NOT_DEFINED;
@@ -492,7 +464,6 @@ void DataTrace::update() {
     timeDuration = microsec_clock::local_time() - traceStartTime;
     timeDurationMicroSec = timeDuration.total_milliseconds();
     unsigned int statusFlags;
-
     joint.getStatus(statusFlags);
     joint.getData(sensedAngle);
     joint.getData(sensedEncoderTicks);
@@ -500,25 +471,29 @@ void DataTrace::update() {
     joint.getData(sensedRoundsPerMinute);
     joint.getData(sensedCurrent);
     joint.getData(sensedTorque);
-    joint.getData(actualPWM);
+		joint.getData(targetAngle);
+		joint.getData(targetVelocity);
+		joint.getData(targetCurrent);
+		joint.getData(rampGenSetpoint);
+		
     std::stringstream angleSet, angleEncSet, velSet, velRPMSet, currentSet, pwmSet, torqueSet;
 
     switch (controllerMode) {
       case POSITION_CONTROL_RAD:
         angleSet << angleSetpoint.angle.value();
         angleEncSet << "NaN";
-        velSet << "NaN";
+        velSet << targetVelocity.angularVelocity.value();
         velRPMSet << "NaN";
-        currentSet << "NaN";
+        currentSet << targetCurrent.current.value();
         pwmSet << "NaN";
         torqueSet << "NaN";
         break;
       case POSITION_CONTROL_ENC:
         angleSet << "NaN";
         angleEncSet << encoderSetpoint.encoderTicks;
-        velSet << "NaN";
+        velSet << targetVelocity.angularVelocity.value();
         velRPMSet << "NaN";
-        currentSet << "NaN";
+        currentSet << targetCurrent.current.value();
         pwmSet << "NaN";
         torqueSet << "NaN";
         break;
@@ -527,7 +502,7 @@ void DataTrace::update() {
         angleEncSet << "NaN";
         velSet << velocitySetpoint.angularVelocity.value();
         velRPMSet << "NaN";
-        currentSet << "NaN";
+        currentSet << targetCurrent.current.value();
         pwmSet << "NaN";
         torqueSet << "NaN";
         break;
@@ -536,17 +511,8 @@ void DataTrace::update() {
         angleEncSet << "NaN";
         velSet << "NaN";
         velRPMSet << roundsPerMinuteSetpoint.rpm;
-        currentSet << "NaN";
+        currentSet << targetCurrent.current.value();
         pwmSet << "NaN";
-        torqueSet << "NaN";
-        break;
-      case PWM_CONTROL_MODE:
-        angleSet << "NaN";
-        angleEncSet << "NaN";
-        velSet << "NaN";
-        velRPMSet << "NaN";
-        currentSet << "NaN";
-        pwmSet << PWMSetpoint.pwm;
         torqueSet << "NaN";
         break;
       case CURRENT_CONTROL_MODE:
@@ -586,7 +552,7 @@ void DataTrace::update() {
             << " " << velRPMSet.str() //4
             << " " << currentSet.str() //5
             << " " << torqueSet.str() //6
-            << " " << pwmSet.str() //7
+            << " " << rampGenSetpoint.angularVelocity.value() //7
             << " " << angleEncSet.str() //8
 
             << " " << sensedAngle.angle.value() //9
@@ -595,7 +561,7 @@ void DataTrace::update() {
             << " " << sensedRoundsPerMinute.rpm //12
             << " " << sensedCurrent.current.value() //13
             << " " << sensedTorque.torque.value() //14
-            << " " << actualPWM.pwm //15
+            << " " << "0" //15  //dummy has been pwm
 
             << " " << bool(statusFlags & OVER_CURRENT) << " " //16
             << bool(statusFlags & UNDER_VOLTAGE) << " " //17
@@ -603,7 +569,7 @@ void DataTrace::update() {
             << bool(statusFlags & OVER_TEMPERATURE) << " " //19
             << bool(statusFlags & MOTOR_HALTED) << " " //20
             << bool(statusFlags & HALL_SENSOR_ERROR) << " " //21
-            << bool(statusFlags & PWM_MODE_ACTIVE) << " " //22
+            << "0" << " " //22 //dummy has been pwm
             << bool(statusFlags & VELOCITY_MODE) << " " //23
             << bool(statusFlags & POSITION_MODE) << " " //24
             << bool(statusFlags & TORQUE_MODE) << " " //25

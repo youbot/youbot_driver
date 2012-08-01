@@ -295,10 +295,15 @@ void YouBotJoint::setConfigurationParameter(const InitializeJoint& parameter) {
   // Bouml preserved body begin 000973F1
     if (parameter.value) {
       //YouBotSlaveMsg messageBuffer;
-      messageBuffer.stctOutput.controllerMode = INITIALIZE;
-      messageBuffer.stctOutput.value = 0;
+      SineInitializationVelocity vel;
+      this->getConfigurationParameter(vel);
+
+      messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
+      messageBuffer.stctOutput.value = vel.value;
 
       ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
+      SLEEP_MILLISEC(10);
+			
     }
   // Bouml preserved body end 000973F1
 }
@@ -697,50 +702,6 @@ void YouBotJoint::setData(const JointCurrentSetpoint& data, SyncMode communicati
   // Bouml preserved body end 000955F1
 }
 
-///gets the actual PWM value of one joint
-///@param data returns the PWM value by reference
-void YouBotJoint::getData(JointSensedPWM& data) {
-  // Bouml preserved body begin 000CAFF1
-		if(!ethercatMaster->isEtherCATConnectionEstablished()){
-			throw EtherCATConnectionException("No EtherCAT connection");
-		}
-		
-    //YouBotSlaveMsg messageBuffer;
-    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
-    this->parseYouBotErrorFlags(messageBuffer);
-
-    data.pwm = messageBuffer.stctInput.actualPWM;
-    
-    if (storage.inverseMovementDirection) {
-      data.pwm *= -1;
-    }
-    
-  // Bouml preserved body end 000CAFF1
-}
-
-///commands a pulse-width modulation to one joint
-///@param data the to command pulse-width modulation
-///@param communicationMode at the moment only non blocking communication is implemented
-void YouBotJoint::setData(const JointPWMSetpoint& data, SyncMode communicationMode) {
-  // Bouml preserved body begin 00095671
-		if(!ethercatMaster->isEtherCATConnectionEstablished()){
-			throw EtherCATConnectionException("No EtherCAT connection");
-		}
-		
-    //YouBotSlaveMsg messageBuffer;
-    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
-    this->parseYouBotErrorFlags(messageBuffer);
-    
-    messageBuffer.stctOutput.controllerMode = PWM_MODE;
-    messageBuffer.stctOutput.value = data.pwm;
-    
-    if (storage.inverseMovementDirection) {
-      messageBuffer.stctOutput.value *= -1;
-    }
-    ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
-  // Bouml preserved body end 00095671
-}
-
 ///gets the encoder ticks of one joint
 ///@param data returns the ticks by reference
 void YouBotJoint::getData(JointSensedEncoderTicks& data) {
@@ -838,6 +799,104 @@ void YouBotJoint::getData(JointSensedTorque& data) {
   // Bouml preserved body end 000C70F1
 }
 
+///gets the target or setpoint position of one joint 
+///@param data returns the angle by reference
+void YouBotJoint::getData(JointAngleSetpoint& data) {
+  // Bouml preserved body begin 00103EF1
+    //YouBotSlaveMsg messageBuffer;
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+	
+    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
+    this->parseYouBotErrorFlags(messageBuffer);
+
+    if (storage.gearRatio == 0) {
+      throw std::out_of_range("A Gear Ratio of zero is not allowed");
+    }
+    if (storage.encoderTicksPerRound == 0) {
+      throw std::out_of_range("Zero Encoder Ticks per Round are not allowed");
+    }
+    //  LOG(trace) << "enc: " << messageBuffer.stctInput.actualPosition;
+    data.angle = ((double) messageBuffer.stctInput.targetPosition / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
+
+    if (storage.inverseMovementDirection) {
+      data.angle = -data.angle;
+    }
+  // Bouml preserved body end 00103EF1
+}
+
+///gets the target or setpoint velocity of one joint
+///@param data returns the velocity by reference
+void YouBotJoint::getData(JointVelocitySetpoint& data) {
+  // Bouml preserved body begin 001002F1
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
+    //YouBotSlaveMsg messageBuffer;
+    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
+    this->parseYouBotErrorFlags(messageBuffer);
+
+    if (storage.gearRatio == 0) {
+      throw std::out_of_range("A Gear Ratio of 0 is not allowed");
+    }
+    double motorRPM = messageBuffer.stctInput.targetVelocity;
+    //convert RPM of the motor to radian per second of the wheel/joint
+    data.angularVelocity = ((motorRPM / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
+    
+    if (storage.inverseMovementDirection) {
+      data.angularVelocity *= -1;
+    }
+  // Bouml preserved body end 001002F1
+}
+
+///gets the motor current target or setpoint of one joint
+///@param data returns the motor current by reference
+void YouBotJoint::getData(JointCurrentSetpoint& data) {
+  // Bouml preserved body begin 00100371
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
+    //YouBotSlaveMsg messageBuffer;
+    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
+    this->parseYouBotErrorFlags(messageBuffer);
+    //convert mili ampere to ampere
+    double current = messageBuffer.stctInput.targetCurrent;
+    data.current =  current / 1000.0 * ampere;
+    
+    if (storage.inverseMovementDirection) {
+      data.current *= -1;
+    }
+  // Bouml preserved body end 00100371
+}
+
+///gets the ramp generator velocity of one joint
+///@param data returns the velocity by reference
+void YouBotJoint::getData(JointRampGeneratorVelocity& data) {
+  // Bouml preserved body begin 001003F1
+		if(!ethercatMaster->isEtherCATConnectionEstablished()){
+			throw EtherCATConnectionException("No EtherCAT connection");
+		}
+		
+    //YouBotSlaveMsg messageBuffer;
+    ethercatMaster->getMsgBuffer(this->storage.jointNumber, messageBuffer);
+    this->parseYouBotErrorFlags(messageBuffer);
+
+    if (storage.gearRatio == 0) {
+      throw std::out_of_range("A Gear Ratio of 0 is not allowed");
+    }
+    double motorRPM = messageBuffer.stctInput.rampGeneratorVelocity;
+    //convert RPM of the motor to radian per second of the wheel/joint
+    data.angularVelocity = ((motorRPM / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
+    
+    if (storage.inverseMovementDirection) {
+      data.angularVelocity *= -1;
+    }
+  // Bouml preserved body end 001003F1
+}
+
 void YouBotJoint::getUserVariable(const unsigned int index, int& data) {
   // Bouml preserved body begin 000AD171
   
@@ -923,9 +982,9 @@ void YouBotJoint::getStatus(std::vector<std::string>& statusMessages) {
 //      statusMessages.push_back(this->storage.jointName + " got inizialization problem");
 //    }
 
-    if (messageBuffer.stctInput.errorFlags & PWM_MODE_ACTIVE) {
-      statusMessages.push_back(this->storage.jointName + " has PWM mode active");
-    }
+//    if (messageBuffer.stctInput.errorFlags & PWM_MODE_ACTIVE) {
+//      statusMessages.push_back(this->storage.jointName + " has PWM mode active");
+//    }
 
     if (messageBuffer.stctInput.errorFlags & VELOCITY_MODE) {
       statusMessages.push_back(this->storage.jointName + " has velocity mode active");
@@ -1080,7 +1139,7 @@ void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
     }
 
     if (messageBuffer.stctInput.errorFlags & MOTOR_HALTED) {
-      //   LOG(info) << this->storage.jointName << "is halted";
+      //   LOG(info) << this->storage.jointName << " is halted";
       //   throw JointErrorException(this->storage.jointName + "is halted");
     }
 
@@ -1099,10 +1158,10 @@ void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
 //      //   throw JointErrorException(this->storage.jointName + "got motor winding problem");
 //    }
 
-    if (messageBuffer.stctInput.errorFlags & PWM_MODE_ACTIVE) {
+//    if (messageBuffer.stctInput.errorFlags & PWM_MODE_ACTIVE) {
    //   LOG(info) << this->storage.jointName << " has PWM mode active";
       //   throw JointErrorException(this->storage.jointName + "the cycle time is violated");
-    }
+//    }
 
     if (messageBuffer.stctInput.errorFlags & VELOCITY_MODE) {
    //   LOG(info) << this->storage.jointName << " has velocity mode active";
@@ -1135,7 +1194,7 @@ void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
     }
 
     if (!(messageBuffer.stctInput.errorFlags & INITIALIZED)) {
-      LOG(warning) << this->storage.jointName << " initialized";
+      LOG(warning) << this->storage.jointName << " not initialized";
       //   throw JointErrorException(this->storage.jointName + "need to initialize the sinus commutation");
     }
 

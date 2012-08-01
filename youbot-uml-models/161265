@@ -542,7 +542,6 @@ ${namespace_end}"
       associated_classes
 	class_ref 296049 // YouBotJointParameterReadOnly
 	class_ref 318577 // ActualMotorVoltage
-	class_ref 318705 // ActualPWMDutyCycle
 	class_ref 318833 // ErrorAndStatus
 	class_ref 320369 // PositionError
 	class_ref 320497 // PositionErrorSum
@@ -655,7 +654,6 @@ ${namespace_end}"
 	class_ref 294257 // RampGeneratorSpeedAndPositionControl
 	class_ref 295921 // PositionControlSwitchingThreshold
 	class_ref 293105 // SpeedControlSwitchingThreshold
-	class_ref 320241 // CurrentControlSwitchingThreshold
 	class_ref 252273 // PParameterFirstParametersPositionControl
 	class_ref 292849 // IParameterFirstParametersPositionControl
 	class_ref 292977 // DParameterFirstParametersPositionControl
@@ -664,10 +662,6 @@ ${namespace_end}"
 	class_ref 293873 // IParameterFirstParametersSpeedControl
 	class_ref 294001 // DParameterFirstParametersSpeedControl
 	class_ref 294129 // IClippingParameterFirstParametersSpeedControl
-	class_ref 319217 // PParameterFirstParametersCurrentControl
-	class_ref 319345 // IParameterFirstParametersCurrentControl
-	class_ref 319473 // DParameterFirstParametersCurrentControl
-	class_ref 319601 // IClippingParameterFirstParametersCurrentControl
 	class_ref 294513 // PParameterSecondParametersPositionControl
 	class_ref 294641 // IParameterSecondParametersPositionControl
 	class_ref 294769 // DParameterSecondParametersPositionControl
@@ -676,10 +670,10 @@ ${namespace_end}"
 	class_ref 295153 // IParameterSecondParametersSpeedControl
 	class_ref 295281 // DParameterSecondParametersSpeedControl
 	class_ref 295409 // IClippingParameterSecondParametersSpeedControl
-	class_ref 319729 // PParameterSecondParametersCurrentControl
-	class_ref 319857 // IParameterSecondParametersCurrentControl
-	class_ref 319985 // DParameterSecondParametersCurrentControl
-	class_ref 320113 // IClippingParameterSecondParametersCurrentControl
+	class_ref 319729 // PParameterCurrentControl
+	class_ref 319857 // IParameterCurrentControl
+	class_ref 319985 // DParameterCurrentControl
+	class_ref 320113 // IClippingParameterCurrentControl
 	class_ref 310385 // MaximumVelocityToSetPosition
 	class_ref 310769 // PositionTargetReachedDistance
 	class_ref 362097 // ClearI2tExceededFlag
@@ -775,8 +769,6 @@ ${namespace_end}"
 	class_ref 318321 // ActualCommutationOffset
 	class_ref 348017 // ApproveProtectedParameters
 	class_ref 321009 // BEMFConstant
-	class_ref 295665 // CommutationCompensationClockwise
-	class_ref 295793 // CommutationCompensationCounterClockwise
 	class_ref 296305 // CommutationMode
 	class_ref 341233 // CommutationMotorCurrent
 	class_ref 310897 // CurrentControlLoopDelay
@@ -794,15 +786,10 @@ ${namespace_end}"
 	class_ref 297201 // MotorPoles
 	class_ref 361585 // OperationalTime
 	class_ref 293489 // PIDControlTime
-	class_ref 311025 // PWMHysteresis
-	class_ref 310513 // PWMLimit
-	class_ref 296433 // PWMSchemeBlockCommutation
-	class_ref 294385 // ReinitializationSinusoidalCommutation
 	class_ref 297073 // ReversingEncoderDirection
 	class_ref 317809 // SetEncoderCounterZeroAtNextNChannel
 	class_ref 317937 // SetEncoderCounterZeroAtNextSwitch
 	class_ref 318065 // SetEncoderCounterZeroOnlyOnce
-	class_ref 321521 // SineCompensationFactor
 	class_ref 295537 // SineInitializationVelocity
 	class_ref 318449 // StopSwitchPolarity
 	class_ref 361457 // ThermalWindingTimeConstant
@@ -1141,7 +1128,6 @@ enum DataTraceCntrollerMode {
     POSITION_CONTROL_ENC,
     VELOCITY_CONTROL_RAD_SEC,
     VELOCITY_CONTROL_RPM,
-    PWM_CONTROL_MODE,
     CURRENT_CONTROL_MODE,
     TORQUE_CONTROL_MODE,
     NOT_DEFINED

@@ -75,8 +75,15 @@ namespace youbot {
 		int32 actualCurrent;    // mA
 		int32 actualVelocity;   // rpm motor axis
 		uint32 errorFlags;
-		int32 actualPWM;
-    SlaveMessageInput():actualPosition(0),actualCurrent(0),actualVelocity(0),errorFlags(0),actualPWM(0) { };
+		int32 targetPosition;
+		int32 targetCurrent;
+		int32 targetVelocity;
+		int32 rampGeneratorVelocity;
+
+    SlaveMessageInput():
+    actualPosition(0),actualCurrent(0),actualVelocity(0),
+    errorFlags(0),targetPosition(0),targetCurrent(0),
+    targetVelocity(0),rampGeneratorVelocity(0) { };
 	} __attribute__((__packed__));
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -115,7 +122,6 @@ namespace youbot {
 			stctOutput = copy.stctOutput;
 			stctInput = copy.stctInput;
 			jointNumber = copy.jointNumber;
-
 			return *this;
 		}
 	};

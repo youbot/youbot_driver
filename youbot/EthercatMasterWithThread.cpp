@@ -698,10 +698,10 @@ void EthercatMasterWithThread::parseYouBotErrorFlags(const YouBotSlaveMsg& messa
     //      //   throw JointErrorException(errorMessage + "got motor winding problem");
     //    }
 
-    if (messageBuffer.stctInput.errorFlags & PWM_MODE_ACTIVE) {
-      //  LOG(error) << errorMessage << "has PWM mode active";
+//    if (messageBuffer.stctInput.errorFlags & PWM_MODE_ACTIVE) {
+    //  LOG(error) << errorMessage << "has PWM mode active";
       //   throw JointErrorException(errorMessage + "the cycle time is violated");
-    }
+//    }
 
     if (messageBuffer.stctInput.errorFlags & VELOCITY_MODE) {
       //   LOG(info) << errorMessage << "has velocity mode active";

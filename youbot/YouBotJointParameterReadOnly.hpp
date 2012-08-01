@@ -126,37 +126,6 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// Actual PWM duty cycle.
-///////////////////////////////////////////////////////////////////////////////
-class ActualPWMDutyCycle : public YouBotJointParameterReadOnly {
-friend class YouBotJoint;
-  public:
-    ActualPWMDutyCycle();
-
-    virtual ~ActualPWMDutyCycle();
-
-    void getParameter(int& parameter) const;
-
-    void toString(std::string& value);
-
-
-  private:
-    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
-
-    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
-
-    std::string getName() const {return this->name;};
-
-    ParameterType getType() const {return this->parameterType;};
-
-    int value;
-
-    std::string name;
-
-    ParameterType parameterType;
-
-};
-///////////////////////////////////////////////////////////////////////////////
 /// Error and Status flags of the joint. 
 /// Bit 0: Overcurrent flag. This flag is set if overcurrent limit is exceeded. \n
 /// Bit 1: Undervoltage flag. This flag is set if supply voltage to low for motor operation. \n

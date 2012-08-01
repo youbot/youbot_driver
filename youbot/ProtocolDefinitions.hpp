@@ -105,9 +105,7 @@ enum YouBotJointControllerMode {
     VELOCITY_CONTROL = 2,
     NO_MORE_ACTION = 3,
     SET_POSITION_TO_REFERENCE = 4,
-    PWM_MODE = 5,
-    CURRENT_MODE = 6,
-    INITIALIZE = 7
+    CURRENT_MODE = 6
 };
 
 enum TMCLModuleAddress {
@@ -139,7 +137,7 @@ enum MailboxErrorFlags {
     HALL_SENSOR_ERROR = 0x20,
 //    ENCODER_ERROR = 0x40,
 //    INITIALIZATION_ERROR = 0x80,
-    PWM_MODE_ACTIVE = 0x100,
+//    PWM_MODE_ACTIVE = 0x100,
     VELOCITY_MODE = 0x200,
     POSITION_MODE = 0x400,
     TORQUE_MODE = 0x800,

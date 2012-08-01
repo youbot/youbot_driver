@@ -50,26 +50,18 @@ set grid
 set offsets 0, 0, 0.01, 0.01
 plot  "jointDataTrace" using 1:6 title 'torque setpoint' with dots linewidth 5, "jointDataTrace" using 1:14 title 'sensed torque' with lines linewidth 2
 
-set title "joint PWM"
-set ylabel "PWM"
+set title "ramp generator velocity setpoint"
+set ylabel "velocity setpoint"
 set xlabel "time [milliseconds]"
 set grid
 set offsets 0, 0, 0.01, 0.01
-plot  "jointDataTrace" using 1:7 title 'PWM setpoint' with dots linewidth 5, "jointDataTrace" using 1:15 title 'actual PWM' with lines linewidth 2
+plot  "jointDataTrace" using 1:7 title 'ramp generator velocity setpoint' with dots linewidth 5
 
 unset datafile
 
 set multiplot 
 set xlabel ""
 set title ""
-
-set size 1, 0.25
-set origin 0,0
-set yrange [-0.1:1.1]
-set ytics 1
-set ylabel "PWM mode"
-set grid
-plot "jointDataTrace" using 1:22 title '' with lines linewidth 3
 
 set size 1, 0.25
 set origin 0.0,0.25

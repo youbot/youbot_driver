@@ -106,50 +106,6 @@ void ActualMotorVoltage::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& messag
   // Bouml preserved body end 0007E271
 }
 
-ActualPWMDutyCycle::ActualPWMDutyCycle() {
-  // Bouml preserved body begin 0007E3F1
-    this->name = "ActualPWMDutyCycle";
-    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-  // Bouml preserved body end 0007E3F1
-}
-
-ActualPWMDutyCycle::~ActualPWMDutyCycle() {
-  // Bouml preserved body begin 0007E471
-  // Bouml preserved body end 0007E471
-}
-
-void ActualPWMDutyCycle::getParameter(int& parameter) const {
-  // Bouml preserved body begin 0007E4F1
-    parameter = this->value;
-  // Bouml preserved body end 0007E4F1
-}
-
-void ActualPWMDutyCycle::toString(std::string& value) {
-  // Bouml preserved body begin 0009ECF1
-  std::stringstream ss;
-  ss << this->name << ": " << this->value;
-  value  = ss.str();
-  // Bouml preserved body end 0009ECF1
-}
-
-void ActualPWMDutyCycle::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
-  // Bouml preserved body begin 0007E571
-    message.stctOutput.commandNumber = msgType;
-    message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 153; //ActualPWMDutyCycle
- //   message.stctOutput.value = value;
-
-  // Bouml preserved body end 0007E571
-}
-
-void ActualPWMDutyCycle::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
-  // Bouml preserved body begin 0007E5F1
-    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
-      this->value = (int)message.stctInput.value ;
-    }
-  // Bouml preserved body end 0007E5F1
-}
-
 ErrorAndStatus::ErrorAndStatus() {
   // Bouml preserved body begin 0007E771
     this->name = "ErrorAndStatus";
@@ -233,10 +189,10 @@ void ErrorAndStatus::parseYouBotErrorFlags() const {
       //   throw JointErrorException(errorMessage + "got hall sensor problem");
     }
 
-    if (value & PWM_MODE_ACTIVE) {
-      LOG(info) << errorMessage << "PWM mode active";
+//    if (value & PWM_MODE_ACTIVE) {
+//      LOG(info) << errorMessage << "PWM mode active";
       //   throw JointErrorException(errorMessage + "the cycle time is violated");
-    }
+//    }
 
     if (value & VELOCITY_MODE) {
       LOG(info) << errorMessage << "velocity mode active";
