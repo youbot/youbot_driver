@@ -19,13 +19,6 @@ INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR})
 
 # find required and optional dependencies via Find<name>.cmake modules
 
-#FIND_PACKAGE(CppUnit)
-#IF(CppUnit_FOUND)
-#	MESSAGE(STATUS "SUCCESSFUL: CPP_UNIT found")
-#ELSE(CppUnit_FOUND)
-#	MESSAGE(STATUS "WARNING: CPP_UNIT not found")
-#ENDIF (CppUnit_FOUND)
-
 #SET(Boost_USE_STATIC_LIBS ON)
 SET(Boost_ADDITIONAL_VERSIONS "1.39" "1.39.0" "1.40" "1.40.0" "1.41" "1.41.0" "1.42" "1.42.0")
 FIND_PACKAGE(Boost REQUIRED COMPONENTS thread date_time filesystem system regex)
@@ -46,9 +39,15 @@ SET(DOXYFILE_LATEX "NO")
 SET(DOXYFILE_OUTPUT_DIR ${PROJECT_SOURCE_DIR}/doc)
 include(UseDoxygen)
 
+FIND_PACKAGE(CppUnit)
+IF(CppUnit_FOUND)
+	MESSAGE(STATUS "SUCCESSFUL: CPP_UNIT found")
+  add_subdirectory(testing)
+#ELSE(CppUnit_FOUND)
+#	MESSAGE(STATUS "WARNING: CPP_UNIT not found")
+ENDIF (CppUnit_FOUND)
 
 add_subdirectory(youbot)
-add_subdirectory(testing)
 add_subdirectory(display)
 
 
