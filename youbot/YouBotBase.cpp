@@ -182,6 +182,11 @@ void YouBotBase::doJointCommutation() {
       std::string jointName;
 
       for (unsigned int i = 1; i <= BASEJOINTS; i++) {
+        this->getBaseJoint(i).setData(zerocurrent);
+        if (!ethercatMaster.isThreadActive()) {
+          ethercatMaster.sendProcessData();
+          ethercatMaster.receiveProcessData();
+        }
         doInitialization.setParameter(false);
         this->getBaseJoint(i).getConfigurationParameter(doInitialization);
         doInitialization.getParameter(isInitialized);
