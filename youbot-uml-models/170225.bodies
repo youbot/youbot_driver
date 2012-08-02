@@ -165,10 +165,14 @@ class YouBotJoint
 !!!619505.cpp!!!	setConfigurationParameter(in parameter : InitializeJoint) : void
     if (parameter.value) {
       //YouBotSlaveMsg messageBuffer;
+      SineInitializationVelocity vel;
+      this->getConfigurationParameter(vel);
+
       messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
-      messageBuffer.stctOutput.value = 10; //for commutation
+      messageBuffer.stctOutput.value = vel.value;
 
       ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
+      SLEEP_MILLISEC(10);
 			
     }
 !!!633457.cpp!!!	getConfigurationParameter(out parameter : FirmwareVersion) : void
