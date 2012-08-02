@@ -1,28 +1,28 @@
 
 
   SET(YOUBOT_DRIVER_SRC
-    ${CMAKE_HOME_DIRECTORY}/youbot/EthercatMaster.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/EthercatMasterWithThread.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/EthercatMasterWithoutThread.cpp
-    ${CMAKE_HOME_DIRECTORY}/generic/Logger.cpp
-    ${CMAKE_HOME_DIRECTORY}/generic/ConfigFile.cpp
-    ${CMAKE_HOME_DIRECTORY}/generic-joint/JointData.cpp
-    ${CMAKE_HOME_DIRECTORY}/generic-joint/JointTrajectory.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJoint.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/JointLimitMonitor.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/YouBotBase.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/YouBotManipulator.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripper.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripperBar.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/YouBotGripperParameter.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/DataTrace.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/GripperDataTrace.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameter.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameterReadOnly.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/YouBotJointParameterPasswordProtected.cpp
-    ${CMAKE_HOME_DIRECTORY}/youbot/JointTrajectoryController.cpp
-    ${CMAKE_HOME_DIRECTORY}/base-kinematic/FourSwedishWheelOmniBaseKinematic.cpp
-    ${CMAKE_HOME_DIRECTORY}/base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.cpp
+    ${PROJECT_SOURCE_DIR}/youbot/EthercatMaster.cpp
+    ${PROJECT_SOURCE_DIR}/youbot/EthercatMasterWithThread.cpp
+    ${PROJECT_SOURCE_DIR}/youbot/EthercatMasterWithoutThread.cpp
+    ${PROJECT_SOURCE_DIR}/generic/Logger.cpp
+    ${PROJECT_SOURCE_DIR}/generic/ConfigFile.cpp
+    ${PROJECT_SOURCE_DIR}/generic-joint/JointData.cpp
+    ${PROJECT_SOURCE_DIR}/generic-joint/JointTrajectory.cpp
+    ${PROJECT_SOURCE_DIR}/youbot/YouBotJoint.cpp
+    ${PROJECT_SOURCE_DIR}/youbot/JointLimitMonitor.cpp
+    ${PROJECT_SOURCE_DIR}/youbot/YouBotBase.cpp
+    ${PROJECT_SOURCE_DIR}/youbot/YouBotManipulator.cpp
+    ${PROJECT_SOURCE_DIR}/youbot/YouBotGripper.cpp
+    ${PROJECT_SOURCE_DIR}/youbot/YouBotGripperBar.cpp
+    ${PROJECT_SOURCE_DIR}/youbot/YouBotGripperParameter.cpp
+    ${PROJECT_SOURCE_DIR}/youbot/DataTrace.cpp
+    ${PROJECT_SOURCE_DIR}/youbot/GripperDataTrace.cpp
+    ${PROJECT_SOURCE_DIR}/youbot/YouBotJointParameter.cpp
+    ${PROJECT_SOURCE_DIR}/youbot/YouBotJointParameterReadOnly.cpp
+    ${PROJECT_SOURCE_DIR}/youbot/YouBotJointParameterPasswordProtected.cpp
+    ${PROJECT_SOURCE_DIR}/youbot/JointTrajectoryController.cpp
+    ${PROJECT_SOURCE_DIR}/base-kinematic/FourSwedishWheelOmniBaseKinematic.cpp
+    ${PROJECT_SOURCE_DIR}/base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.cpp
   )
 
 
@@ -85,10 +85,10 @@ SET(YOUBOT_DRIVER_HEADERS
 
 
 SET(YOUBOT_DRIVER_CONFIG
-  ${CMAKE_HOME_DIRECTORY}/config/youbot-ethercat.cfg
-  ${CMAKE_HOME_DIRECTORY}/config/youbot-base.cfg
-  ${CMAKE_HOME_DIRECTORY}/config/youbot-manipulator.cfg
-  ${CMAKE_HOME_DIRECTORY}/config/applications.cfg
+  ${PROJECT_SOURCE_DIR}/config/youbot-ethercat.cfg
+  ${PROJECT_SOURCE_DIR}/config/youbot-base.cfg
+  ${PROJECT_SOURCE_DIR}/config/youbot-manipulator.cfg
+  ${PROJECT_SOURCE_DIR}/config/applications.cfg
 )
 
 ADD_LIBRARY(YouBotDriver
