@@ -65,18 +65,23 @@ class YouBotManipulator
       std::vector<bool> isCommutated;
       isCommutated.assign(ARMJOINTS, false);
       unsigned int u = 0;
+      JointCurrentSetpoint zerocurrent;
+			zerocurrent.current = 0.0 * ampere;
+      
+      SLEEP_MILLISEC(2000); // give to controller some time to do the commutation
 
       // check for the next 5 sec if the joints are commutated
       for (u = 1; u <= 5000; u++) {
         for (unsigned int i = 1; i <= ARMJOINTS; i++) {
-          if(!ethercatMaster.isThreadActive()){
-            ethercatMaster.sendProcessData();
-            ethercatMaster.receiveProcessData();
-          }
           this->getArmJoint(i).getStatus(statusFlags);
           if (statusFlags & INITIALIZED) {
             isCommutated[i - 1] = true;
+            this->getArmJoint(i).setData(zerocurrent);
           }
+        }
+        if(!ethercatMaster.isThreadActive()){
+          ethercatMaster.sendProcessData();
+          ethercatMaster.receiveProcessData();
         }
         if (isCommutated[0] && isCommutated[1] && isCommutated[2] && isCommutated[3] && isCommutated[4]) {
           break;
@@ -84,9 +89,14 @@ class YouBotManipulator
         SLEEP_MILLISEC(1);
       }
 
-      SLEEP_MILLISEC(10); // the controller likes it
+      SLEEP_MILLISEC(200); // the controller likes it
 
       for (unsigned int i = 1; i <= ARMJOINTS; i++) {
+        this->getArmJoint(i).setData(zerocurrent);
+        if(!ethercatMaster.isThreadActive()){
+          ethercatMaster.sendProcessData();
+          ethercatMaster.receiveProcessData();
+        }
         doInitialization.setParameter(false);
         this->getArmJoint(i).getConfigurationParameter(doInitialization);
         doInitialization.getParameter(isInitialized);
@@ -237,16 +247,37 @@ class YouBotManipulator
     for (unsigned int i = 0; i < ARMJOINTS; i++) {
       long upperlimit = 0, lowerlimit = 0;
       std::stringstream jointNameStream;
+      bool inverted = false;
       jointNameStream << "Joint_" << i + 1;
       jointName = jointNameStream.str();
       JointEncoderSetpoint minEncoderValue;
       configfile->readInto(lowerlimit, jointName, "LowerLimit_[encoderTicks]");
       configfile->readInto(upperlimit, jointName, "UpperLimit_[encoderTicks]");
-      minEncoderValue.encoderTicks = upperlimit;
+      configfile->readInto(inverted, jointName, "InverseMovementDirection");
+      
+      if(inverted){
+        minEncoderValue.encoderTicks = lowerlimit + 1000;
+      }else{
+        minEncoderValue.encoderTicks = upperlimit - 1000;
+      }
 
       jLimits.setParameter(lowerlimit, upperlimit, true);
       joints[i].setConfigurationParameter(jLimits);
+     // joints[i].setData(minEncoderValue);
     }
+
+    JointAngleSetpoint desiredJointAngle;
+    desiredJointAngle.angle = 0.05 * radian;
+    this->getArmJoint(1).setData(desiredJointAngle);
+    desiredJointAngle.angle = 0.05 * radian;
+    this->getArmJoint(2).setData(desiredJointAngle);
+    desiredJointAngle.angle = -0.05 * radian;
+    this->getArmJoint(3).setData(desiredJointAngle);
+    desiredJointAngle.angle = 0.05 * radian;
+    this->getArmJoint(4).setData(desiredJointAngle);
+    desiredJointAngle.angle = 0.12 * radian;
+    this->getArmJoint(5).setData(desiredJointAngle);
+    
 
 
 

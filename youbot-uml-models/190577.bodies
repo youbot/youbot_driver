@@ -127,6 +127,27 @@ class EthercatMasterWithThread
       this->jointLimitMonitors[JointNumber - 1] = object;
     }
     LOG(debug) << "register a joint limit monitor for joint: " << JointNumber;
+!!!1071217.cpp!!!	registerDataTrace(out object : void*, in JointNumber : uint) : void
+    {
+      boost::mutex::scoped_lock datatraceM(dataTracesMutex);
+      if (this->dataTraces[JointNumber - 1] != NULL)
+        throw std::runtime_error("A data trace is already register for this joint!");
+      if ((JointNumber - 1) >= this->dataTraces.size())
+        throw std::out_of_range("Invalid joint number");
+
+      this->dataTraces[JointNumber - 1] = (DataTrace*)object;
+    }
+    LOG(debug) << "register a data trace for joint: " << JointNumber;
+!!!1071345.cpp!!!	deleteDataTraceRegistration(in JointNumber : uint) : void
+    {
+      boost::mutex::scoped_lock datatraceM(dataTracesMutex);
+      if ((JointNumber - 1) >= this->dataTraces.size())
+        throw std::out_of_range("Invalid joint number");
+
+      this->dataTraces[JointNumber - 1] = NULL;
+
+    }
+    LOG(debug) << "removed data trace for joint: " << JointNumber;
 !!!266481.cpp!!!	initializeEthercat() : void
 
     /* initialise SOEM, bind socket to ifname */
@@ -251,6 +272,7 @@ class EthercatMasterWithThread
         slaveMessages.push_back(emptySlaveMsgThreadSafe);
         outstandingMailboxMsgFlag.push_back(false);
         newInputMailboxMsgFlag.push_back(false);
+        dataTraces.push_back(NULL);
       }
     }
     automaticReceiveOffBufferVector.reserve(slaveMessages.size());
@@ -446,7 +468,8 @@ class EthercatMasterWithThread
           }
         }
       }
-
+      
+      // Trajectory Controller
       {
         boost::mutex::scoped_lock trajectoryControllerMutex(trajectoryControllerVectorMutex);
         for (unsigned int i = 0; i < nrOfSlaves; i++) {
@@ -458,6 +481,15 @@ class EthercatMasterWithThread
               //copy back
               slaveMessages[i].stctOutput.Set(*(ethercatOutputBufferVector[i]));
             }
+          }
+        }
+      }
+      // update Data Traces
+      for (unsigned int i = 0; i < nrOfSlaves; i++) {
+        {
+          boost::mutex::scoped_lock datatraceM(dataTracesMutex);
+          if (dataTraces[i] != NULL) {
+            ((DataTrace*)dataTraces[i])->updateTrace();
           }
         }
       }

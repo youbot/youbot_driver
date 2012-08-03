@@ -294,12 +294,12 @@ void YouBotJoint::getConfigurationParameter(JointLimitsRadian& parameter) {
 void YouBotJoint::setConfigurationParameter(const InitializeJoint& parameter) {
   // Bouml preserved body begin 000973F1
     if (parameter.value) {
-      messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
+      messageBuffer.stctOutput.controllerMode = CURRENT_MODE;
       
       if (storage.inverseMovementDirection) {
-        messageBuffer.stctOutput.value = -200;
+        messageBuffer.stctOutput.value = -300;
       }else{
-        messageBuffer.stctOutput.value = 200;
+        messageBuffer.stctOutput.value = 300;
       }
    
       ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);			

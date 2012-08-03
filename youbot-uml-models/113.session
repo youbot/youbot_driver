@@ -1,15 +1,14 @@
-window_sizes 1272 723 421 845 640 0
+window_sizes 1280 726 421 853 645 0
 diagrams
   active  classdiagram_ref 141553 // JointData
     996 712 100 2 0 0
 end
 show_stereotypes
-selected attribute_ref 913009 // targetAngle
+selected artifact_ref 248177 // DataTrace
 open
   classview_ref 134641 // Joint
-  attribute_ref 913009 // targetAngle
+  attribute_ref 912113 // slaveMessages
   deploymentview_ref 154609 // Deployment
-  
-  package_ref 161265 // youbot
+  deploymentview_ref 161137 // Deployment
 end
 end

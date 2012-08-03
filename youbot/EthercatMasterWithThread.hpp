@@ -130,6 +130,10 @@ friend class YouBotGripperBar;
 
     void registerJointLimitMonitor(JointLimitMonitor* object, const unsigned int JointNumber);
 
+    void registerDataTrace(void* object, const unsigned int JointNumber);
+
+    void deleteDataTraceRegistration(const unsigned int JointNumber);
+
 
   private:
     ///establishes the ethercat connection
@@ -238,6 +242,10 @@ friend class YouBotGripperBar;
     std::vector<JointLimitMonitor*> jointLimitMonitors;
 
     boost::mutex jointLimitMonitorVectorMutex;
+
+    std::vector<void*> dataTraces;
+
+    boost::mutex dataTracesMutex;
 
 };
 

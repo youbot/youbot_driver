@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 254
+  revision 255
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -21204,6 +21204,37 @@ friend class YouBotGripperBar;" ""
 	
       end
 
+      operation 1071217 "registerDataTrace"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 2
+	  param out name "object" explicit_type "void*"
+	  param in name "JointNumber" explicit_type "uint"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0} ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0} ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
+      operation 1071345 "deleteDataTraceRegistration"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 1
+	  param in name "JointNumber" explicit_type "uint"
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+      end
+
       operation 266481 "initializeEthercat"
 	preserve_cpp_body_indent private explicit_return_type "void"
 	nparams 0
@@ -21706,6 +21737,26 @@ friend class YouBotGripperBar;" ""
       end
 
       attribute 885233 "jointLimitMonitorVectorMutex"
+	private explicit_type "boost::mutex"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 954737 "dataTraces"
+	private explicit_type "std::vector<void*>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 954865 "dataTracesMutex"
 	private explicit_type "boost::mutex"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -23693,7 +23744,6 @@ ${inlines}
       explicit_switch_type ""
       
     end
-
   end
 
   classview 147697 "BaseKinematic"

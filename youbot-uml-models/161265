@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 80
+  revision 81
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -1115,10 +1115,6 @@ ${description}
 #include \"generic/Exceptions.hpp\"
 #include \"youbot/YouBotJoint.hpp\"
 #include \"youbot/YouBotJointParameter.hpp\"
-//#include \"youbot/EthercatMaster.hpp\"
-//#include \"youbot/EthercatMasterInterface.hpp\"
-//#include \"youbot/EthercatMasterWithThread.hpp\"
-//#include \"youbot/EthercatMasterWithoutThread.hpp\"
 
 using namespace boost::posix_time;
 ${namespace_start}
@@ -1352,6 +1348,7 @@ extern \"C\" {
 #include \"ethercatprint.h\"
 }
 #include \"youbot/EthercatMasterWithThread.hpp\"
+#include \"youbot/DataTrace.hpp\"
 
 ${namespace_start}
 ${members}

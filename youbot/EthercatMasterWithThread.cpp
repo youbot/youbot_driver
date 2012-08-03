@@ -59,6 +59,7 @@ extern "C" {
 #include "ethercatprint.h"
 }
 #include "youbot/EthercatMasterWithThread.hpp"
+#include "youbot/DataTrace.hpp"
 
 namespace youbot {
 
@@ -259,6 +260,35 @@ void EthercatMasterWithThread::registerJointLimitMonitor(JointLimitMonitor* obje
   // Bouml preserved body end 000FB071
 }
 
+void EthercatMasterWithThread::registerDataTrace(void* object, const unsigned int JointNumber) {
+  // Bouml preserved body begin 00105871
+    {
+      boost::mutex::scoped_lock datatraceM(dataTracesMutex);
+      if (this->dataTraces[JointNumber - 1] != NULL)
+        throw std::runtime_error("A data trace is already register for this joint!");
+      if ((JointNumber - 1) >= this->dataTraces.size())
+        throw std::out_of_range("Invalid joint number");
+
+      this->dataTraces[JointNumber - 1] = (DataTrace*)object;
+    }
+    LOG(debug) << "register a data trace for joint: " << JointNumber;
+  // Bouml preserved body end 00105871
+}
+
+void EthercatMasterWithThread::deleteDataTraceRegistration(const unsigned int JointNumber) {
+  // Bouml preserved body begin 001058F1
+    {
+      boost::mutex::scoped_lock datatraceM(dataTracesMutex);
+      if ((JointNumber - 1) >= this->dataTraces.size())
+        throw std::out_of_range("Invalid joint number");
+
+      this->dataTraces[JointNumber - 1] = NULL;
+
+    }
+    LOG(debug) << "removed data trace for joint: " << JointNumber;
+  // Bouml preserved body end 001058F1
+}
+
 ///establishes the ethercat connection
 void EthercatMasterWithThread::initializeEthercat() {
   // Bouml preserved body begin 000410F1
@@ -385,6 +415,7 @@ void EthercatMasterWithThread::initializeEthercat() {
         slaveMessages.push_back(emptySlaveMsgThreadSafe);
         outstandingMailboxMsgFlag.push_back(false);
         newInputMailboxMsgFlag.push_back(false);
+        dataTraces.push_back(NULL);
       }
     }
     automaticReceiveOffBufferVector.reserve(slaveMessages.size());
@@ -631,7 +662,8 @@ void EthercatMasterWithThread::updateSensorActorValues() {
           }
         }
       }
-
+      
+      // Trajectory Controller
       {
         boost::mutex::scoped_lock trajectoryControllerMutex(trajectoryControllerVectorMutex);
         for (unsigned int i = 0; i < nrOfSlaves; i++) {
@@ -643,6 +675,15 @@ void EthercatMasterWithThread::updateSensorActorValues() {
               //copy back
               slaveMessages[i].stctOutput.Set(*(ethercatOutputBufferVector[i]));
             }
+          }
+        }
+      }
+      // update Data Traces
+      for (unsigned int i = 0; i < nrOfSlaves; i++) {
+        {
+          boost::mutex::scoped_lock datatraceM(dataTracesMutex);
+          if (dataTraces[i] != NULL) {
+            ((DataTrace*)dataTraces[i])->updateTrace();
           }
         }
       }

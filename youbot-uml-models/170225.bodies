@@ -164,16 +164,15 @@ class YouBotJoint
     parameter.setParameter(lowlimit, uplimit, this->storage.areLimitsActive);
 !!!619505.cpp!!!	setConfigurationParameter(in parameter : InitializeJoint) : void
     if (parameter.value) {
-      //YouBotSlaveMsg messageBuffer;
-      SineInitializationVelocity vel;
-      this->getConfigurationParameter(vel);
-
       messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
-      messageBuffer.stctOutput.value = vel.value;
-
-      ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
-      SLEEP_MILLISEC(10);
-			
+      
+      if (storage.inverseMovementDirection) {
+        messageBuffer.stctOutput.value = -200;
+      }else{
+        messageBuffer.stctOutput.value = 200;
+      }
+   
+      ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);			
     }
 !!!633457.cpp!!!	getConfigurationParameter(out parameter : FirmwareVersion) : void
 
