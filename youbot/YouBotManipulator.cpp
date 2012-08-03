@@ -131,7 +131,7 @@ void YouBotManipulator::doJointCommutation() {
       JointCurrentSetpoint zerocurrent;
 			zerocurrent.current = 0.0 * ampere;
       
-    //  SLEEP_MILLISEC(50); // give to controller some time to do the commutation
+      SLEEP_MILLISEC(2000); // give to controller some time to do the commutation
 
       // check for the next 5 sec if the joints are commutated
       for (u = 1; u <= 5000; u++) {

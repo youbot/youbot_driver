@@ -295,12 +295,13 @@ void YouBotJoint::setConfigurationParameter(const InitializeJoint& parameter) {
   // Bouml preserved body begin 000973F1
     if (parameter.value) {
       messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
-      messageBuffer.stctOutput.value = 200;
       
       if (storage.inverseMovementDirection) {
-        messageBuffer.stctOutput.value *= -1;
+        messageBuffer.stctOutput.value = -200;
+      }else{
+        messageBuffer.stctOutput.value = 200;
       }
-
+   
       ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);			
     }
   // Bouml preserved body end 000973F1
@@ -1192,7 +1193,7 @@ void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
     }
 
     if (!(messageBuffer.stctInput.errorFlags & INITIALIZED)) {
- //     LOG(warning) << this->storage.jointName << " not initialized";
+      LOG(warning) << this->storage.jointName << " not initialized";
       //   throw JointErrorException(this->storage.jointName + "need to initialize the sinus commutation");
     }
 
