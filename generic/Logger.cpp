@@ -102,7 +102,8 @@ namespace youbot {
   Logger::~Logger() {
     //end of message
     if (toConsole && print) {
-      std::cout << out.str() << std::endl;
+      printf("%s\n", out.str().c_str());
+    //  std::cout << out.str() << std::endl;
     }
 
     if (toFile && print) {
