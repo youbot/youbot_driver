@@ -88,7 +88,6 @@ SET(YOUBOT_DRIVER_CONFIG
   ${PROJECT_SOURCE_DIR}/config/youbot-ethercat.cfg
   ${PROJECT_SOURCE_DIR}/config/youbot-base.cfg
   ${PROJECT_SOURCE_DIR}/config/youbot-manipulator.cfg
-  ${PROJECT_SOURCE_DIR}/config/applications.cfg
 )
 
 ADD_LIBRARY(YouBotDriver
