@@ -28,8 +28,8 @@
 
 SET(YOUBOT_DRIVER_HEADERS
   EthercatMaster.hpp
-  EthercatMasterInterface.cpp
-  EthercatMasterWithThread.cpp
+  EthercatMasterInterface.hpp
+  EthercatMasterWithThread.hpp
   EthercatMasterWithoutThread.hpp
   YouBotGripper.hpp
   YouBotGripperBar.hpp
