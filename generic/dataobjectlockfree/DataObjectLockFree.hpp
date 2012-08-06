@@ -35,8 +35,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef CORELIB_DATAOBJECT_LOCK_FREE_HPP
-#define CORELIB_DATAOBJECT_LOCK_FREE_HPP
+#pragma once
 
 #include "generic/dataobjectlockfree/target.hpp"
 #include "generic/dataobjectlockfree/os/oro_arch.h"
@@ -223,5 +222,4 @@ namespace youbot {
     };
 }
 
-#endif
 

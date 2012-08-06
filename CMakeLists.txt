@@ -15,8 +15,6 @@ SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib) #static libraries
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin) #executables
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib) #dynamic libraries (plugins)
 
-INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR})
-
 # find required and optional dependencies via Find<name>.cmake modules
 
 #SET(Boost_USE_STATIC_LIBS ON)
