@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
 ADD_EXECUTABLE(displayIpAddress
-  ${CMAKE_HOME_DIRECTORY}/display/DisplayIpAddress.cpp
+  ${PROJECT_SOURCE_DIR}/display/DisplayIpAddress.cpp
 
 )
 

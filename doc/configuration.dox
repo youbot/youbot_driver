@@ -8,7 +8,7 @@
 The configuration files contains all parameter for the youBot API. They are located in the config folder. 
 
 The youbot-ethercat.cfg file contains all parameters for the EtherCAT communication.
-Here is is possible to specify the Ethernet device name. The cycle time of the communication thread can be changed be the parameter EtherCATUpdateRate_[usec].
+Here is is possible to specify the Ethernet device name. The cycle time of the communication thread can be changed by the parameter EtherCATUpdateRate_[usec].
 
 The Topology of the youBot joint can be configured in the youbot-base.cfg and youbot-manipulator.cfg. Here you can assign to each youbot::YouBotJoint one EtherCAT slave.
 

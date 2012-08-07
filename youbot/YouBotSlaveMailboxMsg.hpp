@@ -55,10 +55,11 @@
 #include <ethercattype.h>
 #include <string>
 #include <time.h>
+#include "generic/dataobjectlockfree/DataObjectLockFree.hpp"
 
 namespace youbot {
 
-  /// Output part from the EtherCat mailbox message of the youBot EtherCat slaves
+  /// Output part from the EtherCAT mailbox message of the youBot slaves
 
   struct mailboxOutputBuffer {
     uint8 moduleAddress; //0 = Drive  1 = Gripper
@@ -70,7 +71,7 @@ namespace youbot {
     mailboxOutputBuffer() : moduleAddress(0), commandNumber(0), typeNumber(0), motorNumber(0), value(0) {};
   } __attribute__((__packed__));
 
-  /// Input part from the EtherCat mailbox message of the youBot EtherCat slaves
+  /// Input part from the EtherCAT mailbox message of the youBot slaves
 
   struct mailboxInputBuffer {
     uint8 replyAddress;
@@ -83,7 +84,7 @@ namespace youbot {
   } __attribute__((__packed__));
 
   ///////////////////////////////////////////////////////////////////////////////
-  /// EtherCat mailbox message of the youBot EtherCat slaves 
+  /// EtherCAT mailbox message of the youBot slaves 
   ///////////////////////////////////////////////////////////////////////////////
 
  class YouBotSlaveMailboxMsg {
@@ -132,8 +133,8 @@ namespace youbot {
   };
   
   
-    ///////////////////////////////////////////////////////////////////////////////
-  /// EtherCat mailbox message of the youBot EtherCat slaves thread safe
+  ///////////////////////////////////////////////////////////////////////////////
+  /// EtherCAT mailbox message of the youBot slaves (thread safe)
   ///////////////////////////////////////////////////////////////////////////////
   class YouBotSlaveMailboxMsgThreadSafe {
   public:

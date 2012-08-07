@@ -9,22 +9,13 @@ SET(CMAKE_CXX_FLAGS_DEBUG "-fPIC -Wall -g")
 SET(CMAKE_C_FLAGS_RELEASE "-fPIC -Wall")
 SET(CMAKE_CXX_FLAGS_RELEASE "-fPIC -Wall")
 
-SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake-modules")
+SET(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake-modules")
 
-SET(LIBRARY_OUTPUT_PATH ${CMAKE_HOME_DIRECTORY}/lib) #static libraries
-SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_HOME_DIRECTORY}/bin) #executables
-SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/lib) #dynamic libraries (plugins)
-
-INCLUDE_DIRECTORIES(${CMAKE_HOME_DIRECTORY})
+SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib) #static libraries
+SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin) #executables
+SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib) #dynamic libraries (plugins)
 
 # find required and optional dependencies via Find<name>.cmake modules
-
-#FIND_PACKAGE(CppUnit)
-#IF(CppUnit_FOUND)
-#	MESSAGE(STATUS "SUCCESSFUL: CPP_UNIT found")
-#ELSE(CppUnit_FOUND)
-#	MESSAGE(STATUS "WARNING: CPP_UNIT not found")
-#ENDIF (CppUnit_FOUND)
 
 #SET(Boost_USE_STATIC_LIBS ON)
 SET(Boost_ADDITIONAL_VERSIONS "1.39" "1.39.0" "1.40" "1.40.0" "1.41" "1.41.0" "1.42" "1.42.0")
@@ -38,42 +29,48 @@ ENDIF (Boost_FOUND)
 
 add_subdirectory(soem)
 INCLUDE_DIRECTORIES(
- ${CMAKE_HOME_DIRECTORY}
- ${CMAKE_HOME_DIRECTORY}/soem/src
+ ${PROJECT_SOURCE_DIR}
+ ${PROJECT_SOURCE_DIR}/soem/src
 )
 
 SET(DOXYFILE_LATEX "NO")
-SET(DOXYFILE_OUTPUT_DIR ${CMAKE_HOME_DIRECTORY}/doc)
+SET(DOXYFILE_OUTPUT_DIR ${PROJECT_SOURCE_DIR}/doc)
 include(UseDoxygen)
 
+FIND_PACKAGE(CppUnit)
+IF(CppUnit_FOUND)
+	MESSAGE(STATUS "SUCCESSFUL: CPP_UNIT found")
+  add_subdirectory(testing)
+#ELSE(CppUnit_FOUND)
+#	MESSAGE(STATUS "WARNING: CPP_UNIT not found")
+ENDIF (CppUnit_FOUND)
 
 add_subdirectory(youbot)
-add_subdirectory(testing)
 add_subdirectory(display)
 
 
 #ADD_EXECUTABLE(YouBot_test
-#  ${CMAKE_HOME_DIRECTORY}/Test.cpp
+#  ${PROJECT_SOURCE_DIR}/Test.cpp
 #)
 
 #target_link_libraries(YouBot_test YouBotDriver)
 
 #ADD_EXECUTABLE(PositionTest
-#  ${CMAKE_HOME_DIRECTORY}/PositionTest.cpp
+#  ${PROJECT_SOURCE_DIR}/PositionTest.cpp
 #)
 
 #target_link_libraries(PositionTest YouBotDriver)
 
 
 #ADD_EXECUTABLE(VelocityTest
-#  ${CMAKE_HOME_DIRECTORY}/VelocityTest.cpp
+#  ${PROJECT_SOURCE_DIR}/VelocityTest.cpp
 #)
 
 #target_link_libraries(VelocityTest YouBotDriver)
 
 
 #ADD_EXECUTABLE(CurrentTest
-#  ${CMAKE_HOME_DIRECTORY}/CurrentTest.cpp
+#  ${PROJECT_SOURCE_DIR}/CurrentTest.cpp
 #)
 
 #target_link_libraries(CurrentTest YouBotDriver)

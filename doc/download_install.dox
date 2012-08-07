@@ -65,6 +65,4 @@ Now you should be able to compile the youBot API.
 
 The libraries will be generated in the folder ~/youbot_driver/lib.
 
-If you do not want to do these steps manually, please use robotpkg.
-
 */
