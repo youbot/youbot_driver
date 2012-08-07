@@ -53,12 +53,30 @@ class YouBotManipulator
       LOG(info) << "Manipulator Joint Commutation";
       doInitialization.setParameter(true);
 
+      double comCur = 0; 
+      JointCurrentSetpoint J1CommutationCurrent;
+      JointCurrentSetpoint J2CommutationCurrent;
+      JointCurrentSetpoint J3CommutationCurrent;
+      JointCurrentSetpoint J4CommutationCurrent;
+      JointCurrentSetpoint J5CommutationCurrent;
+	
+      configfile->readInto(comCur, "Joint_1", "CommutationCurrent_[ampere]");
+      J1CommutationCurrent.current = comCur * ampere;
+      configfile->readInto(comCur, "Joint_2", "CommutationCurrent_[ampere]");
+      J2CommutationCurrent.current = comCur * ampere;
+      configfile->readInto(comCur, "Joint_3", "CommutationCurrent_[ampere]");
+      J3CommutationCurrent.current = comCur * ampere;
+      configfile->readInto(comCur, "Joint_4", "CommutationCurrent_[ampere]");
+      J4CommutationCurrent.current = comCur * ampere;
+      configfile->readInto(comCur, "Joint_5", "CommutationCurrent_[ampere]");
+      J5CommutationCurrent.current = comCur * ampere;
+      
       ethercatMaster.AutomaticReceiveOn(false);
-      this->getArmJoint(1).setConfigurationParameter(doInitialization);
-      this->getArmJoint(2).setConfigurationParameter(doInitialization);
-      this->getArmJoint(3).setConfigurationParameter(doInitialization);
-      this->getArmJoint(4).setConfigurationParameter(doInitialization);
-      this->getArmJoint(5).setConfigurationParameter(doInitialization);
+      this->getArmJoint(1).setData(J1CommutationCurrent);
+      this->getArmJoint(2).setData(J2CommutationCurrent);
+      this->getArmJoint(3).setData(J3CommutationCurrent);
+      this->getArmJoint(4).setData(J4CommutationCurrent);
+      this->getArmJoint(5).setData(J5CommutationCurrent);
       ethercatMaster.AutomaticReceiveOn(true);
 
       unsigned int statusFlags;
@@ -68,7 +86,7 @@ class YouBotManipulator
       JointCurrentSetpoint zerocurrent;
 			zerocurrent.current = 0.0 * ampere;
       
-      SLEEP_MILLISEC(2000); // give to controller some time to do the commutation
+      SLEEP_MILLISEC(100); // give to controller some time to do the commutation
 
       // check for the next 5 sec if the joints are commutated
       for (u = 1; u <= 5000; u++) {

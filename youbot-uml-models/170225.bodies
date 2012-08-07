@@ -164,12 +164,12 @@ class YouBotJoint
     parameter.setParameter(lowlimit, uplimit, this->storage.areLimitsActive);
 !!!619505.cpp!!!	setConfigurationParameter(in parameter : InitializeJoint) : void
     if (parameter.value) {
-      messageBuffer.stctOutput.controllerMode = VELOCITY_CONTROL;
+      messageBuffer.stctOutput.controllerMode = CURRENT_MODE;
       
       if (storage.inverseMovementDirection) {
-        messageBuffer.stctOutput.value = -200;
+        messageBuffer.stctOutput.value = -300;
       }else{
-        messageBuffer.stctOutput.value = 200;
+        messageBuffer.stctOutput.value = 300;
       }
    
       ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);			

@@ -76,12 +76,27 @@ class YouBotBase
     if (noInitialization != 0) {
       doInitialization.setParameter(true);
       LOG(info) << "Base Joint Commutation";
-
+      
+      double comCur = 0; 
+      JointCurrentSetpoint J1CommutationCurrent;
+      JointCurrentSetpoint J2CommutationCurrent;
+      JointCurrentSetpoint J3CommutationCurrent;
+      JointCurrentSetpoint J4CommutationCurrent;
+	
+      configfile->readInto(comCur, "Joint_1", "CommutationCurrent_[ampere]");
+      J1CommutationCurrent.current = comCur * ampere;
+      configfile->readInto(comCur, "Joint_2", "CommutationCurrent_[ampere]");
+      J2CommutationCurrent.current = comCur * ampere;
+      configfile->readInto(comCur, "Joint_3", "CommutationCurrent_[ampere]");
+      J3CommutationCurrent.current = comCur * ampere;
+      configfile->readInto(comCur, "Joint_4", "CommutationCurrent_[ampere]");
+      J4CommutationCurrent.current = comCur * ampere;
+      
       ethercatMaster.AutomaticReceiveOn(false);
-      this->getBaseJoint(1).setConfigurationParameter(doInitialization);
-      this->getBaseJoint(2).setConfigurationParameter(doInitialization);
-      this->getBaseJoint(3).setConfigurationParameter(doInitialization);
-      this->getBaseJoint(4).setConfigurationParameter(doInitialization);
+      this->getBaseJoint(1).setData(J1CommutationCurrent);
+      this->getBaseJoint(2).setData(J2CommutationCurrent);
+      this->getBaseJoint(3).setData(J3CommutationCurrent);
+      this->getBaseJoint(4).setData(J4CommutationCurrent);
       ethercatMaster.AutomaticReceiveOn(true);
 
       unsigned int statusFlags;
@@ -90,24 +105,22 @@ class YouBotBase
       unsigned int u = 0;
 			JointCurrentSetpoint zerocurrent;
 			zerocurrent.current = 0.0 * ampere;
+      
+      SLEEP_MILLISEC(100); // give the motor some time to do the commutation
 
       // check for the next 5 sec if the joints are commutated
       for (u = 1; u <= 5000; u++) {
         for (unsigned int i = 1; i <= BASEJOINTS; i++) {
-          if(!ethercatMaster.isThreadActive()){
-              ethercatMaster.sendProcessData();
-              ethercatMaster.receiveProcessData();
-          }
           this->getBaseJoint(i).getStatus(statusFlags);
           if (statusFlags & INITIALIZED) {
             isCommutated[i - 1] = true;
 						this->getBaseJoint(i).setData(zerocurrent);
-						if(!ethercatMaster.isThreadActive()){
-              ethercatMaster.sendProcessData();
-              ethercatMaster.receiveProcessData();
-						}
           }
         }
+        if(!ethercatMaster.isThreadActive()){
+          ethercatMaster.sendProcessData();
+          ethercatMaster.receiveProcessData();
+				}
         if (isCommutated[0] && isCommutated[1] && isCommutated[2] && isCommutated[3]) {
           break;
         }
@@ -121,6 +134,12 @@ class YouBotBase
       for (unsigned int i = 1; i <= BASEJOINTS; i++) {
         this->getBaseJoint(i).setData(zerocurrent);
         if (!ethercatMaster.isThreadActive()) {
+          ethercatMaster.sendProcessData();
+          ethercatMaster.receiveProcessData();
+        }
+        SLEEP_MILLISEC(5);
+        this->getBaseJoint(i).setEncoderToZero();
+        if(!ethercatMaster.isThreadActive()){
           ethercatMaster.sendProcessData();
           ethercatMaster.receiveProcessData();
         }
