@@ -693,6 +693,43 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
+/// Velocity to switch from controlled to hallFX mode. Set this value to a realistic velocity which the motor can reach in controlled mode!
+///////////////////////////////////////////////////////////////////////////////
+class VelocityThresholdForHallFX : public YouBotJointParameter {
+friend class YouBotJoint;
+  public:
+    VelocityThresholdForHallFX();
+
+    virtual ~VelocityThresholdForHallFX();
+
+    void getParameter(quantity<angular_velocity>& parameter) const;
+
+    void setParameter(const quantity<angular_velocity>& parameter);
+
+    void toString(std::string& value);
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    quantity<angular_velocity> upperLimit;
+
+    quantity<angular_velocity> lowerLimit;
+
+    quantity<angular_velocity> value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
 /// P-Parameter of PID position regulator (first position parameter set)
 ///////////////////////////////////////////////////////////////////////////////
 class PParameterFirstParametersPositionControl : public YouBotJointParameter {
