@@ -23,12 +23,7 @@ class ChopperOffTime
   ss << this->name << ": " << this->value;
   value  = ss.str();
 !!!749425.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-
-
-
-    message.stctOutput.typeNumber = 167; 
+    message.stctOutput.typeNumber = 167;   //ChopperOffTime
     message.stctOutput.value = value;
-
 !!!749553.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
     this->value = message.stctInput.value;
-

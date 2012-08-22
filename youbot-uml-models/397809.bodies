@@ -11,12 +11,7 @@ class StallGuard2FilterEnable
   ss << this->name << ": " << this->value;
   value  = ss.str();
 !!!756337.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-
-
-
-    message.stctOutput.typeNumber = 173;
+    message.stctOutput.typeNumber = 173;  //StallGuard2FilterEnable
     message.stctOutput.value = value;
-
 !!!756465.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
     this->value = message.stctInput.value;
-

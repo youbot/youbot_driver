@@ -4,14 +4,12 @@ class TargetPositionReached
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
 !!!1048433.cpp!!!	getParameter(out parameter : bool) : void
     parameter = this->value;
-!!!1048561.cpp!!!	setParameter(in parameter : bool) : void
-    this->value = parameter;
 !!!1048689.cpp!!!	toString(out value : std::string) : void
   std::stringstream ss;
   ss << this->name << ": " << this->value;
   value  = ss.str();
 !!!1048817.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-    message.stctOutput.typeNumber = 8;
+    message.stctOutput.typeNumber = 8;  //TargetPositionReached
     if(value)
       message.stctOutput.value = 1;
     else

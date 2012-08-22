@@ -11,10 +11,7 @@ class StopOnStall
   ss << this->name << ": " << this->value;
   value  = ss.str();
 !!!765553.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-
-
-
-    message.stctOutput.typeNumber = 181;
+    message.stctOutput.typeNumber = 181;  //StopOnStall
     if(value)
       message.stctOutput.value = 1;
     else
@@ -22,4 +19,3 @@ class StopOnStall
 
 !!!765681.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
     this->value = message.stctInput.value;
-

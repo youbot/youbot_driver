@@ -20,12 +20,7 @@ class SmartEnergyThresholdSpeed
   ss << this->name << ": " << this->value;
   value  = ss.str();
 !!!766705.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-
-
-
-    message.stctOutput.typeNumber = 182;
+    message.stctOutput.typeNumber = 182;  //SmartEnergyThresholdSpeed
     message.stctOutput.value = value;
-
 !!!766833.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
     this->value = message.stctInput.value;
-

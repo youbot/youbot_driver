@@ -20,12 +20,7 @@ class SmartEnergyActualCurrent
   ss << this->name << ": " << this->value;
   value  = ss.str();
 !!!764401.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-
-
-
-    message.stctOutput.typeNumber = 180;
+    message.stctOutput.typeNumber = 180;   //SmartEnergyActualCurrent
     message.stctOutput.value = value;
-
 !!!764529.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
     this->value = message.stctInput.value;
-

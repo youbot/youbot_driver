@@ -15,6 +15,6 @@ class GripperFirmwareVersion
 !!!781681.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
     message.stctOutput.commandNumber = FIRMWARE_VERSION;
     message.stctOutput.moduleAddress = GRIPPER;
-    message.stctOutput.typeNumber = 0;
+    message.stctOutput.typeNumber = 0;  //GripperFirmwareVersion
     message.stctOutput.motorNumber = 0;
     message.stctOutput.value = 0;

@@ -20,12 +20,7 @@ class SlopeControlLowSide
   ss << this->name << ": " << this->value;
   value  = ss.str();
 !!!759793.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-
-
-
-    message.stctOutput.typeNumber = 176;
+    message.stctOutput.typeNumber = 176;  //SlopeControlLowSide
     message.stctOutput.value = value;
-
 !!!759921.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
     this->value = message.stctInput.value;
-

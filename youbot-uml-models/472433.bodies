@@ -21,7 +21,7 @@ class PositionSetpoint
   value  = ss.str();
 !!!924785.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
 
-    message.stctOutput.typeNumber = 0;
+    message.stctOutput.typeNumber = 0; //PositionSetpoint
     message.stctOutput.value = (uint32)(value * -1);
 
 !!!924913.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void

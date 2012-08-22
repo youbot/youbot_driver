@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 79
+  revision 80
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -428,6 +428,7 @@ ${namespace_end}"
 	class_ref 396529 // ChopperBlankTime
 	class_ref 396785 // ChopperHysteresisDecrement
 	class_ref 396913 // ChopperHysteresisEnd
+	class_ref 545777 // ChopperHysteresisStart
 	class_ref 396657 // ChopperMode
 	class_ref 397041 // ChopperOffTime
 	class_ref 396401 // DoubleStepEnable
@@ -459,6 +460,8 @@ ${namespace_end}"
 	class_ref 396273 // StepInterpolationEnable
 	class_ref 398833 // StopOnStall
 	class_ref 398577 // Vsense
+	class_ref 545521 // ActualAcceleration
+	class_ref 545649 // MinimumSpeed
       end
       comment "/****************************************************************
  *
@@ -656,6 +659,7 @@ ${namespace_end}"
 	class_ref 295921 // PositionControlSwitchingThreshold
 	class_ref 293105 // SpeedControlSwitchingThreshold
 	class_ref 320241 // CurrentControlSwitchingThreshold
+	class_ref 545265 // VelocityThresholdForHallFX
 	class_ref 252273 // PParameterFirstParametersPositionControl
 	class_ref 292849 // IParameterFirstParametersPositionControl
 	class_ref 292977 // DParameterFirstParametersPositionControl

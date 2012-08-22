@@ -20,12 +20,7 @@ class MaximumAcceleration
   ss << this->name << ": " << this->value;
   value  = ss.str();
 !!!734449.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-
-
-
-    message.stctOutput.typeNumber = 5;
+    message.stctOutput.typeNumber = 5;  //MaximumAcceleration
     message.stctOutput.value = value;
-
 !!!734577.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
     this->value = message.stctInput.value;
-

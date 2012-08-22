@@ -20,12 +20,7 @@ class SmartEnergyHysteresisStart
   ss << this->name << ": " << this->value;
   value  = ss.str();
 !!!755185.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-
-
-
-    message.stctOutput.typeNumber = 172;
+    message.stctOutput.typeNumber = 172;  //SmartEnergyHysteresisStart
     message.stctOutput.value = value;
-
 !!!755313.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
     this->value = message.stctInput.value;
-

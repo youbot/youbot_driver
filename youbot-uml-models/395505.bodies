@@ -20,12 +20,7 @@ class MaximumCurrent
   ss << this->name << ": " << this->value;
   value  = ss.str();
 !!!735601.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-
-
-
-    message.stctOutput.typeNumber = 6;
+    message.stctOutput.typeNumber = 6;  //MaximumCurrent
     message.stctOutput.value = value;
-
 !!!735729.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
     this->value = message.stctInput.value;
-

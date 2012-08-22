@@ -20,7 +20,7 @@ class VelocitySetpoint
   ss << this->name << ": " << this->value;
   value  = ss.str();
 !!!925937.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-    message.stctOutput.typeNumber = 2;
+    message.stctOutput.typeNumber = 2;  //VelocitySetpoint
     message.stctOutput.value = (uint32)value;
 
 !!!926065.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void

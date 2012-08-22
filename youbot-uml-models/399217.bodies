@@ -20,12 +20,8 @@ class Freewheeling
   ss << this->name << ": " << this->value;
   value  = ss.str();
 !!!769009.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-
-
-
-    message.stctOutput.typeNumber = 204; 
+    message.stctOutput.typeNumber = 204;   //Freewheeling
     message.stctOutput.value = value;
-
 !!!769137.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
     this->value = message.stctInput.value;
 
