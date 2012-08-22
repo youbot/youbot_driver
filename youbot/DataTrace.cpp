@@ -234,6 +234,7 @@ void DataTrace::startTrace() {
     parameterVector.push_back(new SineInitializationVelocity);
     parameterVector.push_back(new StopSwitchPolarity);
     parameterVector.push_back(new ThermalWindingTimeConstant);
+    parameterVector.push_back(new VelocityThresholdForHallFX);
 
 //    apiParameterVector.push_back(new JointName);
 //    apiParameterVector.push_back(new TorqueConstant);
