@@ -357,8 +357,6 @@ friend class YouBotGripperBar;
 
     void getParameter(bool& parameter) const;
 
-    void setParameter(const bool parameter);
-
     void toString(std::string& value) const;
 
 
@@ -587,6 +585,44 @@ friend class YouBotGripperBar;
     ChopperHysteresisEnd();
 
     virtual ~ChopperHysteresisEnd();
+
+    void getParameter(int& parameter) const;
+
+    void setParameter(const int parameter);
+
+    void toString(std::string& value) const;
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    int upperLimit;
+
+    int lowerLimit;
+
+    int value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+///  Hysteresis start setting. Please remark, that this  value is an offset to the hysteresis end value.
+///////////////////////////////////////////////////////////////////////////////
+class ChopperHysteresisStart : public YouBotGripperParameter {
+friend class YouBotGripper;
+friend class YouBotGripperBar;
+  public:
+    ChopperHysteresisStart();
+
+    virtual ~ChopperHysteresisStart();
 
     void getParameter(int& parameter) const;
 
@@ -1861,6 +1897,80 @@ friend class YouBotGripperBar;
     unsigned int lowerLimit;
 
     unsigned int value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// The current acceleration (read only).
+///////////////////////////////////////////////////////////////////////////////
+class ActualAcceleration : public YouBotGripperParameter {
+friend class YouBotGripper;
+friend class YouBotGripperBar;
+  public:
+    ActualAcceleration();
+
+    virtual ~ActualAcceleration();
+
+    void getParameter(int& parameter) const;
+
+    void toString(std::string& value) const;
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    int upperLimit;
+
+    int lowerLimit;
+
+    int value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
+/// Should  always  be  set  1  to  ensure  exact reaching  of  the  target  position.  Do  not change!
+///////////////////////////////////////////////////////////////////////////////
+class MinimumSpeed : public YouBotGripperParameter {
+friend class YouBotGripper;
+friend class YouBotGripperBar;
+  public:
+    MinimumSpeed();
+
+    virtual ~MinimumSpeed();
+
+    void getParameter(int& parameter) const;
+
+    void setParameter(const int parameter);
+
+    void toString(std::string& value) const;
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    int upperLimit;
+
+    int lowerLimit;
+
+    int value;
 
     std::string name;
 

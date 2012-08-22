@@ -99,7 +99,7 @@ void GripperFirmwareVersion::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message)
   // Bouml preserved body begin 000BED71
     message.stctOutput.commandNumber = FIRMWARE_VERSION;
     message.stctOutput.moduleAddress = GRIPPER;
-    message.stctOutput.typeNumber = 0;
+    message.stctOutput.typeNumber = 0;  //GripperFirmwareVersion
     message.stctOutput.motorNumber = 0;
     message.stctOutput.value = 0;
   // Bouml preserved body end 000BED71
@@ -327,7 +327,7 @@ void ActualPosition::toString(std::string& value) const {
 
 void ActualPosition::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000E1371
-    message.stctOutput.typeNumber = 1;
+    message.stctOutput.typeNumber = 1; //ActualPosition
     message.stctOutput.value = (uint32)(value * -1);
 
   // Bouml preserved body end 000E1371
@@ -384,7 +384,7 @@ void PositionSetpoint::toString(std::string& value) const {
 void PositionSetpoint::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000E1C71
 
-    message.stctOutput.typeNumber = 0;
+    message.stctOutput.typeNumber = 0; //PositionSetpoint
     message.stctOutput.value = (uint32)(value * -1);
 
   // Bouml preserved body end 000E1C71
@@ -416,12 +416,6 @@ void TargetPositionReached::getParameter(bool& parameter) const {
   // Bouml preserved body end 000FFF71
 }
 
-void TargetPositionReached::setParameter(const bool parameter) {
-  // Bouml preserved body begin 000FFFF1
-    this->value = parameter;
-  // Bouml preserved body end 000FFFF1
-}
-
 void TargetPositionReached::toString(std::string& value) const {
   // Bouml preserved body begin 00100071
   std::stringstream ss;
@@ -432,7 +426,7 @@ void TargetPositionReached::toString(std::string& value) const {
 
 void TargetPositionReached::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 001000F1
-    message.stctOutput.typeNumber = 8;
+    message.stctOutput.typeNumber = 8;  //TargetPositionReached
     if(value)
       message.stctOutput.value = 1;
     else
@@ -490,7 +484,7 @@ void ActualVelocity::toString(std::string& value) const {
 void ActualVelocity::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000E17F1
 
-    message.stctOutput.typeNumber = 3;
+    message.stctOutput.typeNumber = 3;  //ActualVelocity
     message.stctOutput.value = (uint32)value;
 
   // Bouml preserved body end 000E17F1
@@ -546,7 +540,7 @@ void VelocitySetpoint::toString(std::string& value) const {
 
 void VelocitySetpoint::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000E20F1
-    message.stctOutput.typeNumber = 2;
+    message.stctOutput.typeNumber = 2;  //VelocitySetpoint
     message.stctOutput.value = (uint32)value;
 
   // Bouml preserved body end 000E20F1
@@ -603,7 +597,7 @@ void ActualLoadValue::toString(std::string& value) const {
 void ActualLoadValue::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000BC071
 
-    message.stctOutput.typeNumber = 206; 
+    message.stctOutput.typeNumber = 206;  //ActualLoadValue
     message.stctOutput.value = value;
 
   // Bouml preserved body end 000BC071
@@ -659,7 +653,7 @@ void ChopperBlankTime::toString(std::string& value) const {
 void ChopperBlankTime::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B5D71
 
-    message.stctOutput.typeNumber = 162;
+    message.stctOutput.typeNumber = 162;  //ChopperBlankTime
     message.stctOutput.value = value;
 
   // Bouml preserved body end 000B5D71
@@ -714,12 +708,8 @@ void ChopperHysteresisDecrement::toString(std::string& value) const {
 
 void ChopperHysteresisDecrement::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B6671
-
-
-
-    message.stctOutput.typeNumber = 164;
+    message.stctOutput.typeNumber = 164;  //ChopperHysteresisDecrement
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B6671
 }
 
@@ -772,12 +762,8 @@ void ChopperHysteresisEnd::toString(std::string& value) const {
 
 void ChopperHysteresisEnd::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B6AF1
-
-
-
-    message.stctOutput.typeNumber = 165;
+    message.stctOutput.typeNumber = 165;  //ChopperHysteresisEnd
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B6AF1
 }
 
@@ -785,6 +771,60 @@ void ChopperHysteresisEnd::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& mess
   // Bouml preserved body begin 000B6B71
     this->value = (int32)message.stctInput.value;
   // Bouml preserved body end 000B6B71
+}
+
+ChopperHysteresisStart::ChopperHysteresisStart() {
+  // Bouml preserved body begin 00106871
+    this->name = "ChopperHysteresisStart";
+    this->lowerLimit = 0;
+    this->upperLimit = 8;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 00106871
+}
+
+ChopperHysteresisStart::~ChopperHysteresisStart() {
+  // Bouml preserved body begin 001068F1
+  // Bouml preserved body end 001068F1
+}
+
+void ChopperHysteresisStart::getParameter(int& parameter) const {
+  // Bouml preserved body begin 00106971
+    parameter = this->value;
+  // Bouml preserved body end 00106971
+}
+
+void ChopperHysteresisStart::setParameter(const int parameter) {
+  // Bouml preserved body begin 001069F1
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+  // Bouml preserved body end 001069F1
+}
+
+void ChopperHysteresisStart::toString(std::string& value) const {
+  // Bouml preserved body begin 00106A71
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 00106A71
+}
+
+void ChopperHysteresisStart::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
+  // Bouml preserved body begin 00106AF1
+    message.stctOutput.typeNumber = 166;  //ChopperHysteresisStart
+    message.stctOutput.value = value;
+  // Bouml preserved body end 00106AF1
+}
+
+void ChopperHysteresisStart::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
+  // Bouml preserved body begin 00106B71
+    this->value = (int32)message.stctInput.value;
+  // Bouml preserved body end 00106B71
 }
 
 ChopperMode::ChopperMode() {
@@ -822,12 +862,8 @@ void ChopperMode::toString(std::string& value) const {
 
 void ChopperMode::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B61F1
-
-
-
-    message.stctOutput.typeNumber = 163;
+    message.stctOutput.typeNumber = 163;  //ChopperMode
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B61F1
 }
 
@@ -883,19 +919,14 @@ void ChopperOffTime::toString(std::string& value) const {
 
 void ChopperOffTime::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B6F71
-
-
-
-    message.stctOutput.typeNumber = 167; 
+    message.stctOutput.typeNumber = 167;   //ChopperOffTime
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B6F71
 }
 
 void ChopperOffTime::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000B6FF1
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000B6FF1
 }
 
@@ -933,12 +964,8 @@ void DoubleStepEnable::toString(std::string& value) const {
 
 void DoubleStepEnable::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B58F1
-
-
-
-    message.stctOutput.typeNumber = 161;
+    message.stctOutput.typeNumber = 161;  //DoubleStepEnable
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B58F1
 }
 
@@ -984,10 +1011,8 @@ void ErrorFlags::toString(std::string& value) const {
 
 void ErrorFlags::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000BC4F1
-
-    message.stctOutput.typeNumber = 208;
+    message.stctOutput.typeNumber = 208;   //ErrorFlags
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000BC4F1
 }
 
@@ -1041,12 +1066,8 @@ void Freewheeling::toString(std::string& value) const {
 
 void Freewheeling::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000BBBF1
-
-
-
-    message.stctOutput.typeNumber = 204; 
+    message.stctOutput.typeNumber = 204;   //Freewheeling
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000BBBF1
 }
 
@@ -1100,19 +1121,14 @@ void MaximumAcceleration::toString(std::string& value) const {
 
 void MaximumAcceleration::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B34F1
-
-
-
-    message.stctOutput.typeNumber = 5;
+    message.stctOutput.typeNumber = 5;  //MaximumAcceleration
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B34F1
 }
 
 void MaximumAcceleration::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000B3571
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000B3571
 }
 
@@ -1159,19 +1175,14 @@ void MaximumCurrent::toString(std::string& value) const {
 
 void MaximumCurrent::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B3971
-
-
-
-    message.stctOutput.typeNumber = 6;
+    message.stctOutput.typeNumber = 6;  //MaximumCurrent
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B3971
 }
 
 void MaximumCurrent::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000B39F1
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000B39F1
 }
 
@@ -1218,12 +1229,8 @@ void MaximumPositioningSpeed::toString(std::string& value) const {
 
 void MaximumPositioningSpeed::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B3071
-
-
-
-    message.stctOutput.typeNumber = 4; //maximum positioning speed
+    message.stctOutput.typeNumber = 4; //MaximumPositioningSpeed
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B3071
 }
 
@@ -1276,12 +1283,8 @@ void MicrostepResolution::toString(std::string& value) const {
 
 void MicrostepResolution::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B46F1
-
-
-
-    message.stctOutput.typeNumber = 140;
+    message.stctOutput.typeNumber = 140;  //MicrostepResolution
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B46F1
 }
 
@@ -1335,19 +1338,14 @@ void PowerDownDelay::toString(std::string& value) const {
 
 void PowerDownDelay::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000BC971
-
-
-
-    message.stctOutput.typeNumber = 214;
+    message.stctOutput.typeNumber = 214;  //PowerDownDelay
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000BC971
 }
 
 void PowerDownDelay::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000BC9F1
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000BC9F1
 }
 
@@ -1394,19 +1392,14 @@ void PulseDivisor::toString(std::string& value) const {
 
 void PulseDivisor::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B4FF1
-
-
-
-    message.stctOutput.typeNumber = 154;
+    message.stctOutput.typeNumber = 154;  //PulseDivisor
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B4FF1
 }
 
 void PulseDivisor::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000B5071
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000B5071
 }
 
@@ -1453,19 +1446,14 @@ void RampDivisor::toString(std::string& value) const {
 
 void RampDivisor::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B4B71
-
-
-
-    message.stctOutput.typeNumber = 153;
+    message.stctOutput.typeNumber = 153;  //RampDivisor
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B4B71
 }
 
 void RampDivisor::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000B4BF1
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000B4BF1
 }
 
@@ -1512,19 +1500,14 @@ void RampMode::toString(std::string& value) const {
 
 void RampMode::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B4271
-
-
-
-    message.stctOutput.typeNumber = 138;
+    message.stctOutput.typeNumber = 138;  //RampMode
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B4271
 }
 
 void RampMode::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000B42F1
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000B42F1
 }
 
@@ -1571,19 +1554,14 @@ void ShortDetectionTimer::toString(std::string& value) const {
 
 void ShortDetectionTimer::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000BA0F1
-
-
-
-    message.stctOutput.typeNumber = 178;
+    message.stctOutput.typeNumber = 178;  //ShortDetectionTimer
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000BA0F1
 }
 
 void ShortDetectionTimer::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000BA171
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000BA171
 }
 
@@ -1621,19 +1599,14 @@ void ShortProtectionDisable::toString(std::string& value) const {
 
 void ShortProtectionDisable::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B9C71
-
-
-
-    message.stctOutput.typeNumber = 177;
+    message.stctOutput.typeNumber = 177;  //ShortProtectionDisable
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B9C71
 }
 
 void ShortProtectionDisable::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000B9CF1
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000B9CF1
 }
 
@@ -1680,19 +1653,14 @@ void SlopeControlHighSide::toString(std::string& value) const {
 
 void SlopeControlHighSide::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B9371
-
-
-
-    message.stctOutput.typeNumber = 175;
+    message.stctOutput.typeNumber = 175;  //SlopeControlHighSide
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B9371
 }
 
 void SlopeControlHighSide::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000B93F1
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000B93F1
 }
 
@@ -1739,19 +1707,14 @@ void SlopeControlLowSide::toString(std::string& value) const {
 
 void SlopeControlLowSide::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B97F1
-
-
-
-    message.stctOutput.typeNumber = 176;
+    message.stctOutput.typeNumber = 176;  //SlopeControlLowSide
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B97F1
 }
 
 void SlopeControlLowSide::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000B9871
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000B9871
 }
 
@@ -1798,19 +1761,14 @@ void SmartEnergyActualCurrent::toString(std::string& value) const {
 
 void SmartEnergyActualCurrent::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000BA9F1
-
-
-
-    message.stctOutput.typeNumber = 180;
+    message.stctOutput.typeNumber = 180;   //SmartEnergyActualCurrent
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000BA9F1
 }
 
 void SmartEnergyActualCurrent::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000BAA71
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000BAA71
 }
 
@@ -1857,19 +1815,14 @@ void SmartEnergyCurrentDownStep::toString(std::string& value) const {
 
 void SmartEnergyCurrentDownStep::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B7871
-
-
-
-    message.stctOutput.typeNumber = 169;
+    message.stctOutput.typeNumber = 169;   //SmartEnergyCurrentDownStep
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B7871
 }
 
 void SmartEnergyCurrentDownStep::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000B78F1
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000B78F1
 }
 
@@ -1916,19 +1869,14 @@ void SmartEnergyCurrentMinimum::toString(std::string& value) const {
 
 void SmartEnergyCurrentMinimum::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B73F1
-
-
-
-    message.stctOutput.typeNumber = 168;
+    message.stctOutput.typeNumber = 168;  //SmartEnergyCurrentMinimum
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B73F1
 }
 
 void SmartEnergyCurrentMinimum::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000B7471
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000B7471
 }
 
@@ -1975,19 +1923,14 @@ void SmartEnergyCurrentUpStep::toString(std::string& value) const {
 
 void SmartEnergyCurrentUpStep::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B8171
-
-
-
-    message.stctOutput.typeNumber = 171;
+    message.stctOutput.typeNumber = 171;   //SmartEnergyCurrentUpStep
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B8171
 }
 
 void SmartEnergyCurrentUpStep::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000B81F1
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000B81F1
 }
 
@@ -2034,19 +1977,14 @@ void SmartEnergyHysteresis::toString(std::string& value) const {
 
 void SmartEnergyHysteresis::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B7CF1
-
-
-
-    message.stctOutput.typeNumber = 170;
+    message.stctOutput.typeNumber = 170;   //SmartEnergyHysteresis
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B7CF1
 }
 
 void SmartEnergyHysteresis::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000B7D71
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000B7D71
 }
 
@@ -2093,19 +2031,14 @@ void SmartEnergyHysteresisStart::toString(std::string& value) const {
 
 void SmartEnergyHysteresisStart::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B85F1
-
-
-
-    message.stctOutput.typeNumber = 172;
+    message.stctOutput.typeNumber = 172;  //SmartEnergyHysteresisStart
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B85F1
 }
 
 void SmartEnergyHysteresisStart::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000B8671
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000B8671
 }
 
@@ -2152,19 +2085,14 @@ void SmartEnergySlowRunCurrent::toString(std::string& value) const {
 
 void SmartEnergySlowRunCurrent::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000BB771
-
-
-
-    message.stctOutput.typeNumber = 183;
+    message.stctOutput.typeNumber = 183;   //SmartEnergySlowRunCurrent
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000BB771
 }
 
 void SmartEnergySlowRunCurrent::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000BB7F1
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000BB7F1
 }
 
@@ -2211,19 +2139,14 @@ void SmartEnergyThresholdSpeed::toString(std::string& value) const {
 
 void SmartEnergyThresholdSpeed::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000BB2F1
-
-
-
-    message.stctOutput.typeNumber = 182;
+    message.stctOutput.typeNumber = 182;  //SmartEnergyThresholdSpeed
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000BB2F1
 }
 
 void SmartEnergyThresholdSpeed::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000BB371
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000BB371
 }
 
@@ -2261,19 +2184,14 @@ void StallGuard2FilterEnable::toString(std::string& value) const {
 
 void StallGuard2FilterEnable::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B8A71
-
-
-
-    message.stctOutput.typeNumber = 173;
+    message.stctOutput.typeNumber = 173;  //StallGuard2FilterEnable
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B8A71
 }
 
 void StallGuard2FilterEnable::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000B8AF1
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000B8AF1
 }
 
@@ -2320,7 +2238,7 @@ void StallGuard2Threshold::toString(std::string& value) const {
 
 void StallGuard2Threshold::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B8EF1
-    message.stctOutput.typeNumber = 174;
+    message.stctOutput.typeNumber = 174;  //StallGuard2Threshold
     message.stctOutput.value = value;
   // Bouml preserved body end 000B8EF1
 }
@@ -2328,7 +2246,6 @@ void StallGuard2Threshold::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) c
 void StallGuard2Threshold::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000B8F71
     this->value = (int32)message.stctInput.value;
-
   // Bouml preserved body end 000B8F71
 }
 
@@ -2375,19 +2292,14 @@ void StandbyCurrent::toString(std::string& value) const {
 
 void StandbyCurrent::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B3DF1
-
-
-
-    message.stctOutput.typeNumber = 7;
+    message.stctOutput.typeNumber = 7;  //StandbyCurrent
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B3DF1
 }
 
 void StandbyCurrent::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000B3E71
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000B3E71
 }
 
@@ -2425,19 +2337,14 @@ void StepInterpolationEnable::toString(std::string& value) const {
 
 void StepInterpolationEnable::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000B5471
-
-
-
-    message.stctOutput.typeNumber = 160;
+    message.stctOutput.typeNumber = 160;  //StepInterpolationEnable
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000B5471
 }
 
 void StepInterpolationEnable::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000B54F1
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000B54F1
 }
 
@@ -2475,10 +2382,7 @@ void StopOnStall::toString(std::string& value) const {
 
 void StopOnStall::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000BAE71
-
-
-
-    message.stctOutput.typeNumber = 181;
+    message.stctOutput.typeNumber = 181;  //StopOnStall
     if(value)
       message.stctOutput.value = 1;
     else
@@ -2490,7 +2394,6 @@ void StopOnStall::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
 void StopOnStall::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000BAEF1
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000BAEF1
 }
 
@@ -2537,20 +2440,111 @@ void Vsense::toString(std::string& value) const {
 
 void Vsense::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
   // Bouml preserved body begin 000BA571
-
-
-
-    message.stctOutput.typeNumber = 179;
+    message.stctOutput.typeNumber = 179;  //Vsense
     message.stctOutput.value = value;
-
   // Bouml preserved body end 000BA571
 }
 
 void Vsense::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
   // Bouml preserved body begin 000BA5F1
     this->value = message.stctInput.value;
-
   // Bouml preserved body end 000BA5F1
+}
+
+ActualAcceleration::ActualAcceleration() {
+  // Bouml preserved body begin 00105F71
+    this->name = "ActualAcceleration";
+    this->lowerLimit = 0;
+    this->upperLimit = 2047;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 00105F71
+}
+
+ActualAcceleration::~ActualAcceleration() {
+  // Bouml preserved body begin 00105FF1
+  // Bouml preserved body end 00105FF1
+}
+
+void ActualAcceleration::getParameter(int& parameter) const {
+  // Bouml preserved body begin 00106071
+    parameter = this->value;
+  // Bouml preserved body end 00106071
+}
+
+void ActualAcceleration::toString(std::string& value) const {
+  // Bouml preserved body begin 00106171
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 00106171
+}
+
+void ActualAcceleration::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
+  // Bouml preserved body begin 001061F1
+    message.stctOutput.typeNumber = 135;  //ActualAcceleration
+    message.stctOutput.value = value;
+  // Bouml preserved body end 001061F1
+}
+
+void ActualAcceleration::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
+  // Bouml preserved body begin 00106271
+    this->value = message.stctInput.value;
+  // Bouml preserved body end 00106271
+}
+
+MinimumSpeed::MinimumSpeed() {
+  // Bouml preserved body begin 001063F1
+    this->name = "MinimumSpeed";
+    this->lowerLimit = 0;
+    this->upperLimit = 2047;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 001063F1
+}
+
+MinimumSpeed::~MinimumSpeed() {
+  // Bouml preserved body begin 00106471
+  // Bouml preserved body end 00106471
+}
+
+void MinimumSpeed::getParameter(int& parameter) const {
+  // Bouml preserved body begin 001064F1
+    parameter = this->value;
+  // Bouml preserved body end 001064F1
+}
+
+void MinimumSpeed::setParameter(const int parameter) {
+  // Bouml preserved body begin 00106571
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+  // Bouml preserved body end 00106571
+}
+
+void MinimumSpeed::toString(std::string& value) const {
+  // Bouml preserved body begin 001065F1
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 001065F1
+}
+
+void MinimumSpeed::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
+  // Bouml preserved body begin 00106671
+    message.stctOutput.typeNumber = 130;  //MinimumSpeed
+    message.stctOutput.value = (uint32)value;
+
+  // Bouml preserved body end 00106671
+}
+
+void MinimumSpeed::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
+  // Bouml preserved body begin 001066F1
+    this->value = (int32)message.stctInput.value;
+  // Bouml preserved body end 001066F1
 }
 
 
