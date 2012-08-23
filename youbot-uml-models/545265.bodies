@@ -1,0 +1,31 @@
+class VelocityThresholdForHallFX
+!!!1070833.cpp!!!	VelocityThresholdForHallFX()
+    this->name = "VelocityThresholdForHallFX";
+    this->lowerLimit = INT_MIN * radian_per_second;
+    this->upperLimit = INT_MAX * radian_per_second;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!1071089.cpp!!!	getParameter(out parameter : quantity<angular_velocity>) : void
+    parameter = this->value;
+!!!1071217.cpp!!!	setParameter(in parameter : quantity<angular_velocity>) : void
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+!!!1071345.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+!!!1071473.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
+
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 14; //VelocityThresholdForHallFX
+    message.stctOutput.value = (int32) round((value.value() / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
+
+!!!1071601.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
+    double motorRPM = (int32)message.stctInput.value;
+    this->value =  ((motorRPM / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;

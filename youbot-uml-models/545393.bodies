@@ -1,0 +1,21 @@
+class ActualMotorCurrent
+!!!1071985.cpp!!!	ActualMotorCurrent()
+    this->name = "CurrentError";
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!1072241.cpp!!!	getParameter(out parameter : quantity<si::current>) : void
+    parameter = this->value;
+!!!1072369.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+!!!1072497.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 200; //CurrentError
+  //  message.stctOutput.value = value;
+
+!!!1072625.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+      double temp = (int)message.stctInput.value;
+      this->value = temp /1000.0 * ampere; //convert from milli A to A
+    }
