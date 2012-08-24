@@ -139,7 +139,7 @@ void InitializeJoint::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCo
   // Bouml preserved body begin 00095371
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 15; //Initialize BLDC
+    message.stctOutput.typeNumber = 15; //InitializeJoint
     message.stctOutput.value = (int)this->value;
   // Bouml preserved body end 00095371
 }
@@ -215,7 +215,7 @@ void FirmwareVersion::setParameter(const int controllerType, const double firmwa
 void FirmwareVersion::toString(std::string& value) {
   // Bouml preserved body begin 0009C571
   std::stringstream ss;
-  ss << this->name << ": " << this->controllerType << " Version: " << this->firmwareVersion;
+  ss << this->name << ": Controller: " << this->controllerType << " Version: " << this->firmwareVersion;
   value  = ss.str();
   // Bouml preserved body end 0009C571
 }
@@ -501,7 +501,7 @@ void MaximumPositioningVelocity::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& mess
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 4; //maximum positioning speed
+    message.stctOutput.typeNumber = 4; //MaximumPositioningVelocity
     message.stctOutput.value = (int32) round((value.value() / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
 
   // Bouml preserved body end 0005A0F1
@@ -1020,7 +1020,7 @@ void DParameterFirstParametersPositionControl::getYouBotMailboxMsg(YouBotSlaveMa
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 132; //PParameterFirstParametersPositionControl
+    message.stctOutput.typeNumber = 132; //DParameterFirstParametersPositionControl
     message.stctOutput.value = value; 
 
   // Bouml preserved body end 00069FF1
@@ -1600,7 +1600,7 @@ void PParameterSecondParametersPositionControl::getYouBotMailboxMsg(YouBotSlaveM
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 230; //PParameterFirstParametersPositionControl
+    message.stctOutput.typeNumber = 230; //PParameterSecondParametersPositionControl
     message.stctOutput.value = value;
 
   // Bouml preserved body end 0006CFF1
@@ -1890,7 +1890,7 @@ void IParameterSecondParametersSpeedControl::getYouBotMailboxMsg(YouBotSlaveMail
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 235; //IParameterFirstParametersPositionControl
+    message.stctOutput.typeNumber = 235; //IParameterSecondParametersSpeedControl
     message.stctOutput.value = value;
 
   // Bouml preserved body end 0006E3F1
@@ -2296,7 +2296,7 @@ void MaximumVelocityToSetPosition::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& me
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 7; //MVP Target reached velocity
+    message.stctOutput.typeNumber = 7; //MaximumVelocityToSetPosition
     message.stctOutput.value = (int32) round((value.value() / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
 
   // Bouml preserved body end 00079171

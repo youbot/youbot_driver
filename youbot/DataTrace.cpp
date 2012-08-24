@@ -107,9 +107,13 @@ void DataTrace::startTrace() {
     file << "# Date: " << boost::posix_time::to_simple_string(today) << std::endl;
     
     JointName jointName;
+    FirmwareVersion firmwareParameter;
     std::string parameterString;
+    joint.getConfigurationParameter(firmwareParameter);
     joint.getConfigurationParameter(jointName);
     jointName.toString(parameterString);
+    file << "# " << parameterString << std::endl;
+    firmwareParameter.toString(parameterString);
     file << "# " << parameterString << std::endl;
     
     
@@ -152,14 +156,18 @@ void DataTrace::startTrace() {
 
     parameterVector.push_back(new ActualMotorVoltage);
     parameterVector.push_back(new ActualPWMDutyCycle);
+    //parameterVector.push_back(new ActualModuleSupplyCurrent);
     //   parameterVector.push_back(new ErrorAndStatus);
+    parameterVector.push_back(new ActualMotorDriverTemperature);
     parameterVector.push_back(new I2tSum);
     parameterVector.push_back(new PositionError);
     parameterVector.push_back(new PositionErrorSum);
     parameterVector.push_back(new RampGeneratorSpeed);
     parameterVector.push_back(new VelocityError);
     parameterVector.push_back(new VelocityErrorSum);
-    //   parameterVector.push_back(new CalibrateJoint);
+    parameterVector.push_back(new CurrentError);
+    parameterVector.push_back(new CurrentErrorSum);
+
     parameterVector.push_back(new CurrentControlSwitchingThreshold);
     parameterVector.push_back(new DParameterFirstParametersCurrentControl);
     parameterVector.push_back(new DParameterFirstParametersPositionControl);
@@ -235,6 +243,7 @@ void DataTrace::startTrace() {
     parameterVector.push_back(new StopSwitchPolarity);
     parameterVector.push_back(new ThermalWindingTimeConstant);
     parameterVector.push_back(new VelocityThresholdForHallFX);
+    parameterVector.push_back(new MotorHaltedVelocity);
 
 //    apiParameterVector.push_back(new JointName);
 //    apiParameterVector.push_back(new TorqueConstant);
@@ -256,6 +265,8 @@ void DataTrace::startTrace() {
   //  joint.getConfigurationParameter(jointName);
     jointName.toString(parameterString);
     //   std::cout << parameterString << std::endl;
+    parametersBeginTraceFile << parameterString << std::endl;
+    firmwareParameter.toString(parameterString);
     parametersBeginTraceFile << parameterString << std::endl;
 
     TorqueConstant torqueconst;
@@ -318,6 +329,11 @@ void DataTrace::stopTrace() {
     joint.getConfigurationParameter(jointName);
     jointName.toString(parameterString);
     //   std::cout << parameterString << std::endl;
+    parametersEndTraceFile << parameterString << std::endl;
+    
+    FirmwareVersion firmwareParameter;
+    joint.getConfigurationParameter(firmwareParameter);
+    firmwareParameter.toString(parameterString);
     parametersEndTraceFile << parameterString << std::endl;
 
     TorqueConstant torqueconst;
