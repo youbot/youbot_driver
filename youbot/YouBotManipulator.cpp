@@ -96,6 +96,12 @@ void YouBotManipulator::doJointCommutation() {
     bool isInitialized = false;
     int noInitialization = 0;
     std::string jointName;
+    unsigned int statusFlags;
+    std::vector<bool> isCommutated;
+    isCommutated.assign(ARMJOINTS, false);
+    unsigned int u = 0;
+    JointCurrentSetpoint zerocurrent;
+    zerocurrent.current = 0.0 * ampere;
 
 
     ClearMotorControllerTimeoutFlag clearTimeoutFlag;
@@ -122,6 +128,7 @@ void YouBotManipulator::doJointCommutation() {
       JointCurrentSetpoint J3CommutationCurrent;
       JointCurrentSetpoint J4CommutationCurrent;
       JointCurrentSetpoint J5CommutationCurrent;
+      JointRoundsPerMinuteSetpoint rpmSetpoint(10);
 	
       configfile->readInto(comCur, "Joint_1", "CommutationCurrent_[ampere]");
       J1CommutationCurrent.current = comCur * ampere;
@@ -134,23 +141,23 @@ void YouBotManipulator::doJointCommutation() {
       configfile->readInto(comCur, "Joint_5", "CommutationCurrent_[ampere]");
       J5CommutationCurrent.current = comCur * ampere;
       
-      ethercatMaster.AutomaticReceiveOn(false);
-      this->getArmJoint(1).setData(J1CommutationCurrent);
-      this->getArmJoint(2).setData(J2CommutationCurrent);
-      this->getArmJoint(3).setData(J3CommutationCurrent);
-      this->getArmJoint(4).setData(J4CommutationCurrent);
-      this->getArmJoint(5).setData(J5CommutationCurrent);
-      ethercatMaster.AutomaticReceiveOn(true);
-
-      unsigned int statusFlags;
-      std::vector<bool> isCommutated;
-      isCommutated.assign(ARMJOINTS, false);
-      unsigned int u = 0;
-      JointCurrentSetpoint zerocurrent;
-			zerocurrent.current = 0.0 * ampere;
+//      ethercatMaster.AutomaticReceiveOn(false);
+//      this->getArmJoint(1).setData(J1CommutationCurrent);
+//      this->getArmJoint(2).setData(J2CommutationCurrent);
+//      this->getArmJoint(3).setData(J3CommutationCurrent);
+//      this->getArmJoint(4).setData(J4CommutationCurrent);
+//      this->getArmJoint(5).setData(J5CommutationCurrent);
+//      ethercatMaster.AutomaticReceiveOn(true);
       
-      SLEEP_MILLISEC(100); // give to controller some time to do the commutation
-
+      ethercatMaster.AutomaticReceiveOn(false);
+      this->getArmJoint(1).setData(rpmSetpoint);
+      this->getArmJoint(2).setData(rpmSetpoint);
+      this->getArmJoint(3).setData(rpmSetpoint);
+      this->getArmJoint(4).setData(rpmSetpoint);
+      this->getArmJoint(5).setData(rpmSetpoint);
+      ethercatMaster.AutomaticReceiveOn(true);
+     
+      
       // check for the next 5 sec if the joints are commutated
       for (u = 1; u <= 5000; u++) {
         for (unsigned int i = 1; i <= ARMJOINTS; i++) {
@@ -169,8 +176,6 @@ void YouBotManipulator::doJointCommutation() {
         }
         SLEEP_MILLISEC(1);
       }
-
-      SLEEP_MILLISEC(200); // the controller likes it
 
       for (unsigned int i = 1; i <= ARMJOINTS; i++) {
         this->getArmJoint(i).setData(zerocurrent);
