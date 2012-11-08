@@ -47,6 +47,13 @@ void YouBotBaseTestWithoutThread::YouBotBaseTestWithoutThread_PositionMode() {
 		ethercatMaster->receiveProcessData();
 	}
 	myTrace.startTrace();
+  
+  ClearMotorControllerTimeoutFlag clearTimeoutFlag;
+  myBase.getBaseJoint(1).setConfigurationParameter(clearTimeoutFlag);
+  myBase.getBaseJoint(2).setConfigurationParameter(clearTimeoutFlag);
+  myBase.getBaseJoint(3).setConfigurationParameter(clearTimeoutFlag);
+  myBase.getBaseJoint(4).setConfigurationParameter(clearTimeoutFlag);
+  myBase.getBaseJoint(5).setConfigurationParameter(clearTimeoutFlag);
 	
 	startTime = myTrace.getTimeDurationMilliSec();
 	overallTime = startTime + durationNull + stepStartTime + durationNull;
@@ -87,6 +94,13 @@ void YouBotBaseTestWithoutThread::YouBotBaseTestWithoutThread_VelocityMode() {
 		ethercatMaster->receiveProcessData();
 	}
 	myTrace.startTrace();
+  
+  ClearMotorControllerTimeoutFlag clearTimeoutFlag;
+  myBase.getBaseJoint(1).setConfigurationParameter(clearTimeoutFlag);
+  myBase.getBaseJoint(2).setConfigurationParameter(clearTimeoutFlag);
+  myBase.getBaseJoint(3).setConfigurationParameter(clearTimeoutFlag);
+  myBase.getBaseJoint(4).setConfigurationParameter(clearTimeoutFlag);
+  myBase.getBaseJoint(5).setConfigurationParameter(clearTimeoutFlag);
 	
 	startTime = myTrace.getTimeDurationMilliSec();
 	overallTime = startTime + durationNull + stepStartTime + durationNull;
@@ -127,6 +141,13 @@ void YouBotBaseTestWithoutThread::YouBotBaseTestWithoutThread_CurrentMode() {
 		ethercatMaster->receiveProcessData();
 	}
 	myTrace.startTrace();
+  
+  ClearMotorControllerTimeoutFlag clearTimeoutFlag;
+  myBase.getBaseJoint(1).setConfigurationParameter(clearTimeoutFlag);
+  myBase.getBaseJoint(2).setConfigurationParameter(clearTimeoutFlag);
+  myBase.getBaseJoint(3).setConfigurationParameter(clearTimeoutFlag);
+  myBase.getBaseJoint(4).setConfigurationParameter(clearTimeoutFlag);
+  myBase.getBaseJoint(5).setConfigurationParameter(clearTimeoutFlag);
 	
 	startTime = myTrace.getTimeDurationMilliSec();
 	overallTime = startTime + durationNull + stepStartTime + durationNull;

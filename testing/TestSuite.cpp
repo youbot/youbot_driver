@@ -1,5 +1,6 @@
 #include "YouBotBaseTest.hpp"
 #include "YouBotBaseTestWithoutThread.hpp"
+#include "YouBotArmTestWithoutThread.hpp"
 #include "YouBotBaseKinematicsTest.hpp"
 #include "YouBotArmTest.hpp"
 #include "YouBotGripperTest.hpp"
@@ -8,9 +9,10 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-CPPUNIT_TEST_SUITE_REGISTRATION( YouBotBaseTest );
 CPPUNIT_TEST_SUITE_REGISTRATION( YouBotBaseTestWithoutThread );
+CPPUNIT_TEST_SUITE_REGISTRATION( YouBotBaseTest );
 CPPUNIT_TEST_SUITE_REGISTRATION( YouBotBaseKinematicsTest );
+CPPUNIT_TEST_SUITE_REGISTRATION( YouBotArmTestWithoutThread );
 CPPUNIT_TEST_SUITE_REGISTRATION( YouBotArmTest );
 CPPUNIT_TEST_SUITE_REGISTRATION( YouBotGripperTest );
 

@@ -6,6 +6,7 @@ ADD_EXECUTABLE(base_arm_gripper_test
   ${PROJECT_SOURCE_DIR}/testing/YouBotBaseTestWithoutThread.cpp
   ${PROJECT_SOURCE_DIR}/testing/YouBotBaseKinematicsTest.cpp
   ${PROJECT_SOURCE_DIR}/testing/YouBotArmTest.cpp
+  ${PROJECT_SOURCE_DIR}/testing/YouBotArmTestWithoutThread.cpp
   ${PROJECT_SOURCE_DIR}/testing/YouBotGripperTest.cpp
 )
 
