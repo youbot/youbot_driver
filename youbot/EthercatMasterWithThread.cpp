@@ -250,7 +250,7 @@ void EthercatMasterWithThread::registerJointLimitMonitor(JointLimitMonitor* obje
     {
       boost::mutex::scoped_lock limitMonitorMutex(jointLimitMonitorVectorMutex);
       if (this->jointLimitMonitors[JointNumber - 1] != NULL)
-        throw std::runtime_error("A joint limit monitor is already register for this joint!");
+        LOG(warning) << "A joint limit monitor is already register for this joint!";
       if ((JointNumber - 1) >= this->jointLimitMonitors.size())
         throw std::out_of_range("Invalid joint number");
 
