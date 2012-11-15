@@ -20,11 +20,7 @@ class ChopperHysteresisEnd
   ss << this->name << ": " << this->value;
   value  = ss.str();
 !!!748273.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-
-
-
-    message.stctOutput.typeNumber = 165;
+    message.stctOutput.typeNumber = 165;  //ChopperHysteresisEnd
     message.stctOutput.value = value;
-
 !!!748401.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
     this->value = (int32)message.stctInput.value;

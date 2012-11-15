@@ -139,7 +139,7 @@ void InitializeJoint::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCo
   // Bouml preserved body begin 00095371
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 15; //Initialize BLDC
+    message.stctOutput.typeNumber = 15; //InitializeJoint
     message.stctOutput.value = (int)this->value;
   // Bouml preserved body end 00095371
 }
@@ -215,7 +215,7 @@ void FirmwareVersion::setParameter(const int controllerType, const double firmwa
 void FirmwareVersion::toString(std::string& value) {
   // Bouml preserved body begin 0009C571
   std::stringstream ss;
-  ss << this->name << ": " << this->controllerType << " Version: " << this->firmwareVersion;
+  ss << this->name << ": Controller: " << this->controllerType << " Version: " << this->firmwareVersion;
   value  = ss.str();
   // Bouml preserved body end 0009C571
 }
@@ -224,7 +224,7 @@ void FirmwareVersion::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCo
   // Bouml preserved body begin 00098F71
     message.stctOutput.commandNumber = FIRMWARE_VERSION;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 0;
+    message.stctOutput.typeNumber = 0; //FirmwareVersion
     message.stctOutput.value = 0;
   // Bouml preserved body end 00098F71
 }
@@ -501,7 +501,7 @@ void MaximumPositioningVelocity::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& mess
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 4; //maximum positioning speed
+    message.stctOutput.typeNumber = 4; //MaximumPositioningVelocity
     message.stctOutput.value = (int32) round((value.value() / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
 
   // Bouml preserved body end 0005A0F1
@@ -740,6 +740,66 @@ void SpeedControlSwitchingThreshold::setYouBotMailboxMsg(const YouBotSlaveMailbo
   // Bouml preserved body end 0006A471
 }
 
+
+VelocityThresholdForHallFX::VelocityThresholdForHallFX() {
+  // Bouml preserved body begin 001056F1
+    this->name = "VelocityThresholdForHallFX";
+    this->lowerLimit = INT_MIN * radian_per_second;
+    this->upperLimit = INT_MAX * radian_per_second;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+  // Bouml preserved body end 001056F1
+}
+
+VelocityThresholdForHallFX::~VelocityThresholdForHallFX() {
+  // Bouml preserved body begin 00105771
+  // Bouml preserved body end 00105771
+}
+
+void VelocityThresholdForHallFX::getParameter(quantity<angular_velocity>& parameter) const {
+  // Bouml preserved body begin 001057F1
+    parameter = this->value;
+  // Bouml preserved body end 001057F1
+}
+
+void VelocityThresholdForHallFX::setParameter(const quantity<angular_velocity>& parameter) {
+  // Bouml preserved body begin 00105871
+    if (this->lowerLimit > parameter) {
+      throw std::out_of_range("The parameter exceeds the lower limit");
+    }
+    if (this->upperLimit < parameter) {
+      throw std::out_of_range("The parameter exceeds the upper limit");
+    }
+
+    this->value = parameter;
+  // Bouml preserved body end 00105871
+}
+
+void VelocityThresholdForHallFX::toString(std::string& value) {
+  // Bouml preserved body begin 001058F1
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+  // Bouml preserved body end 001058F1
+}
+
+void VelocityThresholdForHallFX::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
+  // Bouml preserved body begin 00105971
+
+    message.stctOutput.commandNumber = msgType;
+    message.stctOutput.moduleAddress = DRIVE;
+    message.stctOutput.typeNumber = 14; //VelocityThresholdForHallFX
+    message.stctOutput.value = (int32) round((value.value() / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
+
+  // Bouml preserved body end 00105971
+}
+
+void VelocityThresholdForHallFX::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
+  // Bouml preserved body begin 001059F1
+    double motorRPM = (int32)message.stctInput.value;
+    this->value =  ((motorRPM / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
+  // Bouml preserved body end 001059F1
+}
+
 PParameterFirstParametersPositionControl::PParameterFirstParametersPositionControl() {
   // Bouml preserved body begin 0005C9F1
     this->name = "PParameterFirstParametersPositionControl";
@@ -902,7 +962,7 @@ void DParameterFirstParametersPositionControl::getYouBotMailboxMsg(YouBotSlaveMa
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 132; //PParameterFirstParametersPositionControl
+    message.stctOutput.typeNumber = 132; //DParameterFirstParametersPositionControl
     message.stctOutput.value = value; 
 
   // Bouml preserved body end 00069FF1
@@ -1250,7 +1310,7 @@ void PParameterSecondParametersPositionControl::getYouBotMailboxMsg(YouBotSlaveM
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 230; //PParameterFirstParametersPositionControl
+    message.stctOutput.typeNumber = 230; //PParameterSecondParametersPositionControl
     message.stctOutput.value = value;
 
   // Bouml preserved body end 0006CFF1
@@ -1540,7 +1600,7 @@ void IParameterSecondParametersSpeedControl::getYouBotMailboxMsg(YouBotSlaveMail
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 235; //IParameterFirstParametersPositionControl
+    message.stctOutput.typeNumber = 235; //IParameterSecondParametersSpeedControl
     message.stctOutput.value = value;
 
   // Bouml preserved body end 0006E3F1
@@ -1946,7 +2006,7 @@ void MaximumVelocityToSetPosition::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& me
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 7; //MVP Target reached velocity
+    message.stctOutput.typeNumber = 7; //MaximumVelocityToSetPosition
     message.stctOutput.value = (int32) round((value.value() / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
 
   // Bouml preserved body end 00079171

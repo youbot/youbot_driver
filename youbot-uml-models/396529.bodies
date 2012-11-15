@@ -21,7 +21,7 @@ class ChopperBlankTime
   value  = ss.str();
 !!!744817.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
 
-    message.stctOutput.typeNumber = 162;
+    message.stctOutput.typeNumber = 162;  //ChopperBlankTime
     message.stctOutput.value = value;
 
 !!!744945.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void

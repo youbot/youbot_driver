@@ -20,7 +20,7 @@ class ActualPosition
   ss << this->name << ": " << this->value;
   value  = ss.str();
 !!!922481.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-    message.stctOutput.typeNumber = 1;
+    message.stctOutput.typeNumber = 1; //ActualPosition
     message.stctOutput.value = (uint32)(value * -1);
 
 !!!922609.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void

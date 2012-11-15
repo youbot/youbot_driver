@@ -20,12 +20,7 @@ class PowerDownDelay
   ss << this->name << ": " << this->value;
   value  = ss.str();
 !!!772465.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-
-
-
-    message.stctOutput.typeNumber = 214;
+    message.stctOutput.typeNumber = 214;  //PowerDownDelay
     message.stctOutput.value = value;
-
 !!!772593.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
     this->value = message.stctInput.value;
-

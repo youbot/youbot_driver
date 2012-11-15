@@ -121,9 +121,11 @@ void GripperDataTrace::startTrace(const std::string parameterName, const std::st
 //    parameterVector.push_back(new MaxTravelDistance);
     parameterVector.push_back(new ActualPosition);
     parameterVector.push_back(new ActualVelocity);
+    parameterVector.push_back(new ActualAcceleration);
     parameterVector.push_back(new ActualLoadValue);
     parameterVector.push_back(new ChopperBlankTime);
     parameterVector.push_back(new ChopperHysteresisDecrement);
+    parameterVector.push_back(new ChopperHysteresisStart);
     parameterVector.push_back(new ChopperHysteresisEnd);
     parameterVector.push_back(new ChopperMode);
     parameterVector.push_back(new ChopperOffTime);
@@ -156,6 +158,7 @@ void GripperDataTrace::startTrace(const std::string parameterName, const std::st
     parameterVector.push_back(new StepInterpolationEnable);
     parameterVector.push_back(new StopOnStall);
     parameterVector.push_back(new Vsense);
+    parameterVector.push_back(new MinimumSpeed);
 
     parametersBeginTraceFile << "Name: " << this->name << std::endl;
     parametersBeginTraceFile << "Date: " << boost::posix_time::to_simple_string(today) << std::endl;

@@ -20,11 +20,7 @@ class MaximumPositioningSpeed
   ss << this->name << ": " << this->value;
   value  = ss.str();
 !!!733297.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-
-
-
-    message.stctOutput.typeNumber = 4; //maximum positioning speed
+    message.stctOutput.typeNumber = 4; //MaximumPositioningSpeed
     message.stctOutput.value = value;
-
 !!!733425.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
     this->value = message.stctInput.value;

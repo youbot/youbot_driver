@@ -21,7 +21,7 @@ class ActualLoadValue
   value  = ss.str();
 !!!770161.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
 
-    message.stctOutput.typeNumber = 206; 
+    message.stctOutput.typeNumber = 206;  //ActualLoadValue
     message.stctOutput.value = value;
 
 !!!770289.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void

@@ -21,7 +21,7 @@ class ActualVelocity
   value  = ss.str();
 !!!923633.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
 
-    message.stctOutput.typeNumber = 3;
+    message.stctOutput.typeNumber = 3;  //ActualVelocity
     message.stctOutput.value = (uint32)value;
 
 !!!923761.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void

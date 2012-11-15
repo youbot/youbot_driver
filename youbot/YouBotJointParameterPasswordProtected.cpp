@@ -1449,7 +1449,7 @@ void SetEncoderCounterZeroOnlyOnce::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& m
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 163; //ReinitializationSinusoidalCommutation
+    message.stctOutput.typeNumber = 163; //SetEncoderCounterZeroOnlyOnce
     message.stctOutput.value = value;
 
   // Bouml preserved body end 0007D271

@@ -11,12 +11,7 @@ class StepInterpolationEnable
   ss << this->name << ": " << this->value;
   value  = ss.str();
 !!!742513.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-
-
-
-    message.stctOutput.typeNumber = 160;
+    message.stctOutput.typeNumber = 160;  //StepInterpolationEnable
     message.stctOutput.value = value;
-
 !!!742641.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
     this->value = message.stctInput.value;
-

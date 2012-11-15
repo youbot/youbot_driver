@@ -20,12 +20,7 @@ class SmartEnergyCurrentUpStep
   ss << this->name << ": " << this->value;
   value  = ss.str();
 !!!754033.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-
-
-
-    message.stctOutput.typeNumber = 171;
+    message.stctOutput.typeNumber = 171;   //SmartEnergyCurrentUpStep
     message.stctOutput.value = value;
-
 !!!754161.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
     this->value = message.stctInput.value;
-

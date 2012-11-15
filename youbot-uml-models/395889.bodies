@@ -20,12 +20,8 @@ class MicrostepResolution
   ss << this->name << ": " << this->value;
   value  = ss.str();
 !!!739057.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-
-
-
-    message.stctOutput.typeNumber = 140;
+    message.stctOutput.typeNumber = 140;  //MicrostepResolution
     message.stctOutput.value = value;
-
 !!!739185.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
     this->value = message.stctInput.value;
 

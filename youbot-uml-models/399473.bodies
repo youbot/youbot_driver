@@ -12,10 +12,8 @@ class ErrorFlags
   ss << this->name << ": " << this->value;
   value  = ss.str();
 !!!771313.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-
-    message.stctOutput.typeNumber = 208;
+    message.stctOutput.typeNumber = 208;   //ErrorFlags
     message.stctOutput.value = value;
-
 !!!771441.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
     this->value = message.stctInput.value;
 

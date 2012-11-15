@@ -11,12 +11,8 @@ class DoubleStepEnable
   ss << this->name << ": " << this->value;
   value  = ss.str();
 !!!743665.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-
-
-
-    message.stctOutput.typeNumber = 161;
+    message.stctOutput.typeNumber = 161;  //DoubleStepEnable
     message.stctOutput.value = value;
-
 !!!743793.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
     this->value = message.stctInput.value;
 

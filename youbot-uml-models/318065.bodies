@@ -14,7 +14,7 @@ class SetEncoderCounterZeroOnlyOnce
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 163; //ReinitializationSinusoidalCommutation
+    message.stctOutput.typeNumber = 163; //SetEncoderCounterZeroOnlyOnce
     message.stctOutput.value = value;
 
 !!!512753.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void

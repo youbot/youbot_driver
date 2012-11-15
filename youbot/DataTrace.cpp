@@ -118,9 +118,13 @@ void DataTrace::startTrace() {
     file << "# Date: " << boost::posix_time::to_simple_string(today) << std::endl;
     
     JointName jointName;
+    FirmwareVersion firmwareParameter;
     std::string parameterString;
+    joint.getConfigurationParameter(firmwareParameter);
     joint.getConfigurationParameter(jointName);
     jointName.toString(parameterString);
+    file << "# " << parameterString << std::endl;
+    firmwareParameter.toString(parameterString);
     file << "# " << parameterString << std::endl;
     
     
@@ -163,6 +167,7 @@ void DataTrace::startTrace() {
 
     parameterVector.push_back(new ActualMotorVoltage);
     //   parameterVector.push_back(new ErrorAndStatus);
+    parameterVector.push_back(new ActualMotorDriverTemperature);
     parameterVector.push_back(new I2tSum);
     parameterVector.push_back(new PositionError);
     parameterVector.push_back(new PositionErrorSum);
@@ -232,6 +237,8 @@ void DataTrace::startTrace() {
     parameterVector.push_back(new SineInitializationVelocity);
     parameterVector.push_back(new StopSwitchPolarity);
     parameterVector.push_back(new ThermalWindingTimeConstant);
+    parameterVector.push_back(new VelocityThresholdForHallFX);
+    parameterVector.push_back(new MotorHaltedVelocity);
 
 //    apiParameterVector.push_back(new JointName);
 //    apiParameterVector.push_back(new TorqueConstant);
@@ -253,6 +260,8 @@ void DataTrace::startTrace() {
   //  joint.getConfigurationParameter(jointName);
     jointName.toString(parameterString);
     //   std::cout << parameterString << std::endl;
+    parametersBeginTraceFile << parameterString << std::endl;
+    firmwareParameter.toString(parameterString);
     parametersBeginTraceFile << parameterString << std::endl;
 
     TorqueConstant torqueconst;
@@ -315,6 +324,11 @@ void DataTrace::stopTrace() {
     joint.getConfigurationParameter(jointName);
     jointName.toString(parameterString);
     //   std::cout << parameterString << std::endl;
+    parametersEndTraceFile << parameterString << std::endl;
+    
+    FirmwareVersion firmwareParameter;
+    joint.getConfigurationParameter(firmwareParameter);
+    firmwareParameter.toString(parameterString);
     parametersEndTraceFile << parameterString << std::endl;
 
     TorqueConstant torqueconst;

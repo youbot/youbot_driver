@@ -12,11 +12,7 @@ class ChopperMode
   ss << this->name << ": " << this->value;
   value  = ss.str();
 !!!745969.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-
-
-
-    message.stctOutput.typeNumber = 163;
+    message.stctOutput.typeNumber = 163;  //ChopperMode
     message.stctOutput.value = value;
-
 !!!746097.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
     this->value = message.stctInput.value;

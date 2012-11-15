@@ -20,12 +20,7 @@ class Vsense
   ss << this->name << ": " << this->value;
   value  = ss.str();
 !!!763249.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-
-
-
-    message.stctOutput.typeNumber = 179;
+    message.stctOutput.typeNumber = 179;  //Vsense
     message.stctOutput.value = value;
-
 !!!763377.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
     this->value = message.stctInput.value;
-
