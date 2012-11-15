@@ -13,7 +13,7 @@ class InitializeJoint
 !!!611185.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg, in msgType : TMCLCommandNumber, in storage : YouBotJointStorage) : void
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 15; //Initialize BLDC
+    message.stctOutput.typeNumber = 15; //InitializeJoint
     message.stctOutput.value = (int)this->value;
 !!!611313.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void
     this->value = message.stctInput.value;

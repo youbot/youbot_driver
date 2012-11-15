@@ -774,27 +774,27 @@ void ChopperHysteresisEnd::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& mess
 }
 
 ChopperHysteresisStart::ChopperHysteresisStart() {
-  // Bouml preserved body begin 00106871
+  // Bouml preserved body begin 00107271
     this->name = "ChopperHysteresisStart";
     this->lowerLimit = 0;
     this->upperLimit = 8;
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-  // Bouml preserved body end 00106871
+  // Bouml preserved body end 00107271
 }
 
 ChopperHysteresisStart::~ChopperHysteresisStart() {
-  // Bouml preserved body begin 001068F1
-  // Bouml preserved body end 001068F1
+  // Bouml preserved body begin 001072F1
+  // Bouml preserved body end 001072F1
 }
 
 void ChopperHysteresisStart::getParameter(int& parameter) const {
-  // Bouml preserved body begin 00106971
+  // Bouml preserved body begin 00107371
     parameter = this->value;
-  // Bouml preserved body end 00106971
+  // Bouml preserved body end 00107371
 }
 
 void ChopperHysteresisStart::setParameter(const int parameter) {
-  // Bouml preserved body begin 001069F1
+  // Bouml preserved body begin 001073F1
     if (this->lowerLimit > parameter) {
       throw std::out_of_range("The parameter exceeds the lower limit");
     }
@@ -803,28 +803,28 @@ void ChopperHysteresisStart::setParameter(const int parameter) {
     }
 
     this->value = parameter;
-  // Bouml preserved body end 001069F1
+  // Bouml preserved body end 001073F1
 }
 
 void ChopperHysteresisStart::toString(std::string& value) const {
-  // Bouml preserved body begin 00106A71
+  // Bouml preserved body begin 00107471
   std::stringstream ss;
   ss << this->name << ": " << this->value;
   value  = ss.str();
-  // Bouml preserved body end 00106A71
+  // Bouml preserved body end 00107471
 }
 
 void ChopperHysteresisStart::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
-  // Bouml preserved body begin 00106AF1
+  // Bouml preserved body begin 001074F1
     message.stctOutput.typeNumber = 166;  //ChopperHysteresisStart
     message.stctOutput.value = value;
-  // Bouml preserved body end 00106AF1
+  // Bouml preserved body end 001074F1
 }
 
 void ChopperHysteresisStart::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
-  // Bouml preserved body begin 00106B71
+  // Bouml preserved body begin 00107571
     this->value = (int32)message.stctInput.value;
-  // Bouml preserved body end 00106B71
+  // Bouml preserved body end 00107571
 }
 
 ChopperMode::ChopperMode() {
@@ -2452,68 +2452,68 @@ void Vsense::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
 }
 
 ActualAcceleration::ActualAcceleration() {
-  // Bouml preserved body begin 00105F71
+  // Bouml preserved body begin 001076F1
     this->name = "ActualAcceleration";
     this->lowerLimit = 0;
     this->upperLimit = 2047;
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-  // Bouml preserved body end 00105F71
+  // Bouml preserved body end 001076F1
 }
 
 ActualAcceleration::~ActualAcceleration() {
-  // Bouml preserved body begin 00105FF1
-  // Bouml preserved body end 00105FF1
+  // Bouml preserved body begin 00107771
+  // Bouml preserved body end 00107771
 }
 
 void ActualAcceleration::getParameter(int& parameter) const {
-  // Bouml preserved body begin 00106071
+  // Bouml preserved body begin 001077F1
     parameter = this->value;
-  // Bouml preserved body end 00106071
+  // Bouml preserved body end 001077F1
 }
 
 void ActualAcceleration::toString(std::string& value) const {
-  // Bouml preserved body begin 00106171
+  // Bouml preserved body begin 001078F1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
   value  = ss.str();
-  // Bouml preserved body end 00106171
+  // Bouml preserved body end 001078F1
 }
 
 void ActualAcceleration::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
-  // Bouml preserved body begin 001061F1
+  // Bouml preserved body begin 00107971
     message.stctOutput.typeNumber = 135;  //ActualAcceleration
     message.stctOutput.value = value;
-  // Bouml preserved body end 001061F1
+  // Bouml preserved body end 00107971
 }
 
 void ActualAcceleration::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
-  // Bouml preserved body begin 00106271
+  // Bouml preserved body begin 001079F1
     this->value = message.stctInput.value;
-  // Bouml preserved body end 00106271
+  // Bouml preserved body end 001079F1
 }
 
 MinimumSpeed::MinimumSpeed() {
-  // Bouml preserved body begin 001063F1
+  // Bouml preserved body begin 00107B71
     this->name = "MinimumSpeed";
     this->lowerLimit = 0;
     this->upperLimit = 2047;
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-  // Bouml preserved body end 001063F1
+  // Bouml preserved body end 00107B71
 }
 
 MinimumSpeed::~MinimumSpeed() {
-  // Bouml preserved body begin 00106471
-  // Bouml preserved body end 00106471
+  // Bouml preserved body begin 00107BF1
+  // Bouml preserved body end 00107BF1
 }
 
 void MinimumSpeed::getParameter(int& parameter) const {
-  // Bouml preserved body begin 001064F1
+  // Bouml preserved body begin 00107C71
     parameter = this->value;
-  // Bouml preserved body end 001064F1
+  // Bouml preserved body end 00107C71
 }
 
 void MinimumSpeed::setParameter(const int parameter) {
-  // Bouml preserved body begin 00106571
+  // Bouml preserved body begin 00107CF1
     if (this->lowerLimit > parameter) {
       throw std::out_of_range("The parameter exceeds the lower limit");
     }
@@ -2522,29 +2522,29 @@ void MinimumSpeed::setParameter(const int parameter) {
     }
 
     this->value = parameter;
-  // Bouml preserved body end 00106571
+  // Bouml preserved body end 00107CF1
 }
 
 void MinimumSpeed::toString(std::string& value) const {
-  // Bouml preserved body begin 001065F1
+  // Bouml preserved body begin 00107D71
   std::stringstream ss;
   ss << this->name << ": " << this->value;
   value  = ss.str();
-  // Bouml preserved body end 001065F1
+  // Bouml preserved body end 00107D71
 }
 
 void MinimumSpeed::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
-  // Bouml preserved body begin 00106671
+  // Bouml preserved body begin 00107DF1
     message.stctOutput.typeNumber = 130;  //MinimumSpeed
     message.stctOutput.value = (uint32)value;
 
-  // Bouml preserved body end 00106671
+  // Bouml preserved body end 00107DF1
 }
 
 void MinimumSpeed::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
-  // Bouml preserved body begin 001066F1
+  // Bouml preserved body begin 00107E71
     this->value = (int32)message.stctInput.value;
-  // Bouml preserved body end 001066F1
+  // Bouml preserved body end 00107E71
 }
 
 

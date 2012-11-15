@@ -740,29 +740,28 @@ void SpeedControlSwitchingThreshold::setYouBotMailboxMsg(const YouBotSlaveMailbo
   // Bouml preserved body end 0006A471
 }
 
-
 VelocityThresholdForHallFX::VelocityThresholdForHallFX() {
-  // Bouml preserved body begin 001056F1
+  // Bouml preserved body begin 00107FF1
     this->name = "VelocityThresholdForHallFX";
     this->lowerLimit = INT_MIN * radian_per_second;
     this->upperLimit = INT_MAX * radian_per_second;
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-  // Bouml preserved body end 001056F1
+  // Bouml preserved body end 00107FF1
 }
 
 VelocityThresholdForHallFX::~VelocityThresholdForHallFX() {
-  // Bouml preserved body begin 00105771
-  // Bouml preserved body end 00105771
+  // Bouml preserved body begin 00108071
+  // Bouml preserved body end 00108071
 }
 
 void VelocityThresholdForHallFX::getParameter(quantity<angular_velocity>& parameter) const {
-  // Bouml preserved body begin 001057F1
+  // Bouml preserved body begin 001080F1
     parameter = this->value;
-  // Bouml preserved body end 001057F1
+  // Bouml preserved body end 001080F1
 }
 
 void VelocityThresholdForHallFX::setParameter(const quantity<angular_velocity>& parameter) {
-  // Bouml preserved body begin 00105871
+  // Bouml preserved body begin 00108171
     if (this->lowerLimit > parameter) {
       throw std::out_of_range("The parameter exceeds the lower limit");
     }
@@ -771,33 +770,33 @@ void VelocityThresholdForHallFX::setParameter(const quantity<angular_velocity>& 
     }
 
     this->value = parameter;
-  // Bouml preserved body end 00105871
+  // Bouml preserved body end 00108171
 }
 
 void VelocityThresholdForHallFX::toString(std::string& value) {
-  // Bouml preserved body begin 001058F1
+  // Bouml preserved body begin 001081F1
   std::stringstream ss;
   ss << this->name << ": " << this->value;
   value  = ss.str();
-  // Bouml preserved body end 001058F1
+  // Bouml preserved body end 001081F1
 }
 
 void VelocityThresholdForHallFX::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumber msgType, const YouBotJointStorage& storage) const {
-  // Bouml preserved body begin 00105971
+  // Bouml preserved body begin 00108271
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
     message.stctOutput.typeNumber = 14; //VelocityThresholdForHallFX
     message.stctOutput.value = (int32) round((value.value() / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
 
-  // Bouml preserved body end 00105971
+  // Bouml preserved body end 00108271
 }
 
 void VelocityThresholdForHallFX::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
-  // Bouml preserved body begin 001059F1
+  // Bouml preserved body begin 001082F1
     double motorRPM = (int32)message.stctInput.value;
     this->value =  ((motorRPM / 60.0) * storage.gearRatio * 2.0 * M_PI) * radian_per_second;
-  // Bouml preserved body end 001059F1
+  // Bouml preserved body end 001082F1
 }
 
 PParameterFirstParametersPositionControl::PParameterFirstParametersPositionControl() {

@@ -1,12 +1,12 @@
 class MinimumSpeed
-!!!1074161.cpp!!!	MinimumSpeed()
+!!!1080177.cpp!!!	MinimumSpeed()
     this->name = "MinimumSpeed";
     this->lowerLimit = 0;
     this->upperLimit = 2047;
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-!!!1074417.cpp!!!	getParameter(out parameter : int) : void
+!!!1080433.cpp!!!	getParameter(out parameter : int) : void
     parameter = this->value;
-!!!1074545.cpp!!!	setParameter(in parameter : int) : void
+!!!1080561.cpp!!!	setParameter(in parameter : int) : void
     if (this->lowerLimit > parameter) {
       throw std::out_of_range("The parameter exceeds the lower limit");
     }
@@ -15,13 +15,13 @@ class MinimumSpeed
     }
 
     this->value = parameter;
-!!!1074673.cpp!!!	toString(out value : std::string) : void
+!!!1080689.cpp!!!	toString(out value : std::string) : void
   std::stringstream ss;
   ss << this->name << ": " << this->value;
   value  = ss.str();
-!!!1074801.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
+!!!1080817.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
     message.stctOutput.typeNumber = 130;  //MinimumSpeed
     message.stctOutput.value = (uint32)value;
 
-!!!1074929.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
+!!!1080945.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
     this->value = (int32)message.stctInput.value;

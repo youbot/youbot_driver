@@ -1,12 +1,12 @@
 class ChopperHysteresisStart
-!!!1075313.cpp!!!	ChopperHysteresisStart()
+!!!1077873.cpp!!!	ChopperHysteresisStart()
     this->name = "ChopperHysteresisStart";
     this->lowerLimit = 0;
     this->upperLimit = 8;
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-!!!1075569.cpp!!!	getParameter(out parameter : int) : void
+!!!1078129.cpp!!!	getParameter(out parameter : int) : void
     parameter = this->value;
-!!!1075697.cpp!!!	setParameter(in parameter : int) : void
+!!!1078257.cpp!!!	setParameter(in parameter : int) : void
     if (this->lowerLimit > parameter) {
       throw std::out_of_range("The parameter exceeds the lower limit");
     }
@@ -15,12 +15,12 @@ class ChopperHysteresisStart
     }
 
     this->value = parameter;
-!!!1075825.cpp!!!	toString(out value : std::string) : void
+!!!1078385.cpp!!!	toString(out value : std::string) : void
   std::stringstream ss;
   ss << this->name << ": " << this->value;
   value  = ss.str();
-!!!1075953.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
+!!!1078513.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
     message.stctOutput.typeNumber = 166;  //ChopperHysteresisStart
     message.stctOutput.value = value;
-!!!1076081.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
+!!!1078641.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
     this->value = (int32)message.stctInput.value;
