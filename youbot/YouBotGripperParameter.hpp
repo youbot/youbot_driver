@@ -133,6 +133,40 @@ friend class YouBotGripperBar;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
+/// The name for a gripper bar or finger
+///////////////////////////////////////////////////////////////////////////////
+class GripperBarName : public YouBotGripperParameter {
+friend class YouBotGripper;
+friend class YouBotGripperBar;
+  public:
+    GripperBarName();
+
+    virtual ~GripperBarName();
+
+    void getParameter(std::string& parameter) const;
+
+    void setParameter(const std::string parameter);
+
+    void toString(std::string& value) const;
+
+
+  private:
+    void getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const;
+
+    void setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message);
+
+    std::string getName() const {return this->name;};
+
+    ParameterType getType() const {return this->parameterType;};
+
+    std::string value;
+
+    std::string name;
+
+    ParameterType parameterType;
+
+};
+///////////////////////////////////////////////////////////////////////////////
 /// Calibrate the gripper
 ///////////////////////////////////////////////////////////////////////////////
 class CalibrateGripper : public YouBotGripperParameter {

@@ -23,7 +23,7 @@ class MaximumVelocityToSetPosition
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 7; //MVP Target reached velocity
+    message.stctOutput.typeNumber = 7; //MaximumVelocityToSetPosition
     message.stctOutput.value = (int32) round((value.value() / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
 
 !!!496113.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void

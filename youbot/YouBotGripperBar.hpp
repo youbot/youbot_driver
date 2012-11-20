@@ -93,6 +93,10 @@ class YouBotGripperBar {
 
     virtual void getConfigurationParameter(BarSpacingOffset& parameter) const;
 
+    virtual void setConfigurationParameter(const GripperBarName& parameter);
+
+    virtual void getConfigurationParameter(GripperBarName& parameter) const;
+
     virtual void getConfigurationParameter(YouBotGripperParameter& parameter) const;
 
     virtual void setConfigurationParameter(const YouBotGripperParameter& parameter);
@@ -136,6 +140,8 @@ class YouBotGripperBar {
     unsigned int jointNumber;
 
     unsigned int barNo;
+
+    std::string name;
 
 };
 

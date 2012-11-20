@@ -23,7 +23,7 @@ class DParameterFirstParametersPositionControl
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 132; //PParameterFirstParametersPositionControl
+    message.stctOutput.typeNumber = 132; //DParameterFirstParametersPositionControl
     message.stctOutput.value = value; 
 
 !!!434289.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void

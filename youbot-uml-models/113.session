@@ -1,8 +1,11 @@
 window_sizes 1672 973 421 1245 890 0
 show_stereotypes
-selected artifact_ref 195569 // YouBotGripperParameter
+selected class_ref 552433 // GripperBarName
 open
-  class_ref 545777 // ChopperHysteresisStart
+  classview_ref 154353 // JointParameter
+  class_ref 295537 // SineInitializationVelocity
+  classview_ref 141169 // Gripper
+  class_ref 552433 // GripperBarName
   deploymentview_ref 161137 // Deployment
 end
 end

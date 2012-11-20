@@ -21,6 +21,10 @@ class YouBotGripperBar
     this->barSpacingOffset = parameter.value;
 !!!882545.cpp!!!	getConfigurationParameter(out parameter : BarSpacingOffset) : void
     parameter.value = this->barSpacingOffset;
+!!!1085297.cpp!!!	setConfigurationParameter(in parameter : GripperBarName) : void
+  this->name = parameter.value;
+!!!1085169.cpp!!!	getConfigurationParameter(inout parameter : GripperBarName) : void
+  parameter.value = this->name;
 !!!919025.cpp!!!	getConfigurationParameter(out parameter : YouBotGripperParameter) : void
   
   if (parameter.getType() == MOTOR_CONTOLLER_PARAMETER) {
