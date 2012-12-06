@@ -1,0 +1,12 @@
+class GripperBarName
+!!!1088881.cpp!!!	GripperBarName()
+    this->name = "GripperBarName";
+    this->parameterType = API_PARAMETER;
+!!!1089137.cpp!!!	getParameter(out parameter : string) : void
+    parameter = this->value;
+!!!1089265.cpp!!!	setParameter(in parameter : string) : void
+    this->value = parameter;
+!!!1089393.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
