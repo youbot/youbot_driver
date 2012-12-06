@@ -138,6 +138,8 @@ friend class YouBotGripperBar;
 class GripperBarName : public YouBotGripperParameter {
 friend class YouBotGripper;
 friend class YouBotGripperBar;
+
+
   public:
     GripperBarName();
 

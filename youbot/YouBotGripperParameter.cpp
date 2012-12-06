@@ -111,45 +111,45 @@ void GripperFirmwareVersion::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& me
 }
 
 GripperBarName::GripperBarName() {
-  // Bouml preserved body begin 00108A71
+  // Bouml preserved body begin 00109D71
     this->name = "GripperBarName";
     this->parameterType = API_PARAMETER;
-  // Bouml preserved body end 00108A71
+  // Bouml preserved body end 00109D71
 }
 
 GripperBarName::~GripperBarName() {
-  // Bouml preserved body begin 00108AF1
-  // Bouml preserved body end 00108AF1
+  // Bouml preserved body begin 00109DF1
+  // Bouml preserved body end 00109DF1
 }
 
 void GripperBarName::getParameter(std::string& parameter) const {
-  // Bouml preserved body begin 00108B71
+  // Bouml preserved body begin 00109E71
     parameter = this->value;
-  // Bouml preserved body end 00108B71
+  // Bouml preserved body end 00109E71
 }
 
 void GripperBarName::setParameter(const std::string parameter) {
-  // Bouml preserved body begin 00108BF1
+  // Bouml preserved body begin 00109EF1
     this->value = parameter;
-  // Bouml preserved body end 00108BF1
+  // Bouml preserved body end 00109EF1
 }
 
 void GripperBarName::toString(std::string& value) const {
-  // Bouml preserved body begin 00108C71
+  // Bouml preserved body begin 00109F71
   std::stringstream ss;
   ss << this->name << ": " << this->value;
   value  = ss.str();
-  // Bouml preserved body end 00108C71
+  // Bouml preserved body end 00109F71
 }
 
 void GripperBarName::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
-  // Bouml preserved body begin 00108CF1
-  // Bouml preserved body end 00108CF1
+  // Bouml preserved body begin 00109FF1
+  // Bouml preserved body end 00109FF1
 }
 
 void GripperBarName::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
-  // Bouml preserved body begin 00108D71
-  // Bouml preserved body end 00108D71
+  // Bouml preserved body begin 0010A071
+  // Bouml preserved body end 0010A071
 }
 
 CalibrateGripper::CalibrateGripper() {

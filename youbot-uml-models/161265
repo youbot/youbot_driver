@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 82
+  revision 83
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -415,6 +415,7 @@ ${namespace_end}"
       associated_classes
 	class_ref 258929 // YouBotGripperParameter
 	class_ref 406129 // GripperFirmwareVersion
+	class_ref 559217 // GripperBarName
 	class_ref 259057 // CalibrateGripper
 	class_ref 259441 // BarSpacingOffset
 	class_ref 266097 // MaxEncoderValue

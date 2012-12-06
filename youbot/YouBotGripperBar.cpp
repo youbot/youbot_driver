@@ -107,15 +107,15 @@ void YouBotGripperBar::getConfigurationParameter(BarSpacingOffset& parameter) co
 }
 
 void YouBotGripperBar::setConfigurationParameter(const GripperBarName& parameter) {
-
-  this->name = parameter.value;
-
+  // Bouml preserved body begin 0010A271
+    this->name = parameter.value;
+  // Bouml preserved body end 0010A271
 }
 
 void YouBotGripperBar::getConfigurationParameter(GripperBarName& parameter) const {
-
-  parameter.value = this->name;
-
+  // Bouml preserved body begin 0010A1F1
+    parameter.value = this->name;
+  // Bouml preserved body end 0010A1F1
 }
 
 void YouBotGripperBar::getConfigurationParameter(YouBotGripperParameter& parameter) const {
