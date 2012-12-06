@@ -128,7 +128,7 @@ void YouBotManipulator::doJointCommutation() {
       JointCurrentSetpoint J3CommutationCurrent;
       JointCurrentSetpoint J4CommutationCurrent;
       JointCurrentSetpoint J5CommutationCurrent;
-      JointRoundsPerMinuteSetpoint rpmSetpoint(10);
+      JointRoundsPerMinuteSetpoint rpmSetpoint(100);
 	
       configfile->readInto(comCur, "Joint_1", "CommutationCurrent_[ampere]");
       J1CommutationCurrent.current = comCur * ampere;

@@ -4,7 +4,6 @@ using namespace youbot;
 
 YouBotArmTestWithoutThread::YouBotArmTestWithoutThread():dof(5) {
 
-  EthercatMaster::getInstance("youbot-ethercat.cfg", "../config/", true);
 
 
 }

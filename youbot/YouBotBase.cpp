@@ -141,7 +141,7 @@ void YouBotBase::doJointCommutation() {
       LOG(info) << "Base Joint Commutation";
       
       
-      JointRoundsPerMinuteSetpoint rpmSetpoint(10);
+      JointRoundsPerMinuteSetpoint rpmSetpoint(200);
       ethercatMaster.AutomaticReceiveOn(false);
       this->getBaseJoint(1).setData(rpmSetpoint);
       this->getBaseJoint(2).setData(rpmSetpoint);
@@ -160,6 +160,7 @@ void YouBotBase::doJointCommutation() {
       // check for the next 5 sec if the joints are commutated
       for (u = 1; u <= 5000; u++) {
         for (unsigned int i = 1; i <= BASEJOINTS; i++) {
+          statusFlags = 0;
           this->getBaseJoint(i).getStatus(statusFlags);
           if (statusFlags & INITIALIZED) {
             isCommutated[i - 1] = true;
