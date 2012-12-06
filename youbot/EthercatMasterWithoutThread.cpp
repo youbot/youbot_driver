@@ -290,6 +290,7 @@ void EthercatMasterWithoutThread::initializeEthercat() {
 
 
     std::string baseJointControllerName = "TMCM-174";
+    std::string baseJointControllerNameAlternative = "TMCM-1632";
     std::string manipulatorJointControllerName = "TMCM-174";
     std::string ManipulatorJointControllerNameAlternative = "TMCM-1610";
     std::string actualSlaveName;
@@ -298,6 +299,7 @@ void EthercatMasterWithoutThread::initializeEthercat() {
 
 
     configfile->readInto(baseJointControllerName, "BaseJointControllerName");
+    configfile->readInto(baseJointControllerNameAlternative, "BaseJointControllerNameAlternative");
     configfile->readInto(manipulatorJointControllerName, "ManipulatorJointControllerName");
     configfile->readInto(ManipulatorJointControllerNameAlternative, "ManipulatorJointControllerNameAlternative");
 
@@ -310,7 +312,9 @@ void EthercatMasterWithoutThread::initializeEthercat() {
       ethercatSlaveInfo.push_back(ec_slave[cnt]);
 
       actualSlaveName = ec_slave[cnt].name;
-      if ((actualSlaveName == baseJointControllerName || actualSlaveName == manipulatorJointControllerName || actualSlaveName == ManipulatorJointControllerNameAlternative) && ec_slave[cnt].Obits > 0 && ec_slave[cnt].Ibits > 0) {
+      if ((actualSlaveName == baseJointControllerName || actualSlaveName == baseJointControllerNameAlternative || 
+              actualSlaveName == manipulatorJointControllerName || actualSlaveName == ManipulatorJointControllerNameAlternative
+              ) && ec_slave[cnt].Obits > 0 && ec_slave[cnt].Ibits > 0) {
         nrOfSlaves++;
         processDataBuffer.push_back(emptySlaveMsg);
         ethercatOutputBufferVector.push_back((SlaveMessageOutput*) (ec_slave[cnt].outputs));
