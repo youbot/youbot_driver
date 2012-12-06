@@ -53,7 +53,6 @@ void YouBotBaseTestWithoutThread::YouBotBaseTestWithoutThread_PositionMode() {
   myBase.getBaseJoint(2).setConfigurationParameter(clearTimeoutFlag);
   myBase.getBaseJoint(3).setConfigurationParameter(clearTimeoutFlag);
   myBase.getBaseJoint(4).setConfigurationParameter(clearTimeoutFlag);
-  myBase.getBaseJoint(5).setConfigurationParameter(clearTimeoutFlag);
 	
 	startTime = myTrace.getTimeDurationMilliSec();
 	overallTime = startTime + durationNull + stepStartTime + durationNull;
@@ -100,7 +99,6 @@ void YouBotBaseTestWithoutThread::YouBotBaseTestWithoutThread_VelocityMode() {
   myBase.getBaseJoint(2).setConfigurationParameter(clearTimeoutFlag);
   myBase.getBaseJoint(3).setConfigurationParameter(clearTimeoutFlag);
   myBase.getBaseJoint(4).setConfigurationParameter(clearTimeoutFlag);
-  myBase.getBaseJoint(5).setConfigurationParameter(clearTimeoutFlag);
 	
 	startTime = myTrace.getTimeDurationMilliSec();
 	overallTime = startTime + durationNull + stepStartTime + durationNull;
@@ -147,7 +145,6 @@ void YouBotBaseTestWithoutThread::YouBotBaseTestWithoutThread_CurrentMode() {
   myBase.getBaseJoint(2).setConfigurationParameter(clearTimeoutFlag);
   myBase.getBaseJoint(3).setConfigurationParameter(clearTimeoutFlag);
   myBase.getBaseJoint(4).setConfigurationParameter(clearTimeoutFlag);
-  myBase.getBaseJoint(5).setConfigurationParameter(clearTimeoutFlag);
 	
 	startTime = myTrace.getTimeDurationMilliSec();
 	overallTime = startTime + durationNull + stepStartTime + durationNull;

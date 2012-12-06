@@ -295,7 +295,7 @@ void EthercatMasterWithThread::initializeEthercat() {
 
     /* initialise SOEM, bind socket to ifname */
     if (ec_init(ethernetDevice.c_str())) {
-      LOG(info) << "Initializing EtherCAT on " << ethernetDevice;
+      LOG(info) << "Initializing EtherCAT on " << ethernetDevice << " with communication thread";
       /* find and auto-config slaves */
       if (ec_config(TRUE, &IOmap_) > 0) {
 
