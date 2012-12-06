@@ -698,9 +698,11 @@ void YouBotManipulator::initializeJoints() {
     BarSpacingOffset barOffest;
     MaxTravelDistance maxDistance;
     MaxEncoderValue maxEncoder;
+    GripperBarName BarName;
     double dummy = 0;
     int controllerType;
     double firmwareVersion;
+    string barname;
     
     GripperFirmwareVersion gripperVersion;
     this->gripper->getConfigurationParameter(gripperVersion);
@@ -709,6 +711,10 @@ void YouBotManipulator::initializeJoints() {
     LOG(info) << "Gripper" << "\t\t Controller Type: " << controllerType << "  Firmware version: " << firmwareVersion;
 
     // Gripper Bar 1
+    configfile->readInto(barname, "GripperBar1", "BarName");
+    BarName.setParameter(barname);
+    this->gripper->getGripperBar1().setConfigurationParameter(BarName);
+    
     configfile->readInto(dummy, "GripperBar1", "BarSpacingOffset_[meter]");
     barOffest.setParameter(dummy * meter);
     this->gripper->getGripperBar1().setConfigurationParameter(barOffest);
@@ -735,6 +741,10 @@ void YouBotManipulator::initializeJoints() {
     this->gripper->getGripperBar1().setConfigurationParameter(filter);
     
     // Gripper Bar 2
+    configfile->readInto(barname, "GripperBar2", "BarName");
+    BarName.setParameter(barname);
+    this->gripper->getGripperBar2().setConfigurationParameter(BarName);
+    
     configfile->readInto(dummy, "GripperBar2", "BarSpacingOffset_[meter]");
     barOffest.setParameter(dummy * meter);
     this->gripper->getGripperBar2().setConfigurationParameter(barOffest);
