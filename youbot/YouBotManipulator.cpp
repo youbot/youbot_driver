@@ -122,33 +122,8 @@ void YouBotManipulator::doJointCommutation() {
       LOG(info) << "Manipulator Joint Commutation";
       doInitialization.setParameter(true);
 
-      double comCur = 0; 
-      JointCurrentSetpoint J1CommutationCurrent;
-      JointCurrentSetpoint J2CommutationCurrent;
-      JointCurrentSetpoint J3CommutationCurrent;
-      JointCurrentSetpoint J4CommutationCurrent;
-      JointCurrentSetpoint J5CommutationCurrent;
       JointRoundsPerMinuteSetpoint rpmSetpoint(100);
-	
-      configfile->readInto(comCur, "Joint_1", "CommutationCurrent_[ampere]");
-      J1CommutationCurrent.current = comCur * ampere;
-      configfile->readInto(comCur, "Joint_2", "CommutationCurrent_[ampere]");
-      J2CommutationCurrent.current = comCur * ampere;
-      configfile->readInto(comCur, "Joint_3", "CommutationCurrent_[ampere]");
-      J3CommutationCurrent.current = comCur * ampere;
-      configfile->readInto(comCur, "Joint_4", "CommutationCurrent_[ampere]");
-      J4CommutationCurrent.current = comCur * ampere;
-      configfile->readInto(comCur, "Joint_5", "CommutationCurrent_[ampere]");
-      J5CommutationCurrent.current = comCur * ampere;
-      
-//      ethercatMaster.AutomaticReceiveOn(false);
-//      this->getArmJoint(1).setData(J1CommutationCurrent);
-//      this->getArmJoint(2).setData(J2CommutationCurrent);
-//      this->getArmJoint(3).setData(J3CommutationCurrent);
-//      this->getArmJoint(4).setData(J4CommutationCurrent);
-//      this->getArmJoint(5).setData(J5CommutationCurrent);
-//      ethercatMaster.AutomaticReceiveOn(true);
-      
+	      
       ethercatMaster.AutomaticReceiveOn(false);
       this->getArmJoint(1).setData(rpmSetpoint);
       this->getArmJoint(2).setData(rpmSetpoint);
