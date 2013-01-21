@@ -55,10 +55,12 @@ namespace youbot {
   
   bool Logger::toConsole = true;
   bool Logger::toFile = false;
+  bool Logger::toROS = false;
   severity_level Logger::logginLevel = info;
 
   Logger::Logger(const std::string &funcName, const int &lineNo, const std::string &fileName, severity_level level) {
 
+    this->level = level;
     if (toConsole || toFile) {
       if (level >= logginLevel) {
         print = true;
@@ -98,7 +100,6 @@ namespace youbot {
 
   }
 
-
   Logger::~Logger() {
     //end of message
     if (toConsole && print) {
@@ -111,6 +112,32 @@ namespace youbot {
       filestr << out.str() << std::endl;
       filestr.close();
     }
+#ifdef USE_ROS_LOGGING
+    if (toROS) {
+      switch (level) {
+        case trace:
+          ROS_DEBUG(out.str().c_str());
+          break;
+        case debug:
+          ROS_DEBUG(out.str().c_str());
+          break;
+        case info:
+          ROS_INFO(out.str().c_str());
+          break;
+        case warning:
+          ROS_WARN(out.str().c_str());
+          break;
+        case error:
+          ROS_ERROR(out.str().c_str());
+          break;
+        case fatal:
+          ROS_FATAL(out.str().c_str());
+          break;
+        default:
+          break;
+      }
+    }
+#endif
   }
 
 } // namespace youbot
