@@ -187,6 +187,7 @@ void YouBotGripper::setConfigurationParameter(const CalibrateGripper& parameter)
       bool targetReachedBar2 = false;
 
       for (int i = 0; i < 40; i++) {
+        SLEEP_MILLISEC(100);
         bar1->getConfigurationParameter(bar1TargetReched);
         bar1TargetReched.getParameter(targetReachedBar1);
         bar2->getConfigurationParameter(bar2TargetReched);
@@ -210,6 +211,7 @@ void YouBotGripper::setConfigurationParameter(const CalibrateGripper& parameter)
       targetReachedBar2 = false;
 
       for (int i = 0; i < 40; i++) {
+        SLEEP_MILLISEC(100);
         bar1->getConfigurationParameter(bar1TargetReched);
         bar1TargetReched.getParameter(targetReachedBar1);
         bar2->getConfigurationParameter(bar2TargetReched);

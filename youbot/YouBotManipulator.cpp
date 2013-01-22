@@ -332,21 +332,6 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
      // joints[i].setData(minEncoderValue);
     }
 
-    JointAngleSetpoint desiredJointAngle;
-    desiredJointAngle.angle = 0.05 * radian;
-    this->getArmJoint(1).setData(desiredJointAngle);
-    desiredJointAngle.angle = 0.05 * radian;
-    this->getArmJoint(2).setData(desiredJointAngle);
-    desiredJointAngle.angle = -0.05 * radian;
-    this->getArmJoint(3).setData(desiredJointAngle);
-    desiredJointAngle.angle = 0.05 * radian;
-    this->getArmJoint(4).setData(desiredJointAngle);
-    desiredJointAngle.angle = 0.12 * radian;
-    this->getArmJoint(5).setData(desiredJointAngle);
-    
-
-
-
   // Bouml preserved body end 000A9C71
 }
 
