@@ -131,6 +131,7 @@ class YouBotJoint : public Joint {
 
     virtual void getConfigurationParameter(JointLimitsRadian& parameter);
 
+    /// commutation method for firmware 1.48 and below
     virtual void setConfigurationParameter(const InitializeJoint& parameter);
 
     virtual void getConfigurationParameter(FirmwareVersion& parameter);

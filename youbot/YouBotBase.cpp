@@ -57,7 +57,9 @@ YouBotBase::YouBotBase(const std::string name, const std::string configFilePath)
 
     this->controllerType = 174;
     this->alternativeControllerType = 1632;
-    this->minFirmwareVersion = 1.48;
+    this->supportedFirmwareVersions.push_back("1.48");
+    this->supportedFirmwareVersions.push_back("200");
+    this->actualFirmwareVersionAllJoints = "";
 
     string filename;
     filename = name;
@@ -92,116 +94,13 @@ YouBotBase::~YouBotBase() {
 void YouBotBase::doJointCommutation() {
   // Bouml preserved body begin 0008A9F1
 
-    InitializeJoint doInitialization;
-    bool isInitialized = false;
-    int noInitialization = 0;
-
-    ClearMotorControllerTimeoutFlag clearTimeoutFlag;
-    this->getBaseJoint(1).setConfigurationParameter(clearTimeoutFlag);
-    this->getBaseJoint(2).setConfigurationParameter(clearTimeoutFlag);
-    this->getBaseJoint(3).setConfigurationParameter(clearTimeoutFlag);
-    this->getBaseJoint(4).setConfigurationParameter(clearTimeoutFlag);
-
-
-    if(!ethercatMaster.isThreadActive()){
-      ethercatMaster.sendProcessData();
-      ethercatMaster.receiveProcessData();
-    }
-
-    doInitialization.setParameter(false);
-    this->getBaseJoint(1).getConfigurationParameter(doInitialization);
-    doInitialization.getParameter(isInitialized);
-    if (!isInitialized) {
-      noInitialization++;
-    }
-
-    doInitialization.setParameter(false);
-    this->getBaseJoint(2).getConfigurationParameter(doInitialization);
-    doInitialization.getParameter(isInitialized);
-    if (!isInitialized) {
-      noInitialization++;
-    }
-
-    doInitialization.setParameter(false);
-    this->getBaseJoint(3).getConfigurationParameter(doInitialization);
-    doInitialization.getParameter(isInitialized);
-    if (!isInitialized) {
-      noInitialization++;
-    }
-
-    doInitialization.setParameter(false);
-    this->getBaseJoint(4).getConfigurationParameter(doInitialization);
-    doInitialization.getParameter(isInitialized);
-    if (!isInitialized) {
-      noInitialization++;
-    }
-
-    if (noInitialization != 0) {
-      doInitialization.setParameter(true);
-      LOG(info) << "Base Joint Commutation";
-      
-      
-      JointRoundsPerMinuteSetpoint rpmSetpoint(200);
-      ethercatMaster.AutomaticReceiveOn(false);
-      this->getBaseJoint(1).setData(rpmSetpoint);
-      this->getBaseJoint(2).setData(rpmSetpoint);
-      this->getBaseJoint(3).setData(rpmSetpoint);
-      this->getBaseJoint(4).setData(rpmSetpoint);
-      ethercatMaster.AutomaticReceiveOn(true);
-      
-      unsigned int statusFlags;
-      std::vector<bool> isCommutated;
-      isCommutated.assign(BASEJOINTS, false);
-      unsigned int u = 0;
-			JointCurrentSetpoint zerocurrent;
-			zerocurrent.current = 0.0 * ampere;
-      
-
-      // check for the next 5 sec if the joints are commutated
-      for (u = 1; u <= 5000; u++) {
-        for (unsigned int i = 1; i <= BASEJOINTS; i++) {
-          statusFlags = 0;
-          this->getBaseJoint(i).getStatus(statusFlags);
-          if (statusFlags & INITIALIZED) {
-            isCommutated[i - 1] = true;
-						this->getBaseJoint(i).setData(zerocurrent);
-          }
-        }
-        if(!ethercatMaster.isThreadActive()){
-          ethercatMaster.sendProcessData();
-          ethercatMaster.receiveProcessData();
-				}
-        if (isCommutated[0] && isCommutated[1] && isCommutated[2] && isCommutated[3]) {
-          break;
-        }
-        SLEEP_MILLISEC(1);
-      }
-      
-      std::string jointName;
-
-      for (unsigned int i = 1; i <= BASEJOINTS; i++) {
-        this->getBaseJoint(i).setData(zerocurrent);
-        if (!ethercatMaster.isThreadActive()) {
-          ethercatMaster.sendProcessData();
-          ethercatMaster.receiveProcessData();
-        }
-        SLEEP_MILLISEC(5);
-        this->getBaseJoint(i).setEncoderToZero();
-        if(!ethercatMaster.isThreadActive()){
-          ethercatMaster.sendProcessData();
-          ethercatMaster.receiveProcessData();
-        }
-        doInitialization.setParameter(false);
-        this->getBaseJoint(i).getConfigurationParameter(doInitialization);
-        doInitialization.getParameter(isInitialized);
-        if (!isInitialized) {
-          std::stringstream jointNameStream;
-          jointNameStream << "joint " << i;
-          jointName = jointNameStream.str();
-          throw std::runtime_error("Could not commutate base " + jointName);
-        }
-      }
-    }
+  if(this->actualFirmwareVersionAllJoints == "1.48" ){
+    this->commutationFirmware148();
+  }else if(this->actualFirmwareVersionAllJoints == "200" ){
+    this->commutationFirmware200();
+  }else{
+    throw std::runtime_error("Unable to commutate joints - Unsupported firmware version!");
+  }
   // Bouml preserved body end 0008A9F1
 }
 
@@ -473,10 +372,164 @@ void YouBotBase::getJointData(std::vector<JointSensedTorque>& data) {
   // Bouml preserved body end 000CE0F1
 }
 
-bool YouBotBase::areSame(const double A, const double B) {
-  // Bouml preserved body begin 000A6971
-    return std::fabs(A - B) < 0.0001;
-  // Bouml preserved body end 000A6971
+///does the commutation of the arm joints with firmware 2.0
+void YouBotBase::commutationFirmware200() {
+  // Bouml preserved body begin 0010D9F1
+  
+    InitializeJoint doInitialization;
+    bool isInitialized = false;
+    int noInitialization = 0;
+    std::string jointName;
+    unsigned int statusFlags;
+    std::vector<bool> isCommutated;
+    isCommutated.assign(BASEJOINTS, false);
+    unsigned int u = 0;
+    JointCurrentSetpoint zerocurrent;
+    zerocurrent.current = 0.0 * ampere;
+
+
+    ClearMotorControllerTimeoutFlag clearTimeoutFlag;
+    for (unsigned int i = 1; i <= BASEJOINTS; i++) {
+      this->getBaseJoint(i).setConfigurationParameter(clearTimeoutFlag);
+    }
+
+    for (unsigned int i = 1; i <= BASEJOINTS; i++) {
+      doInitialization.setParameter(false);
+      this->getBaseJoint(i).getConfigurationParameter(doInitialization);
+      doInitialization.getParameter(isInitialized);
+      if (!isInitialized) {
+        noInitialization++;
+      }
+    }
+
+    if (noInitialization != 0) {
+      LOG(info) << "Base Joint Commutation with firmware 2.0";
+      doInitialization.setParameter(true);
+
+      JointRoundsPerMinuteSetpoint rpmSetpoint(100);
+	      
+      ethercatMaster.AutomaticReceiveOn(false);
+      this->getBaseJoint(1).setData(rpmSetpoint);
+      this->getBaseJoint(2).setData(rpmSetpoint);
+      this->getBaseJoint(3).setData(rpmSetpoint);
+      this->getBaseJoint(4).setData(rpmSetpoint);
+      ethercatMaster.AutomaticReceiveOn(true);
+     
+      
+      // check for the next 5 sec if the joints are commutated
+      for (u = 1; u <= 5000; u++) {
+        for (unsigned int i = 1; i <= BASEJOINTS; i++) {
+          this->getBaseJoint(i).getStatus(statusFlags);
+          if (statusFlags & INITIALIZED) {
+            isCommutated[i - 1] = true;
+            this->getBaseJoint(i).setData(zerocurrent);
+          }
+        }
+        if(!ethercatMaster.isThreadActive()){
+          ethercatMaster.sendProcessData();
+          ethercatMaster.receiveProcessData();
+        }
+        if (isCommutated[0] && isCommutated[1] && isCommutated[2] && isCommutated[3] && isCommutated[4]) {
+          break;
+        }
+        SLEEP_MILLISEC(1);
+      }
+
+      for (unsigned int i = 1; i <= BASEJOINTS; i++) {
+        this->getBaseJoint(i).setData(zerocurrent);
+        if(!ethercatMaster.isThreadActive()){
+          ethercatMaster.sendProcessData();
+          ethercatMaster.receiveProcessData();
+        }
+        doInitialization.setParameter(false);
+        this->getBaseJoint(i).getConfigurationParameter(doInitialization);
+        doInitialization.getParameter(isInitialized);
+        if (!isInitialized) {
+          std::stringstream jointNameStream;
+          jointNameStream << "base joint " << i;
+          jointName = jointNameStream.str();
+          throw std::runtime_error("Could not commutate " + jointName);
+        }
+      }
+    }
+  // Bouml preserved body end 0010D9F1
+}
+
+///does the commutation of the arm joints with firmware 1.48 and below
+void YouBotBase::commutationFirmware148() {
+  // Bouml preserved body begin 0010DA71
+  
+    InitializeJoint doInitialization;
+    bool isInitialized = false;
+    int noInitialization = 0;
+    std::string jointName;
+
+
+    ClearMotorControllerTimeoutFlag clearTimeoutFlag;
+    for (unsigned int i = 1; i <= BASEJOINTS; i++) {
+      this->getBaseJoint(i).setConfigurationParameter(clearTimeoutFlag);
+    }
+
+    for (unsigned int i = 1; i <= BASEJOINTS; i++) {
+      doInitialization.setParameter(false);
+      this->getBaseJoint(i).getConfigurationParameter(doInitialization);
+      doInitialization.getParameter(isInitialized);
+      if (!isInitialized) {
+        noInitialization++;
+      }
+    }
+
+    if (noInitialization != 0) {
+      LOG(info) << "Base Joint Commutation with firmware 1.48";
+      doInitialization.setParameter(true);
+
+      ethercatMaster.AutomaticReceiveOn(false);
+      this->getBaseJoint(1).setConfigurationParameter(doInitialization);
+      this->getBaseJoint(2).setConfigurationParameter(doInitialization);
+      this->getBaseJoint(3).setConfigurationParameter(doInitialization);
+      this->getBaseJoint(4).setConfigurationParameter(doInitialization);
+      ethercatMaster.AutomaticReceiveOn(true);
+
+      unsigned int statusFlags;
+      std::vector<bool> isCommutated;
+      isCommutated.assign(BASEJOINTS, false);
+      unsigned int u = 0;
+
+      // check for the next 5 sec if the joints are commutated
+      for (u = 1; u <= 5000; u++) {
+        for (unsigned int i = 1; i <= BASEJOINTS; i++) {
+          if(!ethercatMaster.isThreadActive()){
+            ethercatMaster.sendProcessData();
+            ethercatMaster.receiveProcessData();
+          }
+          this->getBaseJoint(i).getStatus(statusFlags);
+          if (statusFlags & INITIALIZED) {
+            isCommutated[i - 1] = true;
+          }
+        }
+        if (isCommutated[0] && isCommutated[1] && isCommutated[2] && isCommutated[3] && isCommutated[4]) {
+          break;
+        }
+        SLEEP_MILLISEC(1);
+      }
+
+      SLEEP_MILLISEC(10); // the controller likes it
+
+      for (unsigned int i = 1; i <= BASEJOINTS; i++) {
+        doInitialization.setParameter(false);
+        this->getBaseJoint(i).getConfigurationParameter(doInitialization);
+        doInitialization.getParameter(isInitialized);
+        if (!isInitialized) {
+          std::stringstream jointNameStream;
+          jointNameStream << "base joint " << i;
+          jointName = jointNameStream.str();
+          throw std::runtime_error("Could not commutate " + jointName);
+        }
+      }
+    }
+
+
+  // Bouml preserved body end 0010DA71
 }
 
 void YouBotBase::initializeJoints() {
@@ -549,7 +602,7 @@ void YouBotBase::initializeJoints() {
       joints[i].getConfigurationParameter(firmwareTypeVersion);
       std::string version;
       int controllerType;
-      double firmwareVersion;
+      std::string firmwareVersion;
       firmwareTypeVersion.getParameter(controllerType, firmwareVersion);
 
       string name;
@@ -564,14 +617,26 @@ void YouBotBase::initializeJoints() {
         throw std::runtime_error(ss.str().c_str());
       }
 
-      if (!areSame(firmwareVersion, this->minFirmwareVersion)) {
-        if (firmwareVersion < this->minFirmwareVersion) {
-          std::stringstream ss;
-          ss << "The motor controller firmware version have be " << this->minFirmwareVersion << " or higher.";
-          throw std::runtime_error(ss.str().c_str());
+      //check if firmware is supported
+      bool isfirmwareSupported = false;
+      for(unsigned int d = 0; d < supportedFirmwareVersions.size(); d++){
+        if(this->supportedFirmwareVersions[d] == firmwareVersion){
+          isfirmwareSupported = true;
+          break;
         }
       }
-
+      
+      if(!isfirmwareSupported){
+        throw std::runtime_error("Unsupported firmware version: "+ firmwareVersion);
+      }
+      
+      if(this->actualFirmwareVersionAllJoints == ""){
+        this->actualFirmwareVersionAllJoints = firmwareVersion;
+      }
+      
+      if(!(firmwareVersion == this->actualFirmwareVersionAllJoints)){
+         throw std::runtime_error("All joints must have the same firmware version!");
+      }
 
       configfile->readInto(gearRatio_numerator, jointName, "GearRatio_numerator");
       configfile->readInto(gearRatio_denominator, jointName, "GearRatio_denominator");

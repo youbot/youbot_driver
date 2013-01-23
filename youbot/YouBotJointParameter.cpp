@@ -198,14 +198,14 @@ FirmwareVersion::~FirmwareVersion() {
   // Bouml preserved body end 00098DF1
 }
 
-void FirmwareVersion::getParameter(int& controllerType, double& firmwareVersion) const {
+void FirmwareVersion::getParameter(int& controllerType, std::string& firmwareVersion) const {
   // Bouml preserved body begin 00098E71
     controllerType = this->controllerType;
     firmwareVersion = this->firmwareVersion;
   // Bouml preserved body end 00098E71
 }
 
-void FirmwareVersion::setParameter(const int controllerType, const double firmwareVersion) {
+void FirmwareVersion::setParameter(const int controllerType, const std::string firmwareVersion) {
   // Bouml preserved body begin 00098EF1
     this->controllerType = controllerType;
     this->firmwareVersion = firmwareVersion;

@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 263
+  revision 264
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -520,6 +520,7 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
+	comment "/// commutation method for firmware 1.48 and below"
       end
 
       operation 633457 "getConfigurationParameter"
@@ -3497,7 +3498,7 @@ ${inlines}
 	preserve_cpp_body_indent const public explicit_return_type "void"
 	nparams 2
 	  param out name "controllerType" explicit_type "int"
-	  param out name "firmwareVersion" explicit_type "double"
+	  param out name "firmwareVersion" explicit_type "string"
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}, ${t1}& ${p1}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}, ${t1}& ${p1}${)}${const}${volatile}${throw}${staticnl}{
@@ -3513,7 +3514,7 @@ ${inlines}
 	preserve_cpp_body_indent public explicit_return_type "void"
 	nparams 2
 	  param in name "controllerType" explicit_type "int"
-	  param in name "firmwareVersion" explicit_type "double"
+	  param in name "firmwareVersion" explicit_type "string"
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
@@ -3606,7 +3607,7 @@ ${inlines}
       end
 
       attribute 609009 "firmwareVersion"
-	private explicit_type "double"
+	private explicit_type "string"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -22816,20 +22817,34 @@ ${inlines}
 	
       end
 
-      operation 688881 "areSame"
-	preserve_cpp_body_indent private explicit_return_type "bool"
-	nparams 2
-	  param in name "A" explicit_type "double"
-	  param in name "B" explicit_type "double"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+      operation 1104113 "commutationFirmware200"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
 "
 	preserve_java_body_indent 
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
+	comment "///does the commutation of the arm joints with firmware 2.0"
+      end
+
+      operation 1104241 "commutationFirmware148"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///does the commutation of the arm joints with firmware 1.48 and below"
       end
 
       operation 426097 "initializeJoints"
@@ -22886,16 +22901,6 @@ ${inlines}
 	idl_decl ""
       end
 
-      attribute 615665 "minFirmwareVersion"
-	private explicit_type "double"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
       attribute 756209 "ethercatMaster"
 	private explicit_type "EthercatMasterInterface&"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -22928,6 +22933,26 @@ ${inlines}
 
       attribute 918641 "alternativeControllerType"
 	private explicit_type "int"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 615665 "supportedFirmwareVersions"
+	private explicit_type "std::vector<std::string>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 984561 "actualFirmwareVersionAllJoints"
+	private explicit_type "std::string"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""
@@ -23281,20 +23306,34 @@ ${inlines}
 	
       end
 
-      operation 682353 "areSame"
-	preserve_cpp_body_indent private explicit_return_type "bool"
-	nparams 2
-	  param in name "A" explicit_type "double"
-	  param in name "B" explicit_type "double"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+      operation 1104369 "commutationFirmware200"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}, const ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
 "
 	preserve_java_body_indent 
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
+	comment "///does the commutation of the arm joints with firmware 2.0"
+      end
+
+      operation 1104497 "commutationFirmware148"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+  ${body}}
+"
+	preserve_java_body_indent 
+	preserve_php_body_indent 
+	preserve_python_body_indent 
+	
+	comment "///does the commutation of the arm joints with firmware 1.48 and below"
       end
 
       operation 287985 "initializeJoints"
@@ -23365,16 +23404,6 @@ ${inlines}
 	idl_decl ""
       end
 
-      attribute 609137 "minFirmwareVersion"
-	private explicit_type "double"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
       attribute 755953 "ethercatMaster"
 	private explicit_type "EthercatMasterInterface&"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
@@ -23387,6 +23416,26 @@ ${inlines}
 
       attribute 948209 "ethercatMasterWithThread"
 	private explicit_type "EthercatMasterWithThread*"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 984817 "supportedFirmwareVersions"
+	private explicit_type "std::vector<std::string>"
+	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 984689 "actualFirmwareVersionAllJoints"
+	private explicit_type "std::string"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
 	java_decl ""

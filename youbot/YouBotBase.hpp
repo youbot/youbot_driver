@@ -162,7 +162,11 @@ class YouBotBase {
 
     YouBotBase & operator=(const YouBotBase & source);
 
-    bool areSame(const double A, const double B);
+    ///does the commutation of the arm joints with firmware 2.0
+    void commutationFirmware200();
+
+    ///does the commutation of the arm joints with firmware 1.48 and below
+    void commutationFirmware148();
 
     void initializeJoints();
 
@@ -176,11 +180,13 @@ class YouBotBase {
 
     int alternativeControllerType;
 
-    double minFirmwareVersion;
-
     EthercatMasterInterface& ethercatMaster;
 
     EthercatMasterWithThread* ethercatMasterWithThread;
+
+    std::vector<std::string> supportedFirmwareVersions;
+
+    std::string actualFirmwareVersionAllJoints;
 
 };
 

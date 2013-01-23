@@ -291,18 +291,14 @@ void YouBotJoint::getConfigurationParameter(JointLimitsRadian& parameter) {
   // Bouml preserved body end 000D43F1
 }
 
+/// commutation method for firmware 1.48 and below
 void YouBotJoint::setConfigurationParameter(const InitializeJoint& parameter) {
   // Bouml preserved body begin 000973F1
     if (parameter.value) {
-      messageBuffer.stctOutput.controllerMode = CURRENT_MODE;
-      
-      if (storage.inverseMovementDirection) {
-        messageBuffer.stctOutput.value = -300;
-      }else{
-        messageBuffer.stctOutput.value = 300;
-      }
-   
-      ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);			
+      messageBuffer.stctOutput.controllerMode = INITIALIZE;
+      messageBuffer.stctOutput.value = 0;
+
+      ethercatMaster->setMsgBuffer(messageBuffer, this->storage.jointNumber);
     }
   // Bouml preserved body end 000973F1
 }
@@ -346,9 +342,9 @@ void YouBotJoint::getConfigurationParameter(FirmwareVersion& parameter) {
     versionString[7] = message.stctInput.value & 0xff;
 
     int controllerType = 0;
-    double firmwareVersion = 0;
+    char firmwareVersion[8] = {0};
 
-    sscanf (versionString,"%dV%lf",&controllerType,&firmwareVersion);
+    sscanf (versionString,"%dV%s",&controllerType,firmwareVersion);
     parameter.setParameter(controllerType, firmwareVersion);
     return;
   // Bouml preserved body end 0009AA71
@@ -1192,7 +1188,7 @@ void YouBotJoint::parseYouBotErrorFlags(const YouBotSlaveMsg& messageBuffer) {
     }
 
     if (!(messageBuffer.stctInput.errorFlags & INITIALIZED)) {
-      LOG(warning) << this->storage.jointName << " not initialized";
+   //   LOG(warning) << this->storage.jointName << " not initialized";
       //   throw JointErrorException(this->storage.jointName + "need to initialize the sinus commutation");
     }
 

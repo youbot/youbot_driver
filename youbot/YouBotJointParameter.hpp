@@ -242,9 +242,9 @@ friend class YouBotJoint;
 
     virtual ~FirmwareVersion();
 
-    void getParameter(int& controllerType, double& firmwareVersion) const;
+    void getParameter(int& controllerType, std::string& firmwareVersion) const;
 
-    void setParameter(const int controllerType, const double firmwareVersion);
+    void setParameter(const int controllerType, const std::string firmwareVersion);
 
     void toString(std::string& value);
 
@@ -260,7 +260,7 @@ friend class YouBotJoint;
 
     int controllerType;
 
-    double firmwareVersion;
+    std::string firmwareVersion;
 
     std::string name;
 

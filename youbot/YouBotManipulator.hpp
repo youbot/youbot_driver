@@ -140,7 +140,11 @@ class YouBotManipulator {
 
     YouBotManipulator & operator=(const YouBotManipulator & source);
 
-    bool areSame(const double A, const double B);
+    ///does the commutation of the arm joints with firmware 2.0
+    void commutationFirmware200();
+
+    ///does the commutation of the arm joints with firmware 1.48 and below
+    void commutationFirmware148();
 
     void initializeJoints();
 
@@ -152,8 +156,6 @@ class YouBotManipulator {
 
     int controllerType;
 
-    double minFirmwareVersion;
-
     EthercatMasterInterface& ethercatMaster;
 
     bool useGripper;
@@ -161,6 +163,10 @@ class YouBotManipulator {
     EthercatMasterWithThread* ethercatMasterWithThread;
 
     int alternativeControllerType;
+
+    std::vector<std::string> supportedFirmwareVersions;
+
+    std::string actualFirmwareVersionAllJoints;
 
 };
 
