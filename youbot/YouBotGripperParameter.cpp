@@ -2494,44 +2494,44 @@ void Vsense::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
 }
 
 ActualAcceleration::ActualAcceleration() {
-  // Bouml preserved body begin 001076F1
+  // Bouml preserved body begin 0010BBF1
     this->name = "ActualAcceleration";
     this->lowerLimit = 0;
     this->upperLimit = 2047;
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
-  // Bouml preserved body end 001076F1
+  // Bouml preserved body end 0010BBF1
 }
 
 ActualAcceleration::~ActualAcceleration() {
-  // Bouml preserved body begin 00107771
-  // Bouml preserved body end 00107771
+  // Bouml preserved body begin 0010BC71
+  // Bouml preserved body end 0010BC71
 }
 
 void ActualAcceleration::getParameter(int& parameter) const {
-  // Bouml preserved body begin 001077F1
+  // Bouml preserved body begin 0010BCF1
     parameter = this->value;
-  // Bouml preserved body end 001077F1
+  // Bouml preserved body end 0010BCF1
 }
 
 void ActualAcceleration::toString(std::string& value) const {
-  // Bouml preserved body begin 001078F1
+  // Bouml preserved body begin 0010BD71
   std::stringstream ss;
   ss << this->name << ": " << this->value;
   value  = ss.str();
-  // Bouml preserved body end 001078F1
+  // Bouml preserved body end 0010BD71
 }
 
 void ActualAcceleration::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message) const {
-  // Bouml preserved body begin 00107971
+  // Bouml preserved body begin 0010BDF1
     message.stctOutput.typeNumber = 135;  //ActualAcceleration
     message.stctOutput.value = value;
-  // Bouml preserved body end 00107971
+  // Bouml preserved body end 0010BDF1
 }
 
 void ActualAcceleration::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message) {
-  // Bouml preserved body begin 001079F1
+  // Bouml preserved body begin 0010BE71
     this->value = message.stctInput.value;
-  // Bouml preserved body end 001079F1
+  // Bouml preserved body end 0010BE71
 }
 
 MinimumSpeed::MinimumSpeed() {

@@ -1,6 +1,6 @@
 format 75
 "youbot" // youbot
-  revision 83
+  revision 85
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -461,7 +461,7 @@ ${namespace_end}"
 	class_ref 396273 // StepInterpolationEnable
 	class_ref 398833 // StopOnStall
 	class_ref 398577 // Vsense
-	class_ref 552433 // ActualAcceleration
+	class_ref 565873 // ActualAcceleration
 	class_ref 552561 // MinimumSpeed
       end
       comment "/****************************************************************

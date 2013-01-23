@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 261
+  revision 263
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -26514,205 +26514,6 @@ ${inlines}
       end
     end
 
-    class 552433 "GripperBarName"
-      visibility package 
-      cpp_decl "///////////////////////////////////////////////////////////////////////////////
-${description}
-///////////////////////////////////////////////////////////////////////////////
-${template}class ${name}${inherit} {
-${members}};
-${inlines}
-"
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      comment "/// The name for a gripper bar or finger"
-      extra_member 284529 "friend class YouBotGripper;"
-	
-	cpp "friend class YouBotGripper;
-" ""
-	java ""
-	php ""
-	python ""
-	idl ""
-      end
-
-      extra_member 284657 "friend class YouBotGripperBar"
-	
-	cpp "friend class YouBotGripperBar;" ""
-	java ""
-	php ""
-	python ""
-	idl ""
-      end
-
-      operation 1084017 "GripperBarName"
-	preserve_cpp_body_indent public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
-"
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
-"
-	
-	
-	
-	
-      end
-
-      operation 1084145 "~GripperBarName"
-	cpp_virtual public explicit_return_type ""
-	nparams 0
-	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
-"
-	cpp_def "${description}${inline}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
-"
-	
-	
-	
-	
-      end
-
-      operation 1084273 "getParameter"
-	preserve_cpp_body_indent const public explicit_return_type "void"
-	nparams 1
-	  param out name "parameter" explicit_type "string"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 1084401 "setParameter"
-	preserve_cpp_body_indent public explicit_return_type "void"
-	nparams 1
-	  param in name "parameter" explicit_type "string"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0} ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 1084529 "toString"
-	preserve_cpp_body_indent const public explicit_return_type "void"
-	nparams 1
-	  param out name "value" explicit_type "std::string"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 1084657 "getYouBotMailboxMsg"
-	preserve_cpp_body_indent const private explicit_return_type "void"
-	nparams 1
-	  param out name "message" explicit_type "YouBotSlaveMailboxMsg"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 1084785 "setYouBotMailboxMsg"
-	preserve_cpp_body_indent private explicit_return_type "void"
-	nparams 1
-	  param in name "message" explicit_type "YouBotSlaveMailboxMsg"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 1084913 "getName"
-	preserve_cpp_body_indent const private explicit_return_type "string"
-	nparams 0
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->name;};
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      operation 1085041 "getType"
-	preserve_cpp_body_indent const private return_type class_ref 479217 // ParameterType
-	nparams 0
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->parameterType;};
-"
-	preserve_java_body_indent 
-	preserve_php_body_indent 
-	preserve_python_body_indent 
-	
-      end
-
-      attribute 958065 "value"
-	private explicit_type "string"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 958193 "name"
-	private explicit_type "string"
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      attribute 958321 "parameterType"
-	private type class_ref 479217 // ParameterType
-	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      classrelation 499313 // <generalisation>
-	relation 499313 ---|>
-	  a public
-	    cpp default "${type}"
-	    classrelation_ref 499313 // <generalisation>
-	  b parent class_ref 258929 // YouBotGripperParameter
-      end
-    end
-
     class 259057 "CalibrateGripper"
       abstract visibility package 
       cpp_decl "///////////////////////////////////////////////////////////////////////////////
@@ -36440,7 +36241,7 @@ ${inlines}
       end
     end
 
-    class 552433 "ActualAcceleration"
+    class 565873 "ActualAcceleration"
       visibility package 
       cpp_decl "///////////////////////////////////////////////////////////////////////////////
 ${description}
@@ -36456,7 +36257,7 @@ ${inlines}
       explicit_switch_type ""
       
       comment "/// The current acceleration (read only)."
-      extra_member 276977 "friend class YouBotGripper;"
+      extra_member 291185 "friend class YouBotGripper;"
 	
 	cpp "friend class YouBotGripper;
 " ""
@@ -36466,7 +36267,7 @@ ${inlines}
 	idl ""
       end
 
-      extra_member 277105 "friend class YouBotGripperBar"
+      extra_member 291313 "friend class YouBotGripperBar"
 	
 	cpp "friend class YouBotGripperBar;" ""
 	java ""
@@ -36475,7 +36276,7 @@ ${inlines}
 	idl ""
       end
 
-      operation 1079025 "ActualAcceleration"
+      operation 1096689 "ActualAcceleration"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${name}${(}${)}${volatile}${throw};
@@ -36489,7 +36290,7 @@ ${inlines}
 	
       end
 
-      operation 1079153 "~ActualAcceleration"
+      operation 1096817 "~ActualAcceleration"
 	cpp_virtual public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${description}${inline}${virtual}${name}${(}${)}${volatile}${throw};
@@ -36503,7 +36304,7 @@ ${inlines}
 	
       end
 
-      operation 1079281 "getParameter"
+      operation 1096945 "getParameter"
 	preserve_cpp_body_indent const public explicit_return_type "void"
 	nparams 1
 	  param out name "parameter" explicit_type "int"
@@ -36518,7 +36319,7 @@ ${inlines}
 	
       end
 
-      operation 1079537 "toString"
+      operation 1097073 "toString"
 	preserve_cpp_body_indent const public explicit_return_type "void"
 	nparams 1
 	  param out name "value" explicit_type "std::string"
@@ -36533,7 +36334,7 @@ ${inlines}
 	
       end
 
-      operation 1079665 "getYouBotMailboxMsg"
+      operation 1097201 "getYouBotMailboxMsg"
 	preserve_cpp_body_indent const private explicit_return_type "void"
 	nparams 1
 	  param out name "message" explicit_type "YouBotSlaveMailboxMsg"
@@ -36548,7 +36349,7 @@ ${inlines}
 	
       end
 
-      operation 1079793 "setYouBotMailboxMsg"
+      operation 1097329 "setYouBotMailboxMsg"
 	preserve_cpp_body_indent private explicit_return_type "void"
 	nparams 1
 	  param in name "message" explicit_type "YouBotSlaveMailboxMsg"
@@ -36563,7 +36364,7 @@ ${inlines}
 	
       end
 
-      operation 1079921 "getName"
+      operation 1097457 "getName"
 	preserve_cpp_body_indent const private explicit_return_type "string"
 	nparams 0
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->name;};
@@ -36574,7 +36375,7 @@ ${inlines}
 	
       end
 
-      operation 1080049 "getType"
+      operation 1097585 "getType"
 	preserve_cpp_body_indent const private return_type class_ref 210929 // ParameterType
 	nparams 0
 	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract} {return this->parameterType;};
@@ -36585,7 +36386,7 @@ ${inlines}
 	
       end
 
-      attribute 962033 "upperLimit"
+      attribute 977521 "upperLimit"
 	private explicit_type "int"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -36595,7 +36396,7 @@ ${inlines}
 	idl_decl ""
       end
 
-      attribute 962161 "lowerLimit"
+      attribute 977649 "lowerLimit"
 	private explicit_type "int"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -36605,7 +36406,7 @@ ${inlines}
 	idl_decl ""
       end
 
-      attribute 962289 "value"
+      attribute 977777 "value"
 	private explicit_type "int"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -36615,7 +36416,7 @@ ${inlines}
 	idl_decl ""
       end
 
-      attribute 962417 "name"
+      attribute 977905 "name"
 	private explicit_type "string"
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -36625,7 +36426,7 @@ ${inlines}
 	idl_decl ""
       end
 
-      attribute 962545 "parameterType"
+      attribute 978033 "parameterType"
 	private type class_ref 210929 // ParameterType
 	cpp_decl "    ${description}${static}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -36635,11 +36436,11 @@ ${inlines}
 	idl_decl ""
       end
 
-      classrelation 506225 // <generalisation>
-	relation 506225 ---|>
+      classrelation 519537 // <generalisation>
+	relation 519537 ---|>
 	  a public
 	    cpp default "${type}"
-	    classrelation_ref 506225 // <generalisation>
+	    classrelation_ref 519537 // <generalisation>
 	  b parent class_ref 258929 // YouBotGripperParameter
       end
     end

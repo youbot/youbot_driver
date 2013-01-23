@@ -1,0 +1,17 @@
+class ActualAcceleration
+!!!1096689.cpp!!!	ActualAcceleration()
+    this->name = "ActualAcceleration";
+    this->lowerLimit = 0;
+    this->upperLimit = 2047;
+    this->parameterType = MOTOR_CONTOLLER_PARAMETER;
+!!!1096945.cpp!!!	getParameter(out parameter : int) : void
+    parameter = this->value;
+!!!1097073.cpp!!!	toString(out value : std::string) : void
+  std::stringstream ss;
+  ss << this->name << ": " << this->value;
+  value  = ss.str();
+!!!1097201.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
+    message.stctOutput.typeNumber = 135;  //ActualAcceleration
+    message.stctOutput.value = value;
+!!!1097329.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg) : void
+    this->value = message.stctInput.value;

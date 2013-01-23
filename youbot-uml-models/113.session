@@ -1,10 +1,10 @@
-window_sizes 1272 723 421 845 640 0
+window_sizes 1672 973 421 1245 890 0
 diagrams
   active  classdiagram_ref 141553 // JointData
-    996 712 100 2 0 0
+    996 712 100 2 12 0
 end
 show_stereotypes
-selected operation_ref 1089137 // getParameter
+selected artifact_ref 195569 // YouBotGripperParameter
 open
   classview_ref 134641 // Joint
   classview_ref 141169 // Gripper
