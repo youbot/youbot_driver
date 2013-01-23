@@ -289,7 +289,7 @@ void EthercatMasterWithoutThread::initializeEthercat() {
 
 
 
-std::string baseJointControllerName = "TMCM-174";
+    std::string baseJointControllerName = "TMCM-174";
     std::string baseJointControllerNameAlternative = "TMCM-1632";
     std::string manipulatorJointControllerName = "TMCM-174";
     std::string ManipulatorJointControllerNameAlternative = "TMCM-1610";

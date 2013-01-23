@@ -6,6 +6,7 @@
   <license>gnu-lgpl-v2.1 modified-bsd</license>
   <review status="unreviewed" notes=""/>
   <url>https://github.com/youbot/youbot_driver</url>
+  <depend package="roscpp"/>
 	<rosdep name="boost-all" />
   <export>
      <cpp cflags="-I${prefix}/ -I${prefix}/soem/src" lflags="-L${prefix}/lib/ -lYouBotDriver -lsoem" />

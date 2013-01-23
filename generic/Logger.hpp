@@ -54,9 +54,11 @@
 
 #include <iostream>
 #include <fstream>
-
 #include "boost/date_time/posix_time/posix_time.hpp"
 
+#ifdef USE_ROS_LOGGING
+	#include <ros/ros.h>
+#endif
 
 namespace youbot {
 
@@ -76,6 +78,7 @@ namespace youbot {
     private:
         std::stringstream out;
         bool print;
+        severity_level level;
     public:
 
         Logger(const std::string &funcName, const int &lineNo, const std::string &fileName, severity_level level);
@@ -83,6 +86,7 @@ namespace youbot {
         
         static bool toConsole;
         static bool toFile;
+        static bool toROS;
         static severity_level logginLevel;
 
         template <class T>
