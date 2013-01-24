@@ -331,7 +331,7 @@ void YouBotJoint::getConfigurationParameter(FirmwareVersion& parameter) {
       return;
     } 
     
-    char versionString[8] = {0};
+    char versionString[9] = {0}; 
     versionString[0] = message.stctInput.replyAddress;
     versionString[1] = message.stctInput.moduleAddress;
     versionString[2] = message.stctInput.status;
@@ -342,9 +342,8 @@ void YouBotJoint::getConfigurationParameter(FirmwareVersion& parameter) {
     versionString[7] = message.stctInput.value & 0xff;
 
     int controllerType = 0;
-    char firmwareVersion[8] = {0};
-
-    sscanf (versionString,"%dV%s",&controllerType,firmwareVersion);
+    char firmwareVersion[9] = {0};
+    sscanf (versionString,"%dV%s",&controllerType, firmwareVersion);
     parameter.setParameter(controllerType, firmwareVersion);
     return;
   // Bouml preserved body end 0009AA71
