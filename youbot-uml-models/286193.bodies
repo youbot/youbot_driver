@@ -4,6 +4,7 @@ class YouBotBase
     this->controllerType = 174;
     this->alternativeControllerType = 1632;
     this->supportedFirmwareVersions.push_back("1.48");
+    this->supportedFirmwareVersions.push_back("148");
     this->supportedFirmwareVersions.push_back("200");
     this->actualFirmwareVersionAllJoints = "";
 
@@ -31,7 +32,7 @@ class YouBotBase
 		}
 !!!567793.cpp!!!	doJointCommutation() : void
 
-  if(this->actualFirmwareVersionAllJoints == "1.48" ){
+  if(this->actualFirmwareVersionAllJoints == "1.48" || this->actualFirmwareVersionAllJoints == "148"){
     this->commutationFirmware148();
   }else if(this->actualFirmwareVersionAllJoints == "200" ){
     this->commutationFirmware200();

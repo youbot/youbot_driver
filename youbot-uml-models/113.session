@@ -1,9 +1,10 @@
 window_sizes 1280 726 421 853 645 0
 show_stereotypes
-selected attribute_ref 984561 // actualFirmwareVersionAllJoints
+selected class_ref 294001 // DParameterFirstParametersSpeedControl
 open
   classview_ref 134641 // Joint
-  operation_ref 1104241 // commutationFirmware148
-  class_ref 286193 // YouBotBase
+  classview_ref 154353 // JointParameter
+  classview_ref 141169 // Gripper
+  class_ref 395761 // RampMode
 end
 end

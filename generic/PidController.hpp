@@ -42,7 +42,7 @@
 namespace youbot {
 
 /***************************************************/
-/*! \class Pid
+/*! \class PidController
     \brief A basic pid class.
 
     This class implements a generic structure that

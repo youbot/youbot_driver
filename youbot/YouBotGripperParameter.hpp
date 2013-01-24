@@ -305,7 +305,7 @@ friend class YouBotGripperBar;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// Acceleration parameter for velocity control and position control
+/// Actual position of one gripper bar
 ///////////////////////////////////////////////////////////////////////////////
 class ActualPosition : public YouBotGripperParameter {
 friend class YouBotGripper;
@@ -343,7 +343,7 @@ friend class YouBotGripperBar;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// Acceleration parameter for velocity control and position control
+/// Position setpoint for one gripper bar
 ///////////////////////////////////////////////////////////////////////////////
 class PositionSetpoint : public YouBotGripperParameter {
 friend class YouBotGripper;
@@ -413,7 +413,7 @@ friend class YouBotGripperBar;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// Acceleration parameter for velocity control and position control
+/// Actual velocity of one gripper bar
 ///////////////////////////////////////////////////////////////////////////////
 class ActualVelocity : public YouBotGripperParameter {
 friend class YouBotGripper;
@@ -451,7 +451,7 @@ friend class YouBotGripperBar;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// Acceleration parameter for velocity control and position control
+/// Velocity setpoint for one gripper bar
 ///////////////////////////////////////////////////////////////////////////////
 class VelocitySetpoint : public YouBotGripperParameter {
 friend class YouBotGripper;

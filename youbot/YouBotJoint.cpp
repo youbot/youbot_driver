@@ -793,7 +793,7 @@ void YouBotJoint::getData(JointSensedTorque& data) {
   // Bouml preserved body end 000C70F1
 }
 
-///gets the target or setpoint position of one joint 
+///gets the target or setpoint position of one joint (only firmware 2.0 or higher)
 ///@param data returns the angle by reference
 void YouBotJoint::getData(JointAngleSetpoint& data) {
   // Bouml preserved body begin 00103EF1
@@ -820,7 +820,7 @@ void YouBotJoint::getData(JointAngleSetpoint& data) {
   // Bouml preserved body end 00103EF1
 }
 
-///gets the target or setpoint velocity of one joint
+///gets the target or setpoint velocity of one joint (only firmware 2.0 or higher)
 ///@param data returns the velocity by reference
 void YouBotJoint::getData(JointVelocitySetpoint& data) {
   // Bouml preserved body begin 001002F1
@@ -845,7 +845,7 @@ void YouBotJoint::getData(JointVelocitySetpoint& data) {
   // Bouml preserved body end 001002F1
 }
 
-///gets the motor current target or setpoint of one joint
+///gets the motor current target or setpoint of one joint (only firmware 2.0 or higher)
 ///@param data returns the motor current by reference
 void YouBotJoint::getData(JointCurrentSetpoint& data) {
   // Bouml preserved body begin 00100371
@@ -866,7 +866,7 @@ void YouBotJoint::getData(JointCurrentSetpoint& data) {
   // Bouml preserved body end 00100371
 }
 
-///gets the ramp generator velocity of one joint
+///gets the ramp generator velocity of one joint (only firmware 2.0 or higher)
 ///@param data returns the velocity by reference
 void YouBotJoint::getData(JointRampGeneratorVelocity& data) {
   // Bouml preserved body begin 001003F1

@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 264
+  revision 265
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -108,7 +108,7 @@ ${items}};
     class 162161 "Joint"
       abstract visibility package 
       cpp_decl "///////////////////////////////////////////////////////////////////////////////
-/// ${description}
+${description}
 ///////////////////////////////////////////////////////////////////////////////
 ${template}class ${name}${inherit} {
 ${members}};
@@ -939,7 +939,7 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
-	comment "///gets the target or setpoint position of one joint 
+	comment "///gets the target or setpoint position of one joint (only firmware 2.0 or higher)
 ///@param data returns the angle by reference"
       end
 
@@ -956,7 +956,7 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
-	comment "///gets the target or setpoint velocity of one joint
+	comment "///gets the target or setpoint velocity of one joint (only firmware 2.0 or higher)
 ///@param data returns the velocity by reference"
       end
 
@@ -973,7 +973,7 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
-	comment "///gets the motor current target or setpoint of one joint
+	comment "///gets the motor current target or setpoint of one joint (only firmware 2.0 or higher)
 ///@param data returns the motor current by reference"
       end
 
@@ -990,7 +990,7 @@ ${inlines}
 	preserve_php_body_indent 
 	preserve_python_body_indent 
 	
-	comment "///gets the ramp generator velocity of one joint
+	comment "///gets the ramp generator velocity of one joint (only firmware 2.0 or higher)
 ///@param data returns the velocity by reference"
       end
 
@@ -2751,6 +2751,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
+      comment "/// abstract data class for data which have been computed by the hardware controller"
       classrelation 493041 // <generalisation>
 	relation 493041 ---|>
 	  a public
@@ -9235,7 +9236,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// I-Parameter of PID position regulator (second position parameter set)"
+      comment "/// D-Parameter of PID position regulator (second position parameter set)"
       extra_member 139633 "friend class YouBotJoint;"
 	
 	cpp "friend class YouBotJoint;" ""
@@ -22631,7 +22632,7 @@ ${inlines}
 	preserve_python_body_indent 
 	
 	comment "///return a joint form the arm1
-///@param armJointNumber 1-5 for the arm1 joints"
+///@param armJointNumber 1-5 for the arm joints"
       end
 
       operation 391665 "getArmGripper"
@@ -27374,7 +27375,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Acceleration parameter for velocity control and position control"
+      comment "/// Actual position of one gripper bar"
       extra_member 249073 "friend class YouBotGripper;"
 	
 	cpp "friend class YouBotGripper;
@@ -27593,7 +27594,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Acceleration parameter for velocity control and position control"
+      comment "/// Position setpoint for one gripper bar"
       extra_member 249585 "friend class YouBotGripper;"
 	
 	cpp "friend class YouBotGripper;
@@ -27996,7 +27997,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Acceleration parameter for velocity control and position control"
+      comment "/// Actual velocity of one gripper bar"
       extra_member 249329 "friend class YouBotGripper;"
 	
 	cpp "friend class YouBotGripper;
@@ -28215,7 +28216,7 @@ ${inlines}
       idl_decl ""
       explicit_switch_type ""
       
-      comment "/// Acceleration parameter for velocity control and position control"
+      comment "/// Velocity setpoint for one gripper bar"
       extra_member 249841 "friend class YouBotGripper;"
 	
 	cpp "friend class YouBotGripper;

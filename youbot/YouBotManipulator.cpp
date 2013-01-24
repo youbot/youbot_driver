@@ -58,6 +58,7 @@ YouBotManipulator::YouBotManipulator(const std::string name, const std::string c
     this->controllerType = 841;
     this->alternativeControllerType = 1610;
     this->supportedFirmwareVersions.push_back("1.48");
+    this->supportedFirmwareVersions.push_back("148");
     this->supportedFirmwareVersions.push_back("200");
     this->actualFirmwareVersionAllJoints = "";
 
@@ -94,7 +95,7 @@ YouBotManipulator::~YouBotManipulator() {
 void YouBotManipulator::doJointCommutation() {
   // Bouml preserved body begin 000A3371
 
-  if(this->actualFirmwareVersionAllJoints == "1.48" ){
+  if(this->actualFirmwareVersionAllJoints == "1.48"  || this->actualFirmwareVersionAllJoints == "148"){
     this->commutationFirmware148();
   }else if(this->actualFirmwareVersionAllJoints == "200" ){
     this->commutationFirmware200();
@@ -279,7 +280,7 @@ void YouBotManipulator::calibrateGripper(const bool forceCalibration) {
 }
 
 ///return a joint form the arm1
-///@param armJointNumber 1-5 for the arm1 joints
+///@param armJointNumber 1-5 for the arm joints
 YouBotJoint& YouBotManipulator::getArmJoint(const unsigned int armJointNumber) {
   // Bouml preserved body begin 0004F7F1
 

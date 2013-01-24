@@ -226,19 +226,19 @@ class YouBotJoint : public Joint {
     ///@param data returns the actual motor torque by reference
     virtual void getData(JointSensedTorque& data);
 
-    ///gets the target or setpoint position of one joint 
+    ///gets the target or setpoint position of one joint (only firmware 2.0 or higher)
     ///@param data returns the angle by reference
     virtual void getData(JointAngleSetpoint& data);
 
-    ///gets the target or setpoint velocity of one joint
+    ///gets the target or setpoint velocity of one joint (only firmware 2.0 or higher)
     ///@param data returns the velocity by reference
     virtual void getData(JointVelocitySetpoint& data);
 
-    ///gets the motor current target or setpoint of one joint
+    ///gets the motor current target or setpoint of one joint (only firmware 2.0 or higher)
     ///@param data returns the motor current by reference
     virtual void getData(JointCurrentSetpoint& data);
 
-    ///gets the ramp generator velocity of one joint
+    ///gets the ramp generator velocity of one joint (only firmware 2.0 or higher)
     ///@param data returns the velocity by reference
     virtual void getData(JointRampGeneratorVelocity& data);
 

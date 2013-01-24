@@ -1063,7 +1063,7 @@ friend class YouBotJoint;
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-/// I-Parameter of PID position regulator (second position parameter set)
+/// D-Parameter of PID position regulator (second position parameter set)
 ///////////////////////////////////////////////////////////////////////////////
 class DParameterSecondParametersPositionControl : public YouBotJointParameter {
 friend class YouBotJoint;

@@ -70,8 +70,8 @@ namespace youbot {
 
 
 
-
-// coef[0] + coef[1]*t + ... + coef[5]*t^5
+/// Spline for a joint trajectory 
+/// coef[0] + coef[1]*t + ... + coef[5]*t^5
 struct Spline
 {
   std::vector<double> coef;
@@ -79,6 +79,7 @@ struct Spline
   Spline() : coef(6, 0.0) {}
 };
 
+/// Joint trajectory segment
 struct Segment
  {
   boost::posix_time::ptime start_time;
@@ -87,7 +88,7 @@ struct Segment
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-/// 
+/// Joint Trajectory Controller
 ///////////////////////////////////////////////////////////////////////////////
 class JointTrajectoryController {
   public:

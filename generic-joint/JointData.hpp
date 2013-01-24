@@ -249,7 +249,7 @@ class JointEncoderSetpoint : public JointDataSetpoint {
 
 };
 ///////////////////////////////////////////////////////////////////////////////
-
+/// abstract data class for data which have been computed by the hardware controller
 ///////////////////////////////////////////////////////////////////////////////
 class JointControllerComputedData : public JointSensedData {
 };
