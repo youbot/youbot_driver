@@ -125,43 +125,46 @@ void JointLimitMonitor::checkLimitsEncoderPosition(const signed int& setpoint) {
 
 void JointLimitMonitor::checkLimitsProcessData(const SlaveMessageInput& messageInput, SlaveMessageOutput& messageOutput) {
   // Bouml preserved body begin 000FCAF1
-		switch (messageOutput.controllerMode) {
-			case POSITION_CONTROL:
-				break;
-			case VELOCITY_CONTROL:
-				if(isbraking == false){
-					calculateBrakingDistance(messageInput);
-				}
+    switch (messageOutput.controllerMode) {
+      case POSITION_CONTROL:
+        break;
+      case VELOCITY_CONTROL:
+        if (isbraking == false) {
+          calculateBrakingDistance(messageInput);
+        }
+
+        if ((messageInput.actualPosition < bevorLowerLimit && !(messageOutput.value > 0)) || (messageInput.actualPosition > bevorUpperLimit && !(messageOutput.value < 0))) {
+          //	messageOutput.value = velocityWhenReachedLimit * this->calculateDamping(messageInput.actualPosition);
+          messageOutput.value = this->calculateBrakingVelocity(messageInput.actualPosition);
+          isbraking = true;
+        } else {
+          isbraking = false;
+        }
+
+        break;
+      case CURRENT_MODE:
+        break; //disable limit checker for current mode
+        /*
+        if(isbraking == false){
+          calculateBrakingDistance(messageInput);
+        }
 					
-				if( (messageInput.actualPosition < bevorLowerLimit && !(messageOutput.value > 0)) || (messageInput.actualPosition > bevorUpperLimit && !(messageOutput.value < 0))) {
-				//	messageOutput.value = velocityWhenReachedLimit * this->calculateDamping(messageInput.actualPosition);
-					messageOutput.value = this->calculateBrakingVelocity(messageInput.actualPosition);
-					isbraking = true;
-				}else{
-					isbraking = false;
-				}
+        if( (messageInput.actualPosition < bevorLowerLimit && !(messageOutput.value > 0)) || (messageInput.actualPosition > bevorUpperLimit && !(messageOutput.value < 0))) {
+          messageOutput.value = this->calculateBrakingVelocity(messageInput.actualPosition);
+          messageOutput.controllerMode = VELOCITY_CONTROL;
+          isbraking = true;
+        }else{
+          isbraking = false;
+        }
 
-				break;
-			case CURRENT_MODE:
-				if(isbraking == false){
-					calculateBrakingDistance(messageInput);
-				}
-					
-				if( (messageInput.actualPosition < bevorLowerLimit && !(messageOutput.value > 0)) || (messageInput.actualPosition > bevorUpperLimit && !(messageOutput.value < 0))) {
-					messageOutput.value = this->calculateBrakingVelocity(messageInput.actualPosition);
-					messageOutput.controllerMode = VELOCITY_CONTROL;
-					isbraking = true;
-				}else{
-					isbraking = false;
-				}
+        break;
+         */
+      default:
 
-				break;
-			default:
+        break;
 
-				break;
-
-		}
-		
+    }
+    
   // Bouml preserved body end 000FCAF1
 }
 
