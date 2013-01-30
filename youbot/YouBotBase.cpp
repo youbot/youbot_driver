@@ -57,7 +57,6 @@ YouBotBase::YouBotBase(const std::string name, const std::string configFilePath)
 
     this->controllerType = 174;
     this->alternativeControllerType = 1632;
-    this->supportedFirmwareVersions.push_back("1.48");
     this->supportedFirmwareVersions.push_back("148");
     this->supportedFirmwareVersions.push_back("200");
     this->actualFirmwareVersionAllJoints = "";
@@ -95,7 +94,7 @@ YouBotBase::~YouBotBase() {
 void YouBotBase::doJointCommutation() {
   // Bouml preserved body begin 0008A9F1
 
-  if(this->actualFirmwareVersionAllJoints == "1.48" || this->actualFirmwareVersionAllJoints == "148"){
+  if(this->actualFirmwareVersionAllJoints == "148"){
     this->commutationFirmware148();
   }else if(this->actualFirmwareVersionAllJoints == "200" ){
     this->commutationFirmware200();
