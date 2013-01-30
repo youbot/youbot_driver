@@ -30,7 +30,6 @@ This is a list of the parameters:
 The switching threshold defines the joint speed when the second parameters set should be used. If the threshold is zero the second set is always used.
 - youbot::PositionControlSwitchingThreshold in s^-1 rad
 - youbot::SpeedControlSwitchingThreshold in s^-1 rad
-- youbot::CurrentControlSwitchingThreshold in s^-1 rad
 
 - youbot::PParameterFirstParametersPositionControl
 - youbot::IParameterFirstParametersPositionControl
@@ -42,10 +41,10 @@ The switching threshold defines the joint speed when the second parameters set s
 - youbot::DParameterFirstParametersSpeedControl
 - youbot::IClippingParameterFirstParametersSpeedControl
 
-- youbot::PParameterFirstParametersCurrentControl
-- youbot::IParameterFirstParametersCurrentControl
-- youbot::DParameterFirstParametersCurrentControl
-- youbot::IClippingParameterFirstParametersCurrentControl
+- youbot::PParameterCurrentControl
+- youbot::IParameterCurrentControl
+- youbot::DParameterCurrentControl
+- youbot::IClippingParameterCurrentControl
 
 - youbot::PParameterSecondParametersPositionControl
 - youbot::IParameterSecondParametersPositionControl
@@ -56,12 +55,6 @@ The switching threshold defines the joint speed when the second parameters set s
 - youbot::IParameterSecondParametersSpeedControl
 - youbot::DParameterSecondParametersSpeedControl
 - youbot::IClippingParameterSecondParametersSpeedControl
-
-- youbot::PParameterSecondParametersCurrentControl
-- youbot::IParameterSecondParametersCurrentControl
-- youbot::DParameterSecondParametersCurrentControl
-- youbot::IClippingParameterSecondParametersCurrentControl
-
 
 
 
