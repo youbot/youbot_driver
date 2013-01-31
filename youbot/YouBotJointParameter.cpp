@@ -1729,7 +1729,7 @@ void IClippingParameterSecondParametersSpeedControl::setYouBotMailboxMsg(const Y
 
 PParameterCurrentControl::PParameterCurrentControl() {
   // Bouml preserved body begin 00080371
-    this->name = "PParameterSecondParametersCurrentControl";
+    this->name = "PParameterCurrentControl";
     this->lowerLimit = INT_MIN;
     this->upperLimit = INT_MAX;
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
@@ -1773,7 +1773,7 @@ void PParameterCurrentControl::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& messag
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 172; //PParameterSecondParametersCurrentControl
+    message.stctOutput.typeNumber = 172; //PParameterCurrentControl
     message.stctOutput.value = value;
 
   // Bouml preserved body end 00080571
@@ -1787,7 +1787,7 @@ void PParameterCurrentControl::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& 
 
 IParameterCurrentControl::IParameterCurrentControl() {
   // Bouml preserved body begin 00080771
-    this->name = "IParameterSecondParametersCurrentControl";
+    this->name = "IParameterCurrentControl";
     this->lowerLimit = INT_MIN;
     this->upperLimit = INT_MAX;
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
@@ -1831,7 +1831,7 @@ void IParameterCurrentControl::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& messag
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 173; //IParameterSecondParametersCurrentControl
+    message.stctOutput.typeNumber = 173; //IParameterCurrentControl
     message.stctOutput.value = value;
 
   // Bouml preserved body end 00080971
@@ -1845,7 +1845,7 @@ void IParameterCurrentControl::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& 
 
 DParameterCurrentControl::DParameterCurrentControl() {
   // Bouml preserved body begin 00080B71
-    this->name = "DParameterSecondParametersCurrentControl";
+    this->name = "DParameterCurrentControl";
     this->lowerLimit = INT_MIN;
     this->upperLimit = INT_MAX;
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
@@ -1889,7 +1889,7 @@ void DParameterCurrentControl::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& messag
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 174; //DParameterSecondParametersCurrentControl
+    message.stctOutput.typeNumber = 174; //DParameterCurrentControl
     message.stctOutput.value = value;
 
   // Bouml preserved body end 00080D71
@@ -1903,7 +1903,7 @@ void DParameterCurrentControl::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& 
 
 IClippingParameterCurrentControl::IClippingParameterCurrentControl() {
   // Bouml preserved body begin 00080F71
-    this->name = "IClippingParameterSecondParametersCurrentControl";
+    this->name = "IClippingParameterCurrentControl";
     this->lowerLimit = INT_MIN;
     this->upperLimit = INT_MAX;
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
@@ -1947,7 +1947,7 @@ void IClippingParameterCurrentControl::getYouBotMailboxMsg(YouBotSlaveMailboxMsg
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 175; //IClippingParameterSecondParametersCurrentControl
+    message.stctOutput.typeNumber = 175; //IClippingParameterCurrentControl
     message.stctOutput.value = value;
 
   // Bouml preserved body end 00081171

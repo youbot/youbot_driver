@@ -345,7 +345,7 @@ void YouBotJoint::getConfigurationParameter(FirmwareVersion& parameter) {
     char firmwareVersion[9] = {0};
     sscanf (versionString,"%dV%s",&controllerType, firmwareVersion);
     std::string version(firmwareVersion);
-    unsigned int founddot = version.find(".");
+    size_t founddot = version.find(".");
     while(founddot != std::string::npos){
       version.erase(founddot,1);
       founddot = version.find(".");
