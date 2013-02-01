@@ -47,43 +47,46 @@ class JointLimitMonitor
       }
     }
 !!!1034993.cpp!!!	checkLimitsProcessData(in messageInput : SlaveMessageInput, out messageOutput : SlaveMessageOutput) : void
-		switch (messageOutput.controllerMode) {
-			case POSITION_CONTROL:
-				break;
-			case VELOCITY_CONTROL:
-				if(isbraking == false){
-					calculateBrakingDistance(messageInput);
-				}
+    switch (messageOutput.controllerMode) {
+      case POSITION_CONTROL:
+        break;
+      case VELOCITY_CONTROL:
+        if (isbraking == false) {
+          calculateBrakingDistance(messageInput);
+        }
+
+        if ((messageInput.actualPosition < bevorLowerLimit && !(messageOutput.value > 0)) || (messageInput.actualPosition > bevorUpperLimit && !(messageOutput.value < 0))) {
+          //	messageOutput.value = velocityWhenReachedLimit * this->calculateDamping(messageInput.actualPosition);
+          messageOutput.value = this->calculateBrakingVelocity(messageInput.actualPosition);
+          isbraking = true;
+        } else {
+          isbraking = false;
+        }
+
+        break;
+      case CURRENT_MODE:
+        break; //disable limit checker for current mode
+        /*
+        if(isbraking == false){
+          calculateBrakingDistance(messageInput);
+        }
 					
-				if( (messageInput.actualPosition < bevorLowerLimit && !(messageOutput.value > 0)) || (messageInput.actualPosition > bevorUpperLimit && !(messageOutput.value < 0))) {
-				//	messageOutput.value = velocityWhenReachedLimit * this->calculateDamping(messageInput.actualPosition);
-					messageOutput.value = this->calculateBrakingVelocity(messageInput.actualPosition);
-					isbraking = true;
-				}else{
-					isbraking = false;
-				}
+        if( (messageInput.actualPosition < bevorLowerLimit && !(messageOutput.value > 0)) || (messageInput.actualPosition > bevorUpperLimit && !(messageOutput.value < 0))) {
+          messageOutput.value = this->calculateBrakingVelocity(messageInput.actualPosition);
+          messageOutput.controllerMode = VELOCITY_CONTROL;
+          isbraking = true;
+        }else{
+          isbraking = false;
+        }
 
-				break;
-			case CURRENT_MODE:
-				if(isbraking == false){
-					calculateBrakingDistance(messageInput);
-				}
-					
-				if( (messageInput.actualPosition < bevorLowerLimit && !(messageOutput.value > 0)) || (messageInput.actualPosition > bevorUpperLimit && !(messageOutput.value < 0))) {
-					messageOutput.value = this->calculateBrakingVelocity(messageInput.actualPosition);
-					messageOutput.controllerMode = VELOCITY_CONTROL;
-					isbraking = true;
-				}else{
-					isbraking = false;
-				}
+        break;
+         */
+      default:
 
-				break;
-			default:
+        break;
 
-				break;
-
-		}
-		
+    }
+    
 !!!1028081.cpp!!!	calculateDamping(in actualPosition : int) : double
 	if(actualPosition <= storage.lowerLimit){
 		return 0.0;

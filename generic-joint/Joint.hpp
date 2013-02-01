@@ -58,16 +58,12 @@
 
 namespace youbot {
 
-enum SyncMode {
-  NON_BLOCKING
-
-};
 ///////////////////////////////////////////////////////////////////////////////
 /// abstract joint
 ///////////////////////////////////////////////////////////////////////////////
 class Joint {
   public:
-    virtual void setData(const JointDataSetpoint& data, SyncMode communicationMode) = 0;
+    virtual void setData(const JointDataSetpoint& data) = 0;
 
     virtual void getData(JointData& data) = 0;
 

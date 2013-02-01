@@ -169,19 +169,19 @@ void YouBotBase::setBasePosition(const quantity<si::length>& longitudinalPositio
     ethercatMaster.AutomaticSendOn(false);
     joints[0].getData(sensedPos);
     setpointPos.angle = sensedPos.angle + wheelPositions[0];
-    joints[0].setData(setpointPos, NON_BLOCKING);
+    joints[0].setData(setpointPos);
     
     joints[1].getData(sensedPos);
     setpointPos.angle = sensedPos.angle + wheelPositions[1];
-    joints[1].setData(setpointPos, NON_BLOCKING);
+    joints[1].setData(setpointPos);
     
     joints[2].getData(sensedPos);
     setpointPos.angle = sensedPos.angle + wheelPositions[2];
-    joints[2].setData(setpointPos, NON_BLOCKING);
+    joints[2].setData(setpointPos);
     
     joints[3].getData(sensedPos);
     setpointPos.angle = sensedPos.angle + wheelPositions[3];
-    joints[3].setData(setpointPos, NON_BLOCKING);
+    joints[3].setData(setpointPos);
     ethercatMaster.AutomaticSendOn(true);
 
   // Bouml preserved body end 000C0971
@@ -232,13 +232,13 @@ void YouBotBase::setBaseVelocity(const quantity<si::velocity>& longitudinalVeloc
 
     ethercatMaster.AutomaticSendOn(false);
     setVel.angularVelocity = wheelVelocities[0];
-    joints[0].setData(setVel, NON_BLOCKING);
+    joints[0].setData(setVel);
     setVel.angularVelocity = wheelVelocities[1];
-    joints[1].setData(setVel, NON_BLOCKING);
+    joints[1].setData(setVel);
     setVel.angularVelocity = wheelVelocities[2];
-    joints[2].setData(setVel, NON_BLOCKING);
+    joints[2].setData(setVel);
     setVel.angularVelocity = wheelVelocities[3];
-    joints[3].setData(setVel, NON_BLOCKING);
+    joints[3].setData(setVel);
     ethercatMaster.AutomaticSendOn(true);
   // Bouml preserved body end 0004DD71
 }
@@ -252,10 +252,10 @@ void YouBotBase::setJointData(const std::vector<JointAngleSetpoint>& JointData) 
       throw std::out_of_range("Wrong number of JointAngleSetpoints");
 
     ethercatMaster.AutomaticSendOn(false);
-    joints[0].setData(JointData[0], NON_BLOCKING);
-    joints[1].setData(JointData[1], NON_BLOCKING);
-    joints[2].setData(JointData[2], NON_BLOCKING);
-    joints[3].setData(JointData[3], NON_BLOCKING);
+    joints[0].setData(JointData[0]);
+    joints[1].setData(JointData[1]);
+    joints[2].setData(JointData[2]);
+    joints[3].setData(JointData[3]);
     ethercatMaster.AutomaticSendOn(true);
 
   // Bouml preserved body end 0008F9F1
@@ -285,10 +285,10 @@ void YouBotBase::setJointData(const std::vector<JointVelocitySetpoint>& JointDat
       throw std::out_of_range("Wrong number of JointVelocitySetpoints");
 
     ethercatMaster.AutomaticSendOn(false);
-    joints[0].setData(JointData[0], NON_BLOCKING);
-    joints[1].setData(JointData[1], NON_BLOCKING);
-    joints[2].setData(JointData[2], NON_BLOCKING);
-    joints[3].setData(JointData[3], NON_BLOCKING);
+    joints[0].setData(JointData[0]);
+    joints[1].setData(JointData[1]);
+    joints[2].setData(JointData[2]);
+    joints[3].setData(JointData[3]);
     ethercatMaster.AutomaticSendOn(true);
   // Bouml preserved body end 0008FA71
 }
@@ -317,10 +317,10 @@ void YouBotBase::setJointData(const std::vector<JointCurrentSetpoint>& JointData
       throw std::out_of_range("Wrong number of JointCurrentSetpoint");
 
     ethercatMaster.AutomaticSendOn(false);
-    joints[0].setData(JointData[0], NON_BLOCKING);
-    joints[1].setData(JointData[1], NON_BLOCKING);
-    joints[2].setData(JointData[2], NON_BLOCKING);
-    joints[3].setData(JointData[3], NON_BLOCKING);
+    joints[0].setData(JointData[0]);
+    joints[1].setData(JointData[1]);
+    joints[2].setData(JointData[2]);
+    joints[3].setData(JointData[3]);
     ethercatMaster.AutomaticSendOn(true);
   // Bouml preserved body end 000CDFF1
 }
@@ -349,10 +349,10 @@ void YouBotBase::setJointData(const std::vector<JointTorqueSetpoint>& JointData)
       throw std::out_of_range("Wrong number of JointTorqueSetpoint");
 
     ethercatMaster.AutomaticSendOn(false);
-    joints[0].setData(JointData[0], NON_BLOCKING);
-    joints[1].setData(JointData[1], NON_BLOCKING);
-    joints[2].setData(JointData[2], NON_BLOCKING);
-    joints[3].setData(JointData[3], NON_BLOCKING);
+    joints[0].setData(JointData[0]);
+    joints[1].setData(JointData[1]);
+    joints[2].setData(JointData[2]);
+    joints[3].setData(JointData[3]);
     ethercatMaster.AutomaticSendOn(true);
   // Bouml preserved body end 000CE071
 }

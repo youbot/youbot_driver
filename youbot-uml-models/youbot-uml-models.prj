@@ -1,6 +1,6 @@
 format 75
 "youbot-uml-models"
-  revision 265
+  revision 266
   modified_by 113 "jan"
   cpp_root_dir "../"
 
@@ -74,37 +74,6 @@ format 75
       size A1
     end
 
-    class 162417 "SyncMode"
-      visibility package stereotype "enum"
-      cpp_decl "${description}enum ${name} {
-${items}
-};
-"
-      java_decl "${comment}${@}${visibility}${final}${abstract}enum ${name}${implements} {
-${items};
-${members}}
-"
-      php_decl "${comment}${visibility}final class ${name} {
-${items}}
-"
-      python_2_2 python_decl "class ${name}:
-${docstring}${members}
-"
-      idl_decl "${comment}enum ${name} {
-${items}};
-"
-      explicit_switch_type ""
-      
-      attribute 250993 "NON_BLOCKING"
-	public type class_ref 162417 // SyncMode
-	cpp_decl "  ${name}${value},${comment}"
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-    end
-
     class 162161 "Joint"
       abstract visibility package 
       cpp_decl "///////////////////////////////////////////////////////////////////////////////
@@ -123,10 +92,9 @@ ${inlines}
       comment "/// abstract joint"
       operation 239089 "setData"
 	abstract preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
-	nparams 2
+	nparams 1
 	  param in name "data" type class_ref 170481 // JointDataSetpoint
-	  param in name "communicationMode" type class_ref 162417 // SyncMode
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
 "
 	preserve_java_body_indent 
 	preserve_php_body_indent 
@@ -635,13 +603,11 @@ ${inlines}
 
       operation 267249 "setData"
 	preserve_cpp_body_indent cpp_virtual protected explicit_return_type "void"
-	nparams 2
+	nparams 1
 	  param in name "data" type class_ref 170481 // JointDataSetpoint
-	  param in name "communicationMode" type class_ref 162417 // SyncMode
-	    defaultvalue "NON_BLOCKING"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
 "
 	preserve_java_body_indent 
@@ -667,13 +633,11 @@ ${inlines}
 
       operation 246257 "setData"
 	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
-	nparams 2
+	nparams 1
 	  param in name "data" type class_ref 170865 // JointAngleSetpoint
-	  param in name "communicationMode" type class_ref 162417 // SyncMode
-	    defaultvalue "NON_BLOCKING"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
 "
 	preserve_java_body_indent 
@@ -681,19 +645,16 @@ ${inlines}
 	preserve_python_body_indent 
 	
 	comment "///commands a position or angle to one joint
-///@param data the to command position
-///@param communicationMode at the moment only non blocking communication is implemented"
+///@param data the to command position"
       end
 
       operation 795505 "setData"
 	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
-	nparams 2
+	nparams 1
 	  param in name "data" type class_ref 412657 // JointEncoderSetpoint
-	  param in name "communicationMode" type class_ref 162417 // SyncMode
-	    defaultvalue "NON_BLOCKING"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
 "
 	preserve_java_body_indent 
@@ -701,8 +662,7 @@ ${inlines}
 	preserve_python_body_indent 
 	
 	comment "///commands a encoder value (position) to one joint
-///@param data the to command encoder value
-///@param communicationMode at the moment only non blocking communication is implemented"
+///@param data the to command encoder value"
       end
 
       operation 253169 "getData"
@@ -724,13 +684,11 @@ ${inlines}
 
       operation 246641 "setData"
 	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
-	nparams 2
+	nparams 1
 	  param in name "data" type class_ref 170737 // JointVelocitySetpoint
-	  param in name "communicationMode" type class_ref 162417 // SyncMode
-	    defaultvalue "NON_BLOCKING"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
 "
 	preserve_java_body_indent 
@@ -738,8 +696,7 @@ ${inlines}
 	preserve_python_body_indent 
 	
 	comment "///commands a velocity to one joint
-///@param data the to command velocity
-///@param communicationMode at the moment only non blocking communication is implemented"
+///@param data the to command velocity"
       end
 
       operation 253297 "getData"
@@ -778,13 +735,11 @@ ${inlines}
 
       operation 716017 "setData"
 	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
-	nparams 2
+	nparams 1
 	  param in name "data" type class_ref 381937 // JointRoundsPerMinuteSetpoint
-	  param in name "communicationMode" type class_ref 162417 // SyncMode
-	    defaultvalue "NON_BLOCKING"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
 "
 	preserve_java_body_indent 
@@ -792,8 +747,7 @@ ${inlines}
 	preserve_python_body_indent 
 	
 	comment "///sets the velocity in round per minute to one joint
-///@param data the setpoint velocity
-///@param communicationMode at the moment only non blocking communication is implemented"
+///@param data the setpoint velocity"
       end
 
       operation 253425 "getData"
@@ -815,13 +769,11 @@ ${inlines}
 
       operation 611825 "setData"
 	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
-	nparams 2
+	nparams 1
 	  param in name "data" type class_ref 170993 // JointCurrentSetpoint
-	  param in name "communicationMode" type class_ref 162417 // SyncMode
-	    defaultvalue "NON_BLOCKING"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
 "
 	preserve_java_body_indent 
@@ -829,8 +781,7 @@ ${inlines}
 	preserve_python_body_indent 
 	
 	comment "///commands a current to one joint
-///@param data the to command current
-///@param communicationMode at the moment only non blocking communication is implemented"
+///@param data the to command current"
       end
 
       operation 702449 "getData"
@@ -852,13 +803,11 @@ ${inlines}
 
       operation 808561 "setData"
 	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
-	nparams 2
+	nparams 1
 	  param in name "data" explicit_type "SlaveMessageOutput"
-	  param in name "communicationMode" type class_ref 162417 // SyncMode
-	    defaultvalue "NON_BLOCKING"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
 "
 	preserve_java_body_indent 
@@ -867,8 +816,7 @@ ${inlines}
 	
 	comment "///sets the output part of a EtherCAT slave message
 ///this methode should be only used if you know what you are doing
-///@param data output part of a EtherCAT slave message
-///@param communicationMode at the moment only non blocking communication is implemented"
+///@param data output part of a EtherCAT slave message"
       end
 
       operation 808689 "getData"
@@ -891,13 +839,11 @@ ${inlines}
 
       operation 815217 "setData"
 	preserve_cpp_body_indent cpp_virtual public explicit_return_type "void"
-	nparams 2
+	nparams 1
 	  param in name "data" type class_ref 170609 // JointTorqueSetpoint
-	  param in name "communicationMode" type class_ref 162417 // SyncMode
-	    defaultvalue "NON_BLOCKING"
-	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+	cpp_decl "    ${description}${friend}${static}${inline}${virtual}${type} ${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+	cpp_def "${description}${inline}${type} ${class}::${name}${(}const ${t0}& ${p0}${)}${const}${volatile}${throw}${staticnl}{
   ${body}}
 "
 	preserve_java_body_indent 
@@ -905,8 +851,7 @@ ${inlines}
 	preserve_python_body_indent 
 	
 	comment "///commands a torque to one joint
-///@param data the to command torque
-///@param communicationMode at the moment only non blocking communication is implemented"
+///@param data the to command torque"
       end
 
       operation 815345 "getData"

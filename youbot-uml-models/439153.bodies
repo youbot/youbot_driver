@@ -88,7 +88,7 @@ class EthercatMasterWithoutThread
       /* find and auto-config slaves */
       if (ec_config(TRUE, &IOmap_) > 0) {
 
-        LOG(trace) << ec_slavecount << " slaves found and configured.";
+        LOG(trace) << ec_slavecount << " EtherCAT slaves found and configured.";
 
         /* wait for all slaves to reach Pre OP state */
         /*ec_statecheck(0, EC_STATE_PRE_OP,  EC_TIMEOUTSTATE);
@@ -123,7 +123,7 @@ class EthercatMasterWithoutThread
         /* wait for all slaves to reach SAFE_OP state */
         ec_statecheck(0, EC_STATE_SAFE_OP, EC_TIMEOUTSTATE);
         if (ec_slave[0].state != EC_STATE_SAFE_OP) {
-          LOG(warning) << "Not all slaves reached safe operational state.";
+          LOG(warning) << "Not all EtherCAT slaves reached safe operational state.";
           ec_readstate();
           //If not all slaves operational find out which one
           for (int i = 1; i <= ec_slavecount; i++) {
@@ -138,7 +138,7 @@ class EthercatMasterWithoutThread
         //Read the state of all slaves
         //ec_readstate();
 
-        LOG(trace) << "Request operational state for all slaves";
+        LOG(trace) << "Request operational state for all EtherCAT slaves";
 
         ec_slave[0].state = EC_STATE_OPERATIONAL;
         // request OP state for all slaves
@@ -151,14 +151,14 @@ class EthercatMasterWithoutThread
 
         ec_statecheck(0, EC_STATE_OPERATIONAL, EC_TIMEOUTSTATE);
         if (ec_slave[0].state == EC_STATE_OPERATIONAL) {
-          LOG(trace) << "Operational state reached for all slaves.";
+          LOG(trace) << "Operational state reached for all EtherCAT slaves.";
         } else {
-          throw std::runtime_error("Not all slaves reached operational state.");
+          throw std::runtime_error("Not all EtherCAT slaves reached operational state.");
 
         }
 
       } else {
-        throw std::runtime_error("No slaves found!");
+        throw std::runtime_error("No EtherCAT slaves found!");
       }
 
     } else {

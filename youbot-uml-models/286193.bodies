@@ -3,7 +3,6 @@ class YouBotBase
 
     this->controllerType = 174;
     this->alternativeControllerType = 1632;
-    this->supportedFirmwareVersions.push_back("1.48");
     this->supportedFirmwareVersions.push_back("148");
     this->supportedFirmwareVersions.push_back("200");
     this->actualFirmwareVersionAllJoints = "";
@@ -32,7 +31,7 @@ class YouBotBase
 		}
 !!!567793.cpp!!!	doJointCommutation() : void
 
-  if(this->actualFirmwareVersionAllJoints == "1.48" || this->actualFirmwareVersionAllJoints == "148"){
+  if(this->actualFirmwareVersionAllJoints == "148"){
     this->commutationFirmware148();
   }else if(this->actualFirmwareVersionAllJoints == "200" ){
     this->commutationFirmware200();
@@ -85,19 +84,19 @@ class YouBotBase
     ethercatMaster.AutomaticSendOn(false);
     joints[0].getData(sensedPos);
     setpointPos.angle = sensedPos.angle + wheelPositions[0];
-    joints[0].setData(setpointPos, NON_BLOCKING);
+    joints[0].setData(setpointPos);
     
     joints[1].getData(sensedPos);
     setpointPos.angle = sensedPos.angle + wheelPositions[1];
-    joints[1].setData(setpointPos, NON_BLOCKING);
+    joints[1].setData(setpointPos);
     
     joints[2].getData(sensedPos);
     setpointPos.angle = sensedPos.angle + wheelPositions[2];
-    joints[2].setData(setpointPos, NON_BLOCKING);
+    joints[2].setData(setpointPos);
     
     joints[3].getData(sensedPos);
     setpointPos.angle = sensedPos.angle + wheelPositions[3];
-    joints[3].setData(setpointPos, NON_BLOCKING);
+    joints[3].setData(setpointPos);
     ethercatMaster.AutomaticSendOn(true);
 
 !!!332401.cpp!!!	getBaseVelocity(out longitudinalVelocity : quantity<si::velocity>, out transversalVelocity : quantity<si::velocity>, out angularVelocity : quantity<si::angular_velocity>) : void
@@ -132,23 +131,23 @@ class YouBotBase
 
     ethercatMaster.AutomaticSendOn(false);
     setVel.angularVelocity = wheelVelocities[0];
-    joints[0].setData(setVel, NON_BLOCKING);
+    joints[0].setData(setVel);
     setVel.angularVelocity = wheelVelocities[1];
-    joints[1].setData(setVel, NON_BLOCKING);
+    joints[1].setData(setVel);
     setVel.angularVelocity = wheelVelocities[2];
-    joints[2].setData(setVel, NON_BLOCKING);
+    joints[2].setData(setVel);
     setVel.angularVelocity = wheelVelocities[3];
-    joints[3].setData(setVel, NON_BLOCKING);
+    joints[3].setData(setVel);
     ethercatMaster.AutomaticSendOn(true);
 !!!588273.cpp!!!	setJointData(in JointData : std::vector<JointAngleSetpoint>) : void
     if (JointData.size() != BASEJOINTS)
       throw std::out_of_range("Wrong number of JointAngleSetpoints");
 
     ethercatMaster.AutomaticSendOn(false);
-    joints[0].setData(JointData[0], NON_BLOCKING);
-    joints[1].setData(JointData[1], NON_BLOCKING);
-    joints[2].setData(JointData[2], NON_BLOCKING);
-    joints[3].setData(JointData[3], NON_BLOCKING);
+    joints[0].setData(JointData[0]);
+    joints[1].setData(JointData[1]);
+    joints[2].setData(JointData[2]);
+    joints[3].setData(JointData[3]);
     ethercatMaster.AutomaticSendOn(true);
 
 !!!588785.cpp!!!	getJointData(out data : std::vector<JointSensedAngle>) : void
@@ -164,10 +163,10 @@ class YouBotBase
       throw std::out_of_range("Wrong number of JointVelocitySetpoints");
 
     ethercatMaster.AutomaticSendOn(false);
-    joints[0].setData(JointData[0], NON_BLOCKING);
-    joints[1].setData(JointData[1], NON_BLOCKING);
-    joints[2].setData(JointData[2], NON_BLOCKING);
-    joints[3].setData(JointData[3], NON_BLOCKING);
+    joints[0].setData(JointData[0]);
+    joints[1].setData(JointData[1]);
+    joints[2].setData(JointData[2]);
+    joints[3].setData(JointData[3]);
     ethercatMaster.AutomaticSendOn(true);
 !!!588913.cpp!!!	getJointData(out data : std::vector<JointSensedVelocity>) : void
     data.resize(BASEJOINTS);
@@ -182,10 +181,10 @@ class YouBotBase
       throw std::out_of_range("Wrong number of JointCurrentSetpoint");
 
     ethercatMaster.AutomaticSendOn(false);
-    joints[0].setData(JointData[0], NON_BLOCKING);
-    joints[1].setData(JointData[1], NON_BLOCKING);
-    joints[2].setData(JointData[2], NON_BLOCKING);
-    joints[3].setData(JointData[3], NON_BLOCKING);
+    joints[0].setData(JointData[0]);
+    joints[1].setData(JointData[1]);
+    joints[2].setData(JointData[2]);
+    joints[3].setData(JointData[3]);
     ethercatMaster.AutomaticSendOn(true);
 !!!589169.cpp!!!	getJointData(out data : std::vector<JointSensedCurrent>) : void
     data.resize(BASEJOINTS);
@@ -200,10 +199,10 @@ class YouBotBase
       throw std::out_of_range("Wrong number of JointTorqueSetpoint");
 
     ethercatMaster.AutomaticSendOn(false);
-    joints[0].setData(JointData[0], NON_BLOCKING);
-    joints[1].setData(JointData[1], NON_BLOCKING);
-    joints[2].setData(JointData[2], NON_BLOCKING);
-    joints[3].setData(JointData[3], NON_BLOCKING);
+    joints[0].setData(JointData[0]);
+    joints[1].setData(JointData[1]);
+    joints[2].setData(JointData[2]);
+    joints[3].setData(JointData[3]);
     ethercatMaster.AutomaticSendOn(true);
 !!!844017.cpp!!!	getJointData(out data : std::vector<JointSensedTorque>) : void
     data.resize(BASEJOINTS);

@@ -308,11 +308,11 @@ void YouBotManipulator::setJointData(const std::vector<JointAngleSetpoint>& Join
       throw std::out_of_range("Wrong number of JointAngleSetpoints");
 
     ethercatMaster.AutomaticSendOn(false);
-    joints[0].setData(JointData[0], NON_BLOCKING);
-    joints[1].setData(JointData[1], NON_BLOCKING);
-    joints[2].setData(JointData[2], NON_BLOCKING);
-    joints[3].setData(JointData[3], NON_BLOCKING);
-    joints[4].setData(JointData[4], NON_BLOCKING);
+    joints[0].setData(JointData[0]);
+    joints[1].setData(JointData[1]);
+    joints[2].setData(JointData[2]);
+    joints[3].setData(JointData[3]);
+    joints[4].setData(JointData[4]);
     ethercatMaster.AutomaticSendOn(true);
 
   // Bouml preserved body end 0008FDF1
@@ -343,11 +343,11 @@ void YouBotManipulator::setJointData(const std::vector<JointVelocitySetpoint>& J
       throw std::out_of_range("Wrong number of JointVelocitySetpoints");
 
     ethercatMaster.AutomaticSendOn(false);
-    joints[0].setData(JointData[0], NON_BLOCKING);
-    joints[1].setData(JointData[1], NON_BLOCKING);
-    joints[2].setData(JointData[2], NON_BLOCKING);
-    joints[3].setData(JointData[3], NON_BLOCKING);
-    joints[4].setData(JointData[4], NON_BLOCKING);
+    joints[0].setData(JointData[0]);
+    joints[1].setData(JointData[1]);
+    joints[2].setData(JointData[2]);
+    joints[3].setData(JointData[3]);
+    joints[4].setData(JointData[4]);
     ethercatMaster.AutomaticSendOn(true);
   // Bouml preserved body end 0008FEF1
 }
@@ -377,11 +377,11 @@ void YouBotManipulator::setJointData(const std::vector<JointCurrentSetpoint>& Jo
       throw std::out_of_range("Wrong number of JointCurrentSetpoint");
 
     ethercatMaster.AutomaticSendOn(false);
-    joints[0].setData(JointData[0], NON_BLOCKING);
-    joints[1].setData(JointData[1], NON_BLOCKING);
-    joints[2].setData(JointData[2], NON_BLOCKING);
-    joints[3].setData(JointData[3], NON_BLOCKING);
-    joints[4].setData(JointData[4], NON_BLOCKING);
+    joints[0].setData(JointData[0]);
+    joints[1].setData(JointData[1]);
+    joints[2].setData(JointData[2]);
+    joints[3].setData(JointData[3]);
+    joints[4].setData(JointData[4]);
     ethercatMaster.AutomaticSendOn(true);
   // Bouml preserved body end 000CDE71
 }
@@ -411,11 +411,11 @@ void YouBotManipulator::setJointData(const std::vector<JointTorqueSetpoint>& Joi
       throw std::out_of_range("Wrong number of JointTorqueSetpoint");
 
     ethercatMaster.AutomaticSendOn(false);
-    joints[0].setData(JointData[0], NON_BLOCKING);
-    joints[1].setData(JointData[1], NON_BLOCKING);
-    joints[2].setData(JointData[2], NON_BLOCKING);
-    joints[3].setData(JointData[3], NON_BLOCKING);
-    joints[4].setData(JointData[4], NON_BLOCKING);
+    joints[0].setData(JointData[0]);
+    joints[1].setData(JointData[1]);
+    joints[2].setData(JointData[2]);
+    joints[3].setData(JointData[3]);
+    joints[4].setData(JointData[4]);
     ethercatMaster.AutomaticSendOn(true);
   // Bouml preserved body end 000CDEF1
 }

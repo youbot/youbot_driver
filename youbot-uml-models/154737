@@ -1,6 +1,6 @@
 format 75
 "generic-joint" // generic-joint
-  revision 25
+  revision 26
   modified_by 113 "jan"
   // class settings
   //class diagram settings
@@ -50,7 +50,6 @@ ${namespace_end}
 #endif
 "
       associated_classes
-	class_ref 162417 // SyncMode
 	class_ref 162161 // Joint
       end
       comment "/****************************************************************
@@ -268,6 +267,5 @@ ${namespace_end}
  *
  ****************************************************************/"
     end
-
   end
 end

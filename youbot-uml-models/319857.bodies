@@ -1,6 +1,6 @@
-class IParameterSecondParametersCurrentControl
-!!!526193.cpp!!!	IParameterSecondParametersCurrentControl()
-    this->name = "IParameterSecondParametersCurrentControl";
+class IParameterCurrentControl
+!!!526193.cpp!!!	IParameterCurrentControl()
+    this->name = "IParameterCurrentControl";
     this->lowerLimit = INT_MIN;
     this->upperLimit = INT_MAX;
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
@@ -23,7 +23,7 @@ class IParameterSecondParametersCurrentControl
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 173; //IParameterSecondParametersCurrentControl
+    message.stctOutput.typeNumber = 173; //IParameterCurrentControl
     message.stctOutput.value = value;
 
 !!!526833.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void

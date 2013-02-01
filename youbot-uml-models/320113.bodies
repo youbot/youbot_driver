@@ -1,6 +1,6 @@
-class IClippingParameterSecondParametersCurrentControl
-!!!528241.cpp!!!	IClippingParameterSecondParametersCurrentControl()
-    this->name = "IClippingParameterSecondParametersCurrentControl";
+class IClippingParameterCurrentControl
+!!!528241.cpp!!!	IClippingParameterCurrentControl()
+    this->name = "IClippingParameterCurrentControl";
     this->lowerLimit = INT_MIN;
     this->upperLimit = INT_MAX;
     this->parameterType = MOTOR_CONTOLLER_PARAMETER;
@@ -23,7 +23,7 @@ class IClippingParameterSecondParametersCurrentControl
 
     message.stctOutput.commandNumber = msgType;
     message.stctOutput.moduleAddress = DRIVE;
-    message.stctOutput.typeNumber = 175; //IClippingParameterSecondParametersCurrentControl
+    message.stctOutput.typeNumber = 175; //IClippingParameterCurrentControl
     message.stctOutput.value = value;
 
 !!!528881.cpp!!!	setYouBotMailboxMsg(in message : YouBotSlaveMailboxMsg, in storage : YouBotJointStorage) : void

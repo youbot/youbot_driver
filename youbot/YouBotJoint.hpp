@@ -155,7 +155,7 @@ class YouBotJoint : public Joint {
 
 
   protected:
-    virtual void setData(const JointDataSetpoint& data, SyncMode communicationMode = NON_BLOCKING);
+    virtual void setData(const JointDataSetpoint& data);
 
     virtual void getData(JointData& data);
 
@@ -163,13 +163,11 @@ class YouBotJoint : public Joint {
   public:
     ///commands a position or angle to one joint
     ///@param data the to command position
-    ///@param communicationMode at the moment only non blocking communication is implemented
-    virtual void setData(const JointAngleSetpoint& data, SyncMode communicationMode = NON_BLOCKING);
+    virtual void setData(const JointAngleSetpoint& data);
 
     ///commands a encoder value (position) to one joint
     ///@param data the to command encoder value
-    ///@param communicationMode at the moment only non blocking communication is implemented
-    virtual void setData(const JointEncoderSetpoint& data, SyncMode communicationMode = NON_BLOCKING);
+    virtual void setData(const JointEncoderSetpoint& data);
 
     ///gets the position or angle of one joint which have been calculated from the actual encoder value 
     ///@param data returns the angle by reference
@@ -177,8 +175,7 @@ class YouBotJoint : public Joint {
 
     ///commands a velocity to one joint
     ///@param data the to command velocity
-    ///@param communicationMode at the moment only non blocking communication is implemented
-    virtual void setData(const JointVelocitySetpoint& data, SyncMode communicationMode = NON_BLOCKING);
+    virtual void setData(const JointVelocitySetpoint& data);
 
     ///gets the velocity of one joint
     ///@param data returns the velocity by reference
@@ -190,8 +187,7 @@ class YouBotJoint : public Joint {
 
     ///sets the velocity in round per minute to one joint
     ///@param data the setpoint velocity
-    ///@param communicationMode at the moment only non blocking communication is implemented
-    virtual void setData(const JointRoundsPerMinuteSetpoint& data, SyncMode communicationMode = NON_BLOCKING);
+    virtual void setData(const JointRoundsPerMinuteSetpoint& data);
 
     ///gets the motor current of one joint which have been measured by a hal sensor
     ///@param data returns the actual motor current by reference
@@ -199,8 +195,7 @@ class YouBotJoint : public Joint {
 
     ///commands a current to one joint
     ///@param data the to command current
-    ///@param communicationMode at the moment only non blocking communication is implemented
-    virtual void setData(const JointCurrentSetpoint& data, SyncMode communicationMode = NON_BLOCKING);
+    virtual void setData(const JointCurrentSetpoint& data);
 
     ///gets the encoder ticks of one joint
     ///@param data returns the ticks by reference
@@ -209,8 +204,7 @@ class YouBotJoint : public Joint {
     ///sets the output part of a EtherCAT slave message
     ///this methode should be only used if you know what you are doing
     ///@param data output part of a EtherCAT slave message
-    ///@param communicationMode at the moment only non blocking communication is implemented
-    virtual void setData(const SlaveMessageOutput& data, SyncMode communicationMode = NON_BLOCKING);
+    virtual void setData(const SlaveMessageOutput& data);
 
     ///gets the input and ouput part of a EtherCAT slave message
     ///this methode should be only used if you know what you are doing
@@ -219,8 +213,7 @@ class YouBotJoint : public Joint {
 
     ///commands a torque to one joint
     ///@param data the to command torque
-    ///@param communicationMode at the moment only non blocking communication is implemented
-    virtual void setData(const JointTorqueSetpoint& data, SyncMode communicationMode = NON_BLOCKING);
+    virtual void setData(const JointTorqueSetpoint& data);
 
     ///gets the motor torque of one joint which have been calculated from the current
     ///@param data returns the actual motor torque by reference
