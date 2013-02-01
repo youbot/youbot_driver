@@ -429,7 +429,7 @@ void YouBotBase::commutationFirmware200() {
           ethercatMaster.sendProcessData();
           ethercatMaster.receiveProcessData();
         }
-        if (isCommutated[0] && isCommutated[1] && isCommutated[2] && isCommutated[3] && isCommutated[4]) {
+        if (isCommutated[0] && isCommutated[1] && isCommutated[2] && isCommutated[3]) {
           break;
         }
         SLEEP_MILLISEC(1);
