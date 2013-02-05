@@ -414,6 +414,7 @@ void YouBotBase::commutationFirmware200() {
       this->getBaseJoint(3).setData(rpmSetpoint);
       this->getBaseJoint(4).setData(rpmSetpoint);
       ethercatMaster.AutomaticReceiveOn(true);
+      rpmSetpoint.rpm = 0;
      
       
       // check for the next 5 sec if the joints are commutated
@@ -422,7 +423,7 @@ void YouBotBase::commutationFirmware200() {
           this->getBaseJoint(i).getStatus(statusFlags);
           if (statusFlags & INITIALIZED) {
             isCommutated[i - 1] = true;
-            this->getBaseJoint(i).setData(zerocurrent);
+            this->getBaseJoint(i).setData(rpmSetpoint);
           }
         }
         if(!ethercatMaster.isThreadActive()){
@@ -436,7 +437,7 @@ void YouBotBase::commutationFirmware200() {
       }
 
       for (unsigned int i = 1; i <= BASEJOINTS; i++) {
-        this->getBaseJoint(i).setData(zerocurrent);
+        this->getBaseJoint(i).setData(rpmSetpoint);
         if(!ethercatMaster.isThreadActive()){
           ethercatMaster.sendProcessData();
           ethercatMaster.receiveProcessData();
