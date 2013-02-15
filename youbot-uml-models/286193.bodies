@@ -252,6 +252,7 @@ class YouBotBase
       this->getBaseJoint(3).setData(rpmSetpoint);
       this->getBaseJoint(4).setData(rpmSetpoint);
       ethercatMaster.AutomaticReceiveOn(true);
+      rpmSetpoint.rpm = 0;
      
       
       // check for the next 5 sec if the joints are commutated
@@ -260,21 +261,21 @@ class YouBotBase
           this->getBaseJoint(i).getStatus(statusFlags);
           if (statusFlags & INITIALIZED) {
             isCommutated[i - 1] = true;
-            this->getBaseJoint(i).setData(zerocurrent);
+            this->getBaseJoint(i).setData(rpmSetpoint);
           }
         }
         if(!ethercatMaster.isThreadActive()){
           ethercatMaster.sendProcessData();
           ethercatMaster.receiveProcessData();
         }
-        if (isCommutated[0] && isCommutated[1] && isCommutated[2] && isCommutated[3] && isCommutated[4]) {
+        if (isCommutated[0] && isCommutated[1] && isCommutated[2] && isCommutated[3]) {
           break;
         }
         SLEEP_MILLISEC(1);
       }
 
       for (unsigned int i = 1; i <= BASEJOINTS; i++) {
-        this->getBaseJoint(i).setData(zerocurrent);
+        this->getBaseJoint(i).setData(rpmSetpoint);
         if(!ethercatMaster.isThreadActive()){
           ethercatMaster.sendProcessData();
           ethercatMaster.receiveProcessData();
@@ -340,7 +341,7 @@ class YouBotBase
             isCommutated[i - 1] = true;
           }
         }
-        if (isCommutated[0] && isCommutated[1] && isCommutated[2] && isCommutated[3] && isCommutated[4]) {
+        if (isCommutated[0] && isCommutated[1] && isCommutated[2] && isCommutated[3]) {
           break;
         }
         SLEEP_MILLISEC(1);

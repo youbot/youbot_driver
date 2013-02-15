@@ -282,26 +282,7 @@ class YouBotJoint
 
 		if (this->limitMonitor != 0)
 		 this->limitMonitor->checkLimitsPositionControl(data.angle);
-    /*
-		if(storage.areLimitsActive){
 
-      quantity<plane_angle> lowLimit = ((double) this->storage.lowerLimit / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
-      quantity<plane_angle> upLimit = ((double) this->storage.upperLimit / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
-      
-      if (storage.inverseMovementDirection) {
-        upLimit = ((double) -(this->storage.lowerLimit) / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
-        lowLimit = ((double) -(this->storage.upperLimit) / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI) * radian;
-      }
-      
-
-      if (!((data.angle < upLimit) && (data.angle > lowLimit))) {
-        std::stringstream errorMessageStream;
-        errorMessageStream << "The setpoint angle is out of range. The valid range is between " << lowLimit << " and " << upLimit << " and it is: " << data.angle;
-        //    LOG(trace) << "abs_value: " << abs(data.angle) << " abslow " << abs(lowLimit) << " absupper " << abs(upLimit);
-        throw std::out_of_range(errorMessageStream.str());
-      }
-    }
-    */
     messageBuffer.stctOutput.controllerMode = POSITION_CONTROL;
     messageBuffer.stctOutput.value = (int32) round((data.angle.value() * ((double) storage.encoderTicksPerRound / (2.0 * M_PI))) / storage.gearRatio);
 
@@ -324,17 +305,6 @@ class YouBotJoint
 		if (this->limitMonitor != 0)
 		 this->limitMonitor->checkLimitsEncoderPosition(data.encoderTicks);
   
-		/*
-    if(storage.areLimitsActive){
-
-      if (!((data.encoderTicks < this->storage.upperLimit) && (data.encoderTicks > this->storage.lowerLimit))) {
-        std::stringstream errorMessageStream;
-        errorMessageStream << "The setpoint angle is out of range. The valid range is between " << this->storage.lowerLimit << " and " << this->storage.upperLimit << " and it is: " << data.encoderTicks;
-        //    LOG(trace) << "abs_value: " << abs(data.angle) << " abslow " << abs(lowLimit) << " absupper " << abs(upLimit);
-        throw std::out_of_range(errorMessageStream.str());
-      }
-    }
-	*/
     messageBuffer.stctOutput.controllerMode = POSITION_CONTROL;
     messageBuffer.stctOutput.value = data.encoderTicks;
     
