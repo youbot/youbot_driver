@@ -224,7 +224,7 @@ void BarSpacingOffset::setParameter(const quantity<si::length>& parameter) {
 void BarSpacingOffset::toString(std::string& value) const {
   // Bouml preserved body begin 0009F1F1
   std::stringstream ss;
-  ss << this->name << ": " << this->value;
+  ss << this->name << ": " << this->value.value();
   value  = ss.str();
   // Bouml preserved body end 0009F1F1
 }
@@ -311,7 +311,7 @@ void MaxTravelDistance::setParameter(const quantity<si::length>& parameter) {
 void MaxTravelDistance::toString(std::string& value) const {
   // Bouml preserved body begin 0009F071
   std::stringstream ss;
-  ss << this->name << ": " << this->value;
+  ss << this->name << ": " << this->value.value();
   value  = ss.str();
   // Bouml preserved body end 0009F071
 }

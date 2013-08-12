@@ -220,7 +220,7 @@ void YouBotGripperBar::setData(GripperBarPositionSetPoint& barPosition) {
 
     if (barPosition.barPosition > (this->maxTravelDistance + this->barSpacingOffset) || barPosition.barPosition < this->barSpacingOffset) {
       std::stringstream errorMessageStream;
-      errorMessageStream << "The bar position is not allowed to be less than "<< this->barSpacingOffset <<" or higher than " << (this->maxTravelDistance + this->barSpacingOffset) << ". You set " << barPosition.barPosition;
+      errorMessageStream << "The bar position is not allowed to be less than "<< this->barSpacingOffset.value() <<" or higher than " << (this->maxTravelDistance.value() + this->barSpacingOffset.value()) << ". You set " << barPosition.barPosition.value();
       throw std::out_of_range(errorMessageStream.str());
     }
 
