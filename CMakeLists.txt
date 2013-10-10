@@ -58,7 +58,7 @@ IF(CppUnit_FOUND)
 ENDIF (CppUnit_FOUND)
 
 ########### youBot display example application ###########
-add_subdirectory(display)
+add_subdirectory(src/display)
 
 
 SET(YOUBOT_DRIVER_SRC
