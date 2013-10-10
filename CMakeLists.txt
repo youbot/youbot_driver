@@ -52,7 +52,7 @@ INCLUDE_DIRECTORIES(
 FIND_PACKAGE(CppUnit)
 IF(CppUnit_FOUND)
 	MESSAGE(STATUS "SUCCESSFUL: CPP_UNIT found")
-  add_subdirectory(testing)
+  add_subdirectory(src/test)
 #ELSE(CppUnit_FOUND)
 #	MESSAGE(STATUS "WARNING: CPP_UNIT not found")
 ENDIF (CppUnit_FOUND)
