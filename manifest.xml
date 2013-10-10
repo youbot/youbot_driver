@@ -9,7 +9,7 @@
   <depend package="roscpp"/>
 	<rosdep name="boost-all" />
   <export>
-     <cpp cflags="-I${prefix}/ -I${prefix}/soem/src" lflags="-L${prefix}/lib/ -lYouBotDriver -lsoem" />
+     <cpp cflags="-I${prefix}/include -I${prefix}/include/soem/" lflags="-L${prefix}/lib/ -lYouBotDriver -lsoem" />
   </export>
 </package>
 
