@@ -104,7 +104,7 @@ void JointLimitMonitor::checkLimitsPositionControl(const quantity<plane_angle>& 
 
       if (!((setpoint < upLimit) && (setpoint > lowLimit))) {
         std::stringstream errorMessageStream;
-        errorMessageStream << "The setpoint angle for joint "<< this->storage.jointName <<" is out of range. The valid range is between " << lowLimit << " and " << upLimit << " and it is: " << setpoint;
+        errorMessageStream << "The setpoint angle for joint "<< this->storage.jointName << " is out of range. The valid range is between " << lowLimit.value() << " and " << upLimit.value() << " and it  is: " << setpoint.value();
         throw std::out_of_range(errorMessageStream.str());
       }
     }

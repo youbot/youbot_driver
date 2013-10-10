@@ -82,7 +82,7 @@ void ActualMotorVoltage::getParameter(quantity<electric_potential>& parameter) c
 void ActualMotorVoltage::toString(std::string& value) {
   // Bouml preserved body begin 0009EC71
   std::stringstream ss;
-  ss << this->name << ": " << this->value;
+  ss << this->name << ": " << this->value.value();
   value  = ss.str();
   // Bouml preserved body end 0009EC71
 }
@@ -253,7 +253,7 @@ void PositionError::getParameter(quantity<plane_angle>& parameter) const {
 void PositionError::toString(std::string& value) {
   // Bouml preserved body begin 0009EDF1
   std::stringstream ss;
-  ss << this->name << ": " << this->value;
+  ss << this->name << ": " << this->value.value();
   value  = ss.str();
   // Bouml preserved body end 0009EDF1
 }
@@ -295,7 +295,7 @@ void PositionErrorSum::getParameter(quantity<plane_angle>& parameter) const {
 void PositionErrorSum::toString(std::string& value) {
   // Bouml preserved body begin 0009EE71
   std::stringstream ss;
-  ss << this->name << ": " << this->value;
+  ss << this->name << ": " << this->value.value();
   value  = ss.str();
   // Bouml preserved body end 0009EE71
 }
@@ -339,7 +339,7 @@ void VelocityError::getParameter(quantity<si::angular_velocity>& parameter) cons
 void VelocityError::toString(std::string& value) {
   // Bouml preserved body begin 0009EEF1
   std::stringstream ss;
-  ss << this->name << ": " << this->value;
+  ss << this->name << ": " << this->value.value();
   value  = ss.str();
   // Bouml preserved body end 0009EEF1
 }
@@ -383,7 +383,7 @@ void VelocityErrorSum::getParameter(quantity<si::angular_velocity>& parameter) c
 void VelocityErrorSum::toString(std::string& value) {
   // Bouml preserved body begin 0009EF71
   std::stringstream ss;
-  ss << this->name << ": " << this->value;
+  ss << this->name << ": " << this->value.value();
   value  = ss.str();
   // Bouml preserved body end 0009EF71
 }
@@ -428,7 +428,7 @@ void CurrentError::getParameter(quantity<si::current>& parameter) const {
 void CurrentError::toString(std::string& value) {
   // Bouml preserved body begin 000DB071
   std::stringstream ss;
-  ss << this->name << ": " << this->value;
+  ss << this->name << ": " << this->value.value();
   value  = ss.str();
   // Bouml preserved body end 000DB071
 }
@@ -473,7 +473,7 @@ void CurrentErrorSum::getParameter(quantity<si::current>& parameter) const {
 void CurrentErrorSum::toString(std::string& value) {
   // Bouml preserved body begin 000DB471
   std::stringstream ss;
-  ss << this->name << ": " << this->value;
+  ss << this->name << ": " << this->value.value();
   value  = ss.str();
   // Bouml preserved body end 000DB471
 }
@@ -518,7 +518,7 @@ void RampGeneratorSpeed::getParameter(quantity<si::angular_velocity>& parameter)
 void RampGeneratorSpeed::toString(std::string& value) {
   // Bouml preserved body begin 0009F3F1
   std::stringstream ss;
-  ss << this->name << ": " << this->value;
+  ss << this->name << ": " << this->value.value();
   value  = ss.str();
   // Bouml preserved body end 0009F3F1
 }
@@ -619,7 +619,7 @@ void ActualMotorDriverTemperature::getParameter(quantity<celsius::temperature>& 
 void ActualMotorDriverTemperature::toString(std::string& value) {
   // Bouml preserved body begin 000CB1F1
   std::stringstream ss;
-  ss << this->name << ": " << this->value;
+  ss << this->name << ": " << this->value.value();
   value  = ss.str();
   // Bouml preserved body end 000CB1F1
 }
@@ -667,7 +667,7 @@ void ActualModuleSupplyCurrent::getParameter(quantity<si::current>& parameter) c
 void ActualModuleSupplyCurrent::toString(std::string& value) {
   // Bouml preserved body begin 000CB5F1
   std::stringstream ss;
-  ss << this->name << ": " << this->value;
+  ss << this->name << ": " << this->value.value();
   value  = ss.str();
   // Bouml preserved body end 000CB5F1
 }
