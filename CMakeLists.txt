@@ -41,11 +41,11 @@ SET(DOXYFILE_OUTPUT_DIR ${PROJECT_SOURCE_DIR}/doc)
 include(UseDoxygen)
 
 ########### Simple Open EtherCAT Master Library ###########
-add_subdirectory(soem)
+add_subdirectory(src/soem)
 
 INCLUDE_DIRECTORIES(
  ${PROJECT_SOURCE_DIR}
- ${PROJECT_SOURCE_DIR}/soem/src
+ ${PROJECT_SOURCE_DIR}/include/soem
 )
 
 ########### CppUnit and tests ###########
