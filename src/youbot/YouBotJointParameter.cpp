@@ -181,7 +181,7 @@ void CalibrateJoint::setParameter(const bool doCalibration, CalibrationDirection
 void CalibrateJoint::toString(std::string& value) {
   // Bouml preserved body begin 0009C771
   std::stringstream ss;
-  ss << this->name << ": " << "doCalibration " <<this->doCalibration << " calibrationDirection "<< this->calibrationDirection << " maxCurrent " << this->maxCurrent;
+  ss << this->name << ": " << "doCalibration " <<this->doCalibration << " calibrationDirection "<< this->calibrationDirection << " maxCurrent " << this->maxCurrent.value();
   value  = ss.str();
   // Bouml preserved body end 0009C771
 }
@@ -415,7 +415,7 @@ void JointLimitsRadian::setParameter(const quantity<plane_angle>& lowerLimit, co
 void JointLimitsRadian::toString(std::string& value) {
   // Bouml preserved body begin 000D40F1
   std::stringstream ss;
-  ss << this->name << ": lower Limit: " << this->lowerLimit  << " upper Limit: " << this->upperLimit;
+  ss << this->name << ": lower Limit: " << this->lowerLimit.value()  << " upper Limit: " << this->upperLimit.value();
   value  = ss.str();
   // Bouml preserved body end 000D40F1
 }
@@ -491,7 +491,7 @@ void MaximumPositioningVelocity::setParameter(const quantity<angular_velocity>& 
 void MaximumPositioningVelocity::toString(std::string& value) {
   // Bouml preserved body begin 0009C4F1
   std::stringstream ss;
-  ss << this->name << ": " << this->value;
+  ss << this->name << ": " << this->value.value();
   value  = ss.str();
   // Bouml preserved body end 0009C4F1
 }
@@ -550,7 +550,7 @@ void MotorAcceleration::setParameter(const quantity<angular_acceleration>& param
 void MotorAcceleration::toString(std::string& value) {
   // Bouml preserved body begin 0009CCF1
   std::stringstream ss;
-  ss << this->name << ": " << this->value;
+  ss << this->name << ": " << this->value.value();
   value  = ss.str();
   // Bouml preserved body end 0009CCF1
 }
@@ -658,7 +658,7 @@ void PositionControlSwitchingThreshold::setParameter(const quantity<angular_velo
 void PositionControlSwitchingThreshold::toString(std::string& value) {
   // Bouml preserved body begin 0009CD71
   std::stringstream ss;
-  ss << this->name << ": " << this->value;
+  ss << this->name << ": " << this->value.value();
   value  = ss.str();
   // Bouml preserved body end 0009CD71
 }
@@ -717,7 +717,7 @@ void SpeedControlSwitchingThreshold::setParameter(const quantity<angular_velocit
 void SpeedControlSwitchingThreshold::toString(std::string& value) {
   // Bouml preserved body begin 0009CB71
   std::stringstream ss;
-  ss << this->name << ": " << this->value;
+  ss << this->name << ": " << this->value.value();
   value  = ss.str();
   // Bouml preserved body end 0009CB71
 }
@@ -776,7 +776,7 @@ void VelocityThresholdForHallFX::setParameter(const quantity<angular_velocity>& 
 void VelocityThresholdForHallFX::toString(std::string& value) {
   // Bouml preserved body begin 001081F1
   std::stringstream ss;
-  ss << this->name << ": " << this->value;
+  ss << this->name << ": " << this->value.value();
   value  = ss.str();
   // Bouml preserved body end 001081F1
 }
@@ -1995,7 +1995,7 @@ void MaximumVelocityToSetPosition::setParameter(const quantity<angular_velocity>
 void MaximumVelocityToSetPosition::toString(std::string& value) {
   // Bouml preserved body begin 0009CAF1
   std::stringstream ss;
-  ss << this->name << ": " << this->value;
+  ss << this->name << ": " << this->value.value();
   value  = ss.str();
   // Bouml preserved body end 0009CAF1
 }
