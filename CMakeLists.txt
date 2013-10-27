@@ -1,4 +1,4 @@
-PROJECT(YouBot_Driver)
+PROJECT(youbot_driver)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 OPTION(USE_ROS "Enable ROS as compile tool" OFF)
