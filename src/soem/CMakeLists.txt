@@ -1,27 +1,31 @@
+INCLUDE_DIRECTORIES(
+ ${PROJECT_SOURCE_DIR}/include/soem
+)
+
 ADD_LIBRARY(soem 
-	src/ethercatbase.c 
-  src/ethercatcoe.c 
-  src/ethercatconfig.c 
-  src/ethercatfoe.c 
-  src/ethercatsoe.c 
-  src/ethercatmain.c 
-  src/ethercatprint.c 
-  src/nicdrv.c 
-  src/ethercatdc.c
+	ethercatbase.c 
+  ethercatcoe.c 
+  ethercatconfig.c 
+  ethercatfoe.c 
+  ethercatsoe.c 
+  ethercatmain.c 
+  ethercatprint.c 
+  nicdrv.c 
+  ethercatdc.c
 )
 
 SET(SOEM_HEADERS
-	src/ethercatbase.h
-	src/ethercatcoe.h
-	src/ethercatconfig.h
-	src/ethercatconfiglist.h
-	src/ethercatdc.h
-	src/ethercatfoe.h
-	src/ethercatmain.h
-	src/ethercatprint.h
-	src/ethercatsoe.h
-	src/ethercattype.h
-	src/nicdrv.h
+	ethercatbase.h
+	ethercatcoe.h
+	ethercatconfig.h
+	ethercatconfiglist.h
+	ethercatdc.h
+	ethercatfoe.h
+	ethercatmain.h
+	ethercatprint.h
+	ethercatsoe.h
+	ethercattype.h
+	nicdrv.h
 )
 
 

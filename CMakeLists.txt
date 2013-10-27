@@ -1,5 +1,5 @@
-PROJECT(YouBot_Driver)
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+PROJECT(youbot_driver)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8.3)
 
 OPTION(USE_ROS "Enable ROS as compile tool" OFF)
 
@@ -17,7 +17,7 @@ SET(CMAKE_C_FLAGS_DEBUG "-fPIC -Wall -g")
 SET(CMAKE_CXX_FLAGS_DEBUG "-fPIC -Wall -g")
 SET(CMAKE_C_FLAGS_RELEASE "-fPIC -Wall")
 SET(CMAKE_CXX_FLAGS_RELEASE "-fPIC -Wall")
-SET(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake-modules")
+SET(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib) #static libraries
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin) #executables
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib) #dynamic libraries (plugins)
@@ -41,103 +41,105 @@ SET(DOXYFILE_OUTPUT_DIR ${PROJECT_SOURCE_DIR}/doc)
 include(UseDoxygen)
 
 ########### Simple Open EtherCAT Master Library ###########
-add_subdirectory(soem)
+add_subdirectory(src/soem)
 
 INCLUDE_DIRECTORIES(
- ${PROJECT_SOURCE_DIR}
- ${PROJECT_SOURCE_DIR}/soem/src
+ ${PROJECT_SOURCE_DIR}/include
+ ${PROJECT_SOURCE_DIR}/include/soem
+ ${PROJECT_SOURCE_DIR}/include/generic
+ ${PROJECT_SOURCE_DIR}/include/test
 )
 
 ########### CppUnit and tests ###########
 FIND_PACKAGE(CppUnit)
 IF(CppUnit_FOUND)
 	MESSAGE(STATUS "SUCCESSFUL: CPP_UNIT found")
-  add_subdirectory(testing)
+  add_subdirectory(src/test)
 #ELSE(CppUnit_FOUND)
 #	MESSAGE(STATUS "WARNING: CPP_UNIT not found")
 ENDIF (CppUnit_FOUND)
 
 ########### youBot display example application ###########
-add_subdirectory(display)
+add_subdirectory(src/display)
 
 
 SET(YOUBOT_DRIVER_SRC
-  ${PROJECT_SOURCE_DIR}/youbot/EthercatMaster.cpp
-  ${PROJECT_SOURCE_DIR}/youbot/EthercatMasterWithThread.cpp
-  ${PROJECT_SOURCE_DIR}/youbot/EthercatMasterWithoutThread.cpp
-  ${PROJECT_SOURCE_DIR}/generic/Logger.cpp
-  ${PROJECT_SOURCE_DIR}/generic/ConfigFile.cpp
-  ${PROJECT_SOURCE_DIR}/generic/PidController.cpp
-  ${PROJECT_SOURCE_DIR}/generic-joint/JointData.cpp
-  ${PROJECT_SOURCE_DIR}/generic-joint/JointTrajectory.cpp
-  ${PROJECT_SOURCE_DIR}/youbot/YouBotJoint.cpp
-  ${PROJECT_SOURCE_DIR}/youbot/JointLimitMonitor.cpp
-  ${PROJECT_SOURCE_DIR}/youbot/YouBotBase.cpp
-  ${PROJECT_SOURCE_DIR}/youbot/YouBotManipulator.cpp
-  ${PROJECT_SOURCE_DIR}/youbot/YouBotGripper.cpp
-  ${PROJECT_SOURCE_DIR}/youbot/YouBotGripperBar.cpp
-  ${PROJECT_SOURCE_DIR}/youbot/YouBotGripperParameter.cpp
-  ${PROJECT_SOURCE_DIR}/youbot/DataTrace.cpp
-  ${PROJECT_SOURCE_DIR}/youbot/GripperDataTrace.cpp
-  ${PROJECT_SOURCE_DIR}/youbot/YouBotJointParameter.cpp
-  ${PROJECT_SOURCE_DIR}/youbot/YouBotJointParameterReadOnly.cpp
-  ${PROJECT_SOURCE_DIR}/youbot/YouBotJointParameterPasswordProtected.cpp
-  ${PROJECT_SOURCE_DIR}/youbot/JointTrajectoryController.cpp
-  ${PROJECT_SOURCE_DIR}/base-kinematic/FourSwedishWheelOmniBaseKinematic.cpp
-  ${PROJECT_SOURCE_DIR}/base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.cpp
+  ${PROJECT_SOURCE_DIR}/src/youbot/EthercatMaster.cpp
+  ${PROJECT_SOURCE_DIR}/src/youbot/EthercatMasterWithThread.cpp
+  ${PROJECT_SOURCE_DIR}/src/youbot/EthercatMasterWithoutThread.cpp
+  ${PROJECT_SOURCE_DIR}/src/generic/Logger.cpp
+  ${PROJECT_SOURCE_DIR}/src/generic/ConfigFile.cpp
+  ${PROJECT_SOURCE_DIR}/src/generic/PidController.cpp
+  ${PROJECT_SOURCE_DIR}/src/generic-joint/JointData.cpp
+  ${PROJECT_SOURCE_DIR}/src/generic-joint/JointTrajectory.cpp
+  ${PROJECT_SOURCE_DIR}/src/youbot/YouBotJoint.cpp
+  ${PROJECT_SOURCE_DIR}/src/youbot/JointLimitMonitor.cpp
+  ${PROJECT_SOURCE_DIR}/src/youbot/YouBotBase.cpp
+  ${PROJECT_SOURCE_DIR}/src/youbot/YouBotManipulator.cpp
+  ${PROJECT_SOURCE_DIR}/src/youbot/YouBotGripper.cpp
+  ${PROJECT_SOURCE_DIR}/src/youbot/YouBotGripperBar.cpp
+  ${PROJECT_SOURCE_DIR}/src/youbot/YouBotGripperParameter.cpp
+  ${PROJECT_SOURCE_DIR}/src/youbot/DataTrace.cpp
+  ${PROJECT_SOURCE_DIR}/src/youbot/GripperDataTrace.cpp
+  ${PROJECT_SOURCE_DIR}/src/youbot/YouBotJointParameter.cpp
+  ${PROJECT_SOURCE_DIR}/src/youbot/YouBotJointParameterReadOnly.cpp
+  ${PROJECT_SOURCE_DIR}/src/youbot/YouBotJointParameterPasswordProtected.cpp
+  ${PROJECT_SOURCE_DIR}/src/youbot/JointTrajectoryController.cpp
+  ${PROJECT_SOURCE_DIR}/src/base-kinematic/FourSwedishWheelOmniBaseKinematic.cpp
+  ${PROJECT_SOURCE_DIR}/src/base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.cpp
 )
 
 
 SET(YOUBOT_DRIVER_HEADERS
-  youbot/EthercatMaster.hpp
-  youbot/EthercatMasterInterface.hpp
-  youbot/EthercatMasterWithThread.hpp
-  youbot/EthercatMasterWithoutThread.hpp
-  youbot/YouBotGripper.hpp
-  youbot/YouBotGripperBar.hpp
-  youbot/YouBotGripperParameter.hpp
-  youbot/YouBotBase.hpp
-  youbot/YouBotManipulator.hpp
-  youbot/YouBotJoint.hpp
-  youbot/JointLimitMonitor.hpp
-  youbot/YouBotJointParameterReadOnly.hpp
-	youbot/YouBotJointParameterPasswordProtected.hpp
-  youbot/YouBotJointParameter.hpp
-  youbot/YouBotSlaveMailboxMsg.hpp
-  youbot/YouBotSlaveMsg.hpp
-  youbot/ProtocolDefinitions.hpp
-  youbot/YouBotJointStorage.hpp
-  youbot/DataTrace.hpp
-  youbot/GripperDataTrace.hpp
-  youbot/JointTrajectoryController.hpp
-  base-kinematic/FourSwedishWheelOmniBaseKinematic.hpp
-  base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.hpp
-  base-kinematic/WheeledBaseKinematic.hpp
-  generic/Exceptions.hpp
-  generic/Logger.hpp
-  generic/Time.hpp
-  generic/Units.hpp
-  generic/ConfigFile.hpp
-  generic/PidController.hpp
-  generic/dataobjectlockfree/DataObjectLockFree.hpp
-  generic/dataobjectlockfree/target.hpp
-  generic/dataobjectlockfree/os/oro_arch.h
-  generic/dataobjectlockfree/os/oro_gcc/oro_arch.h
-  generic/dataobjectlockfree/os/oro_i386/oro_arch.h
-  generic/dataobjectlockfree/os/oro_msvc/oro_arch.h
-  generic/dataobjectlockfree//os/oro_powerpc/oro_arch.h  
-  generic/dataobjectlockfree/os/oro_powerpc/oro_atomic.h  
-  generic/dataobjectlockfree/os/oro_powerpc/oro_system.h
-  generic/dataobjectlockfree/os/oro_x86_64/oro_arch.h
-  generic-gripper/Gripper.hpp
-  generic-gripper/GripperData.hpp
-  generic-gripper/GripperParameter.hpp
-  generic-joint/Joint.hpp
-  generic-joint/JointData.hpp
-  generic-joint/JointTrajectory.hpp
-  generic-joint/JointParameter.hpp
-  one-dof-gripper/OneDOFGripper.hpp
-  one-dof-gripper/OneDOFGripperData.hpp
+  include/youbot/EthercatMaster.hpp
+  include/youbot/EthercatMasterInterface.hpp
+  include/youbot/EthercatMasterWithThread.hpp
+  include/youbot/EthercatMasterWithoutThread.hpp
+  include/youbot/YouBotGripper.hpp
+  include/youbot/YouBotGripperBar.hpp
+  include/youbot/YouBotGripperParameter.hpp
+  include/youbot/YouBotBase.hpp
+  include/youbot/YouBotManipulator.hpp
+  include/youbot/YouBotJoint.hpp
+  include/youbot/JointLimitMonitor.hpp
+  include/youbot/YouBotJointParameterReadOnly.hpp
+	include/youbot/YouBotJointParameterPasswordProtected.hpp
+  include/youbot/YouBotJointParameter.hpp
+  include/youbot/YouBotSlaveMailboxMsg.hpp
+  include/youbot/YouBotSlaveMsg.hpp
+  include/youbot/ProtocolDefinitions.hpp
+  include/youbot/YouBotJointStorage.hpp
+  include/youbot/DataTrace.hpp
+  include/youbot/GripperDataTrace.hpp
+  include/youbot/JointTrajectoryController.hpp
+  include/base-kinematic/FourSwedishWheelOmniBaseKinematic.hpp
+  include/base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.hpp
+  include/base-kinematic/WheeledBaseKinematic.hpp
+  include/generic/Exceptions.hpp
+  include/generic/Logger.hpp
+  include/generic/Time.hpp
+  include/generic/Units.hpp
+  include/generic/ConfigFile.hpp
+  include/generic/PidController.hpp
+  include/generic/dataobjectlockfree/DataObjectLockFree.hpp
+  include/generic/dataobjectlockfree/target.hpp
+  include/generic/dataobjectlockfree/os/oro_arch.h
+  include/generic/dataobjectlockfree/os/oro_gcc/oro_arch.h
+  include/generic/dataobjectlockfree/os/oro_i386/oro_arch.h
+  include/generic/dataobjectlockfree/os/oro_msvc/oro_arch.h
+  include/generic/dataobjectlockfree//os/oro_powerpc/oro_arch.h  
+  include/generic/dataobjectlockfree/os/oro_powerpc/oro_atomic.h  
+  include/generic/dataobjectlockfree/os/oro_powerpc/oro_system.h
+  include/generic/dataobjectlockfree/os/oro_x86_64/oro_arch.h
+  include/generic-gripper/Gripper.hpp
+  include/generic-gripper/GripperData.hpp
+  include/generic-gripper/GripperParameter.hpp
+  include/generic-joint/Joint.hpp
+  include/generic-joint/JointData.hpp
+  include/generic-joint/JointTrajectory.hpp
+  include/generic-joint/JointParameter.hpp
+  include/one-dof-gripper/OneDOFGripper.hpp
+  include/one-dof-gripper/OneDOFGripperData.hpp
 )
 
 SET(YOUBOT_DRIVER_CONFIG
