@@ -1,5 +1,0 @@
-class JointSensedAngle
-!!!841585.cpp!!!	JointSensedAngle()
-  this->angle = 0 * radian;
-!!!850929.cpp!!!	JointSensedAngle(in value : quantity<plane_angle>)
-  this->angle = value;

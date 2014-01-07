@@ -1,5 +1,0 @@
-class JointSensedCurrent
-!!!841969.cpp!!!	JointSensedCurrent()
-  this->current = 0 * ampere;
-!!!851313.cpp!!!	JointSensedCurrent(in value : quantity<si::current>)
-  this->current = value;

@@ -1,5 +1,0 @@
-class JointSensedVelocity
-!!!841457.cpp!!!	JointSensedVelocity()
-  this->angularVelocity = 0 * radian_per_second;
-!!!850801.cpp!!!	JointSensedVelocity(in value : quantity<si::angular_velocity>)
-  this->angularVelocity = value;

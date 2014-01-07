@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package>
+  <name>youbot_driver</name>
+  <version>0.97.0</version>
+  <description>driver for the KUKA youBot robot
+  </description>
+
+  <author email="jan.paulus@h-brs.de">Jan Paulus</author>
+  
+  <maintainer email="nowak@locomotec.com">Walter Nowak</maintainer>
+
+  <license>LGPLv2.1, modified BSD</license>
+
+  <url type="website">http://github.com/youbot/youbot_driver</url>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>rosconsole</build_depend>
+  <run_depend>rosconsole</run_depend>
+  
+</package>
+
+

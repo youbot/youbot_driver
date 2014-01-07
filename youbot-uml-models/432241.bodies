@@ -1,5 +1,0 @@
-class JointSensedPWM
-!!!842097.cpp!!!	JointSensedPWM()
-  this->pwm = 0;
-!!!851441.cpp!!!	JointSensedPWM(in value : signed int)
-  this->pwm = value;

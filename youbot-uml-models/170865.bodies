@@ -1,5 +1,0 @@
-class JointAngleSetpoint
-!!!842609.cpp!!!	JointAngleSetpoint()
-  this->angle = 0 * radian;
-!!!851825.cpp!!!	JointAngleSetpoint(in value : quantity<plane_angle>)
-  this->angle = value;

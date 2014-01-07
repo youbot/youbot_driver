@@ -1,6 +1,0 @@
-class YouBotGripperParameter
-!!!723953.cpp!!!	getYouBotMailboxMsg(out message : YouBotSlaveMailboxMsg) : void
-    message.stctOutput.commandNumber = FIRMWARE_VERSION;
-
-    message.stctOutput.typeNumber = 0;
-    message.stctOutput.value = 0;

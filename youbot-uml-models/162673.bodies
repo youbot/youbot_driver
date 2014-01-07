@@ -1,5 +1,0 @@
-class JointSensedTorque
-!!!841329.cpp!!!	JointSensedTorque()
-  this->torque = 0 * newton_meter;
-!!!850673.cpp!!!	JointSensedTorque(in value : quantity<si::torque>)
-  this->torque = value;

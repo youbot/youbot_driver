@@ -1,5 +1,0 @@
-class JointCurrentSetpoint
-!!!842737.cpp!!!	JointCurrentSetpoint()
-  this->current = 0 * ampere;
-!!!851953.cpp!!!	JointCurrentSetpoint(in value : quantity<si::current>)
-  this->current = value;
