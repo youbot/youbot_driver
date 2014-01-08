@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>youbot_driver</name>
-  <version>0.97.0</version>
+  <version>1.0.0</version>
   <description>driver for the KUKA youBot robot
   </description>
 
