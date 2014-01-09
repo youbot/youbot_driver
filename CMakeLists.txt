@@ -4,8 +4,7 @@ project(youbot_driver)
 option(USE_CATKIN "Use catkin as compile tool" ON)
 
 ########### ROS ###########
-SET(ROS_ROOT_PATH $ENV{ROS_ROOT})
-IF(DEFINED ROS_ROOT_PATH AND USE_CATKIN MATCHES ON)
+IF(USE_CATKIN MATCHES ON)
 	find_package(catkin REQUIRED COMPONENTS roscpp rosconsole)
 	include_directories(${catkin_INCLUDE_DIRS})
 	link_directories(${catkin_LIBRARY_DIRS})
@@ -16,11 +15,11 @@ IF(DEFINED ROS_ROOT_PATH AND USE_CATKIN MATCHES ON)
  		CFG_EXTRAS config.cmake
 	)
 	ADD_DEFINITIONS(-DUSE_ROS_LOGGING)
-ELSEIF(DEFINED ROS_ROOT_PATH AND USE_CATKIN MATCHES ON)
+ELSEIF(USE_CATKIN MATCHES ON)
 	SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib) #static libraries
 	SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin) #executables
 	SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib) #dynamic libraries (plugins)
-ENDIF(DEFINED ROS_ROOT_PATH AND USE_CATKIN MATCHES ON)
+ENDIF(USE_CATKIN MATCHES ON)
 
 ########### cmake configuration and compiler flags ###########
 SET(CMAKE_BUILD_TYPE Release)
