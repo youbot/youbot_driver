@@ -189,7 +189,7 @@ pthread_mutex_t ec_rx_mutex = PTHREAD_MUTEX_INITIALIZER;
 int ec_setupnic(const char * ifname, int secondary) 
 {
 	int i;
-	int r, rval, ifindex, fl;
+	int r, rval, ifindex;
 	struct timeval timeout;
 	struct ifreq ifr;
 	struct sockaddr_ll sll;
@@ -233,7 +233,7 @@ int ec_setupnic(const char * ifname, int secondary)
 	sll.sll_protocol = htons(ETH_P_ECAT);
 	r = bind(*psock, (struct sockaddr *)&sll, sizeof(sll));
 	/* get flags */
-	fl = fcntl(*psock, F_GETFL, 0);
+	/*fl =*/ fcntl(*psock, F_GETFL, 0);
 	/* set nodelay option, so make socket non-blocking */
 //	r = fcntl(*psock, F_SETFL, fl | O_NDELAY);
 	/* setup ethernet headers in tx buffers so we don't have to repeat it */

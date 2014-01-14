@@ -42,14 +42,6 @@ void YouBotBaseKinematicsTest::youBotBaseKinematicsTest() {
   quantity<si::velocity> transversalVelocity = 0.0 * meter_per_second;
   quantity<si::angular_velocity> angularVelocity = 0 * radian_per_second;
 
-  quantity<si::velocity> actualLongitudinalVelocity = 0 * meter_per_second;
-  quantity<si::velocity> actualTransversalVelocity = 0 * meter_per_second;
-  quantity<si::angular_velocity> actualAngularVelocity = 0 * radian_per_second;
-
-  quantity<si::length> actualLongitudinalPose = 0 * meter;
-  quantity<si::length> actualTransversalPose = 0 * meter;
-  quantity<si::plane_angle> actualAngle = 0 * radian;
-
   for (int i = 1; i <= 4; i++) {
     jointNameStream << "Joint_" << i << "_" << __func__;
     myTrace.push_back(new DataTrace(myBase.getBaseJoint(i), jointNameStream.str(), true));

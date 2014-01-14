@@ -564,7 +564,6 @@ void EthercatMasterWithThread::updateSensorActorValues() {
     boost::posix_time::time_duration pastTime;
     //  int counter = 0;
     boost::posix_time::time_duration realperiode;
-    boost::posix_time::time_duration timeSum = startTime - startTime;
     SlaveMessageOutput trajectoryContollerOutput;
     YouBotSlaveMailboxMsg tempMsg;
 

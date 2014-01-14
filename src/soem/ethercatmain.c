@@ -373,12 +373,11 @@ int16 ec_siifind(uint16 slave, uint16 cat)
  */
 void ec_siistring(char *str, uint16 slave, uint16 Sn)
 {
-    uint16 a,i,j,l,n,ba,p;
+    uint16 a,i,j,l,n,ba;
     char *ptr;
 	uint8 eectl = ec_slave[slave].eep_pdi;
 
     ptr = str;
-    p = 0;
     a = ec_siifind (slave, ECT_SII_STRING); /* find string section */
     if (a > 0)
     {
@@ -449,11 +448,10 @@ uint16 ec_siiFMMU(uint16 slave, ec_eepromFMMUt* FMMU)
  */
 uint16 ec_siiSM(uint16 slave, ec_eepromSMt* SM)
 {
-    uint16 a,w,l;
+    uint16 a,w;
 	uint8 eectl = ec_slave[slave].eep_pdi;
 
     SM->nSM = 0;
-    l = 0;
     SM->Startpos = ec_siifind(slave, ECT_SII_SM);
     if (SM->Startpos > 0)
     {
@@ -568,7 +566,8 @@ int ec_siiPDO(uint16 slave, ec_eepromPDOt* PDO, uint8 t)
 	if (eectl) ec_eeprom2pdi(slave); /* if eeprom control was previously pdi then restore */
 
     return (Size);
-}
+}
+
 /** Read all slave states in ec_slave. 
  * @return lowest state found
  */
@@ -742,7 +741,8 @@ int ec_mbxsend(uint16 slave,ec_mbxbuft *mbx, int timeout)
 
 	return wkc;
 }
-/** Read OUT mailbox from slave.
+
+/** Read OUT mailbox from slave.
  * Supports Mailbox Link Layer with repeat requests.
  * @param[in] slave		= Slave number
  * @param[out] mbx      = Mailbox data
@@ -1527,7 +1527,8 @@ int ec_receive_processdata_group(uint8 group, int timeout)
 				wkc = etohs(wkc);
 				memcpy(&ec_DCtime, &ec_rxbuf[idx][ec_DCtO], sizeof(ec_DCtime));
 				ec_DCtime = etohll(ec_DCtime);
-				first = FALSE;			}
+				first = FALSE;
+			}
 			else
 			{	
 				/* copy input data back to process data buffer */

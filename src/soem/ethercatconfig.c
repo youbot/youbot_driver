@@ -138,7 +138,8 @@ int ec_findconfig( uint32 man, uint32 id)
  */
 int ec_config_init(uint8 usetable)
 {
-    uint16 w, slave, ADPh, configadr, mbx_wo, mbx_ro, mbx_l, mbx_rl, ssigen;
+    //uint16 w, slave, ADPh, configadr, mbx_wo, mbx_ro, mbx_l, mbx_rl, ssigen;
+    uint16 w, slave, ADPh, configadr, ssigen;
     uint16 topology, estat;
     int16 topoc, slavec;
     uint8 b,h;
@@ -238,10 +239,10 @@ int ec_config_init(uint8 usetable)
 	            	ec_slave[slave].mbx_rl = ec_slave[slave].mbx_l;
 			}
             configadr = ec_slave[slave].configadr;
-            mbx_ro = ec_slave[slave].mbx_ro;
-            mbx_wo = ec_slave[slave].mbx_wo;
-            mbx_l = ec_slave[slave].mbx_l;
-            mbx_rl = ec_slave[slave].mbx_rl;
+            //mbx_ro = ec_slave[slave].mbx_ro; // compiler warning: variable set but not used
+            //mbx_wo = ec_slave[slave].mbx_wo; // compiler warning: variable set but not used
+            //mbx_l = ec_slave[slave].mbx_l; // compiler warning: variable set but not used
+            //mbx_rl = ec_slave[slave].mbx_rl; // compiler warning: variable set but not used
             if ((etohs(ec_FPRDw(configadr, ECT_REG_ESCSUP, EC_TIMEOUTRET)) & 0x04) > 0)  /* Support DC? */
                 ec_slave[slave].hasdc = TRUE;
             else
@@ -481,7 +482,7 @@ int ec_config_map_group(void *pIOmap, uint8 group)
 	uint32 LogAddr = 0;
 	uint32 oLogAddr = 0;
 	uint32 diff;
-	int nSM, rval;
+	int nSM;
 	ec_eepromPDOt eepPDO;
 	uint16 currentsegment = 0;
 	uint32 segmentsize = 0;
@@ -517,16 +518,16 @@ int ec_config_map_group(void *pIOmap, uint8 group)
 				{
 					if (ec_slave[slave].CoEdetails & ECT_COEDET_SDOCA) /* has Complete Access */
 						/* read PDO mapping via CoE and use Complete Access */
-						rval = ec_readPDOmapCA(slave, &Osize, &Isize);
+						/* rval = */ ec_readPDOmapCA(slave, &Osize, &Isize);
 					else
 						/* read PDO mapping via CoE */
-						rval = ec_readPDOmap(slave, &Osize, &Isize);
+						/* rval = */ ec_readPDOmap(slave, &Osize, &Isize);
 					EC_PRINT("  CoE Osize:%d Isize:%d\n", Osize, Isize);
 				}
 				if ((!Isize && !Osize) && (ec_slave[slave].mbx_proto & ECT_MBXPROT_SOE)) /* has SoE */
 				{
 					/* read AT / MDT mapping via SoE */
-					rval = ec_readIDNmap(slave, &Osize, &Isize);
+					/* rval = */ ec_readIDNmap(slave, &Osize, &Isize);
 					ec_slave[slave].SM[2].SMlength = htoes((Osize + 7) / 8);
 					ec_slave[slave].SM[3].SMlength = htoes((Isize + 7) / 8);
 					EC_PRINT("  SoE Osize:%d Isize:%d\n", Osize, Isize);
