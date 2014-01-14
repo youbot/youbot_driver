@@ -12,5 +12,8 @@ ADD_EXECUTABLE(base_arm_gripper_test
 
 target_link_libraries(base_arm_gripper_test YouBotDriver cppunit)
 
-INSTALL(TARGETS base_arm_gripper_test RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
+INSTALL(TARGETS base_arm_gripper_test
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+)
 
