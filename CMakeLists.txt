@@ -11,6 +11,12 @@ catkin_package(
 
 find_package(Boost REQUIRED COMPONENTS thread date_time filesystem system regex)
 
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+
+include_directories(include ${catkin_INCLUDE_DIRS})
+link_directories(${catkin_LIBRARY_DIRS})
+add_definitions(-DUSE_ROS_LOGGING)
+
 ########### CppUnit and tests ###########
 find_package(CppUnit)
 IF(CppUnit_FOUND)
@@ -19,11 +25,6 @@ IF(CppUnit_FOUND)
 ELSE(CppUnit_FOUND)
 #	MESSAGE(STATUS "WARNING: CPP_UNIT not found")
 ENDIF (CppUnit_FOUND)
-
-
-include_directories(include ${catkin_INCLUDE_DIRS})
-link_directories(${catkin_LIBRARY_DIRS})
-add_definitions(-DUSE_ROS_LOGGING)
 
 
 ########### Doxygen ###########
