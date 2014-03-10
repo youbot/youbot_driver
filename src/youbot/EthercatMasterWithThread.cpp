@@ -637,8 +637,6 @@ void EthercatMasterWithThread::updateSensorActorValues() {
         // Limit checker
         if (jointLimitMonitors[i] != NULL) {
           this->jointLimitMonitors[i]->checkLimitsProcessData(*(ethercatInputBufferVector[i]), *(ethercatOutputBufferVector[i]));
-          //copy back changed velocity for limit checker
-          slaveMessages[i].stctOutput.Set(*(ethercatOutputBufferVector[i]));
         }
         // this->parseYouBotErrorFlags(secondBufferVector[i]);
 
