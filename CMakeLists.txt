@@ -2,14 +2,15 @@ cmake_minimum_required(VERSION 2.8.3)
 project(youbot_driver)
 
 find_package(catkin REQUIRED COMPONENTS roscpp rosconsole)
+find_package(Boost REQUIRED COMPONENTS thread date_time filesystem system regex)
+
 catkin_package(
 	INCLUDE_DIRS include
 	LIBRARIES YouBotDriver soem
 	CATKIN_DEPENDS roscpp rosconsole
+	DEPENDS Boost
 	CFG_EXTRAS config.cmake
 )
-
-find_package(Boost REQUIRED COMPONENTS thread date_time filesystem system regex)
 
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
