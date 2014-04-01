@@ -56,13 +56,14 @@ int main( int argc, const char* argv[] ){
 	jointangles.resize(numberOfArmJoints);
 	std::vector<youbot::JointAngleSetpoint> jointSetAngle;
 	jointSetAngle.resize(5);
+	SLEEP_SEC(5);
 	// Home position
-	/*jointSetAngle[0].angle =  2.96244 * radian;
+	jointSetAngle[0].angle =  2.96244 * radian;
 	jointSetAngle[1].angle = 1.04883 * radian;
 	jointSetAngle[2].angle =-2.43523* radian;
 	jointSetAngle[3].angle = 1.73184  * radian;
 	jointSetAngle[4].angle =  2.91062 * radian;
-	youBotArm->setJointData(jointSetAngle);*/
+	youBotArm->setJointData(jointSetAngle);
 	SLEEP_SEC(5);
 	youbot::JointSensedAngle angle;
 	
