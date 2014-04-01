@@ -56,6 +56,14 @@ int main( int argc, const char* argv[] ){
 	jointangles.resize(numberOfArmJoints);
 	std::vector<youbot::JointAngleSetpoint> jointSetAngle;
 	jointSetAngle.resize(5);
+	// Home position
+	/*jointSetAngle[0].angle =  2.96244 * radian;
+	jointSetAngle[1].angle = 1.04883 * radian;
+	jointSetAngle[2].angle =-2.43523* radian;
+	jointSetAngle[3].angle = 1.73184  * radian;
+	jointSetAngle[4].angle =  2.91062 * radian;
+	youBotArm->setJointData(jointSetAngle);*/
+	SLEEP_SEC(5);
 	youbot::JointSensedAngle angle;
 	
 
@@ -86,23 +94,19 @@ int main( int argc, const char* argv[] ){
 			
 			
 			keyboardInput = getch();
+			for(std::size_t i=0;i<5;i++){
+				youBotArm->getArmJoint(i+1).getData(angle);
+				JointAngles[i] = (double)angle.angle.value();
+			}
 		
 			if (keyboardInput == 'w'){
 
-				for(std::size_t i=0;i<5;i++){
-					youBotArm->getArmJoint(i+1).getData(angle);
-					JointAngles[i] = (double)angle.angle.value();
-				}
 				JointAngles[readValue - 1] += jointDelta[readValue - 1];
 				
 			}
 			if (keyboardInput == 's'){
 						
-				for(std::size_t i=0;i<5;i++){
-					youBotArm->getArmJoint(i+1).getData(angle);
-					JointAngles[i] = (double)angle.angle.value();
-				}
-				JointAngles[readValue - 1] += jointDelta[readValue - 1];
+				JointAngles[readValue - 1] -= jointDelta[readValue - 1];
 				
 			}			
 			if(keyboardInput == 'o')
@@ -116,8 +120,7 @@ int main( int argc, const char* argv[] ){
 
 			if(keyboardInput != '0')
 			{
-				std::vector<youbot::JointAngleSetpoint> jointSetAngle;
-				jointSetAngle.resize(5);
+				
 				for(std::size_t i=0;i<5;i++){
 					jointSetAngle[i].angle = JointAngles[i]*radian;
 				}
