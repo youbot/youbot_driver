@@ -177,6 +177,12 @@ INSTALL_CONFIG_WITH_DIRECTORY(YOUBOT_DRIVER_CONFIG)
 INSTALL(TARGETS YouBotDriver YouBotDriverShared RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 
 
+ADD_EXECUTABLE(armteleop
+ ${PROJECT_SOURCE_DIR}/examples/keyboard_teleop_arm.cpp
+)
+
+target_link_libraries(armteleop YouBotDriver)
+
 #ADD_EXECUTABLE(YouBot_test
 #  ${PROJECT_SOURCE_DIR}/Test_commutation.cpp
 #)
