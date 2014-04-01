@@ -72,7 +72,7 @@ int main( int argc, const char* argv[] ){
 		keyboardInput = '0';
 		readValue = 0;
 
-		std::cout << "Please provide an arm joint or the gripper to operate on.\n\tType number between 1 and 5, to control joints 1 - 5.\n\tOr hit 6 to go to a preprogrammed position.\n\tOr hit 9 to quit:" << std::endl;
+		std::cout << "Please provide an arm joint or the gripper to operate on.\n\tType number between 1 and 5, to control joints 1 - 5.\n\tOr hit 9 to quit:" << std::endl;
 		std::cin >> readValue;
 		if((readValue >= 1)&&(readValue <= 5))
 		{
