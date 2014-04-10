@@ -161,7 +161,7 @@ TARGET_LINK_LIBRARIES(YouBotDriverShared -Wl,-whole-archive YouBotDriver soem -W
 MACRO(INSTALL_HEADERS_WITH_DIRECTORY HEADER_LIST)
   FOREACH(HEADER ${${HEADER_LIST}})
     STRING(REGEX MATCH "(.*)[/\\]" DIR ${HEADER})
-    INSTALL(FILES ${HEADER} DESTINATION include/youbot/youbot/${DIR})
+    INSTALL(FILES ${HEADER} DESTINATION include/${DIR})
   ENDFOREACH(HEADER)
 ENDMACRO(INSTALL_HEADERS_WITH_DIRECTORY)
 
@@ -177,9 +177,26 @@ INSTALL_CONFIG_WITH_DIRECTORY(YOUBOT_DRIVER_CONFIG)
 INSTALL(TARGETS YouBotDriver YouBotDriverShared RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 
 
+ADD_EXECUTABLE(armteleop
+ ${PROJECT_SOURCE_DIR}/examples/keyboard_teleop_arm.cpp
+)
+
+target_link_libraries(armteleop YouBotDriver)
+
 #ADD_EXECUTABLE(YouBot_test
 #  ${PROJECT_SOURCE_DIR}/Test_commutation.cpp
 #)
 
 #target_link_libraries(YouBot_test YouBotDriver)
+
+
+# uninstall target
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+    IMMEDIATE @ONLY)
+
+add_custom_target(uninstall
+    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+
 
