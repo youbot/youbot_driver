@@ -52,7 +52,7 @@
 #include "youbot_driver/youbot/EthercatMaster.hpp"
 namespace youbot {
 
-YouBotJoint::YouBotJoint(const unsigned int jointNo, const std::string& configFilePath) {
+YouBotJoint::YouBotJoint(const unsigned int jointNo, const std::string& configFilePath, EthercatMasterInterface* ethercat) {
   // Bouml preserved body begin 000412F1
     this->storage.jointNumber = jointNo;
     timeTillNextMailboxUpdate = 1; //ms
@@ -64,8 +64,13 @@ YouBotJoint::YouBotJoint(const unsigned int jointNo, const std::string& configFi
     std::stringstream jointNameStream;
     jointNameStream << "Joint " << this->storage.jointNumber << " ";
     this->storage.jointNumberStr = jointNameStream.str();
-    ethercatMaster = &(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath));
     
+    if (ethercat) {
+        ethercatMaster = ethercat;
+    } else {
+        ethercatMaster = &EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath);
+    }
+
   // Bouml preserved body end 000412F1
 }
 

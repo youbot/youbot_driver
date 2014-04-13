@@ -76,7 +76,7 @@ namespace youbot {
 ///////////////////////////////////////////////////////////////////////////////
 class YouBotJoint : public Joint {
   public:
-    YouBotJoint(const unsigned int jointNo, const std::string& configFilePath = "../config/");
+    YouBotJoint(const unsigned int jointNo, const std::string& configFilePath = "../config/", EthercatMasterInterface* ethercat = 0);
 
     ~YouBotJoint();
 

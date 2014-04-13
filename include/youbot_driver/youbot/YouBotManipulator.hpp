@@ -67,7 +67,7 @@ namespace youbot {
 ///////////////////////////////////////////////////////////////////////////////
 class YouBotManipulator {
   public:
-    YouBotManipulator(const std::string name, const std::string configFilePath = "../config/");
+    YouBotManipulator(const std::string name, const std::string configFilePath = "../config/", EthercatMasterInterface* ethercat = 0);
 
     virtual ~YouBotManipulator();
 
@@ -151,7 +151,7 @@ class YouBotManipulator {
 
     int controllerType;
 
-    EthercatMasterInterface& ethercatMaster;
+    EthercatMasterInterface* ethercatMaster;
 
     bool useGripper;
 
