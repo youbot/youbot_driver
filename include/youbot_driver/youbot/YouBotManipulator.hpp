@@ -69,8 +69,6 @@
 #include <boost/scoped_ptr.hpp>
 namespace youbot {
 
-/// The number of manipulator joints
-#define ARMJOINTS 5
 ///////////////////////////////////////////////////////////////////////////////
 /// It groups the manipulator joints and the gripper together
 ///////////////////////////////////////////////////////////////////////////////
@@ -87,6 +85,8 @@ class YouBotManipulator {
     void calibrateManipulator(const bool forceCalibration = false);
 
     void calibrateGripper(const bool forceCalibration = false);
+
+    int getNumberJoints();
 
     ///return a joint form the arm1
     ///@param armJointNumber 1-5 for the arm joints
@@ -147,6 +147,8 @@ class YouBotManipulator {
     void commutationFirmware148();
 
     void initializeJoints();
+
+	int numberArmJoints; /// The number of manipulator joints
 
     boost::scoped_ptr<ConfigFile> configfile;
 
