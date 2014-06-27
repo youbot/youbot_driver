@@ -183,6 +183,7 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
 
     std::vector<bool> finished;
     finished.assign(numberArmJoints, false);
+    int numberUnfinished = numberArmJoints;
     JointSensedCurrent sensedCurrent;
 
 
@@ -195,12 +196,15 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
           ethercatMaster.receiveProcessData();
         }
       } else {
-        finished[i] = true;
+        if (!finished[i]) {
+            finished[i] = true;
+            numberUnfinished--;
+        }
       }
     }
 
     //monitor the current to find end stop 
-    while (!(finished[0] && finished[1] && finished[2] && finished[3] && finished[4])) {
+    while (numberUnfinished > 0) {
       for (unsigned int i = 0; i < numberArmJoints; i++) {
         if(!ethercatMaster.isThreadActive()){
           ethercatMaster.sendProcessData();
@@ -217,7 +221,10 @@ void YouBotManipulator::calibrateManipulator(const bool forceCalibration) {
             ethercatMaster.sendProcessData();
             ethercatMaster.receiveProcessData();
           }
-          finished[i] = true;
+          if (!finished[i]) {
+              finished[i] = true;
+              numberUnfinished--;
+          }
         }
       }
       SLEEP_MILLISEC(1);
