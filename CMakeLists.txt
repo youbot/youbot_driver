@@ -5,8 +5,11 @@ find_package(catkin REQUIRED COMPONENTS roscpp rosconsole)
 find_package(Boost REQUIRED COMPONENTS thread date_time filesystem system regex)
 
 catkin_package(
-	INCLUDE_DIRS include
-	LIBRARIES YouBotDriver soem
+	INCLUDE_DIRS
+		include
+		include/youbot_driver/soem/osal
+		include/youbot_driver/soem/oshw/linux
+	LIBRARIES YouBotDriver soem rt
 	CATKIN_DEPENDS roscpp rosconsole
 	DEPENDS Boost
 	CFG_EXTRAS config.cmake
@@ -14,7 +17,12 @@ catkin_package(
 
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
-include_directories(include ${catkin_INCLUDE_DIRS})
+include_directories(
+	include
+	include/youbot_driver/soem/osal
+	include/youbot_driver/soem/oshw/linux
+	${catkin_INCLUDE_DIRS}
+)
 link_directories(${catkin_LIBRARY_DIRS})
 add_definitions(-DUSE_ROS_LOGGING)
 
