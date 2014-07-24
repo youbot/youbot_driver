@@ -56,6 +56,7 @@
 #include "youbot_driver/youbot/JointLimitMonitor.hpp"
 extern "C"{
 #include <youbot_driver/soem/ethercattype.h>
+#include <nicdrv.h>
 #include <youbot_driver/soem/ethercatmain.h>
 }
 

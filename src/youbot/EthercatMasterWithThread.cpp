@@ -50,7 +50,7 @@
  ****************************************************************/
 extern "C" {
 #include "youbot_driver/soem/ethercattype.h"
-#include "youbot_driver/soem/nicdrv.h"
+#include "nicdrv.h"
 #include "youbot_driver/soem/ethercatbase.h"
 #include "youbot_driver/soem/ethercatmain.h"
 #include "youbot_driver/soem/ethercatconfig.h"
@@ -294,7 +294,7 @@ void EthercatMasterWithThread::initializeEthercat() {
   // Bouml preserved body begin 000410F1
 
     /* initialise SOEM, bind socket to ifname */
-    if (ec_init(ethernetDevice.c_str())) {
+    if (ec_init(const_cast<char*>(ethernetDevice.c_str()))) {
       LOG(info) << "Initializing EtherCAT on " << ethernetDevice << " with communication thread";
       /* find and auto-config slaves */
       if (ec_config(TRUE, &IOmap_) > 0) {
