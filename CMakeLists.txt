@@ -4,23 +4,33 @@ project(youbot_driver)
 find_package(catkin REQUIRED COMPONENTS roscpp rosconsole)
 find_package(Boost REQUIRED COMPONENTS thread date_time filesystem system regex)
 
-catkin_package(
-	INCLUDE_DIRS
+if(WIN32)
+	set(INCLUDE_DIRS
+		include
+		include/youbot_driver/soem/osal
+		include/youbot_driver/soem/osal/win32
+		include/youbot_driver/soem/oshw/win32
+	)
+else(WIN32)
+	set(INCLUDE_DIRS
 		include
 		include/youbot_driver/soem/osal
 		include/youbot_driver/soem/oshw/linux
+	)
+endif(WIN32)
+
+## Note exported include dirs for install in cmake/config.cmake
+catkin_package(
+	INCLUDE_DIRS ${INCLUDE_DIRS}
 	LIBRARIES YouBotDriver soem rt
 	CATKIN_DEPENDS roscpp rosconsole
 	DEPENDS Boost
 	CFG_EXTRAS config.cmake
 )
-
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 include_directories(
-	include
-	include/youbot_driver/soem/osal
-	include/youbot_driver/soem/oshw/linux
+	${INCLUDE_DIRS}
 	${catkin_INCLUDE_DIRS}
 )
 link_directories(${catkin_LIBRARY_DIRS})
