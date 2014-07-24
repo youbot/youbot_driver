@@ -5,11 +5,17 @@ find_package(catkin REQUIRED COMPONENTS roscpp rosconsole)
 find_package(Boost REQUIRED COMPONENTS thread date_time filesystem system regex)
 
 if(WIN32)
+	set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+	find_package(WinPcap REQUIRED)
+endif()
+
+if(WIN32)
 	set(INCLUDE_DIRS
 		include
 		include/youbot_driver/soem/osal
 		include/youbot_driver/soem/osal/win32
 		include/youbot_driver/soem/oshw/win32
+		${WINPCAP_INCLUDE_DIRS}
 	)
 else(WIN32)
 	set(INCLUDE_DIRS
