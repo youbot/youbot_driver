@@ -418,7 +418,7 @@ void EthercatMasterWithThread::initializeEthercat() {
         dataTraces.push_back(NULL);
       }
     }
-    automaticReceiveOffBufferVector.reserve(slaveMessages.size());
+    automaticReceiveOffBufferVector.resize(slaveMessages.size());
 
     if (nrOfSlaves > 0) {
       LOG(info) << nrOfSlaves << " EtherCAT slaves found";
