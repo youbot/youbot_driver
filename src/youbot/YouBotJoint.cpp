@@ -463,7 +463,7 @@ void YouBotJoint::setData(const JointAngleSetpoint& data) {
 		 this->limitMonitor->checkLimitsPositionControl(data.angle);
 
     messageBuffer.stctOutput.controllerMode = POSITION_CONTROL;
-    messageBuffer.stctOutput.value = (int32) round((data.angle.value() * ((double) storage.encoderTicksPerRound / (2.0 * M_PI))) / storage.gearRatio);
+    messageBuffer.stctOutput.value = (int32) boost::math::round((data.angle.value() * ((double) storage.encoderTicksPerRound / (2.0 * M_PI))) / storage.gearRatio);
 
 
     if (storage.inverseMovementDirection) {
@@ -546,7 +546,7 @@ void YouBotJoint::setData(const JointVelocitySetpoint& data) {
       throw std::out_of_range("A Gear Ratio of 0 is not allowed");
     }
 
-    messageBuffer.stctOutput.value = (int32) round((data.angularVelocity.value() / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
+    messageBuffer.stctOutput.value = (int32) boost::math::round((data.angularVelocity.value() / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
     if (storage.inverseMovementDirection) {
       messageBuffer.stctOutput.value *= -1;
     }

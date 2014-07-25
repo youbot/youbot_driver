@@ -99,7 +99,7 @@ double PidController::updatePid(double error, boost::posix_time::time_duration d
   double deltatime = (double)dt.total_microseconds()/1000.0; //in milli seconds
   
 
-  if (deltatime == 0.0 || isnan(error) || isinf(error))
+  if (deltatime == 0.0 || boost::math::isnan(error) || boost::math::isinf(error))
     return 0.0;
 
   // Calculate proportional contribution to command
@@ -148,7 +148,7 @@ double PidController::updatePid(double error, double error_dot, boost::posix_tim
   d_error_ = error_dot;
   double deltatime = (double)dt.total_microseconds()/1000.0;  //in milli seconds
 
-  if (deltatime == 0.0 || isnan(error) || isinf(error) || isnan(error_dot) || isinf(error_dot))
+  if (deltatime == 0.0 || boost::math::isnan(error) || boost::math::isinf(error) || boost::math::isnan(error_dot) || boost::math::isinf(error_dot))
     return 0.0;
 
 

@@ -50,6 +50,7 @@
  ****************************************************************/
 #include "youbot_driver/youbot/JointTrajectoryController.hpp"
 #include "youbot_driver/youbot/YouBotJointParameter.hpp"
+
 namespace youbot {
 
   JointTrajectoryController::JointTrajectoryController() {
@@ -323,7 +324,7 @@ namespace youbot {
 
     velsetpoint = pid.updatePid(pose_error, velocity_error, dt);
 
-    velocity.value = (int32) round((velsetpoint / (gearRatio * 2.0 * M_PI)) * 60.0);
+    velocity.value = (int32) boost::math::round((velsetpoint / (gearRatio * 2.0 * M_PI)) * 60.0);
 
     velocity.controllerMode = VELOCITY_CONTROL;
     

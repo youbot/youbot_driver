@@ -5,12 +5,11 @@ find_package(catkin REQUIRED COMPONENTS roscpp rosconsole)
 find_package(Boost REQUIRED COMPONENTS thread date_time filesystem system regex)
 
 if(WIN32)
-	# get M_PI under Windows
-	add_definitions(-D_USE_MATH_DEFINES)
-	
-	# avoid inclusion of WinSock.h by windows.h, as we need WinSock2.h
-	add_definitions(-DWIN32_LEAN_AND_MEAN)
-	
+	add_definitions(-D_USE_MATH_DEFINES)    # get M_PI under Windows
+	add_definitions(-DWIN32_LEAN_AND_MEAN)  # avoid inclusion of WinSock.h by windows.h, as we need WinSock2.h
+	add_definitions(-DNOMINMAX)             # be able to use std::max, instead of windows defined functions
+	add_definitions(/wd4800)                # disable warning: variable set to boolean value
+
 	# need WinPcap library, using own cmake find file
 	set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 	find_package(WinPcap REQUIRED)

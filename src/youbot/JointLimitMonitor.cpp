@@ -191,7 +191,7 @@ void JointLimitMonitor::calculateBrakingDistance(const SlaveMessageInput& messag
   // Bouml preserved body begin 000FE471
 		actualVelocityRPS = (((double) messageInput.actualVelocity / 60.0) * storage.gearRatio * 2.0 * M_PI); // radian_per_second;
 
-		brakingDistance = abs((((actualVelocityRPS * actualVelocityRPS) / (2.0 * acceleration)) * ((double) storage.encoderTicksPerRound / (2.0 * M_PI))) / storage.gearRatio);
+		brakingDistance = (int) abs((((actualVelocityRPS * actualVelocityRPS) / (2.0 * acceleration)) * ((double) storage.encoderTicksPerRound / (2.0 * M_PI))) / storage.gearRatio);
 
 		bevorLowerLimit = storage.lowerLimit + brakingDistance;
 		bevorUpperLimit = storage.upperLimit - brakingDistance;
@@ -210,12 +210,12 @@ int JointLimitMonitor::calculateBrakingVelocity(const int actualPosition) {
 	if(actualPosition < bevorLowerLimit){
 		distanceToLimit = ((double) (actualPosition - storage.lowerLimit) / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI);
 		newVelocity =  -sqrt(2.0*acceleration* distanceToLimit);
-		return round((newVelocity / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
+		return (int) boost::math::round((newVelocity / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
 	}
 	if(actualPosition > bevorUpperLimit){
 		distanceToLimit = ((double) (storage.upperLimit - actualPosition) / storage.encoderTicksPerRound) * storage.gearRatio * (2.0 * M_PI);
 		newVelocity =  sqrt(2.0*acceleration* distanceToLimit);
-		return round((newVelocity / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
+		return (int) boost::math::round((newVelocity / (storage.gearRatio * 2.0 * M_PI)) * 60.0);
 	}
 	return 0;
 	
