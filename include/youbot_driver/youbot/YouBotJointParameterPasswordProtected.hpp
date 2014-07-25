@@ -60,7 +60,6 @@
 #include "youbot_driver/generic/Exceptions.hpp"
 #include "youbot_driver/generic-joint/JointParameter.hpp"
 #include "youbot_driver/youbot/YouBotJointParameter.hpp"
-#include "youbot_driver/youbot/ProtocolDefinitions.hpp"
 #include "youbot_driver/youbot/YouBotSlaveMsg.hpp"
 #include "youbot_driver/youbot/YouBotSlaveMailboxMsg.hpp"
 #include "youbot_driver/youbot/YouBotJointStorage.hpp"

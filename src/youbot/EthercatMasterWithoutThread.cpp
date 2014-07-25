@@ -59,6 +59,7 @@ extern "C" {
 #include "youbot_driver/soem/ethercatprint.h"
 }
 #include "youbot_driver/youbot/EthercatMasterWithoutThread.hpp"
+#include "youbot_driver/generic/Logger.hpp"
 
 namespace youbot {
 
