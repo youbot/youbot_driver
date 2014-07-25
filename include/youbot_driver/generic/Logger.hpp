@@ -96,9 +96,11 @@ namespace youbot {
         }
     };
 
-
-#define LOG(level) Logger(__PRETTY_FUNCTION__, __LINE__ , __FILE__, level)
-
+#ifdef _MSC_VER
+	#define LOG(level) Logger(__FUNCTION__, __LINE__ , __FILE__, level)
+#else
+	#define LOG(level) Logger(__PRETTY_FUNCTION__, __LINE__ , __FILE__, level)
+#endif
 
 } // namespace youbot
 
