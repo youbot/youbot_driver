@@ -141,7 +141,7 @@ class YouBotManipulator {
 
     void initializeJoints();
 
-	int numberArmJoints; /// The number of manipulator joints
+	unsigned int numberArmJoints; /// The number of manipulator joints
 
     boost::scoped_ptr<ConfigFile> configfile;
 
