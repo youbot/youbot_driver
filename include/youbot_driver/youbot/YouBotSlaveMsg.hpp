@@ -61,15 +61,18 @@ namespace youbot {
 
 	/// Output part from the EtherCat message of the youBot EtherCat slaves
 
+	PACKED_BEGIN
 	struct SlaveMessageOutput {
 		int32 value;
 		uint8 controllerMode;
-    SlaveMessageOutput():value(0),controllerMode(0) { };
-	} __attribute__((__packed__));
+		SlaveMessageOutput():value(0),controllerMode(0) { };
+	} PACKED;
+	PACKED_END
 
 
 	/// Input part from the EtherCat message of the youBot EtherCat slaves
 
+	PACKED_BEGIN
 	struct SlaveMessageInput {
 		int32 actualPosition;   // encoder ticks
 		int32 actualCurrent;    // mA
@@ -80,11 +83,12 @@ namespace youbot {
 		int32 targetVelocity;
 		int32 rampGeneratorVelocity;
 
-    SlaveMessageInput():
-    actualPosition(0),actualCurrent(0),actualVelocity(0),
-    errorFlags(0),targetPosition(0),targetCurrent(0),
-    targetVelocity(0),rampGeneratorVelocity(0) { };
-	} __attribute__((__packed__));
+		SlaveMessageInput():
+		actualPosition(0),actualCurrent(0),actualVelocity(0),
+		errorFlags(0),targetPosition(0),targetCurrent(0),
+		targetVelocity(0),rampGeneratorVelocity(0) { };
+	} PACKED;
+	PACKED_BEGIN
 
   ///////////////////////////////////////////////////////////////////////////////
 	/// EtherCat message of the youBot EtherCat slaves

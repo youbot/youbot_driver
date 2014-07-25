@@ -61,6 +61,7 @@ namespace youbot {
 
   /// Output part from the EtherCAT mailbox message of the youBot slaves
 
+  PACKED_BEGIN
   struct mailboxOutputBuffer {
     uint8 moduleAddress; //0 = Drive  1 = Gripper
     uint8 commandNumber;
@@ -69,10 +70,12 @@ namespace youbot {
     uint32 value; //MSB first!
 
     mailboxOutputBuffer() : moduleAddress(0), commandNumber(0), typeNumber(0), motorNumber(0), value(0) {};
-  } __attribute__((__packed__));
+  } PACKED;
+  PACKED_END
 
   /// Input part from the EtherCAT mailbox message of the youBot slaves
 
+  PACKED_BEGIN
   struct mailboxInputBuffer {
     uint8 replyAddress;
     uint8 moduleAddress;
@@ -81,7 +84,8 @@ namespace youbot {
     uint32 value; //MSB first!
 
     mailboxInputBuffer() : replyAddress(0), moduleAddress(0), status(0), commandNumber(0), value(0) {};
-  } __attribute__((__packed__));
+  } PACKED;
+  PACKED_END
 
   ///////////////////////////////////////////////////////////////////////////////
   /// EtherCAT mailbox message of the youBot slaves 
