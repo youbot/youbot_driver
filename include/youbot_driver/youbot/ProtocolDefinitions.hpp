@@ -52,6 +52,9 @@
 #ifndef PROTOCOLDEFINITIONS_HPP
 #define	PROTOCOLDEFINITIONS_HPP
 
+// get rid of stupid macro set by Windows
+#undef NO_ERROR
+
 namespace youbot {
 
 //Opcodes of all TMCL commands that can be used in direct mode
