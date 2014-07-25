@@ -49,6 +49,8 @@
  *
  ****************************************************************/
 #include "youbot_driver/youbot/EthercatMaster.hpp"
+#include "youbot_driver/youbot/EthercatMasterWithoutThread.hpp"
+#include "youbot_driver/youbot/EthercatMasterWithThread.hpp"
 
 namespace youbot {
 

@@ -53,10 +53,7 @@
  ****************************************************************/
 #include <vector>
 #include <sstream>
-#include "youbot_driver/generic/Logger.hpp"
 #include "youbot_driver/generic/Units.hpp"
-#include "youbot_driver/generic/Time.hpp"
-#include "youbot_driver/generic/Exceptions.hpp"
 #include "youbot_driver/generic-joint/JointParameter.hpp"
 #include "youbot_driver/generic-gripper/GripperParameter.hpp"
 #include "youbot_driver/youbot/ProtocolDefinitions.hpp"

@@ -60,13 +60,8 @@
 #include <stdlib.h>
 #include "boost/date_time/gregorian/gregorian.hpp"
 #include "boost/filesystem.hpp"
-#include "youbot_driver/generic/Logger.hpp"
-#include "youbot_driver/generic/Units.hpp"
-#include "youbot_driver/generic/Time.hpp"
 #include "youbot_driver/generic/ConfigFile.hpp"
-#include "youbot_driver/generic/Exceptions.hpp"
 #include "youbot_driver/youbot/YouBotJoint.hpp"
-#include "youbot_driver/youbot/YouBotJointParameter.hpp"
 
 using namespace boost::posix_time;
 namespace youbot {

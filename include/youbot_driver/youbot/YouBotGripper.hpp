@@ -53,15 +53,10 @@
  ****************************************************************/
 #include <vector>
 #include <sstream>
-#include "youbot_driver/generic/Logger.hpp"
 #include "youbot_driver/generic/Units.hpp"
 #include "youbot_driver/generic/Time.hpp"
-#include "youbot_driver/generic/Exceptions.hpp"
 #include "youbot_driver/youbot/ProtocolDefinitions.hpp"
-#include "youbot_driver/youbot/EthercatMaster.hpp"
 #include "youbot_driver/youbot/EthercatMasterInterface.hpp"
-#include "youbot_driver/youbot/EthercatMasterWithThread.hpp"
-#include "youbot_driver/youbot/EthercatMasterWithoutThread.hpp"
 #include "youbot_driver/youbot/YouBotSlaveMsg.hpp"
 #include "youbot_driver/youbot/YouBotSlaveMailboxMsg.hpp"
 #include "youbot_driver/generic-gripper/Gripper.hpp"

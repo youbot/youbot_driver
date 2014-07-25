@@ -51,14 +51,8 @@
  * License LGPL and BSD license along with this program.
  *
  ****************************************************************/
-#include <vector>
 #include <string>
-#include <cstdio>
-#include <stdexcept>
-#include <iostream>
 #include "youbot_driver/youbot/EthercatMasterInterface.hpp"
-#include "youbot_driver/youbot/EthercatMasterWithoutThread.hpp"
-#include "youbot_driver/youbot/EthercatMasterWithThread.hpp"
 namespace youbot {
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -49,6 +49,7 @@
  *
  ****************************************************************/
 #include "youbot_driver/youbot/JointTrajectoryController.hpp"
+#include "youbot_driver/youbot/YouBotJointParameter.hpp"
 namespace youbot {
 
   JointTrajectoryController::JointTrajectoryController() {

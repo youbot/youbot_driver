@@ -49,6 +49,7 @@
  *
  ****************************************************************/
 #include "youbot_driver/youbot/YouBotGripperBar.hpp"
+#include "youbot_driver/youbot/EthercatMaster.hpp"
 namespace youbot {
 
 YouBotGripperBar::YouBotGripperBar(const unsigned int barNo, const unsigned int jointNo, const std::string& configFilePath) {

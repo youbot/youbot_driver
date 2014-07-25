@@ -61,11 +61,9 @@
 #include <stdlib.h>
 #include "boost/date_time/gregorian/gregorian.hpp"
 #include "boost/filesystem.hpp"
-#include "youbot_driver/generic/Logger.hpp"
 #include "youbot_driver/generic/Units.hpp"
 #include "youbot_driver/generic/Time.hpp"
-#include "youbot_driver/generic/ConfigFile.hpp"
-#include "youbot_driver/generic/Exceptions.hpp"
+#include "youbot_driver/generic-joint/JointData.hpp"
 #include "youbot_driver/youbot/YouBotGripper.hpp"
 #include "youbot_driver/youbot/YouBotGripperBar.hpp"
 #include "youbot_driver/youbot/YouBotGripperParameter.hpp"

@@ -60,15 +60,14 @@
 #include <boost/thread.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include "youbot_driver/generic/dataobjectlockfree/DataObjectLockFree.hpp"
-#include "youbot_driver/generic/Logger.hpp"
 #include "youbot_driver/generic/Units.hpp"
 #include "youbot_driver/generic/Time.hpp"
-#include "youbot_driver/generic/Exceptions.hpp"
 #include "youbot_driver/generic/ConfigFile.hpp"
 #include "youbot_driver/youbot/ProtocolDefinitions.hpp"
 #include "youbot_driver/youbot/YouBotSlaveMsg.hpp"
 #include "youbot_driver/youbot/YouBotSlaveMailboxMsg.hpp"
 #include "youbot_driver/youbot/EthercatMaster.hpp"
+#include "youbot_driver/youbot/EthercatMasterInterface.hpp"
 #include "youbot_driver/youbot/JointTrajectoryController.hpp"
 #include "youbot_driver/youbot/JointLimitMonitor.hpp"
 

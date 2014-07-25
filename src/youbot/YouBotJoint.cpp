@@ -49,6 +49,7 @@
  *
  ****************************************************************/
 #include "youbot_driver/youbot/YouBotJoint.hpp"
+#include "youbot_driver/youbot/EthercatMaster.hpp"
 namespace youbot {
 
 YouBotJoint::YouBotJoint(const unsigned int jointNo, const std::string& configFilePath) {

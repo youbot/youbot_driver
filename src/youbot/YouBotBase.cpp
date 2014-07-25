@@ -49,6 +49,7 @@
  *
  ****************************************************************/
 #include "youbot_driver/youbot/YouBotBase.hpp"
+#include "youbot_driver/youbot/EthercatMaster.hpp"
 namespace youbot {
 
 YouBotBase::YouBotBase(const std::string name, const std::string configFilePath)

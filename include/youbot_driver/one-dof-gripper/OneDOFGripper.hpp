@@ -1,8 +1,6 @@
 #ifndef YOUBOT_ONEDOFGRIPPER_H
 #define YOUBOT_ONEDOFGRIPPER_H
 #include "youbot_driver/generic-gripper/Gripper.hpp"
-#include "youbot_driver/generic-gripper/GripperData.hpp"
-#include "youbot_driver/generic-gripper/GripperParameter.hpp"
 #include "youbot_driver/one-dof-gripper/OneDOFGripperData.hpp"
 
 /****************************************************************

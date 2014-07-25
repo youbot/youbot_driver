@@ -52,7 +52,6 @@
  *
  ****************************************************************/
 #include <vector>
-#include <string>
 #include "youbot_driver/generic/Logger.hpp"
 #include "youbot_driver/generic/Units.hpp"
 #include "youbot_driver/generic/Exceptions.hpp"

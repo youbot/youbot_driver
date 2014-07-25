@@ -56,10 +56,6 @@
 #include <cmath>
 #include <boost/thread.hpp>
 #include <boost/scoped_ptr.hpp>
-#include "youbot_driver/generic/Logger.hpp"
-#include "youbot_driver/generic/Units.hpp"
-#include "youbot_driver/generic/Time.hpp"
-#include "youbot_driver/generic/Exceptions.hpp"
 #include "youbot_driver/generic-joint/Joint.hpp"
 #include "youbot_driver/generic-joint/JointData.hpp"
 #include "youbot_driver/youbot/YouBotJointStorage.hpp"
@@ -68,10 +64,7 @@
 #include "youbot_driver/youbot/YouBotJointParameterPasswordProtected.hpp"
 #include "youbot_driver/youbot/YouBotSlaveMsg.hpp"
 #include "youbot_driver/youbot/YouBotSlaveMailboxMsg.hpp"
-#include "youbot_driver/youbot/EthercatMaster.hpp"
 #include "youbot_driver/youbot/EthercatMasterInterface.hpp"
-#include "youbot_driver/youbot/EthercatMasterWithThread.hpp"
-#include "youbot_driver/youbot/EthercatMasterWithoutThread.hpp"
 #include "youbot_driver/youbot/JointTrajectoryController.hpp"
 #include "youbot_driver/youbot/JointLimitMonitor.hpp"
 

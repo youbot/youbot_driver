@@ -54,7 +54,6 @@
 #include <vector>
 #include <sstream>
 #include <string>
-#include "youbot_driver/generic/Logger.hpp"
 #include "youbot_driver/generic/Units.hpp"
 #include "youbot_driver/generic/Time.hpp"
 #include "youbot_driver/generic/ConfigFile.hpp"
@@ -63,10 +62,8 @@
 #include "youbot_driver/youbot/YouBotJointParameter.hpp"
 #include "youbot_driver/base-kinematic/FourSwedishWheelOmniBaseKinematic.hpp"
 #include "youbot_driver/base-kinematic/FourSwedishWheelOmniBaseKinematicConfiguration.hpp"
-#include "youbot_driver/youbot/EthercatMaster.hpp"
 #include "youbot_driver/youbot/EthercatMasterInterface.hpp"
 #include "youbot_driver/youbot/EthercatMasterWithThread.hpp"
-#include "youbot_driver/youbot/EthercatMasterWithoutThread.hpp"
 #include <boost/ptr_container/ptr_vector.hpp>
 #include <boost/scoped_ptr.hpp>
 namespace youbot {
