@@ -113,10 +113,17 @@ void JointLimitMonitor::checkLimitsPositionControl(const quantity<plane_angle>& 
 
 void JointLimitMonitor::checkLimitsEncoderPosition(const signed int& setpoint) {
   // Bouml preserved body begin 000FAF71
-	if(storage.areLimitsActive){
-      if (!((setpoint < this->storage.upperLimit) && (setpoint > this->storage.lowerLimit))) {
+    if(storage.areLimitsActive){
+      long upLimit = storage.upperLimit;
+      long lowLimit = storage.lowerLimit;
+      if (storage.inverseMovementDirection) {
+        upLimit = -storage.lowerLimit;
+        lowLimit = -storage.upperLimit;
+      }
+
+      if (!((setpoint < upLimit) && (setpoint > lowLimit))) {
         std::stringstream errorMessageStream;
-        errorMessageStream << "The setpoint angle for joint "<< this->storage.jointName <<" is out of range. The valid range is between " << this->storage.lowerLimit << " and " << this->storage.upperLimit << " and it is: " << setpoint;
+        errorMessageStream << "The setpoint angle for joint "<< this->storage.jointName <<" is out of range. The valid range is between " << lowLimit << " and " << upLimit << " and it is: " << setpoint;
         throw std::out_of_range(errorMessageStream.str());
       }
     }
