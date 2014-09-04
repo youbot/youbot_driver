@@ -571,7 +571,7 @@ void EthercatMasterWithThread::updateSensorActorValues() {
     while (!stopThread) {
 
       pastTime = boost::posix_time::microsec_clock::local_time() - startTime;
-      timeToWait = timeTillNextEthercatUpdate - pastTime.total_microseconds() - 100;
+      timeToWait = timeTillNextEthercatUpdate - pastTime.total_microseconds();
 
       if (timeToWait < 0 || timeToWait > (int) timeTillNextEthercatUpdate) {
         //    printf("Missed communication period of %d  microseconds it have been %d microseconds \n",timeTillNextEthercatUpdate, (int)pastTime.total_microseconds()+ 100);
