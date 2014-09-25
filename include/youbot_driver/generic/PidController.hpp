@@ -36,6 +36,7 @@
 
 
 #include <string>
+#include <boost/math/special_functions/fpclassify.hpp>
 #include "youbot_driver/generic/Time.hpp"
 
 
