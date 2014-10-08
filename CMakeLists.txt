@@ -56,7 +56,7 @@ ENDIF (CppUnit_FOUND)
 add_subdirectory(src/soem)
 
 ########### youBot display example application ###########
-add_subdirectory(src/display)
+#add_subdirectory(src/display)
 
 set(YOUBOT_DRIVER_SRC
   src/youbot/EthercatMaster.cpp
