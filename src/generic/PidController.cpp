@@ -35,6 +35,7 @@
 // Original version: Melonee Wise <mwise@willowgarage.com>
 #include <cstdio>
 #include "youbot_driver/generic/PidController.hpp"
+#include <boost/math/special_functions/fpclassify.hpp>
 
 namespace youbot {
 
