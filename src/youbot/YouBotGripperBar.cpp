@@ -276,7 +276,7 @@ void YouBotGripperBar::parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mail
 
 
     switch(mailboxMsg.stctInput.status){
-      case NO_ERROR:
+      case MAILBOX_SUCCESS:
         break;
       case INVALID_COMMAND:
         LOG(error) << errorMessage << "Parameter name: " << mailboxMsg.parameterName << "; Command no: " << mailboxMsg.stctOutput.commandNumber << " is an invalid command!" ;
@@ -325,7 +325,7 @@ bool YouBotGripperBar::setValueToMotorContoller(const YouBotSlaveMailboxMsg& mai
           
        
       if (ethercatMaster->getMailboxMsgBuffer(mailboxMsgBuffer, this->jointNumber) &&
-          mailboxMsgBuffer.stctInput.status == NO_ERROR) {
+          mailboxMsgBuffer.stctInput.status == MAILBOX_SUCCESS) {
         unvalid = false;
       } else {
         SLEEP_MILLISEC(timeTillNextMailboxUpdate);
@@ -368,7 +368,7 @@ bool YouBotGripperBar::retrieveValueFromMotorContoller(YouBotSlaveMailboxMsg& me
          
        
       if (ethercatMaster->getMailboxMsgBuffer(message, this->jointNumber) &&
-          message.stctInput.status == NO_ERROR) {
+          message.stctInput.status == MAILBOX_SUCCESS) {
         unvalid = false;
       } else {
         SLEEP_MILLISEC(timeTillNextMailboxUpdate);
