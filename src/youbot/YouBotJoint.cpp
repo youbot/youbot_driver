@@ -1178,7 +1178,7 @@ void YouBotJoint::parseMailboxStatusFlags(const YouBotSlaveMailboxMsg& mailboxMs
   // Bouml preserved body begin 00075BF1
 
     switch(mailboxMsg.stctInput.status){
-      case NO_ERROR:
+      case MAILBOX_SUCCESS:
         break;
       case INVALID_COMMAND:
         LOG(error) << this->storage.jointName << "Parameter name: " << mailboxMsg.parameterName << "; Command no: " << mailboxMsg.stctOutput.commandNumber << " is an invalid command!" ;
@@ -1229,7 +1229,7 @@ bool YouBotJoint::retrieveValueFromMotorContoller(YouBotSlaveMailboxMsg& message
                  << " value " << message.stctInput.value; */
        
       if (message.stctOutput.commandNumber == message.stctInput.commandNumber &&
-              message.stctInput.status == NO_ERROR) {
+              message.stctInput.status == MAILBOX_SUCCESS) {
         unvalid = false;
       } else {
         SLEEP_MILLISEC(timeTillNextMailboxUpdate);
@@ -1269,7 +1269,7 @@ bool YouBotJoint::setValueToMotorContoller(const YouBotSlaveMailboxMsg& mailboxM
        */
       if (mailboxMsgBuffer.stctOutput.commandNumber == mailboxMsgBuffer.stctInput.commandNumber &&
               mailboxMsgBuffer.stctOutput.value == mailboxMsgBuffer.stctInput.value &&
-              mailboxMsgBuffer.stctInput.status == NO_ERROR) {
+              mailboxMsgBuffer.stctInput.status == MAILBOX_SUCCESS) {
         unvalid = false;
       } else {
         SLEEP_MILLISEC(timeTillNextMailboxUpdate);

@@ -99,7 +99,7 @@ void ActualMotorVoltage::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMC
 
 void ActualMotorVoltage::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 0007E271
-    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == MAILBOX_SUCCESS) {
       double temp = message.stctInput.value;
       this->value = temp/100.0 * volt; //TODO do convertion
     }
@@ -145,7 +145,7 @@ void ErrorAndStatus::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCom
 
 void ErrorAndStatus::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 0007E971
-    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == MAILBOX_SUCCESS) {
       this->value = message.stctInput.value;
     }
   // Bouml preserved body end 0007E971
@@ -445,7 +445,7 @@ void CurrentError::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLComma
 
 void CurrentError::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 000DB171
-    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == MAILBOX_SUCCESS) {
       double temp = (int)message.stctInput.value;
       this->value = temp /1000.0 * ampere; //convert from milli A to A
     }
@@ -490,7 +490,7 @@ void CurrentErrorSum::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCo
 
 void CurrentErrorSum::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 000DB571
-    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == MAILBOX_SUCCESS) {
       double temp = (int)message.stctInput.value;
       this->value = temp /1000.0 * ampere; //convert from milli A to A
     }
@@ -592,7 +592,7 @@ void I2tSum::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, TMCLCommandNumb
 
 void I2tSum::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 000A0FF1
-    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == MAILBOX_SUCCESS) {
       this->value = message.stctInput.value;
     }
   // Bouml preserved body end 000A0FF1
@@ -636,7 +636,7 @@ void ActualMotorDriverTemperature::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& me
 
 void ActualMotorDriverTemperature::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 000CB2F1
-    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == MAILBOX_SUCCESS) {
       double materialConstant = 3434;
       double R_NTC = ((double)9011.2/message.stctInput.value) - 2.2;
       double nominator = materialConstant * 298.16;
@@ -684,7 +684,7 @@ void ActualModuleSupplyCurrent::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& messa
 
 void ActualModuleSupplyCurrent::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 000CB6F1
-    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == MAILBOX_SUCCESS) {
       this->value = (double)message.stctInput.value /1000.0 * ampere; //convert from milli A to A
     }
   // Bouml preserved body end 000CB6F1

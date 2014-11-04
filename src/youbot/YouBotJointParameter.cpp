@@ -2118,7 +2118,7 @@ void ClearI2tExceededFlag::getYouBotMailboxMsg(YouBotSlaveMailboxMsg& message, T
 
 void ClearI2tExceededFlag::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 000A18F1
-    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == MAILBOX_SUCCESS) {
       this->value = message.stctInput.value;
     }
   // Bouml preserved body end 000A18F1
@@ -2167,7 +2167,7 @@ void ClearMotorControllerTimeoutFlag::getYouBotMailboxMsg(YouBotSlaveMailboxMsg&
 
 void ClearMotorControllerTimeoutFlag::setYouBotMailboxMsg(const YouBotSlaveMailboxMsg& message, const YouBotJointStorage& storage) {
   // Bouml preserved body begin 0009FDF1
-    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == NO_ERROR) {
+    if (message.stctOutput.commandNumber == message.stctInput.commandNumber && message.stctInput.status == MAILBOX_SUCCESS) {
       this->value = message.stctInput.value; 
     }
   // Bouml preserved body end 0009FDF1

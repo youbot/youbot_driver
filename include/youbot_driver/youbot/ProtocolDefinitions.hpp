@@ -52,9 +52,6 @@
 #ifndef PROTOCOLDEFINITIONS_HPP
 #define	PROTOCOLDEFINITIONS_HPP
 
-// get rid of stupid macro set by Windows
-#undef NO_ERROR
-
 namespace youbot {
 
 //Opcodes of all TMCL commands that can be used in direct mode
@@ -156,7 +153,7 @@ enum MailboxErrorFlags {
 
 
 enum YouBotMailboxStatusFlags {
-    NO_ERROR = 100,
+    MAILBOX_SUCCESS = 100,  //formerly called "NO_ERROR", renamed due to name clash with Windows define
     INVALID_COMMAND = 2,
     WRONG_TYPE = 3,
     INVALID_VALUE = 4,
