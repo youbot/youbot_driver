@@ -81,6 +81,8 @@ class YouBotManipulator {
 
     int getNumberJoints();
 
+    bool hasGripper();
+
     ///return a joint form the arm1
     ///@param armJointNumber 1-5 for the arm joints
     YouBotJoint& getArmJoint(const unsigned int armJointNumber);
@@ -141,7 +143,7 @@ class YouBotManipulator {
 
     void initializeJoints();
 
-	unsigned int numberArmJoints; /// The number of manipulator joints
+    unsigned int numberArmJoints; /// The number of manipulator joints
 
     boost::scoped_ptr<ConfigFile> configfile;
 
@@ -154,6 +156,7 @@ class YouBotManipulator {
     EthercatMasterInterface& ethercatMaster;
 
     bool useGripper;
+    bool isGripperInitialized;
 
     EthercatMasterWithThread* ethercatMasterWithThread;
 
