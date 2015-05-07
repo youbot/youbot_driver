@@ -67,7 +67,7 @@ YouBotManipulator::YouBotManipulator(const std::string name, const std::string c
     string filename;
     filename = name;
     filename.append(".cfg");
-    useGripper = true;
+	useGripper = true;
     configfile.reset(new ConfigFile(filename, configFilePath));
 		
 		if(ethercatMaster.isThreadActive()){
@@ -462,7 +462,7 @@ void YouBotManipulator::commutationFirmware200() {
       doInitialization.setParameter(true);
 
       JointRoundsPerMinuteSetpoint rpmSetpoint(100);
-	      
+      
       ethercatMaster.AutomaticReceiveOn(false);
       for (unsigned int i = 1; i <= numberArmJoints; i++)
         this->getArmJoint(i).setData(rpmSetpoint);
@@ -708,7 +708,7 @@ void YouBotManipulator::initializeJoints() {
     }
 
 
-		configfile->readInto(useGripper, "Gripper", "EnableGripper");
+    configfile->readInto(useGripper, "Gripper", "EnableGripper");
 		
     if(useGripper){
     //Initializing Gripper
