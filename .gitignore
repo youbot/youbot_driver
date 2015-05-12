@@ -4,6 +4,6 @@ lib
 nbproject
 Doxyfile
 
-/.autotools
-/.cproject
-/.project
+.autotools
+.cproject
+.project
