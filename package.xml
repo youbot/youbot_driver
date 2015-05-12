@@ -1,12 +1,10 @@
 <?xml version="1.0"?>
 <package>
   <name>youbot_driver</name>
-  <version>1.0.0</version>
-  <description>driver for the KUKA youBot robot
-  </description>
+  <version>1.1.0</version>
+  <description>driver for the KUKA youBot robot</description>
 
-  <author email="jan.paulus@h-brs.de">Jan Paulus</author>
-  
+  <author email="jan.paulus@h-brs.de">Jan Paulus</author> 
   <maintainer email="nowak@locomotec.com">Walter Nowak</maintainer>
 
   <license>LGPLv2.1, modified BSD</license>
