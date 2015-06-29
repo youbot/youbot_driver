@@ -75,7 +75,7 @@ namespace youbot {
 ///////////////////////////////////////////////////////////////////////////////
 class YouBotGripper : public OneDOFGripper {
   public:
-    YouBotGripper(const unsigned int jointNo, const std::string& configFilePath = "../config/");
+    YouBotGripper(const unsigned int jointNo, const std::string& configFilePath = "../config/", EthercatMasterInterface* ethercat = 0);
 
     virtual ~YouBotGripper();
 

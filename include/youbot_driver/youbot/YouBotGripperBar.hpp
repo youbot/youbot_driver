@@ -75,7 +75,7 @@ namespace youbot {
 ///////////////////////////////////////////////////////////////////////////////
 class YouBotGripperBar {
   public:
-    YouBotGripperBar(const unsigned int barNo, const unsigned int jointNo, const std::string& configFilePath = "../config/");
+    YouBotGripperBar(const unsigned int barNo, const unsigned int jointNo, const std::string& configFilePath = "../config/", EthercatMasterInterface* ethercat = 0);
 
     virtual ~YouBotGripperBar();
 

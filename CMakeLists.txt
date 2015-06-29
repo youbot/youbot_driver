@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(youbot_driver)
 
-find_package(catkin REQUIRED COMPONENTS roscpp rosconsole)
 find_package(Boost REQUIRED COMPONENTS thread date_time filesystem system regex)
 
 if(WIN32)
@@ -31,22 +30,12 @@ else(WIN32)
 	)
 endif(WIN32)
 
-## Note exported include dirs for install in cmake/config.cmake
-catkin_package(
-	INCLUDE_DIRS ${INCLUDE_DIRS}
-	LIBRARIES YouBotDriver soem rt
-	CATKIN_DEPENDS roscpp rosconsole
-	DEPENDS Boost
-	CFG_EXTRAS config.cmake
-)
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 include_directories(
 	${INCLUDE_DIRS}
-	${catkin_INCLUDE_DIRS}
+	${Boost_INCLUDE_DIRS}
 )
-link_directories(${catkin_LIBRARY_DIRS})
-add_definitions(-DUSE_ROS_LOGGING)
 
 ########### CppUnit and tests ###########
 find_package(CppUnit)
@@ -96,26 +85,31 @@ set(YOUBOT_DRIVER_SRC
 )
 
 add_library(YouBotDriver ${YOUBOT_DRIVER_SRC})
-target_link_libraries(YouBotDriver soem ${catkin_LIBRARIES})
+target_link_libraries(YouBotDriver soem ${Boost_LIBRARIES})
 
 
 #install binary and lib
 install(TARGETS YouBotDriver
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
 )
 
 #copy header files
-install(DIRECTORY include/${PROJECT_NAME}/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+install(DIRECTORY include/
+  DESTINATION include
 )
 
 #copy config files
-install(DIRECTORY config
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-)
-
+if (WIN32)
+    install(DIRECTORY config/
+      DESTINATION config
+    )
+else()
+    install(DIRECTORY config
+      DESTINATION share/youbot_driver
+    )
+endif()
 
 #INSTALL(TARGETS YouBotDriver YouBotDriverShared RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 

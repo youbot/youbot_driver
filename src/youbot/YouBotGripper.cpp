@@ -52,13 +52,17 @@
 #include "youbot_driver/youbot/EthercatMaster.hpp"
 namespace youbot {
 
-YouBotGripper::YouBotGripper(const unsigned int jointNo, const std::string& configFilePath) {
+YouBotGripper::YouBotGripper(const unsigned int jointNo, const std::string& configFilePath, EthercatMasterInterface* ethercat) {
   // Bouml preserved body begin 0005EFF1
     this->jointNumber = jointNo;
     this->mailboxMsgRetries = 200;
     this->timeTillNextMailboxUpdate = 1; //ms
 
-    ethercatMaster = &(EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath));
+    if (ethercat) {
+        ethercatMaster = ethercat;
+    } else {
+        ethercatMaster = &EthercatMaster::getInstance("youbot-ethercat.cfg", configFilePath);
+    }
     bar1.reset(new YouBotGripperBar(0, jointNo, configFilePath));
     bar2.reset(new YouBotGripperBar(1, jointNo, configFilePath));
 

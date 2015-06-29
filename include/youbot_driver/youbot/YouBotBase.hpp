@@ -75,7 +75,7 @@ namespace youbot {
 ///////////////////////////////////////////////////////////////////////////////
 class YouBotBase {
   public:
-    YouBotBase(const std::string name, const std::string configFilePath = "../config/");
+    YouBotBase(const std::string name, const std::string configFilePath = "../config/", EthercatMasterInterface* ethercat = 0);
 
     virtual ~YouBotBase();
 
@@ -177,7 +177,7 @@ class YouBotBase {
 
     int alternativeControllerType;
 
-    EthercatMasterInterface& ethercatMaster;
+    EthercatMasterInterface* ethercatMaster;
 
     EthercatMasterWithThread* ethercatMasterWithThread;
 
