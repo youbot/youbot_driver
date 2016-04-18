@@ -78,9 +78,10 @@ GripperDataTrace::GripperDataTrace(YouBotGripperBar& youBotGripperBar, const std
     }else{
       boost::filesystem::path rootPath (this->path);
 
-      if ( !boost::filesystem::create_directories( rootPath ))
-        throw std::runtime_error("could not create folder!");
-      
+      if ( !boost::filesystem::exists(this->path) ){
+        if ( !boost::filesystem::create_directory( rootPath ))
+          throw std::runtime_error("could not create folder: " + this->path);
+      }
     }
     
   // Bouml preserved body end 00101BF1
