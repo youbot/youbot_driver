@@ -4,7 +4,7 @@ using namespace youbot;
 
 YouBotGripperTest::YouBotGripperTest() : dof(5) {
 
-  EthercatMaster::getInstance("youbot-ethercat.cfg", "../config/", true);
+  EthercatMaster::getInstance("youbot-ethercat.cfg", CONFIG_FOLDER_PATH, true);
 
 }
 

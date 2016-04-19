@@ -4,7 +4,7 @@ using namespace youbot;
 
 YouBotBaseKinematicsTest::YouBotBaseKinematicsTest() {
 
-  EthercatMaster::getInstance("youbot-ethercat.cfg", "../config/", true);
+  EthercatMaster::getInstance("youbot-ethercat.cfg", CONFIG_FOLDER_PATH, true);
 
 
 }
