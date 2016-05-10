@@ -25,7 +25,7 @@ void YouBotGripperTest::tearDown() {
 void YouBotGripperTest::youBotGripperTest() {
 
   LOG(info) << __func__ << "\n";
-  YouBotManipulator myArm("youbot-manipulator");
+  YouBotManipulator myArm("youbot-manipulator", CONFIG_FOLDER_PATH);
 
   GripperDataTrace myTrace(myArm.getArmGripper().getGripperBar2(), __func__, true);
 

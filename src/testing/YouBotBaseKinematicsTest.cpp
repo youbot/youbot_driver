@@ -26,7 +26,7 @@ void YouBotBaseKinematicsTest::tearDown() {
 void YouBotBaseKinematicsTest::youBotBaseKinematicsTest() {
 
   LOG(info) << __func__ << "\n";
-  YouBotBase myBase("youbot-base");
+  YouBotBase myBase("youbot-base", CONFIG_FOLDER_PATH);
   myBase.doJointCommutation();
   std::stringstream jointNameStream;
   boost::ptr_vector<DataTrace> myTrace;

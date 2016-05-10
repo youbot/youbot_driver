@@ -26,7 +26,7 @@ void YouBotArmTest::tearDown() {
 void YouBotArmTest::youBotArmTest() {
 
   LOG(info) << __func__ << "\n";
-  YouBotManipulator myArm("youbot-manipulator");
+  YouBotManipulator myArm("youbot-manipulator", CONFIG_FOLDER_PATH);
   myArm.doJointCommutation();
   myArm.calibrateManipulator();
 
