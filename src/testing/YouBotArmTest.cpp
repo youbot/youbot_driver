@@ -4,7 +4,7 @@ using namespace youbot;
 
 YouBotArmTest::YouBotArmTest():dof(5) {
 
-  EthercatMaster::getInstance("youbot-ethercat.cfg", "../config/", true);
+  EthercatMaster::getInstance("youbot-ethercat.cfg", CONFIG_FOLDER_PATH, true);
 
 
 }
@@ -26,7 +26,7 @@ void YouBotArmTest::tearDown() {
 void YouBotArmTest::youBotArmTest() {
 
   LOG(info) << __func__ << "\n";
-  YouBotManipulator myArm("youbot-manipulator");
+  YouBotManipulator myArm("youbot-manipulator", CONFIG_FOLDER_PATH);
   myArm.doJointCommutation();
   myArm.calibrateManipulator();
 

@@ -13,11 +13,11 @@ YouBotBaseTestWithoutThread::~YouBotBaseTestWithoutThread() {
 void YouBotBaseTestWithoutThread::setUp() {
 
   Logger::logginLevel = trace;
-	ethercatMaster = &EthercatMaster::getInstance("youbot-ethercat.cfg", "../config/", false);
+	ethercatMaster = &EthercatMaster::getInstance("youbot-ethercat.cfg", CONFIG_FOLDER_PATH, false);
 	if(ethercatMaster->isThreadActive()){
 		LOG(error) << "Thread Active";
 		EthercatMaster::destroy();
-		ethercatMaster = &EthercatMaster::getInstance("youbot-ethercat.cfg", "../config/", false);
+		ethercatMaster = &EthercatMaster::getInstance("youbot-ethercat.cfg", CONFIG_FOLDER_PATH, false);
 	}
 	
 	jointNO = 4;
@@ -38,7 +38,7 @@ void YouBotBaseTestWithoutThread::tearDown() {
 
 void YouBotBaseTestWithoutThread::YouBotBaseTestWithoutThread_PositionMode() {
 	LOG(info) <<__func__<< "\n";
-	YouBotBase myBase("youbot-base");
+	YouBotBase myBase("youbot-base", CONFIG_FOLDER_PATH);
 	myBase.doJointCommutation();
 	DataTrace myTrace(myBase.getBaseJoint(jointNO), __func__, true);
 	myBase.getBaseJoint(jointNO).setEncoderToZero();
@@ -84,7 +84,7 @@ void YouBotBaseTestWithoutThread::YouBotBaseTestWithoutThread_PositionMode() {
 
 void YouBotBaseTestWithoutThread::YouBotBaseTestWithoutThread_VelocityMode() {
 	LOG(info) <<__func__<< "\n";
-	YouBotBase myBase("youbot-base");
+	YouBotBase myBase("youbot-base", CONFIG_FOLDER_PATH);
 	myBase.doJointCommutation();
 	DataTrace myTrace(myBase.getBaseJoint(jointNO), __func__, true);
 	myBase.getBaseJoint(jointNO).setEncoderToZero();
@@ -130,7 +130,7 @@ void YouBotBaseTestWithoutThread::YouBotBaseTestWithoutThread_VelocityMode() {
 
 void YouBotBaseTestWithoutThread::YouBotBaseTestWithoutThread_CurrentMode() {
 	LOG(info) <<__func__<< "\n";
-	YouBotBase myBase("youbot-base");
+	YouBotBase myBase("youbot-base", CONFIG_FOLDER_PATH);
 	myBase.doJointCommutation();
 	DataTrace myTrace(myBase.getBaseJoint(jointNO), __func__, true);
 	myBase.getBaseJoint(jointNO).setEncoderToZero();

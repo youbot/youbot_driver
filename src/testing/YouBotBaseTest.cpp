@@ -4,7 +4,7 @@ using namespace youbot;
 
 YouBotBaseTest::YouBotBaseTest() {
 
-	EthercatMaster::getInstance("youbot-ethercat.cfg", "../config/", true);
+	EthercatMaster::getInstance("youbot-ethercat.cfg", CONFIG_FOLDER_PATH, true);
 
 
 }
@@ -34,7 +34,7 @@ void YouBotBaseTest::tearDown() {
 void YouBotBaseTest::youBotBaseTest_PositionMode() {
 
 	LOG(info) <<__func__<< "\n";
-	YouBotBase myBase("youbot-base");
+	YouBotBase myBase("youbot-base", CONFIG_FOLDER_PATH);
 	myBase.doJointCommutation();
 	DataTrace myTrace(myBase.getBaseJoint(jointNO), __func__, true);
 	myBase.getBaseJoint(jointNO).setEncoderToZero();
@@ -66,7 +66,7 @@ void YouBotBaseTest::youBotBaseTest_PositionMode() {
 
 void YouBotBaseTest::youBotBaseTest_VelocityMode() {
 	LOG(info) <<__func__<< "\n";
-	YouBotBase myBase("youbot-base");
+	YouBotBase myBase("youbot-base", CONFIG_FOLDER_PATH);
 	myBase.doJointCommutation();
 	DataTrace myTrace(myBase.getBaseJoint(jointNO), __func__, true);
 	myBase.getBaseJoint(jointNO).setEncoderToZero();
@@ -98,7 +98,7 @@ void YouBotBaseTest::youBotBaseTest_VelocityMode() {
 
 void YouBotBaseTest::youBotBaseTest_CurrentMode() {
 	LOG(info) <<__func__<< "\n";
-	YouBotBase myBase("youbot-base");
+	YouBotBase myBase("youbot-base", CONFIG_FOLDER_PATH);
 	myBase.doJointCommutation();
 	DataTrace myTrace(myBase.getBaseJoint(jointNO), __func__, true);
 	myBase.getBaseJoint(jointNO).setEncoderToZero();

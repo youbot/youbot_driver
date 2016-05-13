@@ -15,11 +15,11 @@ YouBotArmTestWithoutThread::~YouBotArmTestWithoutThread() {
 void YouBotArmTestWithoutThread::setUp() {
   Logger::logginLevel = trace;
   updateCycle = 2000;
-  ethercatMaster = &EthercatMaster::getInstance("youbot-ethercat.cfg", "../config/", false);
+  ethercatMaster = &EthercatMaster::getInstance("youbot-ethercat.cfg", CONFIG_FOLDER_PATH, false);
 	if(ethercatMaster->isThreadActive()){
 		LOG(error) << "Thread Active";
 		EthercatMaster::destroy();
-		ethercatMaster = &EthercatMaster::getInstance("youbot-ethercat.cfg", "../config/", false);
+		ethercatMaster = &EthercatMaster::getInstance("youbot-ethercat.cfg", CONFIG_FOLDER_PATH, false);
 	}
 
 }
@@ -31,7 +31,7 @@ void YouBotArmTestWithoutThread::tearDown() {
 void YouBotArmTestWithoutThread::youBotArmTest() {
 
   LOG(info) << __func__ << "\n";
-  YouBotManipulator myArm("youbot-manipulator");
+  YouBotManipulator myArm("youbot-manipulator", CONFIG_FOLDER_PATH);
   myArm.doJointCommutation();
   myArm.calibrateManipulator();
 

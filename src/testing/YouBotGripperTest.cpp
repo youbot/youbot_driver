@@ -4,7 +4,7 @@ using namespace youbot;
 
 YouBotGripperTest::YouBotGripperTest() : dof(5) {
 
-  EthercatMaster::getInstance("youbot-ethercat.cfg", "../config/", true);
+  EthercatMaster::getInstance("youbot-ethercat.cfg", CONFIG_FOLDER_PATH, true);
 
 }
 
@@ -25,7 +25,7 @@ void YouBotGripperTest::tearDown() {
 void YouBotGripperTest::youBotGripperTest() {
 
   LOG(info) << __func__ << "\n";
-  YouBotManipulator myArm("youbot-manipulator");
+  YouBotManipulator myArm("youbot-manipulator", CONFIG_FOLDER_PATH);
 
   GripperDataTrace myTrace(myArm.getArmGripper().getGripperBar2(), __func__, true);
 

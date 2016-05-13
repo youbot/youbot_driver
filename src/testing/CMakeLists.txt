@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
+add_definitions(-DCONFIG_FOLDER_PATH="${CMAKE_CURRENT_LIST_DIR}/../../config/")
+
 ADD_EXECUTABLE(base_arm_gripper_test
   TestSuite.cpp
   YouBotBaseTest.cpp
