@@ -67,7 +67,8 @@ YouBotManipulator::YouBotManipulator(const std::string name, const std::string c
     string filename;
     filename = name;
     filename.append(".cfg");
-    useGripper = true;
+	useGripper = true;
+    isGripperInitialized = false;
     configfile.reset(new ConfigFile(filename, configFilePath));
 		
 		if(ethercatMaster.isThreadActive()){
@@ -293,6 +294,10 @@ int YouBotManipulator::getNumberJoints() {
 	return numberArmJoints;
 }
 
+bool YouBotManipulator::hasGripper() {
+	return isGripperInitialized;
+}
+
 ///return a joint form the arm1
 ///@param armJointNumber 1-5 for the arm joints
 YouBotJoint& YouBotManipulator::getArmJoint(const unsigned int armJointNumber) {
@@ -462,7 +467,7 @@ void YouBotManipulator::commutationFirmware200() {
       doInitialization.setParameter(true);
 
       JointRoundsPerMinuteSetpoint rpmSetpoint(100);
-	      
+      
       ethercatMaster.AutomaticReceiveOn(false);
       for (unsigned int i = 1; i <= numberArmJoints; i++)
         this->getArmJoint(i).setData(rpmSetpoint);
@@ -708,83 +713,89 @@ void YouBotManipulator::initializeJoints() {
     }
 
 
-		configfile->readInto(useGripper, "Gripper", "EnableGripper");
-		
-    if(useGripper){
-    //Initializing Gripper
-    configfile->readInto(slaveNumber, "JointTopology", "ManipulatorJoint5");
-    this->gripper.reset(new YouBotGripper(slaveNumber));
-    BarSpacingOffset barOffest;
-    MaxTravelDistance maxDistance;
-    MaxEncoderValue maxEncoder;
-    GripperBarName BarName;
-    double dummy = 0;
-    int controllerType;
-    double firmwareVersion;
-    string barname;
-    
-    GripperFirmwareVersion gripperVersion;
-    this->gripper->getConfigurationParameter(gripperVersion);
-    gripperVersion.getParameter(controllerType, firmwareVersion);
-    
-    LOG(info) << "Gripper" << "\t\t Controller Type: " << controllerType << "  Firmware version: " << firmwareVersion;
+    configfile->readInto(useGripper, "Gripper", "EnableGripper");
 
-    // Gripper Bar 1
-    configfile->readInto(barname, "GripperBar1", "BarName");
-    BarName.setParameter(barname);
-    this->gripper->getGripperBar1().setConfigurationParameter(BarName);
-    
-    configfile->readInto(dummy, "GripperBar1", "BarSpacingOffset_[meter]");
-    barOffest.setParameter(dummy * meter);
-    this->gripper->getGripperBar1().setConfigurationParameter(barOffest);
-    
-    configfile->readInto(dummy, "GripperBar1", "MaxTravelDistance_[meter]");
-    maxDistance.setParameter(dummy * meter);
-    this->gripper->getGripperBar1().setConfigurationParameter(maxDistance);
-    
-    int maxenc = 0;
-    configfile->readInto(maxenc, "GripperBar1", "MaxEncoderValue");
-    maxEncoder.setParameter(maxenc);
-    this->gripper->getGripperBar1().setConfigurationParameter(maxEncoder);
-    
-    int stallThreshold = 0;
-    configfile->readInto(stallThreshold, "GripperBar1", "StallGuard2Threshold");
-    StallGuard2Threshold threshold;
-    threshold.setParameter(stallThreshold);
-    this->gripper->getGripperBar1().setConfigurationParameter(threshold);
+    if (useGripper) {
+        try {
+            //Initializing Gripper
+            configfile->readInto(slaveNumber, "JointTopology", "ManipulatorJoint5");
+            this->gripper.reset(new YouBotGripper(slaveNumber));
+            BarSpacingOffset barOffest;
+            MaxTravelDistance maxDistance;
+            MaxEncoderValue maxEncoder;
+            GripperBarName BarName;
+            double dummy = 0;
+            int controllerType;
+            double firmwareVersion;
+            string barname;
 
-    bool stallGuardFilter = false;
-    configfile->readInto(stallGuardFilter, "GripperBar1", "StallGuard2FilterEnable");
-    StallGuard2FilterEnable filter;
-    filter.setParameter(stallGuardFilter);
-    this->gripper->getGripperBar1().setConfigurationParameter(filter);
-    
-    // Gripper Bar 2
-    configfile->readInto(barname, "GripperBar2", "BarName");
-    BarName.setParameter(barname);
-    this->gripper->getGripperBar2().setConfigurationParameter(BarName);
-    
-    configfile->readInto(dummy, "GripperBar2", "BarSpacingOffset_[meter]");
-    barOffest.setParameter(dummy * meter);
-    this->gripper->getGripperBar2().setConfigurationParameter(barOffest);
-    
-    configfile->readInto(dummy, "GripperBar2", "MaxTravelDistance_[meter]");
-    maxDistance.setParameter(dummy * meter);
-    this->gripper->getGripperBar2().setConfigurationParameter(maxDistance);
+            GripperFirmwareVersion gripperVersion;
+            this->gripper->getConfigurationParameter(gripperVersion);
+            gripperVersion.getParameter(controllerType, firmwareVersion);
 
-    configfile->readInto(maxenc, "GripperBar2", "MaxEncoderValue");
-    maxEncoder.setParameter(maxenc);
-    this->gripper->getGripperBar2().setConfigurationParameter(maxEncoder);
-    
-    configfile->readInto(stallThreshold, "GripperBar2", "StallGuard2Threshold");
-    threshold.setParameter(stallThreshold);
-    this->gripper->getGripperBar2().setConfigurationParameter(threshold);
+            LOG(info) << "Gripper" << "\t\t Controller Type: " << controllerType << "  Firmware version: " << firmwareVersion;
 
-    configfile->readInto(stallGuardFilter, "GripperBar2", "StallGuard2FilterEnable");
-    filter.setParameter(stallGuardFilter);
-    this->gripper->getGripperBar2().setConfigurationParameter(filter);
+            // Gripper Bar 1
+            configfile->readInto(barname, "GripperBar1", "BarName");
+            BarName.setParameter(barname);
+            this->gripper->getGripperBar1().setConfigurationParameter(BarName);
+
+            configfile->readInto(dummy, "GripperBar1", "BarSpacingOffset_[meter]");
+            barOffest.setParameter(dummy * meter);
+            this->gripper->getGripperBar1().setConfigurationParameter(barOffest);
+
+            configfile->readInto(dummy, "GripperBar1", "MaxTravelDistance_[meter]");
+            maxDistance.setParameter(dummy * meter);
+            this->gripper->getGripperBar1().setConfigurationParameter(maxDistance);
+
+            int maxenc = 0;
+            configfile->readInto(maxenc, "GripperBar1", "MaxEncoderValue");
+            maxEncoder.setParameter(maxenc);
+            this->gripper->getGripperBar1().setConfigurationParameter(maxEncoder);
+
+            int stallThreshold = 0;
+            configfile->readInto(stallThreshold, "GripperBar1", "StallGuard2Threshold");
+            StallGuard2Threshold threshold;
+            threshold.setParameter(stallThreshold);
+            this->gripper->getGripperBar1().setConfigurationParameter(threshold);
+
+            bool stallGuardFilter = false;
+            configfile->readInto(stallGuardFilter, "GripperBar1", "StallGuard2FilterEnable");
+            StallGuard2FilterEnable filter;
+            filter.setParameter(stallGuardFilter);
+            this->gripper->getGripperBar1().setConfigurationParameter(filter);
+
+            // Gripper Bar 2
+            configfile->readInto(barname, "GripperBar2", "BarName");
+            BarName.setParameter(barname);
+            this->gripper->getGripperBar2().setConfigurationParameter(BarName);
+
+            configfile->readInto(dummy, "GripperBar2", "BarSpacingOffset_[meter]");
+            barOffest.setParameter(dummy * meter);
+            this->gripper->getGripperBar2().setConfigurationParameter(barOffest);
+
+            configfile->readInto(dummy, "GripperBar2", "MaxTravelDistance_[meter]");
+            maxDistance.setParameter(dummy * meter);
+            this->gripper->getGripperBar2().setConfigurationParameter(maxDistance);
+
+            configfile->readInto(maxenc, "GripperBar2", "MaxEncoderValue");
+            maxEncoder.setParameter(maxenc);
+            this->gripper->getGripperBar2().setConfigurationParameter(maxEncoder);
+
+            configfile->readInto(stallThreshold, "GripperBar2", "StallGuard2Threshold");
+            threshold.setParameter(stallThreshold);
+            this->gripper->getGripperBar2().setConfigurationParameter(threshold);
+
+            configfile->readInto(stallGuardFilter, "GripperBar2", "StallGuard2FilterEnable");
+            filter.setParameter(stallGuardFilter);
+            this->gripper->getGripperBar2().setConfigurationParameter(filter);
+        } catch (std::exception &e) {
+            isGripperInitialized = false;
+            return;
+        }
+
+        isGripperInitialized = true;
     }
-    
 
     return;
   // Bouml preserved body end 00068071
