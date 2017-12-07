@@ -59,6 +59,7 @@ extern "C"{
 #include <nicdrv.h>
 #include <youbot_driver/soem/ethercatmain.h>
 }
+#include<vector>
 
 namespace youbot {
 
