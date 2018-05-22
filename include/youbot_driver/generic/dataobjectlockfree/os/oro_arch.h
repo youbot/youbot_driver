@@ -13,6 +13,8 @@
 #         include "youbot_driver/generic/dataobjectlockfree/os/oro_powerpc/oro_arch.h"
 #      elif defined( OROBLD_OS_ARCH_arm )
 #         include "youbot_driver/generic/dataobjectlockfree/os/oro_arm/oro_arch.h"
+#      elif defined( OROBLD_OS_ARCH_aarch64 ) // Not confirmed that works as expected!
+#         include "youbot_driver/generic/dataobjectlockfree/os/oro_gcc/oro_arch.h"
 #      else
 #         error "Unsupported architecture for GCC < 4.1.0 or clang++"
 #      endif
